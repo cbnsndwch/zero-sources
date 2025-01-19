@@ -7,9 +7,6 @@ const mongooseModule = MongooseModule.forFeature(pokemonEntities);
 
 @Module({
     imports: [mongooseModule],
-    exports: [mongooseModule],
-    providers: [
-        // TODO: services, models, etc
-    ]
+    exports: [mongooseModule]
 })
 export class PokemonModule {}

@@ -1,5 +1,5 @@
-import { Logger } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { Inject, Logger } from '@nestjs/common';
+import { InjectModel, ModelDefinition } from '@nestjs/mongoose';
 import {
     SubscribeMessage,
     WebSocketGateway,
@@ -18,6 +18,7 @@ import { invariant, truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from
 import { StreamerShard } from '../entities';
 import { ChangeStreamSource } from '../services';
 import { getZeroChangeStreamerParams } from '../utils';
+import { TOKEN_PUBLISHED_COLLECTIONS } from '../providers';
 
 type DownstreamState = {
     shard: StreamerShard;
@@ -26,7 +27,10 @@ type DownstreamState = {
 
 @WebSocketGateway({ path: '/changes/v0/stream' })
 export class V0ChangesGateway implements OnGatewayConnection {
-    private readonly logger = new Logger(V0ChangesGateway.name);
+    #logger = new Logger(V0ChangesGateway.name);
+
+    #shardModel: Model<StreamerShard>;
+    #publishedCollections: string[];
 
     /**
      * A map of client keys to RxJS subjects that can be used to multicast
@@ -35,9 +39,12 @@ export class V0ChangesGateway implements OnGatewayConnection {
     readonly #subscriptions = new Map<WebSocket, DownstreamState>();
 
     constructor(
-        @InjectModel(StreamerShard.name)
-        private readonly shardModel: Model<StreamerShard>
-    ) {}
+        @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
+        @Inject(TOKEN_PUBLISHED_COLLECTIONS) publishedCollections: string[]
+    ) {
+        this.#shardModel = shardModel;
+        this.#publishedCollections = publishedCollections;
+    }
 
     //#region Gateway Lifecycle
 
@@ -65,13 +72,13 @@ export class V0ChangesGateway implements OnGatewayConnection {
             const { shardId, lastWatermark } = getZeroChangeStreamerParams(req);
 
             // create or update shard, saving the lastWatermark
-            const shard = await this.shardModel.findByIdAndUpdate(
+            const shard = await this.#shardModel.findByIdAndUpdate(
                 { _id: shardId },
                 { lastWatermark },
                 { upsert: true, new: true }
             );
 
-            const source = new ChangeStreamSource(this.shardModel.db, shard, []);
+            const source = new ChangeStreamSource(this.#shardModel.db, shard, this.#publishedCollections);
             this.#subscriptions.set(client, { shard, source });
 
             source
@@ -88,9 +95,9 @@ export class V0ChangesGateway implements OnGatewayConnection {
                     client.send(JSON.stringify(change));
                 });
 
-            await source.startStream();
+            source.startStream();
         } catch (err: any) {
-            this.logger.error(err);
+            this.#logger.error(err);
 
             if (client.readyState === WebSocket.OPEN) {
                 client.close(
@@ -117,10 +124,10 @@ export class V0ChangesGateway implements OnGatewayConnection {
         @MessageBody() [eventName, ...data]: ChangeSourceUpstream,
         @ConnectedSocket() client: WebSocket
     ) {
-        this.logger.verbose(`Received streamer message: ${JSON.stringify(data)}`);
+        this.#logger.verbose(`Received streamer message: ${JSON.stringify(data)}`);
 
         if (!this.#subscriptions.has(client)) {
-            this.logger.error(`No ws subscription found for socket ${client}`);
+            this.#logger.error(`No ws subscription found for socket ${client}`);
 
             // TODO: maybe close socket?
 
@@ -137,7 +144,7 @@ export class V0ChangesGateway implements OnGatewayConnection {
                 eventName satisfies never;
                 const msg = `Unexpected upstream message type ${eventName}`;
 
-                this.logger.error(msg);
+                this.#logger.error(msg);
 
                 client.close(WsCloseCode.WS_1008_POLICY_VIOLATION, msg);
 

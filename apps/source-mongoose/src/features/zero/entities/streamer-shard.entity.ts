@@ -1,20 +1,21 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ collection: 'streamer_shards' })
+@Schema({ collection: 'streamer_shards', _id: false })
 export class StreamerShard extends Document<string> {
     /**
      * The Shard ID
      */
     @Prop({ type: String, required: true })
-    declare id: string;
+    // @ts-expect-error
+    _id!: string;
 
     /**
      * The latest watermark known to have been sent downstream
      */
     @Prop({ type: String })
     lastPendingWatermark?: string;
-    
+
     /**
      * The latest watermark known to have been acknowledged from the downstream
      */

@@ -29,12 +29,12 @@ export interface DbConfig {
      */
     uri: string;
 
-    /**
-     * One or more publications to configure for the application.
-     *
-     * Each publication describes a change stream against a specific collection.
-     */
-    publish: Publication[];
+    // /**
+    //  * One or more publications to configure for the application.
+    //  *
+    //  * Each publication describes a change stream against a specific collection.
+    //  */
+    // publish: Publication[];
 }
 
 /**

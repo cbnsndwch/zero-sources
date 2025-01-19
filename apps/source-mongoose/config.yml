@@ -2,7 +2,7 @@
 db:
   # The URL of the MongoDB database
   # uri: mongodb://127.0.0.1:27017/pg-sync-test
-  uri: mongodb://localhost:27017
+  uri: mongodb://localhost:27017/pg-sync-test
 
   db: pg-sync-test
 

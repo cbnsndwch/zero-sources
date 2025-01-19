@@ -12,7 +12,7 @@ import type {
     ChangeStreamDropDocument
 } from 'mongodb';
 import type { Connection } from 'mongoose';
-import { from, Observable, ReplaySubject } from 'rxjs';
+// import { from, Observable, ReplaySubject } from 'rxjs';
 
 import type {
     ChangeStreamData,
@@ -40,6 +40,8 @@ type Events = {
     close: () => void;
 };
 
+const MAX_INT32 = 2_147_483_647
+
 export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Events>>) {
     #logger = new Logger(ChangeStreamSource.name);
 
@@ -59,7 +61,7 @@ export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Event
 
     #error?: ChangeStreamControllerError;
 
-    constructor(conn: Connection, shard: StreamerShard, dbs: string[]) {
+    constructor(conn: Connection, shard: StreamerShard, publishedCollections: string[]) {
         super();
 
         this.#conn = conn;
@@ -67,7 +69,7 @@ export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Event
         this.#pipeline = [
             {
                 $match: {
-                    'ns.db': { $in: dbs }
+                    'ns.coll': { $in: publishedCollections }
                 }
             }
         ];
@@ -75,7 +77,7 @@ export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Event
 
     //#region Public API
 
-    async startStream(): Promise<void> {
+    startStream() {
         if (this.#stream && !this.#stream.closed) {
             // already streaming
             return;
@@ -126,7 +128,8 @@ export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Event
             .watch<Document>(this.#pipeline, {
                 resumeAfter: this.#restartAfter || this.#shard.lastAcknowledgedWatermark,
                 fullDocument: 'updateLookup',
-                timeoutMS: Number.MAX_SAFE_INTEGER
+                fullDocumentBeforeChange: 'whenAvailable',
+                timeoutMS: MAX_INT32
             })
             .on('change', async event => {
                 this.#shard.lastPendingWatermark = (event._id as any).toString();
@@ -142,10 +145,6 @@ export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Event
     }
 
     //#endregion Public API
-
-    //#region Change Stream Lifecycle
-
-    //#endregion Change Stream Lifecycle
 
     //#region Change Stream Event Handlers
 

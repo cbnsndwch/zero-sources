@@ -18,7 +18,7 @@ const dbModule = MongooseModule.forRootAsync({
     async useFactory(config: ConfigService<AppConfig>) {
         const { uri } = config.get<DbConfig>('db')!;
 
-        console.log('DB from config: ' + uri);
+        // console.log('DB from config: ' + uri);
 
         // force IPv4 if DB URI is localhost
         const family = isLocalhost(uri) ? 4 : undefined;
