@@ -1,0 +1,19 @@
+# config for the upstream MongoDB database
+db:
+  # The URL of the MongoDB database
+  # uri: mongodb://127.0.0.1:27017/pg-sync-test
+  uri: mongodb://localhost:27017
+
+  db: pg-sync-test
+
+  # A list of collections to publish changes from
+  publish:
+    - collection: test
+      pipeline:
+        - $match:
+            operationType: insert
+        - $project: 
+            _id: 1
+            name: 1
+            age: 1
+            password: 0
