@@ -1,0 +1,40 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "name": "Debug API",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "dev",
+                "--",
+                "--dns-result-order=ipv4first",
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules",
+                "**/node_modules/@nestjs/**"
+            ],
+            "console": "integratedTerminal",
+            // "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceRoot}/apps/source-mongoose",
+            "env": {
+                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongoose/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        },
+        {
+            "type": "node",
+            "name": "[JS] Debug Current File",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "program": "${file}",
+            "env": {
+                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongoose/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        }
+    ]
+}

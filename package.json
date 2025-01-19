@@ -1,23 +1,26 @@
 {
-  "name": "zero-sources",
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^3.2.5",
-    "turbo": "^2.3.3",
-    "typescript": "5.5.4"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "yarn@1.22.22",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+    "name": "@cbnsndwch/zero-sources",
+    "version": "0.0.1",
+    "description": "A collection of utilities and custom change sources for @rocicorp/zero",
+    "private": true,
+    "scripts": {
+        "build": "turbo build",
+        "build:libs": "turbo build \"--filter=./libs/*\"",
+        "dev": "turbo dev",
+        "lint": "turbo lint",
+        "format": "prettier --write \"**/*.{ts,tsx,mts,cts,md}\""
+    },
+    "devDependencies": {
+        "prettier": "^3.2.5",
+        "turbo": "^2.3.3",
+        "typescript": "5.5.4"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "packageManager": "yarn@4.6.0",
+    "workspaces": [
+        "apps/*",
+        "libs/*"
+    ]
 }

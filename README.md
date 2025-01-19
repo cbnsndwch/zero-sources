@@ -1,84 +1,226 @@
-# Turborepo starter
+# @cbnsndwch/zero-sources
 
-This is an official starter Turborepo.
+**A collection of utilities and custom change source implementations for `@rocicorp/zero`**  
 
-## Using this example
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
+## Table of Contents
+
+1. [Introduction](#introduction)  
+2. [Repository Structure](#repository-structure)  
+3. [Getting Started](#getting-started)  
+   - [Prerequisites](#prerequisites)  
+   - [Installation](#installation)  
+   - [Scripts Overview](#scripts-overview)  
+4. [Usage](#usage)  
+   - [Libraries](#libraries-libs)  
+   - [Custom Change Sources](#custom-change-sources-apps)  
+5. [Development](#development)  
+   - [Running the Project Locally](#running-the-project-locally)  
+   - [Build Process](#build-process)  
+   - [Testing](#testing)  
+6. [Versioning & Releases](#versioning--releases)  
+7. [Contributing](#contributing)  
+8. [Roadmap & Future Plans](#roadmap--future-plans)  
+9. [License](#license)  
+10. [Acknowledgments](#acknowledgments)
+
+---
+
+## Introduction
+
+This monorepo hosts various **utilities** and **custom change source** implementations designed to integrate with [`@rocicorp/zero`](https://github.com/rocicorp/zero). The primary goal is to provide building blocks and ready-to-use change sources for developers looking to extend or customize Zero’s caching and synchronization features.
+
+### Key Points
+
+- **Tools:** Yarn v4 Workspaces + Turborepo for streamlined development.  
+- **Tech Stack:** TypeScript code running on Node.js v22+ (Deno + Bun support pending community interest).
+- **Framework:** [NestJS] for custom change source implementations in the `apps/` folder.  
+- **Deployment:** Custom change sources can be containerized via Docker.  
+
+> [!NOTE]
+> This repo is actively maintained and open to community feedback. If you have questions or requests (e.g., example demos), feel free to open an issue or pull request.
+
+---
+
+## Repository Structure
+
+Here is an overview of the repository layout. We use Yarn Workspaces to manage multiple packages (both **libraries** and **apps**), and Turborepo for caching and running tasks in parallel.
+
+```shell
+.
+├── apps/
+│   ├── source-mongoose/     # zero change source for MongoDB/Mongoose
+│   └── ...                  # (TODO) other custom change sources
+├── libs/
+│   ├── eslint-config/       # shared ESLint config
+│   ├── tsconfig/            # shared TSConfig
+│   ├── zero/                # re-export of select parts of @rocicorp/zero in CommonJS format
+│   └── zero-nest-mongoose/  # utilities to generate zero schemas from @nestjs/mongoose entities
+├── LICENSE.md               # license file
+├── README.md                # this README file
+└── ...                      # other files
 ```
 
-## What's inside?
+### Apps Folder (`apps/`)
 
-This Turborepo includes the following packages/apps:
+- Contains **custom change source implementations** for `@rocicorp/zero`.
+- Typically built with [NestJS](https://nestjs.com/) unless otherwise noted in the app’s README.
+- Meant to be deployable as Docker containers (but may support other deployment strategies in the future).
 
-### Apps and Packages
+### Libs Folder (`libs/`)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- Contains **library** code that can be reused across multiple apps.
+- Each library is published as a separate npm package.
+- All library code is written in TypeScript.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+---
 
-### Utilities
+## Getting Started
 
-This Turborepo has some additional tools already setup for you:
+### Prerequisites
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+1. **Node.js** version **22.x** (or higher)  
+2. **Yarn** (v4 or later)  
+3. (Optional) **Docker** if you intend to build Docker images for the custom change sources.
 
-### Build
+### Installation
 
-To build all apps and packages, run the following command:
+1. **Clone** the repo:
 
+   ```bash
+   git clone https://github.com/cbnsndwch/zero-sources.git
+   cd zero-utilities-monorepo
+   ```
+
+2. **Install dependencies** and build the libraries:
+
+   ```bash
+   yarn && yarn build
+   ```
+
+   This will bootstrap all the workspace packages and install each package’s dependencies.
+
+### Scripts Overview
+
+The following global scripts are available (run from the repo root):
+
+- **`yarn build`**: Builds all apps and libraries in the repo.
+- **`yarn build:libs`**": Builds all libraries in the repo.
+- **`yarn dev`**: Runs the `deb` script across all apps and libraries that define one.
+- **`yarn lint`**: Runs eslint across all packages.
+- **`yarn format`**: Runs prettier across all workspaces.
+
+You can also navigate into specific packages and run scripts locally, but using `turbo` allows for caching and parallelization.
+
+---
+
+## Usage
+
+### Libraries (`libs/`)
+
+TDB
+
+> **Note:** Since these libraries are intended to complement `@rocicorp/zero`, check each library’s individual `README.md` for usage details (e.g., required config or environment variables).
+
+### Custom Change Sources (`apps/`)
+
+TDB
+
+## Development
+
+This section describes how to develop in the monorepo.
+
+### Running the Project Locally
+
+TDB
+
+### Build Process
+
+- **Root Build**: Compiles all TypeScript packages, outputting them into each package’s designated `dist` folder.
+  
+```shell
+yarn && yarn build
 ```
-cd my-turborepo
-pnpm build
+
+- **Per Package**: You can also build individual packages:
+  
+```bash
+yarn && yarn build --filter apps/...
 ```
 
-### Develop
+OR
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```bash
+yarn && yarn build --filter libs/...
 ```
 
-### Remote Caching
+### Testing
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+TDB
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+---
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## Versioning & Releases
 
-```
-cd my-turborepo
-npx turbo login
-```
+This repository follows **Semantic Versioning** (SemVer). Each package in this monorepo will use the standard versioning scheme **`MAJOR.MINOR.PATCH`**:
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+1. **MAJOR** – incompatible API changes.  
+2. **MINOR** – add functionality in a backward-compatible manner.  
+3. **PATCH** – backward-compatible bug fixes.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+> Once we set up an automated release process (e.g., using changesets or a similar tool), we’ll update this section with details on how to bump versions and publish new releases.
 
-```
-npx turbo link
-```
+---
 
-## Useful Links
+## Contributing
 
-Learn more about the power of Turborepo:
+Contributions are **welcome**! I’d love your help in making this project better.
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+1. **Fork** the repository  
+2. **Create** a feature or bugfix branch  
+3. **Commit** your changes with clear commit messages  
+4. **Open** a Pull Request (PR)  
+
+I’ll review your PR as soon as possible. For major changes, please open an issue or ping `@cbnsndwch` in the Rocicorp Discord server first to discuss the proposed modifications.
+
+If you’re not sure where to start, feel free to check the open issues or suggest new ideas!
+
+---
+
+## Roadmap & Future Plans
+
+Here are some of our future plans and directions:
+
+- **GitHub Actions**: Add workflows for CI (build, test, lint) and maybe automated Docker builds.  
+- **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`.  
+- **Docker Support**: Improve Docker image building processes (multi-stage builds, smaller images).  
+- **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.  
+- **Additional Change Source Implementations**: Based on community feedback or personal needs.
+
+> Don’t see something you need? [Open an issue] or [Join the discussion] to suggest improvements.
+
+---
+
+## License
+
+This project is licensed under the **[MIT License](./LICENSE.md)**. See the license file for more details.
+
+---
+
+## Acknowledgments
+
+- Thanks to [@rocicorp/zero](https://github.com/rocicorp/zero) for providing the base technology this repo extends. If you're new to Zero, check out [Zero's Documentation] for a great introduction.
+- [NestJS](https://nestjs.com/) – for powering our server-side apps.  
+- The **community** – your feedback and contributions help shape this project’s future.
+
+---
+
+*Happy syncing, and welcome to the repo!*  
+
+[NestJS]: https://docs.nestjs.com/
+[Zero's Documentation]: https://zero.rocicorp.dev/
+[Open an issue]: https://github.com/cbnsndwch/zero-source/issues
+[Join the discussion]: https://discord.rocicorp.dev/
