@@ -1,0 +1,566 @@
+{
+    "tables": [
+        {
+            "oid": 16437,
+            "schema": "public",
+            "name": "comment",
+            "columns": {
+                "body": {
+                    "pos": 4,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 25,
+                    "dataType": "text",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "created": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 701,
+                    "dataType": "float8",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "creatorID": {
+                    "pos": 5,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "id": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "issueID": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["id"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16484,
+            "schema": "public",
+            "name": "emoji",
+            "columns": {
+                "annotation": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "created": {
+                    "pos": 6,
+                    "dflt": "(EXTRACT(epoch FROM CURRENT_TIMESTAMP) * (1000)::numeric)",
+                    "notNull": false,
+                    "typeOID": 701,
+                    "dataType": "float8",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "creatorID": {
+                    "pos": 5,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "id": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "subjectID": {
+                    "pos": 4,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "value": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["id"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16395,
+            "schema": "public",
+            "name": "issue",
+            "columns": {
+                "assigneeID": {
+                    "pos": 8,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "created": {
+                    "pos": 6,
+                    "dflt": "(EXTRACT(epoch FROM CURRENT_TIMESTAMP) * (1000)::numeric)",
+                    "notNull": false,
+                    "typeOID": 701,
+                    "dataType": "float8",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "creatorID": {
+                    "pos": 7,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "description": {
+                    "pos": 9,
+                    "dflt": "''::character varying",
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": 10240
+                },
+                "id": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "modified": {
+                    "pos": 5,
+                    "dflt": "(EXTRACT(epoch FROM CURRENT_TIMESTAMP) * (1000)::numeric)",
+                    "notNull": false,
+                    "typeOID": 701,
+                    "dataType": "float8",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "open": {
+                    "pos": 4,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 16,
+                    "dataType": "bool",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "shortID": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 23,
+                    "dataType": "int4",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "title": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": 128
+                },
+                "visibility": {
+                    "pos": 10,
+                    "dflt": "'public'::character varying",
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["id"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16467,
+            "schema": "public",
+            "name": "issueLabel",
+            "columns": {
+                "issueID": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "labelID": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["labelID", "issueID"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16460,
+            "schema": "public",
+            "name": "label",
+            "columns": {
+                "id": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "name": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["id"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16384,
+            "schema": "public",
+            "name": "user",
+            "columns": {
+                "avatar": {
+                    "pos": 4,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "githubID": {
+                    "pos": 6,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 23,
+                    "dataType": "int4",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "id": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "login": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "name": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "role": {
+                    "pos": 5,
+                    "dflt": "'user'::character varying",
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["id"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16510,
+            "schema": "public",
+            "name": "userPref",
+            "columns": {
+                "key": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "userID": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "value": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["userID", "key"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16420,
+            "schema": "public",
+            "name": "viewState",
+            "columns": {
+                "issueID": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "userID": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 1043,
+                    "dataType": "varchar",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "viewed": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 701,
+                    "dataType": "float8",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["userID", "issueID"],
+            "publications": { "zero_public": { "rowFilter": null } }
+        },
+        {
+            "oid": 16523,
+            "schema": "zero",
+            "name": "schemaVersions",
+            "columns": {
+                "lock": {
+                    "pos": 3,
+                    "dflt": "true",
+                    "notNull": true,
+                    "typeOID": 16,
+                    "dataType": "bool",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "maxSupportedVersion": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 23,
+                    "dataType": "int4",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "minSupportedVersion": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 23,
+                    "dataType": "int4",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["lock"],
+            "publications": { "_zero_metadata_0": { "rowFilter": null } }
+        },
+        {
+            "oid": 16665,
+            "schema": "zero_0",
+            "name": "clients",
+            "columns": {
+                "clientGroupID": {
+                    "pos": 1,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 25,
+                    "dataType": "text",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "clientID": {
+                    "pos": 2,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 25,
+                    "dataType": "text",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "lastMutationID": {
+                    "pos": 3,
+                    "dflt": null,
+                    "notNull": true,
+                    "typeOID": 20,
+                    "dataType": "int8",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                },
+                "userID": {
+                    "pos": 4,
+                    "dflt": null,
+                    "notNull": false,
+                    "typeOID": 25,
+                    "dataType": "text",
+                    "pgTypeClass": "b",
+                    "characterMaximumLength": null
+                }
+            },
+            "primaryKey": ["clientGroupID", "clientID"],
+            "publications": { "_zero_metadata_0": { "rowFilter": null } }
+        }
+    ],
+    "indexes": [
+        {
+            "schema": "public",
+            "tableName": "comment",
+            "name": "comment_issueid_idx",
+            "unique": false,
+            "columns": { "issueID": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "emoji",
+            "name": "emoji_created_idx",
+            "unique": false,
+            "columns": { "created": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "emoji",
+            "name": "emoji_subjectID_creatorID_value_key",
+            "unique": true,
+            "columns": {
+                "creatorID": "ASC",
+                "subjectID": "ASC",
+                "value": "ASC"
+            }
+        },
+        {
+            "schema": "public",
+            "tableName": "emoji",
+            "name": "emoji_subject_id_idx",
+            "unique": false,
+            "columns": { "subjectID": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "issue",
+            "name": "issue_created_idx",
+            "unique": false,
+            "columns": { "created": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "issue",
+            "name": "issue_modified_idx",
+            "unique": false,
+            "columns": { "modified": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "issue",
+            "name": "issue_open_modified_idx",
+            "unique": false,
+            "columns": { "modified": "ASC", "open": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "issueLabel",
+            "name": "issuelabel_issueid_idx",
+            "unique": false,
+            "columns": { "issueID": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "user",
+            "name": "user_githubid_idx",
+            "unique": true,
+            "columns": { "githubID": "ASC" }
+        },
+        {
+            "schema": "public",
+            "tableName": "user",
+            "name": "user_login_idx",
+            "unique": true,
+            "columns": { "login": "ASC" }
+        }
+    ]
+}
