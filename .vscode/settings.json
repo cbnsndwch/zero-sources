@@ -13,7 +13,10 @@
     "files.eol": "\n",
     "files.associations": {
         "*.css": "tailwindcss",
-        ".env": "dotenv"
+        ".env": "dotenv",
+        "*.json": "jsonc",
+        "nest-cli.json": "json",
+        "package.json": "json"
     },
     "typescript.experimental.expandableHover": true,
     "svg.preview.background": "transparent",
