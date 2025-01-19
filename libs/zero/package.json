@@ -1,0 +1,61 @@
+{
+    "name": "@cbnsndwch/zero",
+    "description": "CJS compat for @rocicorp/zero",
+    "version": "0.0.1",
+    "license": "MIT",
+    "author": {
+        "name": "Sergio Leon",
+        "email": "oss@cbnsndwch.io"
+    },
+    "scripts": {
+        "build": "tsup",
+        "build:2": "tsup && tsc --emitDeclarationOnly",
+        "release": "yarn test && yarn build && changelogen --release --push && yarn npm publish",
+        "lint": "eslint . --fix",
+        "test": "vitest --run --passWithNoTests",
+        "ci:test": "vitest --run --passWithNoTests --bail 1",
+        "test:watch": "vitest",
+        "test:coverage": "vitest --coverage",
+        "test:ui": "vitest --ui --coverage.enabled=true",
+        "prepare": "husky install"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "dependencies": {
+        "@rocicorp/zero": "file:D:/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero",
+        "@rocicorp/zero-protocol": "file:D:/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero-protocol"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.6.1",
+        "@commitlint/config-conventional": "^19.6.0",
+        "@repo/eslint-config": "workspace:*",
+        "@repo/tsconfig": "workspace:*",
+        "@types/node": "^22.10.5",
+        "@vitest/coverage-v8": "^2.1.8",
+        "@vitest/ui": "^2.1.8",
+        "changelogen": "^0.5.7",
+        "eslint": "^9.18.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.3.0",
+        "tsup": "^8.3.5",
+        "typescript": "^5.7.3",
+        "vitest": "^2.1.8"
+    },
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/index.js",
+            "main": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        },
+        "./package.json": "./package.json"
+    },
+    "lint-staged": {
+        "*.ts": "yarn lint"
+    }
+}
