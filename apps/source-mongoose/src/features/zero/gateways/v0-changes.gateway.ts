@@ -13,7 +13,7 @@ import { WebSocket } from 'ws';
 
 import { ChangeSourceUpstream } from '@cbnsndwch/zero';
 
-import * as WsCloseCode from '../../../utils';
+import { invariant, truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from '../../../utils';
 
 import { StreamerShard } from '../entities';
 import { ChangeStreamSource } from '../services';
@@ -74,12 +74,19 @@ export class V0ChangesGateway implements OnGatewayConnection {
             const source = new ChangeStreamSource(this.shardModel.db, shard, []);
             this.#subscriptions.set(client, { shard, source });
 
-            source.on('close', () => {
-                client.close(
-                    WsCloseCode.WS_1012_SERVICE_RESTART,
-                    'The underlying DB change stream was closed, please reconnect'
-                );
-            });
+            source
+                .on('close', () => {
+                    client.close(
+                        WsCloseCode.WS_1012_SERVICE_RESTART,
+                        truncateBytes(
+                            'The underlying DB change stream was closed, please reconnect',
+                            WS_CLOSE_REASON_MAX_BYTES
+                        )
+                    );
+                })
+                .on('change', change => {
+                    client.send(JSON.stringify(change));
+                });
 
             await source.startStream();
         } catch (err: any) {
@@ -88,13 +95,13 @@ export class V0ChangesGateway implements OnGatewayConnection {
             if (client.readyState === WebSocket.OPEN) {
                 client.close(
                     WsCloseCode.WS_1011_INTERNAL_ERROR,
-                    'Internal server error: ' + err.message
+                    truncateBytes(err.message, WS_CLOSE_REASON_MAX_BYTES)
                 );
             } else {
                 client.once('open', () => {
                     client.close(
                         WsCloseCode.WS_1011_INTERNAL_ERROR,
-                        'Internal server error: ' + err.message
+                        truncateBytes(err.message, WS_CLOSE_REASON_MAX_BYTES)
                     );
                 });
             }

@@ -1,11 +1,4 @@
-/**
- * WebSocket connection close codes
- * 
- * @see {@link https://www.rfc-editor.org/rfc/rfc6455.html#section-7.1.5}
- * @see {@link https://www.iana.org/assignments/websocket/websocket.xhtml#close-code-number}
- */
-
-//#region Standard
+//#region Standard Close Codes
 
 /**
  * Successful operation, connection not required anymore
@@ -97,13 +90,48 @@ export const WS_3003_FORBIDDEN = 3003;
  */
 export const WS_3008_TIMEOUT = 3008;
 
-//#endregion Standard
+//#endregion Standard Close Codes
 
-//#region App-specific
+//#region App-specific Close Codes
 
 /**
  * The underlying stream was closed, client should reconnect.
  */
 export const WS_4900_UNDERLYING_STREAM_CLOSED = 4900;
 
-//#endregion App-specific
+//#endregion App-specific Close Codes
+
+/**
+ * WebSocket connection close codes
+ *
+ * @see {@link https://www.rfc-editor.org/rfc/rfc6455.html#section-7.1.5}
+ * @see {@link https://www.iana.org/assignments/websocket/websocket.xhtml#close-code-number}
+ */
+export const WsCloseCode = {
+    // Standard Close Codes
+    WS_1000_NORMAL_CLOSURE,
+    WS_1001_GOING_AWAY,
+    WS_1002_PROTOCOL_ERROR,
+    WS_1003_UNSUPPORTED_DATA,
+    WS_1005_NO_STATUS_RECEIVED,
+    WS_1006_ABNORMAL_CLOSURE,
+    WS_1007_INVALID_FRAME_PAYLOAD_DATA,
+    WS_1008_POLICY_VIOLATION,
+    WS_1009_MESSAGE_TOO_BIG,
+    WS_1010_MANDATORY_EXTENSIONS,
+    WS_1011_INTERNAL_ERROR,
+    WS_1012_SERVICE_RESTART,
+    WS_1013_TRY_AGAIN_LATER,
+    WS_1014_BAD_GATEWAY,
+    WS_1015_TLS_HANDSHAKE,
+    WS_3000_UNAUTHORIZED,
+    WS_3003_FORBIDDEN,
+    WS_3008_TIMEOUT,
+    // App-specific Close Codes
+    WS_4900_UNDERLYING_STREAM_CLOSED
+};
+
+/**
+ * The maximum number of bytes a close reason string can have.
+ */
+export const WS_CLOSE_REASON_MAX_BYTES = 123;
