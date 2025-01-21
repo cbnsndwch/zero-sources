@@ -58,17 +58,17 @@ type ColumnsFromEntity<TEntity> = {
 
 export class ZeroTableSchema {
     /**
-     * Creates a table schema from a given Mongoose entity class.
+     * Creates a zero table schema from a given Mongoose entity class.
      *
-     * @template TEntity - The type of the entity class, extending Mongoose Document.
+     * @template TEntity - The type of the entity class. MUST extend `mongoose.Document`.
      * @param target - The entity class to generate the schema from.
-     * @returns The generated table schema.
+     * @returns The generated zero table schema.
      *
-     * @throws Will throw an error if the collection name is missing for the entity.
+     * @throws Will throw an error if the collection name is missing in the entity's `@Schema` decorator.
      */
-    static createForClass<
-        TEntity extends Document<string, unknown, TEntity> // the entity class
-    >(target: Type<TEntity>) {
+    static createForClass<TEntity extends Document<string, unknown, TEntity>>(
+        target: Type<TEntity>
+    ) {
         const { options = {}, properties = [] } =
             MongoTypeMetadataStorage.getSchemaMetadataByTarget<TEntity>(target)!;
 

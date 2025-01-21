@@ -22,8 +22,9 @@ import type {
     Commit,
     ChangeStreamControl
 } from '@cbnsndwch/zero';
+import { invariant } from '@cbnsndwch/zero-nest-mongoose';
 
-import { invariant, TypedEmitter } from '../../../utils';
+import { TypedEmitter } from '../../../utils';
 
 import type { StreamerShard } from '../entities';
 import { relationFromChangeStreamEvent, extractResumeToken } from '../utils';
@@ -40,7 +41,7 @@ type Events = {
     close: () => void;
 };
 
-const MAX_INT32 = 2_147_483_647
+const CHANGE_STREAM_TIMEOUT_MAX = 2_147_483_647
 
 export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Events>>) {
     #logger = new Logger(ChangeStreamSource.name);
@@ -129,7 +130,7 @@ export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Event
                 resumeAfter: this.#restartAfter || this.#shard.lastAcknowledgedWatermark,
                 fullDocument: 'updateLookup',
                 fullDocumentBeforeChange: 'whenAvailable',
-                timeoutMS: MAX_INT32
+                timeoutMS: CHANGE_STREAM_TIMEOUT_MAX
             })
             .on('change', async event => {
                 this.#shard.lastPendingWatermark = (event._id as any).toString();

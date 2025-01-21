@@ -1,4 +1,4 @@
-import { invariant } from '.';
+import { invariant } from '@cbnsndwch/zero-nest-mongoose';
 
 /**
  * Truncates a UTF-8 encoded string to a specified maximum number of bytes.

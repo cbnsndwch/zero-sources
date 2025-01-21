@@ -13,7 +13,7 @@ import { WebSocket } from 'ws';
 
 import { ChangeSourceUpstream } from '@cbnsndwch/zero';
 
-import { invariant, truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from '../../../utils';
+import { truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from '../../../utils';
 
 import { StreamerShard } from '../entities';
 import { ChangeStreamSource } from '../services';
@@ -78,7 +78,11 @@ export class V0ChangesGateway implements OnGatewayConnection {
                 { upsert: true, new: true }
             );
 
-            const source = new ChangeStreamSource(this.#shardModel.db, shard, this.#publishedCollections);
+            const source = new ChangeStreamSource(
+                this.#shardModel.db,
+                shard,
+                this.#publishedCollections
+            );
             this.#subscriptions.set(client, { shard, source });
 
             source
