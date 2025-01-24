@@ -2917,10 +2917,10 @@ __metadata:
 
 "@rocicorp/zero-protocol@file:D:/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero-protocol::locator=%40cbnsndwch%2Fzero%40workspace%3Alibs%2Fzero":
   version: 0.0.0
-  resolution: "@rocicorp/zero-protocol@file:/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero-protocol#/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero-protocol::hash=2ac436&locator=%40cbnsndwch%2Fzero%40workspace%3Alibs%2Fzero"
+  resolution: "@rocicorp/zero-protocol@file:/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero-protocol#/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero-protocol::hash=a5306b&locator=%40cbnsndwch%2Fzero%40workspace%3Alibs%2Fzero"
   dependencies:
     "@badrap/valita": "npm:0.3.11"
-  checksum: 10c0/369ff5a2f2fd900580753f35af5a11f02259bdaa8a3526ec1c3f513e8e461b678f1ce7d6c2bdd576089f87c6afe03a9a1bce533a135aad52cfbfc10b46ed1d91
+  checksum: 10c0/e6d3d3c97ddb453b4861272db47b78c5f50adf7c868afa9c4f68333403d1534db98c25f4969260984ee404cece917d4468216e00ebbb7e3e3bc46ee198fe7b6b
   languageName: node
   linkType: hard
 
@@ -2938,8 +2938,8 @@ __metadata:
   linkType: hard
 
 "@rocicorp/zero@file:D:/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero::locator=%40cbnsndwch%2Fzero%40workspace%3Alibs%2Fzero":
-  version: 0.11.2025011802+b8c880
-  resolution: "@rocicorp/zero@file:/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero#/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero::hash=11a821&locator=%40cbnsndwch%2Fzero%40workspace%3Alibs%2Fzero"
+  version: 0.11.2025012200+592c81
+  resolution: "@rocicorp/zero@file:/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero#/D%3A/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero::hash=071cbc&locator=%40cbnsndwch%2Fzero%40workspace%3Alibs%2Fzero"
   dependencies:
     "@badrap/valita": "npm:0.3.11"
     "@databases/escape-identifier": "npm:^1.0.3"
@@ -2987,7 +2987,7 @@ __metadata:
     zero-build-schema: ./out/zero/src/build-schema.js
     zero-cache: ./out/zero/src/cli.js
     zero-cache-dev: ./out/zero/src/zero-cache-dev.js
-  checksum: 10c0/2c9f1d7d2579a3cf9103ba067c59a357fb91246fac6c5a231e66acd4bcc030dfbaca4d2ab6e3a73f93f5827aee558caafb8b448cefc184ea32f57abc6afec58a
+  checksum: 10c0/0d8b9af57651f90c3ef6cbf5b5c8a4136443fbaf1f615e8c253c7b1f9c9b57bd240825c848b4c1f63cdfbd3200fe66185cb6f40c4ba02931665bbab4dbeae60f
   languageName: node
   linkType: hard
 
