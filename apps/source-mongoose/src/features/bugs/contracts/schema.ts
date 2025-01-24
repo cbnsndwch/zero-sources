@@ -192,9 +192,8 @@ const emojiRelationships = relationships(emoji, ({ one }) => ({
 
 //#endregion Relationships
 
-export const schema = createSchema(
-    5,
-    {
+export const schema = createSchema(5, {
+    tables: [
         user,
         issue,
         comment,
@@ -203,15 +202,15 @@ export const schema = createSchema(
         viewState,
         emoji,
         userPref
-    },
-    {
+    ],
+    relationships: [
         userRelationships,
         issueRelationships,
         commentRelationships,
         // issueLabelRelationships,
         emojiRelationships
-    }
-);
+    ]
+});
 
 export type Schema = typeof schema;
 
