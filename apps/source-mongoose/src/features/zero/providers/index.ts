@@ -1,1 +1,1 @@
-export * from './published-entities.provider';
+export * from './published-entities.provider.js';

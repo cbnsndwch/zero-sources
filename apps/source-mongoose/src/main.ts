@@ -3,7 +3,6 @@ import { NestFactory } from '@nestjs/core';
 import { WsAdapter } from '@nestjs/platform-ws';
 
 import { AppModule } from './app.module.js';
-
 import { corsDelegate } from './utils/cors.js';
 
 const logger = new Logger('Bootstrap');

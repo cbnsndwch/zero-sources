@@ -1,11 +1,8 @@
-import {
-    definePermissions,
-    NOBODY_CAN,
-    type ExpressionBuilder,
-    type Condition
-} from '@cbnsndwch/zero';
+import { definePermissions, NOBODY_CAN, type ExpressionBuilder } from '@rocicorp/zero';
 
-import { schema, type Schema, type TableName } from './schema';
+import { schema, type Schema, type TableName } from './schema.js';
+
+type Condition = any;
 
 /**
  * The contents of the zbugs JWT
@@ -89,7 +86,7 @@ function canSeeEmoji(claims: TokenClaims, b: ExpressionBuilder<Schema, 'emoji'>)
 
 //#endregion Helpers
 
-export const permissions = definePermissions<TokenClaims, Schema>(schema, () => ({
+export const permissions: any = definePermissions<TokenClaims, Schema>(schema, () => ({
     user: {
         // Only the authentication system can write to the user table.
         row: {

@@ -1,4 +1,4 @@
-import type { Row } from '@cbnsndwch/zero';
+import type { Row } from '@rocicorp/zero';
 
 import type { schema } from './schema.js';
 

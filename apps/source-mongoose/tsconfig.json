@@ -7,7 +7,6 @@
             "ES2023"
         ],
         // 
-        "noEmit": true,
         "declaration": true,
         "removeComments": true,
         "esModuleInterop": true,

@@ -11,14 +11,14 @@ import type { Request } from 'express';
 import type { Model } from 'mongoose';
 import { WebSocket } from 'ws';
 
-import { ChangeSourceUpstream } from '@cbnsndwch/zero';
+import { ChangeSourceUpstream } from '@rocicorp/zero/change-protocol/v0';
 
-import { truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from '../../../utils';
+import { truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from '../../../utils/index.js';
 
-import { StreamerShard } from '../entities';
-import { ChangeStreamSource } from '../services';
-import { getZeroChangeStreamerParams } from '../utils';
-import { TOKEN_PUBLISHED_COLLECTIONS } from '../providers';
+import { StreamerShard } from '../entities/streamer-shard.entity.js';
+import { ChangeStreamSource } from '../services/change-stream-manager.js';
+import { getZeroChangeStreamerParams } from '../utils/get-zero-change-streamer-params.js';
+import { TOKEN_PUBLISHED_COLLECTIONS } from '../providers/published-entities.provider.js';
 
 type DownstreamState = {
     shard: StreamerShard;

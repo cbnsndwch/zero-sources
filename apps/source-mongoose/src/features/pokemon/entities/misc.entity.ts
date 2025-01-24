@@ -1,8 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { IsString, IsNumber, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsArray, IsOptional } from 'class-validator';
 
-import { AbilitiesSchema, Abilities } from './abilities.entity';
+import { AbilitiesSchema, Abilities } from './abilities.entity.js';
 
 @Schema({ _id: false })
 export class Misc {

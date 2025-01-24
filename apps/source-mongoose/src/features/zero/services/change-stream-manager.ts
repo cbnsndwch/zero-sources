@@ -21,13 +21,16 @@ import type {
     Data,
     Commit,
     ChangeStreamControl
-} from '@cbnsndwch/zero';
+} from '@rocicorp/zero/change-protocol/v0';
+
 import { invariant } from '@cbnsndwch/zero-nest-mongoose';
 
-import { TypedEmitter } from '../../../utils';
+import type { TypedEmitter } from '../../../utils/typed-emitter.js';
 
-import type { StreamerShard } from '../entities';
-import { relationFromChangeStreamEvent, extractResumeToken } from '../utils';
+import type { StreamerShard } from '../entities/streamer-shard.entity.js';
+
+import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
+import { extractResumeToken } from '../utils/extract-resume-token.js';
 
 type ChangeStreamControllerError = {
     err: unknown;
@@ -41,7 +44,7 @@ type Events = {
     close: () => void;
 };
 
-const CHANGE_STREAM_TIMEOUT_MAX = 2_147_483_647
+const CHANGE_STREAM_TIMEOUT_MAX = 2_147_483_647;
 
 export class ChangeStreamSource extends (EventEmitter as Type<TypedEmitter<Events>>) {
     #logger = new Logger(ChangeStreamSource.name);

@@ -1,1 +1,1 @@
-export * from './change-stream-manager';
+export * from './change-stream-manager.js';

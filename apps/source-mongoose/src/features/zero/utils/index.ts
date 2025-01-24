@@ -1,5 +1,5 @@
-export * from './extract-resume-token';
+export * from './extract-resume-token.js';
 
-export * from './get-zero-change-streamer-params';
+export * from './get-zero-change-streamer-params.js';
 
-export * from './zero-relation-from-change-stream-event';
+export * from './zero-relation-from-change-stream-event.js';

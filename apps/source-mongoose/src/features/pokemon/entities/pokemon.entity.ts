@@ -5,10 +5,10 @@ import { IsArray, IsString } from 'class-validator';
 
 import { ZeroTableSchema } from '@cbnsndwch/zero-nest-mongoose';
 
-import { Moves, MovesSchema } from './move.entity';
-import { Stats, StatsSchema } from './stats.entity';
-import { Damage, DamageSchema } from './damage.entities';
-import { Misc, MiscSchema } from './misc.entity';
+import { Moves, MovesSchema } from './move.entity.js';
+import { Stats, StatsSchema } from './stats.entity.js';
+import { Damage, DamageSchema } from './damage.entities.js';
+import { Misc, MiscSchema } from './misc.entity.js';
 
 @Schema({ collection: 'pokemon' })
 export class Pokemon extends Document<string, any, Pokemon> {

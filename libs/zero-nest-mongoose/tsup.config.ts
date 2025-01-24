@@ -6,9 +6,8 @@ export default defineConfig({
     cjsInterop: true,
     dts: true,
     sourcemap: true,
-    noExternal: [/@rocicorp\/.+/],
     platform: 'node',
     outDir: 'dist',
-    format: ['cjs'],
+    format: ['esm', 'cjs'],
     entry: ['src/index.mts']
 });

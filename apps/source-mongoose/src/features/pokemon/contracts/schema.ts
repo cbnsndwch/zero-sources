@@ -1,6 +1,6 @@
-// import { createSchema, relationships } from '@cbnsndwch/zero';
+// import { createSchema, relationships } from '@rocicorp/zero';
 
-import { pokemonZeroSchema } from '../entities';
+import { pokemonZeroSchema } from '../entities/index.js';
 
 //#region Relationships
 

@@ -6,7 +6,7 @@ import {
     boolean as booleanCol,
     number as numberCol,
     json as jsonCol
-} from '@cbnsndwch/zero';
+} from '@rocicorp/zero';
 
 const col = {
     boolean: booleanCol,

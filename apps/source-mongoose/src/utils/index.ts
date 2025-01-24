@@ -1,5 +1,5 @@
-export * from './cors';
-export * from './typed-emitter';
+export * from './cors.js';
+export * from './typed-emitter.js';
 
-export * from './ws.utils';
-export * from './truncate-bytes';
+export * from './ws.utils.js';
+export * from './truncate-bytes.js';

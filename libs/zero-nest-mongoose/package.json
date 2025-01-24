@@ -2,6 +2,7 @@
     "name": "@cbnsndwch/zero-nest-mongoose",
     "description": "Generate Zero schemas from @nestjs/mongoose schemas",
     "version": "0.0.1",
+    "type": "module",
     "license": "MIT",
     "author": {
         "name": "Sergio Leon",
@@ -23,14 +24,12 @@
         "node": ">=22"
     },
     "peerDependencies": {
-        "@cbnsndwch/zero": "workspace:*",
         "@nestjs/mongoose": "^10.1.0",
         "@rocicorp/zero": "^0.11.2025011402",
         "change-case": "^4.1.2",
         "mongoose": "^8.9.5"
     },
     "devDependencies": {
-        "@cbnsndwch/zero": "workspace:*",
         "@commitlint/cli": "^19.6.1",
         "@commitlint/config-conventional": "^19.6.0",
         "@nestjs/mongoose": "^10.1.0",
@@ -57,8 +56,9 @@
     "types": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "require": "./dist/index.js",
+            "require": "./dist/index.cjs",
             "main": "./dist/index.js",
+            "import": "./dist/index.js",
             "types": "./dist/index.d.ts"
         },
         "./package.json": "./package.json"

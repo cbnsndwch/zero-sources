@@ -4,7 +4,8 @@ import { Type } from '@nestjs/common';
 import { snakeCase } from 'change-case';
 import type { Document } from 'mongoose';
 
-import type { TableSchema, ReadonlyJSONValue, SchemaValue } from '@cbnsndwch/zero';
+import type { TableSchema, ReadonlyJSONValue } from '@rocicorp/zero';
+// import type { SchemaValue } from '@rocicorp/zero';
 
 import type {
     Defined,
@@ -19,6 +20,8 @@ import type {
     UnwrapOptional,
     TableSchemaBase
 } from './contracts.mjs';
+
+type SchemaValue = any;
 
 const baseSchema: TableSchemaBase = {
     _id: { type: 'string' },

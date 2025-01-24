@@ -5,7 +5,9 @@ import type {
     ChangeStreamDeleteDocument
 } from 'mongodb';
 
-import { MessageRelation } from '@cbnsndwch/zero';
+// import { MessageRelation } from '@rocicorp/zero';
+
+type MessageRelation = any;
 
 export function relationFromChangeStreamEvent(
     doc:

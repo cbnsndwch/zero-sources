@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "license": "MIT",
     "private": true,
-    "type": "commonjs",
+    "type": "module",
     "author": {
         "name": "Sergio Leon",
         "email": "oss@cbnsndwch.io"
@@ -24,7 +24,6 @@
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
     "dependencies": {
-        "@cbnsndwch/zero": "workspace:*",
         "@cbnsndwch/zero-nest-mongoose": "workspace:*",
         "@nestjs/common": "^10.0.0",
         "@nestjs/config": "^3.3.0",
@@ -33,6 +32,7 @@
         "@nestjs/platform-express": "^10.0.0",
         "@nestjs/platform-ws": "^10.4.15",
         "@nestjs/websockets": "^10.4.15",
+        "@rocicorp/zero": "^0.11.2025011402",
         "change-case": "^4.1.2",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.1",
@@ -67,7 +67,10 @@
         "ts-loader": "^9.5.1",
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
-        "typescript": "^5.7.2"
+        "typescript": "^5.7.3"
+    },
+    "exports": {
+        "./main": "./dist/main.js"
     },
     "jest": {
         "moduleFileExtensions": [
