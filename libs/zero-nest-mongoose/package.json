@@ -32,7 +32,7 @@
     "devDependencies": {
         "@commitlint/cli": "^19.6.1",
         "@commitlint/config-conventional": "^19.6.0",
-        "@nestjs/mongoose": "^10.1.0",
+        "@nestjs/mongoose": "^11.0.0",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero": "^0.11.2025011402",
