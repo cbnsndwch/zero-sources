@@ -497,7 +497,7 @@ __metadata:
     "@nestjs/mongoose": "npm:^11.0.0"
     "@repo/eslint-config": "workspace:*"
     "@repo/tsconfig": "workspace:*"
-    "@rocicorp/zero": "npm:^0.11.2025011402"
+    "@rocicorp/zero": "npm:^0.12.2025012401"
     "@types/node": "npm:^22.10.10"
     "@vitest/coverage-v8": "npm:^3.0.4"
     "@vitest/ui": "npm:^3.0.4"
@@ -512,7 +512,7 @@ __metadata:
     vitest: "npm:^3.0.4"
   peerDependencies:
     "@nestjs/mongoose": ^10.1.0
-    "@rocicorp/zero": ^0.11.2025011402
+    "@rocicorp/zero": ^0.12.2025012401
     change-case: ^4.1.2
     mongoose: ^8.9.5
   languageName: unknown
@@ -533,7 +533,7 @@ __metadata:
     "@nestjs/schematics": "npm:^11.0.0"
     "@nestjs/testing": "npm:^11.0.5"
     "@nestjs/websockets": "npm:^11.0.5"
-    "@rocicorp/zero": "npm:^0.11.2025011402"
+    "@rocicorp/zero": "npm:^0.12.2025012401"
     "@swc/cli": "npm:^0.6.0"
     "@swc/core": "npm:^1.10.9"
     "@types/express": "npm:^5.0.0"
@@ -2934,9 +2934,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rocicorp/zero@npm:^0.11.2025011402":
-  version: 0.11.2025011802
-  resolution: "@rocicorp/zero@npm:0.11.2025011802"
+"@rocicorp/zero@npm:^0.12.2025012401":
+  version: 0.12.2025012401
+  resolution: "@rocicorp/zero@npm:0.12.2025012401"
   dependencies:
     "@badrap/valita": "npm:0.3.11"
     "@databases/escape-identifier": "npm:^1.0.3"
@@ -2983,7 +2983,7 @@ __metadata:
     zero-build-schema: out/zero/src/build-schema.js
     zero-cache: out/zero/src/cli.js
     zero-cache-dev: out/zero/src/zero-cache-dev.js
-  checksum: 10c0/02adf721ea717db89cfa525a9718ddd4cf68c0d56c730057cdcb8953a830dd4afbd77460e8f2201192805c6ad0f073b021594de4c939b94e0ccdd1bbb757253d
+  checksum: 10c0/edd6f1fe410347387ee48a4efb599e365f0bd78463cf94b9625621cffa881c306d119605ca3f7a8132e98084d2f76bbc3a2d28659e543c683254708f91de61ee
   languageName: node
   linkType: hard
 
