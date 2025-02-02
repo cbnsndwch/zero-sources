@@ -34,19 +34,19 @@ export const Gen34MoveSchema = SchemaFactory.createForClass(Gen34Move);
 
 @Schema({ _id: false })
 export class Moves {
-    @Prop({ type: [MoveSchema], required: true, default: [] })
+    @Prop({ type: [Move], required: true, default: [] })
     @IsArray({ each: true })
     level!: Move[];
 
-    @Prop({ type: [MoveSchema], required: true, default: [] })
+    @Prop({ type: [Move], required: true, default: [] })
     @IsArray({ each: true })
     tmhm!: Move[];
 
-    @Prop({ type: [MoveSchema], required: true, default: [] })
+    @Prop({ type: [Move], required: true, default: [] })
     @IsArray({ each: true })
     egg!: Move[];
 
-    @Prop({ type: [MoveSchema], required: true, default: [] })
+    @Prop({ type: [Move], required: true, default: [] })
     @IsArray({ each: true })
     tutor!: Move[];
 

@@ -26,9 +26,7 @@ export default [
      */
     // BugsModule,
     PokemonModule,
-    ZeroModule.forEntities([
-        ...pokemonEntities
-    ])
+    ZeroModule.forEntities([...pokemonEntities])
     /**
      * Maybe: Spikes, POCs, etc.
      */

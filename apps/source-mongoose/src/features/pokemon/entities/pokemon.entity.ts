@@ -5,6 +5,8 @@ import { IsArray, IsString } from 'class-validator';
 
 import { ZeroTableSchema } from '@cbnsndwch/zero-nest-mongoose';
 
+import { serializeSchema, replacer } from '../../../utils/serialization.js';
+
 import { Moves, MovesSchema } from './move.entity.js';
 import { Stats, StatsSchema } from './stats.entity.js';
 import { Damage, DamageSchema } from './damage.entities.js';
@@ -23,7 +25,7 @@ export class Pokemon extends Document<string, any, Pokemon> {
     @IsString()
     img!: string;
 
-    @Prop({ type: [String] })
+    @Prop({ type: [String], required: true })
     @IsArray()
     type!: string[];
 
@@ -31,22 +33,24 @@ export class Pokemon extends Document<string, any, Pokemon> {
     @Type(() => Stats)
     stats!: Stats;
 
-    @Prop({ type: MovesSchema })
+    @Prop({ type: MovesSchema, required: true })
     @Type(() => Moves)
     moves!: Moves;
 
-    @Prop({ type: DamageSchema })
+    @Prop({ type: DamageSchema, required: true })
     @Type(() => Damage)
     damages!: Damage;
 
-    @Prop({ type: MiscSchema })
+    @Prop({ type: MiscSchema, required: true })
     @Type(() => Misc)
     misc!: Misc;
 }
 
 export const PokemonSchema = SchemaFactory.createForClass(Pokemon);
 
-export const pokemonZeroSchema = ZeroTableSchema.createForClass(Pokemon) ;
+const schemaJson = serializeSchema(PokemonSchema.obj);
+
+export const pokemonZeroSchema = ZeroTableSchema.createForClass(Pokemon);
 
 // Indices
 // PokemonSchema.index({ created: 1 }, { name: 'idx_issue__created' });
