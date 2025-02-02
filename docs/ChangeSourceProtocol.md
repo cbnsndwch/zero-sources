@@ -34,9 +34,9 @@ ZERO_UPSTREAM_DB = "wss://my-server/changes/v0/stream?apiKey=super-duper-ultra-s
 ```
 
 - URI constraints:
-  - Any hostname
-  - Any set of query parameters that do not conflict with those listed below (i.e. `shardID`, `lastWatermark`). This can be used to ferry an api key, for example.
-  - URL path must be `/changes/v0/stream` or whatever `v#` is required by the server. See [Protocol changes / versioning](https://www.notion.so/Custom-Backends-1753bed8954580959aace8d68ef7a9fb?pvs=21) for when this changes.
+    - Any hostname
+    - Any set of query parameters that do not conflict with those listed below (i.e. `shardID`, `lastWatermark`). This can be used to ferry an api key, for example.
+    - URL path must be `/changes/v0/stream` or whatever `v#` is required by the server. See [Protocol changes / versioning](https://www.notion.so/Custom-Backends-1753bed8954580959aace8d68ef7a9fb?pvs=21) for when this changes.
 
 ### Connecting to the Endpoint
 

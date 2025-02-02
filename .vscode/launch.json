@@ -35,6 +35,20 @@
                 "CONFIG_FILE": "${workspaceRoot}/apps/source-mongoose/config.yml",
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
+        },
+        {
+            "type": "node",
+            "name": "[TSX] Debug Current File",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "runtimeExecutable": "tsx",
+            "runtimeArgs": [
+                "${file}"
+            ],
+            "env": {
+                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongoose/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
         }
     ]
 }

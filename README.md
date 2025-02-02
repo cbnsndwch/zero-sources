@@ -1,6 +1,6 @@
 # @cbnsndwch/zero-sources
 
-**A collection of utilities and custom change source implementations for `@rocicorp/zero`**  
+**A collection of utilities and custom change source implementations for `@rocicorp/zero`**
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
 
@@ -8,23 +8,23 @@
 
 ## Table of Contents
 
-1. [Introduction](#introduction)  
-2. [Repository Structure](#repository-structure)  
-3. [Getting Started](#getting-started)  
-   - [Prerequisites](#prerequisites)  
-   - [Installation](#installation)  
-   - [Scripts Overview](#scripts-overview)  
-4. [Usage](#usage)  
-   - [Libraries](#libraries-libs)  
-   - [Custom Change Sources](#custom-change-sources-apps)  
-5. [Development](#development)  
-   - [Running the Project Locally](#running-the-project-locally)  
-   - [Build Process](#build-process)  
-   - [Testing](#testing)  
-6. [Versioning & Releases](#versioning--releases)  
-7. [Contributing](#contributing)  
-8. [Roadmap & Future Plans](#roadmap--future-plans)  
-9. [License](#license)  
+1. [Introduction](#introduction)
+2. [Repository Structure](#repository-structure)
+3. [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Scripts Overview](#scripts-overview)
+4. [Usage](#usage)
+    - [Libraries](#libraries-libs)
+    - [Custom Change Sources](#custom-change-sources-apps)
+5. [Development](#development)
+    - [Running the Project Locally](#running-the-project-locally)
+    - [Build Process](#build-process)
+    - [Testing](#testing)
+6. [Versioning & Releases](#versioning--releases)
+7. [Contributing](#contributing)
+8. [Roadmap & Future Plans](#roadmap--future-plans)
+9. [License](#license)
 10. [Acknowledgments](#acknowledgments)
 
 ---
@@ -35,10 +35,10 @@ This monorepo hosts various **utilities** and **custom change source** implement
 
 ### Key Points
 
-- **Tools:** Yarn v4 Workspaces + Turborepo for streamlined development.  
+- **Tools:** Yarn v4 Workspaces + Turborepo for streamlined development.
 - **Tech Stack:** TypeScript code running on Node.js v22+ (Deno + Bun support pending community interest).
-- **Framework:** [NestJS] for custom change source implementations in the `apps/` folder.  
-- **Deployment:** Custom change sources can be containerized via Docker.  
+- **Framework:** [NestJS] for custom change source implementations in the `apps/` folder.
+- **Deployment:** Custom change sources can be containerized via Docker.
 
 > [!NOTE]
 > This repo is actively maintained and open to community feedback. If you have questions or requests (e.g., example demos), feel free to open an issue or pull request.
@@ -82,26 +82,26 @@ Here is an overview of the repository layout. We use Yarn Workspaces to manage m
 
 ### Prerequisites
 
-1. **Node.js** version **22.x** (or higher)  
-2. **Yarn** (v4 or later)  
+1. **Node.js** version **22.x** (or higher)
+2. **Yarn** (v4 or later)
 3. (Optional) **Docker** if you intend to build Docker images for the custom change sources.
 
 ### Installation
 
 1. **Clone** the repo:
 
-   ```bash
-   git clone https://github.com/cbnsndwch/zero-sources.git
-   cd zero-utilities-monorepo
-   ```
+    ```bash
+    git clone https://github.com/cbnsndwch/zero-sources.git
+    cd zero-utilities-monorepo
+    ```
 
 2. **Install dependencies** and build the libraries:
 
-   ```bash
-   yarn && yarn build
-   ```
+    ```bash
+    yarn && yarn build
+    ```
 
-   This will bootstrap all the workspace packages and install each package’s dependencies.
+    This will bootstrap all the workspace packages and install each package’s dependencies.
 
 ### Scripts Overview
 
@@ -140,13 +140,13 @@ TDB
 ### Build Process
 
 - **Root Build**: Compiles all TypeScript packages, outputting them into each package’s designated `dist` folder.
-  
+
 ```shell
 yarn && yarn build
 ```
 
 - **Per Package**: You can also build individual packages:
-  
+
 ```bash
 yarn && yarn build --filter apps/...
 ```
@@ -167,8 +167,8 @@ TDB
 
 This repository follows **Semantic Versioning** (SemVer). Each package in this monorepo will use the standard versioning scheme **`MAJOR.MINOR.PATCH`**:
 
-1. **MAJOR** – incompatible API changes.  
-2. **MINOR** – add functionality in a backward-compatible manner.  
+1. **MAJOR** – incompatible API changes.
+2. **MINOR** – add functionality in a backward-compatible manner.
 3. **PATCH** – backward-compatible bug fixes.
 
 > Once we set up an automated release process (e.g., using changesets or a similar tool), we’ll update this section with details on how to bump versions and publish new releases.
@@ -179,10 +179,10 @@ This repository follows **Semantic Versioning** (SemVer). Each package in this m
 
 Contributions are **welcome**! I’d love your help in making this project better.
 
-1. **Fork** the repository  
-2. **Create** a feature or bugfix branch  
-3. **Commit** your changes with clear commit messages  
-4. **Open** a Pull Request (PR)  
+1. **Fork** the repository
+2. **Create** a feature or bugfix branch
+3. **Commit** your changes with clear commit messages
+4. **Open** a Pull Request (PR)
 
 I’ll review your PR as soon as possible. For major changes, please open an issue or ping `@cbnsndwch` in the Rocicorp Discord server first to discuss the proposed modifications.
 
@@ -194,10 +194,10 @@ If you’re not sure where to start, feel free to check the open issues or sugge
 
 Here are some of our future plans and directions:
 
-- **GitHub Actions**: Add workflows for CI (build, test, lint) and maybe automated Docker builds.  
-- **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`.  
-- **Docker Support**: Improve Docker image building processes (multi-stage builds, smaller images).  
-- **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.  
+- **GitHub Actions**: Add workflows for CI (build, test, lint) and maybe automated Docker builds.
+- **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`.
+- **Docker Support**: Improve Docker image building processes (multi-stage builds, smaller images).
+- **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.
 - **Additional Change Source Implementations**: Based on community feedback or personal needs.
 
 > Don’t see something you need? [Open an issue] or [Join the discussion] to suggest improvements.
@@ -213,12 +213,12 @@ This project is licensed under the **[MIT License](./LICENSE.md)**. See the lice
 ## Acknowledgments
 
 - Thanks to [@rocicorp/zero](https://github.com/rocicorp/zero) for providing the base technology this repo extends. If you're new to Zero, check out [Zero's Documentation] for a great introduction.
-- [NestJS](https://nestjs.com/) – for powering our server-side apps.  
+- [NestJS](https://nestjs.com/) – for powering our server-side apps.
 - The **community** – your feedback and contributions help shape this project’s future.
 
 ---
 
-*Happy syncing, and welcome to the repo!*  
+_Happy syncing, and welcome to the repo!_
 
 [NestJS]: https://docs.nestjs.com/
 [Zero's Documentation]: https://zero.rocicorp.dev/
