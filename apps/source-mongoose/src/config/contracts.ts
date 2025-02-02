@@ -1,5 +1,7 @@
 /**
- * Describes the configuration for publishing data from a specific source.
+ * Describes the configuration for publishing data from a specific source.\\
+ *
+ * TODO: consider allowing the use of a unique aggregation pipeline per collection
  *
  * @remarks
  * This documentation provides insight into how the associated collection and pipeline
@@ -29,18 +31,31 @@ export interface DbConfig {
      */
     uri: string;
 
-    // /**
-    //  * One or more publications to configure for the application.
-    //  *
-    //  * Each publication describes a change stream against a specific collection.
-    //  */
-    // publish: Publication[];
+    /**
+     * One or more collection to publish changes for to zero.
+     */
+    publish: string[];
 }
+
+/**
+ * Auth config for zero-cache
+ */
+export type AuthConfig = {
+    /**
+     * An auth token zero-cache should send in the `k` query string parameter to authenticate
+     */
+    token: string;
+};
 
 /**
  * Configuration for the application.
  */
 export interface AppConfig {
+    /**
+     * Auth config for zero-cache
+     */
+    auth: AuthConfig;
+
     /**
      * config for the upstream MongoDB database
      */

@@ -25,7 +25,7 @@
     },
     "peerDependencies": {
         "@nestjs/mongoose": "^10.1.0",
-        "@rocicorp/zero": "^0.12.2025012401",
+        "@rocicorp/zero": "*",
         "change-case": "^4.1.2",
         "mongoose": "^8.9.5"
     },
@@ -35,7 +35,7 @@
         "@nestjs/mongoose": "^11.0.1",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
-        "@rocicorp/zero": "^0.12.2025012401",
+        "@rocicorp/zero": "file:D:/GIT_REPOS/INFRA/ROCICORP/rocicorp-mono/packages/zero",
         "@types/node": "^22.12.0",
         "@vitest/coverage-v8": "^3.0.4",
         "@vitest/ui": "^3.0.4",

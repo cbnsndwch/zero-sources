@@ -1,26 +1,11 @@
-import type {
-    ChangeStreamInsertDocument,
-    ChangeStreamUpdateDocument,
-    ChangeStreamReplaceDocument,
-    ChangeStreamDeleteDocument
-} from 'mongodb';
+import type { ChangeStreamNameSpace } from 'mongodb';
 
-// import { MessageRelation } from '@rocicorp/zero';
+import { v0 } from '@rocicorp/zero/change-protocol/v0';
 
-type MessageRelation = any;
-
-export function relationFromChangeStreamEvent(
-    doc:
-        | ChangeStreamInsertDocument
-        | ChangeStreamUpdateDocument
-        | ChangeStreamReplaceDocument
-        | ChangeStreamDeleteDocument
-): MessageRelation {
+export function relationFromChangeStreamEvent(ns: ChangeStreamNameSpace): v0.MessageRelation {
     return {
-        tag: 'relation',
         keyColumns: ['_id'], // mongo uses _id as the primary key unless explicitly disabled
-        replicaIdentity: 'default',
-        schema: doc.ns.db, // mongo doesn't have namespaces (schemas)
-        name: doc.ns.coll
+        schema: 'public', // mongo doesn't have schemas like pg does
+        name: ns.coll
     };
 }

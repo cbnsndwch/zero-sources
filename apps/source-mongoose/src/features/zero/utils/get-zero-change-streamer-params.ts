@@ -15,10 +15,25 @@ export type ZeroChangeStreamerParamsBase = {
     shardId: ShardID;
 
     /**
+     * The list of publications the client is interested in.
+     */
+    shardPublications: string[];
+
+    /**
+     * The version of the shard's data model.
+     */
+    replicaVersion: string;
+
+    /**
      * The latest watermark the streamer has seen an ack for from the storer
      * service for the shard.
      */
     lastWatermark?: string;
+
+    /**
+     * The token used to authenticate the streamer.
+     */
+    token?: string;
 };
 
 /**
@@ -53,22 +68,29 @@ export type ZeroChangeStreamerParams = ZeroChangeStreamerParamsBase & {
  *
  * @param req The incoming request from the Zero ChangeStreamer
  */
-
 export function getZeroChangeStreamerParams(req: Request): ZeroChangeStreamerParams {
     const headers = req.headers;
 
-    const reqUrl = new URL(req.url, 'http://foo');
+    const reqUrl = new URL(req.url, 'http://unused');
+    const shardPublications = reqUrl.searchParams.getAll('shardPublications');
     const path = reqUrl.pathname;
+
     const {
         shardID: shardId,
         lastWatermark,
+        replicaVersion,
+        k: token,
         ...additionalParams
     } = Object.fromEntries(reqUrl.searchParams.entries());
 
     return {
         // base params
         shardId,
+        replicaVersion,
         lastWatermark,
+        shardPublications,
+        // auth
+        token,
         // gateway-specific params
         path,
         headers,
