@@ -4,8 +4,7 @@ import { Type } from '@nestjs/common';
 import { snakeCase } from 'change-case';
 import type { Document } from 'mongoose';
 
-import type { TableSchema, ReadonlyJSONValue } from '@rocicorp/zero';
-// import type { SchemaValue } from '@rocicorp/zero';
+import type { TableSchema, ReadonlyJSONValue, SchemaValue } from '@rocicorp/zero';
 
 import type {
     Defined,
@@ -21,7 +20,7 @@ import type {
     TableSchemaBase
 } from './contracts.mjs';
 
-type SchemaValue = any;
+// type SchemaValue = any;
 
 const baseSchema: TableSchemaBase = {
     _id: { type: 'string' },
@@ -85,6 +84,7 @@ export class ZeroTableSchema {
                 continue;
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const options = prop.options as any;
 
             switch (true) {
@@ -134,6 +134,6 @@ export class ZeroTableSchema {
     }
 }
 
-function isOptionalProp(options: any) {
+function isOptionalProp(options: { required?: boolean }) {
     return options?.required !== true;
 }

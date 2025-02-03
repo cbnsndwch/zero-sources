@@ -8,6 +8,8 @@ import type {
 
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 
+export type TableSpec = v0.TableCreate['spec'];
+
 export type IChangeMaker<TChangeData> = {
     //#region CRUD
 
@@ -16,21 +18,32 @@ export type IChangeMaker<TChangeData> = {
      *
      * An `insert` event occurs when an operation adds documents to a collection.
      *
+     * @param watermark The zero watermark for the change stream event
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/insert/#mongodb-data-insert Insert Change Stream Event }
-     *
      */
-    makeInsertChanges(doc: Pick<ChangeStreamInsertDocument, 'fullDocument' | 'ns'>): TChangeData[];
+    makeInsertChanges(
+        watermark: string,
+        doc: Pick<ChangeStreamInsertDocument, '_id' | 'fullDocument' | 'ns'>,
+        withTransaction?: boolean
+    ): TChangeData[];
 
     /**
      * Generates downstream changes for an `update` change stream event
      *
      * An `update` event occurs when an operation updates a document in a collection
      *
-     * @param doc The change stream document
+     * @param watermark The zero watermark for the change stream event
+     * @param doc The change stream document* @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/update/#mongodb-data-update Update Change Stream Event}
      */
-    makeUpdateChanges(doc: ChangeStreamUpdateDocument): TChangeData[];
+    makeUpdateChanges(
+        watermark: string,
+        doc: ChangeStreamUpdateDocument,
+        withTransaction?: boolean
+    ): TChangeData[];
 
     /**
      * Generates downstream changes for a `replace` change stream event
@@ -39,10 +52,16 @@ export type IChangeMaker<TChangeData> = {
      * collection and replaces it with a new document, such as when the
      * `replaceOne` method is called.
      *
+     * @param watermark The zero watermark for the change stream event
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/replace/#mongodb-data-replace Replace Change Stream Event}
      */
-    makeReplaceChanges(doc: ChangeStreamReplaceDocument): TChangeData[];
+    makeReplaceChanges(
+        watermark: string,
+        doc: ChangeStreamReplaceDocument,
+        withTransaction?: boolean
+    ): TChangeData[];
 
     /**
      * Generates downstream changes for a `delete` change stream event
@@ -50,66 +69,82 @@ export type IChangeMaker<TChangeData> = {
      * A `delete` event occurs when operations remove documents from a collection,
      * such as when a user or application executes the delete command.
      *
+     * @param watermark The zero watermark for the change stream event
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/delete/#mongodb-data-delete Delete Change Stream Event}
      */
-    makeDeleteChanges(doc: ChangeStreamDeleteDocument): TChangeData[];
+    makeDeleteChanges(
+        watermark: string,
+        doc: ChangeStreamDeleteDocument,
+        withTransaction?: boolean
+    ): TChangeData[];
 
     //#endregion CRUD
 
     //#region DDL
 
     /**
-     * Generates a change stream message to create an index on the `_id` column for a given collection.
-     *
-     * @param collectionNames - The names of the collections for which `_id` column indexes should be created.
-     * @returns An array of change stream messages to create the index.
-     */
-    makeIdColumnIndexChanges(...collectionNames: string[]): v0.ChangeStreamMessage[];
-
-    /**
      * Generates downstream changes for a mongo `drop` change stream event
      *
      * A `drop` event occurs when a collection is dropped from a database
      *
+     * @param watermark The zero watermark for the change stream event
      * @param doc The change stream document
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/drop/#mongodb-data-drop}
      */
-    makeCollectionDropChanges(doc: ChangeStreamDropDocument): TChangeData[];
+    makeDropCollectionChanges(watermark: string, doc: ChangeStreamDropDocument): TChangeData[];
+
+    /**
+     * Generates a series of change stream messages to create a table and its primary key index.
+     *
+     * @param spec - The specification of the table to be created, including its primary key.
+     * @returns An array of change stream messages to create the table and its primary key index.
+     * @throws Will throw an error if the table does not have a primary key.
+     */
+    makeCreateTableChanges(table: TableSpec): TChangeData[];
 
     //#endregion DDL
+
+    //#region Zero Pg Compat
+
+    /**
+     * Generates table events for the `zero_{SHARD_ID}.clients` table and the
+     * `zero.schemaVersions` table to address Zero custom sources still having
+     * some logic that is very coupled to upstreams being postgres DBs.
+     *
+     * HACK: this is a temporary solution that MAY go away if zero custom change
+     * sources become truly upstream-agnostic.
+     *
+     * @param shardId - The identifier of the shard for which the table changes are to be made.
+     * @returns An array of `v0.ChangeStreamMessage` objects representing the table changes.
+     */
+    makeZeroRequiredUpstreamTablesChanges(shardId: string): TChangeData[];
+
+    //#endregion Zero Pg Compat
 
     //#region Transactions
 
     /**
      * Generates a downstream changes list containing a single `begin` event
-     * with the specified `commitWatermark`, or a default value, if
-     * one is not specified.
+     * with the specified `watermark`.
      *
-     * @param commitWatermark (Optional) The commit watermark to use for the
-     * `begin` event. If omitted, a default value is used.
+     * @param watermark The commit watermark to use for the event.
      */
-    makeBeginChanges(commitWatermark?: string): TChangeData[];
+    makeBeginChanges(watermark?: string): TChangeData[];
 
     /**
      * Generates a downstream changes list containing a single `commit` event
-     * with the specified `commitWatermark`, or a default value, if
-     * one is not specified.
+     * with the specified `watermark`.
      *
-     * @param commitWatermark (Optional) The commit watermark to use for the
-     * `begin` event. If omitted, a default value is used.
+     * @param watermark The commit watermark to use for the event
      */
-    makeCommitChanges(commitWatermark?: string): TChangeData[];
+    makeCommitChanges(watermark: string): TChangeData[];
 
     /**
-     * Generates a downstream changes list containing a single `rollback` event
-     * with the specified `commitWatermark`, or a default value, if
-     * one is not specified.
-     *
-     * @param commitWatermark (Optional) The commit watermark to use for the
-     * `begin` event. If omitted, a default value is used.
+     * Generates a downstream changes list containing a single `rollback` event.
      */
-    makeRollbackChanges(commitWatermark?: string): TChangeData[];
+    makeRollbackChanges(): TChangeData[];
 
     //#endregion Transactions
 };

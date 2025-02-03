@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  broker-01:
+    image: nats:latest
+    
+    command: -c /etc/nats/server.conf
+    
+    ports:
+      - "34222:4222"
+
+    volumes:
+      - ./local.conf.txt:/etc/nats/server.conf
+      - ../../.local/nats/js:/srv/nats/js/data

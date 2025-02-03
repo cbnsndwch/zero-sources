@@ -10,7 +10,7 @@ import {
 } from '@nestjs/websockets';
 import type { Request } from 'express';
 import type { Model } from 'mongoose';
-import { concatWith } from 'rxjs';
+import { concatWith, Observable } from 'rxjs';
 import { WebSocket } from 'ws';
 
 import { v0 } from '@rocicorp/zero/change-protocol/v0';
@@ -19,9 +19,10 @@ import { AppConfig, AuthConfig, DbConfig } from '../../../config/contracts.js';
 import { truncateBytes, WsCloseCode, WS_CLOSE_REASON_MAX_BYTES } from '../../../utils/index.js';
 
 import { StreamerShard } from '../entities/streamer-shard.entity.js';
-import { ChangeSourceV0 } from '../services/change-source-v0.js';
+import { ChangeSourceV0, WATERMARK_INITIAL_SYNC } from '../services/change-source-v0.js';
 import { ChangeMakerV0 } from '../services/change-maker-v0.js';
 import { getZeroChangeStreamerParams } from '../utils/get-zero-change-streamer-params.js';
+import { WatermarkService } from '../services/watermark.service.js';
 
 type DownstreamState = {
     shard: StreamerShard;
@@ -44,6 +45,9 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
     // into Zero events
     #changeMaker: ChangeMakerV0;
 
+    // maps between mongo resume tokens and zero watermarks (lexi versions)
+    #watermarkService: WatermarkService;
+
     /**
      * A map of client keys to RxJS subjects that can be used to multicast
      * changes to all clients interested on the same shard.
@@ -53,9 +57,11 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
     constructor(
         @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
         config: ConfigService<AppConfig>,
-        changeMaker: ChangeMakerV0
+        changeMaker: ChangeMakerV0,
+        watermarkService: WatermarkService
     ) {
         this.#shardModel = shardModel;
+        this.#watermarkService = watermarkService;
         this.#changeMaker = changeMaker;
 
         const authConfig = config.get<AuthConfig>('auth');
@@ -104,20 +110,43 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             );
 
             const source = new ChangeSourceV0(
+                shard,
                 this.#shardModel.db,
                 this.#changeMaker,
+                this.#watermarkService,
                 this.#publishedCollections
             );
 
             this.#subscriptions.set(client, { shard, source });
 
+            const abortController = new AbortController();
+
             // stream db changes
-            let stream$ = source.streamChanges$(lastWatermark);
+            const resumeToken =
+                !lastWatermark || lastWatermark === WATERMARK_INITIAL_SYNC
+                    ? undefined
+                    : await this.#watermarkService.getResumeToken(shard.id, lastWatermark);
+            let stream$: Observable<v0.ChangeStreamMessage> = source.streamChanges$(
+                abortController.signal,
+                resumeToken
+            );
 
             // handle initial sync scenario
-            if (!lastWatermark) {
+            if (!lastWatermark || lastWatermark === WATERMARK_INITIAL_SYNC) {
+                this.#logger.debug('No streamer watermark provided, performing initial sync');
                 stream$ = source.initialSync$().pipe(concatWith(stream$));
+            } else {
+                this.#logger.debug(
+                    `Got streamer watermark ${lastWatermark}, skipping initial sync`
+                );
             }
+
+            client.on('close', () => {
+                this.#logger.debug('Client disconnected, stopping change stream');
+
+                // stop change stream when client disconnects
+                abortController.abort();
+            });
 
             // start watching the change stream
             stream$.subscribe({
@@ -129,7 +158,11 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
                     client.send(json);
                 },
                 complete: () => {
-                    // client.close(WsCloseCode.WS_1000_NORMAL_CLOSURE, 'Stream completed');
+                    if (client.CLOSED) {
+                        // client socket is already closed, no need to do anything
+                        return;
+                    }
+
                     client.close(
                         WsCloseCode.WS_1012_SERVICE_RESTART,
                         truncateBytes(

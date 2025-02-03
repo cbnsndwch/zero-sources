@@ -1,6 +1,4 @@
-import EventEmitter from 'node:events';
-
-import { Logger, Type } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import type { ChangeStreamDocument, Document, ChangeStream } from 'mongodb';
 import type { ClientSession, Connection } from 'mongoose';
 import { concatWith, from, ignoreElements, map, Observable, of, Subscription } from 'rxjs';
@@ -8,11 +6,12 @@ import { concatWith, from, ignoreElements, map, Observable, of, Subscription } f
 import { invariant } from '@cbnsndwch/zero-nest-mongoose';
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 
-import type { TypedEmitter } from '../../../utils/typed-emitter.js';
-
 import type { ChangeMaker } from '../contracts/change-maker.contracts.js';
 import type { WithWatermark } from '../contracts/protocol.contracts.js';
 import { extractResumeToken } from '../utils/extract-resume-token.js';
+import { StreamerShard } from '../entities/streamer-shard.entity.js';
+import { versionToLexi } from '../utils/lexi-version.js';
+import { WatermarkService } from './watermark.service.js';
 
 type ChangeStreamControllerError = {
     err: unknown;
@@ -21,15 +20,22 @@ type ChangeStreamControllerError = {
     doc?: ChangeStreamDocument;
 };
 
-type Events = {
-    change: (event: v0.ChangeStreamMessage) => void;
-    close: () => void;
-};
+/**
+ * A special change source watermark value that represents the initial sync of
+ * the upstream, rather than a MongoDB Change Streams resume token.
+ */
+export const WATERMARK_INITIAL_SYNC = versionToLexi(0);
 
+/**
+ * Change stream timeout in milliseconds.
+ */
 const CHANGE_STREAM_TIMEOUT_MAX = 2_147_483_647;
 
-export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>) {
+export class ChangeSourceV0 /* extends (EventEmitter as Type<TypedEmitter<Events>>)  */ {
     #logger = new Logger(ChangeSourceV0.name);
+
+    #shard: StreamerShard;
+    #watermarkService: WatermarkService;
 
     #conn: Connection;
     #changeMaker: ChangeMaker;
@@ -41,9 +47,15 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
 
     #error?: ChangeStreamControllerError;
 
-    constructor(conn: Connection, changeMaker: ChangeMaker, publishedCollections: string[]) {
-        super();
-
+    constructor(
+        shard: StreamerShard,
+        conn: Connection,
+        changeMaker: ChangeMaker,
+        watermarkService: WatermarkService,
+        publishedCollections: string[]
+    ) {
+        this.#shard = shard;
+        this.#watermarkService = watermarkService;
         this.#changeMaker = changeMaker;
         this.#publishedCollections = publishedCollections;
         this.#conn = conn;
@@ -61,23 +73,26 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
     /**
      * Streams changes from a MongoDB change stream as an observable.
      *
-     * @param {string} [resumeAfter] - Optional token to resume the change stream after a specific point.
-     * @returns {Observable<v0.ChangeStreamMessage>} An observable that emits change stream messages.
-     *
+     * @param {AbortSignal} [abortSignal] - (Optional) A signal from an `AbortController` to stop the change stream
+     * @param {string} [lastWatermark] - (Optional) The latest watermark value the client has committed
      * @remarks
      * - If there's an active change stream, it will be cleaned up before starting a new one.
      * - The change stream is observed and mapped to zero change events.
      * - The observable will complete when the change stream is closed.
      * - Errors from the change stream are propagated to the subscriber.
+     * @returns {Observable<v0.ChangeStreamMessage>} An observable that emits change stream messages.
      */
-    streamChanges$(resumeAfter?: string): Observable<v0.ChangeStreamMessage> {
-        return this.streamChangesWithWatermark$(resumeAfter).pipe(map(x => x.data));
+    streamChanges$(
+        abortSignal?: AbortSignal,
+        lastWatermark?: string
+    ): Observable<v0.ChangeStreamMessage> {
+        return this.streamChangesWithWatermark$(abortSignal, lastWatermark).pipe(map(x => x.data));
     }
 
     /**
      * Streams changes from a MongoDB change stream as an observable.
      *
-     * @param {string} [resumeAfter] - Optional token to resume the change stream after a specific point.
+     * @param {string} [lastWatermark] - Optional token to resume the change stream after a specific point.
      * @returns {Observable<v0.ChangeStreamMessage>} An observable that emits change stream messages.
      *
      * @remarks
@@ -87,28 +102,43 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
      * - Errors from the change stream are propagated to the subscriber.
      */
     streamChangesWithWatermark$(
-        resumeAfter?: string
+        abortSignal?: AbortSignal,
+        lastWatermark?: string
     ): Observable<WithWatermark<v0.ChangeStreamMessage>> {
-        // if there's an active change stream, clean it up
-        const cleanup =
-            this.#changeStream && !this.#changeStream.closed
-                ? from(this.#changeStream.close())
-                : of(undefined);
+        const startAfter =
+            !lastWatermark || lastWatermark === WATERMARK_INITIAL_SYNC
+                ? undefined
+                : { _data: lastWatermark };
 
         // observe the change stream and map to zero change events
         const changeStream$ = new Observable<WithWatermark<v0.ChangeStreamMessage>>(observer => {
-            this.#changeStream = this.#conn.watch<Document>(this.#pipeline, {
-                resumeAfter,
-                fullDocument: 'updateLookup',
-                fullDocumentBeforeChange: 'whenAvailable',
-                timeoutMS: CHANGE_STREAM_TIMEOUT_MAX
-            }) as any as ChangeStream<Document>;
+            this.#changeStream = this.#conn.watch<Document>(
+                // only stream requested collections
+                this.#pipeline,
+                {
+                    startAfter,
+                    fullDocument: 'updateLookup',
+                    fullDocumentBeforeChange: 'whenAvailable',
+                    timeoutMS: CHANGE_STREAM_TIMEOUT_MAX
+                }
+            ) as any as ChangeStream<Document>;
 
             this.#changeStream
                 // stream changes to the subscriber
                 .on('change', async doc => {
-                    for (const change of this.#makeChanges(doc)) {
-                        observer.next({ data: change, watermark: extractResumeToken(doc._id)! });
+                    const resumeToken = extractResumeToken(doc._id);
+                    invariant(
+                        !!resumeToken,
+                        'received a change stream update event without a resume token'
+                    );
+
+                    const watermark = await this.#watermarkService.getOrCreateWatermark(
+                        this.#shard.id,
+                        resumeToken
+                    );
+
+                    for (const data of this.#makeChanges(watermark, doc)) {
+                        observer.next({ data, watermark });
                     }
                 })
                 // complete the observable when the change stream is closed
@@ -116,6 +146,23 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
                 // propagate errors from the change stream to the subscriber
                 .on('error', observer.error);
         });
+
+        // if we got an abort signal, close the change stream when it's aborted
+        if (abortSignal) {
+            abortSignal.addEventListener('abort', async () => {
+                try {
+                    await this.#changeStream?.close();
+                } catch (err) {
+                    this.#logger.error('Error closing change stream on abort', err);
+                }
+            });
+        }
+
+        // if there's an active change stream, clean it up first
+        let cleanup: Observable<void> = of(undefined);
+        if (this.#changeStream && !this.#changeStream.closed) {
+            cleanup = from(this.#changeStream.close());
+        }
 
         return cleanup.pipe(
             // wait for the cleanup to complete, if needed
@@ -131,113 +178,97 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
      * then a COMMIT message that includes the replicaVersion watermark.
      */
     initialSync$(): Observable<v0.ChangeStreamMessage> {
-        const WATERMARK = '0_initial';
-
         // TODO: move schema generation to a separate method
         const createTableMessages: v0.ChangeStreamMessage[] = [
-            [
-                'data',
-                {
-                    tag: 'create-table',
-                    spec: {
-                        schema: 'public',
-                        name: 'user',
-                        primaryKey: ['_id'],
-                        columns: {
-                            _id: {
-                                pos: 1,
-                                dataType: 'character',
-                                notNull: true
-                            },
-                            name: {
-                                pos: 2,
-                                dataType: 'varchar',
-                                notNull: true
-                            },
-                            partner: {
-                                pos: 3,
-                                dataType: 'boolean',
-                                notNull: true
-                            }
-                        }
+            // HACK: the custom change source implementation still expects these
+            // tables to exist in the upstream DB
+            ...this.#changeMaker.makeZeroRequiredUpstreamTablesChanges(this.#shard._id),
+
+            // create tables in replica
+            ...this.#changeMaker.makeCreateTableChanges({
+                schema: 'public',
+                name: 'user',
+                primaryKey: ['_id'],
+                columns: {
+                    _id: {
+                        pos: 1,
+                        dataType: 'character',
+                        notNull: true
+                    },
+                    name: {
+                        pos: 2,
+                        dataType: 'varchar',
+                        notNull: true
+                    },
+                    partner: {
+                        pos: 3,
+                        dataType: 'boolean',
+                        notNull: true
                     }
-                } satisfies v0.TableCreate
-            ],
-            [
-                'data',
-                {
-                    tag: 'create-table',
-                    spec: {
-                        schema: 'public',
-                        name: 'medium',
-                        primaryKey: ['_id'],
-                        columns: {
-                            _id: {
-                                pos: 1,
-                                dataType: 'character',
-                                notNull: true
-                            },
-                            name: {
-                                pos: 2,
-                                dataType: 'varchar',
-                                notNull: true
-                            }
-                        }
+                }
+            }),
+            ...this.#changeMaker.makeCreateTableChanges({
+                schema: 'public',
+                name: 'medium',
+                primaryKey: ['_id'],
+                columns: {
+                    _id: {
+                        pos: 1,
+                        dataType: 'character',
+                        notNull: true
+                    },
+                    name: {
+                        pos: 2,
+                        dataType: 'varchar',
+                        notNull: true
                     }
-                } satisfies v0.TableCreate
-            ],
-            [
-                'data',
-                {
-                    tag: 'create-table',
-                    spec: {
-                        schema: 'public',
-                        name: 'message',
-                        primaryKey: ['_id'],
-                        columns: {
-                            _id: {
-                                pos: 1,
-                                dataType: 'character',
-                                notNull: true
-                            },
-                            senderID: {
-                                pos: 2,
-                                dataType: 'character',
-                                notNull: true
-                            },
-                            mediumID: {
-                                pos: 3,
-                                dataType: 'character',
-                                notNull: true
-                            },
-                            body: {
-                                pos: 4,
-                                dataType: 'text',
-                                notNull: true
-                            },
-                            timestamp: {
-                                pos: 5,
-                                dataType: 'integer',
-                                notNull: true
-                            }
-                        }
+                }
+            }),
+            ...this.#changeMaker.makeCreateTableChanges({
+                schema: 'public',
+                name: 'message',
+                primaryKey: ['_id'],
+                columns: {
+                    _id: {
+                        pos: 1,
+                        dataType: 'character',
+                        notNull: true
+                    },
+                    senderID: {
+                        pos: 2,
+                        dataType: 'character',
+                        notNull: true
+                    },
+                    mediumID: {
+                        pos: 3,
+                        dataType: 'character',
+                        notNull: true
+                    },
+                    body: {
+                        pos: 4,
+                        dataType: 'text',
+                        notNull: true
+                    },
+                    timestamp: {
+                        pos: 5,
+                        dataType: 'integer',
+                        notNull: true
                     }
-                } satisfies v0.TableCreate
-            ],
-            ...this.#changeMaker.makeIdColumnIndexChanges('medium', 'user', 'message')
+                }
+            })
         ];
 
         // first, signal the beginning of the snapshot sync
         const tables = from(createTableMessages);
 
         // then, tell the client to create tables in the replica DB
-        const begin = from(this.#changeMaker.makeBeginChanges(WATERMARK));
+        const begin = from(this.#changeMaker.makeBeginChanges(WATERMARK_INITIAL_SYNC));
 
         // next, stream all the documents already in the database
         const records = from(this.#streamCurrentRecords$());
 
         // and last, signal that the snapshot is complete
-        const commit = from(this.#changeMaker.makeCommitChanges(WATERMARK));
+        const commit = from(this.#changeMaker.makeCommitChanges(WATERMARK_INITIAL_SYNC));
 
         // TODO: handle errors
         const stream = begin.pipe(concatWith(tables, records, commit));
@@ -259,7 +290,7 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
      *
      * When the client unsubscribes, all underlying subscriptions are cleaned up.
      */
-    syncThenStream$(): Observable<v0.ChangeStreamMessage> {
+    syncThenStream$(abortSignal?: AbortSignal): Observable<v0.ChangeStreamMessage> {
         return new Observable<v0.ChangeStreamMessage>(observer => {
             // buffer for storing replication changes while the snapshot is loading.
             const bufferedChanges: v0.ChangeStreamMessage[] = [];
@@ -306,7 +337,10 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
                     });
 
                     // 3.c. Start a new replication stream from the last buffered watermark.
-                    const newReplicationSub = this.streamChanges$(lastBufferedWatermark).subscribe({
+                    const newReplicationSub = this.streamChanges$(
+                        abortSignal,
+                        lastBufferedWatermark
+                    ).subscribe({
                         next: change => {
                             // Emit new changes as they come in.
                             observer.next(change);
@@ -359,9 +393,13 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
                 const colDocs = col.find({}, { session });
 
                 for await (const doc of colDocs) {
-                    const changes = this.#changeMaker.makeInsertChanges({
-                        ns: { db: col.dbName, coll: col.name },
-                        fullDocument: doc
+                    const changes = this.#changeMaker.makeInsertChanges(WATERMARK_INITIAL_SYNC, {
+                        _id: WATERMARK_INITIAL_SYNC,
+                        fullDocument: doc,
+                        ns: {
+                            db: col.dbName,
+                            coll: col.name
+                        }
                     });
 
                     for (const change of changes) {
@@ -379,7 +417,7 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
 
     //#region Helpers - Change Stream Event Handlers
 
-    #makeChanges(doc: ChangeStreamDocument): v0.ChangeStreamMessage[] {
+    #makeChanges(watermark: string, doc: ChangeStreamDocument): v0.ChangeStreamMessage[] {
         // do not process changes if errored
         if (this.#error) {
             this.#logger.error(this.#error);
@@ -391,23 +429,23 @@ export class ChangeSourceV0 extends (EventEmitter as Type<TypedEmitter<Events>>)
                 //#region CRUD
 
                 case 'insert':
-                    return this.#changeMaker.makeInsertChanges(doc);
+                    return this.#changeMaker.makeInsertChanges(watermark, doc, true);
 
                 case 'update':
-                    return this.#changeMaker.makeUpdateChanges(doc);
+                    return this.#changeMaker.makeUpdateChanges(watermark, doc, true);
 
                 case 'delete':
-                    return this.#changeMaker.makeDeleteChanges(doc);
+                    return this.#changeMaker.makeDeleteChanges(watermark, doc, true);
 
                 case 'replace':
-                    return this.#changeMaker.makeReplaceChanges(doc);
+                    return this.#changeMaker.makeReplaceChanges(watermark, doc, true);
 
                 //#endregion CRUD
 
                 //#region Basic DDL -> Implement
 
                 case 'drop':
-                    return this.#changeMaker.makeCollectionDropChanges(doc);
+                    return this.#changeMaker.makeDropCollectionChanges(watermark, doc);
 
                 case 'dropDatabase':
                     // Occurs when a database is dropped

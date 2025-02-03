@@ -33,3 +33,17 @@ db:
 #             name: 1
 #             age: 1
 #             password: 0
+
+# config for the NATS KV server
+kv:
+  # the list of NATS servers to connect to, specify multiple servers for HA
+  servers:
+    - nats://localhost:34222
+  
+  # NATS auth credentials
+  auth:
+    # NATS user. Must be specified together with `pwd`
+    user: zero
+    
+    # NATS pwd. Must be specified together with `user`
+    pwd: zero

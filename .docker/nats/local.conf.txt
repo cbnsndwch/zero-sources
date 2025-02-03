@@ -1,0 +1,30 @@
+# Global settings
+port: 4222
+server_name: zero_sources_mongo_local
+
+# Set a limit to the trace of the payload of a message (default: `0, unlimited`)
+max_traced_msg_len: 64
+
+# JetStream configuration
+jetstream {
+  # Path to JetStream storage
+  store_dir: "/srv/nats/js/data"
+  
+  # keep up to 2GB of data in memory
+  max_mem_store: 2GB
+  
+  # store up to 10GB of data on disk
+  max_file_store: 10GB
+}
+
+accounts {
+  ZERO {
+    jetstream: enabled
+    users = [
+      { 
+        user: "zero", 
+        pass: "zero"
+      }
+    ]
+  }
+}

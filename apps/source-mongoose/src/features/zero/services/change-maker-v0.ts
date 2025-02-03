@@ -14,6 +14,8 @@ import type { IChangeMaker } from '../contracts/index.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
 import { extractResumeToken } from '../utils/extract-resume-token.js';
 
+type TableSpec = v0.TableCreate['spec'];
+
 export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     //#region CRUD
 
@@ -23,13 +25,15 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * An `insert` event occurs when an operation adds documents to a collection.
      *
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/insert/#mongodb-data-insert Insert Change Stream Event }
-     *
      */
     makeInsertChanges(
-        doc: Pick<ChangeStreamInsertDocument, 'fullDocument' | 'ns'>
+        watermark: string,
+        doc: Pick<ChangeStreamInsertDocument, '_id' | 'fullDocument' | 'ns'>,
+        withTransaction = false
     ): v0.ChangeStreamMessage[] {
-        return [
+        const changes: v0.ChangeStreamMessage[] = [
             [
                 'data',
                 {
@@ -39,6 +43,13 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 }
             ] satisfies v0.Data
         ];
+
+        // if the change is already in a transaction, don't wrap it in another
+        if (!withTransaction) {
+            return changes;
+        }
+
+        return this.#wrapInTransaction(changes, watermark);
     }
 
     /**
@@ -47,27 +58,45 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * An `update` event occurs when an operation updates a document in a collection
      *
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/update/#mongodb-data-update Update Change Stream Event}
      */
-    makeUpdateChanges(doc: ChangeStreamUpdateDocument): v0.ChangeStreamMessage[] {
-        // pre-image presence is required for this event type
+    makeUpdateChanges(
+        watermark: string,
+        doc: ChangeStreamUpdateDocument,
+        withTransaction = false
+    ): v0.ChangeStreamMessage[] {
+        // TODO: figure out whether we can enforce this, it seems to not always work 😱
+        // // pre-image presence is required for this event type
+        // invariant(
+        //     !!doc.fullDocumentBeforeChange,
+        //     'received a change stream update event without a pre-image'
+        // );
+
+        // not much of a change if we don't have the post-image ☹️
         invariant(
-            doc.fullDocumentBeforeChange !== undefined,
-            'received a change stream update event without a pre-image'
+            !!doc.fullDocument,
+            'received a change stream update event without a `fullDocument` value'
         );
 
-        return [
+        const changes: v0.ChangeStreamMessage[] = [
             [
                 'data',
                 {
                     tag: 'update',
                     key: doc.documentKey,
-                    old: doc.fullDocumentBeforeChange,
-                    new: doc.fullDocument!,
+                    old: doc.fullDocumentBeforeChange!,
+                    new: doc.fullDocument,
                     relation: relationFromChangeStreamEvent(doc.ns)
                 }
             ]
         ];
+
+        if (!withTransaction) {
+            return changes;
+        }
+
+        return this.#wrapInTransaction(changes, watermark);
     }
 
     /**
@@ -77,22 +106,19 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * collection and replaces it with a new document, such as when the
      * `replaceOne` method is called.
      *
+     * @param watermark The zero watermark for the change stream event
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/replace/#mongodb-data-replace Replace Change Stream Event}
      */
-    makeReplaceChanges(doc: ChangeStreamReplaceDocument): v0.ChangeStreamMessage[] {
+    makeReplaceChanges(
+        watermark: string,
+        doc: ChangeStreamReplaceDocument,
+        withTransaction = false
+    ): v0.ChangeStreamMessage[] {
         const relation = relationFromChangeStreamEvent(doc.ns);
 
-        const resumeToken = extractResumeToken(doc._id);
-        invariant(
-            resumeToken !== undefined,
-            'received a change stream replace event without a resume token'
-        );
-
-        return [
-            // in a transaction,
-            ['begin', { tag: 'begin' }, { commitWatermark: resumeToken }] satisfies v0.Begin,
-
+        const changes: v0.ChangeStreamMessage[] = [
             // first, delete the old document
             [
                 'data',
@@ -100,8 +126,8 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                     tag: 'delete',
                     key: doc.documentKey,
                     relation
-                }
-            ] satisfies v0.Data,
+                } satisfies v0.MessageDelete
+            ],
 
             // then, insert the new document
             [
@@ -110,12 +136,16 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                     tag: 'insert',
                     new: doc.fullDocument!,
                     relation
-                }
-            ] satisfies v0.Data,
-
-            // finally, commit the transaction
-            ['commit', { tag: 'commit' }, { watermark: resumeToken }] satisfies v0.Commit
+                } satisfies v0.MessageInsert
+            ]
         ];
+
+        // if the change is already in a transaction, don't wrap it in another
+        if (!withTransaction) {
+            return changes;
+        }
+
+        return this.#wrapInTransaction(changes, watermark);
     }
 
     /**
@@ -124,22 +154,38 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * A `delete` event occurs when operations remove documents from a collection,
      * such as when a user or application executes the delete command.
      *
+     * @param watermark The zero watermark for the change stream event
      * @param doc The change stream document
+     * @param withTransaction (Optional) Whether to wrap the event is a transaction. Defaults to `false`.
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/delete/#mongodb-data-delete Delete Change Stream Event}
      */
-    makeDeleteChanges(doc: ChangeStreamDeleteDocument): v0.ChangeStreamMessage[] {
-        invariant(Boolean(doc.documentKey), 'delete event without documentKey');
+    makeDeleteChanges(
+        watermark: string,
+        doc: ChangeStreamDeleteDocument,
+        withTransaction = false
+    ): v0.ChangeStreamMessage[] {
+        invariant(
+            Boolean(doc.documentKey),
+            'received a change stream delete event without documentKey'
+        );
 
-        return [
+        const changes: v0.ChangeStreamMessage[] = [
             [
                 'data',
                 {
                     tag: 'delete',
                     key: doc.documentKey,
                     relation: relationFromChangeStreamEvent(doc.ns)
-                }
-            ] satisfies v0.Data
+                } satisfies v0.MessageDelete
+            ]
         ];
+
+        // if the change is already in a transaction, don't wrap it in another
+        if (!withTransaction) {
+            return changes;
+        }
+
+        return this.#wrapInTransaction(changes, watermark);
     }
 
     //#endregion CRUD
@@ -147,27 +193,49 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     //#region DDL
 
     /**
-     * Generates a change stream message to create an index on the `_id` column for a given collection.
+     * Generates a series of change stream messages to create a table and its primary key index.
      *
-     * @param collectionName - The name of the collection for which the index should be created.
-     * @returns An array of change stream messages to create the index.
+     * @param spec - The specification of the table to be created, including its primary key.
+     * @returns An array of change stream messages to create the table and its primary key index.
+     * @throws Will throw an error if the table does not have a primary key.
      */
-    makeIdColumnIndexChanges(...collectionNames: string[]): v0.ChangeStreamMessage[] {
-        return collectionNames.map(collectionName => [
-            'data',
-            {
-                tag: 'create-index',
-                spec: {
-                    name: `idx_${collectionName}___id`,
-                    schema: 'public',
-                    tableName: collectionName,
-                    unique: true,
-                    columns: {
-                        _id: 'ASC'
+    makeCreateTableChanges(spec: TableSpec): v0.ChangeStreamMessage[] {
+        invariant(!!spec.primaryKey, `Expected table ${spec.name} to have a primary key`);
+
+        const pkColSpec = spec.primaryKey.reduce(
+            (acc, col) => {
+                acc[col] = 'ASC';
+                return acc;
+            },
+            {} as v0.IndexCreate['spec']['columns']
+        );
+
+        const changes: v0.ChangeStreamMessage[] = [
+            // create the table
+            [
+                'data',
+                {
+                    tag: 'create-table',
+                    spec
+                } satisfies v0.TableCreate
+            ],
+            // and a unique index on the table's primary key columns
+            [
+                'data',
+                {
+                    tag: 'create-index',
+                    spec: {
+                        name: `idx_${spec.schema}__${spec.name}___id`,
+                        schema: spec.schema,
+                        tableName: spec.name,
+                        columns: pkColSpec,
+                        unique: true
                     }
-                }
-            } satisfies v0.IndexCreate
-        ]);
+                } satisfies v0.IndexCreate
+            ]
+        ];
+
+        return changes;
     }
 
     /**
@@ -178,8 +246,11 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * @param doc The change stream document
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/drop/#mongodb-data-drop}
      */
-    makeCollectionDropChanges(doc: ChangeStreamDropDocument): v0.ChangeStreamMessage[] {
-        return [
+    makeDropCollectionChanges(
+        watermark: string,
+        doc: ChangeStreamDropDocument
+    ): v0.ChangeStreamMessage[] {
+        const changes: v0.ChangeStreamMessage[] = [
             [
                 'data',
                 {
@@ -191,9 +262,105 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 }
             ] satisfies v0.Data
         ];
+
+        return this.#wrapInTransaction(changes, watermark);
     }
 
     //#endregion DDL
+
+    //#region Zero Pg Compat
+
+    /**
+     * Generates table events for the `zero_{SHARD_ID}.clients` table and the
+     * `zero.schemaVersions` table to address Zero custom sources still having
+     * some logic that is very coupled to upstreams being postgres DBs.
+     *
+     * **HACK:** this is a temporary solution that `MAY` go away if zero custom change
+     * sources become truly upstream-agnostic. The current schema is as follows:
+     *
+     * ```sql
+     * CREATE TABLE
+     *   "zero_0"."clients" (
+     *     "clientGroupID" text COLLATE "pg_catalog"."default" NOT NULL,
+     *     "clientID" text COLLATE "pg_catalog"."default" NOT NULL,
+     *     "lastMutationID" int8 NOT NULL,
+     *     "userID" text COLLATE "pg_catalog"."default",
+     *     CONSTRAINT "clients_pkey" PRIMARY KEY ("clientGroupID", "clientID")
+     *   );
+     *
+     * ALTER TABLE "zero_0"."clients" OWNER TO "user";
+     *
+     * CREATE TABLE
+     *   "zero"."schemaVersions" (
+     *     "minSupportedVersion" int4,
+     *     "maxSupportedVersion" int4,
+     *     "lock" bool NOT NULL DEFAULT true,
+     *     CONSTRAINT "schemaVersions_pkey" PRIMARY KEY ("lock"),
+     *     CONSTRAINT "zero_schema_versions_single_row_constraint" CHECK (lock)
+     *   );
+     *
+     * ALTER TABLE "zero"."schemaVersions" OWNER TO "user";
+     * ```
+     *
+     * @param shardId - The identifier of the shard for which the table changes are to be made.
+     * @returns An array of `v0.ChangeStreamMessage` objects representing the table changes.
+     */
+    makeZeroRequiredUpstreamTablesChanges(shardId: string): v0.ChangeStreamMessage[] {
+        return [
+            ...this.makeCreateTableChanges({
+                // schema: `zero_${shardId}`,
+                // name: 'clients',
+                schema: `public`,
+                name: `zero_${shardId}.clients`,
+                columns: {
+                    clientGroupID: {
+                        pos: 1,
+                        dataType: 'text',
+                        notNull: true
+                    },
+                    clientID: {
+                        pos: 2,
+                        dataType: 'text',
+                        notNull: true
+                    },
+                    lastMutationID: {
+                        pos: 3,
+                        dataType: 'int8',
+                        notNull: true
+                    },
+                    userID: {
+                        pos: 4,
+                        dataType: 'text'
+                    }
+                },
+                primaryKey: ['clientGroupID', 'clientID']
+            }),
+            ...this.makeCreateTableChanges({
+                // schema: 'zero',
+                // name: 'schemaVersions',
+                schema: `public`,
+                name: 'zero.schemaVersions',
+                columns: {
+                    minSupportedVersion: {
+                        pos: 1,
+                        dataType: 'int4'
+                    },
+                    maxSupportedVersion: {
+                        pos: 2,
+                        dataType: 'int4'
+                    },
+                    lock: {
+                        pos: 3,
+                        dataType: 'boolean',
+                        notNull: true
+                    }
+                },
+                primaryKey: ['lock']
+            })
+        ];
+    }
+
+    //#endregion Zero Pg Compat
 
     //#region Transactions
 
@@ -206,12 +373,12 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * @param doc The change stream document
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/delete/#mongodb-data-delete Delete Change Stream Event}
      */
-    makeBeginChanges(commitWatermark = '0'): v0.ChangeStreamMessage[] {
+    makeBeginChanges(watermark: string): v0.ChangeStreamMessage[] {
         return [
             [
                 'begin',
                 { tag: 'begin' },
-                { commitWatermark }
+                { commitWatermark: watermark }
                 //
             ] satisfies v0.Begin
         ];
@@ -225,7 +392,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * @param watermark (Optional) The commit watermark to use for the
      * `begin` event. If omitted, a default value is used.
      */
-    makeCommitChanges(watermark = '0'): v0.ChangeStreamMessage[] {
+    makeCommitChanges(watermark: string): v0.ChangeStreamMessage[] {
         return [
             [
                 'commit',
@@ -243,6 +410,25 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      */
     makeRollbackChanges(): v0.ChangeStreamMessage[] {
         return [['rollback', { tag: 'rollback' }]];
+    }
+
+    /**
+     * Wraps the provided changes in a transaction by adding begin and commit changes.
+     *
+     * @param changes - An array of change stream messages to be wrapped in a transaction.
+     * @param watermark - A string used to create the begin and commit changes.
+     * @returns An array of change stream messages including the begin and commit changes.
+     */
+    #wrapInTransaction(
+        changes: Iterable<v0.ChangeStreamMessage>,
+        watermark: string
+    ): v0.ChangeStreamMessage[] {
+        return [
+            ...this.makeBeginChanges(watermark),
+            ...changes,
+            ...this.makeCommitChanges(watermark)
+            //
+        ];
     }
 
     //#endregion Transactions

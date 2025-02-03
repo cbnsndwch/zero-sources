@@ -511,7 +511,7 @@ __metadata:
     typescript: "npm:^5.7.3"
     vitest: "npm:^3.0.4"
   peerDependencies:
-    "@nestjs/mongoose": ^10.1.0
+    "@nestjs/mongoose": ^11
     "@rocicorp/zero": "*"
     change-case: ^4.1.2
     mongoose: ^8.9.5
@@ -523,6 +523,8 @@ __metadata:
   resolution: "@cbnsndwch/zero-source-mongoose@workspace:apps/source-mongoose"
   dependencies:
     "@cbnsndwch/zero-nest-mongoose": "workspace:*"
+    "@nats-io/kv": "npm:^3.0.0-31"
+    "@nats-io/transport-node": "npm:^3.0.0-35"
     "@nestjs/cli": "npm:^11.0.2"
     "@nestjs/common": "npm:^11.0.6"
     "@nestjs/config": "npm:^4.0.0"
@@ -2113,6 +2115,62 @@ __metadata:
     "@napi-rs/nice-win32-x64-msvc":
       optional: true
   checksum: 10c0/9be30f8292e23f45f5b8f6553411f5cbaead998cc3a51859c60f56fc2e679610a3a04ed49b748267552b9abd17fe5e6ae88186e223ab5cb93d5d184d10b6569b
+  languageName: node
+  linkType: hard
+
+"@nats-io/jetstream@npm:3.0.0-37":
+  version: 3.0.0-37
+  resolution: "@nats-io/jetstream@npm:3.0.0-37"
+  dependencies:
+    "@nats-io/nats-core": "npm:3.0.0-50"
+  checksum: 10c0/cf955954721a78ff50df88221de12d351e5a5c4ed1da24583bb2e103f6e9f48b62d0a1724621e9929395dc29f38df0033c107f872c960c0efd6946af29c0224f
+  languageName: node
+  linkType: hard
+
+"@nats-io/kv@npm:^3.0.0-31":
+  version: 3.0.0-31
+  resolution: "@nats-io/kv@npm:3.0.0-31"
+  dependencies:
+    "@nats-io/jetstream": "npm:3.0.0-37"
+    "@nats-io/nats-core": "npm:3.0.0-50"
+  checksum: 10c0/cef5ae58b5e52901a07a2e14fc3b7ff030d75dd83ab5412a1aded933454f246e08cf84d70499e19bd5d8db3f423125ad1b8dbbc4fe7115450c2b6d1988e266d0
+  languageName: node
+  linkType: hard
+
+"@nats-io/nats-core@npm:3.0.0-50":
+  version: 3.0.0-50
+  resolution: "@nats-io/nats-core@npm:3.0.0-50"
+  dependencies:
+    "@nats-io/nkeys": "npm:2.0.2"
+    "@nats-io/nuid": "npm:2.0.3"
+  checksum: 10c0/98b6ce118466b4b21fe70a7707910007d13a5e807f6bfd14d0f7fdc79530bca23d56eb70469ccccf11e150d34ae959519d2a84c613739944e381813878b019cd
+  languageName: node
+  linkType: hard
+
+"@nats-io/nkeys@npm:2.0.2":
+  version: 2.0.2
+  resolution: "@nats-io/nkeys@npm:2.0.2"
+  dependencies:
+    tweetnacl: "npm:^1.0.3"
+  checksum: 10c0/b0965fdaf209741d386b53880cb365c121d9fb403b845f3419e80684fd9635a649a83cc464c4c6359ad9eb02ee5ea66f86b3506de4c609a52aa39cd071f6bd87
+  languageName: node
+  linkType: hard
+
+"@nats-io/nuid@npm:2.0.3":
+  version: 2.0.3
+  resolution: "@nats-io/nuid@npm:2.0.3"
+  checksum: 10c0/9868aa38c6fefcc476f69c72b7689890ebb08742ad1c0eea39f5d46237434eb038f9a259d382a0ee219a08c126432bfb7a4ab4efd500d3afd51df9dfca49a97f
+  languageName: node
+  linkType: hard
+
+"@nats-io/transport-node@npm:^3.0.0-35":
+  version: 3.0.0-35
+  resolution: "@nats-io/transport-node@npm:3.0.0-35"
+  dependencies:
+    "@nats-io/nats-core": "npm:3.0.0-50"
+    "@nats-io/nkeys": "npm:2.0.2"
+    "@nats-io/nuid": "npm:2.0.3"
+  checksum: 10c0/3fb1dfcdb18d5fdf1124f839239f87760c4fbb130085acb66c6b93ec3239db268c4091566fb0c4e6d2bdfaaec53c143faf4c58f84ae9e551a54f9f98dbd7a000
   languageName: node
   linkType: hard
 
@@ -13687,6 +13745,13 @@ __metadata:
   bin:
     turbo: bin/turbo
   checksum: 10c0/c3c52f5aa4b7c38536f0229f59ae76592c581af351ebf4b6ed0eea95bd1534ed19d84fdaea6f8f26c106dfc95394f78d4361c95aa1ae3bacc255b4a8500d53cc
+  languageName: node
+  linkType: hard
+
+"tweetnacl@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "tweetnacl@npm:1.0.3"
+  checksum: 10c0/069d9df51e8ad4a89fbe6f9806c68e06c65be3c7d42f0701cc43dba5f0d6064686b238bbff206c5addef8854e3ce00c643bff59432ea2f2c639feab0ee1a93f9
   languageName: node
   linkType: hard
 

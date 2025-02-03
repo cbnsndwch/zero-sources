@@ -24,7 +24,7 @@
         "node": ">=22"
     },
     "peerDependencies": {
-        "@nestjs/mongoose": "^10.1.0",
+        "@nestjs/mongoose": "^11",
         "@rocicorp/zero": "*",
         "change-case": "^4.1.2",
         "mongoose": "^8.9.5"
