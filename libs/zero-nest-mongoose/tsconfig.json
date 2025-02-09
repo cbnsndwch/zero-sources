@@ -1,6 +1,7 @@
 {
     "extends": "@repo/tsconfig/base.json",
     "compilerOptions": {
+        "baseUrl": ".",
         "sourceMap": false,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": true,
