@@ -3,7 +3,7 @@
     "configurations": [
         {
             "type": "node",
-            "name": "Debug API",
+            "name": "Debug Mongo Source",
             "request": "launch",
             "runtimeExecutable": "yarn",
             "sourceMaps": true,
@@ -18,10 +18,34 @@
                 "**/node_modules/@nestjs/**"
             ],
             "console": "integratedTerminal",
-            // "internalConsoleOptions": "openOnSessionStart",
+            "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceRoot}/apps/source-mongodb",
             "env": {
                 "CONFIG_FILE": "${workspaceRoot}/apps/source-mongodb/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        },
+        {
+            "type": "node",
+            "name": "Debug ZChat",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "dev",
+                "--",
+                "--dns-result-order=ipv4first",
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules",
+                "**/node_modules/@nestjs/**"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceRoot}/apps/zero-chat",
+            "env": {
+                "CONFIG_FILE": "${workspaceRoot}/apps/zero-chat/config.yml",
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
         },
