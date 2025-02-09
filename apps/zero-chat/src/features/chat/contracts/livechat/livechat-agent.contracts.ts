@@ -1,10 +1,15 @@
 import type { IEntityBase } from '../base.contracts.js';
 import type { IUser } from '../users/user.contract.js';
 
-export enum LivechatAgentStatus {
-    AVAILABLE = 'AVAILABLE',
-    NOT_AVAILABLE = 'NOT_AVAILABLE'
-}
+export const LIVECHAT_AGENT_STATUS_AVAILABLE = 'AVAILABLE ';
+export const LIVECHAT_AGENT_STATUS_NOT_AVAILABLE = 'NOT_AVAILABLE ';
+
+export const LIVECHAT_AGENT_STATUSES = [
+    LIVECHAT_AGENT_STATUS_AVAILABLE,
+    LIVECHAT_AGENT_STATUS_NOT_AVAILABLE
+] as const;
+
+export type LivechatAgentStatus = (typeof LIVECHAT_AGENT_STATUSES)[number];
 
 export interface ILivechatAgent extends IUser {
     statusLivechat: LivechatAgentStatus;

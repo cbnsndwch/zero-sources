@@ -1,6 +1,11 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
-import { ILivechatAgent, LivechatAgentStatus } from '../contracts/livechat/livechat-agent.contracts.js';
+import {
+    ILivechatAgent,
+    LIVECHAT_AGENT_STATUS_NOT_AVAILABLE,
+    LIVECHAT_AGENT_STATUSES,
+    LivechatAgentStatus
+} from '../contracts/livechat/livechat-agent.contracts.js';
 
 import { User } from './user.entity.js';
 import { Types } from 'mongoose';
@@ -9,8 +14,8 @@ import { Types } from 'mongoose';
 export class LivechatAgent extends User implements ILivechatAgent {
     @Prop({
         type: String,
-        enum: Object.values(LivechatAgentStatus),
-        default: LivechatAgentStatus.NOT_AVAILABLE
+        enum: LIVECHAT_AGENT_STATUSES,
+        default: LIVECHAT_AGENT_STATUS_NOT_AVAILABLE
     })
     statusLivechat!: LivechatAgentStatus;
 

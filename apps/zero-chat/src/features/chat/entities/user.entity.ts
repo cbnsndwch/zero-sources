@@ -1,70 +1,70 @@
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 import type { IUser, IUserSettings } from '../contracts/users/user.contract.js';
-import { UserStatus } from '../contracts/users/user-status.contract.js';
+import { USER_STATUSES, UserStatus } from '../contracts/users/user-status.contract.js';
 
 @Schema({ collection: 'users' })
 export class User extends Document<string> implements IUser {
-    @Prop()
+    @Prop({ type: String })
     type!: string;
 
     @Prop({ required: true, type: [String] })
     roles!: string[];
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: Boolean })
     active!: boolean;
 
-    @Prop()
+    @Prop({ type: String })
     username?: string;
 
-    @Prop()
+    @Prop({ type: String })
     name?: string;
 
-    @Prop()
+    @Prop({ type: String, enum: USER_STATUSES })
     status?: UserStatus;
 
-    @Prop()
+    @Prop({ type: Date })
     lastLogin?: Date;
 
-    @Prop()
+    @Prop({ type: String })
     language?: string;
 
     // #####################################
 
-    @Prop()
+    @Prop({ type: String })
     bio?: string;
 
-    @Prop()
+    @Prop({ type: String })
     avatarUrl?: string;
 
-    @Prop()
+    @Prop({ type: String })
     statusText?: string;
 
-    @Prop()
+    @Prop({ type: String, enum: USER_STATUSES })
     defaultStatus?: UserStatus;
 
-    @Prop()
+    @Prop({ type: String })
     presenceStatus?: string;
 
-    @Prop()
+    @Prop({ type: Types.Map })
     customFields?: Record<string, any>;
 
-    @Prop()
+    @Prop({ type: Types.Map })
     settings?: IUserSettings;
 
-    @Prop()
+    @Prop({ type: String })
     defaultRoom?: string;
 
-    @Prop()
+    @Prop({ type: String })
     inviteToken?: string;
 
     // #####################################
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: Date })
     createdAt!: Date;
 
-    @Prop()
+    @Prop({ type: Date })
     updatedAt!: Date;
 }
 
