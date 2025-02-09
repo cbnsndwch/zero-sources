@@ -25,8 +25,6 @@
     },
     "dependencies": {
         "@cbnsndwch/zero-nest-mongoose": "workspace:*",
-        "@nats-io/kv": "^3.0.0-31",
-        "@nats-io/transport-node": "^3.0.0-35",
         "@nestjs/common": "^11.0.6",
         "@nestjs/config": "^4.0.0",
         "@nestjs/core": "^11.0.6",
@@ -34,7 +32,7 @@
         "@nestjs/platform-express": "^11.0.6",
         "@nestjs/platform-ws": "^11.0.6",
         "@nestjs/websockets": "^11.0.6",
-        "@rocicorp/zero": "^0.13.2025020500",
+        "@rocicorp/zero": "^0.14.2025020701",
         "change-case": "^5.4.4",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.1",
@@ -71,6 +69,10 @@
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.7.3"
+    },
+    "optionalDependencies": {
+        "@nats-io/kv": "^3.0.0-31",
+        "@nats-io/transport-node": "^3.0.0-35"
     },
     "exports": {
         "./main": "./dist/main.js"
