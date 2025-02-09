@@ -39,3 +39,4 @@ yarn-error.log*
 
 /.local
 /apps/**/*.sqlite
+/apps/**/*.db*
