@@ -1,6 +1,6 @@
-import { IMessageBase } from './message.contracts.js';
+import { IMessage } from './message.contracts.js';
 
-export type IEmailMessage = IMessageBase & {
+export type IEmailMessage = IMessage & {
     // email message fields
     email?: {
         references?: string[];
@@ -9,6 +9,6 @@ export type IEmailMessage = IMessageBase & {
     };
 };
 
-export function isEmailMessage(message: IMessageBase): message is IEmailMessage {
+export function isEmailMessage(message: IMessage): message is IEmailMessage {
     return 'email' in message;
 }

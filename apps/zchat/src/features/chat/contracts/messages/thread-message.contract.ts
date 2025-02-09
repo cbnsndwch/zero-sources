@@ -1,9 +1,9 @@
-import type { IMessageBase } from './message.contracts.js';
+import type { IMessage } from './message.contracts.js';
 
 /**
  * A message that is the starting message for a thread
  */
-export interface IThreadMainMessage extends IMessageBase {
+export interface IThreadMainMessage extends IMessage {
     /**
      * The number of replies to the thread under this message
      */
@@ -20,7 +20,7 @@ export interface IThreadMainMessage extends IMessageBase {
     repliedBy: string[];
 }
 
-export interface IThreadMessage extends IMessageBase {
+export interface IThreadMessage extends IMessage {
     /**
      * The message ID of the message that started the thread this message belongs to
      */
@@ -40,7 +40,7 @@ export interface IThreadMessage extends IMessageBase {
  * @param message - The message to check.
  * @returns `true` if the message is a main thread message, otherwise `false`.
  */
-export function isThreadMainMessage(message: IMessageBase): message is IThreadMainMessage {
+export function isThreadMainMessage(message: IMessage): message is IThreadMainMessage {
     return 'threadReplyCount' in message && 'threadLastMReplyAt' in message;
 }
 
@@ -50,7 +50,7 @@ export function isThreadMainMessage(message: IMessageBase): message is IThreadMa
  * @param message - The message to check.
  * @returns `true` if the message is a thread message, otherwise `false`.
  */
-export function isThreadMessage(message: IMessageBase): message is IThreadMessage {
+export function isThreadMessage(message: IMessage): message is IThreadMessage {
     const maybeThreadId = (message as IThreadMessage).threadId;
     return Boolean(maybeThreadId);
 }

@@ -1,5 +1,5 @@
 import type { IEntityBase } from '../base.contracts.js';
-import type { IMessageBase } from '../messages/message.contracts.js';
+import type { IMessage } from '../messages/message.contracts.js';
 import type { SystemMessageType } from '../messages/message-type.contracts.js';
 
 import type { RoomType } from './room-type.contract.js';
@@ -37,7 +37,7 @@ export interface IRoomBase extends IEntityBase {
     /**
      * The last message sent in the room.
      */
-    lastMessage?: IMessageBase;
+    lastMessage?: IMessage;
 
     /**
      * The timestamp of the last message sent in the room.

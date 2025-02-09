@@ -11,7 +11,7 @@ import {
 } from 'class-validator';
 import { Types } from 'mongoose';
 
-import type { IMessageBase, IMessageMention } from '../contracts/messages/message.contracts.js';
+import type { IMessage, IMessageMention } from '../contracts/messages/message.contracts.js';
 import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 import type { SerializedEditorState } from 'lexical';
 import type { IHasId, IHasName } from '../contracts/base.contracts.js';
@@ -22,7 +22,7 @@ import type { IUserSummary } from '../contracts/users/user.contract.js';
 import { EntityBase } from './base.entity.js';
 
 @Schema()
-export class Message extends EntityBase implements IMessageBase {
+export class Message extends EntityBase implements IMessage {
     @IsString()
     @IsDefined()
     @Prop({ type: String, required: true })

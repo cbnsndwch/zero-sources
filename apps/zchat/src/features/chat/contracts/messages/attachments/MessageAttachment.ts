@@ -7,8 +7,7 @@ import type { MessageQuoteAttachment } from './MessageQuoteAttachment.js';
 export type MessageAttachment =
     | IMessageBasicAttachment
     | MessageQuoteAttachment
-    | IMessageFileAttachment
-    ;
+    | IMessageFileAttachment;
 
 export type FilesAndAttachments = {
     files: IFileInfo[];

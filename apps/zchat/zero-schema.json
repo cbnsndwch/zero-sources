@@ -1,0 +1,416 @@
+{
+  "permissions": {
+    "rooms": {
+      "row": {
+        "insert": [],
+        "update": {
+          "preMutation": []
+        },
+        "delete": []
+      }
+    },
+    "users": {
+      "row": {
+        "insert": [],
+        "update": {
+          "preMutation": []
+        },
+        "delete": []
+      }
+    },
+    "messages": {
+      "row": {
+        "update": {
+          "preMutation": [
+            [
+              "allow",
+              {
+                "type": "simple",
+                "left": {
+                  "type": "literal",
+                  "value": "sender.id"
+                },
+                "right": {
+                  "type": "static",
+                  "anchor": "authData",
+                  "field": "sub"
+                },
+                "op": "="
+              }
+            ]
+          ]
+        },
+        "delete": [
+          [
+            "allow",
+            {
+              "type": "simple",
+              "left": {
+                "type": "static",
+                "anchor": "authData",
+                "field": "sub"
+              },
+              "right": {
+                "type": "literal",
+                "value": null
+              },
+              "op": "IS NOT"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "schema": {
+    "version": 1,
+    "tables": {
+      "user": {
+        "name": "user",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "type": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "roles": {
+            "type": "json",
+            "optional": false,
+            "customType": null
+          },
+          "active": {
+            "type": "boolean",
+            "optional": false,
+            "customType": null
+          },
+          "createdAt": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "username": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "name": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "status": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "lastLogin": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "language": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "bio": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "avatarUrl": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "statusText": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "defaultStatus": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "presenceStatus": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "customFields": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "settings": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "defaultRoom": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "inviteToken": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "updatedAt": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ],
+        "serverName": "users"
+      },
+      "room": {
+        "name": "room",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "t": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "memberIds": {
+            "type": "json",
+            "optional": false,
+            "customType": null
+          },
+          "messageCount": {
+            "type": "number",
+            "optional": false,
+            "customType": null
+          },
+          "lastMessage": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "lastMessageAt": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "systemMessages": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "usernames": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "name": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "readOnly": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "featured": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "default": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "topic": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "description": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "archived": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "createdAt": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "updatedAt": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ],
+        "serverName": "rooms"
+      },
+      "message": {
+        "name": "message",
+        "columns": {
+          "id": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "roomId": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "ts": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "contents": {
+            "type": "json",
+            "optional": false,
+            "customType": null
+          },
+          "sender": {
+            "type": "json",
+            "optional": false,
+            "customType": null
+          },
+          "md": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "html": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "mentions": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "groupable": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "blocks": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "hidden": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "repliedBy": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "starred": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "pinned": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "pinnedAt": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          },
+          "pinnedBy": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "unread": {
+            "type": "boolean",
+            "optional": true,
+            "customType": null
+          },
+          "attachments": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "reactions": {
+            "type": "json",
+            "optional": true,
+            "customType": null
+          },
+          "createdAt": {
+            "type": "string",
+            "optional": false,
+            "customType": null
+          },
+          "updatedAt": {
+            "type": "string",
+            "optional": true,
+            "customType": null
+          }
+        },
+        "primaryKey": [
+          "id"
+        ],
+        "serverName": "messages"
+      }
+    },
+    "relationships": {
+      "user": {},
+      "room": {},
+      "message": {
+        "room": [
+          {
+            "sourceField": [
+              "roomId"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "room",
+            "cardinality": "one"
+          }
+        ],
+        "replies": [
+          {
+            "sourceField": [
+              "id"
+            ],
+            "destField": [
+              "id"
+            ],
+            "destSchema": "message",
+            "cardinality": "many"
+          }
+        ]
+      }
+    }
+  }
+}

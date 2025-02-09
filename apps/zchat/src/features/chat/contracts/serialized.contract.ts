@@ -15,7 +15,7 @@ export type Serialized<T> =
     T extends CustomSerializable<infer U>
         ? Serialized<U>
         : T extends [any, ...any] // is T a tuple?
-          ? { [K in keyof T]: T extends UnserializablePrimitive ? null : Serialized<T[K]> }
+          ? { [K in keyof T]: T extends UnserializablePrimitive ? never : Serialized<T[K]> }
           : T extends any[]
             ? Serialized<T[number]>[]
             : T extends object

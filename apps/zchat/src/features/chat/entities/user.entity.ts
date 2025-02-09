@@ -2,7 +2,7 @@ import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 import type { IUser, IUserSettings } from '../contracts/users/user.contract.js';
-import { USER_STATUSES, UserStatus } from '../contracts/users/user-status.contract.js';
+import { USER_STATUSES, type UserStatus } from '../contracts/users/user-status.contract.js';
 
 @Schema({ collection: 'users' })
 export class User extends Document<string> implements IUser {

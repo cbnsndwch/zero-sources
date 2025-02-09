@@ -3,15 +3,10 @@ import type { SerializedEditorState } from 'lexical';
 
 import type { IHasId, IHasName, IEntityBase } from '../base.contracts.js';
 
-import type { IUser, IUserSummary } from '../users/user.contract.js';
+import type { IUserSummary } from '../users/user.contract.js';
 
 import type { MessageAttachment } from './attachments/index.js';
 import type { IMessageReaction } from './message-reaction.contracts.js';
-import {
-    SYSTEM_MESSAGE_TYPES,
-    MSG_MESSAGE_DELETED,
-    type SystemMessageType
-} from './message-type.contracts.js';
 
 export type MentionType = 'user' | 'room' | 'role' | 'all' | 'here';
 
@@ -25,7 +20,7 @@ export type IMessageMention = IHasId & {
     roomName?: string;
 };
 
-export interface IMessageBase extends IEntityBase {
+export interface IMessage extends IEntityBase {
     /**
      * The room id this message belongs to
      */
@@ -127,7 +122,7 @@ export interface IMessageBase extends IEntityBase {
     editedBy?: IUserSummary;
 }
 
-export interface IEditedMessage extends IMessageBase {
+export interface IEditedMessage extends IMessage {
     /**
      * The date and time the message was edited, if it was edited
      */
@@ -145,7 +140,7 @@ export interface IEditedMessage extends IMessageBase {
  * @param message - The message to check.
  * @returns `true` if the message is an edited message, `false` otherwise.
  */
-export function isEditedMessage<T extends IMessageBase>(
+export function isEditedMessage<T extends IMessage>(
     message: T & any
 ): message is T & IEditedMessage {
     const maybeEditedMessage = message as IEditedMessage;
@@ -156,4 +151,3 @@ export function isEditedMessage<T extends IMessageBase>(
         typeof maybeEditedMessage.editedBy?._id === 'string'
     );
 }
-

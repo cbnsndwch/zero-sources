@@ -1,10 +1,10 @@
 import type { ILivechatVisitor } from './livechat-visitor.contract.js';
 import type { IUser } from '../users/user.contract.js';
-import { IMessageBase } from '../messages/message.contracts.js';
+import { IMessage } from '../messages/message.contracts.js';
 
 
 
-export interface IOmnichannelSystemMessage extends IMessageBase {
+export interface IOmnichannelSystemMessage extends IMessage {
     navigation?: {
         page: {
             title: string;
