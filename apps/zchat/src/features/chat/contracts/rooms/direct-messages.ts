@@ -1,10 +1,10 @@
 import type { IRoomBase } from './room.contracts.js';
 
 export interface IDirectMessagesRoom extends IRoomBase {
-    /**
-     * Direct Message rooms have their own type
-     */
-    t: 'd';
+    // /**
+    //  * Direct Message rooms have their own type
+    //  */
+    // t: 'd';
 
     /**
      * The IDs of the users in the room

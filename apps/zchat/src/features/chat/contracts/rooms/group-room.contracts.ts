@@ -9,10 +9,10 @@ import type { IRoomBase } from './room.contracts.js';
  * Represents the base structure for a group room.
  */
 export type IGroupRoomBase = IRoomBase & {
-    /**
-     * The type of the room, which can be either a public group or a private group.
-     */
-    t: Extract<RoomType, typeof ROOM_TYPE_PUBLIC_GROUP | typeof ROOM_TYPE_PRIVATE_GROUP>;
+    // /**
+    //  * The type of the room, which can be either a public group or a private group.
+    //  */
+    // t: Extract<RoomType, typeof ROOM_TYPE_PUBLIC_GROUP | typeof ROOM_TYPE_PRIVATE_GROUP>;
 
     /**
      * Indicates if the room is read-only.

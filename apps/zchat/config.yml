@@ -10,7 +10,7 @@ auth:
 db:
   # The URL of the MongoDB database that will store the shard metadata. May be
   # the same as the database holding your app data.
-  uri: mongodb://localhost:27017/zstart
+  uri: mongodb://localhost:27017/zchat
 
   # The upstream MongoDB database name. This may be different from the database
   # storing shard metadata (specified in the connection string above), or it

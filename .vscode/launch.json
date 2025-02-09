@@ -43,9 +43,10 @@
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "openOnSessionStart",
-            "cwd": "${workspaceRoot}/apps/zero-chat",
+            "cwd": "${workspaceRoot}/apps/zchat",
             "env": {
-                "CONFIG_FILE": "${workspaceRoot}/apps/zero-chat/config.yml",
+                "PORT": "8001",
+                "CONFIG_FILE": "${workspaceRoot}/apps/zchat/config.yml",
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
         },

@@ -1,6 +1,6 @@
 {
-    "name": "@cbnsndwch/zero-chat",
-    "description": "A Zero-powered RocketChat clone",
+    "name": "@cbnsndwch/zchat",
+    "description": "A Zero-powered chat app inspired by RocketChat",
     "version": "0.0.1",
     "license": "MIT",
     "private": true,

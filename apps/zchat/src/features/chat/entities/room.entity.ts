@@ -19,15 +19,25 @@ import { EntityBase } from './base.entity.js';
 import { Message, MessageSchema } from './message.entity.js';
 import { IDirectMessagesRoom } from '../contracts/rooms/direct-messages.js';
 import { IGroupRoomBase } from '../contracts/rooms/group-room.contracts.js';
+
+abstract class RoomBase extends EntityBase implements Omit<IRoomBase, 't'> {
+    t!: RoomType;
+    memberIds!: string[];
+    messageCount!: number;
+    lastMessage?: Message;
+    lastMessageAt?: Date;
+    systemMessages?: SystemMessageType[];
+}
+
 @Schema({ discriminatorKey: 't' })
-export class Room extends EntityBase implements IRoomBase {
+export class Room extends RoomBase implements IRoomBase {
     @Prop({
         type: String,
         required: true,
         enum: ROOM_TYPES
     })
     @IsEnum(ROOM_TYPES)
-    t!: RoomType;
+    declare t: RoomType;
 
     @Prop({
         type: [String],
@@ -36,30 +46,30 @@ export class Room extends EntityBase implements IRoomBase {
     })
     @IsArray()
     @IsString({ each: true })
-    memberIds!: string[];
+    declare memberIds: string[];
 
     @Prop({
         type: Number,
         required: true,
         default: 0
     })
-    messageCount!: number;
+    declare messageCount: number;
 
     @Prop({
         type: MessageSchema
     })
-    lastMessage?: Message;
+    declare lastMessage?: Message;
 
     @Prop({
         type: Date
     })
-    lastMessageAt?: Date;
+    declare lastMessageAt?: Date;
 
     @Prop({
         type: [String],
         enum: SYSTEM_MESSAGE_TYPES
     })
-    systemMessages?: SystemMessageType[];
+    declare systemMessages?: SystemMessageType[];
 }
 
 export const RoomSchema = SchemaFactory.createForClass(Room);
@@ -67,8 +77,8 @@ export const RoomSchema = SchemaFactory.createForClass(Room);
 // ###############################################################
 
 @Schema()
-export class DirectMessagesRoom extends Room implements IDirectMessagesRoom {
-    t: typeof ROOM_TYPE_DIRECT_MESSAGES = ROOM_TYPE_DIRECT_MESSAGES;
+export class DirectMessagesRoom extends RoomBase implements IDirectMessagesRoom {
+    declare t: typeof ROOM_TYPE_DIRECT_MESSAGES;
 
     @Prop({
         type: [String],
@@ -84,8 +94,8 @@ export const DirectMessagesRoomSchema = SchemaFactory.createForClass(DirectMessa
 
 // ###############################################################
 
-@Schema({ discriminatorKey: 't' })
-export class GroupRoom extends Room implements IGroupRoomBase {
+@Schema()
+export class GroupRoom extends RoomBase implements IGroupRoomBase {
     declare t: typeof ROOM_TYPE_PRIVATE_GROUP | typeof ROOM_TYPE_PUBLIC_GROUP;
 
     @IsString()
@@ -93,27 +103,27 @@ export class GroupRoom extends Room implements IGroupRoomBase {
 
     @IsOptional()
     @IsBoolean()
-    readOnly?: boolean | undefined;
+    readOnly?: boolean;
 
     @IsOptional()
     @IsBoolean()
-    featured?: true | undefined;
+    featured?: true;
 
     @IsOptional()
     @IsBoolean()
-    default?: boolean | undefined;
+    default?: boolean;
 
     @IsOptional()
     @IsString()
-    topic?: string | undefined;
+    topic?: string;
 
     @IsOptional()
     @IsString()
-    description?: string | undefined;
+    description?: string;
 
     @IsOptional()
     @IsBoolean()
-    archived?: boolean | undefined;
+    archived?: boolean;
 }
 
 export const GroupRoomSchema = SchemaFactory.createForClass(GroupRoom);
