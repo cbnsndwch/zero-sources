@@ -14,6 +14,7 @@ import {
     user,
     userRelationships
 } from './features/chat/schema/index.js';
+import type { JwtPayload } from './features/auth/jwt/index.js';
 
 export type Schema = typeof schema;
 
@@ -27,16 +28,12 @@ export const schema = createSchema(
 
 //#region Permissions
 
-type AuthData = {
-    sub: string | null;
-};
-
-export const permissions = definePermissions<AuthData, Schema>(schema, () => {
-    const allowIfLoggedIn = (authData: AuthData, { cmpLit }: ExpressionBuilder<Schema, 'user'>) =>
+export const permissions = definePermissions<JwtPayload, Schema>(schema, () => {
+    const allowIfLoggedIn = (authData: JwtPayload, { cmpLit }: ExpressionBuilder<Schema, 'user'>) =>
         cmpLit(authData.sub, 'IS NOT', null);
 
     const allowIfMessageSender = (
-        authData: AuthData,
+        authData: JwtPayload,
         { cmpLit }: ExpressionBuilder<Schema, 'message'>
         // ) => cmp('sender', '=', authData.sub ?? '');
     ) => cmpLit('sender.id', '=', authData.sub ?? '');

@@ -1,4 +1,4 @@
-import type { IEntityBase } from '../base.contracts.js';
+import type { IEntityBase } from '../../../../common/contracts/index.js';
 import type { IMessage } from '../messages/message.contracts.js';
 import type { SystemMessageType } from '../messages/message-type.contracts.js';
 

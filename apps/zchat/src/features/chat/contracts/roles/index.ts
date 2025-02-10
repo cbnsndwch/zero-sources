@@ -1,4 +1,4 @@
-import { IHasId } from '../base.contracts.js';
+import { IHasId } from '../../../../common/contracts/index.js';
 
 export type RoleScope = 'Users' | 'Subscriptions';
 

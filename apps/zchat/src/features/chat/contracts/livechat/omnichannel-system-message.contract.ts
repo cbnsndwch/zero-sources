@@ -1,5 +1,5 @@
 import type { ILivechatVisitor } from './livechat-visitor.contract.js';
-import type { IUser } from '../users/user.contract.js';
+import type { IUser } from '../../../users/contracts/user.contract.js';
 import { IMessage } from '../messages/message.contracts.js';
 
 

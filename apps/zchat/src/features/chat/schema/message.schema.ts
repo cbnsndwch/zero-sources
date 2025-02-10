@@ -2,8 +2,8 @@ import { table, string, boolean, json, relationships } from '@rocicorp/zero';
 import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 
 import type { IMessageMention } from '../contracts/messages/index.js';
-import type { IHasId, IHasName } from '../contracts/base.contracts.js';
-import type { IUserSummary } from '../contracts/users/user.contract.js';
+import type { IHasId, IHasName } from '../../../common/contracts/index.js';
+import type { IUserSummary } from '../../users/contracts/user.contract.js';
 
 import { room } from './room.schema.js';
 import { user } from './user.schema.js';

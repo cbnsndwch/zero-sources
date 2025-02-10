@@ -1,6 +1,6 @@
 import { string, boolean, enumeration, relationships, table, json } from '@rocicorp/zero';
 
-import { USER_STATUSES, IUserSettings } from '../contracts/index.js';
+import { USER_PRESENCE_STATUSES, IUserSettings } from '../contracts/index.js';
 import { room } from './room.schema.js';
 
 export const user = table('user')
@@ -16,13 +16,13 @@ export const user = table('user')
         // Optional fields
         username: string().optional(),
         name: string().optional(),
-        status: enumeration<(typeof USER_STATUSES)[number]>().optional(),
+        status: enumeration<(typeof USER_PRESENCE_STATUSES)[number]>().optional(),
         lastLogin: string().optional(), // Date stored as ISO string
         language: string().optional(),
         bio: string().optional(),
         avatarUrl: string().optional(),
         statusText: string().optional(),
-        defaultStatus: enumeration<(typeof USER_STATUSES)[number]>().optional(),
+        defaultStatus: enumeration<(typeof USER_PRESENCE_STATUSES)[number]>().optional(),
         presenceStatus: string().optional(),
         customFields: json<Record<string, any>>().optional(),
         settings: json<Readonly<IUserSettings>>().optional(),

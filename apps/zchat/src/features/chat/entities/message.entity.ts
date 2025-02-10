@@ -1,25 +1,27 @@
-import { Schema, Prop, SchemaFactory, ModelDefinition } from '@nestjs/mongoose';
+import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 import {
-    IsString,
-    IsDate,
-    IsOptional,
-    IsBoolean,
     IsArray,
-    ValidateNested,
+    IsBoolean,
+    IsDate,
+    IsDefined,
     IsObject,
-    IsDefined
+    IsOptional,
+    IsString,
+    ValidateNested
 } from 'class-validator';
+import type { SerializedEditorState } from 'lexical';
 import { Types } from 'mongoose';
 
-import type { IMessage, IMessageMention } from '../contracts/messages/message.contracts.js';
-import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
-import type { SerializedEditorState } from 'lexical';
-import type { IHasId, IHasName } from '../contracts/base.contracts.js';
+import type { IHasId, IHasName } from '../../../common/contracts/index.js';
+import { EntityBase } from '../../../common/entities/base.entity.js';
+
+import type { IUserSummary } from '../../users/contracts/user.contract.js';
+
 import type { MessageAttachment } from '../contracts/messages/index.js';
 import type { IMessageReaction } from '../contracts/messages/message-reaction.contracts.js';
-import type { IUserSummary } from '../contracts/users/user.contract.js';
+import type { IMessage, IMessageMention } from '../contracts/messages/message.contracts.js';
 
-import { EntityBase } from './base.entity.js';
 
 @Schema()
 export class Message extends EntityBase implements IMessage {

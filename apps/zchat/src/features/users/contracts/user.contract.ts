@@ -1,6 +1,17 @@
-import type { IHasCreatedAt, IHasShortId, IEntityBase, IHasName } from '../base.contracts.js';
-import type { Serialized } from '../serialized.contract.js';
-import type { UserStatus } from './user-status.contract.js';
+import type {
+    IHasCreatedAt,
+    IHasShortId,
+    IEntityBase,
+    IHasName
+} from '../../../common/contracts/index.js';
+
+import type { UserPresenceStatus } from './user-status.contract.js';
+
+/**
+ * A that identifies string contains the provider id and the external
+ * user id separated by a slash.
+ */
+export type ExternalUserId = `${string}/${string}`;
 
 export interface IUserSettings {
     profile: Record<string, any>;
@@ -10,37 +21,46 @@ export interface IUserSettings {
 export interface IGetRoomRoles {
     _id: string;
     rid: string;
-    u: {
-        _id: string;
-        username: string;
-    };
+    u: IUserSummary;
     roles: string[];
 }
 
 export interface IUser extends IEntityBase, IHasCreatedAt {
-    type: string;
     name?: string;
+
     username?: string;
 
+    email: string;
+
+    additionalEmails? : string[];
+
     active: boolean;
+
     roles: string[];
 
     bio?: string;
 
     avatarUrl?: string;
 
-    status?: UserStatus;
-    statusText?: string;
-    defaultStatus?: UserStatus;
-    presenceStatus?: string;
+    providerId?: ExternalUserId;
 
-    customFields?: Record<string, any>;
+    // #####################################
+
+    presenceStatus?: UserPresenceStatus;
+
+    presenceStatusText?: string;
+
+    defaultPresenceStatus?: UserPresenceStatus;
+
+    // #####################################
 
     settings?: IUserSettings;
 
     defaultRoom?: string;
 
-    inviteToken?: string;
+    // #####################################
+
+    customFields?: Record<string, any>;
 }
 
 export type IUserSummary = Pick<IUser, '_id' | 'username'>;
@@ -80,5 +100,5 @@ export type IUserDataEvent = IUserInsertedEvent | IUserUpdatedEvent | IUserRemov
 
 export type IUserInRole = Pick<
     IUser,
-    '_id' | 'updatedAt' | 'name' | 'username' | 'createdAt' | 'roles' | 'type' | 'active'
+    '_id' | 'updatedAt' | 'name' | 'username' | 'createdAt' | 'roles' | 'active'
 >;

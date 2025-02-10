@@ -5,7 +5,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import type { AppConfig, DbConfig } from '../../config/contracts.js';
 
 @ApiTags('health')
-@Controller('healthz')
+@Controller('healthcheck')
 export class HealthzController {
     constructor(private readonly configService: ConfigService<AppConfig>) {}
 

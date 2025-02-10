@@ -15,7 +15,7 @@ import {
     SystemMessageType
 } from '../contracts/messages/message-type.contracts.js';
 
-import { EntityBase } from './base.entity.js';
+import { EntityBase } from '../../../common/entities/base.entity.js';
 import { Message, MessageSchema } from './message.entity.js';
 import { IDirectMessagesRoom } from '../contracts/rooms/direct-messages.js';
 import { IGroupRoomBase } from '../contracts/rooms/group-room.contracts.js';

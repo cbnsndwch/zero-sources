@@ -8,7 +8,7 @@ import { corsDelegate } from './utils/cors.js';
 import { makeTable } from './utils/string-utils.js';
 import { setupSwaggerUi } from './utils/oas.js';
 
-const PORT = process.env.PORT ?? 8000;
+const PORT = process.env.PORT ?? 8011;
 
 const logger = new Logger('Bootstrap');
 

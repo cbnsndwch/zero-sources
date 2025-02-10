@@ -1,5 +1,5 @@
-import type { IEntityBase } from '../base.contracts.js';
-import type { IUser } from '../users/user.contract.js';
+import type { IEntityBase } from '../../../../common/contracts/index.js';
+import type { IUser } from '../../../users/contracts/user.contract.js';
 
 export const LIVECHAT_AGENT_STATUS_AVAILABLE = 'AVAILABLE ';
 export const LIVECHAT_AGENT_STATUS_NOT_AVAILABLE = 'NOT_AVAILABLE ';

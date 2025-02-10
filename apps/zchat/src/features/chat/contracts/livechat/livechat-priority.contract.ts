@@ -1,4 +1,4 @@
-import type { IEntityBase } from '../base.contracts.js';
+import type { IEntityBase } from '../../../../common/contracts/index.js';
 
 export const LIVECHAT_PRIORITY_LOWEST = '5_LOWEST';
 export const LIVECHAT_PRIORITY_LOW = '4_LOW';

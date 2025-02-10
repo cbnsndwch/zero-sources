@@ -8,10 +8,10 @@ import {
     type ISubscription,
     type NotificationTypeWithDefault
 } from '../contracts/subscriptions/index.js';
-import type { IUserSummaryWithName } from '../contracts/users/user.contract.js';
+import type { IUserSummaryWithName } from '../../users/contracts/user.contract.js';
 import type { RoomType } from '../contracts/rooms/room-type.contract.js';
 
-import { EntityBase } from './base.entity.js';
+import { EntityBase } from '../../../common/entities/base.entity.js';
 
 @Schema()
 export class Subscription extends EntityBase implements ISubscription {

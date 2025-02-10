@@ -42,10 +42,9 @@
                 "**/node_modules/@nestjs/**"
             ],
             "console": "integratedTerminal",
-            "internalConsoleOptions": "openOnSessionStart",
             "cwd": "${workspaceRoot}/apps/zchat",
             "env": {
-                "PORT": "8001",
+                "PORT": "8011",
                 "CONFIG_FILE": "${workspaceRoot}/apps/zchat/config.yml",
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }

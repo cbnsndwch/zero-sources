@@ -1,6 +1,6 @@
-import type { IEntityBase } from '../base.contracts.js';
+import type { IEntityBase } from '../../../../common/contracts/index.js';
 import type { RoomType } from '../rooms/room-type.contract.js';
-import type { IUserSummaryWithName } from '../users/user.contract.js';
+import type { IUserSummaryWithName } from '../../../users/contracts/user.contract.js';
 
 /**
  * Represents a subscription to a chat room or conversation.

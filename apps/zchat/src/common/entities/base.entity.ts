@@ -1,9 +1,9 @@
 import { Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-import type { IEntityBase } from '../contracts/base.contracts.js';
+import type { IEntityBase } from '../contracts/index.js';
 
 export abstract class EntityBase extends Document<string> implements IEntityBase {
-    @Prop({ type: Date, default: Date.now })
+    @Prop({ type: Date, default: () => new Date() })
     updatedAt!: Date;
 }

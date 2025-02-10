@@ -1,5 +1,5 @@
-import type { IHasUsername, IEntityBase } from '../base.contracts.js';
-import type { UserStatus } from '../users/user-status.contract.js';
+import type { IHasUsername, IEntityBase } from '../../../../common/contracts/index.js';
+import type { UserPresenceStatus } from '../../../users/contracts/user-status.contract.js';
 import type { ILivechatAgentSummary } from './livechat-agent.contracts.js';
 
 export interface IVisitorPhone {
@@ -38,7 +38,7 @@ export interface ILivechatVisitor extends IEntityBase {
     ip?: string;
     host?: string;
     visitorEmails?: IVisitorEmail[];
-    status?: UserStatus;
+    status?: UserPresenceStatus;
     lastAgent?: ILivechatAgentSummary;
     
     livechatData?: ILivechatData;

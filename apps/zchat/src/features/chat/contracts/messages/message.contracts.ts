@@ -1,9 +1,9 @@
 import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 import type { SerializedEditorState } from 'lexical';
 
-import type { IHasId, IHasName, IEntityBase } from '../base.contracts.js';
+import type { IHasId, IHasName, IEntityBase } from '../../../../common/contracts/index.js';
 
-import type { IUserSummary } from '../users/user.contract.js';
+import type { IUserSummary } from '../../../users/contracts/user.contract.js';
 
 import type { MessageAttachment } from './attachments/index.js';
 import type { IMessageReaction } from './message-reaction.contracts.js';

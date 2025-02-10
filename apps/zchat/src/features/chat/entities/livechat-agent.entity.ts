@@ -7,7 +7,7 @@ import {
     LivechatAgentStatus
 } from '../contracts/livechat/livechat-agent.contracts.js';
 
-import { User } from './user.entity.js';
+import { User } from '../../users/entities/user.entity.js';
 import { Types } from 'mongoose';
 
 @Schema()
