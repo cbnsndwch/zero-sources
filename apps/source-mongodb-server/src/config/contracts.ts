@@ -1,3 +1,5 @@
+import type { ZqliteKvOptions } from '@cbnsndwch/zero-watermark-zqlite';
+
 /**
  * Describes the configuration for publishing data from a specific source.\\
  *
@@ -70,16 +72,6 @@ export type NatsKvOptions = {
          */
         pwd: string;
     };
-};
-
-/**
- * Config for the Zero-SQLite3 KV provider
- */
-export type ZqliteKvOptions = {
-    /**
-     * The path to the zero-sqlite3 database file
-     */
-    file: string;
 };
 
 export type KvConfig =

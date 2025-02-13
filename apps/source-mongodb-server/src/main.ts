@@ -2,8 +2,9 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { WsAdapter } from '@nestjs/platform-ws';
 
+import { corsDelegate } from '@cbnsndwch/zero-contracts';
+
 import { AppModule } from './app.module.js';
-import { corsDelegate } from './utils/cors.js';
 
 const logger = new Logger('Bootstrap');
 
