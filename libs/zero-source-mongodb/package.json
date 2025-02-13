@@ -1,5 +1,5 @@
 {
-    "name": "@cbnsndwch/zero-nest-mongoose",
+    "name": "@cbnsndwch/zero-source-mongodb",
     "description": "Generate Zero schemas from @nestjs/mongoose schemas",
     "version": "0.0.1",
     "type": "module",
@@ -9,8 +9,10 @@
         "email": "oss@cbnsndwch.io"
     },
     "scripts": {
-        "build": "tsup",
-        "build:2": "tsup && tsc --emitDeclarationOnly",
+        "clean": "rimraf lib",
+        "prebuild": "yarn clean",
+        "build": "nest build",
+        "dev": "nest build --watch",
         "release": "yarn test && yarn build && changelogen --release --push && yarn npm publish",
         "lint": "eslint . --fix",
         "test": "vitest --run --passWithNoTests",
@@ -23,8 +25,17 @@
     "engines": {
         "node": ">=22"
     },
+    "dependencies": {
+        "@cbnsndwch/zero-contracts": "workspace:*"
+    },
     "peerDependencies": {
+        "@nestjs/common": "^11",
+        "@nestjs/config": "^4",
+        "@nestjs/core": "^11",
         "@nestjs/mongoose": "^11",
+        "@nestjs/platform-express": "^11",
+        "@nestjs/platform-ws": "^11",
+        "@nestjs/websockets": "^11",
         "@rocicorp/zero": "*",
         "change-case": "^4.1.2",
         "mongoose": "^8.9.5"
@@ -32,7 +43,16 @@
     "devDependencies": {
         "@commitlint/cli": "^19.6.1",
         "@commitlint/config-conventional": "^19.6.0",
+        "@nestjs/cli": "^10.4.7",
+        "@nestjs/common": "^11.0.6",
+        "@nestjs/config": "^4.0.0",
+        "@nestjs/core": "^11.0.6",
         "@nestjs/mongoose": "^11.0.1",
+        "@nestjs/platform-express": "^11.0.6",
+        "@nestjs/platform-ws": "^11.0.6",
+        "@nestjs/schematics": "^10.2.3",
+        "@nestjs/testing": "^10.4.7",
+        "@nestjs/websockets": "^11.0.6",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero": "^0.15.2025021200",
@@ -55,12 +75,10 @@
     "typings": ".dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.cjs"
-        },
-        "./package.json": "./package.json"
+            "import": "./dist/index.mjs"
+        }
     },
     "lint-staged": {
-        "*.ts": "yarn lint"
+        "src/**/*.ts": "yarn lint"
     }
 }
