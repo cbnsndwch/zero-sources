@@ -8,6 +8,7 @@
         "build:libs": "turbo build \"--filter=./libs/*\"",
         "dev": "turbo dev",
         "lint": "turbo lint",
+        "test": "turbo test",
         "format": "prettier --write \"**/*.{ts,tsx,mts,cts,md}\""
     },
     "devDependencies": {
