@@ -508,7 +508,7 @@ __metadata:
     "@nestjs/swagger": "npm:^11.0.3"
     "@nestjs/testing": "npm:^11.0.6"
     "@nestjs/websockets": "npm:^11.0.6"
-    "@rocicorp/zero": "npm:^0.14.2025020701"
+    "@rocicorp/zero": "npm:^0.15.2025021200"
     "@rocket.chat/icons": "npm:^0.40.0"
     "@rocket.chat/message-parser": "npm:^0.31.32"
     "@rocket.chat/ui-kit": "npm:^0.37.0"
@@ -538,7 +538,7 @@ __metadata:
     mongodb-schema: "npm:^12.2.0"
     mongoose: "npm:^8.9.5"
     passport: "npm:^0.7.0"
-    passport-github: "npm:^1.1.0"
+    passport-github2: "npm:^0.1.12"
     passport-jwt: "npm:^4.0.1"
     prettier: "npm:^3.4.2"
     reflect-metadata: "npm:^0.2.2"
@@ -559,6 +559,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cbnsndwch/zero-contracts@workspace:*, @cbnsndwch/zero-contracts@workspace:libs/zero-contracts":
+  version: 0.0.0-use.local
+  resolution: "@cbnsndwch/zero-contracts@workspace:libs/zero-contracts"
+  dependencies:
+    "@commitlint/cli": "npm:^19.6.1"
+    "@commitlint/config-conventional": "npm:^19.6.0"
+    "@repo/eslint-config": "workspace:*"
+    "@repo/tsconfig": "workspace:*"
+    "@rocicorp/zero": "npm:^0.15.2025021200"
+    "@types/node": "npm:^22.12.0"
+    "@vitest/coverage-v8": "npm:^3.0.4"
+    "@vitest/ui": "npm:^3.0.4"
+    changelogen: "npm:^0.5.7"
+    eslint: "npm:^9.19.0"
+    husky: "npm:^9.1.7"
+    lint-staged: "npm:^15.4.3"
+    tsup: "npm:^8.3.6"
+    typescript: "npm:^5.7.3"
+    vitest: "npm:^3.0.4"
+  peerDependencies:
+    "@rocicorp/zero": "*"
+  languageName: unknown
+  linkType: soft
+
 "@cbnsndwch/zero-nest-mongoose@workspace:*, @cbnsndwch/zero-nest-mongoose@workspace:libs/zero-nest-mongoose":
   version: 0.0.0-use.local
   resolution: "@cbnsndwch/zero-nest-mongoose@workspace:libs/zero-nest-mongoose"
@@ -568,7 +592,7 @@ __metadata:
     "@nestjs/mongoose": "npm:^11.0.1"
     "@repo/eslint-config": "workspace:*"
     "@repo/tsconfig": "workspace:*"
-    "@rocicorp/zero": "npm:^0.14.2025020701"
+    "@rocicorp/zero": "npm:^0.15.2025021200"
     "@types/node": "npm:^22.12.0"
     "@vitest/coverage-v8": "npm:^3.0.4"
     "@vitest/ui": "npm:^3.0.4"
@@ -589,11 +613,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cbnsndwch/zero-source-mongodb@workspace:apps/source-mongodb":
+"@cbnsndwch/zero-source-mongodb-server@workspace:apps/source-mongodb-server":
   version: 0.0.0-use.local
-  resolution: "@cbnsndwch/zero-source-mongodb@workspace:apps/source-mongodb"
+  resolution: "@cbnsndwch/zero-source-mongodb-server@workspace:apps/source-mongodb-server"
   dependencies:
     "@cbnsndwch/zero-nest-mongoose": "workspace:*"
+    "@cbnsndwch/zero-watermark-zqlite": "workspace:*"
     "@nats-io/kv": "npm:^3.0.0-31"
     "@nats-io/transport-node": "npm:^3.0.0-35"
     "@nestjs/cli": "npm:^11.0.2"
@@ -606,7 +631,7 @@ __metadata:
     "@nestjs/schematics": "npm:^11.0.0"
     "@nestjs/testing": "npm:^11.0.6"
     "@nestjs/websockets": "npm:^11.0.6"
-    "@rocicorp/zero": "npm:^0.14.2025020701"
+    "@rocicorp/zero": "npm:^0.15.2025021200"
     "@swc/cli": "npm:^0.6.0"
     "@swc/core": "npm:^1.10.12"
     "@types/express": "npm:^5.0.0"
@@ -646,6 +671,37 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@cbnsndwch/zero-source-mongodb@workspace:libs/zero-source-mongodb":
+  version: 0.0.0-use.local
+  resolution: "@cbnsndwch/zero-source-mongodb@workspace:libs/zero-source-mongodb"
+  dependencies:
+    "@cbnsndwch/zero-contracts": "workspace:*"
+    "@commitlint/cli": "npm:^19.6.1"
+    "@commitlint/config-conventional": "npm:^19.6.0"
+    "@nestjs/mongoose": "npm:^11.0.1"
+    "@repo/eslint-config": "workspace:*"
+    "@repo/tsconfig": "workspace:*"
+    "@rocicorp/zero": "npm:^0.15.2025021200"
+    "@types/node": "npm:^22.12.0"
+    "@vitest/coverage-v8": "npm:^3.0.4"
+    "@vitest/ui": "npm:^3.0.4"
+    change-case: "npm:^5.4.4"
+    changelogen: "npm:^0.5.7"
+    eslint: "npm:^9.19.0"
+    husky: "npm:^9.1.7"
+    lint-staged: "npm:^15.4.3"
+    mongoose: "npm:^8.9.5"
+    tsup: "npm:^8.3.6"
+    typescript: "npm:^5.7.3"
+    vitest: "npm:^3.0.4"
+  peerDependencies:
+    "@nestjs/mongoose": ^11
+    "@rocicorp/zero": "*"
+    change-case: ^4.1.2
+    mongoose: ^8.9.5
+  languageName: unknown
+  linkType: soft
+
 "@cbnsndwch/zero-sources@workspace:.":
   version: 0.0.0-use.local
   resolution: "@cbnsndwch/zero-sources@workspace:."
@@ -657,6 +713,35 @@ __metadata:
     reservoir: "npm:^0.1.2"
     turbo: "npm:^2.3.4"
     typescript: "npm:5.7.3"
+  languageName: unknown
+  linkType: soft
+
+"@cbnsndwch/zero-watermark-zqlite@workspace:*, @cbnsndwch/zero-watermark-zqlite@workspace:libs/zero-watermark-zqlite":
+  version: 0.0.0-use.local
+  resolution: "@cbnsndwch/zero-watermark-zqlite@workspace:libs/zero-watermark-zqlite"
+  dependencies:
+    "@cbnsndwch/zero-contracts": "workspace:*"
+    "@commitlint/cli": "npm:^19.6.1"
+    "@commitlint/config-conventional": "npm:^19.6.0"
+    "@nestjs/common": "npm:^11.0.9"
+    "@repo/eslint-config": "workspace:*"
+    "@repo/tsconfig": "workspace:*"
+    "@rocicorp/zero-sqlite3": "npm:*"
+    "@types/node": "npm:^22.12.0"
+    "@vitest/coverage-v8": "npm:^3.0.4"
+    "@vitest/ui": "npm:^3.0.4"
+    changelogen: "npm:^0.5.7"
+    eslint: "npm:^9.19.0"
+    husky: "npm:^9.1.7"
+    lint-staged: "npm:^15.4.3"
+    tsup: "npm:^8.3.6"
+    typescript: "npm:^5.7.3"
+    vitest: "npm:^3.0.4"
+  peerDependencies:
+    "@nestjs/common": ^11
+    "@rocicorp/zero-sqlite3": "*"
+    change-case: ^4.1.2
+    mongoose: ^8.9.5
   languageName: unknown
   linkType: soft
 
@@ -2315,6 +2400,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/common@npm:^11.0.9":
+  version: 11.0.9
+  resolution: "@nestjs/common@npm:11.0.9"
+  dependencies:
+    iterare: "npm:1.2.1"
+    tslib: "npm:2.8.1"
+    uid: "npm:2.0.2"
+  peerDependencies:
+    class-transformer: "*"
+    class-validator: "*"
+    reflect-metadata: ^0.1.12 || ^0.2.0
+    rxjs: ^7.1.0
+  peerDependenciesMeta:
+    class-transformer:
+      optional: true
+    class-validator:
+      optional: true
+  checksum: 10c0/c4de6fa8e6e459cedacc4972d96799ee27120356b17fe3587854e4250a8a61e2a0739ee0988e9adcc5d57f2d233c019f320adc01d3da31dfebfca714e5a93e16
+  languageName: node
+  linkType: hard
+
 "@nestjs/config@npm:^4.0.0":
   version: 4.0.0
   resolution: "@nestjs/config@npm:4.0.0"
@@ -3133,7 +3239,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rocicorp/zero-sqlite3@npm:^1.0.4":
+"@rocicorp/zero-sqlite3@npm:*, @rocicorp/zero-sqlite3@npm:^1.0.4":
   version: 1.0.4
   resolution: "@rocicorp/zero-sqlite3@npm:1.0.4"
   dependencies:
@@ -3146,9 +3252,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rocicorp/zero@npm:^0.14.2025020701":
-  version: 0.14.2025020701
-  resolution: "@rocicorp/zero@npm:0.14.2025020701"
+"@rocicorp/zero@npm:^0.15.2025021200":
+  version: 0.15.2025021200
+  resolution: "@rocicorp/zero@npm:0.15.2025021200"
   dependencies:
     "@badrap/valita": "npm:0.3.11"
     "@databases/escape-identifier": "npm:^1.0.3"
@@ -3195,7 +3301,8 @@ __metadata:
     zero-build-schema: out/zero/src/build-schema.js
     zero-cache: out/zero/src/cli.js
     zero-cache-dev: out/zero/src/zero-cache-dev.js
-  checksum: 10c0/55ce18349ea23288d5c91acc65f52f490cef676530fa11831290a4c3885c0236b5d82c663c581f34b858086997588d2838e32fff0e0c82720d37d8045be11c69
+    zero-deploy-permissions: out/zero/src/deploy-permissions.js
+  checksum: 10c0/f965422d429c0b6db2ddb8674bbe5b42309b155a969f1313310e294c06d6852b20f9d450c3613f5e40fec066acc893d683aed94e25cd0e784c8b433a695e0606
   languageName: node
   linkType: hard
 
@@ -11465,12 +11572,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-github@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "passport-github@npm:1.1.0"
+"passport-github2@npm:^0.1.12":
+  version: 0.1.12
+  resolution: "passport-github2@npm:0.1.12"
   dependencies:
     passport-oauth2: "npm:1.x.x"
-  checksum: 10c0/2d63e28151f6d00a3ca3a2207ef013e407a111326369b1ca89389f6b5ca22db6483bde15d4989734dd9808b1f603e0dd47f3c9bfff854ded308cfb764e89ab01
+  checksum: 10c0/70c763f40392f15509373d43014f4c32af8f4fa0a290c74f4b0125208c7aff5a0d55c16ead5663a964653622c759fa70adbc58e417577b206deb9a5a255b528c
   languageName: node
   linkType: hard
 

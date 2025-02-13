@@ -24,6 +24,7 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "*.ts": "${capture}.js,${capture}.spec.ts,${capture}.spec-d.ts,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.options.ts,${capture}.test.ts,${capture}.test-d.ts,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.ts,${capture}.stories.tsx,${capture}.mdx,${capture}.css,${capture}.module.css",
+        "*.mts": "${capture}.mjs,${capture}.spec.mts,${capture}.spec-d.mts,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.options.mts,${capture}.test.mts,${capture}.test-d.mts,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.mts,${capture}.stories.tsx,${capture}.mdx,${capture}.css,${capture}.module.css",
         "*.tsx": "${capture}.jsx,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.tsx,${capture}.stories.ts,${capture}.mdx,${capture}.css,${capture}.module.css",
         "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.http",
         "*.cjs": "${capture}.cjs.map, ${capture}.min.cjs",
