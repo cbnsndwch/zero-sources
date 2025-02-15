@@ -3,7 +3,71 @@
     "configurations": [
         {
             "type": "node",
-            "name": "Debug Mongo Source",
+            "name": "ZChat API",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "dev",
+                "--",
+                "--dns-result-order=ipv4first",
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules",
+                "**/node_modules/@nestjs/**"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/apps/zchat-api",
+            "env": {
+                "PORT": "8011",
+                "CONFIG_FILE": "${workspaceRoot}/apps/zchat-api/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        },
+        {
+            "type": "node",
+            "name": "Zero Cache for ZChat",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "dev:zero"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/apps/zchat-api"
+        },
+        {
+            "type": "node",
+            "name": "[NODE] Current File",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "program": "${file}",
+            "env": {
+                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongodb/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        },
+        {
+            "type": "node",
+            "name": "[TSX] Current File",
+            "request": "launch",
+            "cwd": "${fileDirname}",
+            "runtimeExecutable": "tsx",
+            "runtimeArgs": [
+                "${file}"
+            ],
+            "env": {
+                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongodb/config.yml",
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        },
+        {
+            "type": "node",
+            "name": "Mongo Source - Standalone",
             "request": "launch",
             "runtimeExecutable": "yarn",
             "sourceMaps": true,
@@ -24,54 +88,5 @@
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
         },
-        {
-            "type": "node",
-            "name": "Debug ZChat",
-            "request": "launch",
-            "runtimeExecutable": "yarn",
-            "sourceMaps": true,
-            "runtimeArgs": [
-                "dev",
-                "--",
-                "--dns-result-order=ipv4first",
-            ],
-            "skipFiles": [
-                "<node_internals>/**",
-                "**/node_modules",
-                "**/node_modules/@nestjs/**"
-            ],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceRoot}/apps/zchat",
-            "env": {
-                "PORT": "8011",
-                "CONFIG_FILE": "${workspaceRoot}/apps/zchat/config.yml",
-                "NODE_OPTIONS": "--dns-result-order=ipv4first"
-            }
-        },
-        {
-            "type": "node",
-            "name": "[JS] Debug Current File",
-            "request": "launch",
-            "cwd": "${fileDirname}",
-            "program": "${file}",
-            "env": {
-                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongodb/config.yml",
-                "NODE_OPTIONS": "--dns-result-order=ipv4first"
-            }
-        },
-        {
-            "type": "node",
-            "name": "[TSX] Debug Current File",
-            "request": "launch",
-            "cwd": "${fileDirname}",
-            "runtimeExecutable": "tsx",
-            "runtimeArgs": [
-                "${file}"
-            ],
-            "env": {
-                "CONFIG_FILE": "${workspaceRoot}/apps/source-mongodb/config.yml",
-                "NODE_OPTIONS": "--dns-result-order=ipv4first"
-            }
-        }
     ]
 }
