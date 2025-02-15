@@ -3,4 +3,4 @@ import { ChangeMakerV0 } from './change-maker-v0.js';
 
 export * from './change-source-v0.js';
 
-export const v0Services = [ChangesGatewayV0, ChangeMakerV0];
+export const v0ChangeSourceServices = [ChangesGatewayV0, ChangeMakerV0];

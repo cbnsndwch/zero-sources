@@ -1,5 +1,5 @@
 import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import {
@@ -9,8 +9,9 @@ import {
 } from './contracts/zero-mongo-module-options.contract.js';
 
 import { zeroEntities } from './entities/index.js';
+import { zeroControllers } from './controllers/index.js';
 
-import { v0Services } from './v0/index.js';
+import { v0ChangeSourceServices } from './v0/index.js';
 
 @Module({})
 export class ZeroMongoModule {
@@ -29,11 +30,15 @@ export class ZeroMongoModule {
                 // own
                 MongooseModule.forFeature(zeroEntities)
             ],
+            controllers: [
+                ...zeroControllers
+                //
+            ],
             providers: [
                 // collection schemas
                 optionsProvider,
                 // webSocket gateways and services
-                ...v0Services
+                ...v0ChangeSourceServices
             ]
         };
     }

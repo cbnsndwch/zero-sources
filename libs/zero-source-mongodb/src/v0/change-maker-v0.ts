@@ -31,6 +31,9 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         doc: Pick<ChangeStreamInsertDocument, '_id' | 'fullDocument' | 'ns'>,
         withTransaction = false
     ): v0.ChangeStreamMessage[] {
+        // do not expose the version field to downstream
+        delete doc.fullDocument.__v;
+
         const changes: v0.ChangeStreamMessage[] = [
             [
                 'data',
@@ -77,6 +80,10 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
             'received a change stream update event without a `fullDocument` value'
         );
 
+        // do not expose the version field to downstream
+        delete doc.fullDocument.__v;
+        delete doc.fullDocumentBeforeChange?.__v;
+
         const changes: v0.ChangeStreamMessage[] = [
             [
                 'data',
@@ -115,6 +122,9 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         withTransaction = false
     ): v0.ChangeStreamMessage[] {
         const relation = relationFromChangeStreamEvent(doc.ns);
+
+        // do not expose the version field to downstream
+        delete doc.fullDocument.__v;
 
         const changes: v0.ChangeStreamMessage[] = [
             // first, delete the old document
@@ -200,7 +210,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     makeCreateTableChanges(spec: TableSpec): v0.ChangeStreamMessage[] {
         invariant(!!spec.primaryKey, `Expected table ${spec.name} to have a primary key`);
 
-        const pkColSpec = spec.primaryKey.reduce(
+        const pkColumns = spec.primaryKey.reduce(
             (acc, col) => {
                 acc[col] = 'ASC';
                 return acc;
@@ -223,10 +233,10 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 {
                     tag: 'create-index',
                     spec: {
-                        name: `idx_${spec.schema}__${spec.name}___id`,
+                        name: `pk_${spec.schema}__${spec.name}___id`,
                         schema: spec.schema,
                         tableName: spec.name,
-                        columns: pkColSpec,
+                        columns: pkColumns,
                         unique: true
                     }
                 } satisfies v0.IndexCreate
@@ -306,8 +316,6 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     makeZeroRequiredUpstreamTablesChanges(shardId: string): v0.ChangeStreamMessage[] {
         return [
             ...this.makeCreateTableChanges({
-                // schema: `zero_${shardId}`,
-                // name: 'clients',
                 schema: `public`,
                 name: `zero_${shardId}.clients`,
                 columns: {
@@ -334,8 +342,6 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 primaryKey: ['clientGroupID', 'clientID']
             }),
             ...this.makeCreateTableChanges({
-                // schema: 'zero',
-                // name: 'schemaVersions',
                 schema: `public`,
                 name: 'zero.schemaVersions',
                 columns: {
@@ -346,6 +352,26 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                     maxSupportedVersion: {
                         pos: 2,
                         dataType: 'int4'
+                    },
+                    lock: {
+                        pos: 3,
+                        dataType: 'boolean',
+                        notNull: true
+                    }
+                },
+                primaryKey: ['lock']
+            }),
+            ...this.makeCreateTableChanges({
+                schema: `public`,
+                name: 'zero.permissions',
+                columns: {
+                    permissions: {
+                        pos: 1,
+                        dataType: 'jsonb'
+                    },
+                    hash: {
+                        pos: 2,
+                        dataType: 'text'
                     },
                     lock: {
                         pos: 3,

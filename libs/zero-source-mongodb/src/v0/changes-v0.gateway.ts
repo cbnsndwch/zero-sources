@@ -30,7 +30,7 @@ import {
 import { StreamerShard } from '../entities/streamer-shard.entity.js';
 import { getStreamerParams } from '../utils/get-streamer-params.js';
 
-import { ChangeSourceV0, WATERMARK_INITIAL_SYNC } from './change-source-v0.js';
+import { ChangeSourceV0 } from './change-source-v0.js';
 import { ChangeMakerV0 } from './change-maker-v0.js';
 
 type DownstreamState = {
@@ -124,10 +124,9 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             const abortController = new AbortController();
 
             // get the resume token for the shard, if one exists
-            const resumeToken =
-                !lastWatermark || lastWatermark === WATERMARK_INITIAL_SYNC
-                    ? undefined
-                    : await this.#watermarkService.getResumeToken(shard.id, lastWatermark);
+            const resumeToken = !lastWatermark
+                ? undefined
+                : await this.#watermarkService.getResumeToken(shard.id, lastWatermark);
 
             // stream db changes
             let stream$: Observable<v0.ChangeStreamMessage> = source.streamChanges$(
@@ -137,7 +136,7 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             );
 
             // handle initial sync scenario
-            if (!lastWatermark || lastWatermark === WATERMARK_INITIAL_SYNC) {
+            if (!lastWatermark) {
                 this.#logger.debug('No streamer watermark provided, performing initial sync');
                 stream$ = source.initialSync$().pipe(concatWith(stream$));
             } else {

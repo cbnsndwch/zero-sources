@@ -15,7 +15,7 @@
         "@types/reservoir": "^0.1.6",
         "mongodb-schema": "^12.2.0",
         "npm-check-updates": "^17.1.14",
-        "prettier": "^3.4.2",
+        "prettier": "^3.5.1",
         "reservoir": "^0.1.2",
         "turbo": "^2.3.4",
         "typescript": "5.7.3"
