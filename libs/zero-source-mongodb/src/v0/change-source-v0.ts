@@ -5,8 +5,7 @@ import type { ChangeStreamDocument, Document, ChangeStream } from 'mongodb';
 import type { ClientSession, Connection } from 'mongoose';
 import { concatWith, from, ignoreElements, map, Observable, of } from 'rxjs';
 
-import { versionToLexi, type IWatermarkService } from '@cbnsndwch/zero-contracts';
-import { invariant } from '@cbnsndwch/zero-nest-mongoose';
+import { invariant, versionToLexi, type IWatermarkService } from '@cbnsndwch/zero-contracts';
 
 import type { ChangeMaker, TableSpec, WithWatermark } from '../contracts/index.js';
 import { StreamerShard } from '../entities/streamer-shard.entity.js';
@@ -146,21 +145,20 @@ export class ChangeSourceV0 {
                 .on('error', observer.error);
         });
 
-        // if we got an abort signal, close the change stream when it's aborted
-        if (abortSignal) {
-            abortSignal.addEventListener('abort', async () => {
-                try {
-                    await this.#changeStream?.close();
-                } catch (err) {
-                    this.#logger.error('Error closing change stream on abort', err);
-                }
+        const tryCloseChangeStream = async () =>
+            await this.#changeStream?.close()?.catch(err => {
+                this.#logger.error('Error closing change stream on abort', err);
             });
+
+        // if we got an abort signal, attempt to close the change stream when it's aborted
+        if (abortSignal) {
+            abortSignal.addEventListener('abort', tryCloseChangeStream);
         }
 
         // if there's an active change stream, clean it up first
         let cleanup: Observable<void> = of(undefined);
         if (this.#changeStream && !this.#changeStream.closed) {
-            cleanup = from(this.#changeStream.close());
+            cleanup = from(tryCloseChangeStream());
         }
 
         return cleanup.pipe(
