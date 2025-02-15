@@ -79,7 +79,7 @@ export class ChangeSourceV0 {
         this.#pipeline = [
             {
                 $match: {
-                    'ns.db': { $in: publishedCollections }
+                    'ns.coll': { $in: publishedCollections }
                 }
             }
         ];
