@@ -1,21 +1,16 @@
 import type { CSSProperties } from 'react';
-import {
-    BugIcon,
-    HashIcon,
-    MessageSquareDashedIcon,
-    MessageSquareIcon,
-    PlusIcon
-} from 'lucide-react';
+import { BugIcon, HashIcon, MessageSquareLockIcon, MessageSquareIcon } from 'lucide-react';
 import { useQuery } from '@rocicorp/zero/react';
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarMenuAction } from '@/components/ui/sidebar';
 import { useZero } from '@/zero/use-zero';
 
+import { sidebarData } from './data';
+
 import { NavGroup } from './nav-group';
 import { NavUser } from './nav-user';
-import { sidebarData } from './data';
-import { Button } from '@/components/ui/button';
 import CreateRoomButton from './create-room-button';
+import RoomTypeIcon from '@/components/icons/room-icon';
 
 export function AppSidebar() {
     const z = useZero();
@@ -43,6 +38,34 @@ export function AppSidebar() {
         >
             <SidebarContent className="gap-0">
                 <NavGroup
+                    title="Public"
+                    actions={[
+                        <CreateRoomButton key="create" type="c" title="Create Public Channel" />
+                    ]}
+                    items={publicChannels.map(room => ({
+                        title: room.name ?? room.usernames?.join(', ') ?? `DM ${room._id}`,
+                        url: `/r/${room._id}`,
+                        icon: HashIcon
+                        // badge: room.unreadCount,
+                        // badgeColor: 'bg-red-500'
+                    }))}
+                />
+
+                <NavGroup
+                    title="Private"
+                    actions={[
+                        <CreateRoomButton key="create" type="p" title="Create Private Group" />
+                    ]}
+                    items={privateGroups.map(room => ({
+                        title: room.name ?? room.usernames?.join(', ') ?? `DM ${room._id}`,
+                        url: `/r/${room._id}`,
+                        icon: MessageSquareLockIcon
+                        // badge: room.unreadCount,
+                        // badgeColor: 'bg-red-500'
+                    }))}
+                />
+
+                <NavGroup
                     title="DMs"
                     actions={[<CreateRoomButton key="create" type="d" title="Create DMs Room" />]}
                     items={dmRooms.map(room => ({
@@ -55,33 +78,11 @@ export function AppSidebar() {
                 />
 
                 <NavGroup
-                    title="Private"
-                    items={privateGroups.map(room => ({
-                        title: room.name ?? room.usernames?.join(', ') ?? `DM ${room._id}`,
-                        url: `/r/${room._id}`,
-                        icon: HashIcon
-                        // badge: room.unreadCount,
-                        // badgeColor: 'bg-red-500'
-                    }))}
-                />
-
-                <NavGroup
-                    title="Public"
-                    items={publicChannels.map(room => ({
-                        title: room.name ?? room.usernames?.join(', ') ?? `DM ${room._id}`,
-                        url: `/r/${room._id}`,
-                        icon: MessageSquareDashedIcon
-                        // badge: room.unreadCount,
-                        // badgeColor: 'bg-red-500'
-                    }))}
-                />
-
-                <NavGroup
                     title="All (DEBUG)"
                     items={allRooms.map(room => ({
                         title: room.name ?? room.usernames?.join(', ') ?? `DM ${room._id}`,
                         url: `/r/${room._id}`,
-                        icon: BugIcon
+                        icon: () => <RoomTypeIcon t={room.t} />
                         // badge: room.unreadCount,
                         // badgeColor: 'bg-red-500'
                     }))}

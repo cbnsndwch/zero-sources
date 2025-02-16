@@ -16776,6 +16776,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tailwindcss-animated@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "tailwindcss-animated@npm:2.0.0"
+  peerDependencies:
+    tailwindcss: ">=3.1.0 || >=4.0.0"
+  checksum: 10c0/b405e48d625740c8f320f97424e7261cf7e449afffe0a495552578e3f0797906d62c8b4e9e92ee809764ae8eb4c515455d63a2aaeebed32b8ebfd762f3272d0b
+  languageName: node
+  linkType: hard
+
 "tailwindcss@npm:4.0.6, tailwindcss@npm:^4.0.0":
   version: 4.0.6
   resolution: "tailwindcss@npm:4.0.6"
@@ -18496,6 +18505,7 @@ __metadata:
     tailwind-merge: "npm:^3.0.1"
     tailwindcss: "npm:^4.0.0"
     tailwindcss-animate: "npm:^1.0.7"
+    tailwindcss-animated: "npm:^2.0.0"
     typescript: "npm:^5.7.2"
     vaul: "npm:^1.1.2"
     vite: "npm:^5.4.11"

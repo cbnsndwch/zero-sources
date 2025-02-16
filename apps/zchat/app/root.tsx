@@ -1,4 +1,4 @@
-import { useCallback, useSyncExternalStore } from 'react';
+import { useCallback, useSyncExternalStore, type PropsWithChildren } from 'react';
 import { isRouteErrorResponse, Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import { ZeroProvider } from '@rocicorp/zero/react';
 
@@ -25,7 +25,7 @@ export const links: Route.LinksFunction = () => [
     }
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>
@@ -52,7 +52,7 @@ export default function App() {
     );
 
     if (!zero) {
-        return null;
+        return <h1>Loading data...</h1>;
     }
 
     return (

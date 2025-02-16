@@ -44,5 +44,6 @@ export type SpaceSummary = {
     title: string;
     url: string;
     isActive: boolean;
+    avatar?: string;
     icon: ComponentType<RefAttributes<SVGSVGElement> & SVGAttributes<unknown>>;
 };

@@ -12,6 +12,7 @@ import {
 import type { SpaceSummary } from '../contracts';
 
 import { spaces } from './data';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function SpacesSidebar() {
     // TODO:: move this to a zustand store / the router / the url
@@ -71,9 +72,9 @@ function SpacesMenuItem({ item, setActiveItem, activeItem }: SpacesMenuItemProps
         <SidebarMenuItem>
             <SidebarMenuButton
                 asChild
-                size="default"
+                size="lg"
                 variant="outline"
-                className="cursor-pointer"
+                className="cursor-pointer p-0"
                 tooltip={{
                     children: item.title,
                     hidden: false
@@ -81,7 +82,10 @@ function SpacesMenuItem({ item, setActiveItem, activeItem }: SpacesMenuItemProps
                 onClick={onClick}
                 isActive={activeItem.title === item.title}
             >
-                <item.icon className="!h-10 !w-10" />
+                <Avatar>
+                    <AvatarImage src={item.avatar} alt={item.title} />
+                    <AvatarFallback>{item.title.slice(0, 2).toUpperCase()}</AvatarFallback>
+                </Avatar>
             </SidebarMenuButton>
         </SidebarMenuItem>
     );

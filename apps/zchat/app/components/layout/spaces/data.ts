@@ -5,33 +5,17 @@ import type { SpaceSummary } from '../contracts';
 // TODO: read from zero
 export const spaces: SpaceSummary[] = [
     {
-        title: 'Space 1',
+        title: 'cbnsndwch LLC',
         url: '#',
         icon: BuildingIcon,
+        avatar: '/avatars/cbnsndwch.jpg',
         isActive: true
     },
     {
-        title: 'Space 2',
+        title: 'Rocicorp',
         url: '#',
         icon: BuildingIcon,
-        isActive: false
-    },
-    {
-        title: 'Space 3',
-        url: '#',
-        icon: BuildingIcon,
-        isActive: false
-    },
-    {
-        title: 'Space 4',
-        url: '#',
-        icon: BuildingIcon,
-        isActive: false
-    },
-    {
-        title: 'Space 5',
-        url: '#',
-        icon: BuildingIcon,
+        avatar: '/avatars/rocicorp.webp',
         isActive: false
     }
 ];

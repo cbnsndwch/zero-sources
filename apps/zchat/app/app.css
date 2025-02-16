@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@plugin 'tailwindcss-animate';
+@plugin 'tailwindcss-animated';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -17,6 +17,13 @@ body {
 
     @media (prefers-color-scheme: dark) {
         color-scheme: dark;
+    }
+}
+
+@layer components {
+    /* simulates the MUI Fade transition */
+    .fade-in-500 {
+        @apply animate-fade animate-once animate-duration-300 animate-ease-in;
     }
 }
 
