@@ -1,11 +1,12 @@
-import { Zero } from '@rocicorp/zero';
+import { Zero, type CustomMutatorDefs } from '@rocicorp/zero';
 
-import { type RoomType, type Schema, schema } from '@cbnsndwch/zchat-contracts';
+import { schema, type Schema } from '@cbnsndwch/zchat-contracts';
 
 import { clearJwt, getJwt, getRawJwt } from '../auth/jwt';
 
 import { Atom } from './atom';
 import { mark } from './perf';
+import { mutators } from './mutators';
 
 // One more than we display so we can detect if there are more
 // to load.
@@ -39,20 +40,13 @@ authRef.onChange(auth => {
 
     mark('creating new zero');
 
-    zeroRef.current = new Zero<Schema, any>({
+    zeroRef.current = new Zero<Schema, CustomMutatorDefs<Schema>>({
         schema,
         logLevel: 'debug',
         server: import.meta.env.VITE_PUBLIC_SERVER,
         userID: auth?.decoded?.sub ?? 'anon',
         kvStore: 'document' in globalThis ? 'idb' : 'mem',
-        mutators: {
-            rooms: {
-                async create(tx: any, input: { t: RoomType; name: string }) {
-                    // ! server-side only
-                    // tx.rooms.insert({ t, name });
-                }
-            }
-        },
+        mutators,
         auth: (error?: 'invalid-token') => {
             if (error === 'invalid-token') {
                 clearJwt();

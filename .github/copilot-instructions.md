@@ -54,15 +54,15 @@ For production, you should run the `zero-build-schema` explicitly to generate th
 Use the `table` function to define each table in your Zero schema:
 
 ```tsx
-import {table, string, boolean} from '@rocicorp/zero';
+import { table, string, boolean } from '@rocicorp/zero';
 
-const user = table("user")
-  .columns({
-    id: string(),
-    name: string(),
-    partner: boolean(),
-  })
-  .primaryKey("id");
+const user = table('user')
+    .columns({
+        id: string(),
+        name: string(),
+        partner: boolean()
+    })
+    .primaryKey('id');
 ```
 
 Column types are defined with the `boolean()`, `number()`, `string()`, `json()`, and `enumeration()` helpers. See [Column Types](/docs/postgres-support#column-types) for how database types are mapped to these types.
@@ -79,14 +79,14 @@ Column types are defined with the `boolean()`, `number()`, `string()`, `json()`,
 Use `from()` to map a TypeScript table or column name to a different database name:
 
 ```ts
-const userPref = table("userPref")
-  // Map TS "userPref" to DB name "user_pref"
-  .from("user_pref")
-  .columns({
-    id: string(),
-    // Map TS "orgID" to DB name "org_id"
-    orgID: string().from("org_id"),
-  });
+const userPref = table('userPref')
+    // Map TS "userPref" to DB name "user_pref"
+    .from('user_pref')
+    .columns({
+        id: string(),
+        // Map TS "orgID" to DB name "org_id"
+        orgID: string().from('org_id')
+    });
 ```
 
 ### Multiple Schemas
@@ -95,8 +95,7 @@ You can also use `from()` to access other Postgres schemas:
 
 ```ts
 // Sync the "event" table from the "analytics" schema.
-const event = table("event")
-    .from("analytics.event");
+const event = table('event').from('analytics.event');
 ```
 
 ### Optional Columns
@@ -104,13 +103,13 @@ const event = table("event")
 Columns can be marked _optional_. This corresponds to the SQL concept `nullable`.
 
 ```tsx
-const user = table("user")
-  .columns({
-    id: string(),
-    name: string(),
-    nickName: string().optional(),
-  })
-  .primaryKey("id");
+const user = table('user')
+    .columns({
+        id: string(),
+        name: string(),
+        nickName: string().optional()
+    })
+    .primaryKey('id');
 ```
 
 An optional column can store a value of the specified type or `null` to mean _no value_.
@@ -127,15 +126,15 @@ An optional column can store a value of the specified type or `null` to mean _no
 Use the `enumeration` helper to define a column that can only take on a specific set of values. This is most often used alongside an [`enum` Postgres column type](postgres-support#column-types).
 
 ```tsx
-import {table, string, enumeration} from '@rocicorp/zero';
+import { table, string, enumeration } from '@rocicorp/zero';
 
-const user = table("user")
-  .columns({
-    id: string(),
-    name: string(),
-    mood: enumeration<'happy' | 'sad' | 'taco'>(),
-  })
-  .primaryKey("id");
+const user = table('user')
+    .columns({
+        id: string(),
+        name: string(),
+        mood: enumeration<'happy' | 'sad' | 'taco'>()
+    })
+    .primaryKey('id');
 ```
 
 ### Custom JSON Types
@@ -143,15 +142,15 @@ const user = table("user")
 Use the `json` helper to define a column that stores a JSON-compatible value:
 
 ```tsx
-import {table, string, json} from '@rocicorp/zero';
+import { table, string, json } from '@rocicorp/zero';
 
-const user = table("user")
-  .columns({
-    id: string(),
-    name: string(),
-    settings: json<{theme: 'light' | 'dark'}>(),
-  })
-  .primaryKey("id");
+const user = table('user')
+    .columns({
+        id: string(),
+        name: string(),
+        settings: json<{ theme: 'light' | 'dark' }>()
+    })
+    .primaryKey('id');
 ```
 
 ### Compound Primary Keys
@@ -159,13 +158,13 @@ const user = table("user")
 Pass multiple columns to `primaryKey` to define a compound primary key:
 
 ```ts
-const user = table("user")
-  .columns({
-    orgID: string(),
-    userID: string(),
-    name: string(),
-  })
-  .primaryKey("orgID", "userID");
+const user = table('user')
+    .columns({
+        orgID: string(),
+        userID: string(),
+        name: string()
+    })
+    .primaryKey('orgID', 'userID');
 ```
 
 ## Relationships
@@ -174,25 +173,23 @@ Use the `relationships` function to define relationships between tables. Use the
 
 ```ts
 const messageRelationships = relationships(message, ({ one, many }) => ({
-  sender: one({
-    sourceField: ["senderID"],
-    destField: ["id"],
-    destSchema: user,
-  }),
-  replies: many({
-    sourceField: ["id"],
-    destSchema: message,
-    destField: ["parentMessageID"],
-  }),
+    sender: one({
+        sourceField: ['senderID'],
+        destField: ['id'],
+        destSchema: user
+    }),
+    replies: many({
+        sourceField: ['id'],
+        destSchema: message,
+        destField: ['parentMessageID']
+    })
 }));
 ```
 
 This creates "sender" and "replies" relationships that can later be queried with the [`related` ZQL clause](./reading-data#relationships):
 
 ```ts
-const messagesWithSenderAndReplies = z.query.messages
-  .related('sender')
-  .related("replies");
+const messagesWithSenderAndReplies = z.query.messages.related('sender').related('replies');
 ```
 
 This will return an object for each message row. Each message will have a `sender` field that is a single `User` object or `null`, and a `replies` field that is an array of `Message` objects.
@@ -203,15 +200,18 @@ You can create many-to-many relationships by chaining the relationship definitio
 
 ```ts
 const issueRelationships = relationships(issue, ({ many }) => ({
-  labels: many({
-    sourceField: ["id"],
-    destSchema: issueLabel,
-    destField: ["issueID"],
-  },{
-    sourceField: ["labelID"],
-    destSchema: label,
-    destField: ["id"],
-  }),
+    labels: many(
+        {
+            sourceField: ['id'],
+            destSchema: issueLabel,
+            destField: ['issueID']
+        },
+        {
+            sourceField: ['labelID'],
+            destSchema: label,
+            destField: ['id']
+        }
+    )
 }));
 ```
 
@@ -226,11 +226,11 @@ Relationships can traverse compound keys. Imagine a `user` table with a compound
 
 ```ts
 const messageRelationships = relationships(message, ({ one }) => ({
-  sender: one({
-    sourceField: ["senderOrgID", "senderUserID"],
-    destSchema: user,
-    destField: ["orgID", "userID"],
-  }),
+    sender: one({
+        sourceField: ['senderOrgID', 'senderUserID'],
+        destSchema: user,
+        destField: ['orgID', 'userID']
+    })
 }));
 ```
 
@@ -240,11 +240,11 @@ Circular relationships are fully supported:
 
 ```tsx
 const commentRelationships = relationships(comment, ({ one }) => ({
-  parent: one({
-    sourceField: ["parentID"],
-    destSchema: comment,
-    destField: ["id"],
-  }),
+    parent: one({
+        sourceField: ['parentID'],
+        destSchema: comment,
+        destField: ['id']
+    })
 }));
 ```
 
@@ -253,16 +253,13 @@ const commentRelationships = relationships(comment, ({ one }) => ({
 Use `createSchema` to define the entire Zero schema:
 
 ```tsx
-import {createSchema} from '@rocicorp/zero';
+import { createSchema } from '@rocicorp/zero';
 
 export const schema = createSchema(
-  1,  // Schema version. See [Schema Migrations](/docs/migrations) for more info.
-  {
-    tables: [user, medium, message],
-    relationships: [
-      userRelationships,
-      mediumRelationships,
-      messageRelationships,
-    ],
-  });
+    1, // Schema version. See [Schema Migrations](/docs/migrations) for more info.
+    {
+        tables: [user, medium, message],
+        relationships: [userRelationships, mediumRelationships, messageRelationships]
+    }
+);
 ```

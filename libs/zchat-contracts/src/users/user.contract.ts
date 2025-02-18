@@ -1,9 +1,4 @@
-import type {
-    IHasCreatedAt,
-    IHasShortId,
-    IEntityBase,
-    IHasName
-} from '../common/index.js';
+import type { IHasCreatedAt, IHasShortId, IEntityBase, IHasName } from '../common/index.js';
 
 import type { UserPresenceStatus } from './user-status.contract.js';
 
@@ -32,7 +27,7 @@ export interface IUser extends IEntityBase, IHasCreatedAt {
 
     email: string;
 
-    additionalEmails? : string[];
+    additionalEmails?: string[];
 
     active: boolean;
 

@@ -10,12 +10,12 @@ export class HealthzController {
     constructor(private readonly configService: ConfigService<AppConfig>) {}
 
     @Get()
-    @ApiOperation({ 
+    @ApiOperation({
         summary: 'Health check endpoint',
         description: 'Returns database connection information to verify system health'
     })
-    @ApiResponse({ 
-        status: 200, 
+    @ApiResponse({
+        status: 200,
         description: 'Application is healthy',
         schema: {
             type: 'object',

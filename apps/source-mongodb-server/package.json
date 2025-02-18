@@ -34,7 +34,7 @@
         "@nestjs/platform-express": "^11.0.6",
         "@nestjs/platform-ws": "^11.0.6",
         "@nestjs/websockets": "^11.0.6",
-        "@rocicorp/zero": "^0.14.2025021202",
+        "@rocicorp/zero": "0.16.2025021700",
         "change-case": "^5.4.4",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.1",

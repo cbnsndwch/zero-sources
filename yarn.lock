@@ -571,7 +571,7 @@ __metadata:
     "@nestjs/swagger": "npm:^11.0.3"
     "@nestjs/testing": "npm:^11.0.6"
     "@nestjs/websockets": "npm:^11.0.6"
-    "@rocicorp/zero": "npm:^0.14.2025021202"
+    "@rocicorp/zero": "npm:0.16.2025021700"
     "@rocket.chat/icons": "npm:^0.40.0"
     "@rocket.chat/message-parser": "npm:^0.31.32"
     "@rocket.chat/ui-kit": "npm:^0.37.0"
@@ -632,7 +632,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:^19.6.0"
     "@repo/eslint-config": "workspace:*"
     "@repo/tsconfig": "workspace:*"
-    "@rocicorp/zero": "npm:^0.14.2025021202"
+    "@rocicorp/zero": "npm:0.16.2025021700"
     "@types/node": "npm:^22.12.0"
     "@vitest/coverage-v8": "npm:^3.0.4"
     "@vitest/ui": "npm:^3.0.4"
@@ -656,7 +656,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:^19.6.0"
     "@repo/eslint-config": "workspace:*"
     "@repo/tsconfig": "workspace:*"
-    "@rocicorp/zero": "npm:^0.14.2025021202"
+    "@rocicorp/zero": "npm:0.16.2025021700"
     "@types/node": "npm:^22.12.0"
     "@vitest/coverage-v8": "npm:^3.0.4"
     "@vitest/ui": "npm:^3.0.4"
@@ -681,7 +681,7 @@ __metadata:
     "@nestjs/mongoose": "npm:^11.0.1"
     "@repo/eslint-config": "workspace:*"
     "@repo/tsconfig": "workspace:*"
-    "@rocicorp/zero": "npm:^0.14.2025021202"
+    "@rocicorp/zero": "npm:0.16.2025021700"
     "@types/node": "npm:^22.12.0"
     "@vitest/coverage-v8": "npm:^3.0.4"
     "@vitest/ui": "npm:^3.0.4"
@@ -720,7 +720,7 @@ __metadata:
     "@nestjs/schematics": "npm:^11.0.0"
     "@nestjs/testing": "npm:^11.0.6"
     "@nestjs/websockets": "npm:^11.0.6"
-    "@rocicorp/zero": "npm:^0.14.2025021202"
+    "@rocicorp/zero": "npm:0.16.2025021700"
     "@swc/cli": "npm:^0.6.0"
     "@swc/core": "npm:^1.10.12"
     "@types/express": "npm:^5.0.0"
@@ -779,7 +779,7 @@ __metadata:
     "@nestjs/websockets": "npm:^11.0.6"
     "@repo/eslint-config": "workspace:*"
     "@repo/tsconfig": "workspace:*"
-    "@rocicorp/zero": "npm:^0.14.2025021202"
+    "@rocicorp/zero": "npm:0.16.2025021700"
     "@types/node": "npm:^22.12.0"
     "@vitest/coverage-v8": "npm:^3.0.4"
     "@vitest/ui": "npm:^3.0.4"
@@ -5124,9 +5124,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rocicorp/zero@npm:^0.14.2025021202":
-  version: 0.14.2025021404
-  resolution: "@rocicorp/zero@npm:0.14.2025021404"
+"@rocicorp/zero@npm:0.16.2025021700":
+  version: 0.16.2025021700
+  resolution: "@rocicorp/zero@npm:0.16.2025021700"
   dependencies:
     "@badrap/valita": "npm:0.3.11"
     "@databases/escape-identifier": "npm:^1.0.3"
@@ -5173,7 +5173,8 @@ __metadata:
     zero-build-schema: out/zero/src/build-schema.js
     zero-cache: out/zero/src/cli.js
     zero-cache-dev: out/zero/src/zero-cache-dev.js
-  checksum: 10c0/2412b4e7e78948fe854929a7c3e1a1ef3612723cf3a497716491d2ba4c6a8cb9ade85788f36e5082035bc2c7d83ca7a596c0f71bc109ecdd18f1e50f0726a3a7
+    zero-deploy-permissions: out/zero/src/deploy-permissions.js
+  checksum: 10c0/a429de513d1b62aaeb5f88bda4f5f6b4430680aa444363d96bbeaf87a7cd2896366afd6e48e6509573f1ba724bda39df229f5c74ae85c558a2ed1c2a3e0c1373
   languageName: node
   linkType: hard
 

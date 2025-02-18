@@ -81,7 +81,7 @@ export class ZqliteWatermarkModule {
         return {
             global: true,
             module: ZqliteWatermarkModule,
-            imports: [ConfigModule, ...options.imports ?? []],
+            imports: [ConfigModule, ...(options.imports ?? [])],
             providers: [optionsProvider, zqliteDbProvider, watermarkServiceProvider],
             exports: [watermarkServiceProvider]
         };

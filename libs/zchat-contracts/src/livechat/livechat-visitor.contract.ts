@@ -40,11 +40,11 @@ export interface ILivechatVisitor extends IEntityBase {
     visitorEmails?: IVisitorEmail[];
     status?: UserPresenceStatus;
     lastAgent?: ILivechatAgentSummary;
-    
+
     livechatData?: ILivechatData;
-    
+
     contactManager?: IHasUsername;
-    
+
     activity?: string[];
     disabled?: boolean;
 }

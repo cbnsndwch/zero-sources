@@ -74,7 +74,7 @@ function SpacesMenuItem({ item, setActiveItem, activeItem }: SpacesMenuItemProps
                 asChild
                 size="lg"
                 variant="outline"
-                className="cursor-pointer p-0"
+                className="cursor-pointer p-0 h-10"
                 tooltip={{
                     children: item.title,
                     hidden: false

@@ -2,11 +2,7 @@
 import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 import type { SerializedEditorState } from 'lexical';
 
-import type {
-    IHasId,
-    IHasName,
-    IEntityBase
-} from '../common/index.js';
+import type { IHasId, IHasName, IEntityBase } from '../common/index.js';
 
 import type { IUserSummary } from '../users/user.contract.js';
 

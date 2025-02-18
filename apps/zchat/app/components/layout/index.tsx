@@ -12,7 +12,7 @@ export default function SidebarLayout() {
             open={false}
             style={
                 {
-                    '--sidebar-width': '4rem',
+                    '--sidebar-width': '4rem'
                     // '--sidebar-width-icon': '0'
                 } as CSSProperties
             }

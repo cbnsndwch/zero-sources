@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "build": "turbo build",
-        "build:libs": "turbo build \"--filter=./libs/*\"",
+        "build:libs": "yarn && turbo build \"--filter=./libs/*\"",
         "dev": "turbo dev",
         "lint": "turbo lint",
         "test": "turbo test",

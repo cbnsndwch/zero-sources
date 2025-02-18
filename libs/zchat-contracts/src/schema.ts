@@ -3,7 +3,8 @@ import {
     definePermissions,
     NOBODY_CAN,
     ANYONE_CAN,
-    type ExpressionBuilder
+    type ExpressionBuilder,
+    PermissionsConfig
 } from '@rocicorp/zero';
 
 import { JwtPayload } from './auth/index.js';
@@ -76,5 +77,5 @@ export const permissions = definePermissions<JwtPayload, Schema>(schema, () => {
                 delete: [allowIfLoggedIn]
             }
         }
-    };
+    } satisfies PermissionsConfig<JwtPayload, Schema>;
 });

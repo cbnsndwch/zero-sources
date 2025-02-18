@@ -61,9 +61,7 @@ export function pad(
             return str + _padStr.repeat(padlen);
         case 'both':
             return (
-                _padStr.repeat(Math.ceil(padlen / 2)) +
-                str +
-                _padStr.repeat(Math.floor(padlen / 2))
+                _padStr.repeat(Math.ceil(padlen / 2)) + str + _padStr.repeat(Math.floor(padlen / 2))
             );
         default: // 'left'
             return _padStr.repeat(padlen) + str;
@@ -122,10 +120,7 @@ export function makeBanner(message: string | string[], title?: string) {
         _message = _message.split('\n');
     }
 
-    const len = Math.max.apply(null, [
-        title?.length ?? 0,
-        ..._message.map(line => line.length)
-    ]);
+    const len = Math.max.apply(null, [title?.length ?? 0, ..._message.map(line => line.length)]);
 
     const topLine = `┌────${pad('', len, '─')}────┐`;
     const divider = `├────${pad('', len, '─')}────┤`;

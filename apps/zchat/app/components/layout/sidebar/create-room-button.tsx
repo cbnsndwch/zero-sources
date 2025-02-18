@@ -17,6 +17,17 @@ import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 import { useZero } from '@/zero/use-zero';
+import { Form, useForm } from 'react-hook-form';
+import { createRoomInputSchema, type CreateRoomInput } from '@/zero/mutators';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '@/components/ui/form';
 
 export type CreateRoomButtonProps = {
     type: RoomType;
@@ -26,18 +37,19 @@ export type CreateRoomButtonProps = {
 export default function CreateRoomButton({ type, title }: CreateRoomButtonProps) {
     const zero = useZero();
 
-    // TODO: review custom mutators docs
-    const onAccept = useCallback(() => {
-        const rooms = zero.mutate.rooms as any;
-
-        rooms.create({
+    const form = useForm<CreateRoomInput>({
+        resolver: zodResolver(createRoomInputSchema),
+        defaultValues: {
             t: type,
-            name: 'New Room'
-        });
-    }, [zero]);
+            name: ''
+        }
+    });
+
+    // TODO: review custom mutators docs
+    const onSubmit = useCallback((data: CreateRoomInput) => zero.mutate.dm.create(data), [zero]);
 
     return (
-        <>
+        <Form {...form}>
             <Tooltip>
                 <Dialog>
                     <DialogTrigger asChild>
@@ -52,30 +64,40 @@ export default function CreateRoomButton({ type, title }: CreateRoomButtonProps)
                         </TooltipTrigger>
                     </DialogTrigger>
                     <TooltipContent side="right">{title}</TooltipContent>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>{title}</DialogTitle>
-                        </DialogHeader>
+                    <DialogContent asChild>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex flex-col space-y-4 justify-start items-center gap-4"
+                        >
+                            <DialogHeader>
+                                <DialogTitle>{title}</DialogTitle>
+                            </DialogHeader>
 
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="name" className="text-right">
-                                    Name
-                                </Label>
-                                <Input
-                                    id="name"
-                                    placeholder="Give your room a name"
-                                    className="col-span-3"
-                                />
-                            </div>
-                        </div>
+                            <FormField
+                                name="name"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Give your room a name" {...field} />
+                                        </FormControl>
+                                        <FormDescription>
+                                            The display name for the room. This can be changed
+                                            later.
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                        <DialogFooter>
-                            <Button onClick={onAccept}>Create</Button>
-                        </DialogFooter>
+                            <DialogFooter>
+                                <Button type="submit">Create</Button>
+                            </DialogFooter>
+                        </form>
                     </DialogContent>
                 </Dialog>
             </Tooltip>
-        </>
+        </Form>
     );
 }

@@ -12,5 +12,5 @@ export * from './livechat-agent.entity.js';
 export const chatEntities: ModelDefinition[] = [
     messageModelDefinition,
     roomModelDefinition,
-    subscriptionModelDefinition,
+    subscriptionModelDefinition
 ];

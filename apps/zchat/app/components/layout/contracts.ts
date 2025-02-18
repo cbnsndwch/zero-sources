@@ -31,7 +31,7 @@ export type NavItem = NavCollapsible | NavLink;
 export interface NavGroup {
     title: string;
     items: NavItem[];
-    actions?: ReactElement[]
+    actions?: ReactElement[];
 }
 
 export interface SidebarData {

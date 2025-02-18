@@ -52,8 +52,8 @@ export type JwtPayload = {
     /**
      * Shorthand name by which the End-User wishes to be referred to at the RP,
      * such as `jane_doe` or `j.doe`. This value MAY be any valid JSON string
-     * including special characters such as `@`, `/`, or whitespace. 
-     * 
+     * including special characters such as `@`, `/`, or whitespace.
+     *
      * Matches the `Preferred Username (preferred_username)` claim from `OIDC 1.0`.
      *
      * **NOTE:** The RP MUST NOT rely upon this value being unique, as discussed in

@@ -33,8 +33,8 @@ export function NavGroup({ title, items, actions }: NavGroup) {
 
     return (
         <SidebarGroup>
-            <SidebarGroupLabel className='justify-start'>
-                <span className='grow'>{title}</span>
+            <SidebarGroupLabel className="justify-start">
+                <span className="grow">{title}</span>
                 {actions}
             </SidebarGroupLabel>
             <SidebarMenu>
