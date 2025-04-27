@@ -8,9 +8,14 @@ import {
 } from 'mongoose';
 import type { OptionalUnlessRequiredId, MatchKeysAndValues } from 'mongodb';
 
-import { } from '@rocicorp/zero/advanced';
+// Removed incorrect import for error types
+// import {
+//     MutationAlreadyProcessedError,
+//     OutOfOrderMutation
+// } from '@rocicorp/zero/advanced';
 
 import { invariant } from '@cbnsndwch/zero-contracts';
+import { MutationAlreadyProcessedError, OutOfOrderMutation } from './utils.js'; // Import local error types
 
 const COLLECTION_ZERO_CLIENTS =
     process.env.ZERO_MONGO_CLIENTS_COLLECTION || '__zero_clients';
@@ -117,6 +122,17 @@ export class MongoTransaction {
         );
 
         this.#changes.push({ op: 'delete', collection, ids });
+    }
+
+    /**
+     * Returns the active client session for this transaction.
+     */
+    getSession(): ClientSession {
+        invariant(
+            Boolean(this.#session),
+            'MongoTransaction::getSession called without an active client session. Did you call beginTransaction()?'
+        );
+        return this.#session;
     }
 
     async checkAndIncrementLastMutationId(

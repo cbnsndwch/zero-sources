@@ -1,13 +1,16 @@
 declare const process: {
     env: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+         
         NODE_ENV?: string;
     };
 };
 
 export const skipAssertJSONValue = process.env.NODE_ENV === 'production';
 
-export function assert(b: unknown, msg: string | (() => string) = 'Assertion failed'): asserts b {
+export function assert(
+    b: unknown,
+    msg: string | (() => string) = 'Assertion failed'
+): asserts b {
     if (!b) {
         throw new Error(typeof msg === 'string' ? msg : msg());
     }
@@ -82,7 +85,10 @@ export function assertNotUndefined<T>(
     }
 }
 
-export function assertInstanceof<T>(v: unknown, t: new (...args: unknown[]) => T): asserts v is T {
+export function assertInstanceof<T>(
+    v: unknown,
+    t: new (...args: unknown[]) => T
+): asserts v is T {
     if (!(v instanceof t)) {
         throw new Error(`Expected instanceof ${t.name}`);
     }

@@ -2,6 +2,8 @@ import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { ZeroDiscoveryModule } from './discovery/zero-discovery.module.js';
+
 import {
     TOKEN_MODULE_OPTIONS,
     type ZeroMongoModuleAsyncOptions,
@@ -27,19 +29,13 @@ export class ZeroMongoModule {
             module: ZeroMongoModule,
             imports: [
                 ConfigModule,
-                // own
-                MongooseModule.forFeature(zeroEntities)
+                MongooseModule.forFeature(zeroEntities),
+                ZeroDiscoveryModule, // Add discovery module here
+                ...(options.imports || [])
             ],
-            controllers: [
-                ...zeroControllers
-                //
-            ],
-            providers: [
-                // collection schemas
-                optionsProvider,
-                // webSocket gateways and services
-                ...v0ChangeSourceServices
-            ]
+            controllers: [...zeroControllers],
+            providers: [optionsProvider, ...v0ChangeSourceServices],
+            exports: []
         };
     }
 }

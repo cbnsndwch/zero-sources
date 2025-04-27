@@ -93,7 +93,10 @@ export type IChangeMaker<TChangeData> = {
      * @param doc The change stream document
      * @see {@link https://www.mongodb.com/docs/manual/reference/change-events/drop/#mongodb-data-drop}
      */
-    makeDropCollectionChanges(watermark: string, doc: ChangeStreamDropDocument): TChangeData[];
+    makeDropCollectionChanges(
+        watermark: string,
+        doc: ChangeStreamDropDocument
+    ): TChangeData[];
 
     /**
      * Generates a series of change stream messages to create a table and its primary key index.

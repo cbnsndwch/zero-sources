@@ -1,7 +1,17 @@
-import { assertObject, skipAssertJSONValue, throwInvalidType } from './asserts.js';
+import {
+    assertObject,
+    skipAssertJSONValue,
+    throwInvalidType
+} from './asserts.js';
 
 /** The values that can be represented in JSON */
-export type JSONValue = null | string | boolean | number | Array<JSONValue> | JSONObject;
+export type JSONValue =
+    | null
+    | string
+    | boolean
+    | number
+    | Array<JSONValue>
+    | JSONObject;
 
 /**
  * A JSON object. This is a map from strings to JSON values or `undefined`. We
@@ -65,7 +75,7 @@ export function deepEqual(
 
     // a cannot be undefined here because either a and b are undefined or their
     // types are different.
-    // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
+     
     a = a!;
 
     // 'object'
@@ -145,7 +155,9 @@ export function assertJSONObject(v: unknown): asserts v is JSONObject {
     assertObjectIsJSONObject(v);
 }
 
-function assertObjectIsJSONObject(v: Record<string, unknown>): asserts v is JSONObject {
+function assertObjectIsJSONObject(
+    v: Record<string, unknown>
+): asserts v is JSONObject {
     for (const k in v) {
         if (Object.hasOwn(v, k)) {
             const value = v[k];
@@ -196,7 +208,10 @@ export function isJSONObject(v: unknown, path: Path): v is JSONObject {
     return objectIsJSONObject(v as Record<string, unknown>, path);
 }
 
-function objectIsJSONObject(v: Record<string, unknown>, path: Path): v is JSONObject {
+function objectIsJSONObject(
+    v: Record<string, unknown>,
+    path: Path
+): v is JSONObject {
     for (const k in v) {
         if (Object.hasOwn(v, k)) {
             path.push(k);
@@ -222,6 +237,11 @@ function isJSONArray(v: unknown[], path: Path): v is JSONValue[] {
 }
 
 /** Basic deep readonly type. It works for {@link JSONValue} types. */
-export type DeepReadonly<T> = T extends null | boolean | string | number | undefined
+export type DeepReadonly<T> = T extends
+    | null
+    | boolean
+    | string
+    | number
+    | undefined
     ? T
     : { readonly [K in keyof T]: DeepReadonly<T[K]> };
