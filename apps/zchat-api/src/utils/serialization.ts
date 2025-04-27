@@ -36,14 +36,21 @@ export function reviver(this: any, key: string, value: any) {
     } else if (key === 'validator') {
         return new Function('return( ' + value + ' );')();
     }
-    if (value && value.toString && value.toString().indexOf('__REGEXP ') === 0) {
-        var m = value.split('__REGEXP ')[1].match(/\/(.*)\/(.*)?/);
+    if (
+        value &&
+        value.toString &&
+        value.toString().indexOf('__REGEXP ') === 0
+    ) {
+        const m = value.split('__REGEXP ')[1].match(/\/(.*)\/(.*)?/);
         return new RegExp(m[1], m[2] || '');
     }
     return value;
 }
 
-export function serializeSchema(schema: SchemaDefinition, space?: string | number) {
+export function serializeSchema(
+    schema: SchemaDefinition,
+    space?: string | number
+) {
     const cache = new Set();
 
     const json = JSON.stringify(
@@ -90,13 +97,24 @@ export function deserializeSchema<
     TStaticMethods = {},
     TSchemaOptions = DefaultSchemaOptions,
     DocType extends ApplySchemaOptions<
-        ObtainDocumentType<DocType, RawDocType, ResolveSchemaOptions<TSchemaOptions>>,
+        ObtainDocumentType<
+            DocType,
+            RawDocType,
+            ResolveSchemaOptions<TSchemaOptions>
+        >,
         ResolveSchemaOptions<TSchemaOptions>
     > = ApplySchemaOptions<
-        ObtainDocumentType<any, RawDocType, ResolveSchemaOptions<TSchemaOptions>>,
+        ObtainDocumentType<
+            any,
+            RawDocType,
+            ResolveSchemaOptions<TSchemaOptions>
+        >,
         ResolveSchemaOptions<TSchemaOptions>
     >,
-    THydratedDocumentType = HydratedDocument<FlatRecord<DocType>, TVirtuals & TInstanceMethods>
+    THydratedDocumentType = HydratedDocument<
+        FlatRecord<DocType>,
+        TVirtuals & TInstanceMethods
+    >
 >(
     json: string
 ): Schema<

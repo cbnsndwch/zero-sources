@@ -4,7 +4,11 @@ import { Type } from '@nestjs/common';
 import { snakeCase } from 'change-case';
 import type { Document } from 'mongoose';
 
-import type { TableSchema, ReadonlyJSONValue, SchemaValue } from '@rocicorp/zero';
+import type {
+    TableSchema,
+    ReadonlyJSONValue,
+    SchemaValue
+} from '@rocicorp/zero';
 
 import type {
     Defined,
@@ -32,7 +36,10 @@ type OmitDocumentKeys<TEntity> = keyof Pick<
     Exclude<keyof TEntity, keyof Document<string>>
 >;
 
-type ColSchema<TEntity, TKey extends keyof TEntity> = string extends TEntity[TKey]
+type ColSchema<
+    TEntity,
+    TKey extends keyof TEntity
+> = string extends TEntity[TKey]
     ? UnwrapOptional<TEntity, TKey, StringColumnOptional, StringColumn>
     : number extends TEntity[TKey]
       ? UnwrapOptional<TEntity, TKey, NumberColumnOptional, NumberColumn>
@@ -40,7 +47,9 @@ type ColSchema<TEntity, TKey extends keyof TEntity> = string extends TEntity[TKe
         ? UnwrapOptional<TEntity, TKey, BooleanColumnOptional, BooleanColumn>
         : null extends TEntity[TKey]
           ? UnwrapOptional<TEntity, TKey, NullColumnOptional, NullColumn>
-          : TEntity[TKey] extends undefined | Array<infer U extends ReadonlyJSONValue>
+          : TEntity[TKey] extends
+                  | undefined
+                  | Array<infer U extends ReadonlyJSONValue>
             ? UnwrapOptional<
                   TEntity,
                   TKey,
@@ -50,7 +59,11 @@ type ColSchema<TEntity, TKey extends keyof TEntity> = string extends TEntity[TKe
             : UnwrapOptional<
                   TEntity,
                   TKey,
-                  { type: 'json'; optional: true; customType: Defined<TEntity[TKey]> },
+                  {
+                      type: 'json';
+                      optional: true;
+                      customType: Defined<TEntity[TKey]>;
+                  },
                   { type: 'json'; customType: Defined<TEntity[TKey]> }
               >;
 
@@ -72,10 +85,15 @@ export class ZeroTableSchema {
         target: Type<TEntity>
     ) {
         const { options = {}, properties = [] } =
-            MongoTypeMetadataStorage.getSchemaMetadataByTarget<TEntity>(target)!;
+            MongoTypeMetadataStorage.getSchemaMetadataByTarget<TEntity>(
+                target
+            )!;
 
         // sanity check
-        assert(options.collection, 'Collection name is missing for entity: ' + target.name);
+        assert(
+            options.collection,
+            'Collection name is missing for entity: ' + target.name
+        );
 
         const columns: Record<string, SchemaValue> = { ...baseSchema };
         for (const prop of properties) {

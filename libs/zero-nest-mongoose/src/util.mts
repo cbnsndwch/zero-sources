@@ -1,6 +1,8 @@
 import { Type, LoggerService } from '@nestjs/common';
 
-export function typedEntries<T extends object>(obj: T): [keyof T, T[keyof T]][] {
+export function typedEntries<T extends object>(
+    obj: T
+): [keyof T, T[keyof T]][] {
     return Object.entries(obj) as [keyof T, T[keyof T]][];
 }
 
@@ -19,7 +21,8 @@ export function invariant<TError extends Error = Error>(
     errorClass?: Type<TError>,
     logger?: LoggerService
 ): asserts condition {
-    const _condition = typeof condition === 'function' ? condition() : condition;
+    const _condition =
+        typeof condition === 'function' ? condition() : condition;
     if (_condition) {
         return;
     }

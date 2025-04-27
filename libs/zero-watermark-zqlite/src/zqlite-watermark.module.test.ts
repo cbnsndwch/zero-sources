@@ -6,7 +6,10 @@ import { describe, expect, it } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import Zqlite from '@rocicorp/zero-sqlite3';
 
-import { TOKEN_WATERMARK_SERVICE, IWatermarkService } from '@cbnsndwch/zero-contracts';
+import {
+    TOKEN_WATERMARK_SERVICE,
+    IWatermarkService
+} from '@cbnsndwch/zero-contracts';
 
 import { TOKEN_WATERMARK_ZQLITE_DB } from './contracts.mjs';
 import { ZqliteWatermarkModule } from './zqlite-watermark.module.js';
@@ -35,7 +38,9 @@ describe('ZqliteWatermarkModule', () => {
                 ]
             }).compile();
 
-            watermarkService = module.get<IWatermarkService>(TOKEN_WATERMARK_SERVICE);
+            watermarkService = module.get<IWatermarkService>(
+                TOKEN_WATERMARK_SERVICE
+            );
             expect(watermarkService).toBeDefined();
             expect(watermarkService).toBeInstanceOf(ZqliteWatermarkService);
         });
@@ -54,7 +59,9 @@ describe('ZqliteWatermarkModule', () => {
                 ]
             }).compile();
 
-            watermarkService = module.get<IWatermarkService>(TOKEN_WATERMARK_SERVICE);
+            watermarkService = module.get<IWatermarkService>(
+                TOKEN_WATERMARK_SERVICE
+            );
             expect(watermarkService).toBeDefined();
         });
 
@@ -69,7 +76,9 @@ describe('ZqliteWatermarkModule', () => {
                 ]
             }).compile();
 
-            const zqliteDb = module.get<Zqlite.Database>(TOKEN_WATERMARK_ZQLITE_DB);
+            const zqliteDb = module.get<Zqlite.Database>(
+                TOKEN_WATERMARK_ZQLITE_DB
+            );
             expect(zqliteDb).toBeDefined();
         });
 
@@ -117,7 +126,9 @@ describe('ZqliteWatermarkModule', () => {
                         })
                     ]
                 }).compile()
-            ).rejects.toThrowError('ZqliteKvOptions.file must not point to a directory');
+            ).rejects.toThrowError(
+                'ZqliteKvOptions.file must not point to a directory'
+            );
 
             fs.rmdirSync(TEST_DB_DIR);
         });

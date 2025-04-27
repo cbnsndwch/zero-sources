@@ -44,12 +44,21 @@ export function NavUser({ user }: NavUserProps) {
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={user.avatarUrl} alt={user.username} />
-                                <AvatarFallback className="rounded-lg">SN</AvatarFallback>
+                                <AvatarImage
+                                    src={user.avatarUrl}
+                                    alt={user.username}
+                                />
+                                <AvatarFallback className="rounded-lg">
+                                    SN
+                                </AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">{user.username}</span>
-                                <span className="truncate text-xs">{user.email}</span>
+                                <span className="truncate font-semibold">
+                                    {user.username}
+                                </span>
+                                <span className="truncate text-xs">
+                                    {user.email}
+                                </span>
                             </div>
                             <ChevronsUpDownIcon className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -63,12 +72,21 @@ export function NavUser({ user }: NavUserProps) {
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src={user.avatarUrl} alt={user.username} />
-                                    <AvatarFallback className="rounded-lg">SN</AvatarFallback>
+                                    <AvatarImage
+                                        src={user.avatarUrl}
+                                        alt={user.username}
+                                    />
+                                    <AvatarFallback className="rounded-lg">
+                                        SN
+                                    </AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{user.username}</span>
-                                    <span className="truncate text-xs">{user.email}</span>
+                                    <span className="truncate font-semibold">
+                                        {user.username}
+                                    </span>
+                                    <span className="truncate text-xs">
+                                        {user.email}
+                                    </span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
@@ -84,7 +102,10 @@ export function NavUser({ user }: NavUserProps) {
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem asChild>
-                                <Link to="/settings/account" className="cursor-pointer">
+                                <Link
+                                    to="/settings/account"
+                                    className="cursor-pointer"
+                                >
                                     <BadgeCheckIcon />
                                     Account
                                 </Link>
@@ -96,7 +117,10 @@ export function NavUser({ user }: NavUserProps) {
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link to="/settings/notifications" className="cursor-pointer">
+                                <Link
+                                    to="/settings/notifications"
+                                    className="cursor-pointer"
+                                >
                                     <BellIcon />
                                     Notifications
                                 </Link>

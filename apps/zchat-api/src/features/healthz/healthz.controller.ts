@@ -12,7 +12,8 @@ export class HealthzController {
     @Get()
     @ApiOperation({
         summary: 'Health check endpoint',
-        description: 'Returns database connection information to verify system health'
+        description:
+            'Returns database connection information to verify system health'
     })
     @ApiResponse({
         status: 200,

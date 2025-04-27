@@ -69,4 +69,5 @@ export type ILivechatCustomFieldInput = {
     overwrite: boolean;
 };
 
-export const isILivechatVisitor = (a: any): a is ILivechatVisitor => typeof a?.token === 'string';
+export const isILivechatVisitor = (a: any): a is ILivechatVisitor =>
+    typeof a?.token === 'string';

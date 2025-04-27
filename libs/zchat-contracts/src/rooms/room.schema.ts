@@ -1,4 +1,12 @@
-import { table, string, number, boolean, json, enumeration, relationships } from '@rocicorp/zero';
+import {
+    table,
+    string,
+    number,
+    boolean,
+    json,
+    enumeration,
+    relationships
+} from '@rocicorp/zero';
 
 import { SYSTEM_MESSAGE_TYPES } from '../messages/index.js';
 
@@ -13,7 +21,8 @@ export const rooms = table('rooms')
         messageCount: number(),
         lastMessage: json().optional(), // json<Readonly<Serialized<IMessage>>>().optional(),
         lastMessageAt: string().optional(), // Date stored as ISO string
-        systemMessages: json<(typeof SYSTEM_MESSAGE_TYPES)[number][]>().optional(),
+        systemMessages:
+            json<(typeof SYSTEM_MESSAGE_TYPES)[number][]>().optional(),
 
         // DirectMessagesRoom fields
         usernames: json<string[]>().optional(),

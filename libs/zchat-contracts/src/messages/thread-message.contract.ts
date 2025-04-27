@@ -40,7 +40,9 @@ export interface IThreadMessage extends IMessage {
  * @param message - The message to check.
  * @returns `true` if the message is a main thread message, otherwise `false`.
  */
-export function isThreadMainMessage(message: IMessage): message is IThreadMainMessage {
+export function isThreadMainMessage(
+    message: IMessage
+): message is IThreadMainMessage {
     return 'threadReplyCount' in message && 'threadLastMReplyAt' in message;
 }
 

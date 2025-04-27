@@ -16,7 +16,9 @@ const VALUE_TYPE_TO_PG_TYPE: Record<ValueType, PgType> = {
 } as const;
 
 export function tableSpecsFromSchema(schema: Schema) {
-    const tableSpecs = Object.values(schema.tables).map(tableSpecFromTableSchema);
+    const tableSpecs = Object.values(schema.tables).map(
+        tableSpecFromTableSchema
+    );
     return tableSpecs;
 }
 

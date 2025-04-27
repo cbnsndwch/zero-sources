@@ -13,7 +13,10 @@ import { Strategy, type GithubProfile } from './passport/index.js';
 export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
     #userService: UserService;
 
-    constructor(configService: ConfigService<AppConfig>, usersService: UserService) {
+    constructor(
+        configService: ConfigService<AppConfig>,
+        usersService: UserService
+    ) {
         const { github } = configService.get<AuthConfig>('auth')!;
 
         super({
@@ -26,7 +29,11 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
         this.#userService = usersService;
     }
 
-    async validate(accessToken: string, _refreshToken: string, profile: GithubProfile) {
+    async validate(
+        accessToken: string,
+        _refreshToken: string,
+        profile: GithubProfile
+    ) {
         // For each strategy, Passport will call the verify function (implemented with this
         // `validate()` method in @nestjs/passport) using an appropriate strategy-specific set of
         // parameters. For the passport-github strategy Passport expects a `validate()` method with
@@ -40,7 +47,9 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
         // (e.g., creating the user property on the Request object), and the request
         // handling pipeline can continue.
 
-        let user = await this.#userService.findByExternalId(`github/${profile.id}`);
+        let user = await this.#userService.findByExternalId(
+            `github/${profile.id}`
+        );
 
         if (!user) {
             user = await this.#userService.create({
@@ -49,7 +58,9 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
                 providerId: `github/${profile.id}`,
                 email: profile.mainEmail,
                 additionalEmails: profile.additionalEmails,
-                avatarUrl: profile.photos?.length ? profile.photos[0] : undefined
+                avatarUrl: profile.photos?.length
+                    ? profile.photos[0]
+                    : undefined
             });
         }
 

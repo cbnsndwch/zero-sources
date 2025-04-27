@@ -1,10 +1,12 @@
 import { config } from "@repo/eslint-config/base";
 
-/** @type {import("eslint").Linter.Config} */
-export default {
+/** @type {import("eslint").Linter.FlatConfig[]} */
+export default [
     ...config,
-    rules: {
-        ...config,
-        'turbo/no-undeclared-env-vars': 'off'
+    {
+        rules: {
+            // specific overrides for this package
+            'turbo/no-undeclared-env-vars': 'off'
+        }
     }
-};
+];

@@ -14,7 +14,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger
+} from '@/components/ui/tooltip';
 
 import { useZero } from '@/zero/use-zero';
 import { Form, useForm } from 'react-hook-form';
@@ -34,7 +38,10 @@ export type CreateRoomButtonProps = {
     title: string;
 };
 
-export default function CreateRoomButton({ type, title }: CreateRoomButtonProps) {
+export default function CreateRoomButton({
+    type,
+    title
+}: CreateRoomButtonProps) {
     const zero = useZero();
 
     const form = useForm<CreateRoomInput>({
@@ -46,7 +53,10 @@ export default function CreateRoomButton({ type, title }: CreateRoomButtonProps)
     });
 
     // TODO: review custom mutators docs
-    const onSubmit = useCallback((data: CreateRoomInput) => zero.mutate.dm.create(data), [zero]);
+    const onSubmit = useCallback(
+        (data: CreateRoomInput) => zero.mutate.dm.create(data),
+        [zero]
+    );
 
     return (
         <Form {...form}>
@@ -80,11 +90,14 @@ export default function CreateRoomButton({ type, title }: CreateRoomButtonProps)
                                     <FormItem>
                                         <FormLabel>Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Give your room a name" {...field} />
+                                            <Input
+                                                placeholder="Give your room a name"
+                                                {...field}
+                                            />
                                         </FormControl>
                                         <FormDescription>
-                                            The display name for the room. This can be changed
-                                            later.
+                                            The display name for the room. This
+                                            can be changed later.
                                         </FormDescription>
                                         <FormMessage />
                                     </FormItem>

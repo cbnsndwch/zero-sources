@@ -46,16 +46,17 @@ export function parseProfile(data: any) {
 export function applyOptionsDefaults(
     options: StrategyOptions & Partial<OAuth2Strategy.StrategyOptions>
 ): OAuth2Strategy.StrategyOptions & StrategyOptions {
-    const _opt: OAuth2Strategy.StrategyOptions & StrategyOptions = Object.assign(
-        {
-            clientID: options.clientId,
-            authorizationURL: 'https://github.com/login/oauth/authorize',
-            tokenURL: 'https://github.com/login/oauth/access_token',
-            scopeSeparator: ',',
-            customHeaders: {}
-        },
-        options ?? {}
-    );
+    const _opt: OAuth2Strategy.StrategyOptions & StrategyOptions =
+        Object.assign(
+            {
+                clientID: options.clientId,
+                authorizationURL: 'https://github.com/login/oauth/authorize',
+                tokenURL: 'https://github.com/login/oauth/access_token',
+                scopeSeparator: ',',
+                customHeaders: {}
+            },
+            options ?? {}
+        );
 
     return options as OAuth2Strategy.StrategyOptions & StrategyOptions;
 }

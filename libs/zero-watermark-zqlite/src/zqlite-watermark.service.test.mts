@@ -32,12 +32,19 @@ describe('ZqliteWatermarkService', () => {
             const expectedResumeToken = 'test-resume-token';
 
             (db.prepare as MockFn).mockReturnValue({
-                get: vi.fn().mockReturnValue({ key, value: expectedResumeToken })
+                get: vi
+                    .fn()
+                    .mockReturnValue({ key, value: expectedResumeToken })
             });
 
-            const resumeToken = await service.getResumeToken(shardId, watermark);
+            const resumeToken = await service.getResumeToken(
+                shardId,
+                watermark
+            );
 
-            expect(db.prepare).toHaveBeenCalledWith('SELECT key, value FROM zero_kv WHERE key = ?');
+            expect(db.prepare).toHaveBeenCalledWith(
+                'SELECT key, value FROM zero_kv WHERE key = ?'
+            );
             expect(db.prepare('').get as MockFn).toHaveBeenCalledWith(key);
             expect(resumeToken).toBe(expectedResumeToken);
         });
@@ -50,7 +57,10 @@ describe('ZqliteWatermarkService', () => {
                 get: vi.fn().mockReturnValue(undefined)
             });
 
-            const resumeToken = await service.getResumeToken(shardId, watermark);
+            const resumeToken = await service.getResumeToken(
+                shardId,
+                watermark
+            );
 
             expect(resumeToken).toBeUndefined();
         });
@@ -67,9 +77,14 @@ describe('ZqliteWatermarkService', () => {
                 get: vi.fn().mockReturnValue({ key, value: existingWatermark })
             });
 
-            const watermark = await service.getOrCreateWatermark(shardId, resumeToken);
+            const watermark = await service.getOrCreateWatermark(
+                shardId,
+                resumeToken
+            );
 
-            expect(db.prepare).toHaveBeenCalledWith('SELECT key, value FROM zero_kv WHERE key = ?');
+            expect(db.prepare).toHaveBeenCalledWith(
+                'SELECT key, value FROM zero_kv WHERE key = ?'
+            );
             expect(db.prepare('').get as MockFn).toHaveBeenCalledWith(key);
             expect(watermark).toBe(existingWatermark);
         });
@@ -82,7 +97,9 @@ describe('ZqliteWatermarkService', () => {
 
             const dbPrepareRun = vi.fn();
             const dbPrepareGetUndef = vi.fn().mockReturnValue(undefined);
-            const dbPrepareGetWithValue = vi.fn().mockReturnValue({ key, value: newWatermark });
+            const dbPrepareGetWithValue = vi
+                .fn()
+                .mockReturnValue({ key, value: newWatermark });
 
             (db.prepare as MockFn).mockImplementation((query: string) => {
                 return {
@@ -96,9 +113,14 @@ describe('ZqliteWatermarkService', () => {
 
             vi.spyOn(service, '_nextWatermark').mockResolvedValue(newWatermark);
 
-            const watermark = await service.getOrCreateWatermark(shardId, resumeToken);
+            const watermark = await service.getOrCreateWatermark(
+                shardId,
+                resumeToken
+            );
 
-            expect(db.prepare).toHaveBeenCalledWith('SELECT key, value FROM zero_kv WHERE key = ?');
+            expect(db.prepare).toHaveBeenCalledWith(
+                'SELECT key, value FROM zero_kv WHERE key = ?'
+            );
 
             expect(dbPrepareGetUndef as MockFn).toHaveBeenCalledWith(key);
             expect(service._nextWatermark).toHaveBeenCalledWith(shardId);
@@ -134,8 +156,12 @@ describe('ZqliteWatermarkService', () => {
 
             const watermark = await service._nextWatermark(shardId);
 
-            expect(db.prepare).toHaveBeenCalledWith('SELECT key, value FROM zero_kv WHERE key = ?');
-            expect(db.prepare('').get as MockFn).toHaveBeenCalledWith(shardLsnKey);
+            expect(db.prepare).toHaveBeenCalledWith(
+                'SELECT key, value FROM zero_kv WHERE key = ?'
+            );
+            expect(db.prepare('').get as MockFn).toHaveBeenCalledWith(
+                shardLsnKey
+            );
             expect(db.prepare).toHaveBeenCalledWith(
                 'INSERT INTO zero_kv (key, value) VALUES (?, ?)'
             );
@@ -153,16 +179,19 @@ describe('ZqliteWatermarkService', () => {
             const incrementedWatermark = '02';
 
             const dbPrepareRun = vi.fn();
-            const dbPrepareGet = vi
-                .fn()
-                .mockReturnValue({ key: shardLsnKey, value: previousWatermark });
+            const dbPrepareGet = vi.fn().mockReturnValue({
+                key: shardLsnKey,
+                value: previousWatermark
+            });
 
             (db.prepare as MockFn).mockImplementation((query: string) => {
                 if (query === 'SELECT key, value FROM zero_kv WHERE key = ?') {
                     return {
                         get: dbPrepareGet
                     };
-                } else if (query === 'UPDATE zero_kv SET value = ? WHERE key = ?') {
+                } else if (
+                    query === 'UPDATE zero_kv SET value = ? WHERE key = ?'
+                ) {
                     return {
                         run: dbPrepareRun
                     };
@@ -176,10 +205,17 @@ describe('ZqliteWatermarkService', () => {
 
             const watermark = await service._nextWatermark(shardId);
 
-            expect(db.prepare).toHaveBeenCalledWith('SELECT key, value FROM zero_kv WHERE key = ?');
+            expect(db.prepare).toHaveBeenCalledWith(
+                'SELECT key, value FROM zero_kv WHERE key = ?'
+            );
             expect(dbPrepareGet).toHaveBeenCalledWith(shardLsnKey);
-            expect(db.prepare).toHaveBeenCalledWith('UPDATE zero_kv SET value = ? WHERE key = ?');
-            expect(dbPrepareRun).toHaveBeenCalledWith(incrementedWatermark, shardLsnKey);
+            expect(db.prepare).toHaveBeenCalledWith(
+                'UPDATE zero_kv SET value = ? WHERE key = ?'
+            );
+            expect(dbPrepareRun).toHaveBeenCalledWith(
+                incrementedWatermark,
+                shardLsnKey
+            );
 
             expect(watermark).toBe(incrementedWatermark);
         });
@@ -192,9 +228,10 @@ describe('ZqliteWatermarkService', () => {
 
             let attempt = 0;
 
-            const dbPrepareGet = vi
-                .fn()
-                .mockReturnValue({ key: shardLsnKey, value: previousWatermark });
+            const dbPrepareGet = vi.fn().mockReturnValue({
+                key: shardLsnKey,
+                value: previousWatermark
+            });
             const dbPrepareRun = vi.fn().mockImplementation(() => {
                 if (attempt === 0) {
                     attempt++;
@@ -207,7 +244,9 @@ describe('ZqliteWatermarkService', () => {
                     return {
                         get: dbPrepareGet
                     };
-                } else if (query === 'UPDATE zero_kv SET value = ? WHERE key = ?') {
+                } else if (
+                    query === 'UPDATE zero_kv SET value = ? WHERE key = ?'
+                ) {
                     return {
                         run: dbPrepareRun
                     };
@@ -220,11 +259,18 @@ describe('ZqliteWatermarkService', () => {
 
             const watermark = await service._nextWatermark(shardId);
 
-            expect(db.prepare).toHaveBeenCalledWith('SELECT key, value FROM zero_kv WHERE key = ?');
+            expect(db.prepare).toHaveBeenCalledWith(
+                'SELECT key, value FROM zero_kv WHERE key = ?'
+            );
             expect(dbPrepareGet).toHaveBeenCalledWith(shardLsnKey);
 
-            expect(db.prepare).toHaveBeenCalledWith('UPDATE zero_kv SET value = ? WHERE key = ?');
-            expect(dbPrepareRun).toHaveBeenCalledWith(incrementedWatermark, shardLsnKey);
+            expect(db.prepare).toHaveBeenCalledWith(
+                'UPDATE zero_kv SET value = ? WHERE key = ?'
+            );
+            expect(dbPrepareRun).toHaveBeenCalledWith(
+                incrementedWatermark,
+                shardLsnKey
+            );
 
             expect(watermark).toBe(incrementedWatermark);
         });

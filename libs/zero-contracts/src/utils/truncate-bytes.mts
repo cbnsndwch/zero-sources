@@ -11,7 +11,10 @@ import { invariant } from '../invariant.mjs';
  */
 export function truncateBytes(msg: string, maxBytes = 123) {
     invariant(typeof msg === 'string', 'Expected `msg`` to be a string');
-    invariant(typeof maxBytes === 'number', 'Expected `maxBytes` to be a number');
+    invariant(
+        typeof maxBytes === 'number',
+        'Expected `maxBytes` to be a number'
+    );
     invariant(maxBytes > 0, 'Expected `maxBytes` to be a positive number');
 
     const buffer = Buffer.from(msg, 'utf8');

@@ -79,7 +79,9 @@ export class NatsKvWatermarkService implements IWatermarkService {
             watermark = versionToLexi(previous + 1n);
 
             try {
-                await this.#kv.put(shardLsnKey, watermark, { previousSeq: shardLsnEntry.revision });
+                await this.#kv.put(shardLsnKey, watermark, {
+                    previousSeq: shardLsnEntry.revision
+                });
                 break;
             } catch (err) {
                 this.#logger.error(

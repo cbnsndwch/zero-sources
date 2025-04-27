@@ -1,8 +1,16 @@
-import type { ComponentType, ReactElement, RefAttributes, SVGAttributes } from 'react';
+import type {
+    ComponentType,
+    ReactElement,
+    RefAttributes,
+    SVGAttributes
+} from 'react';
 
 import type { IUser } from '@cbnsndwch/zchat-contracts';
 
-export type UserSummary = Pick<IUser, '_id' | 'username' | 'email' | 'avatarUrl'>;
+export type UserSummary = Pick<
+    IUser,
+    '_id' | 'username' | 'email' | 'avatarUrl'
+>;
 
 export interface Team {
     name: string;

@@ -1,7 +1,8 @@
 import type { MessageAttachment } from './MessageAttachment.js';
 import type { IMessageBasicAttachment } from './MessageBasicAttachment.js';
 
-export interface IMessageBasicAttachmentWithTranslations extends IMessageBasicAttachment {
+export interface IMessageBasicAttachmentWithTranslations
+    extends IMessageBasicAttachment {
     translations: {
         [language: string]: string;
     };
@@ -9,7 +10,8 @@ export interface IMessageBasicAttachmentWithTranslations extends IMessageBasicAt
 
 export const isTranslatedAttachment = (
     attachment: MessageAttachment
-): attachment is IMessageBasicAttachmentWithTranslations => 'translations' in attachment;
+): attachment is IMessageBasicAttachmentWithTranslations =>
+    'translations' in attachment;
 
 export const isTranslatedMessageAttachment = (
     attachments: MessageAttachment[]

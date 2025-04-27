@@ -1,4 +1,7 @@
-import { SYSTEM_MESSAGE_TYPES, type SystemMessageType } from './message-type.contracts.js';
+import {
+    SYSTEM_MESSAGE_TYPES,
+    type SystemMessageType
+} from './message-type.contracts.js';
 import type { IMessage } from './message.contracts.js';
 
 /**
@@ -13,5 +16,8 @@ export interface ISystemMessage extends IMessage {
 
 export function isSystemMessage(message: IMessage): message is ISystemMessage {
     const maybeMessageType = (message as any).t;
-    return maybeMessageType !== undefined && SYSTEM_MESSAGE_TYPES.includes(maybeMessageType);
+    return (
+        maybeMessageType !== undefined &&
+        SYSTEM_MESSAGE_TYPES.includes(maybeMessageType)
+    );
 }

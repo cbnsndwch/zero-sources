@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { table, string, boolean, json, relationships, number } from '@rocicorp/zero';
+import {
+    table,
+    string,
+    boolean,
+    json,
+    relationships,
+    number
+} from '@rocicorp/zero';
 import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 
 import type { IMessageMention } from './message.contracts.js';
@@ -45,49 +52,52 @@ export const messages = table('messages')
     .primaryKey('_id');
 
 // Define relationships
-export const messageRelationships = relationships(messages, ({ one, many }) => ({
-    room: one({
-        sourceField: ['roomId'],
-        destSchema: rooms,
-        destField: ['_id']
-    }),
-    replies: many({
-        sourceField: ['_id'],
-        destSchema: messages,
-        destField: ['_id']
+export const messageRelationships = relationships(
+    messages,
+    ({ one, many }) => ({
+        room: one({
+            sourceField: ['roomId'],
+            destSchema: rooms,
+            destField: ['_id']
+        }),
+        replies: many({
+            sourceField: ['_id'],
+            destSchema: messages,
+            destField: ['_id']
+        })
+        // senderUser: one({
+        //     sourceField: ['sender.id'],
+        //     destSchema: user,
+        //     destField: ['id']
+        // }),
+        // pinnedByUser: one({
+        //     sourceField: ['pinnedBy.id'],
+        //     destSchema: user,
+        //     destField: ['id']
+        // })
+        // starredBy: many(
+        //     {
+        //         sourceField: ['id'],
+        //         destSchema: messageStarred,
+        //         destField: ['messageId']
+        //     },
+        //     {
+        //         sourceField: ['userId'],
+        //         destSchema: user,
+        //         destField: ['id']
+        //     }
+        // ),
+        // mentionedUsers: many(
+        //     {
+        //         sourceField: ['id'],
+        //         destSchema: messageMention,
+        //         destField: ['messageId']
+        //     },
+        //     {
+        //         sourceField: ['userId'],
+        //         destSchema: user,
+        //         destField: ['id']
+        //     }
+        // )
     })
-    // senderUser: one({
-    //     sourceField: ['sender.id'],
-    //     destSchema: user,
-    //     destField: ['id']
-    // }),
-    // pinnedByUser: one({
-    //     sourceField: ['pinnedBy.id'],
-    //     destSchema: user,
-    //     destField: ['id']
-    // })
-    // starredBy: many(
-    //     {
-    //         sourceField: ['id'],
-    //         destSchema: messageStarred,
-    //         destField: ['messageId']
-    //     },
-    //     {
-    //         sourceField: ['userId'],
-    //         destSchema: user,
-    //         destField: ['id']
-    //     }
-    // ),
-    // mentionedUsers: many(
-    //     {
-    //         sourceField: ['id'],
-    //         destSchema: messageMention,
-    //         destField: ['messageId']
-    //     },
-    //     {
-    //         sourceField: ['userId'],
-    //         destSchema: user,
-    //         destField: ['id']
-    //     }
-    // )
-}));
+);

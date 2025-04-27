@@ -16,7 +16,8 @@ export function invariant<TError extends Error = Error>(
     logger?: LoggerService
 ): asserts condition {
     // expand the condition if it's a function
-    const expandedCondition = typeof condition === 'function' ? condition() : condition;
+    const expandedCondition =
+        typeof condition === 'function' ? condition() : condition;
 
     // if the condition is met, early return
     if (expandedCondition) {

@@ -8,7 +8,13 @@ import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
 const betaSignupSchema = z.object({
@@ -62,7 +68,8 @@ export default function Hero() {
         } catch (error) {
             console.error('Form submission error:', {
                 error,
-                message: error instanceof Error ? error.message : 'Unknown error'
+                message:
+                    error instanceof Error ? error.message : 'Unknown error'
             });
             toast.error('Something went wrong. Please try again.');
         } finally {
@@ -77,8 +84,8 @@ export default function Hero() {
                 Your open source email alternative
             </Balancer>
             <Balancer className="mx-auto mt-3 max-w-2xl text-center text-lg text-muted-foreground">
-                Connect and take control of your email with an open source, secure, and customizable
-                platform built for everyone.
+                Connect and take control of your email with an open source,
+                secure, and customizable platform built for everyone.
             </Balancer>
 
             <Card className="mt-3 w-full border-none bg-transparent shadow-none">

@@ -12,4 +12,5 @@ export type IMessageAudioAttachment = MessageAttachmentBase & {
 
 export const isFileAudioAttachment = (
     attachment: IMessageFileAttachment
-): attachment is IMessageAudioAttachment & { type: 'file' } => 'audio_url' in attachment;
+): attachment is IMessageAudioAttachment & { type: 'file' } =>
+    'audio_url' in attachment;

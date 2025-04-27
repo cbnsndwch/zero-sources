@@ -18,7 +18,11 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
 
 function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
     return (
-        <thead data-slot="table-header" className={cn('[&_tr]:border-b', className)} {...props} />
+        <thead
+            data-slot="table-header"
+            className={cn('[&_tr]:border-b', className)}
+            {...props}
+        />
     );
 }
 
@@ -36,7 +40,10 @@ function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
     return (
         <tfoot
             data-slot="table-footer"
-            className={cn('bg-muted/50 border-t font-medium [&>tr]:last:border-b-0', className)}
+            className={cn(
+                'bg-muted/50 border-t font-medium [&>tr]:last:border-b-0',
+                className
+            )}
             {...props}
         />
     );
@@ -81,7 +88,10 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
     );
 }
 
-function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) {
+function TableCaption({
+    className,
+    ...props
+}: React.ComponentProps<'caption'>) {
     return (
         <caption
             data-slot="table-caption"
@@ -91,4 +101,13 @@ function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) 
     );
 }
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption };
+export {
+    Table,
+    TableHeader,
+    TableBody,
+    TableFooter,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableCaption
+};

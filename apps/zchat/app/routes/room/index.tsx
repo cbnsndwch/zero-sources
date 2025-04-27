@@ -21,7 +21,10 @@ export default function ({ params }: Route.ComponentProps) {
 
     const zero = useZero();
     const [room, roomResult] = useQuery(
-        zero.query.rooms.where('_id', '=', roomId).orderBy('lastMessageAt', 'desc').one()
+        zero.query.rooms
+            .where('_id', '=', roomId)
+            .orderBy('lastMessageAt', 'desc')
+            .one()
     );
 
     if (roomResult.type !== 'complete') {
@@ -46,7 +49,10 @@ export default function ({ params }: Route.ComponentProps) {
                             <BreadcrumbSeparator className="hidden md:block" />
                             <BreadcrumbItem>
                                 <BreadcrumbPage className="flex justify-start items-center gap-1">
-                                    <RoomTypeIcon t={room.t} className="w-4 h-4" />
+                                    <RoomTypeIcon
+                                        t={room.t}
+                                        className="w-4 h-4"
+                                    />
                                     {room?.name}
                                 </BreadcrumbPage>
                             </BreadcrumbItem>

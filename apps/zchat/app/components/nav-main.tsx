@@ -13,7 +13,11 @@ import {
     SidebarMenuSubItem,
     SidebarMenuSubButton
 } from '@/components/ui/sidebar';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger
+} from '@/components/ui/collapsible';
 
 interface NavMainProps {
     items: {
@@ -46,7 +50,9 @@ export function NavMain({ items }: NavMainProps) {
         <>
             {items.map(group => (
                 <SidebarGroup key={group.title}>
-                    {group.title && <SidebarGroupLabel>{group.title}</SidebarGroupLabel>}
+                    {group.title && (
+                        <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+                    )}
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {group.items.map(item => (
@@ -55,16 +61,23 @@ export function NavMain({ items }: NavMainProps) {
                                         <CollapsibleTrigger asChild>
                                             <Link to={item.url}>
                                                 <SidebarMenuButton
-                                                    isActive={isUrlActive(item.url)}
+                                                    isActive={isUrlActive(
+                                                        item.url
+                                                    )}
                                                     className={
-                                                        isUrlActive(item.url) ? 'bg-accent' : ''
+                                                        isUrlActive(item.url)
+                                                            ? 'bg-accent'
+                                                            : ''
                                                     }
                                                 >
                                                     {item.icon && (
                                                         <item.icon className="mr-2 size-4" />
                                                     )}
-                                                    <span className="flex-1">{item.title}</span>
-                                                    {item.badge !== undefined && (
+                                                    <span className="flex-1">
+                                                        {item.title}
+                                                    </span>
+                                                    {item.badge !==
+                                                        undefined && (
                                                         <span className="ml-auto mr-2 text-muted-foreground">
                                                             {item.badge}
                                                         </span>
@@ -79,21 +92,35 @@ export function NavMain({ items }: NavMainProps) {
                                             <CollapsibleContent>
                                                 <SidebarMenuSub>
                                                     {item.items.map(subItem => (
-                                                        <SidebarMenuSubItem key={subItem.title}>
-                                                            <SidebarMenuSubButton asChild>
+                                                        <SidebarMenuSubItem
+                                                            key={subItem.title}
+                                                        >
+                                                            <SidebarMenuSubButton
+                                                                asChild
+                                                            >
                                                                 <Link
-                                                                    to={subItem.url}
+                                                                    to={
+                                                                        subItem.url
+                                                                    }
                                                                     className={`flex w-full justify-between ${
-                                                                        isUrlActive(subItem.url)
+                                                                        isUrlActive(
+                                                                            subItem.url
+                                                                        )
                                                                             ? 'text-primary'
                                                                             : ''
                                                                     }`}
                                                                 >
-                                                                    <span>{subItem.title}</span>
+                                                                    <span>
+                                                                        {
+                                                                            subItem.title
+                                                                        }
+                                                                    </span>
                                                                     {subItem.badge !==
                                                                         undefined && (
                                                                         <span className="text-muted-foreground">
-                                                                            {subItem.badge}
+                                                                            {
+                                                                                subItem.badge
+                                                                            }
                                                                         </span>
                                                                     )}
                                                                 </Link>

@@ -1,9 +1,17 @@
 import fs from 'node:fs';
 
-import { Module, type DynamicModule, type FactoryProvider } from '@nestjs/common';
+import {
+    Module,
+    type DynamicModule,
+    type FactoryProvider
+} from '@nestjs/common';
 import Zqlite from '@rocicorp/zero-sqlite3';
 
-import { invariant, IWatermarkService, TOKEN_WATERMARK_SERVICE } from '@cbnsndwch/zero-contracts';
+import {
+    invariant,
+    IWatermarkService,
+    TOKEN_WATERMARK_SERVICE
+} from '@cbnsndwch/zero-contracts';
 
 import {
     TOKEN_WATERMARK_ZQLITE_DB,
@@ -16,7 +24,8 @@ import { ConfigModule } from '@nestjs/config';
 /**
  * The DDL statement to initialize the KV table in the ZQLite database
  */
-const DDL_INIT = 'CREATE TABLE IF NOT EXISTS zero_kv (key TEXT PRIMARY KEY, value TEXT)';
+const DDL_INIT =
+    'CREATE TABLE IF NOT EXISTS zero_kv (key TEXT PRIMARY KEY, value TEXT)';
 
 /**
  * Injection token for the Zero-SQLite3 database options
@@ -34,7 +43,9 @@ export class ZqliteWatermarkModule {
      *
      * @param options - The options to configure the ZQLite database.
      */
-    static forRootAsync(options: ZqliteWatermarkModuleAsyncOptions): DynamicModule {
+    static forRootAsync(
+        options: ZqliteWatermarkModuleAsyncOptions
+    ): DynamicModule {
         const optionsProvider: FactoryProvider<ZqliteKvOptions> = {
             provide: TOKEN_ZQLITE_DB_OPTIONS,
             inject: options.inject ?? [],
@@ -45,7 +56,10 @@ export class ZqliteWatermarkModule {
             provide: TOKEN_WATERMARK_ZQLITE_DB,
             inject: [TOKEN_ZQLITE_DB_OPTIONS],
             async useFactory(config: ZqliteKvOptions) {
-                invariant(Boolean(config.file), 'ZqliteKvOptions.file must be defined');
+                invariant(
+                    Boolean(config.file),
+                    'ZqliteKvOptions.file must be defined'
+                );
 
                 let stat: fs.Stats | undefined;
                 try {
@@ -82,7 +96,11 @@ export class ZqliteWatermarkModule {
             global: true,
             module: ZqliteWatermarkModule,
             imports: [ConfigModule, ...(options.imports ?? [])],
-            providers: [optionsProvider, zqliteDbProvider, watermarkServiceProvider],
+            providers: [
+                optionsProvider,
+                zqliteDbProvider,
+                watermarkServiceProvider
+            ],
             exports: [watermarkServiceProvider]
         };
     }

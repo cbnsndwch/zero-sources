@@ -2,7 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, RootFilterQuery } from 'mongoose';
 
-import type { ExternalUserId, UserPresenceStatus } from '@cbnsndwch/zchat-contracts';
+import type {
+    ExternalUserId,
+    UserPresenceStatus
+} from '@cbnsndwch/zchat-contracts';
 
 import { User } from '../entities/index.js';
 import { CreateUserInput, UpdateUserInput } from '../models/index.js';
@@ -40,7 +43,9 @@ export class UserService {
     }
 
     async update(id: string, input: UpdateUserInput): Promise<User> {
-        const user = await this.#model.findByIdAndUpdate(id, input, { new: true }).exec();
+        const user = await this.#model
+            .findByIdAndUpdate(id, input, { new: true })
+            .exec();
 
         if (!user) {
             throw new NotFoundException(`User #${id} not found`);
@@ -75,7 +80,10 @@ export class UserService {
         return this.#model.findOne({ email }).exec();
     }
 
-    async updatePresence(id: string, presenceStatus: UserPresenceStatus): Promise<User> {
+    async updatePresence(
+        id: string,
+        presenceStatus: UserPresenceStatus
+    ): Promise<User> {
         const user = await this.#model
             .findByIdAndUpdate(id, { presenceStatus }, { new: true })
             .exec();

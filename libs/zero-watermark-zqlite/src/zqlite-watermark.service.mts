@@ -31,7 +31,10 @@ export class ZqliteWatermarkService implements IWatermarkService {
     async getResumeToken(shardId: string, watermark: LexiVersion) {
         const key = `zero_${shardId}.${watermark}`;
         const entry = this.#db
-            .prepare<[string], KVPair>('SELECT key, value FROM zero_kv WHERE key = ?')
+            .prepare<
+                [string],
+                KVPair
+            >('SELECT key, value FROM zero_kv WHERE key = ?')
             .get(key);
 
         return entry?.value;
@@ -48,7 +51,10 @@ export class ZqliteWatermarkService implements IWatermarkService {
     async getOrCreateWatermark(shardId: string, resumeToken: string) {
         const key = `zero_${shardId}.${resumeToken}`;
         const entry = this.#db
-            .prepare<[string], HasValue>('SELECT key, value FROM zero_kv WHERE key = ?')
+            .prepare<
+                [string],
+                HasValue
+            >('SELECT key, value FROM zero_kv WHERE key = ?')
             .get(key);
 
         // if the watermark already exists, return it
@@ -59,13 +65,19 @@ export class ZqliteWatermarkService implements IWatermarkService {
         // could not find a watermark for the resume token, create a new one
         const watermark = await this._nextWatermark(shardId);
         this.#db
-            .prepare<[string, string], KVPair>('INSERT INTO zero_kv (key, value) VALUES (?, ?)')
+            .prepare<
+                [string, string],
+                KVPair
+            >('INSERT INTO zero_kv (key, value) VALUES (?, ?)')
             .run(key, watermark);
 
         // and also save a reverse mapping from the watermark to the resume
         // token to support resuming from a client-provided watermark
         this.#db
-            .prepare<[string, string], KVPair>('INSERT INTO zero_kv (key, value) VALUES (?, ?)')
+            .prepare<
+                [string, string],
+                KVPair
+            >('INSERT INTO zero_kv (key, value) VALUES (?, ?)')
             .run(`zero_${shardId}.${watermark}`, resumeToken);
 
         return watermark;
@@ -83,7 +95,10 @@ export class ZqliteWatermarkService implements IWatermarkService {
         let watermark = versionToLexi(1);
         while (true) {
             const shardLsnEntry = this.#db
-                .prepare<[string], KVPair>('SELECT key, value FROM zero_kv WHERE key = ?')
+                .prepare<
+                    [string],
+                    KVPair
+                >('SELECT key, value FROM zero_kv WHERE key = ?')
                 .get(shardLsnKey);
 
             if (!shardLsnEntry) {

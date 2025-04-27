@@ -11,7 +11,10 @@ import { invariant } from './invariant.js';
  */
 export function truncateBytes(msg: string, maxBytes = 123) {
     invariant(typeof msg === 'string', 'Expected `msg`` to be a string');
-    invariant(typeof maxBytes === 'number', 'Expected `maxBytes` to be a number');
+    invariant(
+        typeof maxBytes === 'number',
+        'Expected `maxBytes` to be a number'
+    );
     invariant(maxBytes > 0, 'Expected `maxBytes` to be a positive number');
 
     const buffer = Buffer.from(msg, 'utf8');
@@ -22,7 +25,7 @@ export function truncateBytes(msg: string, maxBytes = 123) {
     }
 
     // Otherwise, we need to truncate it
-    let truncatedBuffer = buffer.subarray(0, maxBytes);
+    const truncatedBuffer = buffer.subarray(0, maxBytes);
 
     let result = truncatedBuffer.toString('utf8');
 

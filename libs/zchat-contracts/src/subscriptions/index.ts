@@ -168,4 +168,5 @@ export const NOTIFICATION_TYPES_WITH_DEFAULT = [
 /**
  * Extends the `NotificationType` type to include a default value.
  */
-export type NotificationTypeWithDefault = (typeof NOTIFICATION_TYPES_WITH_DEFAULT)[number];
+export type NotificationTypeWithDefault =
+    (typeof NOTIFICATION_TYPES_WITH_DEFAULT)[number];

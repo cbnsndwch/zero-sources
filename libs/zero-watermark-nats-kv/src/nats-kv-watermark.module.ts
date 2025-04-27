@@ -1,9 +1,17 @@
 import { KV, Kvm } from '@nats-io/kv';
 import { connect } from '@nats-io/transport-node';
-import { Module, type DynamicModule, type FactoryProvider } from '@nestjs/common';
+import {
+    Module,
+    type DynamicModule,
+    type FactoryProvider
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { invariant, IWatermarkService, TOKEN_WATERMARK_SERVICE } from '@cbnsndwch/zero-contracts';
+import {
+    invariant,
+    IWatermarkService,
+    TOKEN_WATERMARK_SERVICE
+} from '@cbnsndwch/zero-contracts';
 
 import {
     NatsKvOptions,
@@ -28,7 +36,9 @@ export class NatsKvWatermarkModule {
      *
      * @param options - The options to configure the ZQLite database.
      */
-    static forRootAsync(options: NatsKvWatermarkModuleAsyncOptions): DynamicModule {
+    static forRootAsync(
+        options: NatsKvWatermarkModuleAsyncOptions
+    ): DynamicModule {
         const optionsProvider: FactoryProvider<NatsKvOptions> = {
             provide: TOKEN_NATS_KV_BUCKET_OPTIONS,
             inject: options.inject ?? [],
@@ -45,7 +55,8 @@ export class NatsKvWatermarkModule {
                 );
 
                 invariant(
-                    typeof options.kvBucketName === 'string' && options.kvBucketName.length > 0,
+                    typeof options.kvBucketName === 'string' &&
+                        options.kvBucketName.length > 0,
                     'NATS KV bucket name invalid or missing'
                 );
 
@@ -77,7 +88,11 @@ export class NatsKvWatermarkModule {
             global: true,
             imports: [ConfigModule, ...(options.imports ?? [])],
             module: NatsKvWatermarkModule,
-            providers: [optionsProvider, bucketProvider, watermarkServiceProvider],
+            providers: [
+                optionsProvider,
+                bucketProvider,
+                watermarkServiceProvider
+            ],
             exports: [watermarkServiceProvider]
         };
     }

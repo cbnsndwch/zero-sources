@@ -1,5 +1,9 @@
 import type { Type } from '@nestjs/common';
-import type { SchemaDefinitionProperty, SchemaType, SchemaOptions } from 'mongoose';
+import type {
+    SchemaDefinitionProperty,
+    SchemaType,
+    SchemaOptions
+} from 'mongoose';
 
 /**
  * Interface defining property options that can be passed to `@Prop()` decorator.
@@ -21,7 +25,9 @@ interface SchemaMetadata {
     properties?: PropertyMetadata[];
 }
 
-type GetSchemaMetadataByTarget = <TEntity>(target: Type<TEntity>) => SchemaMetadata | undefined;
+type GetSchemaMetadataByTarget = <TEntity>(
+    target: Type<TEntity>
+) => SchemaMetadata | undefined;
 
 declare global {
     var MongoTypeMetadataStorage: {

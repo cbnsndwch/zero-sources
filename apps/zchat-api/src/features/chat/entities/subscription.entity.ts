@@ -1,5 +1,12 @@
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+    IsBoolean,
+    IsDate,
+    IsEnum,
+    IsNumber,
+    IsOptional,
+    IsString
+} from 'class-validator';
 
 import {
     IUserSummaryWithName,

@@ -30,11 +30,16 @@ export type PermissionRule<TTable extends TableName> = (
 
 //#region Helpers
 
-function and<TTable extends TableName>(...rules: PermissionRule<TTable>[]): PermissionRule<TTable> {
+function and<TTable extends TableName>(
+    ...rules: PermissionRule<TTable>[]
+): PermissionRule<TTable> {
     return (claims, eb) => eb.and(...rules.map(rule => rule(claims, eb)));
 }
 
-function userIsLoggedIn(claims: TokenClaims, b: ExpressionBuilder<Schema, TableName>) {
+function userIsLoggedIn(
+    claims: TokenClaims,
+    b: ExpressionBuilder<Schema, TableName>
+) {
     return b.cmpLit(claims.sub, 'IS NOT', null);
 }
 
@@ -45,8 +50,14 @@ function userIsLoggedIn(claims: TokenClaims, b: ExpressionBuilder<Schema, TableN
 //     return b.and(userIsLoggedIn(claims, b), b.cmp('createdBy', '=', claims.sub));
 // }
 
-function loggedInUserIsAdmin(claims: TokenClaims, b: ExpressionBuilder<Schema, TableName>) {
-    return b.and(userIsLoggedIn(claims, b), b.cmpLit('superAdmin', 'IN', claims.roles));
+function loggedInUserIsAdmin(
+    claims: TokenClaims,
+    b: ExpressionBuilder<Schema, TableName>
+) {
+    return b.and(
+        userIsLoggedIn(claims, b),
+        b.cmpLit('superAdmin', 'IN', claims.roles)
+    );
 }
 
 // function allowIfUserIdMatchesLoggedInUser(
@@ -68,15 +79,18 @@ function loggedInUserIsAdmin(claims: TokenClaims, b: ExpressionBuilder<Schema, T
 
 //#endregion Helpers
 
-export const permissions: any = definePermissions<TokenClaims, Schema>(schema, () => ({
-    pokemon: {
-        // Only the authentication system can write to the user table.
-        row: {
-            insert: [loggedInUserIsAdmin],
-            update: {
-                preMutation: [loggedInUserIsAdmin]
-            },
-            delete: [loggedInUserIsAdmin]
+export const permissions: any = definePermissions<TokenClaims, Schema>(
+    schema,
+    () => ({
+        pokemon: {
+            // Only the authentication system can write to the user table.
+            row: {
+                insert: [loggedInUserIsAdmin],
+                update: {
+                    preMutation: [loggedInUserIsAdmin]
+                },
+                delete: [loggedInUserIsAdmin]
+            }
         }
-    }
-}));
+    })
+);

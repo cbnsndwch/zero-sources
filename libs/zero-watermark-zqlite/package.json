@@ -36,6 +36,7 @@
         "@commitlint/cli": "^19.8.0",
         "@commitlint/config-conventional": "^19.8.0",
         "@nestjs/common": "^11.1.0",
+        "@nestjs/testing": "^11.1.0",
         "@nestjs/config": "^4.0.2",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",

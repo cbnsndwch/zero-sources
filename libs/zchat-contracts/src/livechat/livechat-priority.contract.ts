@@ -43,4 +43,7 @@ export interface ILivechatPrioritySettings extends IEntityBase {
     dirty: boolean;
 }
 
-export type ILivechatPrioritySummary = Omit<ILivechatPrioritySettings, '_id' | '_updatedAt'>;
+export type ILivechatPrioritySummary = Omit<
+    ILivechatPrioritySettings,
+    '_id' | '_updatedAt'
+>;

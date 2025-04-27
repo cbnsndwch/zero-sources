@@ -16,7 +16,10 @@ export interface IWatermarkService {
      * @param watermark - The watermark version.
      * @returns A promise that resolves to the resume token as a string, or `undefined` if one is not found.
      */
-    getResumeToken(shardId: string, watermark: LexiVersion): Promise<string | undefined>;
+    getResumeToken(
+        shardId: string,
+        watermark: LexiVersion
+    ): Promise<string | undefined>;
 
     /**
      * Retrieves an existing watermark for the given shard ID and a change

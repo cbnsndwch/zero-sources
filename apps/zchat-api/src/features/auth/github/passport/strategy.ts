@@ -1,6 +1,11 @@
 import OAuth2Strategy from 'passport-oauth2';
 
-import { applyOptionsDefaults, GithubProfile, parseProfile, StrategyOptions } from './utils.js';
+import {
+    applyOptionsDefaults,
+    GithubProfile,
+    parseProfile,
+    StrategyOptions
+} from './utils.js';
 
 const USER_PROFILE_URL = 'https://api.github.com/user';
 const USER_EMAIL_URL = 'https://api.github.com/user/emails';
@@ -72,7 +77,10 @@ export class Strategy extends OAuth2Strategy {
      * @param done PassportJS callback
      * @api protected
      */
-    userProfile(accessToken: string, done: (err?: unknown, profile?: any) => void) {
+    userProfile(
+        accessToken: string,
+        done: (err?: unknown, profile?: any) => void
+    ) {
         void new Promise<GithubProfile>(async (resolve, reject) => {
             // fetch user profile
             const profileResponse = await fetch(USER_PROFILE_URL, {
@@ -95,11 +103,15 @@ export class Strategy extends OAuth2Strategy {
             // check if the strategy settings specified a scope that includes email
             const requestedScopes =
                 typeof this.#options.scope === 'string'
-                    ? this.#options.scope.split(this.#options.scopeSeparator ?? ',')
+                    ? this.#options.scope.split(
+                          this.#options.scopeSeparator ?? ','
+                      )
                     : (this.#options.scope ?? []);
 
             // if we did not request any email scope return profile so far
-            const hasEmailScope = requestedScopes.some(scope => EMAIL_SCOPES.includes(scope));
+            const hasEmailScope = requestedScopes.some(scope =>
+                EMAIL_SCOPES.includes(scope)
+            );
             if (!hasEmailScope) {
                 return resolve(profile);
             }
@@ -116,10 +128,13 @@ export class Strategy extends OAuth2Strategy {
             // sanity check
             if (!emailResponse.ok) {
                 return reject(
-                    new OAuth2Strategy.InternalOAuthError('Failed to fetch user emails', {
-                        status: emailResponse.statusText,
-                        statusCode: emailResponse.status
-                    })
+                    new OAuth2Strategy.InternalOAuthError(
+                        'Failed to fetch user emails',
+                        {
+                            status: emailResponse.statusText,
+                            statusCode: emailResponse.status
+                        }
+                    )
                 );
             }
 
@@ -135,7 +150,7 @@ export class Strategy extends OAuth2Strategy {
             }
 
             // we got emails! add them to profile
-            for (let item of emailsBody) {
+            for (const item of emailsBody) {
                 if (item.primary) {
                     profile.mainEmail = item.email;
                     continue;

@@ -12,4 +12,5 @@ export type IMessageVideoAttachment = MessageAttachmentBase & {
 
 export const isFileVideoAttachment = (
     attachment: IMessageFileAttachment
-): attachment is IMessageVideoAttachment & { type: 'file' } => 'video_url' in attachment;
+): attachment is IMessageVideoAttachment & { type: 'file' } =>
+    'video_url' in attachment;

@@ -9,12 +9,19 @@ interface HeaderProps extends HTMLAttributes<HTMLElement> {
     ref?: Ref<HTMLElement>;
 }
 
-export const Header = ({ className, fixed, children, ...props }: HeaderProps) => {
+export const Header = ({
+    className,
+    fixed,
+    children,
+    ...props
+}: HeaderProps) => {
     const [offset, setOffset] = useState(0);
 
     useEffect(() => {
         const onScroll = () => {
-            setOffset(document.body.scrollTop || document.documentElement.scrollTop);
+            setOffset(
+                document.body.scrollTop || document.documentElement.scrollTop
+            );
         };
 
         // Add scroll listener to the body
@@ -28,13 +35,17 @@ export const Header = ({ className, fixed, children, ...props }: HeaderProps) =>
         <header
             className={cn(
                 'flex h-16 items-center gap-3 bg-background p-4 sm:gap-4',
-                fixed && 'header-fixed peer/header fixed z-50 w-[inherit] rounded-md',
+                fixed &&
+                    'header-fixed peer/header fixed z-50 w-[inherit] rounded-md',
                 offset > 10 && fixed ? 'shadow' : 'shadow-none',
                 className
             )}
             {...props}
         >
-            <SidebarTrigger variant="outline" className="scale-125 sm:scale-100" />
+            <SidebarTrigger
+                variant="outline"
+                className="scale-125 sm:scale-100"
+            />
             <Separator orientation="vertical" className="h-6" />
             {children}
         </header>

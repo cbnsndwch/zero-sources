@@ -1,5 +1,11 @@
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsArray, IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+    IsArray,
+    IsBoolean,
+    IsEnum,
+    IsOptional,
+    IsString
+} from 'class-validator';
 
 import {
     IDirectMessagesRoom,
@@ -75,7 +81,10 @@ export const RoomSchema = SchemaFactory.createForClass(Room);
 // ###############################################################
 
 @Schema()
-export class DirectMessagesRoom extends RoomBase implements IDirectMessagesRoom {
+export class DirectMessagesRoom
+    extends RoomBase
+    implements IDirectMessagesRoom
+{
     declare t: typeof ROOM_TYPE_DIRECT_MESSAGES;
 
     @Prop({
@@ -88,7 +97,8 @@ export class DirectMessagesRoom extends RoomBase implements IDirectMessagesRoom 
     usernames!: string[];
 }
 
-export const DirectMessagesRoomSchema = SchemaFactory.createForClass(DirectMessagesRoom);
+export const DirectMessagesRoomSchema =
+    SchemaFactory.createForClass(DirectMessagesRoom);
 
 // ###############################################################
 

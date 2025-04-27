@@ -64,7 +64,10 @@ export class UserController {
     @ApiOperation({ summary: 'Update a user' })
     @ApiResponse({ status: 200, description: 'User updated successfully' })
     @ApiResponse({ status: 404, description: 'User not found' })
-    async update(@Param('id') id: string, @Body() input: UpdateUserInput): Promise<User> {
+    async update(
+        @Param('id') id: string,
+        @Body() input: UpdateUserInput
+    ): Promise<User> {
         const user = await this.#userService.update(id, input);
 
         if (!user) {

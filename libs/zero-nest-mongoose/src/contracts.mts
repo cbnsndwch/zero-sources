@@ -1,7 +1,13 @@
 /**
  * The values that can be represented in JSON
  */
-export type JSONValue = null | string | boolean | number | Array<JSONValue> | JSONObject;
+export type JSONValue =
+    | null
+    | string
+    | boolean
+    | number
+    | Array<JSONValue>
+    | JSONObject;
 
 /**
  * A JSON object. This is a map from strings to JSON values or `undefined`. We
@@ -72,7 +78,9 @@ export type JsonColumn<T extends ReadonlyJSONValue = ReadonlyJSONValue> = {
     type: 'json';
     customType: T;
 };
-export type JsonColumnOptional<T extends ReadonlyJSONValue = ReadonlyJSONValue> = {
+export type JsonColumnOptional<
+    T extends ReadonlyJSONValue = ReadonlyJSONValue
+> = {
     type: 'json';
     optional: true;
     customType: T;
@@ -145,7 +153,11 @@ export type UnwrapOptional<
     K extends keyof T,
     TOptional = true,
     TRequired = false
-> = undefined extends T[K] ? ({} extends Pick<T, K> ? TOptional : TRequired) : TRequired;
+> = undefined extends T[K]
+    ? {} extends Pick<T, K>
+        ? TOptional
+        : TRequired
+    : TRequired;
 
 export type Defined<T> = Exclude<T, undefined>;
 export type TableSchemaBase = {

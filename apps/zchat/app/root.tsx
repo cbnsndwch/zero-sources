@@ -1,5 +1,15 @@
-import { useCallback, useSyncExternalStore, type PropsWithChildren } from 'react';
-import { isRouteErrorResponse, Links, Meta, Scripts, ScrollRestoration } from 'react-router';
+import {
+    useCallback,
+    useSyncExternalStore,
+    type PropsWithChildren
+} from 'react';
+import {
+    isRouteErrorResponse,
+    Links,
+    Meta,
+    Scripts,
+    ScrollRestoration
+} from 'react-router';
 import { ZeroProvider } from '@rocicorp/zero/react';
 
 import type { Route } from '+root';
@@ -30,7 +40,10 @@ export function Layout({ children }: PropsWithChildren) {
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                />
                 <Meta />
                 <Links />
             </head>

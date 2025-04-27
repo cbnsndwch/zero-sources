@@ -99,8 +99,14 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             const { shardId, lastWatermark, token, shardPublications } = params;
 
             // enforce auth only if configured
-            if (this.#options.streamerToken && token !== this.#options.streamerToken) {
-                client.close(WsCloseCode.WS_3000_UNAUTHORIZED, 'Auth token missing or invalid');
+            if (
+                this.#options.streamerToken &&
+                token !== this.#options.streamerToken
+            ) {
+                client.close(
+                    WsCloseCode.WS_3000_UNAUTHORIZED,
+                    'Auth token missing or invalid'
+                );
                 return;
             }
 
@@ -126,18 +132,24 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             // get the resume token for the shard, if one exists
             const resumeToken = !lastWatermark
                 ? undefined
-                : await this.#watermarkService.getResumeToken(shard.id, lastWatermark);
+                : await this.#watermarkService.getResumeToken(
+                      shard.id,
+                      lastWatermark
+                  );
 
             // stream db changes
-            let stream$: Observable<v0.ChangeStreamMessage> = source.streamChanges$(
-                shardPublications,
-                abortController.signal,
-                resumeToken
-            );
+            let stream$: Observable<v0.ChangeStreamMessage> =
+                source.streamChanges$(
+                    shardPublications,
+                    abortController.signal,
+                    resumeToken
+                );
 
             // handle initial sync scenario
             if (!lastWatermark) {
-                this.#logger.debug('No streamer watermark provided, performing initial sync');
+                this.#logger.debug(
+                    'No streamer watermark provided, performing initial sync'
+                );
                 stream$ = source.initialSync$().pipe(concatWith(stream$));
             } else {
                 this.#logger.debug(
@@ -146,7 +158,9 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             }
 
             client.on('close', () => {
-                this.#logger.debug('Client disconnected, stopping change stream');
+                this.#logger.debug(
+                    'Client disconnected, stopping change stream'
+                );
 
                 // stop change stream when client disconnects
                 abortController.abort();
@@ -210,7 +224,9 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
         @MessageBody() [eventName, ...data]: v0.ChangeSourceUpstream,
         @ConnectedSocket() client: WebSocket
     ) {
-        this.#logger.verbose(`Received streamer message: ${JSON.stringify(data)}`);
+        this.#logger.verbose(
+            `Received streamer message: ${JSON.stringify(data)}`
+        );
 
         if (!this.#subscriptions.has(client)) {
             this.#logger.error(`No ws subscription found for socket ${client}`);

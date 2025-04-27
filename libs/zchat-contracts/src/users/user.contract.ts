@@ -1,4 +1,9 @@
-import type { IHasCreatedAt, IHasShortId, IEntityBase, IHasName } from '../common/index.js';
+import type {
+    IHasCreatedAt,
+    IHasShortId,
+    IEntityBase,
+    IHasName
+} from '../common/index.js';
 
 import type { UserPresenceStatus } from './user-status.contract.js';
 
@@ -91,7 +96,10 @@ export type IUserRemovedEvent = IHasShortId & {
     unset?: never;
 };
 
-export type IUserDataEvent = IUserInsertedEvent | IUserUpdatedEvent | IUserRemovedEvent;
+export type IUserDataEvent =
+    | IUserInsertedEvent
+    | IUserUpdatedEvent
+    | IUserRemovedEvent;
 
 export type IUserInRole = Pick<
     IUser,

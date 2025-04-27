@@ -60,7 +60,10 @@ export const IssueSchema = SchemaFactory.createForClass(Issue);
 IssueSchema.index({ created: 1 }, { name: 'idx_issue__created' });
 IssueSchema.index({ modified: 1 }, { name: 'idx_issue__modified' });
 IssueSchema.index({ modified: 1 }, { name: 'idx_issue__labels' });
-IssueSchema.index({ open: 1, modified: 1 }, { name: 'idx_issue__open_modified' });
+IssueSchema.index(
+    { open: 1, modified: 1 },
+    { name: 'idx_issue__open_modified' }
+);
 
 // if (process.env.NODE_ENV === 'test') {
 //     IssueSchema.set('autoIndex', false);

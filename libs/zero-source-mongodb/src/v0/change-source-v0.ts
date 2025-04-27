@@ -5,9 +5,17 @@ import type { ChangeStreamDocument, Document, ChangeStream } from 'mongodb';
 import type { ClientSession, Connection } from 'mongoose';
 import { concatWith, from, ignoreElements, map, Observable, of } from 'rxjs';
 
-import { invariant, versionToLexi, type IWatermarkService } from '@cbnsndwch/zero-contracts';
+import {
+    invariant,
+    versionToLexi,
+    type IWatermarkService
+} from '@cbnsndwch/zero-contracts';
 
-import type { ChangeMaker, TableSpec, WithWatermark } from '../contracts/index.js';
+import type {
+    ChangeMaker,
+    TableSpec,
+    WithWatermark
+} from '../contracts/index.js';
 import { StreamerShard } from '../entities/streamer-shard.entity.js';
 import { extractResumeToken } from '../utils/extract-resume-token.js';
 
@@ -84,7 +92,10 @@ export class ChangeSourceV0 {
             }
         ];
 
-        return this.streamChangesWithWatermark$(abortSignal, lastWatermark).pipe(map(x => x.data));
+        return this.streamChangesWithWatermark$(
+            abortSignal,
+            lastWatermark
+        ).pipe(map(x => x.data));
     }
 
     /**
@@ -109,7 +120,9 @@ export class ChangeSourceV0 {
                 : { _data: lastWatermark };
 
         // observe the change stream and map to zero change events
-        const changeStream$ = new Observable<WithWatermark<v0.ChangeStreamMessage>>(observer => {
+        const changeStream$ = new Observable<
+            WithWatermark<v0.ChangeStreamMessage>
+        >(observer => {
             this.#changeStream = this.#conn.watch<Document>(
                 // only stream requested collections
                 this.#pipeline,
@@ -130,10 +143,11 @@ export class ChangeSourceV0 {
                         'received a change stream update event without a resume token'
                     );
 
-                    const watermark = await this.#watermarkService.getOrCreateWatermark(
-                        this.#shard.id,
-                        resumeToken
-                    );
+                    const watermark =
+                        await this.#watermarkService.getOrCreateWatermark(
+                            this.#shard.id,
+                            resumeToken
+                        );
 
                     for (const data of this.#makeChanges(watermark, doc)) {
                         observer.next({ data, watermark });
@@ -176,23 +190,31 @@ export class ChangeSourceV0 {
      */
     initialSync$(): Observable<v0.ChangeStreamMessage> {
         // first, signal the beginning of the snapshot sync
-        const begin = from(this.#changeMaker.makeBeginChanges(WATERMARK_INITIAL_SYNC));
+        const begin = from(
+            this.#changeMaker.makeBeginChanges(WATERMARK_INITIAL_SYNC)
+        );
 
         // then, tell the client to create tables in the replica DB
         const tables = from([
             // HACK: the custom change source implementation still expect these
             // tables to exist in the upstream DB
-            ...this.#changeMaker.makeZeroRequiredUpstreamTablesChanges(this.#shard._id),
+            ...this.#changeMaker.makeZeroRequiredUpstreamTablesChanges(
+                this.#shard._id
+            ),
 
             // create tables in replica
-            ...this.#tableSpecs.flatMap(spec => this.#changeMaker.makeCreateTableChanges(spec))
+            ...this.#tableSpecs.flatMap(spec =>
+                this.#changeMaker.makeCreateTableChanges(spec)
+            )
         ]);
 
         // next, stream all the documents already in the database
         const records = from(this.#streamCurrentRecords$());
 
         // and last, signal that the snapshot is complete
-        const commit = from(this.#changeMaker.makeCommitChanges(WATERMARK_INITIAL_SYNC));
+        const commit = from(
+            this.#changeMaker.makeCommitChanges(WATERMARK_INITIAL_SYNC)
+        );
 
         // TODO: handle errors
         const stream = begin.pipe(concatWith(tables, records, commit));
@@ -232,14 +254,17 @@ export class ChangeSourceV0 {
                 const colDocs = col.find({}, { session });
 
                 for await (const doc of colDocs) {
-                    const changes = this.#changeMaker.makeInsertChanges(WATERMARK_INITIAL_SYNC, {
-                        _id: WATERMARK_INITIAL_SYNC,
-                        fullDocument: doc,
-                        ns: {
-                            db: col.dbName,
-                            coll: col.name
+                    const changes = this.#changeMaker.makeInsertChanges(
+                        WATERMARK_INITIAL_SYNC,
+                        {
+                            _id: WATERMARK_INITIAL_SYNC,
+                            fullDocument: doc,
+                            ns: {
+                                db: col.dbName,
+                                coll: col.name
+                            }
                         }
-                    });
+                    );
 
                     for (const change of changes) {
                         yield change;
@@ -256,7 +281,10 @@ export class ChangeSourceV0 {
 
     //#region Helpers - Change Stream Event Handlers
 
-    #makeChanges(watermark: string, doc: ChangeStreamDocument): v0.ChangeStreamMessage[] {
+    #makeChanges(
+        watermark: string,
+        doc: ChangeStreamDocument
+    ): v0.ChangeStreamMessage[] {
         // do not process changes if errored
         if (this.#error) {
             this.#logger.error(this.#error);
@@ -268,23 +296,42 @@ export class ChangeSourceV0 {
                 //#region CRUD
 
                 case 'insert':
-                    return this.#changeMaker.makeInsertChanges(watermark, doc, true);
+                    return this.#changeMaker.makeInsertChanges(
+                        watermark,
+                        doc,
+                        true
+                    );
 
                 case 'update':
-                    return this.#changeMaker.makeUpdateChanges(watermark, doc, true);
+                    return this.#changeMaker.makeUpdateChanges(
+                        watermark,
+                        doc,
+                        true
+                    );
 
                 case 'delete':
-                    return this.#changeMaker.makeDeleteChanges(watermark, doc, true);
+                    return this.#changeMaker.makeDeleteChanges(
+                        watermark,
+                        doc,
+                        true
+                    );
 
                 case 'replace':
-                    return this.#changeMaker.makeReplaceChanges(watermark, doc, true);
+                    return this.#changeMaker.makeReplaceChanges(
+                        watermark,
+                        doc,
+                        true
+                    );
 
                 //#endregion CRUD
 
                 //#region Basic DDL -> Implement
 
                 case 'drop':
-                    return this.#changeMaker.makeDropCollectionChanges(watermark, doc);
+                    return this.#changeMaker.makeDropCollectionChanges(
+                        watermark,
+                        doc
+                    );
 
                 case 'dropDatabase':
                     // Occurs when a database is dropped
@@ -390,7 +437,10 @@ export class ChangeSourceV0 {
             this.#logger.error(this.#error);
 
             // abort the stream and signal to the client that a reset is required
-            const resetMessage: v0.ChangeStreamMessage = ['control', { tag: 'reset-required' }];
+            const resetMessage: v0.ChangeStreamMessage = [
+                'control',
+                { tag: 'reset-required' }
+            ];
 
             return [resetMessage];
         }

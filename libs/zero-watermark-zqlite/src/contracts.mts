@@ -3,7 +3,9 @@ import type { FactoryProvider, ModuleMetadata } from '@nestjs/common';
 /**
  * Injection token for the Zero-SQLite3 database client instance
  */
-export const TOKEN_WATERMARK_ZQLITE_DB = Symbol.for('TOKEN_WATERMARK_ZQLITE_DB');
+export const TOKEN_WATERMARK_ZQLITE_DB = Symbol.for(
+    'TOKEN_WATERMARK_ZQLITE_DB'
+);
 
 /**
  * Config for the Zero-SQLite3 KV provider
@@ -15,5 +17,8 @@ export type ZqliteKvOptions = {
     file: string;
 };
 
-export type ZqliteWatermarkModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &
+export type ZqliteWatermarkModuleAsyncOptions = Pick<
+    ModuleMetadata,
+    'imports'
+> &
     Pick<FactoryProvider<ZqliteKvOptions>, 'inject' | 'useFactory'>;

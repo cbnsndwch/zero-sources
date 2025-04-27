@@ -30,12 +30,17 @@ export class GithubOauthController {
     @Get('callback')
     @ApiOperation({ operationId: 'githubOAuthCallback' })
     @UseGuards(GithubOauthGuard)
-    async githubAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    async githubAuthCallback(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response
+    ) {
         // Passport automatically creates a `user` object, based on the return value of our
         // GithubOauthStrategy#validate() method, and assigns it to the Request object as `req.user`
         const user = req.user as IUser;
 
-        this.#logger.verbose(`GET /auth/github/callback: req.user = ${JSON.stringify(user)}`);
+        this.#logger.verbose(
+            `GET /auth/github/callback: req.user = ${JSON.stringify(user)}`
+        );
 
         const { accessToken } = this.#jwtAuthService.login(user);
         res.cookie('jwt', accessToken);

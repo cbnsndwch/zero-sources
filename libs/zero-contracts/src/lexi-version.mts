@@ -38,7 +38,8 @@ export type LexiVersion = string;
 export function versionToLexi(v: number | bigint): LexiVersion {
     invariant(v >= 0, 'Negative versions are not supported');
     invariant(
-        typeof v === 'bigint' || (v <= Number.MAX_SAFE_INTEGER && Number.isInteger(v)),
+        typeof v === 'bigint' ||
+            (v <= Number.MAX_SAFE_INTEGER && Number.isInteger(v)),
         `Invalid or unsafe version ${v}`
     );
 

@@ -47,7 +47,11 @@ type SpacesMenuItemProps = {
     setActiveItem: (item: SpaceSummary) => void;
 };
 
-function SpacesMenuItem({ item, setActiveItem, activeItem }: SpacesMenuItemProps) {
+function SpacesMenuItem({
+    item,
+    setActiveItem,
+    activeItem
+}: SpacesMenuItemProps) {
     const { setOpen } = useSidebar();
 
     const onClick = useCallback(() => {
@@ -84,7 +88,9 @@ function SpacesMenuItem({ item, setActiveItem, activeItem }: SpacesMenuItemProps
             >
                 <Avatar>
                     <AvatarImage src={item.avatar} alt={item.title} />
-                    <AvatarFallback>{item.title.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarFallback>
+                        {item.title.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                 </Avatar>
             </SidebarMenuButton>
         </SidebarMenuItem>

@@ -207,7 +207,10 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * @throws Will throw an error if the table does not have a primary key.
      */
     makeCreateTableChanges(spec: TableSpec): v0.ChangeStreamMessage[] {
-        invariant(!!spec.primaryKey, `Expected table ${spec.name} to have a primary key`);
+        invariant(
+            !!spec.primaryKey,
+            `Expected table ${spec.name} to have a primary key`
+        );
 
         const pkColumns = spec.primaryKey.reduce(
             (acc, col) => {
@@ -312,7 +315,9 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * @param shardId - The identifier of the shard for which the table changes are to be made.
      * @returns An array of `v0.ChangeStreamMessage` objects representing the table changes.
      */
-    makeZeroRequiredUpstreamTablesChanges(shardId: string): v0.ChangeStreamMessage[] {
+    makeZeroRequiredUpstreamTablesChanges(
+        shardId: string
+    ): v0.ChangeStreamMessage[] {
         return [
             ...this.makeCreateTableChanges({
                 schema: `public`,

@@ -4,7 +4,9 @@ import type { ConnectionOptions } from '@nats-io/transport-node';
 /**
  * Injection token for the NATS KV bucket instance
  */
-export const TOKEN_WATERMARK_NATS_KV_BUCKET = Symbol.for('TOKEN_WATERMARK_NATS_KV_BUCKET');
+export const TOKEN_WATERMARK_NATS_KV_BUCKET = Symbol.for(
+    'TOKEN_WATERMARK_NATS_KV_BUCKET'
+);
 
 /**
  * Config for the NATS/JetStream KV provider
@@ -23,5 +25,8 @@ export type NatsKvOptions = {
     connection: ConnectionOptions;
 };
 
-export type NatsKvWatermarkModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &
+export type NatsKvWatermarkModuleAsyncOptions = Pick<
+    ModuleMetadata,
+    'imports'
+> &
     Pick<FactoryProvider<NatsKvOptions>, 'inject' | 'useFactory'>;

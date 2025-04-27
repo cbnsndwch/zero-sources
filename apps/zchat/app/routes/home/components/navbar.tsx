@@ -1,7 +1,13 @@
 import { Link } from 'react-router';
 import { Menu } from 'lucide-react';
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger
+} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
 export default function Navbar() {
@@ -28,11 +34,17 @@ export default function Navbar() {
                     </SheetTrigger>
                     <SheetContent className="w-52">
                         <SheetHeader>
-                            <SheetTitle className="text-left text-2xl">Mail0</SheetTitle>
+                            <SheetTitle className="text-left text-2xl">
+                                Mail0
+                            </SheetTitle>
                         </SheetHeader>
                         <div className="mt-7 flex flex-col gap-3 text-muted-foreground">
-                            <Link to="https://github.com/nizzyabi/mail0">Github</Link>
-                            <Link to="https://discord.gg/5nwrvt3JH2">Discord</Link>
+                            <Link to="https://github.com/nizzyabi/mail0">
+                                Github
+                            </Link>
+                            <Link to="https://discord.gg/5nwrvt3JH2">
+                                Discord
+                            </Link>
                             <Link to="/privacy">Terms & Privacy</Link>
                         </div>
                     </SheetContent>
@@ -40,7 +52,10 @@ export default function Navbar() {
             </div>
 
             {process.env.NODE_ENV === 'development' ? (
-                <Link to="/login" className="hidden w-[180px] justify-end md:flex">
+                <Link
+                    to="/login"
+                    className="hidden w-[180px] justify-end md:flex"
+                >
                     <Button variant="secondary" className="group h-9">
                         Developers start here
                         <svg
