@@ -175,7 +175,7 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
                         )
                     );
                 },
-                error: err => {
+                error: (err: Error) => {
                     client.close(
                         WsCloseCode.WS_1011_INTERNAL_ERROR,
                         truncateBytes(err.message, WS_CLOSE_REASON_MAX_BYTES)

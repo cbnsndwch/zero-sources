@@ -1,20 +1,29 @@
-import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Logger, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import type { JSONObject } from '@rocicorp/zero';
-
+import type { ServerMutationBody } from '../contracts/mutation.contracts.js';
 import { ZeroPusherAuthGuard } from '../guards/index.js';
 
+import { PushProcessorV1 } from '../v0/custom-mutators/push-processor.js';
+
 @ApiTags('zero/push')
-@UseGuards(ZeroPusherAuthGuard)
 @Controller('zero/push')
+@UseGuards(ZeroPusherAuthGuard)
 export class ZeroPushController {
     #logger = new Logger(ZeroPushController.name);
 
-    @Post('v0')
-    async push(@Body() input: JSONObject) {
-        this.#logger.debug('push input', input);
+    #push: PushProcessorV1;
 
-        return Promise.resolve({ msg: 'ok' });
+    constructor(push: PushProcessorV1) {
+        this.#push = push;
+    }
+
+    @Post('v0')
+    async push(@Query() query: Record<string, string>, @Body() body: ServerMutationBody) {
+        this.#logger.debug('push input', body);
+
+        const result = await this.#push.process(query, body);
+
+        return result;
     }
 }

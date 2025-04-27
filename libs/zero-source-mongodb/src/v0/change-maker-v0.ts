@@ -90,7 +90,6 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 {
                     tag: 'update',
                     key: doc.documentKey,
-                    old: doc.fullDocumentBeforeChange!,
                     new: doc.fullDocument,
                     relation: relationFromChangeStreamEvent(doc.ns)
                 }
