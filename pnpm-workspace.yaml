@@ -1,0 +1,13 @@
+packages:
+  - libs/*
+  - apps/*
+
+ignoredBuiltDependencies:
+  - '@nestjs/core'
+  - '@scarf/scarf'
+
+onlyBuiltDependencies:
+  - '@rocicorp/zero-sqlite3'
+  - '@swc/core'
+  - esbuild
+  - protobufjs

@@ -33,7 +33,7 @@
         ".eslintrc.js": ".eslintrc.*.js,.eslintignore",
         ".gitignore": ".gitkeep,.gitattributes",
         ".prettierrc.json": ".prettierrc.*.json,.prettierignore",
-        "package.json": "package-lock.json,yarn.lock,pnpm-lock.yaml",
+        "package.json": "package-lock.json,pnpm-lock.yaml",
         "vite.config.mts": "vitest.config.mts, vite.config.mts.timestamp-*.mjs",
         "tsconfig.json": "tsconfig.*.json,tsconfig.tsbuildinfo",
     },
@@ -61,6 +61,7 @@
         "Arbok",
         "Arcanine",
         "Articuno",
+        "badrap",
         "Beedrill",
         "Bellsprout",
         "Blastoise",
@@ -135,6 +136,7 @@
         "Lexi",
         "Lickitung",
         "Livechat",
+        "LMID",
         "Machamp",
         "Machoke",
         "Machop",
@@ -220,6 +222,7 @@
         "Turborepo",
         "Twineedle",
         "unarchived",
+        "valita",
         "Vaporeon",
         "Venomoth",
         "Venonat",
@@ -241,4 +244,10 @@
         "zschema",
         "Zubat"
     ],
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
 }

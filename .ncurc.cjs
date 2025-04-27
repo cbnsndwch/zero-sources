@@ -19,7 +19,7 @@ module.exports = {
     //     return true;
     // },
 
-    packageManager: 'yarn',
+    packageManager: 'pnpm',
     deep: true,
     reject
 };
