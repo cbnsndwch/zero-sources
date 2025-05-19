@@ -1,3 +1,5 @@
+shamefullyHoist: true
+
 packages:
   - libs/*
   - apps/*
