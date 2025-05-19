@@ -105,7 +105,7 @@ describe('ZqliteWatermarkModule', () => {
                 Test.createTestingModule({
                     imports: [
                         ZqliteWatermarkModule.forRootAsync({
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                             
                             useFactory: () => ({ file: undefined }) as any
                         })
                     ]

@@ -8,7 +8,7 @@ export class StreamerShard extends Document<string> {
      * The Shard ID
      */
     @Prop({ type: String, required: true })
-    // @ts-expect-error
+    // @ts-ignore
     _id!: string;
 
     /**

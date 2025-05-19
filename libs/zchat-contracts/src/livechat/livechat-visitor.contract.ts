@@ -1,3 +1,4 @@
+ 
 import type { IHasUsername, IEntityBase } from '../common/index.js';
 import type { UserPresenceStatus } from '../users/user-status.contract.js';
 import type { ILivechatAgentSummary } from './livechat-agent.contracts.js';

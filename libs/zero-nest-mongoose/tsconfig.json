@@ -6,6 +6,7 @@
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": true,
         "outDir": "dist",
+        "rootDir": ".",
         "types": [
             "node",
             "vitest"

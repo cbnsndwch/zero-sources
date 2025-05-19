@@ -189,7 +189,9 @@ const messageRelationships = relationships(message, ({ one, many }) => ({
 This creates "sender" and "replies" relationships that can later be queried with the [`related` ZQL clause](./reading-data#relationships):
 
 ```ts
-const messagesWithSenderAndReplies = z.query.messages.related('sender').related('replies');
+const messagesWithSenderAndReplies = z.query.messages
+    .related('sender')
+    .related('replies');
 ```
 
 This will return an object for each message row. Each message will have a `sender` field that is a single `User` object or `null`, and a `replies` field that is an array of `Message` objects.
@@ -259,7 +261,11 @@ export const schema = createSchema(
     1, // Schema version. See [Schema Migrations](/docs/migrations) for more info.
     {
         tables: [user, medium, message],
-        relationships: [userRelationships, mediumRelationships, messageRelationships]
+        relationships: [
+            userRelationships,
+            mediumRelationships,
+            messageRelationships
+        ]
     }
 );
 ```

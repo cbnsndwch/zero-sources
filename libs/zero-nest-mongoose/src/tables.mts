@@ -102,7 +102,7 @@ export class ZeroTableSchema {
                 continue;
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+             
             const options = prop.options as any;
 
             switch (true) {

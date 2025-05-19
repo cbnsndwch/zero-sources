@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+ 
 import type {
     CustomMutatorDefs,
     CustomMutatorImpl,
@@ -80,9 +81,7 @@ export type MutatorKeysForSchema<
           : never;
 }[keyof Mutators];
 
-export type ServerMutatorContext = {
-    
-}
+export type ServerMutatorContext = {};
 
 /**
  * Represents a server-side mutator function implementation.

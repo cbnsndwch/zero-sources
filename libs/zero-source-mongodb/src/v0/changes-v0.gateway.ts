@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Inject, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {

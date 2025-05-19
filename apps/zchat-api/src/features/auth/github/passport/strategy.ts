@@ -81,7 +81,7 @@ export class Strategy extends OAuth2Strategy {
         accessToken: string,
         done: (err?: unknown, profile?: any) => void
     ) {
-        void new Promise<GithubProfile>(async (resolve, reject) => {
+        const fetchProfile = async (): Promise<GithubProfile> => {
             // fetch user profile
             const profileResponse = await fetch(USER_PROFILE_URL, {
                 method: 'GET',
@@ -93,7 +93,7 @@ export class Strategy extends OAuth2Strategy {
 
             // sanity check
             if (!profileResponse.ok) {
-                return reject(new Error('Failed to fetch user profile'));
+                throw new Error('Failed to fetch user profile');
             }
 
             // parse and extract claims
@@ -113,7 +113,7 @@ export class Strategy extends OAuth2Strategy {
                 EMAIL_SCOPES.includes(scope)
             );
             if (!hasEmailScope) {
-                return resolve(profile);
+                return profile;
             }
 
             // app wants email, so fetch it
@@ -127,25 +127,21 @@ export class Strategy extends OAuth2Strategy {
 
             // sanity check
             if (!emailResponse.ok) {
-                return reject(
-                    new OAuth2Strategy.InternalOAuthError(
-                        'Failed to fetch user emails',
-                        {
-                            status: emailResponse.statusText,
-                            statusCode: emailResponse.status
-                        }
-                    )
+                throw new OAuth2Strategy.InternalOAuthError(
+                    'Failed to fetch user emails',
+                    {
+                        status: emailResponse.statusText,
+                        statusCode: emailResponse.status
+                    }
                 );
             }
 
             // parse and check format
             const emailsBody = await emailResponse.json();
             if (!Array.isArray(emailsBody)) {
-                return reject(
-                    new OAuth2Strategy.InternalOAuthError(
-                        'Expected an array of emails from GitHub, but got something else',
-                        { actual: emailsBody }
-                    )
+                throw new OAuth2Strategy.InternalOAuthError(
+                    'Expected an array of emails from GitHub, but got something else',
+                    { actual: emailsBody }
                 );
             }
 
@@ -158,7 +154,11 @@ export class Strategy extends OAuth2Strategy {
 
                 profile.additionalEmails.push(item.email);
             }
-        })
+
+            return profile;
+        };
+
+        void fetchProfile()
             .then(profile => done(null, profile))
             .catch(err => {
                 const wrappedError =

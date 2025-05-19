@@ -1,3 +1,4 @@
+ 
 import type { MessageAttachmentBase } from '../MessageAttachmentBase.js';
 import type { IMessageAudioAttachment } from './audio-attachment.contracts.js';
 import type { ImageAttachmentProps } from './image-attachment.contract.js';

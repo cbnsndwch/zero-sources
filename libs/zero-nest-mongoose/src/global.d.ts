@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import type { Type } from '@nestjs/common';
 import type {
     SchemaDefinitionProperty,
-    SchemaType,
     SchemaOptions
+    // SchemaType
 } from 'mongoose';
 
 /**
@@ -30,7 +31,7 @@ type GetSchemaMetadataByTarget = <TEntity>(
 ) => SchemaMetadata | undefined;
 
 declare global {
-    var MongoTypeMetadataStorage: {
+    let MongoTypeMetadataStorage: {
         getSchemaMetadataByTarget: GetSchemaMetadataByTarget;
     };
 }

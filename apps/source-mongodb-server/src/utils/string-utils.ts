@@ -1,3 +1,5 @@
+ 
+
 /**
  * Concatenates a list of strings into a single line,
  * with a whitespace character as separator.

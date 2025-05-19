@@ -30,11 +30,11 @@ export type PermissionRule<TTable extends TableName> = (
 
 //#region Helpers
 
-function and<TTable extends TableName>(
-    ...rules: PermissionRule<TTable>[]
-): PermissionRule<TTable> {
-    return (claims, eb) => eb.and(...rules.map(rule => rule(claims, eb)));
-}
+// function and<TTable extends TableName>(
+//     ...rules: PermissionRule<TTable>[]
+// ): PermissionRule<TTable> {
+//     return (claims, eb) => eb.and(...rules.map(rule => rule(claims, eb)));
+// }
 
 function userIsLoggedIn(
     claims: TokenClaims,
