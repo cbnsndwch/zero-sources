@@ -1,7 +1,9 @@
 {
-    "name": "zchat",
-    "private": true,
+    "name": "@cbnsndwch/zchat",
+    "description": "A demo chat application built with React Router and Zero",
+    "version": "0.0.1",
     "type": "module",
+    "private": true,
     "scripts": {
         "build": "cross-env NODE_ENV=production react-router build",
         "dev": "react-router dev",
@@ -46,7 +48,7 @@
         "clsx": "^2.1.1",
         "cmdk": "1.1.1",
         "date-fns": "^4.1.0",
-        "@rocicorp/zero": "0.19.2025042502",
+        "@rocicorp/zero": "0.20.2025051600",
         "embla-carousel-react": "^8.6.0",
         "input-otp": "^1.4.2",
         "isbot": "^5.1.26",
