@@ -4,7 +4,7 @@
     "defaultLibraryPrefix": "@cbnsndwch",
     "sourceRoot": "src",
     "compilerOptions": {
-        "builder": "tsc",
+        "builder": "swc",
         "deleteOutDir": true,
         "manualRestart": true
     },
