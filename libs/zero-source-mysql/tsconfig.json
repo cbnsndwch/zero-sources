@@ -1,0 +1,29 @@
+{
+    "extends": "@repo/tsconfig/base.json",
+    "compilerOptions": {
+        "removeComments": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "skipDefaultLibCheck": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": ".",
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": false,
+        "esModuleInterop": true,
+        "exactOptionalPropertyTypes": true,
+        "types": [
+            "node",
+            "vitest"
+        ]
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

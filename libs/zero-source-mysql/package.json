@@ -1,0 +1,90 @@
+{
+    "name": "@cbnsndwch/zero-source-mysql",
+    "description": "Generate Zero schemas from @nestjs/mongoose schemas",
+    "version": "0.0.1",
+    "license": "MIT",
+    "type": "module",
+    "author": {
+        "name": "Sergio Leon",
+        "email": "oss@cbnsndwch.io"
+    },
+    "scripts": {
+        "clean": "rimraf lib",
+        "prebuild": "pnpm clean",
+        "build": "nest build",
+        "dev": "nest build --watch",
+        "release": "pnpm test && pnpm build && changelogen --release --push && pnpm npm publish",
+        "lint": "eslint . --fix",
+        "test": "vitest --run --passWithNoTests",
+        "ci:test": "vitest --run --passWithNoTests --bail 1",
+        "test:watch": "vitest",
+        "test:coverage": "vitest --coverage",
+        "test:ui": "vitest --ui --coverage.enabled=true"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "dependencies": {
+        "@cbnsndwch/zero-contracts": "workspace:*",
+        "mysql2": "^3.14.1"
+    },
+    "peerDependencies": {
+        "@nestjs/common": "^11",
+        "@nestjs/config": "^4",
+        "@nestjs/core": "^11",
+        "@nestjs/platform-express": "^11",
+        "@nestjs/platform-ws": "^11",
+        "@nestjs/swagger": "^11",
+        "@nestjs/websockets": "^11",
+        "@rocicorp/zero": "*",
+        "change-case": "^4.1.2",
+        "express": "^5.1.0",
+        "rxjs": "^7.8.2",
+        "ws": "^8.18.1",
+        "zod": "^3.24.3"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.0",
+        "@commitlint/config-conventional": "^19.8.0",
+        "@nestjs/cli": "^11.0.7",
+        "@nestjs/common": "^11.1.0",
+        "@nestjs/config": "^4.0.2",
+        "@nestjs/core": "^11.1.0",
+        "@nestjs/platform-express": "^11.1.0",
+        "@nestjs/platform-ws": "^11.1.0",
+        "@nestjs/schematics": "^11.0.5",
+        "@nestjs/swagger": "^11.1.5",
+        "@nestjs/testing": "^11.1.0",
+        "@nestjs/websockets": "^11.1.0",
+        "@repo/eslint-config": "workspace:*",
+        "@repo/tsconfig": "workspace:*",
+        "@rocicorp/zero": "0.20.2025051600",
+        "@types/express": "^5.0.1",
+        "@types/node": "^22.14.1",
+        "@types/ws": "^8.18.1",
+        "@vitest/coverage-v8": "^3.1.2",
+        "@vitest/ui": "^3.1.2",
+        "change-case": "^5.4.4",
+        "changelogen": "^0.6.1",
+        "eslint": "^9.25.1",
+        "express": "^5.1.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.5.1",
+        "tsup": "^8.4.0",
+        "typescript": "^5.8.3",
+        "vitest": "^3.1.2",
+        "ws": "^8.18.1"
+    },
+    "files": [
+        "dist"
+    ],
+    "typings": ".dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.mjs"
+        }
+    },
+    "lint-staged": {
+        "src/**/*.ts": "pnpm lint"
+    }
+}
