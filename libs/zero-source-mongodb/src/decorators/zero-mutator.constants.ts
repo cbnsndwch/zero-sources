@@ -16,11 +16,6 @@ export const ZERO_MUTATION_HANDLER_METADATA = Symbol.for(
 );
 
 /**
- * Metadata key used internally by parameter decorators.
- */
-export const ROUTE_ARGS_METADATA = 'routeArgs';
-
-/**
  * Metadata key used internally by parameter decorators in Zero mutation handlers.
  */
 export const ZERO_MUTATION_PARAMS_METADATA = Symbol.for(

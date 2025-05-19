@@ -6,7 +6,8 @@ import {
     ZERO_MUTATION_HANDLER_METADATA,
     ZERO_MUTATION_PARAMS_METADATA,
     ZeroParamData
-} from '../decorators/zero-mutation.constants.js';
+} from '../decorators/zero-mutator.constants.js';
+import { Schema } from '@rocicorp/zero';
 
 export interface MutationHandlerDetails {
     instance: object;
@@ -19,12 +20,11 @@ export interface MutationHandlerDetails {
  * NestJS discovery system and class/method decorators.
  */
 @Injectable()
-export class ZeroMutatorRegistry /* Removed implements OnModuleInit */ {
+export class ZeroMutatorRegistry<S extends Schema> {
     private readonly logger = new Logger(ZeroMutatorRegistry.name);
     private readonly mutatorMap = new Map<string, MutationHandlerDetails>();
 
     constructor(
-        // Inject services directly into the properties
         private readonly discoveryService: DiscoveryService,
         private readonly metadataScanner: MetadataScanner,
         private readonly reflector: Reflector
@@ -48,8 +48,8 @@ export class ZeroMutatorRegistry /* Removed implements OnModuleInit */ {
 
     // Make loadMutators public so it can be called from the test
     public loadMutators() {
-        const providers = this.discoveryService.getProviders(); // Use this.discoveryService
-        const controllers = this.discoveryService.getControllers(); // Use this.discoveryService
+        const providers = this.discoveryService.getProviders();
+        const controllers = this.discoveryService.getControllers();
 
         // Removed InstanceWrapper type annotation from wrapper
         [...providers, ...controllers].forEach(wrapper => {
@@ -97,13 +97,13 @@ export class ZeroMutatorRegistry /* Removed implements OnModuleInit */ {
             return;
         }
 
-        const handlerMetadata = this.reflector.get<{ name: string }>( // Use this.reflector
+        const handlerMetadata = this.reflector.get<{ name: string }>(
             ZERO_MUTATION_HANDLER_METADATA,
             methodRef
         );
 
         if (!handlerMetadata) {
-            return; // Not a @ZeroMutationHandler method
+            return; // Not a @Mutation method
         }
 
         const mutationName = namespace

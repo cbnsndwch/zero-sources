@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ExecutionContext, Logger, Type } from '@nestjs/common';
+import { ExecutionContext, Logger, Type } from '@nestjs/common'; // Removed ParameterDecorator import
 
 import type {
     Mutation,
@@ -9,7 +9,7 @@ import type {
 import {
     ZERO_MUTATION_PARAMS_METADATA,
     ZERO_TRANSACTION_PARAM_METADATA // Import or define the new constant
-} from './zero-mutation.constants.js';
+} from './zero-mutator.constants.js';
 
 const logger = new Logger('ZeroMutationParams');
 
@@ -68,14 +68,12 @@ function createZeroParamDecorator( // Reverted name
         mutation: Mutation | undefined,
         reqBody: ServerMutationBody | undefined
     ) => any
-) {
-    // Removed explicit : ParameterDecorator return type
+): ParameterDecorator { // Added explicit return type
     return (
         target: object,
         key: string | symbol | undefined,
         index: number
-    ) => {
-        // Removed explicit : void return type
+    ): void => { // Added explicit void return type
         // Decorators on constructor parameters (where key is undefined) are not supported by this logic.
         if (typeof key === 'undefined') {
             // Use Type<any> for better type compatibility with target.constructor.name
@@ -107,68 +105,68 @@ function createZeroParamDecorator( // Reverted name
  *
  * @example
  * ```typescript
- * @ZeroMutationHandler('create')
+ * @Mutation('create')
  * async createIssue(@MutationArgs() args: CreateIssueArgs) { ... }
  * ```
  */
 export const MutationArgs = createZeroParamDecorator(
     mutation => mutation?.args?.[0]
-); // Reverted back to custom factory
+);
 
 /**
  * Parameter decorator to extract the clientID of the current Zero mutation.
  *
  * @example
  * ```typescript
- * @ZeroMutationHandler('create')
+ * @Mutation('create')
  * async createIssue(@MutationClientID() clientID: string) { ... }
  * ```
  */
 export const MutationClientId = createZeroParamDecorator(
     mutation => mutation?.clientID
-); // Use reverted factory
+);
 
 /**
  * Parameter decorator to extract the mutation ID of the current Zero mutation.
  *
  * @example
  * ```typescript
- * @ZeroMutationHandler('create')
+ * @Mutation('create')
  * async createIssue(@MutationID() mutationID: number) { ... }
  * ```
  */
-export const MutationId = createZeroParamDecorator(mutation => mutation?.id); // Use reverted factory
+export const MutationId = createZeroParamDecorator(mutation => mutation?.id);
 
 /**
  * Parameter decorator to extract the clientGroupID from the push request body.
  *
  * @example
  * ```typescript
- * @ZeroMutationHandler('create')
+ * @Mutation('create')
  * async createIssue(@ClientGroupID() clientGroupID: string) { ... }
  * ```
  */
 export const ClientGroupId = createZeroParamDecorator(
     (mutation, reqBody) => reqBody?.clientGroupID
-); // Use reverted factory
+);
 
 /**
  * Parameter decorator to extract the entire mutation object.
  *
  * Example: `@MutationObject() mutation: Mutation`
  */
-export const MutationObject = createZeroParamDecorator(mutation => mutation); // Use reverted factory
+export const MutationObject = createZeroParamDecorator(mutation => mutation);
 
 /**
  * Parameter decorator to extract the full mutation object.
  *
  * @example
  * ```typescript
- * @ZeroMutationHandler('create')
+ * @Mutation('create')
  * async createIssue(@MutationParam() mutation: Mutation) { ... }
  * ```
  */
-export const MutationParam = createZeroParamDecorator(mutation => mutation); // Use reverted factory
+export const MutationParam = createZeroParamDecorator(mutation => mutation);
 
 /**
  * Parameter decorator to extract the MongoTransaction instance that's passed to the handler.
@@ -176,7 +174,7 @@ export const MutationParam = createZeroParamDecorator(mutation => mutation); // 
  *
  * @example
  * ```typescript
- * @ZeroMutationHandler('create')
+ * @Mutation('create')
  * async createIssue(@MutationArgs() args: any, @Transaction() tx: ClientSession) { ... } // Assuming ClientSession from 'mongodb'
  * ```
  */

@@ -13,9 +13,6 @@ import { type Connection } from 'mongoose';
 
 import type { MutationResponse } from 'node_modules/@rocicorp/zero/out/zero-protocol/src/push.js';
 import type { CustomMutatorDefs } from '@rocicorp/zero';
-import type { PushProcessor } from '@rocicorp/zero/pg';
-
-import { invariant } from '@cbnsndwch/zero-contracts';
 
 import {
     TOKEN_ZERO_MUTATORS,
@@ -23,9 +20,9 @@ import {
     type ServerMutationParams,
     type Mutation,
     type ServerMutationBody
-} from '../../contracts/mutation.contracts.js';
+} from '../contracts/mutation.contracts.js';
 
-import { ZeroMutatorRegistry } from '../../discovery/zero-mutator-registry.service.js';
+import { ZeroMutatorRegistry } from '../discovery/zero-mutator-registry.service.js';
 import { MongoTransaction } from './mongo-transaction.js';
 import {
     MutationAlreadyProcessedError,
@@ -47,12 +44,15 @@ export class PushProcessorV1 {
     // Store request and body for parameter decorators
     @Inject('REQUEST') private request: any;
     private currentRequestBody: ServerMutationBody | undefined;
+    
+    registry: ZeroMutatorRegistry;
 
     constructor(
         @InjectConnection() conn: Connection,
-        private readonly registry: ZeroMutatorRegistry
+        mutators: ZeroMutatorRegistry
     ) {
         this.#conn = conn;
+        this.registry = mutators;
     }
 
     async process(query: ServerMutationParams, body: ServerMutationBody) {

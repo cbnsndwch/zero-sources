@@ -15,15 +15,15 @@ import {
     ClientGroupId,
     MutationArgs,
     MutationClientId,
-    ZeroMutation,
+    Mutation,
     ZeroMutator,
     ZERO_MUTATOR_WATERMARK,
     ZERO_MUTATION_HANDLER_METADATA,
     ZERO_MUTATION_PARAMS_METADATA
-} from '../decorators/index.js';
+} from './index.js';
 import { ZeroMutatorRegistry } from '../discovery/zero-mutator-registry.service.js';
-import { MongoTransaction } from '../v0/custom-mutators/mongo-transaction.js';
-import { PushProcessorV1 } from '../v0/custom-mutators/push-processor.js';
+import { MongoTransaction } from '../custom-mutators/mongo-transaction.js';
+import { PushProcessorV1 } from '../custom-mutators/push-processor.js';
 
 // Mock interfaces for test
 interface CreateItemArgs {
@@ -55,7 +55,7 @@ class TestMutator {
         return this.calls[method] || [];
     }
 
-    @ZeroMutation('create')
+    @Mutation('create')
     async createItem(
         @MutationArgs args: CreateItemArgs, // Remove ()
         @MutationClientId clientID: string, // Remove ()
@@ -66,7 +66,7 @@ class TestMutator {
         return true;
     }
 
-    @ZeroMutation('update')
+    @Mutation('update')
     async updateItem(
         @MutationArgs args: UpdateItemArgs, // Remove ()
         @MutationClientId clientID: string, // Remove ()
@@ -76,7 +76,7 @@ class TestMutator {
         return true;
     }
 
-    @ZeroMutation('delete')
+    @Mutation('delete')
     async deleteItem(
         @MutationArgs args: { id: string }, // Remove ()
         tx: MongoTransaction

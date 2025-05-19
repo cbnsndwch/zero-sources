@@ -1,7 +1,7 @@
 ````typescript
 import { Injectable, Logger } from '@nestjs/common';
 
-import { ZeroMutator, ZeroMutationHandler } from '../decorators/index.js'; // Keep index for these
+import { ZeroMutator, Mutation } from '../decorators/index.js'; // Keep index for these
 import {
     MutationArgs,
     MutationClientID,
@@ -48,7 +48,7 @@ interface UpdateIssueStatusArgs {
 export class IssueMutator {
     private readonly logger = new Logger(IssueMutator.name);
 
-    @ZeroMutationHandler('create') // Handles "issue|create"
+    @Mutation('create') // Handles "issue|create"
     async createIssue(
         @MutationArgs() args: CreateIssueArgs,
         @MutationClientID() clientID: string,
@@ -81,7 +81,7 @@ export class IssueMutator {
         );
     }
 
-    @ZeroMutationHandler('updateStatus') // Handles "issue|updateStatus"
+    @Mutation('updateStatus') // Handles "issue|updateStatus"
     async updateIssueStatus(
         @MutationArgs() args: UpdateIssueStatusArgs,
         @MutationClientID() clientID: string
@@ -118,7 +118,7 @@ export class IssueMutator {
         this.logger.log(`[${clientID}] Updated status for issue ${args.id}`);
     }
 
-    @ZeroMutationHandler('delete') // Handles "issue|delete"
+    @Mutation('delete') // Handles "issue|delete"
     async deleteIssue(
         @MutationArgs() args: { id: string },
         @MutationClientID() clientID: string

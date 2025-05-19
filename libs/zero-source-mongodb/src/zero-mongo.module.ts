@@ -12,6 +12,7 @@ import {
 
 import { zeroEntities } from './entities/index.js';
 import { zeroControllers } from './controllers/index.js';
+import { PushProcessorV1 } from './custom-mutators/index.js';
 
 import { v0ChangeSourceServices } from './v0/index.js';
 
@@ -34,7 +35,11 @@ export class ZeroMongoModule {
                 ...(options.imports || [])
             ],
             controllers: [...zeroControllers],
-            providers: [optionsProvider, ...v0ChangeSourceServices],
+            providers: [
+                optionsProvider,
+                PushProcessorV1,
+                ...v0ChangeSourceServices
+            ],
             exports: []
         };
     }

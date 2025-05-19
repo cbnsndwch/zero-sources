@@ -11,7 +11,7 @@ import { ApiTags } from '@nestjs/swagger';
 import type { ServerMutationBody } from '../contracts/mutation.contracts.js';
 import { ZeroPusherAuthGuard } from '../guards/index.js';
 
-import { PushProcessorV1 } from '../v0/custom-mutators/push-processor.js';
+import { PushProcessorV1 } from '../custom-mutators/push-processor.js';
 
 @ApiTags('zero/push')
 @Controller('zero/push')
