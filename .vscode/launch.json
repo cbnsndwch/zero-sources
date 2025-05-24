@@ -88,5 +88,22 @@
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
         },
+        {
+            "type": "node",
+            "name": "DEMO - MySQL Binlog",
+            "request": "launch",
+            "runtimeExecutable": "tsx",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "./src/services/binlog/mysql2-binlog.ts",
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules",
+                "**/node_modules/@nestjs/**"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/libs/zero-source-mysql",
+        },
     ]
 }

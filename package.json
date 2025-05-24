@@ -17,9 +17,10 @@
         "npm-check-updates": "^18.0.0",
         "prettier": "^3.5.3",
         "reservoir": "^0.1.2",
+        "tsx": "^4.19.4",
         "turbo": "^2.5.0",
-        "vitest": "^3.1.2",
-        "typescript": "5.8.3"
+        "typescript": "5.8.3",
+        "vitest": "^3.1.2"
     },
     "engines": {
         "node": ">=22.12"

@@ -26,7 +26,8 @@
     },
     "dependencies": {
         "@cbnsndwch/zero-contracts": "workspace:*",
-        "mysql2": "^3.14.1"
+        "mysql2": "^3.14.1",
+        "through2": "^4.0.2"
     },
     "peerDependencies": {
         "@nestjs/common": "^11",
