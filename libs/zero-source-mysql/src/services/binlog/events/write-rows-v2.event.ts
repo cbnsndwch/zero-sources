@@ -29,33 +29,36 @@ export function makeWriteRowsV2Event(
     header: BinlogEventHeader,
     packet: Packet
 ): BinlogEventWriteRowsV2 {
-    // Parse tableId (6 bytes, little-endian)
+    // parse tableId (6 bytes, little-endian)
     const tableId = packet.readBuffer(6).readUintLE(0, 6);
 
-    // Parse flags (2 bytes)
+    // parse flags (2 bytes)
     const flags = packet.readInt16();
 
-    // For v2, extraDataLength (2 bytes) and extraData
+    // for v2, extraDataLength (2 bytes) and extraData
     const extraDataLength = packet.readInt16();
     const extraData = packet.readBuffer(extraDataLength - 2);
 
-    // Number of columns (length-encoded integer)
+    // number of columns (length-encoded integer)
     const numberOfColumns = packet.readLengthCodedNumber();
     invariant(
         typeof numberOfColumns === 'number' && !isNaN(numberOfColumns),
         'Invalid numberOfColumns in WRITE_ROWS_V2 event'
     );
 
-    // Columns-present bitmap
+    // columns-present bitmap
     const columnsBitmapSize = Math.floor((numberOfColumns + 7) / 8);
     const columnsPresentBitmap = packet.readBuffer(columnsBitmapSize);
 
-    // Parse rows
+    // parse rows
     const rows: unknown[] = [];
 
     const checksumLen = options.useChecksum ? 4 : 0;
 
-    // The actual row parsing logic depends on the tableMap, which should be
+    // look up TableMap for this tableId
+    const tableMap = options.tables?.get(BigInt(tableId));
+
+    // the actual row parsing logic depends on the tableMap, which should be
     // available in the consumer context. Here, we use a placeholder. You should
     // replace this with your actual row parsing logic.
     while (packet.offset < packet.end - checksumLen) {
