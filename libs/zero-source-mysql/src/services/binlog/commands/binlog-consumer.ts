@@ -2,18 +2,21 @@ import type { ResultSetHeader } from 'mysql2';
 import Command, { CommandCallback } from 'mysql2/lib/commands/command.js';
 import type Packet from 'mysql2/lib/packets/packet.js';
 
-import type { BinlogStreamConnection } from '../binlog-stream.connection.js';
-import BinlogDumpPacket from '../packets/binlog-dump.packet.js';
-
+import type { BinlogEventType } from '../events/binlog-event-type.js';
 import type {
     BinlogEvent,
     BinlogEventHeader,
     BinlogParserMap
 } from '../events/binlog-event.js';
+import type { BinlogEventTableMapData } from '../events/table-map.event.js';
+
 import { makeRawEvent } from '../events/raw.event.js';
 
-import { BinlogEventType } from '../events/binlog-event-type.js';
+import type { BinlogStreamConnection } from '../binlog-stream.connection.js';
+import BinlogDumpPacket from '../packets/binlog-dump.packet.js';
+
 import { isNonBlockingFlags } from '../utils/index.js';
+
 import { DEFAULT_PARSERS } from './default-parsers.js';
 
 export type BinlogDumpOptions = {
@@ -35,6 +38,8 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
     #options: BinlogDumpOptions;
     #parsers: BinlogParserMap;
 
+    #tables: Map<bigint, BinlogEventTableMapData>;
+
     #connection?: BinlogStreamConnection;
 
     constructor(opts: BinlogDumpOptions, parsers: BinlogParserMap = {}) {
@@ -45,6 +50,7 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
             ...parsers
         };
 
+        this.#tables = new Map<bigint, BinlogEventTableMapData>();
         this.onResult = err => this.#onError(err);
     }
 
@@ -80,7 +86,14 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
 
         const makeEvent = parser ?? makeRawEvent;
 
-        const event = makeEvent({ useChecksum: true }, header, packet);
+        const event = makeEvent(
+            {
+                useChecksum: true,
+                tables: this.#tables
+            },
+            header,
+            packet
+        );
 
         this.emit('event', event);
 

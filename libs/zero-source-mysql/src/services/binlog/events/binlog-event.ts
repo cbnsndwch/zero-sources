@@ -7,8 +7,12 @@ import type { BinlogEventPreviousGtids } from './previous-gtids.event.js';
 import type { BinlogEventQuery } from './query.event.js';
 import type { BinlogEventRaw } from './raw.event.js';
 import type { BinlogEventRotate } from './rotate.event.js';
-import type { BinlogEventTableMap } from './table-map.event.js';
+import type {
+    BinlogEventTableMap,
+    BinlogEventTableMapData
+} from './table-map.event.js';
 import type { BinlogEventXid } from './xid.event.js';
+import { BinlogEventWriteRowsV2 } from './write-rows-v2.event.js';
 
 export type BinlogEventHeader = {
     timestamp: number;
@@ -66,10 +70,24 @@ export type BinlogEvent =
     | BinlogEventTableMap
     // | BinlogEventUnknown
     // | BinlogEventUserVar
+    | BinlogEventWriteRowsV2
     | BinlogEventXid;
 
 export type MakeBinlogEventOptions = {
+    /**
+     * Whether the server will send checksums for binlog events. If true, binlog
+     * events will include a 4-byte trailer containing the CRC32 checksum of the
+     * event data, which event processors must account for when parsing the
+     * event. e.g.: by treating the packet's `end` marker as being 4 bytes
+     * before the actual end of the event, and by collecting the checksum for
+     * further processing downstream.
+     */
     useChecksum?: boolean;
+
+    /**
+     * Map of tableId to TableMap event data, used for row events.
+     */
+    tables?: Map<bigint, BinlogEventTableMapData>;
 };
 
 export type MakeBinlogEvent = (

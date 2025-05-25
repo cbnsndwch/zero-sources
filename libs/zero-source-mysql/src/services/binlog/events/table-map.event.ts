@@ -171,19 +171,24 @@ export function makeTableMapEvent(
     // skip 4 bytes for checksum if needed
     const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
+    const data: BinlogEventTableMapData = {
+        tableId,
+        flags,
+        schemaName,
+        tableName,
+        columnCount,
+        columnTypes,
+        columnsMetadata
+    };
+
+    // store in global tableMap if provided
+    options.tables?.set?.(tableId, data);
+
     return {
         name: 'TABLE_MAP',
         type: BINLOG_EVENT_TABLE_MAP,
         header,
-        data: {
-            tableId,
-            flags,
-            schemaName,
-            tableName,
-            columnCount,
-            columnTypes,
-            columnsMetadata
-        },
+        data,
         checksum
     };
 }
