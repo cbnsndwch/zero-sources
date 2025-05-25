@@ -1,16 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-    string,
     boolean,
     enumeration,
-    relationships,
-    table,
     json,
-    number
+    number,
+    relationships,
+    string,
+    table
 } from '@rocicorp/zero';
 
-import type { IUserSettings } from './user.contract.js';
+import type { Dict } from '@cbnsndwch/zero-contracts';
+
 import type { USER_PRESENCE_STATUSES } from './user-status.contract.js';
+import type { IUserSettings } from './user.contract.js';
 
 export const users = table('users')
     .columns({
@@ -35,7 +36,7 @@ export const users = table('users')
         defaultStatus:
             enumeration<(typeof USER_PRESENCE_STATUSES)[number]>().optional(),
         presenceStatus: string().optional(),
-        customFields: json<Record<string, any>>().optional(),
+        customFields: json<Dict>().optional(),
         settings: json<Readonly<IUserSettings>>().optional(),
         defaultRoom: string().optional(),
         inviteToken: string().optional(),

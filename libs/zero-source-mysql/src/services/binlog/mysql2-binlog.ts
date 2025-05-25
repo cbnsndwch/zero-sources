@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import { resolver } from '@rocicorp/resolver';
 
+import { bigIntReplacer } from '@cbnsndwch/zero-contracts';
+
 import { BinlogStreamConnection } from './binlog-stream.connection.js';
 import type { BinlogEvent } from './events/binlog-event.js';
 
@@ -66,20 +68,18 @@ new Promise<void>((resolve, reject) => {
             });
 
             stream.on('event', event => {
-                console.log('Event:', event);
+                console.log('Event:', JSON.stringify(event, bigIntReplacer, 2));
 
                 events.push(event);
-
-                if (event.name === 'XID') {
-                    console.log(
-                        JSON.stringify(
-                            events,
-                            (_, v) =>
-                                typeof v === 'bigint' ? v.toString() : v,
-                            2
-                        )
-                    );
-                }
+                // if (event.name === 'XID') {
+                //     console.log(
+                //         JSON.stringify(
+                //             events,
+                //             bigIntReplacer,
+                //             2
+                //         )
+                //     );
+                // }
             });
 
             stream.on('end', () => {

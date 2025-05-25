@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type Packet from 'mysql2/lib/packets/packet.js';
+
+import type { Dict } from '@cbnsndwch/zero-contracts';
 
 import type {
     BinlogEventBase,
@@ -50,7 +51,7 @@ export type BinlogEventTableMapData = {
     tableName: string;
     columnCount: number;
     columnTypes: number[];
-    columnsMetadata: any[];
+    columnsMetadata: Dict[];
 };
 
 export type BinlogEventTableMap = BinlogEventBase<
@@ -67,12 +68,9 @@ function parseBytesArray(packet: Packet, count: number): number[] {
     return arr;
 }
 
-function readColumnMetadata(
-    this: Packet,
-    columnTypes: number[]
-): Record<string, any>[] {
+function readColumnMetadata(this: Packet, columnTypes: number[]): Dict[] {
     return columnTypes.map(code => {
-        let result: Record<string, any>;
+        let result: Dict;
 
         switch (code) {
             case MysqlTypes.FLOAT:
@@ -126,6 +124,16 @@ function readColumnMetadata(
                 result = { decimals: this.readInt8() };
                 break;
             default:
+                // Handle unknown types gracefully, we could choose to throw
+                // an error  but for now, we'll just log a warning and return an
+                // empty object instead
+
+                // invariant(
+                //     false,
+                //     `Unknown column type ${code} in TABLE_MAP event.`
+                // );
+                console.warn(`Unknown column type ${code} in TABLE_MAP event.`);
+
                 result = {};
         }
         return result;

@@ -1,3 +1,6 @@
+import type { Dict } from '@cbnsndwch/zero-contracts';
+
+
 import type {
     IHasCreatedAt,
     IHasShortId,
@@ -14,8 +17,8 @@ import type { UserPresenceStatus } from './user-status.contract.js';
 export type ExternalUserId = `${string}/${string}`;
 
 export interface IUserSettings {
-    profile: Record<string, any>;
-    preferences?: Record<string, any>;
+    profile: Dict;
+    preferences?: Dict;
 }
 
 export interface IGetRoomRoles {
@@ -60,7 +63,7 @@ export interface IUser extends IEntityBase, IHasCreatedAt {
 
     // #####################################
 
-    customFields?: Record<string, any>;
+    customFields?: Dict;
 }
 
 export type IUserSummary = Pick<IUser, '_id' | 'username'>;
