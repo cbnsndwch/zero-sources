@@ -7,6 +7,12 @@ import type {
 } from './binlog-event.js';
 import { BINLOG_EVENT_WRITE_ROWS_V2 } from './binlog-event-type.js';
 import { invariant } from '@cbnsndwch/zero-contracts';
+import { BinlogEventTableMapData } from './table-map.event.js';
+
+/**
+ * TODO: extract to shared contracts file for other event parsers to use
+ */
+export type AnyRow = Record<string, unknown>;
 
 export type BinlogEventWriteRowsV2Data = {
     tableId: number;
@@ -15,7 +21,7 @@ export type BinlogEventWriteRowsV2Data = {
     extraData?: Buffer;
     numberOfColumns: number;
     columnsPresentBitmap: Buffer;
-    rows: unknown[];
+    rows?: unknown[];
 };
 
 export type BinlogEventWriteRowsV2 = BinlogEventBase<
@@ -50,37 +56,18 @@ export function makeWriteRowsV2Event(
     const columnsBitmapSize = Math.floor((numberOfColumns + 7) / 8);
     const columnsPresentBitmap = packet.readBuffer(columnsBitmapSize);
 
-    // parse rows
-    const rows: unknown[] = [];
     const checksumLen = options.useChecksum ? 4 : 0;
 
     // look up TableMap for this tableId
     const tableMap = options.tables?.get(BigInt(tableId));
 
-    // Helper to parse a single row (placeholder, implement as needed)
-    function parseRow(
-        packet: Packet,
-        tableMap: unknown,
-        columnsPresentBitmap: Buffer
-    ): unknown {
-        // Arguments are intentionally unused for now; will be used in actual implementation
-        void packet;
-        void tableMap;
-        void columnsPresentBitmap;
-        // TODO: Implement actual row parsing logic using tableMap and columnsPresentBitmap
-        return {};
-    }
-
+    // skip row parsing if no tableMap is available
+    let rows: AnyRow[] | undefined = undefined;
     if (tableMap) {
-        while (packet.offset < packet.end - checksumLen) {
-            const row = parseRow(packet, tableMap, columnsPresentBitmap);
-            rows.push(row);
-        }
-    } else {
-        // If no tableMap, skip row parsing
+        rows = parseRows(packet, checksumLen, tableMap, columnsPresentBitmap);
     }
 
-    // finally, skip 4 bytes for checksum if needed
+    // finally, handle 4 bytes for checksum if needed
     const checksum = checksumLen ? packet.readInt32() : undefined;
 
     return {
@@ -94,8 +81,135 @@ export function makeWriteRowsV2Event(
             extraData,
             numberOfColumns,
             columnsPresentBitmap,
-            rows
+            rows: rows ?? []
         },
         checksum
     };
+}
+
+function parseRows(
+    packet: Packet,
+    checksumLen: number,
+    tableMap: BinlogEventTableMapData,
+    columnsPresentBitmap: Buffer<ArrayBufferLike>
+) {
+    const rows: AnyRow[] = [];
+
+    while (packet.offset < packet.end - checksumLen) {
+        const row = parseRow(packet, tableMap, columnsPresentBitmap);
+        rows.push(row);
+    }
+
+    return rows;
+}
+
+/**
+ * Helper to parse a single row
+ */
+function parseRow(
+    packet: Packet,
+    tableMap: BinlogEventTableMapData,
+    columnsPresentBitmap: Buffer
+): AnyRow {
+    const row: AnyRow = {};
+    const { columnTypes, columnCount } = tableMap;
+    const nullBitmapSize = Math.floor((columnCount + 7) / 8);
+    // Read the null bitmap for this row
+    const nullBitmap = packet.readBuffer(nullBitmapSize);
+
+    let nullBitIdx = 0;
+    let nullBitMask = 1;
+
+    // Type guard for columnNames
+    const hasColumnNames = (obj: unknown): obj is { columnNames: string[] } =>
+        typeof obj === 'object' && obj !== null && 'columnNames' in obj && Array.isArray((obj as { columnNames?: unknown }).columnNames);
+
+    for (let i = 0; i < columnCount; i++) {
+        // Check if column is present in columnsPresentBitmap
+        const bitmapIdx = Math.floor(i / 8);
+        const present =
+            columnsPresentBitmap &&
+            columnsPresentBitmap.length > bitmapIdx &&
+            columnsPresentBitmap[bitmapIdx] !== undefined &&
+            (columnsPresentBitmap[bitmapIdx] & (1 << (i % 8))) !== 0;
+        if (!present) {
+            continue;
+        }
+        // Check if column is null in nullBitmap
+        let isNull = false;
+        if (
+            nullBitmap &&
+            nullBitmap.length > nullBitIdx &&
+            nullBitmap[nullBitIdx] !== undefined
+        ) {
+            // Only do bitwise op if defined
+            isNull = ((nullBitmap[nullBitIdx] ?? 0) & nullBitMask) !== 0;
+        }
+        nullBitMask <<= 1;
+        if (nullBitMask === 0x100) {
+            nullBitMask = 1;
+            nullBitIdx++;
+        }
+        let colName: string;
+        if (hasColumnNames(tableMap) && typeof tableMap.columnNames[i] === 'string') {
+            colName = tableMap.columnNames[i] as string;
+        } else {
+            colName = `col${i}`;
+        }
+        if (isNull) {
+            row[colName] = null;
+        } else {
+            // Parse value based on column type
+            const type = columnTypes[i] ?? 0;
+            row[colName] = parseColumnValue(packet, type);
+        }
+    }
+    return row;
+}
+
+function parseColumnValue(packet: Packet, type: number): unknown {
+    // This is a minimal implementation. Extend as needed for more types.
+    switch (type) {
+        case 0: // DECIMAL
+        case 246: // NEWDECIMAL
+            // Not implemented: skip for now
+            return undefined;
+        case 1: // TINY
+            return packet.readInt8();
+        case 2: // SHORT
+            return packet.readInt16();
+        case 3: // LONG
+            return packet.readInt32();
+        case 4: // FLOAT
+            return packet.readFloat();
+        case 5: // DOUBLE
+            return packet.readDouble();
+        case 7: // TIMESTAMP
+        case 12: // DATETIME
+            // Not implemented: skip for now
+            return undefined;
+        case 8: // LONGLONG
+            return packet.readInt64();
+        case 9: // INT24
+            return packet.readInt24();
+        case 10: // DATE
+        case 11: // TIME
+            // Not implemented: skip for now
+            return undefined;
+        case 15: // VARCHAR
+        case 253: // VAR_STRING
+        case 254: // STRING
+            // Length-coded string
+            return packet.readLengthCodedString();
+        case 252: // BLOB/TEXT
+            return packet.readLengthCodedBuffer();
+        case 16: // BIT
+            // Not implemented: skip for now
+            return undefined;
+        case 6: // NULL
+            return null;
+        default:
+            // Not implemented: skip for now
+            return undefined;
+    }
 }
