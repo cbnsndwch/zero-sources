@@ -6,15 +6,16 @@ import type {
     MakeBinlogEventOptions
 } from './binlog-event.js';
 import { BINLOG_EVENT_WRITE_ROWS_V2 } from './binlog-event-type.js';
+import { invariant } from '@cbnsndwch/zero-contracts';
 
 export type BinlogEventWriteRowsV2Data = {
-    tableId: bigint;
+    tableId: number;
     flags: number;
     extraDataLength?: number;
     extraData?: Buffer;
     numberOfColumns: number;
     columnsPresentBitmap: Buffer;
-    rows: any[];
+    rows: unknown[];
 };
 
 export type BinlogEventWriteRowsV2 = BinlogEventBase<
@@ -29,26 +30,35 @@ export function makeWriteRowsV2Event(
     packet: Packet
 ): BinlogEventWriteRowsV2 {
     // Parse tableId (6 bytes, little-endian)
-    const tableId = packet.readUIntLE(6);
+    const tableId = packet.readBuffer(6).readUintLE(0, 6);
+
     // Parse flags (2 bytes)
     const flags = packet.readInt16();
 
     // For v2, extraDataLength (2 bytes) and extraData
     const extraDataLength = packet.readInt16();
-    // extraDataLength includes itself, so subtract 2
     const extraData = packet.readBuffer(extraDataLength - 2);
 
     // Number of columns (length-encoded integer)
     const numberOfColumns = packet.readLengthCodedNumber();
+    invariant(
+        typeof numberOfColumns === 'number' && !isNaN(numberOfColumns),
+        'Invalid numberOfColumns in WRITE_ROWS_V2 event'
+    );
+
     // Columns-present bitmap
     const columnsBitmapSize = Math.floor((numberOfColumns + 7) / 8);
     const columnsPresentBitmap = packet.readBuffer(columnsBitmapSize);
 
     // Parse rows
-    const rows: any[] = [];
-    // The actual row parsing logic depends on the tableMap, which should be available in the consumer context.
-    // Here, we use a placeholder. You should replace this with your actual row parsing logic.
-    while (packet.offset < packet.end - (options.useChecksum ? 4 : 0)) {
+    const rows: unknown[] = [];
+
+    const checksumLen = options.useChecksum ? 4 : 0;
+
+    // The actual row parsing logic depends on the tableMap, which should be
+    // available in the consumer context. Here, we use a placeholder. You should
+    // replace this with your actual row parsing logic.
+    while (packet.offset < packet.end - checksumLen) {
         // TODO: Implement row parsing using tableMap and columnsPresentBitmap
         // Example: const row = parseRow(packet, tableMap, columnsPresentBitmap);
         // rows.push(row);
@@ -56,7 +66,7 @@ export function makeWriteRowsV2Event(
     }
 
     // finally, skip 4 bytes for checksum if needed
-    const checksum = options.useChecksum ? packet.readInt32() : undefined;
+    const checksum = checksumLen ? packet.readInt32() : undefined;
 
     return {
         name: 'WRITE_ROWS_V2',
