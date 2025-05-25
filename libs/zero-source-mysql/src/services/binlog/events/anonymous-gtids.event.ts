@@ -62,7 +62,7 @@ export function makeAnonymousGtidEvent(
     const groupNumberBuffer = packet.readBuffer(8);
     const groupNumber = groupNumberBuffer.toString('hex');
 
-    // skip 4 bytes for checksum if needed
+    // handle 4 bytes for checksum if needed
     const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     return {

@@ -77,7 +77,7 @@ export function makeFormatDescriptionEvent(
     // Final byte: checksum algorithm (0=NONE, 1=CRC32, …)
     const checksumAlgoByte = packet.readInt8();
 
-    // skip 4 bytes for checksum if needed
+    // handle 4 bytes for checksum if needed
     const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     const data: BinlogEventFormatDescriptionData = {

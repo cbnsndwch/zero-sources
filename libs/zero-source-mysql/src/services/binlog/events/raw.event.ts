@@ -23,7 +23,7 @@ export function makeRawEvent(
         packet.end - packet.offset - (options.useChecksum ? 4 : 0);
     const data = packet.readBuffer(dataLength);
 
-    // skip 4 bytes for checksum if needed
+    // handle 4 bytes for checksum if needed
     const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     return {

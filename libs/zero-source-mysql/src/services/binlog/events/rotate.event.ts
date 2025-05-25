@@ -33,7 +33,7 @@ export function makeRotateEvent(
 
     const nextBinlog = packet.readString(filenameLength, 'utf8');
 
-    // skip 4 bytes for checksum if needed
+    // handle 4 bytes for checksum if needed
     const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     return {
