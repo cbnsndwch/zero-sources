@@ -13,7 +13,7 @@ import type {
 import { makeRawEvent } from '../events/raw.event.js';
 
 import { BinlogEventType } from '../events/binlog-event-type.js';
-import { isNonBlockingFlags } from '../guards.js';
+import { isNonBlockingFlags } from '../utils/index.js';
 import { DEFAULT_PARSERS } from './default-parsers.js';
 
 export type BinlogDumpOptions = {
@@ -76,9 +76,12 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
         packet.readInt8();
 
         const header = this.#parseHeader(packet);
-        const makeEvent = this.#parsers[header.eventType] ?? makeRawEvent;
+        const parser = this.#parsers[header.eventType];
+
+        const makeEvent = parser ?? makeRawEvent;
 
         const event = makeEvent({ useChecksum: true }, header, packet);
+
         this.emit('event', event);
 
         return BinlogConsumer.prototype.onServerPacket;

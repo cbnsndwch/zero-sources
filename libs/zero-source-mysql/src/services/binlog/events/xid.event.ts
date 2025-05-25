@@ -9,14 +9,9 @@ import { BINLOG_EVENT_XID } from './binlog-event-type.js';
 
 export type BinlogEventXidData = {
     /**
-     *
-     */
-    binlogVersion: number;
-
-    /**
      * The transaction ID
      */
-    xid: number;
+    xid: bigint;
 };
 
 export type BinlogEventXid = BinlogEventBase<
@@ -30,16 +25,18 @@ export function makeXidEvent(
     header: BinlogEventHeader,
     packet: Packet
 ): BinlogEventXid {
-    const binlogVersion = packet.readInt16();
-    const xid = packet.readInt64() as number;
+    const xid = packet.readUInt64();
+
+    // skip 4 bytes for checksum if needed
+    const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     return {
         name: 'XID',
         type: BINLOG_EVENT_XID,
         header,
         data: {
-            binlogVersion,
             xid
-        }
+        },
+        checksum
     };
 }

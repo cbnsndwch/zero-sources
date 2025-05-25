@@ -7,6 +7,8 @@ import type {
 } from './binlog-event.js';
 import { BINLOG_EVENT_FORMAT_DESCRIPTION } from './binlog-event-type.js';
 
+export type ChecksumAlgorithm = 'NONE' | 'CRC32';
+
 export type BinlogEventFormatDescriptionData = {
     /**
      *
@@ -32,7 +34,15 @@ export type BinlogEventFormatDescriptionData = {
     /**
      *
      */
-    eventsLength: Buffer;
+    eventLengths: number[];
+
+    /**
+     * Final byte: checksum algorithm
+     *
+     * - `0` => `NONE`
+     * - `1` => `CRC32`
+     */
+    checksumAlgorithm: ChecksumAlgorithm;
 };
 
 export type BinlogEventFormatDescription = BinlogEventBase<
@@ -55,20 +65,51 @@ export function makeFormatDescriptionEvent(
     // should be 19
     const eventHeaderLength = packet.readInt8();
 
-    const eventsLength = packet.readBuffer();
+    // remaining bytes before the last byte are per-event‐type header lengths
+    const count =
+        packet.end - packet.offset - 1 - (options.useChecksum ? 4 : 0);
+
+    const eventLengths: number[] = [];
+    for (let i = 0; i < count; i++) {
+        eventLengths.push(packet.readInt8());
+    }
+
+    // Final byte: checksum algorithm (0=NONE, 1=CRC32, …)
+    const checksumAlgoByte = packet.readInt8();
+
+    // skip 4 bytes for checksum if needed
+    const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     const data: BinlogEventFormatDescriptionData = {
         binlogVersion,
         serverVersion,
         createTimestamp,
         eventHeaderLength,
-        eventsLength
+        eventLengths,
+        checksumAlgorithm: getChecksumAlgorithm(checksumAlgoByte)
+        // checksumAlgorithm: 'CRC32'
     };
 
     return {
         type: BINLOG_EVENT_FORMAT_DESCRIPTION,
         name: 'FORMAT_DESCRIPTION',
         header,
-        data
+        data,
+        checksum
     };
+}
+
+function getChecksumAlgorithm(
+    checksumAlgorithmByte: number
+): ChecksumAlgorithm {
+    switch (checksumAlgorithmByte) {
+        case 0:
+            return 'NONE';
+        case 1:
+            return 'CRC32';
+        default:
+            throw new Error(
+                `Unsupported checksum algorithm: ${checksumAlgorithmByte}`
+            );
+    }
 }

@@ -8,6 +8,8 @@ import {
 } from './commands/binlog-consumer.js';
 import ConnectionConfig from 'mysql2/lib/connection_config.js';
 
+import './utils/packet-extensions.js';
+
 export type RegisterSlaveOptions = {
     masterId?: number;
     serverId?: number;

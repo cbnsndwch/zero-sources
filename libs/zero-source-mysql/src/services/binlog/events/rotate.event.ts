@@ -1,6 +1,10 @@
 import type Packet from 'mysql2/lib/packets/packet.js';
 
-import type { BinlogEventBase, BinlogEventHeader, MakeBinlogEventOptions } from './binlog-event.js';
+import type {
+    BinlogEventBase,
+    BinlogEventHeader,
+    MakeBinlogEventOptions
+} from './binlog-event.js';
 import { BINLOG_EVENT_ROTATE } from './binlog-event-type.js';
 
 export type BinlogEventRotateData = {
@@ -24,7 +28,13 @@ export function makeRotateEvent(
     // skip 4 bytes
     packet.readInt32();
 
-    const nextBinlog = packet.readString('utf8');
+    const filenameLength =
+        packet.end - packet.offset - (options.useChecksum ? 4 : 0);
+
+    const nextBinlog = packet.readString(filenameLength, 'utf8');
+
+    // skip 4 bytes for checksum if needed
+    const checksum = options.useChecksum ? packet.readInt32() : undefined;
 
     return {
         name: 'ROTATE',
@@ -33,6 +43,7 @@ export function makeRotateEvent(
         data: {
             position,
             nextBinlog
-        }
+        },
+        checksum
     };
 }

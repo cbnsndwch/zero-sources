@@ -11,7 +11,7 @@ import { BINLOG_EVENT_RAW } from './binlog-event-type.js';
 export type BinlogEventRaw = BinlogEventBase<
     'RAW',
     typeof BINLOG_EVENT_RAW,
-    Packet
+    Buffer
 >;
 
 export function makeRawEvent(
@@ -19,10 +19,18 @@ export function makeRawEvent(
     header: BinlogEventHeader,
     packet: Packet
 ): BinlogEventRaw {
+    const dataLength =
+        packet.end - packet.offset - (options.useChecksum ? 4 : 0);
+    const data = packet.readBuffer(dataLength);
+
+    // skip 4 bytes for checksum if needed
+    const checksum = options.useChecksum ? packet.readInt32() : undefined;
+
     return {
         name: 'RAW',
         type: BINLOG_EVENT_RAW,
         header,
-        data: packet
+        data,
+        checksum
     };
 }

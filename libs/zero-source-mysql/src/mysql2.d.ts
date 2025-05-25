@@ -259,13 +259,29 @@ declare module 'mysql2/lib/packets/packet.js' {
         isEOF(): boolean;
         eofStatusFlags(): number;
         eofWarningCount(): number;
+
+        /**
+         * Reads a length-coded number from the current position in the Packet.
+         *
+         * The function reads the first byte to determine the length of the number:
+         * - If the first byte is less than 0xfb, it is returned as the value.
+         * - If the first byte is 0xfc, the next 2 bytes are read as a 16-bit integer.
+         * - If the first byte is 0xfd, the next 3 bytes are read as a 24-bit integer.
+         * - If the first byte is 0xfe, the next 8 bytes are read as a 64-bit integer.
+         * - For any other value, 0 is returned.
+         *
+         * @param bigNumberStrings - If true, the function returns the number as a string.
+         * @param signed - If true, the function returns a signed number.
+         */
         readLengthCodedNumber(
             bigNumberStrings?: boolean,
             signed?: boolean
         ): number | string | null;
+
         readLengthCodedNumberSigned(
             bigNumberStrings?: boolean
         ): number | string | null;
+
         readLengthCodedNumberExt(
             tag: number,
             bigNumberStrings?: boolean,
@@ -281,8 +297,20 @@ declare module 'mysql2/lib/packets/packet.js' {
             columnType?: number
         ): string;
         readTimeString(convertTtoMs?: boolean): string | number;
+
+        /**
+         * Reads a length-coded string from the current packet.
+         *
+         * The function first reads an 8-bit integer to determine the length of the string,
+         * then reads the string of that length using the specified encoding.
+         *
+         * @param encoding - The character encoding to use when reading the string. Defaults to 'utf8'.
+         * @returns The decoded string read from the packet.
+         */
         readLengthCodedString(encoding?: string): string | null;
+
         readLengthCodedBuffer(): Buffer | null;
+
         readNullTerminatedString(encoding?: string): string;
         readString(len?: number | string, encoding?: string): string;
         parseInt(
@@ -322,6 +350,29 @@ declare module 'mysql2/lib/packets/packet.js' {
         writeHeader(sequenceId: number): void;
         clone(): Packet;
         type(): string;
+
+        // #region Extensions
+
+        /**
+         * Parses a UUID from the provided packet.
+         *
+         * @param this - The packet to read from.
+         * @returns A UUID string in the format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+         */
+        readUUID(this: Packet): string;
+
+        /**
+         * Reads an unsigned 64-bit integer from the current packet position.
+         *
+         * This method reads two 32-bit integers (low and high parts) from the packet,
+         * combines them into a single 64-bit unsigned integer, and returns the result
+         * as a `BigInt`.
+         *
+         * @returns The unsigned 64-bit integer value read from the packet.
+         */
+        readUInt64(this: Packet): bigint;
+
+        // #endregion Extensions
 
         static lengthCodedNumberLength(n: number): number;
         static lengthCodedStringLength(str: string, encoding?: string): number;

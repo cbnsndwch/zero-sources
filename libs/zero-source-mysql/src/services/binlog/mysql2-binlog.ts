@@ -2,6 +2,9 @@ import 'dotenv/config';
 import { resolver } from '@rocicorp/resolver';
 
 import { BinlogStreamConnection } from './binlog-stream.connection.js';
+import type { BinlogEvent } from './events/binlog-event.js';
+
+const events: BinlogEvent[] = [];
 
 const conn = BinlogStreamConnection.createConnection({
     host: process.env.MYSQL_HOST!,
@@ -37,8 +40,10 @@ new Promise<void>((resolve, reject) => {
                 masterId: 0,
                 serverId: 123, // slave ID, first field in "show slave hosts" sql response
                 binlogPos: 4,
-                // filename: 'mysql-bin.000006',
-                filename: 'mysql-bin.000001'
+                // filename: 'mysql-bin.000001'
+                // filename: 'mysql-bin.000002'
+                // filename: 'mysql-bin.000008'
+                filename: 'mysql-bin.000009'
 
                 // // non-blocking operation => exit on EOF
                 // flags: 1
@@ -62,6 +67,19 @@ new Promise<void>((resolve, reject) => {
 
             stream.on('event', event => {
                 console.log('Event:', event);
+
+                events.push(event);
+
+                if (event.name === 'XID') {
+                    console.log(
+                        JSON.stringify(
+                            events,
+                            (_, v) =>
+                                typeof v === 'bigint' ? v.toString() : v,
+                            2
+                        )
+                    );
+                }
             });
 
             stream.on('end', () => {
