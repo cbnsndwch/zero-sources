@@ -201,20 +201,20 @@ declare module 'mysql2/lib/base/connection.js' {
 
         static statementKey(options: QueryOptions): string;
 
-        // #region Commands Pipeline
+        //#region Commands Pipeline
 
         public addCommand<TCommand extends Command>(cmd: TCommand): TCommand;
 
-        // #endregion Commands Pipeline
+        //#endregion Commands Pipeline
 
-        // #region Binlog Processing - This is what we really care about
+        //#region Binlog Processing - This is what we really care about
 
         protected _registerSlave(
             opts: RegisterSlaveOptions,
             cb: () => void
         ): void;
 
-        // #endregion Binlog Processing - This is what we really care about
+        //#endregion Binlog Processing - This is what we really care about
     }
 }
 
@@ -351,7 +351,7 @@ declare module 'mysql2/lib/packets/packet.js' {
         clone(): Packet;
         type(): string;
 
-        // #region Extensions
+        //#region Extensions
 
         /**
          * Parses a UUID from the provided packet.
@@ -372,7 +372,7 @@ declare module 'mysql2/lib/packets/packet.js' {
          */
         readUInt64(this: Packet): bigint;
 
-        // #endregion Extensions
+        //#endregion Extensions
 
         static lengthCodedNumberLength(n: number): number;
         static lengthCodedStringLength(str: string, encoding?: string): number;

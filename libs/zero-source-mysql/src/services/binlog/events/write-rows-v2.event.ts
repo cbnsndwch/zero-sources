@@ -31,11 +31,11 @@ export type BinlogEventWriteRowsV2 = BinlogEventBase<
     BinlogEventWriteRowsV2Data
 >;
 
-export function makeWriteRowsV2Event(
+export async function makeWriteRowsV2Event(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventWriteRowsV2 {
+): Promise<BinlogEventWriteRowsV2> {
     // parse tableId (6 bytes, little-endian)
     const tableId = packet.readBuffer(6).readUintLE(0, 6);
 

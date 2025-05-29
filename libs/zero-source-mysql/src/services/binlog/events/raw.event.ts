@@ -14,11 +14,11 @@ export type BinlogEventRaw = BinlogEventBase<
     Buffer
 >;
 
-export function makeRawEvent(
+export async function makeRawEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventRaw {
+): Promise<BinlogEventRaw> {
     const dataLength =
         packet.end - packet.offset - (options.useChecksum ? 4 : 0);
     const data = packet.readBuffer(dataLength);

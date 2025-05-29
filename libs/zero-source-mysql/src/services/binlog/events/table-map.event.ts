@@ -52,6 +52,10 @@ export type BinlogEventTableMapData = {
     columnCount: number;
     columnTypes: number[];
     columnsMetadata: Dict[];
+    /**
+     * Optional: Column names for this table, populated from information_schema if available.
+     */
+    columnNames?: string[];
 };
 
 export type BinlogEventTableMap = BinlogEventBase<
@@ -59,6 +63,82 @@ export type BinlogEventTableMap = BinlogEventBase<
     typeof BINLOG_EVENT_TABLE_MAP,
     BinlogEventTableMapData
 >;
+
+export async function makeTableMapEvent(
+    options: MakeBinlogEventOptions,
+    header: BinlogEventHeader,
+    packet: Packet
+): Promise<BinlogEventTableMap> {
+    // Table ID is 6 bytes (little-endian)
+    const tableIdLow = packet.readInt32();
+    const tableIdHigh = packet.readInt16();
+    const tableId = BigInt(tableIdLow) + (BigInt(tableIdHigh) << 32n);
+
+    const flags = packet.readInt16();
+
+    // Schema name
+    const schemaName = packet.readLengthCodedString('utf8') as string;
+
+    // skip 1 byte delimiter
+    packet.readInt8();
+
+    // Table name
+    const tableName = packet.readLengthCodedString('utf8') as string;
+
+    // skip 1 byte delimiter
+    packet.readInt8();
+
+    // Column count (length-coded)
+    const columnCount = packet.readLengthCodedNumber() as number;
+
+    // Column types
+    const columnTypes = parseBytesArray(packet, columnCount);
+
+    // Metadata block length (length-coded, but we don't need the value)
+    packet.readLengthCodedNumber();
+
+    // Column metadata
+    const columnsMetadata = readColumnMetadata.call(packet, columnTypes);
+
+    // handle 4 bytes for checksum if needed
+    const checksum = options.useChecksum ? packet.readInt32() : undefined;
+
+    let columnNames: string[] | undefined = undefined;
+    if (options.schemaDiscovery) {
+        try {
+            columnNames = await options.schemaDiscovery.getColumnNames(
+                schemaName,
+                tableName
+            );
+        } catch (e) {
+            console.warn(
+                `Failed to fetch column names for ${schemaName}.${tableName}:`,
+                e
+            );
+        }
+    }
+
+    const data: BinlogEventTableMapData = {
+        tableId,
+        flags,
+        schemaName,
+        tableName,
+        columnCount,
+        columnTypes,
+        columnsMetadata,
+        ...(columnNames ? { columnNames } : {})
+    };
+
+    options.tables?.set?.(tableId, data);
+
+    return {
+        name: 'TABLE_MAP',
+        type: BINLOG_EVENT_TABLE_MAP,
+        header,
+        data,
+        ...(checksum !== undefined ? { checksum } : {})
+    };
+}
 
 function parseBytesArray(packet: Packet, count: number): number[] {
     const arr: number[] = [];
@@ -138,65 +218,4 @@ function readColumnMetadata(this: Packet, columnTypes: number[]): Dict[] {
         }
         return result;
     });
-}
-
-export function makeTableMapEvent(
-    options: MakeBinlogEventOptions,
-    header: BinlogEventHeader,
-    packet: Packet
-): BinlogEventTableMap {
-    // Table ID is 6 bytes (little-endian)
-    const tableIdLow = packet.readInt32();
-    const tableIdHigh = packet.readInt16();
-    const tableId = BigInt(tableIdLow) + (BigInt(tableIdHigh) << 32n);
-
-    const flags = packet.readInt16();
-
-    // Schema name
-    const schemaName = packet.readLengthCodedString('utf8') as string;
-
-    // skip 1 byte delimiter
-    packet.readInt8();
-
-    // Table name
-    const tableName = packet.readLengthCodedString('utf8') as string;
-
-    // skip 1 byte delimiter
-    packet.readInt8();
-
-    // Column count (length-coded)
-    const columnCount = packet.readLengthCodedNumber() as number;
-
-    // Column types
-    const columnTypes = parseBytesArray(packet, columnCount);
-
-    // Metadata block length (length-coded, but we don't need the value)
-    packet.readLengthCodedNumber();
-
-    // Column metadata
-    const columnsMetadata = readColumnMetadata.call(packet, columnTypes);
-
-    // handle 4 bytes for checksum if needed
-    const checksum = options.useChecksum ? packet.readInt32() : undefined;
-
-    const data: BinlogEventTableMapData = {
-        tableId,
-        flags,
-        schemaName,
-        tableName,
-        columnCount,
-        columnTypes,
-        columnsMetadata
-    };
-
-    // store in global tableMap if provided
-    options.tables?.set?.(tableId, data);
-
-    return {
-        name: 'TABLE_MAP',
-        type: BINLOG_EVENT_TABLE_MAP,
-        header,
-        data,
-        checksum
-    };
 }

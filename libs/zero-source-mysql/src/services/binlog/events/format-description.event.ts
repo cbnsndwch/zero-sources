@@ -51,11 +51,11 @@ export type BinlogEventFormatDescription = BinlogEventBase<
     BinlogEventFormatDescriptionData
 >;
 
-export function makeFormatDescriptionEvent(
+export async function makeFormatDescriptionEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventFormatDescription {
+): Promise<BinlogEventFormatDescription> {
     const binlogVersion = packet.readInt16();
 
     // eslint-disable-next-line no-control-regex

@@ -1,0 +1,21 @@
+{
+    "extends": "@repo/tsconfig/base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "sourceMap": false,
+        "esModuleInterop": true,
+        "exactOptionalPropertyTypes": true,
+        "outDir": "dist",
+        "types": [
+            "node",
+            "vitest"
+        ]
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

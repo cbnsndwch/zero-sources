@@ -18,6 +18,7 @@ import BinlogDumpPacket from '../packets/binlog-dump.packet.js';
 import { isNonBlockingFlags } from '../utils/index.js';
 
 import { DEFAULT_PARSERS } from './default-parsers.js';
+import type { SchemaDiscoveryService } from '../schema-discovery.service.js';
 
 export type BinlogDumpOptions = {
     serverId?: number;
@@ -39,10 +40,15 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
     #parsers: BinlogParserMap;
 
     #tables: Map<bigint, BinlogEventTableMapData>;
+    #schemaDiscovery?: SchemaDiscoveryService;
 
     #connection?: BinlogStreamConnection;
 
-    constructor(opts: BinlogDumpOptions, parsers: BinlogParserMap = {}) {
+    constructor(
+        opts: BinlogDumpOptions,
+        parsers: BinlogParserMap = {},
+        schemaDiscovery?: SchemaDiscoveryService
+    ) {
         super();
         this.#options = opts || {};
         this.#parsers = {
@@ -51,6 +57,9 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
         };
 
         this.#tables = new Map<bigint, BinlogEventTableMapData>();
+        if (schemaDiscovery) {
+            this.#schemaDiscovery = schemaDiscovery;
+        }
         this.onResult = err => this.#onError(err);
     }
 
@@ -86,21 +95,22 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
 
         const makeEvent = parser ?? makeRawEvent;
 
-        const event = makeEvent(
+        makeEvent(
             {
                 useChecksum: true,
-                tables: this.#tables
+                tables: this.#tables,
+                schemaDiscovery: this.#schemaDiscovery
             },
             header,
             packet
-        );
-
-        this.emit('event', event);
+        ).then(event => {
+            this.emit('event', event);
+        });
 
         return BinlogConsumer.prototype.onServerPacket;
     }
 
-    // #region Private Methods
+    //#region Private Methods
 
     /**
      * Handles errors that occur during the binlog stream.
@@ -136,5 +146,5 @@ export class BinlogConsumer extends Command implements IBinlogEmitter {
         };
     }
 
-    // #endregion Private Methods
+    //#endregion Private Methods
 }

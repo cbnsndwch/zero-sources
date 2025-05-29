@@ -38,7 +38,7 @@ new Promise<void>((resolve, reject) => {
         const { resolve, reject, promise } = resolver<void>();
 
         try {
-            const stream = conn.createBinlogStream({
+            const stream = await conn.createBinlogStream({
                 masterId: 0,
                 serverId: 123, // slave ID, first field in "show slave hosts" sql response
                 binlogPos: 4,

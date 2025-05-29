@@ -9,6 +9,8 @@ import {
 import ConnectionConfig from 'mysql2/lib/connection_config.js';
 
 import './utils/packet-extensions.js';
+import { SchemaDiscoveryService } from './schema-discovery.service.js';
+import mysql from 'mysql2/promise';
 
 export type RegisterSlaveOptions = {
     masterId?: number;
@@ -25,8 +27,19 @@ export type BinlogStreamOptions = RegisterSlaveOptions & BinlogDumpOptions;
 const SQL_SET_CRC32_CHECKSUM = "SET @master_binlog_checksum = 'CRC32'";
 
 export class BinlogStreamConnection extends MysqlConnection {
-    createBinlogStream(opts: BinlogStreamOptions): IBinlogEmitter {
-        const emitter = new BinlogConsumer(opts);
+    async createBinlogStream(
+        opts: BinlogStreamOptions
+    ): Promise<IBinlogEmitter> {
+        // Create a separate control connection for schema discovery
+        const controlConn = await mysql.createConnection({
+            host: this.config.host!,
+            port: this.config.port!,
+            user: this.config.user!,
+            password: this.config.password!,
+            database: this.config.database!
+        });
+        const schemaDiscovery = new SchemaDiscoveryService(controlConn);
+        const emitter = new BinlogConsumer(opts, undefined, schemaDiscovery);
 
         this._registerSlave(opts, () => {
             this.query(SQL_SET_CRC32_CHECKSUM, null, (err, result) => {

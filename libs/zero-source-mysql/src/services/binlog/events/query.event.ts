@@ -25,11 +25,11 @@ export type BinlogEventQuery = BinlogEventBase<
     BinlogEventQueryData
 >;
 
-export function makeQueryEvent(
+export async function makeQueryEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventQuery {
+): Promise<BinlogEventQuery> {
     // 4 bytes little-endian: connection/thread ID
     const threadId = packet.readInt32();
 
@@ -80,7 +80,7 @@ export function makeQueryEvent(
     };
 }
 
-// #region Helpers
+//#region Helpers
 
 export type SqlMode = {
     REAL_AS_FLOAT: boolean;
@@ -457,7 +457,7 @@ export type StatusVars = {
      */
     microseconds?: number;
 
-    // #region POORLY DOCUMENTED:
+    //#region POORLY DOCUMENTED:
 
     /**
      * Stores master connection `@session.explicit_defaults_for_timestamp` when
@@ -489,7 +489,7 @@ export type StatusVars = {
      * **WARNING:** The MySQL 8.4.4 documentation states that this value is a 2-byte
      * integer, but the code in `statement_events.h` declares it as
      * `uint8_t default_table_encryption`.
-     * 
+     *
      * @remarks A 1-byte integer
      */
     sqlRequirePrimaryKey?: number;
@@ -505,7 +505,7 @@ export type StatusVars = {
      */
     defaultTableEncryption?: number;
 
-    // #endregion POORLY DOCUMENTED
+    //#endregion POORLY DOCUMENTED
 };
 
 /**
@@ -670,4 +670,4 @@ function parseStatusVars(buffer: Buffer): StatusVars {
     return vars;
 }
 
-// #endregion Helpers
+//#endregion Helpers

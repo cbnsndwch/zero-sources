@@ -20,11 +20,11 @@ export type BinlogEventXid = BinlogEventBase<
     BinlogEventXidData
 >;
 
-export function makeXidEvent(
+export async function makeXidEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventXid {
+): Promise<BinlogEventXid> {
     const xid = packet.readUInt64();
 
     // handle 4 bytes for checksum if needed

@@ -56,11 +56,11 @@ export type BinlogEventPreviousGtids = BinlogEventBase<
  * @param packet Binary packet parser
  * @see {@link https://dev.mysql.com/doc/dev/mysql-server/8.4.4/classmysql_1_1binlog_1_1event_1_1Previous__gtids__event.html}
  */
-export function makePreviousGtidsEvent(
+export async function makePreviousGtidsEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventPreviousGtids {
+): Promise<BinlogEventPreviousGtids> {
     const gtidSets: GtidSet[] = [];
 
     const gtidSetCount = Number(packet.readInt64());

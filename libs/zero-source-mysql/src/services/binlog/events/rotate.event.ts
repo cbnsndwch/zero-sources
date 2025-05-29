@@ -18,11 +18,11 @@ export type BinlogEventRotate = BinlogEventBase<
     BinlogEventRotateData
 >;
 
-export function makeRotateEvent(
+export async function makeRotateEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventRotate {
+): Promise<BinlogEventRotate> {
     const position = packet.readInt32();
 
     // skip 4 bytes

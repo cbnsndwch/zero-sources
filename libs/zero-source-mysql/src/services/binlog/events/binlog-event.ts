@@ -1,5 +1,6 @@
 import type Packet from 'mysql2/lib/packets/packet.js';
 import type { BINLOG_EVENT_RAW, BinlogEventType } from './binlog-event-type.js';
+import type { BinlogEventTableMap, BinlogEventTableMapData } from './table-map.event.js';
 
 import type { BinlogEventAnonymousGtid } from './anonymous-gtids.event.js';
 import type { BinlogEventFormatDescription } from './format-description.event.js';
@@ -7,12 +8,9 @@ import type { BinlogEventPreviousGtids } from './previous-gtids.event.js';
 import type { BinlogEventQuery } from './query.event.js';
 import type { BinlogEventRaw } from './raw.event.js';
 import type { BinlogEventRotate } from './rotate.event.js';
-import type {
-    BinlogEventTableMap,
-    BinlogEventTableMapData
-} from './table-map.event.js';
 import type { BinlogEventXid } from './xid.event.js';
 import { BinlogEventWriteRowsV2 } from './write-rows-v2.event.js';
+import type { SchemaDiscoveryService } from '../schema-discovery.service.js';
 
 export type BinlogEventHeader = {
     timestamp: number;
@@ -88,12 +86,17 @@ export type MakeBinlogEventOptions = {
      * Map of tableId to TableMap event data, used for row events.
      */
     tables?: Map<bigint, BinlogEventTableMapData>;
+
+    /**
+     * Optional schema discovery service for column name lookup.
+     */
+    schemaDiscovery?: SchemaDiscoveryService | undefined;
 };
 
 export type MakeBinlogEvent = (
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-) => BinlogEvent;
+) => Promise<BinlogEvent>;
 
 export type BinlogParserMap = Partial<Record<BinlogEventType, MakeBinlogEvent>>;

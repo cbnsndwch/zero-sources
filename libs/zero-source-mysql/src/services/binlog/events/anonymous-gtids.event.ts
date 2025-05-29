@@ -39,11 +39,11 @@ export type BinlogEventAnonymousGtid = BinlogEventBase<
  * @param packet Binary packet parser
  * @returns
  */
-export function makeAnonymousGtidEvent(
+export async function makeAnonymousGtidEvent(
     options: MakeBinlogEventOptions,
     header: BinlogEventHeader,
     packet: Packet
-): BinlogEventAnonymousGtid {
+): Promise<BinlogEventAnonymousGtid> {
     const bufferLen =
         packet.end - packet.offset - 4 - (options.useChecksum ? 4 : 0);
 
