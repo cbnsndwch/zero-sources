@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import type OAuth2Strategy from 'passport-oauth2';
 
 export type StrategyOptions = {

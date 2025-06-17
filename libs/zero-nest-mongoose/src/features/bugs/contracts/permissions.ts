@@ -6,7 +6,7 @@ import {
 
 import { schema, type Schema, type TableName } from './schema.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 type Condition = any;
 
 /**

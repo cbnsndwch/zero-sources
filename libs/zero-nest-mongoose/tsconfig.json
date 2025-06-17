@@ -8,6 +8,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "outDir": "dist",
+        "rootDir": ".",
         "types": [
             "node",
             "vitest"

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Inject, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
@@ -196,19 +195,25 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
                     );
                 }
             });
-        } catch (err: any) {
+        } catch (err) {
             this.#logger.error(err);
 
             if (client.readyState === WebSocket.OPEN) {
                 client.close(
                     WsCloseCode.WS_1011_INTERNAL_ERROR,
-                    truncateBytes(err.message, WS_CLOSE_REASON_MAX_BYTES)
+                    truncateBytes(
+                        (err as Error).message,
+                        WS_CLOSE_REASON_MAX_BYTES
+                    )
                 );
             } else {
                 client.once('open', () => {
                     client.close(
                         WsCloseCode.WS_1011_INTERNAL_ERROR,
-                        truncateBytes(err.message, WS_CLOSE_REASON_MAX_BYTES)
+                        truncateBytes(
+                            (err as Error).message,
+                            WS_CLOSE_REASON_MAX_BYTES
+                        )
                     );
                 });
             }

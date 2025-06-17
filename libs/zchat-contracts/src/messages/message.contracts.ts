@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 import type { SerializedEditorState } from 'lexical';
 

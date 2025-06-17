@@ -1,8 +1,6 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 
 export class ZeroPusherAuthGuard implements CanActivate {
-    constructor() {}
-
     async canActivate(context: ExecutionContext): Promise<boolean> {
         await Promise.resolve();
 
