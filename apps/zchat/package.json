@@ -48,7 +48,7 @@
         "clsx": "^2.1.1",
         "cmdk": "1.1.1",
         "date-fns": "^4.1.0",
-        "@rocicorp/zero": "0.20.2025051600",
+        "@rocicorp/zero": "0.20.2025052100",
         "embla-carousel-react": "^8.6.0",
         "input-otp": "^1.4.2",
         "isbot": "^5.1.26",

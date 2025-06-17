@@ -2,7 +2,6 @@ import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-
 import {
     TOKEN_MODULE_OPTIONS,
     type ZeroMongoModuleAsyncOptions,

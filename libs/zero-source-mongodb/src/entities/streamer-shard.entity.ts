@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -8,7 +7,7 @@ export class StreamerShard extends Document<string> {
      * The Shard ID
      */
     @Prop({ type: String, required: true })
-    // @ts-expect-error
+    // @ts-expect-error shadowing to add explicit decorator
     _id!: string;
 
     /**

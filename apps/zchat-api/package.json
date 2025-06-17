@@ -40,7 +40,7 @@
         "@nestjs/swagger": "^11.1.5",
         "@nestjs/mapped-types": "^2.1.0",
         "@nestjs/websockets": "^11.1.0",
-        "@rocicorp/zero": "0.20.2025051600",
+        "@rocicorp/zero": "0.20.2025052100",
         "@rocket.chat/icons": "^0.42.0",
         "@rocket.chat/message-parser": "^0.31.32",
         "@rocket.chat/ui-kit": "^0.37.0",

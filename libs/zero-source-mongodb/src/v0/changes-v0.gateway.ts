@@ -62,8 +62,8 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
 
     constructor(
         @Inject(TOKEN_WATERMARK_SERVICE) watermarkService: IWatermarkService,
-        @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
         @Inject(TOKEN_MODULE_OPTIONS) options: ZeroMongoModuleOptions,
+        @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
         changeMaker: ChangeMakerV0
     ) {
         this.#shardModel = shardModel;

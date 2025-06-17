@@ -75,7 +75,7 @@ export function deepEqual(
 
     // a cannot be undefined here because either a and b are undefined or their
     // types are different.
-     
+
     a = a!;
 
     // 'object'

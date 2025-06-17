@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 declare const process: {
     env: {
-         
         NODE_ENV?: string;
     };
 };
