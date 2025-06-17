@@ -6,6 +6,7 @@ import {
 
 import { schema, type Schema, type TableName } from './schema.js';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Condition = any;
 
 /**
@@ -110,7 +111,7 @@ function canSeeEmoji(
 
 //#endregion Helpers
 
-export const permissions: any = definePermissions<TokenClaims, Schema>(
+export const permissions = definePermissions<TokenClaims, Schema>(
     schema,
     () => ({
         user: {

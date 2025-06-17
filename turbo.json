@@ -1,6 +1,11 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "globalEnv": ["NODE_ENV"],
+    "globalEnv": [
+        "NODE_ENV",
+        "PORT",
+        "CONFIG_FILE",
+        "CORS_ORIGIN"
+    ],
     "ui": "tui",
     "tasks": {
         "build": {

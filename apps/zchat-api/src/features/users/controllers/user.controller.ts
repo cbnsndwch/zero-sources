@@ -41,8 +41,11 @@ export class UserController {
         try {
             const user = await this.#userService.create(input);
             return await user.save();
-        } catch (err: any) {
-            throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+        } catch (err) {
+            throw new HttpException(
+                (err as Error).message,
+                HttpStatus.BAD_REQUEST
+            );
         }
     }
 

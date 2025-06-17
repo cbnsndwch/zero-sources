@@ -6,6 +6,7 @@
         "experimentalDecorators": true,
         "skipDefaultLibCheck": true,
         "sourceMap": true,
+        "rootDir": "src",
         "outDir": "dist",
         "baseUrl": ".",
         "allowSyntheticDefaultImports": true,

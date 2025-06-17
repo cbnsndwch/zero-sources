@@ -1,3 +1,4 @@
+ 
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 
@@ -78,7 +79,7 @@ export class User extends EntityBase implements IUser {
     // #####################################
 
     @Prop({ type: Types.Map })
-    customFields?: Record<string, any>;
+    customFields?: Dict;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

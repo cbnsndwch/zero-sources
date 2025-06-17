@@ -1,3 +1,5 @@
-import { ZeroPushController } from './zero-push.controller.js';
+// import { ZeroPushController } from './zero-push.controller.js';
 
-export const zeroControllers = [ZeroPushController];
+export const zeroControllers = [
+    //ZeroPushController
+];

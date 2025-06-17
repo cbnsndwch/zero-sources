@@ -5,6 +5,8 @@
         "sourceMap": false,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "outDir": "dist",
         "types": [
             "node",

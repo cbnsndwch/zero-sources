@@ -10,7 +10,8 @@
         ],
         "types": [
             "node",
-            "vitest"
+            "vitest",
+            "./dict.d.ts"
         ],
         "declaration": true,
         "declarationMap": true,

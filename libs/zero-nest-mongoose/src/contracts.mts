@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 /**
  * The values that can be represented in JSON
  */
@@ -129,7 +130,7 @@ export type SchemaValue<T = unknown> =
     | CustomColumn<T>
     | CustomColumnOptional<T>;
 
-export class ColumnBuilder<TShape extends SchemaValue<any>> {
+export class ColumnBuilder<TShape extends SchemaValue<unknown>> {
     readonly #schema: TShape;
 
     constructor(schema: TShape) {

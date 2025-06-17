@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import {
     string,
     boolean,
@@ -35,7 +35,7 @@ export const users = table('users')
         defaultStatus:
             enumeration<(typeof USER_PRESENCE_STATUSES)[number]>().optional(),
         presenceStatus: string().optional(),
-        customFields: json<Record<string, any>>().optional(),
+        customFields: json<Dict>().optional(),
         settings: json<Readonly<IUserSettings>>().optional(),
         defaultRoom: string().optional(),
         inviteToken: string().optional(),

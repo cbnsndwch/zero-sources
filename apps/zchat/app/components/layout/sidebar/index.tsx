@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react';
 import {
-    BugIcon,
     HashIcon,
     MessageSquareLockIcon,
     MessageSquareIcon

@@ -12,4 +12,4 @@ export type IMessageFileAttachment =
 export const isFileAttachment = (
     attachment: MessageAttachmentBase
 ): attachment is IMessageFileAttachment =>
-    'type' in attachment && (attachment as any).type === 'file';
+    'type' in attachment && (attachment as Dict).type === 'file';

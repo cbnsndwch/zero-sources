@@ -14,8 +14,8 @@ import type { UserPresenceStatus } from './user-status.contract.js';
 export type ExternalUserId = `${string}/${string}`;
 
 export interface IUserSettings {
-    profile: Record<string, any>;
-    preferences?: Record<string, any>;
+    profile: Dict;
+    preferences?: Dict;
 }
 
 export interface IGetRoomRoles {
@@ -60,7 +60,7 @@ export interface IUser extends IEntityBase, IHasCreatedAt {
 
     // #####################################
 
-    customFields?: Record<string, any>;
+    customFields?: Record<string, unknown>;
 }
 
 export type IUserSummary = Pick<IUser, '_id' | 'username'>;

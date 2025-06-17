@@ -80,9 +80,7 @@ export type MutatorKeysForSchema<
           : never;
 }[keyof Mutators];
 
-export type ServerMutatorContext = {
-    
-}
+export type ServerMutatorContext = unknown;
 
 /**
  * Represents a server-side mutator function implementation.

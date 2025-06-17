@@ -15,7 +15,7 @@ export interface ISystemMessage extends IMessage {
 }
 
 export function isSystemMessage(message: IMessage): message is ISystemMessage {
-    const maybeMessageType = (message as any).t;
+    const maybeMessageType = (message as Dict).t;
     return (
         maybeMessageType !== undefined &&
         SYSTEM_MESSAGE_TYPES.includes(maybeMessageType)

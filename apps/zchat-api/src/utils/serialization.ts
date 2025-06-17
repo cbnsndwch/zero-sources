@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     Schema,
     type Model,
@@ -11,23 +13,19 @@ import {
 } from 'mongoose';
 
 export function replacer(this: any, key: string, value: any) {
-    try {
-        if (value instanceof RegExp) {
-            return '__REGEXP ' + value.toString();
-        } else if (typeof value === 'function') {
-            if (key === 'validator') {
-                return value.toString();
-            }
-            return value.name;
+    if (value instanceof RegExp) {
+        return '__REGEXP ' + value.toString();
+    } else if (typeof value === 'function') {
+        if (key === 'validator') {
+            return value.toString();
         }
-        return value;
-    } catch (err) {
-        throw err;
+        return value.name;
     }
+    return value;
 }
 
 export function reviver(this: any, key: string, value: any) {
-    if (globalThis.hasOwnProperty(value)) {
+    if (Object.prototype.hasOwnProperty.call(globalThis, value)) {
         return (globalThis as any)[value];
     } else if (value === 'Mixed') {
         return Schema.Types.Mixed;

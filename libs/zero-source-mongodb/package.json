@@ -11,8 +11,7 @@
     "scripts": {
         "clean": "rimraf lib",
         "prebuild": "pnpm clean",
-        "build": "tsup",
-        "build:2": "nest build && tsc --emitDeclarationOnly",
+        "build": "nest build && tsc --emitDeclarationOnly",
         "dev": "nest build --watch",
         "release": "pnpm test && pnpm build && changelogen --release --push && pnpm npm publish",
         "lint": "eslint . --fix",
@@ -84,13 +83,13 @@
         "dist"
     ],
     "main": "./dist/index.js",
-    "typings": ".dist/index.d.ts",
     "types": "./dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs",
-            "types": "./dist/index.d.ts"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "node": "./dist/index.js"
         }
     },
     "lint-staged": {

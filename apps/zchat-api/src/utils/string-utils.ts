@@ -153,7 +153,7 @@ export function makeBanner(message: string | string[], title?: string) {
  * @param data The message to display in the banner
  * @param title (Optional) The title to display in the banner
  */
-export function makeTable(data: Record<string, any>, title?: string) {
+export function makeTable(data: Record<string, unknown>, title?: string) {
     const maxKeyLength = Math.max(...Object.keys(data).map(k => k.length));
     const lines = Object.entries(data).reduce<string[]>((lines, [k, v]) => {
         const line = `${lpad(k, maxKeyLength)}: ${v}`;

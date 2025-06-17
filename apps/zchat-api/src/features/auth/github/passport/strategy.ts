@@ -79,8 +79,9 @@ export class Strategy extends OAuth2Strategy {
      */
     userProfile(
         accessToken: string,
-        done: (err?: unknown, profile?: any) => void
+        done: (err?: unknown, profile?: unknown) => void
     ) {
+        // eslint-disable-next-line no-async-promise-executor
         void new Promise<GithubProfile>(async (resolve, reject) => {
             // fetch user profile
             const profileResponse = await fetch(USER_PROFILE_URL, {
@@ -97,7 +98,7 @@ export class Strategy extends OAuth2Strategy {
             }
 
             // parse and extract claims
-            const __raw: any = await profileResponse.json();
+            const __raw = await profileResponse.json();
             const profile = parseProfile(__raw);
 
             // check if the strategy settings specified a scope that includes email

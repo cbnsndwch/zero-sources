@@ -1,9 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import type { Type } from '@nestjs/common';
-import type {
-    SchemaDefinitionProperty,
-    SchemaType,
-    SchemaOptions
-} from 'mongoose';
+import type { SchemaDefinitionProperty, SchemaOptions } from 'mongoose';
 
 /**
  * Interface defining property options that can be passed to `@Prop()` decorator.
@@ -30,7 +28,7 @@ type GetSchemaMetadataByTarget = <TEntity>(
 ) => SchemaMetadata | undefined;
 
 declare global {
-    var MongoTypeMetadataStorage: {
+    let MongoTypeMetadataStorage: {
         getSchemaMetadataByTarget: GetSchemaMetadataByTarget;
     };
 }

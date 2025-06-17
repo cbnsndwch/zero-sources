@@ -21,7 +21,7 @@ export type Publication = {
     /**
      * An aggregation pipeline to apply to the change stream.
      */
-    pipeline?: any[];
+    pipeline?: unknown[];
 };
 
 /**
