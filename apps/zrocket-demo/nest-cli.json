@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json.schemastore.org/nest-cli",
+    "collection": "@nestjs/schematics",
+    "defaultLibraryPrefix": "@cbnsndwch",
+    "sourceRoot": "src",
+    "compilerOptions": {
+        "builder": "tsc",
+        "deleteOutDir": true,
+        "manualRestart": true
+    },
+    "generateOptions": {
+        "spec": false,
+        "flat": true
+    }
+}
