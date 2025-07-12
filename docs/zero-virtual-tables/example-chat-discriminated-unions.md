@@ -1,4 +1,4 @@
-# Example: Rocket.Chat-Style System with Discriminated Unions
+# Example - ZRocket: A Rocket.Chat-Style Chat app with Discriminated Unions
 
 ## Scenario Overview
 
@@ -261,13 +261,18 @@ const chatSystemConfig: ZeroSchemaConfig = {
 
 ## Zero Schema Definitions
 
-Based on the configuration above, here are the corresponding Zero schema table definitions:
+Using the `.from()` modifier with serialized discriminated union configuration:
 
 ```typescript
 import { table, string, boolean, json, number } from '@rocicorp/zero';
 
-// Room tables
+// Room tables using discriminated union configs
 const chats = table('chats')
+  .from(JSON.stringify({
+    source: 'rooms',
+    filter: { type: 'd', isArchived: false },
+    projection: { _id: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
+  }))
   .columns({
     id: string(),
     participantIds: json<string[]>(),
@@ -277,6 +282,11 @@ const chats = table('chats')
   .primaryKey('id');
 
 const groups = table('groups')
+  .from(JSON.stringify({
+    source: 'rooms',
+    filter: { type: 'p', isArchived: false },
+    projection: { _id: 1, name: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
+  }))
   .columns({
     id: string(),
     name: string(),
@@ -287,6 +297,11 @@ const groups = table('groups')
   .primaryKey('id');
 
 const channels = table('channels')
+  .from(JSON.stringify({
+    source: 'rooms',
+    filter: { type: 'c', isArchived: false },
+    projection: { _id: 1, name: 1, description: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
+  }))
   .columns({
     id: string(),
     name: string(),
@@ -297,8 +312,13 @@ const channels = table('channels')
   })
   .primaryKey('id');
 
-// Message tables
+// Message tables using discriminated union configs
 const textMessages = table('textMessages')
+  .from(JSON.stringify({
+    source: 'messages',
+    filter: { type: 'text', isDeleted: false },
+    projection: { _id: 1, roomId: 1, senderId: 1, content: 1, createdAt: 1 }
+  }))
   .columns({
     id: string(),
     roomId: string(),
@@ -309,6 +329,11 @@ const textMessages = table('textMessages')
   .primaryKey('id');
 
 const imageMessages = table('imageMessages')
+  .from(JSON.stringify({
+    source: 'messages',
+    filter: { type: 'image', isDeleted: false },
+    projection: { _id: 1, roomId: 1, senderId: 1, imageUrl: 1, caption: 1, imageMetadata: 1, createdAt: 1 }
+  }))
   .columns({
     id: string(),
     roomId: string(),
@@ -326,6 +351,11 @@ const imageMessages = table('imageMessages')
   .primaryKey('id');
 
 const systemMessages = table('systemMessages')
+  .from(JSON.stringify({
+    source: 'messages',
+    filter: { type: 'system' },
+    projection: { _id: 1, roomId: 1, action: 1, targetUserId: 1, createdAt: 1, metadata: 1 }
+  }))
   .columns({
     id: string(),
     roomId: string(),
@@ -336,8 +366,13 @@ const systemMessages = table('systemMessages')
   })
   .primaryKey('id');
 
-// Participant tables
+// Participant tables using discriminated union configs
 const userParticipants = table('userParticipants')
+  .from(JSON.stringify({
+    source: 'participants',
+    filter: { type: 'user' },
+    projection: { _id: 1, userId: 1, roomId: 1, role: 1, joinedAt: 1, lastReadAt: 1, 'notificationSettings.muted': 1 }
+  }))
   .columns({
     id: string(),
     userId: string(),
@@ -350,6 +385,11 @@ const userParticipants = table('userParticipants')
   .primaryKey('id');
 
 const botParticipants = table('botParticipants')
+  .from(JSON.stringify({
+    source: 'participants',
+    filter: { type: 'bot' },
+    projection: { _id: 1, botId: 1, roomId: 1, role: 1, joinedAt: 1, config: 1 }
+  }))
   .columns({
     id: string(),
     botId: string(),
@@ -360,6 +400,13 @@ const botParticipants = table('botParticipants')
   })
   .primaryKey('id');
 ```
+
+The MongoDB change source (or any future change source) can parse these JSON configurations from the `.from()` strings to:
+
+1. **Identify the source collection** (`source: 'rooms'`, `source: 'messages'`, etc.)
+2. **Apply discriminating filters** (`type: 'd'`, `type: 'text'`, etc.)  
+3. **Project only required fields** (reducing data transfer and processing)
+4. **Route changes to appropriate Zero tables** based on filter matches
 
 ## Benefits of This Approach
 
@@ -391,21 +438,47 @@ Each Zero table has a specific schema that matches its intended use case.
 ### 4. **Flexible Backend Schema**
 MongoDB collections can evolve independently while maintaining clean Zero interfaces.
 
-## Change Stream Processing
+## Change Stream Processing with Serialized Configs
 
-When a document changes in MongoDB:
+When the MongoDB change source processes a document change:
 
-1. **Rooms collection change**: 
-   - Check if it matches `chats`, `groups`, or `channels` filters
-   - Apply appropriate projections and route to matching Zero tables
+1. **Parse `.from()` configurations**: Extract and parse the JSON configuration from each Zero table's `.from()` modifier
+2. **Match source collections**: For a change in `rooms` collection, find all tables with `"source": "rooms"`
+3. **Apply filters**: Check if the changed document matches each table's filter criteria:
+   - `chats`: `{ type: 'd', isArchived: false }`
+   - `groups`: `{ type: 'p', isArchived: false }`  
+   - `channels`: `{ type: 'c', isArchived: false }`
+4. **Apply projections**: For matching tables, apply the projection to extract only relevant fields
+5. **Route to Zero tables**: Send the projected data to the appropriate Zero table(s)
 
-2. **Messages collection change**:
-   - Route to `textMessages`, `imageMessages`, or `systemMessages` based on type
-   - Apply projections specific to each message type
+### Example Processing Flow
 
-3. **Participants collection change**:
-   - Route to `userParticipants` or `botParticipants` based on type
-   - Apply appropriate projections
+```typescript
+// When a room document changes in MongoDB:
+const changedDocument = {
+  _id: ObjectId("..."),
+  type: "c",
+  name: "general",
+  description: "General discussion",
+  isArchived: false,
+  // ... other fields
+};
+
+// Change source processes all tables with source: 'rooms'
+for (const table of tablesWithRoomsSource) {
+  const config = JSON.parse(table.from());
+  
+  if (matchesFilter(changedDocument, config.filter)) {
+    const projectedData = applyProjection(changedDocument, config.projection);
+    routeToZeroTable(table.name, projectedData);
+  }
+}
+
+// Result: Only 'channels' table receives this change because:
+// - type: "c" matches channels filter
+// - isArchived: false matches channels filter  
+// - type: "c" does NOT match chats or groups filters
+```
 
 ## Query Examples
 
