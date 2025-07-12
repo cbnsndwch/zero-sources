@@ -1,6 +1,12 @@
 const reject = [
-    
+    // node types are tied to the version we're using
+    '@types/node',
 
+    // turbo does its own thing
+    'turbo',
+
+    // just in case :)
+    '@rocket.chat*'
 ];
 
 /**

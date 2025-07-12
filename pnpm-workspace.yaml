@@ -1,5 +1,3 @@
-shamefullyHoist: true
-
 packages:
   - libs/*
   - apps/*
@@ -11,5 +9,8 @@ ignoredBuiltDependencies:
 onlyBuiltDependencies:
   - '@rocicorp/zero-sqlite3'
   - '@swc/core'
+  - '@tailwindcss/oxide'
   - esbuild
   - protobufjs
+
+shamefullyHoist: true
