@@ -1,6 +1,6 @@
-# RFC: Dynamic Zero tables from Upstream Projections
+# RFC: Dynamic Zero Tables from Upstream Projections
 
-### Problem Statement
+## Problem Statement
 
 Currently, Zero sync requires a 1:1 mapping between Zero schema tables and upstream data entities (MongoDB collections, SQL tables, API endpoints). This creates limitations when:
 
@@ -9,7 +9,7 @@ Currently, Zero sync requires a 1:1 mapping between Zero schema tables and upstr
 3. **Data transformation is required**: The upstream data structure needs to be projected/transformed before being exposed to the Zero Sync server
 4. **Complex business logic**: Different filtering and projection rules need to be applied based on record characteristics
 
-### Proposed Solution
+## Proposed Solution
 
 Introduce a **discriminated union system** that allows:
 
@@ -18,7 +18,7 @@ Introduce a **discriminated union system** that allows:
 3. **Optional Projection**: Transform record structure before streaming to the Zero Sync server
 4. **Change Intelligence**: The change source monitors upstream changes and routes them to appropriate Zero tables based on the configuration
 
-### Configuration Schema
+## Configuration Schema
 
 ```typescript
 interface UpstreamTableMapping {
@@ -34,9 +34,9 @@ interface ZeroSchemaConfig {
 }
 ```
 
-### Example Use Cases
+## Example Use Cases
 
-#### Use Case 1: MongoDB - Discriminated Union by Document Type
+### Use Case 1: MongoDB - Discriminated Union by Document Type
 ```typescript
 // Single 'entities' collection contains users, organizations, and projects
 const mongoConfig = {
@@ -60,7 +60,7 @@ const mongoConfig = {
 };
 ```
 
-#### Use Case 2: SQL Database - Table Views with Conditions
+### Use Case 2: SQL Database - Table Views with Conditions
 ```typescript
 // Single 'orders' table with different time-based views
 const sqlConfig = {
@@ -84,48 +84,82 @@ const sqlConfig = {
 };
 ```
 
-#### Use Case 3: API Endpoint - Role-Based Data Access
+### Use Case 3: REST API + Webhooks - Stripe Custom Change Source
 ```typescript
-// External API with role-based filtering
-const apiConfig = {
+// Stripe integration: REST API for backfill, webhooks for real-time updates
+const stripeConfig = {
   tables: {
-    publicUserProfiles: {
-      source: '/api/users',
-      filter: { isPublic: true, isActive: true },
-      projection: { id: 1, displayName: 1, avatar: 1, bio: 1 }
-    },
-    adminUserData: {
-      source: '/api/users',
-      filter: { isActive: true },
+    customers: {
+      source: '/v1/customers',
+      filter: { deleted: { $ne: true } },
       projection: { 
-        id: 1, email: 1, displayName: 1, isActive: 1, 
-        lastLoginAt: 1, createdAt: 1, permissions: 1 
+        id: 1, email: 1, name: 1, created: 1, 
+        default_source: 1, currency: 1, metadata: 1 
+      }
+    },
+    activeSubscriptions: {
+      source: '/v1/subscriptions',
+      filter: { 
+        status: { $in: ['active', 'trialing', 'past_due'] }
+      },
+      projection: { 
+        id: 1, customer: 1, status: 1, current_period_start: 1,
+        current_period_end: 1, items: 1, metadata: 1
+      }
+    },
+    canceledSubscriptions: {
+      source: '/v1/subscriptions',
+      filter: { 
+        status: { $in: ['canceled', 'incomplete_expired'] }
+      },
+      projection: { 
+        id: 1, customer: 1, status: 1, canceled_at: 1,
+        cancellation_details: 1, ended_at: 1
+      }
+    },
+    paymentMethods: {
+      source: '/v1/payment_methods',
+      filter: { type: { $in: ['card', 'bank_account', 'us_bank_account'] } },
+      projection: { 
+        id: 1, customer: 1, type: 1, card: 1, 
+        billing_details: 1, created: 1
+      }
+    },
+    successfulCharges: {
+      source: '/v1/charges',
+      filter: { 
+        status: 'succeeded',
+        amount: { $gte: 100 } // Only charges >= $1.00
+      },
+      projection: { 
+        id: 1, customer: 1, amount: 1, currency: 1,
+        created: 1, payment_method: 1, invoice: 1
       }
     }
   }
 };
 ```
 
-### Technical Implementation Considerations
+## Technical Implementation Considerations
 
-#### Change Processing
+### Change Processing
 1. **Single Change Stream**: Monitor one change stream per upstream entity, not per Zero table
 2. **Record Routing**: For each change event, determine which Zero tables are affected by applying filters
 3. **Projection Application**: Apply table-specific projections before sending to Zero
 4. **Efficient Filtering**: Use source-specific optimization (e.g., MongoDB aggregation pipeline, SQL indexes)
 
-#### Performance Implications
+### Performance Implications
 1. **Filter Efficiency**: Complex filters might impact change processing performance
 2. **Projection Benefits**: Projections reduce network payload and client memory usage
 3. **Index Requirements**: Filters should be backed by appropriate indexes in the upstream source
 4. **Change Volume**: Multiple Zero tables from one upstream entity increases change event volume
 
-#### Error Handling
+### Error Handling
 1. **Filter Validation**: Validate filter syntax at configuration time
 2. **Projection Validation**: Ensure projections don't break Zero schema expectations
 3. **Graceful Degradation**: Handle cases where filters or projections fail
 
-### Benefits
+## Benefits
 
 1. **Flexibility**: Support complex upstream data structures in Zero across multiple source types
 2. **Performance**: Reduce data transfer through projections and filtering at the source
@@ -133,21 +167,21 @@ const apiConfig = {
 4. **Maintainability**: Keep upstream schemas flexible while providing clean Zero interfaces
 5. **Scalability**: Handle large datasets by filtering at the source before streaming to Zero
 
-### Risks and Mitigation
+## Risks and Mitigation
 
-#### Risk 1: Complex Configuration
+### Risk 1: Complex Configuration
 - **Mitigation**: Provide clear examples, validation, and potentially a configuration UI
 
-#### Risk 2: Performance Impact
+### Risk 2: Performance Impact
 - **Mitigation**: Profile change processing performance across different source types, provide guidance on filter optimization
 
-#### Risk 3: Data Consistency
+### Risk 3: Data Consistency
 - **Mitigation**: Ensure atomic operations and proper error handling during filtering/projection across all source types
 
-#### Risk 4: Debugging Complexity
+### Risk 4: Debugging Complexity
 - **Mitigation**: Comprehensive logging and debugging tools for tracing document flow
 
-### Questions for Validation
+## Questions for Validation
 
 1. **Use Cases**: Are there other important use cases this doesn't cover?
 2. **Configuration**: Is the proposed configuration schema intuitive and flexible enough?
@@ -156,7 +190,7 @@ const apiConfig = {
 5. **Testing**: What testing strategies ensure correctness of filter/projection logic across multiple source types?
 6. **Observability**: What metrics and logging are needed for production debugging across different sources?
 
-### Next Steps
+## Next Steps
 
 1. **Prototype Implementation**: Build a minimal working version with basic filter/projection support
 2. **Performance Testing**: Benchmark change processing performance with various filter complexities across source types
