@@ -1,0 +1,285 @@
+# ZRocket Docker Swarm Stack Configuration
+# 
+# This Docker Compose file defines a production-ready deployment stack for
+# the ZRocket application with MongoDB Atlas integration and Zero sync services.
+#
+# Architecture:
+# - MongoDB Atlas (external) -> PostgreSQL (CDC/CVR) -> Zero Sync -> ZRocket API
+# - ZRocket Frontend served via nginx with Traefik reverse proxy
+# - All services include health checks, resource limits, and security hardening
+
+version: '3.8'
+
+networks:
+  # Internal network for database and backend services
+  zero-network:
+    driver: overlay
+    attachable: true
+    internal: true
+
+  # External network for public-facing services (managed by Traefik)
+  traefik-public:
+    external: true
+
+volumes:
+  # Persistent storage for PostgreSQL data
+  postgres_data:
+    driver: local
+
+secrets:
+  # PostgreSQL password for Zero databases
+  postgres_password:
+    external: true
+    name: zrocket_postgres_password
+
+  # JWT secret for API authentication
+  jwt_secret:
+    external: true
+    name: zrocket_jwt_secret
+
+configs:
+  # PostgreSQL initialization script
+  postgres_init:
+    file: ./init-postgres.sql
+
+  # Zero discriminated schema configuration
+  zero_schema:
+    file: ./schema/discriminated-schema.json
+
+services:
+  # PostgreSQL database for Zero CDC and CVR
+  postgres:
+    image: postgres:16-alpine
+    hostname: postgres
+    environment:
+      POSTGRES_DB: zero_db
+      POSTGRES_USER: zero_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    secrets:
+      - postgres_password
+    configs:
+      - source: postgres_init
+        target: /docker-entrypoint-initdb.d/init.sql
+        mode: 0644
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - zero-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        order: stop-first
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zero_user -d zero_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Zero Sync service for real-time synchronization
+  zero-sync:
+    image: rocicorp/zero-cache:latest
+    hostname: zero-sync
+    environment:
+      - ZERO_UPSTREAM_DB_URL=postgresql://zero_user:${POSTGRES_PASSWORD}@postgres:5432/zero_cdc
+      - ZERO_CVR_DB_URL=postgresql://zero_user:${POSTGRES_PASSWORD}@postgres:5432/zero_cvr
+      - ZERO_SCHEMA_PATH=/app/schema/discriminated-schema.json
+      - ZERO_LOG_LEVEL=info
+      - ZERO_PORT=4848
+    configs:
+      - source: zero_schema
+        target: /app/schema/discriminated-schema.json
+        mode: 0644
+    networks:
+      - zero-network
+      - traefik-public
+    depends_on:
+      - postgres
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      update_config:
+        order: start-first
+        failure_action: rollback
+      labels:
+        # Traefik configuration
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        
+        # Router configuration
+        - "traefik.http.routers.zero-sync.rule=Host(`${ZERO_DOMAIN:-zero.zrocket.app}`)"
+        - "traefik.http.routers.zero-sync.entrypoints=websecure"
+        - "traefik.http.routers.zero-sync.tls=true"
+        - "traefik.http.routers.zero-sync.tls.certresolver=letsencrypt"
+        
+        # Service configuration
+        - "traefik.http.services.zero-sync.loadbalancer.server.port=4848"
+        - "traefik.http.services.zero-sync.loadbalancer.healthcheck.path=/health"
+        - "traefik.http.services.zero-sync.loadbalancer.healthcheck.interval=30s"
+        - "traefik.http.services.zero-sync.loadbalancer.healthcheck.timeout=5s"
+        
+        # Security and performance middleware
+        - "traefik.http.routers.zero-sync.middlewares=secure-headers,rate-limit-api"
+        
+        # Security headers middleware
+        - "traefik.http.middlewares.secure-headers.headers.accesscontrolallowmethods=GET,OPTIONS,PUT,POST,DELETE,PATCH"
+        - "traefik.http.middlewares.secure-headers.headers.accesscontrolalloworiginlist=https://${DOMAIN_NAME:-zrocket.app}"
+        - "traefik.http.middlewares.secure-headers.headers.accesscontrolmaxage=100"
+        - "traefik.http.middlewares.secure-headers.headers.addvaryheader=true"
+        - "traefik.http.middlewares.secure-headers.headers.referrerPolicy=strict-origin-when-cross-origin"
+        - "traefik.http.middlewares.secure-headers.headers.hostsProxyHeaders=X-Forwarded-Host"
+        - "traefik.http.middlewares.secure-headers.headers.customRequestHeaders.X-Forwarded-Proto=https"
+        
+        # Rate limiting middleware
+        - "traefik.http.middlewares.rate-limit-api.ratelimit.average=100"
+        - "traefik.http.middlewares.rate-limit-api.ratelimit.period=1m"
+        - "traefik.http.middlewares.rate-limit-api.ratelimit.burst=200"
+
+  # ZRocket API service (NestJS with discriminated unions)
+  zrocket-api:
+    image: ghcr.io/cbnsndwch/zero-sources/zrocket-api:latest
+    hostname: zrocket-api
+    environment:
+      - PORT=8012
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_ATLAS_URI}
+      - ZERO_SYNC_URL=http://zero-sync:4848
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - CORS_ORIGIN=https://${DOMAIN_NAME:-zrocket.app}
+      - LOG_LEVEL=info
+    secrets:
+      - jwt_secret
+    networks:
+      - zero-network
+      - traefik-public
+    depends_on:
+      - zero-sync
+    deploy:
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        order: start-first
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+      labels:
+        # Traefik configuration
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        
+        # Router configuration
+        - "traefik.http.routers.zrocket-api.rule=Host(`${API_DOMAIN:-api.zrocket.app}`)"
+        - "traefik.http.routers.zrocket-api.entrypoints=websecure"
+        - "traefik.http.routers.zrocket-api.tls=true"
+        - "traefik.http.routers.zrocket-api.tls.certresolver=letsencrypt"
+        
+        # Service configuration
+        - "traefik.http.services.zrocket-api.loadbalancer.server.port=8012"
+        - "traefik.http.services.zrocket-api.loadbalancer.healthcheck.path=/health"
+        - "traefik.http.services.zrocket-api.loadbalancer.healthcheck.interval=30s"
+        - "traefik.http.services.zrocket-api.loadbalancer.healthcheck.timeout=5s"
+        - "traefik.http.services.zrocket-api.loadbalancer.sticky.cookie.name=zrocket-api"
+        
+        # Security and performance middleware
+        - "traefik.http.routers.zrocket-api.middlewares=secure-headers,rate-limit-api,compression"
+        - "traefik.http.middlewares.compression.compress=true"
+
+  # ZRocket Frontend service (React with nginx)
+  zrocket-frontend:
+    image: ghcr.io/cbnsndwch/zero-sources/zrocket-frontend:latest
+    hostname: zrocket-frontend
+    environment:
+      - NGINX_WORKER_PROCESSES=auto
+      - NGINX_WORKER_CONNECTIONS=1024
+    networks:
+      - traefik-public
+    deploy:
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+        reservations:
+          memory: 64M
+          cpus: '0.1'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        order: start-first
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+      labels:
+        # Traefik configuration
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        
+        # Router configuration with www redirect
+        - "traefik.http.routers.zrocket-frontend.rule=Host(`${DOMAIN_NAME:-zrocket.app}`) || Host(`www.${DOMAIN_NAME:-zrocket.app}`)"
+        - "traefik.http.routers.zrocket-frontend.entrypoints=websecure"
+        - "traefik.http.routers.zrocket-frontend.tls=true"
+        - "traefik.http.routers.zrocket-frontend.tls.certresolver=letsencrypt"
+        
+        # Service configuration
+        - "traefik.http.services.zrocket-frontend.loadbalancer.server.port=3000"
+        - "traefik.http.services.zrocket-frontend.loadbalancer.healthcheck.path=/health"
+        - "traefik.http.services.zrocket-frontend.loadbalancer.healthcheck.interval=30s"
+        - "traefik.http.services.zrocket-frontend.loadbalancer.healthcheck.timeout=5s"
+        
+        # Security and performance middleware
+        - "traefik.http.routers.zrocket-frontend.middlewares=secure-headers,compression,www-redirect"
+        
+        # WWW redirect middleware
+        - "traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\\.(.*)"
+        - "traefik.http.middlewares.www-redirect.redirectregex.replacement=https://$${1}"
+        - "traefik.http.middlewares.www-redirect.redirectregex.permanent=true"

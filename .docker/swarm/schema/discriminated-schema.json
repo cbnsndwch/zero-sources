@@ -1,0 +1,759 @@
+{
+  "tables": {
+    "users": {
+      "name": "users",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "username": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "name": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "email": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "active": {
+          "type": "boolean",
+          "optional": true,
+          "customType": null
+        },
+        "type": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ]
+    },
+    "chats": {
+      "name": "chats",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "memberIds": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "createdAt": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "lastMessageAt": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "usernames": {
+          "type": "json",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"rooms\",\"filter\":{\"t\":\"d\",\"archived\":{\"$ne\":true}},\"projection\":{\"_id\":1,\"memberIds\":1,\"createdAt\":1,\"lastMessageAt\":1,\"usernames\":1}}"
+    },
+    "groups": {
+      "name": "groups",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "name": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "memberIds": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "createdAt": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "lastMessageAt": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "description": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "topic": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"rooms\",\"filter\":{\"t\":\"p\",\"archived\":{\"$ne\":true}},\"projection\":{\"_id\":1,\"name\":1,\"memberIds\":1,\"createdAt\":1,\"lastMessageAt\":1,\"description\":1,\"topic\":1}}"
+    },
+    "channels": {
+      "name": "channels",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "name": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "description": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "memberIds": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "createdAt": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "lastMessageAt": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "topic": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "featured": {
+          "type": "boolean",
+          "optional": true,
+          "customType": null
+        },
+        "default": {
+          "type": "boolean",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"rooms\",\"filter\":{\"t\":\"c\",\"archived\":{\"$ne\":true}},\"projection\":{\"_id\":1,\"name\":1,\"description\":1,\"memberIds\":1,\"createdAt\":1,\"lastMessageAt\":1,\"topic\":1,\"featured\":1,\"default\":1}}"
+    },
+    "textMessages": {
+      "name": "textMessages",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "roomId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "sender": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "contents": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "ts": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "md": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"messages\",\"filter\":{\"t\":\"text\",\"hidden\":{\"$ne\":true}},\"projection\":{\"_id\":1,\"roomId\":1,\"sender.id\":1,\"sender.name\":1,\"sender.username\":1,\"contents\":1,\"ts\":1,\"md\":1}}"
+    },
+    "imageMessages": {
+      "name": "imageMessages",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "roomId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "sender": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "imageUrl": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "caption": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "imageMetadata": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        },
+        "ts": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"messages\",\"filter\":{\"t\":\"image\",\"hidden\":{\"$ne\":true}},\"projection\":{\"_id\":1,\"roomId\":1,\"sender.id\":1,\"sender.name\":1,\"sender.username\":1,\"imageUrl\":1,\"caption\":1,\"imageMetadata\":1,\"ts\":1}}"
+    },
+    "systemMessages": {
+      "name": "systemMessages",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "roomId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "action": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "targetUserId": {
+          "type": "string",
+          "optional": true,
+          "customType": null
+        },
+        "ts": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "metadata": {
+          "type": "json",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"messages\",\"filter\":{\"t\":\"system\"},\"projection\":{\"_id\":1,\"roomId\":1,\"action\":1,\"targetUserId\":1,\"ts\":1,\"metadata\":1}}"
+    },
+    "userParticipants": {
+      "name": "userParticipants",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "userId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "roomId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "role": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "joinedAt": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "lastReadAt": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "muted": {
+          "type": "boolean",
+          "optional": true,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"participants\",\"filter\":{\"type\":\"user\"},\"projection\":{\"_id\":1,\"userId\":1,\"roomId\":1,\"role\":1,\"joinedAt\":1,\"lastReadAt\":1,\"notificationSettings.muted\":1}}"
+    },
+    "botParticipants": {
+      "name": "botParticipants",
+      "columns": {
+        "_id": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "botId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "roomId": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "role": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "joinedAt": {
+          "type": "string",
+          "optional": false,
+          "customType": null
+        },
+        "config": {
+          "type": "json",
+          "optional": false,
+          "customType": null
+        }
+      },
+      "primaryKey": [
+        "_id"
+      ],
+      "serverName": "{\"source\":\"participants\",\"filter\":{\"type\":\"bot\"},\"projection\":{\"_id\":1,\"botId\":1,\"roomId\":1,\"role\":1,\"joinedAt\":1,\"config\":1}}"
+    }
+  },
+  "relationships": {
+    "users": {
+      "userParticipants": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "userId"
+          ],
+          "destSchema": "userParticipants",
+          "cardinality": "many"
+        }
+      ]
+    },
+    "chats": {
+      "textMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "textMessages",
+          "cardinality": "many"
+        }
+      ],
+      "imageMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "imageMessages",
+          "cardinality": "many"
+        }
+      ],
+      "systemMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "systemMessages",
+          "cardinality": "many"
+        }
+      ]
+    },
+    "groups": {
+      "textMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "textMessages",
+          "cardinality": "many"
+        }
+      ],
+      "imageMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "imageMessages",
+          "cardinality": "many"
+        }
+      ],
+      "systemMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "systemMessages",
+          "cardinality": "many"
+        }
+      ],
+      "userParticipants": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "userParticipants",
+          "cardinality": "many"
+        }
+      ],
+      "botParticipants": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "botParticipants",
+          "cardinality": "many"
+        }
+      ]
+    },
+    "channels": {
+      "textMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "textMessages",
+          "cardinality": "many"
+        }
+      ],
+      "imageMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "imageMessages",
+          "cardinality": "many"
+        }
+      ],
+      "systemMessages": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "systemMessages",
+          "cardinality": "many"
+        }
+      ],
+      "userParticipants": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "userParticipants",
+          "cardinality": "many"
+        }
+      ],
+      "botParticipants": [
+        {
+          "sourceField": [
+            "_id"
+          ],
+          "destField": [
+            "roomId"
+          ],
+          "destSchema": "botParticipants",
+          "cardinality": "many"
+        }
+      ]
+    },
+    "textMessages": {
+      "chat": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "chats",
+          "cardinality": "one"
+        }
+      ],
+      "group": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "groups",
+          "cardinality": "one"
+        }
+      ],
+      "channel": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "channels",
+          "cardinality": "one"
+        }
+      ]
+    },
+    "imageMessages": {
+      "chat": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "chats",
+          "cardinality": "one"
+        }
+      ],
+      "group": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "groups",
+          "cardinality": "one"
+        }
+      ],
+      "channel": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "channels",
+          "cardinality": "one"
+        }
+      ]
+    },
+    "systemMessages": {
+      "chat": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "chats",
+          "cardinality": "one"
+        }
+      ],
+      "group": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "groups",
+          "cardinality": "one"
+        }
+      ],
+      "channel": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "channels",
+          "cardinality": "one"
+        }
+      ]
+    },
+    "userParticipants": {
+      "user": [
+        {
+          "sourceField": [
+            "userId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "users",
+          "cardinality": "one"
+        }
+      ],
+      "chat": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "chats",
+          "cardinality": "one"
+        }
+      ],
+      "group": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "groups",
+          "cardinality": "one"
+        }
+      ],
+      "channel": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "channels",
+          "cardinality": "one"
+        }
+      ]
+    },
+    "botParticipants": {
+      "chat": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "chats",
+          "cardinality": "one"
+        }
+      ],
+      "group": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "groups",
+          "cardinality": "one"
+        }
+      ],
+      "channel": [
+        {
+          "sourceField": [
+            "roomId"
+          ],
+          "destField": [
+            "_id"
+          ],
+          "destSchema": "channels",
+          "cardinality": "one"
+        }
+      ]
+    }
+  }
+}
