@@ -25,6 +25,7 @@ import { StreamerShard } from '../entities/streamer-shard.entity.js';
 
 import { ChangeSourceV0, WATERMARK_INITIAL_SYNC } from '../services/change-source-v0.js';
 import { ChangeMakerV0 } from '../services/change-maker-v0.js';
+import { TableMappingService } from '../services/table-mapping.service.js';
 
 import { getStreamerParams } from '../utils/get-streamer-params.js';
 
@@ -42,8 +43,8 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
     // the token zero-cache will send to authenticate
     #token?: string;
 
-    // which collections should we stream?
-    #publishedCollections: string[];
+    // database configuration including table mappings
+    #dbConfig: DbConfig;
 
     // the change mapper service that transforms MongoDB change stream events
     // into Zero events
@@ -51,6 +52,9 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
 
     // maps between mongo resume tokens and zero watermarks (lexi versions)
     #watermarkService: IWatermarkService;
+
+    // service for handling table mappings, filters, and projections
+    #tableMappingService: TableMappingService;
 
     /**
      * A map of client keys to RxJS subjects that can be used to multicast
@@ -62,17 +66,22 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
         @Inject(TOKEN_WATERMARK_SERVICE) watermarkService: IWatermarkService,
         @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
         config: ConfigService<AppConfig>,
-        changeMaker: ChangeMakerV0
+        changeMaker: ChangeMakerV0,
+        tableMappingService: TableMappingService
     ) {
         this.#shardModel = shardModel;
         this.#watermarkService = watermarkService;
         this.#changeMaker = changeMaker;
+        this.#tableMappingService = tableMappingService;
 
         const authConfig = config.get<AuthConfig>('auth');
         this.#token = authConfig?.token;
 
         const dbConfig = config.get<DbConfig>('db');
-        this.#publishedCollections = dbConfig?.publish ?? [];
+        if (!dbConfig) {
+            throw new Error('Database configuration is required');
+        }
+        this.#dbConfig = dbConfig;
     }
 
     //#region Gateway Lifecycle
@@ -118,7 +127,8 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
                 this.#shardModel.db,
                 this.#changeMaker,
                 this.#watermarkService,
-                this.#publishedCollections
+                this.#tableMappingService,
+                this.#dbConfig
             );
 
             this.#subscriptions.set(client, { shard, source });

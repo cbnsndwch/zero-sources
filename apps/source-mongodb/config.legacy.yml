@@ -1,0 +1,20 @@
+# Legacy configuration format (for backward compatibility)
+# This shows how existing configurations continue to work
+
+auth:
+  token: "your-auth-token-here"
+
+db:
+  uri: "mongodb://localhost:27017/example"
+  
+  # Legacy format - still supported for backward compatibility
+  publish:
+    - "users"
+    - "messages"
+    - "orders"
+
+kv:
+  servers: ["nats://localhost:4222"]
+  auth:
+    user: "your-nats-user"
+    pwd: "your-nats-password"

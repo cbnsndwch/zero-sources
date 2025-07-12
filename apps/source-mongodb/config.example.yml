@@ -1,0 +1,70 @@
+# Example configuration demonstrating dynamic zero tables from upstream projections
+
+auth:
+  token: "your-auth-token-here"
+
+db:
+  uri: "mongodb://localhost:27017/example"
+  
+  # New table mapping configuration supporting the RFC
+  tables:
+    # Example 1: MongoDB discriminated union - users from entities collection
+    users:
+      source: "entities"
+      filter:
+        entityType: "user"
+        isActive: true
+      projection:
+        _id: 1
+        name: 1
+        email: 1
+        createdAt: 1
+    
+    # Example 2: Organizations from same entities collection with different filter
+    organizations:
+      source: "entities"
+      filter:
+        entityType: "organization"
+        isDeleted: { $ne: true }
+      projection:
+        _id: 1
+        name: 1
+        domain: 1
+        memberCount: 1
+    
+    # Example 3: Projects from same entities collection
+    projects:
+      source: "entities"
+      filter:
+        entityType: "project"
+        status: { $in: ["active", "paused"] }
+      projection:
+        _id: 1
+        name: 1
+        organizationId: 1
+        status: 1
+    
+    # Example 4: Recent orders - filtered view of orders collection
+    recentOrders:
+      source: "orders"
+      filter:
+        created_at: { $gte: "2024-01-01T00:00:00Z" }
+        status: { $ne: "cancelled" }
+      projection:
+        id: 1
+        user_id: 1
+        total: 1
+        status: 1
+        created_at: 1
+    
+    # Example 5: Full collection mapping without filter or projection
+    messages:
+      source: "messages"
+      # No filter or projection - maps entire collection as-is
+
+kv:
+  # KV configuration for watermarks
+  servers: ["nats://localhost:4222"]
+  auth:
+    user: "your-nats-user"
+    pwd: "your-nats-password"

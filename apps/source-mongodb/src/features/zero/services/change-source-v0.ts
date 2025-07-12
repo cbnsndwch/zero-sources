@@ -1,5 +1,13 @@
 import { Logger } from '@nestjs/common';
-import type { ChangeStreamDocument, Document, ChangeStream } from 'mongodb';
+import type { 
+    ChangeStreamDocument, 
+    Document, 
+    ChangeStream,
+    ChangeStreamInsertDocument,
+    ChangeStreamUpdateDocument,
+    ChangeStreamDeleteDocument,
+    ChangeStreamReplaceDocument
+} from 'mongodb';
 import type { ClientSession, Connection } from 'mongoose';
 import { concatWith, from, ignoreElements, map, Observable, of, Subscription } from 'rxjs';
 
@@ -7,12 +15,14 @@ import { invariant } from '@cbnsndwch/zero-nest-mongoose';
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 
 import { IWatermarkService } from '../../watermark/contracts.js';
+import type { DbConfig } from '../../../config/contracts.js';
 
 import type { ChangeMaker } from '../contracts/change-maker.contracts.js';
 import type { WithWatermark } from '../contracts/protocol.contracts.js';
 import { extractResumeToken } from '../utils/extract-resume-token.js';
 import { StreamerShard } from '../entities/streamer-shard.entity.js';
 import { versionToLexi } from '../utils/lexi-version.js';
+import { TableMappingService, type TableMappingConfig } from './table-mapping.service.js';
 
 type ChangeStreamControllerError = {
     err: unknown;
@@ -45,6 +55,8 @@ export class ChangeSourceV0 {
     #changeStream?: ChangeStream<Document>;
 
     #publishedCollections: string[];
+    #tableMappingService: TableMappingService;
+    #tableMappingConfig: TableMappingConfig;
 
     #error?: ChangeStreamControllerError;
 
@@ -53,20 +65,41 @@ export class ChangeSourceV0 {
         conn: Connection,
         changeMaker: ChangeMaker,
         watermarkService: IWatermarkService,
-        publishedCollections: string[]
+        tableMappingService: TableMappingService,
+        dbConfig: DbConfig
     ) {
         this.#shard = shard;
         this.#watermarkService = watermarkService;
         this.#changeMaker = changeMaker;
-        this.#publishedCollections = publishedCollections;
+        this.#tableMappingService = tableMappingService;
         this.#conn = conn;
-        this.#pipeline = [
-            {
-                $match: {
-                    'ns.coll': { $in: publishedCollections }
+
+        // Support both new table mapping and legacy publish array
+        if (dbConfig.tables && Object.keys(dbConfig.tables).length > 0) {
+            this.#tableMappingConfig = { tables: dbConfig.tables };
+            this.#publishedCollections = this.#tableMappingService.getSourceCollections(this.#tableMappingConfig);
+            this.#pipeline = this.#tableMappingService.createChangeStreamPipeline(this.#tableMappingConfig);
+        } else if (dbConfig.publish && dbConfig.publish.length > 0) {
+            // Backward compatibility: convert legacy config to new format
+            this.#publishedCollections = dbConfig.publish;
+            this.#tableMappingConfig = {
+                tables: Object.fromEntries(
+                    dbConfig.publish.map(collection => [
+                        collection, // Use collection name as table name
+                        { source: collection } // No filter or projection
+                    ])
+                )
+            };
+            this.#pipeline = [
+                {
+                    $match: {
+                        'ns.coll': { $in: this.#publishedCollections }
+                    }
                 }
-            }
-        ];
+            ];
+        } else {
+            throw new Error('Either db.tables or db.publish must be configured');
+        }
     }
 
     //#region Public API
@@ -394,17 +427,26 @@ export class ChangeSourceV0 {
                 const colDocs = col.find({}, { session });
 
                 for await (const doc of colDocs) {
-                    const changes = this.#changeMaker.makeInsertChanges(WATERMARK_INITIAL_SYNC, {
-                        _id: WATERMARK_INITIAL_SYNC,
-                        fullDocument: doc,
-                        ns: {
-                            db: col.dbName,
-                            coll: col.name
-                        }
-                    });
+                    // Route each document to appropriate Zero tables based on mappings
+                    const tableMatches = this.#tableMappingService.getTableMatches(
+                        collName,
+                        doc,
+                        this.#tableMappingConfig
+                    );
 
-                    for (const change of changes) {
-                        yield change;
+                    for (const match of tableMatches) {
+                        const changes = this.#changeMaker.makeInsertChanges(WATERMARK_INITIAL_SYNC, {
+                            _id: WATERMARK_INITIAL_SYNC,
+                            fullDocument: match.document,
+                            ns: {
+                                db: col.dbName,
+                                coll: match.tableName // Use Zero table name instead of collection name
+                            }
+                        });
+
+                        for (const change of changes) {
+                            yield change;
+                        }
                     }
                 }
             }
@@ -426,20 +468,26 @@ export class ChangeSourceV0 {
         }
 
         try {
+            const allChanges: v0.ChangeStreamMessage[] = [];
+
             switch (doc.operationType) {
                 //#region CRUD
 
                 case 'insert':
-                    return this.#changeMaker.makeInsertChanges(watermark, doc, true);
+                    allChanges.push(...this.#makeInsertChanges(watermark, doc, true));
+                    break;
 
                 case 'update':
-                    return this.#changeMaker.makeUpdateChanges(watermark, doc, true);
+                    allChanges.push(...this.#makeUpdateChanges(watermark, doc, true));
+                    break;
 
                 case 'delete':
-                    return this.#changeMaker.makeDeleteChanges(watermark, doc, true);
+                    allChanges.push(...this.#makeDeleteChanges(watermark, doc, true));
+                    break;
 
                 case 'replace':
-                    return this.#changeMaker.makeReplaceChanges(watermark, doc, true);
+                    allChanges.push(...this.#makeReplaceChanges(watermark, doc, true));
+                    break;
 
                 //#endregion CRUD
 
@@ -542,6 +590,8 @@ export class ChangeSourceV0 {
                         `Unexpected change stream event type: ${(doc as any).operationType}`
                     );
             }
+
+            return allChanges;
         } catch (err) {
             this.#error = {
                 doc,
@@ -559,4 +609,160 @@ export class ChangeSourceV0 {
     }
 
     //#endregion Helpers - Change Stream Event Handlers
+
+    //#region Helpers - Table Mapping Change Generation
+
+    /**
+     * Creates insert changes for multiple Zero tables based on table mappings
+     */
+    #makeInsertChanges(watermark: string, doc: ChangeStreamInsertDocument, withTransaction = false): v0.ChangeStreamMessage[] {
+        if (!doc.fullDocument) {
+            this.#logger.warn('Insert change event missing fullDocument', { doc });
+            return [];
+        }
+
+        const collectionName = doc.ns.coll;
+        const tableMatches = this.#tableMappingService.getTableMatches(
+            collectionName,
+            doc.fullDocument,
+            this.#tableMappingConfig
+        );
+
+        const allChanges: v0.ChangeStreamMessage[] = [];
+
+        for (const match of tableMatches) {
+            const changes = this.#changeMaker.makeInsertChanges(
+                watermark,
+                {
+                    _id: doc._id,
+                    fullDocument: match.document,
+                    ns: {
+                        db: doc.ns.db,
+                        coll: match.tableName // Use Zero table name instead of collection name
+                    }
+                },
+                withTransaction
+            );
+            allChanges.push(...changes);
+        }
+
+        return allChanges;
+    }
+
+    /**
+     * Creates update changes for multiple Zero tables based on table mappings
+     */
+    #makeUpdateChanges(watermark: string, doc: ChangeStreamUpdateDocument, withTransaction = false): v0.ChangeStreamMessage[] {
+        if (!doc.fullDocument) {
+            this.#logger.warn('Update change event missing fullDocument', { doc });
+            return [];
+        }
+
+        const collectionName = doc.ns.coll;
+        const tableMatches = this.#tableMappingService.getTableMatches(
+            collectionName,
+            doc.fullDocument,
+            this.#tableMappingConfig
+        );
+
+        const allChanges: v0.ChangeStreamMessage[] = [];
+
+        for (const match of tableMatches) {
+            // Create a change event with the projected document for this table
+            const tableChangeDoc: ChangeStreamUpdateDocument = {
+                ...doc,
+                fullDocument: match.document,
+                ns: {
+                    db: doc.ns.db,
+                    coll: match.tableName // Use Zero table name instead of collection name
+                }
+            };
+
+            const changes = this.#changeMaker.makeUpdateChanges(
+                watermark,
+                tableChangeDoc,
+                withTransaction
+            );
+            allChanges.push(...changes);
+        }
+
+        return allChanges;
+    }
+
+    /**
+     * Creates delete changes for multiple Zero tables based on table mappings
+     */
+    #makeDeleteChanges(watermark: string, doc: ChangeStreamDeleteDocument, withTransaction = false): v0.ChangeStreamMessage[] {
+        const collectionName = doc.ns.coll;
+        
+        // For deletes, we need to generate delete events for all tables that could have contained this document
+        // Since we don't have the full document, we need to send delete to all tables from this collection
+        const affectedTables = Object.entries(this.#tableMappingConfig.tables)
+            .filter(([, mapping]) => mapping.source === collectionName)
+            .map(([tableName]) => tableName);
+
+        const allChanges: v0.ChangeStreamMessage[] = [];
+
+        for (const tableName of affectedTables) {
+            // Create a change event for this table
+            const tableChangeDoc: ChangeStreamDeleteDocument = {
+                ...doc,
+                ns: {
+                    db: doc.ns.db,
+                    coll: tableName // Use Zero table name instead of collection name
+                }
+            };
+
+            const changes = this.#changeMaker.makeDeleteChanges(
+                watermark,
+                tableChangeDoc,
+                withTransaction
+            );
+            allChanges.push(...changes);
+        }
+
+        return allChanges;
+    }
+
+    /**
+     * Creates replace changes for multiple Zero tables based on table mappings
+     */
+    #makeReplaceChanges(watermark: string, doc: ChangeStreamReplaceDocument, withTransaction = false): v0.ChangeStreamMessage[] {
+        if (!doc.fullDocument) {
+            this.#logger.warn('Replace change event missing fullDocument', { doc });
+            return [];
+        }
+
+        const collectionName = doc.ns.coll;
+        const tableMatches = this.#tableMappingService.getTableMatches(
+            collectionName,
+            doc.fullDocument,
+            this.#tableMappingConfig
+        );
+
+        const allChanges: v0.ChangeStreamMessage[] = [];
+
+        for (const match of tableMatches) {
+            // Create a change event with the projected document for this table
+            const tableChangeDoc: ChangeStreamReplaceDocument = {
+                ...doc,
+                fullDocument: match.document,
+                ns: {
+                    db: doc.ns.db,
+                    coll: match.tableName // Use Zero table name instead of collection name
+                }
+            };
+
+            const changes = this.#changeMaker.makeReplaceChanges(
+                watermark,
+                tableChangeDoc,
+                withTransaction
+            );
+            allChanges.push(...changes);
+        }
+
+        return allChanges;
+    }
+
+    //#endregion Helpers - Table Mapping Change Generation
 }

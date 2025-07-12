@@ -23,6 +23,27 @@ export type Publication = {
 };
 
 /**
+ * Configuration for mapping a Zero table to an upstream MongoDB collection
+ * with optional filtering and projection.
+ */
+export interface UpstreamTableMapping {
+    /**
+     * Upstream MongoDB collection identifier
+     */
+    source: string;
+
+    /**
+     * Optional MongoDB query filter to determine which records belong to this Zero table
+     */
+    filter?: object;
+
+    /**
+     * Optional MongoDB projection to transform record structure before streaming to Zero
+     */
+    projection?: object;
+}
+
+/**
  * Configuration interface for MongoDB database connection.
  */
 export interface DbConfig {
@@ -32,9 +53,18 @@ export interface DbConfig {
     uri: string;
 
     /**
-     * One or more collections to publish changes for to zero.
+     * Configuration for Zero schema tables mapped to upstream MongoDB collections.
+     * Each key is a Zero table name, each value defines the upstream mapping.
      */
-    publish: string[];
+    tables: {
+        [zeroTableName: string]: UpstreamTableMapping;
+    };
+
+    /**
+     * @deprecated Use `tables` instead. One or more collections to publish changes for to zero.
+     * This field is kept for backward compatibility.
+     */
+    publish?: string[];
 }
 
 /**
