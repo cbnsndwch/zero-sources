@@ -1,5 +1,69 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { discriminatedSchema } from '@zero-sources/zchat-contracts';
+
+// Helper function to extract discriminated union configurations from schema
+function extractTableConfigurations() {
+    const configurations: Record<string, any[]> = {};
+    
+    // Get all tables from the schema
+    const tables = discriminatedSchema.tables;
+    
+    // Group tables by their source collection
+    const sourceGroups: Record<string, any[]> = {};
+    
+    for (const table of tables) {
+        const tableName = (table as any).name;
+        const fromConfig = (table as any).from;
+        
+        if (fromConfig && typeof fromConfig === 'string') {
+            try {
+                const config = JSON.parse(fromConfig);
+                if (config.source && config.filter) {
+                    if (!sourceGroups[config.source]) {
+                        sourceGroups[config.source] = [];
+                    }
+                    sourceGroups[config.source].push({
+                        name: tableName,
+                        filter: config.filter,
+                        description: getTableDescription(tableName, config.filter)
+                    });
+                }
+            } catch (e) {
+                // Ignore non-JSON from configs (traditional tables)
+            }
+        }
+    }
+    
+    // Map source collections to readable names
+    const sourceNames: Record<string, string> = {
+        'rooms': 'fromRoomsCollection',
+        'messages': 'fromMessagesCollection',
+        'participants': 'fromParticipantsCollection'
+    };
+    
+    for (const [source, tables] of Object.entries(sourceGroups)) {
+        const readableName = sourceNames[source] || `from${source.charAt(0).toUpperCase() + source.slice(1)}Collection`;
+        configurations[readableName] = tables;
+    }
+    
+    return configurations;
+}
+
+function getTableDescription(tableName: string, filter: any): string {
+    const descriptions: Record<string, string> = {
+        'chats': 'Direct message rooms',
+        'groups': 'Private group rooms',
+        'channels': 'Public channel rooms',
+        'textMessages': 'Text-based messages',
+        'imageMessages': 'Image messages with metadata',
+        'systemMessages': 'System-generated messages for events',
+        'userParticipants': 'Human user participants',
+        'botParticipants': 'Bot participants with configuration'
+    };
+    
+    return descriptions[tableName] || `Table filtered by ${JSON.stringify(filter)}`;
+}
 
 // This controller demonstrates the discriminated union functionality
 @ApiTags('ZRocket Demo')
@@ -13,57 +77,13 @@ export class ZRocketController {
     })
     @ApiResponse({ status: 200, description: 'Demo information' })
     getDemoInfo() {
+        const tableConfigurations = extractTableConfigurations();
+        const totalTables = Object.values(tableConfigurations).reduce((sum, tables) => sum + tables.length, 0);
+        
         return {
             title: 'ZRocket - Discriminated Union Demo',
             description: 'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
-            tables: {
-                fromRoomsCollection: [
-                    {
-                        name: 'chats',
-                        filter: { t: 'd', archived: { $ne: true } },
-                        description: 'Direct message rooms'
-                    },
-                    {
-                        name: 'groups', 
-                        filter: { t: 'p', archived: { $ne: true } },
-                        description: 'Private group rooms'
-                    },
-                    {
-                        name: 'channels',
-                        filter: { t: 'c', archived: { $ne: true } },
-                        description: 'Public channel rooms'
-                    }
-                ],
-                fromMessagesCollection: [
-                    {
-                        name: 'textMessages',
-                        filter: { t: 'text', hidden: { $ne: true } },
-                        description: 'Text-based messages'
-                    },
-                    {
-                        name: 'imageMessages',
-                        filter: { t: 'image', hidden: { $ne: true } },
-                        description: 'Image messages with metadata'
-                    },
-                    {
-                        name: 'systemMessages',
-                        filter: { t: 'system' },
-                        description: 'System-generated messages for events'
-                    }
-                ],
-                fromParticipantsCollection: [
-                    {
-                        name: 'userParticipants',
-                        filter: { type: 'user' },
-                        description: 'Human user participants'
-                    },
-                    {
-                        name: 'botParticipants',
-                        filter: { type: 'bot' },
-                        description: 'Bot participants with configuration'
-                    }
-                ]
-            },
+            tables: tableConfigurations,
             features: [
                 'Real-time filtering: Documents are routed to appropriate Zero tables based on filter criteria',
                 'Projection support: Only relevant fields are synced to each table',
@@ -73,28 +93,34 @@ export class ZRocketController {
             endpoints: [
                 'GET /zrocket/demo-info - This information',
                 'POST /zrocket/seed-data - Seeds sample data for testing',
-                'GET /zrocket/collections/{collection} - View raw MongoDB collection data',
                 'GET /zrocket/tables - List all discriminated Zero tables'
-            ]
+            ],
+            metadata: {
+                totalTables,
+                sourceCollections: Object.keys(tableConfigurations).length,
+                generatedAt: new Date().toISOString()
+            }
         };
     }
 
     @Post('seed-data')
     @ApiOperation({
         summary: 'Seed sample data for the discriminated union demo',
-        description: 'Creates sample rooms, messages, participants, and users in MongoDB to demonstrate the discriminated union functionality'
+        description: 'Creates sample rooms, messages, participants, and users in MongoDB to demonstrate the discriminated union functionality. Optionally accepts custom seed data in the request body.'
     })
     @ApiResponse({ status: 201, description: 'Sample data seeded successfully' })
-    async seedSampleData() {
+    async seedSampleData(@Body() customData?: any) {
         // Import and run the seeder
         const { seedZRocketData } = await import('../zrocket-seeder.js');
         
         try {
-            await seedZRocketData();
+            // Pass custom data if provided, otherwise use default data
+            await seedZRocketData(undefined, customData);
             return {
                 success: true,
-                message: 'Sample data seeded successfully',
-                timestamp: new Date().toISOString()
+                message: customData ? 'Custom data seeded successfully' : 'Sample data seeded successfully',
+                timestamp: new Date().toISOString(),
+                dataSource: customData ? 'custom' : 'default'
             };
         } catch (error) {
             return {
@@ -106,28 +132,6 @@ export class ZRocketController {
         }
     }
 
-    @Get('collections/:collection')
-    @ApiOperation({
-        summary: 'View raw MongoDB collection data',
-        description: 'Returns the raw documents from a MongoDB collection to see the source data'
-    })
-    @ApiParam({ name: 'collection', description: 'Collection name (rooms, messages, participants, users)' })
-    @ApiQuery({ name: 'limit', required: false, description: 'Number of documents to return (default: 10)' })
-    @ApiResponse({ status: 200, description: 'Collection data' })
-    async getCollectionData(
-        @Param('collection') collection: string,
-        @Query('limit') limit: string = '10'
-    ) {
-        // This would need to be implemented with actual MongoDB connection
-        // For now, return a placeholder
-        return {
-            collection,
-            limit: parseInt(limit),
-            message: 'This endpoint would return raw MongoDB documents from the specified collection',
-            note: 'Implementation requires MongoDB connection in controller'
-        };
-    }
-
     @Get('tables')
     @ApiOperation({
         summary: 'List all discriminated Zero tables',
@@ -135,15 +139,38 @@ export class ZRocketController {
     })
     @ApiResponse({ status: 200, description: 'Zero tables information' })
     getZeroTables() {
+        const tableConfigurations = extractTableConfigurations();
+        const discriminatedTables: Record<string, string[]> = {};
+        const traditionalTables: string[] = [];
+        
+        // Extract discriminated tables by source
+        for (const [sourceName, tables] of Object.entries(tableConfigurations)) {
+            const sourceKey = sourceName.replace('from', '').replace('Collection', '').toLowerCase();
+            discriminatedTables[sourceKey] = tables.map(t => t.name);
+        }
+        
+        // Get traditional tables (non-discriminated)
+        const allTableNames = discriminatedSchema.tables.map(table => (table as any).name);
+        const discriminatedTableNames = new Set(Object.values(discriminatedTables).flat());
+        
+        for (const tableName of allTableNames) {
+            if (!discriminatedTableNames.has(tableName)) {
+                traditionalTables.push(tableName);
+            }
+        }
+        
+        const totalTables = allTableNames.length;
+        
         return {
-            discriminatedTables: {
-                rooms: ['chats', 'groups', 'channels'],
-                messages: ['textMessages', 'imageMessages', 'systemMessages'],
-                participants: ['userParticipants', 'botParticipants']
-            },
-            traditionalTables: ['users'],
-            totalTables: 8,
-            description: 'These tables are automatically created and synced based on discriminated union configurations'
+            discriminatedTables,
+            traditionalTables,
+            totalTables,
+            description: 'These tables are automatically created and synced based on discriminated union configurations',
+            metadata: {
+                discriminatedCount: Object.values(discriminatedTables).reduce((sum, tables) => sum + tables.length, 0),
+                traditionalCount: traditionalTables.length,
+                generatedAt: new Date().toISOString()
+            }
         };
     }
 }

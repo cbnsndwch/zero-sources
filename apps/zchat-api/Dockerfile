@@ -2,8 +2,9 @@
 # Use Node.js 22 with Alpine for smaller images
 FROM --platform=$BUILDPLATFORM node:22-alpine AS dependencies
 
-# Install pnpm globally
-RUN npm install -g pnpm@10.13.1
+# Install pnpm and tini for proper signal handling
+RUN npm install -g pnpm@10.13.1 && \
+    apk add --no-cache tini
 
 # Set working directory
 WORKDIR /app
@@ -28,8 +29,9 @@ RUN pnpm --filter=@cbnsndwch/zchat-api build
 # Production stage
 FROM node:22-alpine AS runtime
 
-# Install pnpm globally
-RUN npm install -g pnpm@10.13.1
+# Install pnpm and tini for proper signal handling
+RUN npm install -g pnpm@10.13.1 && \
+    apk add --no-cache tini
 
 # Set working directory
 WORKDIR /app
@@ -63,5 +65,6 @@ EXPOSE 8012
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node --eval "require('http').get('http://localhost:8012/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1))"
 
-# Start the application (ZRocket version)
+# Start the application (ZRocket version) with tini for proper signal handling
+ENTRYPOINT ["tini", "--"]
 CMD ["node", "apps/zchat-api/dist/zrocket-main.js"]

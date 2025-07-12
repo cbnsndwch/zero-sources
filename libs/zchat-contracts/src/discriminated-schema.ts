@@ -122,40 +122,6 @@ export const systemMessages = table('systemMessages')
     })
     .primaryKey('_id');
 
-// Participant tables using discriminated union configs
-export const userParticipants = table('userParticipants')
-    .from(JSON.stringify({
-        source: 'participants',
-        filter: { type: 'user' },
-        projection: { _id: 1, userId: 1, roomId: 1, role: 1, joinedAt: 1, lastReadAt: 1, 'notificationSettings.muted': 1 }
-    }))
-    .columns({
-        _id: string(),
-        userId: string(),
-        roomId: string(),
-        role: string(),
-        joinedAt: string(),
-        lastReadAt: string(),
-        muted: boolean().optional()
-    })
-    .primaryKey('_id');
-
-export const botParticipants = table('botParticipants')
-    .from(JSON.stringify({
-        source: 'participants',
-        filter: { type: 'bot' },
-        projection: { _id: 1, botId: 1, roomId: 1, role: 1, joinedAt: 1, config: 1 }
-    }))
-    .columns({
-        _id: string(),
-        botId: string(),
-        roomId: string(),
-        role: string(),
-        joinedAt: string(),
-        config: json<any>()
-    })
-    .primaryKey('_id');
-
 // Keep the original users table as-is for now
 export const users = table('users')
     .columns({
@@ -202,16 +168,6 @@ export const groupRelationships = relationships(groups, ({ one, many }) => ({
         sourceField: ['_id'],
         destSchema: systemMessages,
         destField: ['roomId']
-    }),
-    userParticipants: many({
-        sourceField: ['_id'],
-        destSchema: userParticipants,
-        destField: ['roomId']
-    }),
-    botParticipants: many({
-        sourceField: ['_id'],
-        destSchema: botParticipants,
-        destField: ['roomId']
     })
 }));
 
@@ -229,16 +185,6 @@ export const channelRelationships = relationships(channels, ({ one, many }) => (
     systemMessages: many({
         sourceField: ['_id'],
         destSchema: systemMessages,
-        destField: ['roomId']
-    }),
-    userParticipants: many({
-        sourceField: ['_id'],
-        destSchema: userParticipants,
-        destField: ['roomId']
-    }),
-    botParticipants: many({
-        sourceField: ['_id'],
-        destSchema: botParticipants,
         destField: ['roomId']
     })
 }));
@@ -297,54 +243,7 @@ export const systemMessageRelationships = relationships(systemMessages, ({ one }
     })
 }));
 
-export const userParticipantRelationships = relationships(userParticipants, ({ one }) => ({
-    user: one({
-        sourceField: ['userId'],
-        destSchema: users,
-        destField: ['_id']
-    }),
-    chat: one({
-        sourceField: ['roomId'],
-        destSchema: chats,
-        destField: ['_id']
-    }),
-    group: one({
-        sourceField: ['roomId'],
-        destSchema: groups,
-        destField: ['_id']
-    }),
-    channel: one({
-        sourceField: ['roomId'],
-        destSchema: channels,
-        destField: ['_id']
-    })
-}));
-
-export const botParticipantRelationships = relationships(botParticipants, ({ one }) => ({
-    chat: one({
-        sourceField: ['roomId'],
-        destSchema: chats,
-        destField: ['_id']
-    }),
-    group: one({
-        sourceField: ['roomId'],
-        destSchema: groups,
-        destField: ['_id']
-    }),
-    channel: one({
-        sourceField: ['roomId'],
-        destSchema: channels,
-        destField: ['_id']
-    })
-}));
-
-export const userRelationships = relationships(users, ({ many }) => ({
-    userParticipants: many({
-        sourceField: ['_id'],
-        destSchema: userParticipants,
-        destField: ['userId']
-    })
-}));
+export const userRelationships = relationships(users, ({ many }) => ({}));
 
 export type DiscriminatedSchema = typeof discriminatedSchema;
 
@@ -352,14 +251,12 @@ export const discriminatedSchema = createSchema({
     tables: [
         users,
         chats, groups, channels,
-        textMessages, imageMessages, systemMessages,
-        userParticipants, botParticipants
+        textMessages, imageMessages, systemMessages
     ],
     relationships: [
         userRelationships,
         chatRelationships, groupRelationships, channelRelationships,
-        textMessageRelationships, imageMessageRelationships, systemMessageRelationships,
-        userParticipantRelationships, botParticipantRelationships
+        textMessageRelationships, imageMessageRelationships, systemMessageRelationships
     ]
 });
 
@@ -418,23 +315,6 @@ export const discriminatedPermissions = definePermissions<JwtPayload, Discrimina
             }
         },
         systemMessages: {
-            row: {
-                select: ANYONE_CAN,
-                insert: NOBODY_CAN,
-                update: { preMutation: NOBODY_CAN },
-                delete: NOBODY_CAN
-            }
-        },
-        // Participant tables
-        userParticipants: {
-            row: {
-                select: ANYONE_CAN,
-                insert: NOBODY_CAN,
-                update: { preMutation: NOBODY_CAN },
-                delete: NOBODY_CAN
-            }
-        },
-        botParticipants: {
             row: {
                 select: ANYONE_CAN,
                 insert: NOBODY_CAN,

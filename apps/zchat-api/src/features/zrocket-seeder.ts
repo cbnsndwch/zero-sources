@@ -180,7 +180,7 @@ const sampleData = {
         {
             _id: new ObjectId(),
             type: 'user',
-            userId: 'alice',
+            userId: 'alice', // Will be updated to actual user ID
             roomId: '', // Will be set to actual room ID
             role: 'owner',
             joinedAt: new Date().toISOString(),
@@ -192,7 +192,7 @@ const sampleData = {
         {
             _id: new ObjectId(),
             type: 'user',
-            userId: 'bob',
+            userId: 'bob', // Will be updated to actual user ID
             roomId: '', // Will be set to actual room ID
             role: 'member',
             joinedAt: new Date().toISOString(),
@@ -217,8 +217,11 @@ const sampleData = {
     ]
 };
 
-export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27017/zrocket') {
+export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27017/zrocket', customData?: any) {
     const client = new MongoClient(mongoUri);
+    
+    // Use custom data if provided, otherwise use default sample data
+    const dataToSeed = customData || sampleData;
     
     try {
         await client.connect();
@@ -237,11 +240,11 @@ export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27
         console.log('Cleared existing data');
         
         // Insert users
-        const usersResult = await db.collection('users').insertMany(sampleData.users);
+        const usersResult = await db.collection('users').insertMany(dataToSeed.users);
         console.log(`Inserted ${usersResult.insertedCount} users`);
         
         // Insert rooms
-        const roomsResult = await db.collection('rooms').insertMany(sampleData.rooms);
+        const roomsResult = await db.collection('rooms').insertMany(dataToSeed.rooms);
         console.log(`Inserted ${roomsResult.insertedCount} rooms`);
         
         // Get room IDs for messages and participants
@@ -250,24 +253,33 @@ export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27
         const projectGroup = rooms.find(r => r.name === 'Project Alpha Team');
         const dmRoom = rooms.find(r => r.t === 'd' && r.usernames.includes('alice') && r.usernames.includes('bob'));
         
+        // Get user IDs for participants
+        const users = await db.collection('users').find({}).toArray();
+        const userIdMap = users.reduce((map, user) => {
+            map[user.username] = user._id.toString();
+            return map;
+        }, {} as Record<string, string>);
+        
         if (generalChannel && projectGroup && dmRoom) {
             // Update messages with room IDs
-            sampleData.messages[0].roomId = generalChannel._id.toString();
-            sampleData.messages[1].roomId = dmRoom._id.toString();
-            sampleData.messages[2].roomId = projectGroup._id.toString();
-            sampleData.messages[3].roomId = generalChannel._id.toString();
+            dataToSeed.messages[0].roomId = generalChannel._id.toString();
+            dataToSeed.messages[1].roomId = dmRoom._id.toString();
+            dataToSeed.messages[2].roomId = projectGroup._id.toString();
+            dataToSeed.messages[3].roomId = generalChannel._id.toString();
             
             // Insert messages
-            const messagesResult = await db.collection('messages').insertMany(sampleData.messages);
+            const messagesResult = await db.collection('messages').insertMany(dataToSeed.messages);
             console.log(`Inserted ${messagesResult.insertedCount} messages`);
             
-            // Update participants with room IDs
-            sampleData.participants[0].roomId = generalChannel._id.toString();
-            sampleData.participants[1].roomId = generalChannel._id.toString();
-            sampleData.participants[2].roomId = generalChannel._id.toString();
+            // Update participants with room IDs and user IDs
+            dataToSeed.participants[0].roomId = generalChannel._id.toString();
+            dataToSeed.participants[0].userId = userIdMap['alice'];
+            dataToSeed.participants[1].roomId = generalChannel._id.toString();
+            dataToSeed.participants[1].userId = userIdMap['bob'];
+            dataToSeed.participants[2].roomId = generalChannel._id.toString();
             
             // Insert participants
-            const participantsResult = await db.collection('participants').insertMany(sampleData.participants);
+            const participantsResult = await db.collection('participants').insertMany(dataToSeed.participants);
             console.log(`Inserted ${participantsResult.insertedCount} participants`);
         }
         

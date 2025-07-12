@@ -8,7 +8,8 @@ export default function ZRocketDemo() {
 
     useEffect(() => {
         // Fetch demo info when component mounts
-        fetch('http://localhost:8012/zrocket/demo-info')
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8012';
+        fetch(`${apiUrl}/zrocket/demo-info`)
             .then(res => res.json())
             .then(setDemoInfo)
             .catch(console.error);
@@ -18,7 +19,8 @@ export default function ZRocketDemo() {
         setLoading(true);
         setSeedStatus('Seeding data...');
         try {
-            const response = await fetch('http://localhost:8012/zrocket/seed-data', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8012';
+            const response = await fetch(`${apiUrl}/zrocket/seed-data`, {
                 method: 'POST'
             });
             const result = await response.json();
@@ -122,12 +124,12 @@ export default function ZRocketDemo() {
                         <p className="text-blue-800">
                             <strong>💡 Tip:</strong> Check the Swagger documentation at{' '}
                             <a 
-                                href="http://localhost:8012/api-docs" 
+                                href={`${import.meta.env.VITE_API_URL || 'http://localhost:8012'}/api-docs`}
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="underline hover:text-blue-600"
                             >
-                                http://localhost:8012/api-docs
+                                {import.meta.env.VITE_API_URL || 'http://localhost:8012'}/api-docs
                             </a>
                         </p>
                     </div>
