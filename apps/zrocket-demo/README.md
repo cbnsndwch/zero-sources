@@ -86,10 +86,9 @@ When the MongoDB change source processes document changes:
 ### Prerequisites
 
 - Node.js 22+
-- MongoDB running locally or connection string
 - Yarn 4+
 
-### Setup
+### Quick Demo (No MongoDB Required)
 
 1. **Install dependencies:**
    ```bash
@@ -101,12 +100,37 @@ When the MongoDB change source processes document changes:
    yarn build:libs
    ```
 
-3. **Start MongoDB** (if running locally):
+3. **Run the demo:**
+   ```bash
+   cd apps/zrocket-demo
+   PORT=8001 yarn demo
+   ```
+
+4. **Explore the API:**
+   ```bash
+   # Overview and concept
+   curl http://localhost:8001/zrocket
+
+   # Schema structure
+   curl http://localhost:8001/zrocket/schema
+
+   # Example queries
+   curl http://localhost:8001/zrocket/demo-queries
+
+   # Implementation details
+   curl http://localhost:8001/zrocket/implementation
+   ```
+
+### Full Demo with MongoDB (Optional)
+
+For the complete experience with data seeding:
+
+1. **Start MongoDB** (if running locally):
    ```bash
    mongod
    ```
 
-4. **Run the demo:**
+2. **Run with data seeding:**
    ```bash
    cd apps/zrocket-demo
    SEED_DATA=true yarn dev

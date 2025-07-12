@@ -195,7 +195,7 @@ If you’re not sure where to start, feel free to check the open issues or sugge
 Here are some of our future plans and directions:
 
 - **GitHub Actions**: Add workflows for CI (build, test, lint) and maybe automated Docker builds.
-- **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`.
+- **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`. **✅ ZRocket Demo** - A working demonstration of discriminated unions is available in [`apps/zrocket-demo/`](./apps/zrocket-demo/README.md).
 - **Docker Support**: Improve Docker image building processes (multi-stage builds, smaller images).
 - **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.
 - **Additional Change Source Implementations**: Based on community feedback or personal needs.
