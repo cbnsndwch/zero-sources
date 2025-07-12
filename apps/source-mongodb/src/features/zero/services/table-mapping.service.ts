@@ -184,6 +184,11 @@ export class TableMappingService {
                         return false;
                     }
                     break;
+                case '$not':
+                    if (fieldValue === opValue) {
+                        return false;
+                    }
+                    break;
                 case '$eq':
                     if (fieldValue !== opValue) {
                         return false;

@@ -212,84 +212,13 @@ export class ChangeSourceV0 {
      * then a COMMIT message that includes the replicaVersion watermark.
      */
     initialSync$(): Observable<v0.ChangeStreamMessage> {
-        // TODO: move schema generation to a separate method
         const createTableMessages: v0.ChangeStreamMessage[] = [
             // HACK: the custom change source implementation still expects these
             // tables to exist in the upstream DB
             ...this.#changeMaker.makeZeroRequiredUpstreamTablesChanges(this.#shard._id),
 
-            // create tables in replica
-            ...this.#changeMaker.makeCreateTableChanges({
-                schema: 'public',
-                name: 'user',
-                primaryKey: ['_id'],
-                columns: {
-                    _id: {
-                        pos: 1,
-                        dataType: 'character',
-                        notNull: true
-                    },
-                    name: {
-                        pos: 2,
-                        dataType: 'varchar',
-                        notNull: true
-                    },
-                    partner: {
-                        pos: 3,
-                        dataType: 'boolean',
-                        notNull: true
-                    }
-                }
-            }),
-            ...this.#changeMaker.makeCreateTableChanges({
-                schema: 'public',
-                name: 'medium',
-                primaryKey: ['_id'],
-                columns: {
-                    _id: {
-                        pos: 1,
-                        dataType: 'character',
-                        notNull: true
-                    },
-                    name: {
-                        pos: 2,
-                        dataType: 'varchar',
-                        notNull: true
-                    }
-                }
-            }),
-            ...this.#changeMaker.makeCreateTableChanges({
-                schema: 'public',
-                name: 'message',
-                primaryKey: ['_id'],
-                columns: {
-                    _id: {
-                        pos: 1,
-                        dataType: 'character',
-                        notNull: true
-                    },
-                    senderID: {
-                        pos: 2,
-                        dataType: 'character',
-                        notNull: true
-                    },
-                    mediumID: {
-                        pos: 3,
-                        dataType: 'character',
-                        notNull: true
-                    },
-                    body: {
-                        pos: 4,
-                        dataType: 'text',
-                        notNull: true
-                    },
-                    timestamp: {
-                        pos: 5,
-                        dataType: 'integer',
-                        notNull: true
-                    }
-                }
-            })
+            // Create tables dynamically based on configuration
+            ...this.#createDynamicTableSchemas()
         ];
 
         // first, signal the beginning of the snapshot sync
@@ -765,4 +694,41 @@ export class ChangeSourceV0 {
     }
 
     //#endregion Helpers - Table Mapping Change Generation
+
+    //#region Helpers - Dynamic Schema Generation
+
+    /**
+     * Creates table schema definitions for all configured Zero tables.
+     * Since MongoDB is schemaless, we create a flexible schema that can accommodate
+     * most document structures.
+     */
+    #createDynamicTableSchemas(): v0.ChangeStreamMessage[] {
+        const createTableMessages: v0.ChangeStreamMessage[] = [];
+
+        for (const tableName of Object.keys(this.#tableMappingConfig.tables)) {
+            // Create a basic table schema that can accommodate most MongoDB documents
+            // For production use, you might want to analyze sample documents to infer better schemas
+            const tableSchema = {
+                schema: 'public',
+                name: tableName,
+                primaryKey: ['_id'],
+                columns: {
+                    _id: {
+                        pos: 1,
+                        dataType: 'varchar', // MongoDB ObjectIds are strings
+                        notNull: true
+                    }
+                    // Note: Additional columns will be dynamically handled by Zero's schema evolution
+                    // MongoDB documents can have varying structures, so we let Zero handle
+                    // the dynamic addition of columns as it encounters new fields
+                }
+            };
+
+            createTableMessages.push(...this.#changeMaker.makeCreateTableChanges(tableSchema));
+        }
+
+        return createTableMessages;
+    }
+
+    //#endregion Helpers - Dynamic Schema Generation
 }
