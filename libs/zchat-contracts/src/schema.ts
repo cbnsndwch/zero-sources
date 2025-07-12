@@ -13,6 +13,13 @@ import { rooms, roomRelationships } from './rooms/index.js';
 import { users, userRelationships } from './users/index.js';
 // import { ROLE_SUPER_ADMIN } from './roles/index.js';
 
+// Export both the original and the new discriminated schema
+export { 
+    discriminatedSchema, 
+    discriminatedPermissions, 
+    type DiscriminatedSchema 
+} from './discriminated-schema.js';
+
 export type Schema = typeof schema;
 
 export const schema = createSchema({
