@@ -3,10 +3,18 @@
     "version": "0.0.1",
     "type": "module",
     "private": true,
+    "files": [
+        "."
+    ],
     "exports": {
-        "./base": "./base.js",
-        "./next-js": "./next.js",
-        "./react-internal": "./react-internal.js"
+        "./base": {
+            "import": "./base.js",
+            "types": "./base.d.ts"
+        },
+        "./react-internal": {
+            "import": "./react-internal.js",
+            "types": "./react-internal.d.ts"
+        }
     },
     "devDependencies": {
         "@eslint/js": "^9.31.0",

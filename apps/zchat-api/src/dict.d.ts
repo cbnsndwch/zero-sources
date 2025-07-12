@@ -1,8 +1,3 @@
- 
-declare global {
-    interface Dict<T = any> {
-        [key: string]: T;
-    }
+export interface Dict<T = any> {
+    [key: string]: T;
 }
-
-export {};

@@ -3,6 +3,7 @@
     "description": "A Zero change source for MongoDB/Mongoose",
     "version": "0.0.1",
     "license": "MIT",
+    "type": "module",
     "private": true,
     "author": {
         "name": "Sergio Leon",
