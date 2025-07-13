@@ -191,34 +191,50 @@ jobs:
           build-args: |
             BUILDPLATFORM=linux/arm64
 
-  deploy:
+  # deploy:
+  #   needs: [changes, build-api, build-frontend]
+  #   if: always() && (needs.build-api.result == 'success' || needs.build-frontend.result == 'success' || github.event.inputs.force_deploy == 'true')
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Trigger Portainer stack redeploy
+  #       if: github.ref == 'refs/heads/main' && (secrets.PORTAINER_WEBHOOK_URL != '' && secrets.PORTAINER_WEBHOOK_TOKEN != '')
+  #       run: |
+  #         curl -X POST \
+  #           -H "Content-Type: application/json" \
+  #           -H "Authorization: Bearer ${{ secrets.PORTAINER_WEBHOOK_TOKEN }}" \
+  #           -d '{"branch": "main", "force": true}' \
+  #           "${{ secrets.PORTAINER_WEBHOOK_URL }}"
+
+  #     - name: Deployment status
+  #       run: |
+  #         echo "✅ Deployment workflow completed"
+  #         if [[ "${{ needs.build-api.result }}" == "success" ]]; then
+  #           echo "🐳 API Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_API }}:latest"
+  #         fi
+  #         if [[ "${{ needs.build-frontend.result }}" == "success" ]]; then
+  #           echo "🌐 Frontend Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_FRONTEND }}:latest"
+  #         fi
+  #         if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+  #           echo "📊 Production stack deployment triggered via Portainer webhook"
+  #         else
+  #           echo "📋 Development build completed - no deployment triggered"
+  #         fi
+
+  build-status:
     needs: [changes, build-api, build-frontend]
     if: always() && (needs.build-api.result == 'success' || needs.build-frontend.result == 'success' || github.event.inputs.force_deploy == 'true')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Trigger Portainer stack redeploy
-        if: github.ref == 'refs/heads/main' && (secrets.PORTAINER_WEBHOOK_URL != '' && secrets.PORTAINER_WEBHOOK_TOKEN != '')
+      - name: Build status summary
         run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.PORTAINER_WEBHOOK_TOKEN }}" \
-            -d '{"branch": "main", "force": true}' \
-            "${{ secrets.PORTAINER_WEBHOOK_URL }}"
-
-      - name: Deployment status
-        run: |
-          echo "✅ Deployment workflow completed"
+          echo "✅ Build workflow completed"
           if [[ "${{ needs.build-api.result }}" == "success" ]]; then
             echo "🐳 API Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_API }}:latest"
           fi
           if [[ "${{ needs.build-frontend.result }}" == "success" ]]; then
             echo "🌐 Frontend Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_FRONTEND }}:latest"
           fi
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "📊 Production stack deployment triggered via Portainer webhook"
-          else
-            echo "📋 Development build completed - no deployment triggered"
-          fi
+          echo "📋 Images built successfully - deployment disabled by design"
