@@ -2,22 +2,74 @@
 
 ## Setting the stage
 
-You and I are creating and maintaining open source Typescript packages and apps that extend Rociorp's Zero beyond its original PostgresDB focus. We are using the following stack:
+You and I are creating and maintaining open source TypeScript packages and apps that extend Rocicorp's Zero beyond its original PostgreSQL focus. We are using the following stack:
 
-- Yarn v4 with node-modules linker
-- Turborepo for monorepo management
-- Typescript for type safety
-- Vitest for testing
-- React + React Router for the frontend
-- NestJS + Express = ws for the backend
-- MongoDB as our main data store
+- **pnpm** (v10+) with workspaces for monorepo management
+- **Turborepo** for caching and parallel task execution
+- **TypeScript** for type safety
+- **Vitest** for testing
+- **React Router 7** for the frontend (with SSR support)
+- **NestJS** with WebSockets for the backend
+- **MongoDB** as our main data store with discriminated union change sources
+
+## Repository Structure
+
+Our monorepo contains:
+
+### Apps (`apps/`)
+- **`zrocket`**: Unified chat application (NestJS + React Router 7) showcasing discriminated union tables
+- **`source-mongodb-server`**: General-purpose MongoDB change source server
+
+### Libraries (`libs/`)
+- **`zero-contracts`**: Common TypeScript contracts and utilities for Zero
+- **`zchat-contracts`**: Zero schemas for ZRocket demo (both traditional and discriminated)
+- **`zero-source-mongodb`**: MongoDB change source implementation with discriminated union support
+- **`zero-nest-mongoose`**: MongoDB integration utilities for NestJS applications
+- **`zero-watermark-zqlite`**: Utilities for Zero watermarks with SQLite
+- **`zero-watermark-nats-kv`**: NATS KV watermark storage implementation
+- **`eslint-config`**: Shared ESLint configuration
+- **`tsconfig`**: Shared TypeScript configurations
 
 ## Custom Change Sources
 
-We're starting with MongoDB as a custom change source. In the future we will add:
+We focus on **MongoDB discriminated union change sources** that allow multiple Zero tables to be derived from single MongoDB collections using filter-based discrimination. This solves the limitation of traditional 1:1 mapping between Zero schema tables and upstream data entities.
 
-- Stripe (API for initial sync, webhooks for updates)
-- GoHighLevel (webhooks for updates) (API Docs are here: <https://highlevel.stoplight.io/docs/integrations/0443d7d1a4bd0-overview>)
+### Discriminated Union Architecture
+
+**Core Concept**: Multiple Zero tables can map to the same upstream MongoDB collection, with documents routed to appropriate tables based on filter criteria and optional field projections.
+
+**Key Components:**
+1. **Entity Mapping**: Multiple Zero schema tables → Single MongoDB collection
+2. **Filter-Based Routing**: Documents filtered by criteria (e.g., `type`, `status` fields)
+3. **Field Projection**: Only relevant fields synced to each Zero table
+4. **Real-time Change Routing**: MongoDB change streams route updates to appropriate Zero tables
+5. **Single Change Stream**: One change stream per collection, not per Zero table
+
+**Configuration Pattern:**
+```typescript
+interface UpstreamTableMapping {
+  source: string;              // MongoDB collection name
+  filter?: object;             // MongoDB filter query
+  projection?: object;         // Field projection specification
+}
+```
+
+**ZRocket Demo Implementation:**
+- `rooms` collection → `chats`, `groups`, `channels` (filtered by `t` field)
+- `messages` collection → `textMessages`, `imageMessages`, `systemMessages` (filtered by `t` field) 
+- `participants` collection → `userParticipants`, `botParticipants` (filtered by `type` field)
+- `users` collection → `users` (traditional 1:1 mapping)
+
+**Future planned integrations:**
+- **Stripe**: API-based initial sync with webhook support for real-time updates
+- **GoHighLevel**: Webhook-based change source using their comprehensive API ([API Documentation](https://highlevel.stoplight.io/docs/integrations/0443d7d1a4bd0-overview))
+
+### Technical Benefits
+1. **Flexibility**: Support complex upstream data structures across multiple source types
+2. **Performance**: Reduce data transfer through projections and filtering at source
+3. **Security**: Apply data access controls at the change source level
+4. **Maintainability**: Keep upstream schemas flexible while providing clean Zero interfaces
+5. **Scalability**: Handle large datasets by filtering before streaming to Zero
 
 ## Gaining efficiency
 
@@ -25,6 +77,23 @@ In order to move quickly and efficiently, we will use a the list of short comman
 
 - NestJS entity class validation annotations: when I write the `/validations` slash command, you will edit the entity class to add `class-validator` annotations to the entity class properties
 - Generating Zero Schemas: when I write the `/zschema` slash command, you will generate a Zero schema for the entity class. To do so, you will reference the entity class properties and the `class-validator` annotations on the entity's fields, as well as the `@Schema` decorator on the entity class itself, which should contain the name of the collection. You can find documentation for Zero schemas below.
+
+**For discriminated union tables**, use the `.from()` modifier with serialized JSON configuration:
+```typescript
+const chats = table('chats')
+  .from(JSON.stringify({
+    source: 'rooms',
+    filter: { type: 'd', isArchived: false },
+    projection: { _id: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
+  }))
+  .columns({
+    id: string(),
+    participantIds: json<string[]>(),
+    createdAt: string(),
+    lastMessageAt: string().optional()
+  })
+  .primaryKey('id');
+```
 
 ## Zero Schemas
 
@@ -218,7 +287,7 @@ const issueRelationships = relationships(issue, ({ many }) => ({
 ```
 
 <Note>
-  Currently only two levels of chaining are currently supported for `relationships`.
+  Only two levels of chaining are currently supported for `relationships`.
   See https://bugs.rocicorp.dev/issue/3454.
 </Note>
 
