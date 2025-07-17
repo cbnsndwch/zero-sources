@@ -13,38 +13,29 @@
 3. [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
-    - [Global Scripts Overview](#global-scripts-overview)
+    - [Scripts Overview](#scripts-overview)
 4. [Usage](#usage)
     - [Libraries](#libraries-libs)
     - [Custom Change Sources](#custom-change-sources-apps)
-5. [Running the ZRocket Demo Locally](#running-the-zrocket-demo-locally)
-    - [Architecture Overview](#architecture-overview)
-    - [Quick Start](#quick-start)
-    - [Available Endpoints](#available-endpoints)
-    - [Testing the Implementation](#testing-the-implementation)
-    - [Development Scripts](#development-scripts)
-    - [Troubleshooting](#troubleshooting)
-    - [Monitoring Changes](#monitoring-changes)
-6. [Development](#development)
+5. [Development](#development)
     - [Running the Project Locally](#running-the-project-locally)
     - [Build Process](#build-process)
     - [Testing](#testing)
-    - [Code Quality](#code-quality)
-7. [Versioning & Releases](#versioning--releases)
-8. [Contributing](#contributing)
-9. [Roadmap & Future Plans](#roadmap--future-plans)
-10. [License](#license)
-11. [Acknowledgments](#acknowledgments)
+6. [Versioning & Releases](#versioning--releases)
+7. [Contributing](#contributing)
+8. [Roadmap & Future Plans](#roadmap--future-plans)
+9. [License](#license)
+10. [Acknowledgments](#acknowledgments)
 
 ---
 
 ## Introduction
 
-This monorepo hosts various **utilities** and **custom change source** implementations designed to integrate with [`@rocicorp/zero`](https://github.com/rocicorp/zero). The primary goal is to provide building blocks and ready-to-use change sources for developers looking to extend or customize Zero's caching and synchronization features.
+This monorepo hosts various **utilities** and **custom change source** implementations designed to integrate with [`@rocicorp/zero`](https://github.com/rocicorp/zero). The primary goal is to provide building blocks and ready-to-use change sources for developers looking to extend or customize Zero’s caching and synchronization features.
 
 ### Key Points
 
-- **Tools:** pnpm Workspaces + Turborepo for streamlined development.
+- **Tools:** Yarn v4 Workspaces + Turborepo for streamlined development.
 - **Tech Stack:** TypeScript code running on Node.js v22+ (Deno + Bun support pending community interest).
 - **Framework:** [NestJS] for custom change source implementations in the `apps/` folder.
 - **Deployment:** Custom change sources can be containerized via Docker.
@@ -56,32 +47,27 @@ This monorepo hosts various **utilities** and **custom change source** implement
 
 ## Repository Structure
 
-Here is an overview of the repository layout. We use pnpm Workspaces to manage multiple packages (both **libraries** and **apps**), and Turborepo for caching and running tasks in parallel.
+Here is an overview of the repository layout. We use Yarn Workspaces to manage multiple packages (both **libraries** and **apps**), and Turborepo for caching and running tasks in parallel.
 
 ```shell
 .
 ├── apps/
-│   ├── source-mongodb-server/     # zero change source for MongoDB
-│   ├── zchat-api/                 # ZRocket demo API (discriminated unions)
-│   ├── zchat/                     # ZRocket demo frontend
-│   └── todo-example/              # example Todo app with Zero + MongoDB
+│   ├── source-mongoose/     # zero change source for MongoDB/Mongoose
+│   └── ...                  # (TODO) other custom change sources
 ├── libs/
-│   ├── eslint-config/             # shared ESLint config
-│   ├── tsconfig/                  # shared TSConfig
-│   ├── zero/                      # re-export of select parts of @rocicorp/zero in CommonJS format
-│   ├── zero-contracts/            # TypeScript contracts and utilities for Zero
-│   ├── zchat-contracts/           # Zero schemas for ZRocket demo
-│   ├── zero-source-mongodb/       # MongoDB change source with discriminated unions
-│   └── zero-watermark-zqlite/     # utilities for Zero watermarks with ZQLite
-├── LICENSE.md                     # license file
-├── README.md                      # this README file
-└── ...                            # other files
+│   ├── eslint-config/       # shared ESLint config
+│   ├── tsconfig/            # shared TSConfig
+│   ├── zero/                # re-export of select parts of @rocicorp/zero in CommonJS format
+│   └── zero-nest-mongoose/  # utilities to generate zero schemas from @nestjs/mongoose entities
+├── LICENSE.md               # license file
+├── README.md                # this README file
+└── ...                      # other files
 ```
 
 ### Apps Folder (`apps/`)
 
 - Contains **custom change source implementations** for `@rocicorp/zero`.
-- Typically built with [NestJS](https://nestjs.com/) unless otherwise noted in the app's README.
+- Typically built with [NestJS](https://nestjs.com/) unless otherwise noted in the app’s README.
 - Meant to be deployable as Docker containers (but may support other deployment strategies in the future).
 
 ### Libs Folder (`libs/`)
@@ -117,7 +103,7 @@ Here is an overview of the repository layout. We use pnpm Workspaces to manage m
     pnpm build:libs
     ```
 
-    This will bootstrap all the workspace packages and install each package's dependencies.
+    This will bootstrap all the workspace packages and install each package’s dependencies.
 
 ### Global Scripts Overview
 
@@ -138,29 +124,13 @@ You can also navigate into specific packages and run scripts locally, but using 
 
 ### Libraries (`libs/`)
 
-The **libraries** in this monorepo provide reusable utilities for Zero applications:
+TDB
 
-- **`@cbnsndwch/zero-contracts`**: TypeScript contracts and utilities for Zero
-- **`@cbnsndwch/zchat-contracts`**: Zero schemas for the ZRocket demo (both traditional and discriminated)
-- **`@cbnsndwch/zero-source-mongodb`**: MongoDB change source implementation with discriminated union support
-- **`@cbnsndwch/zero-watermark-zqlite`**: Utilities for Zero watermarks with ZQLite
-
-Each library is published as a separate npm package and can be used independently in other Zero projects.
-
-> **Note:** Since these libraries are intended to complement `@rocicorp/zero`, check each library's individual `README.md` for usage details (e.g., required config or environment variables).
+> **Note:** Since these libraries are intended to complement `@rocicorp/zero`, check each library’s individual `README.md` for usage details (e.g., required config or environment variables).
 
 ### Custom Change Sources (`apps/`)
 
-The **apps** contain complete Zero custom change source implementations:
-
-- **`apps/zchat-api`**: ZRocket demo API showcasing discriminated union tables with MongoDB
-- **`apps/zchat`**: React frontend for the ZRocket demo
-- **`apps/source-mongodb-server`**: General-purpose MongoDB change source server
-- **`apps/todo-example`**: Example Todo application using Zero with MongoDB
-
-Each app can be deployed as a Docker container and provides a complete working example of Zero integration patterns.
-
----
+TDB
 
 ## Running the ZRocket Demo Locally
 
@@ -341,66 +311,37 @@ Once running, you can monitor real-time changes by:
 
 The discriminated union system will automatically route documents to appropriate Zero tables based on their filter criteria, demonstrating the power of this approach for clean client APIs with complex backend data structures.
 
----
-
 ## Development
 
-This section describes general development practices in the monorepo.
+This section describes how to develop in the monorepo.
 
 ### Running the Project Locally
 
-See the comprehensive **"Running the ZRocket Demo Locally"** section above for detailed local development instructions.
+TDB
 
 ### Build Process
 
-- **Root Build**: Compiles all TypeScript packages, outputting them into each package's designated `dist` folder:
+- **Root Build**: Compiles all TypeScript packages, outputting them into each package’s designated `dist` folder.
 
-```bash
-pnpm install
-pnpm build:all
+```shell
+yarn && yarn build
 ```
 
 - **Per Package**: You can also build individual packages:
 
 ```bash
-pnpm build:libs  # Build only libraries
+yarn && yarn build --filter apps/...
 ```
 
-Or use Turbo's filtering:
+OR
 
 ```bash
-pnpm build --filter "./apps/*"   # Build only apps
-pnpm build --filter "./libs/*"   # Build only libraries
+yarn && yarn build --filter libs/...
 ```
 
 ### Testing
 
-Run tests across all packages:
-
-```bash
-pnpm test
-```
-
-Run tests with coverage:
-
-```bash
-cd libs/zero-source-mongodb
-pnpm test:coverage
-```
-
-### Code Quality
-
-Format code across all packages:
-
-```bash
-pnpm format
-```
-
-Lint code across all packages:
-
-```bash
-pnpm lint
-```
+TDB
 
 ---
 
@@ -412,22 +353,22 @@ This repository follows **Semantic Versioning** (SemVer). Each package in this m
 2. **MINOR** – add functionality in a backward-compatible manner.
 3. **PATCH** – backward-compatible bug fixes.
 
-> Once we set up an automated release process (e.g., using changesets or a similar tool), we'll update this section with details on how to bump versions and publish new releases.
+> Once we set up an automated release process (e.g., using changesets or a similar tool), we’ll update this section with details on how to bump versions and publish new releases.
 
 ---
 
 ## Contributing
 
-Contributions are **welcome**! I'd love your help in making this project better.
+Contributions are **welcome**! I’d love your help in making this project better.
 
 1. **Fork** the repository
 2. **Create** a feature or bugfix branch
 3. **Commit** your changes with clear commit messages
 4. **Open** a Pull Request (PR)
 
-I'll review your PR as soon as possible. For major changes, please open an issue or ping `@cbnsndwch` in the Rocicorp Discord server first to discuss the proposed modifications.
+I’ll review your PR as soon as possible. For major changes, please open an issue or ping `@cbnsndwch` in the Rocicorp Discord server first to discuss the proposed modifications.
 
-If you're not sure where to start, feel free to check the open issues or suggest new ideas!
+If you’re not sure where to start, feel free to check the open issues or suggest new ideas!
 
 ---
 
@@ -441,7 +382,7 @@ Here are some of our future plans and directions:
 - **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.
 - **Additional Change Source Implementations**: Based on community feedback or personal needs.
 
-> Don't see something you need? [Open an issue] or [Join the discussion] to suggest improvements.
+> Don’t see something you need? [Open an issue] or [Join the discussion] to suggest improvements.
 
 ---
 
@@ -455,7 +396,7 @@ This project is licensed under the **[MIT License](./LICENSE.md)**. See the lice
 
 - Thanks to [@rocicorp/zero](https://github.com/rocicorp/zero) for providing the base technology this repo extends. If you're new to Zero, check out [Zero's Documentation] for a great introduction.
 - [NestJS](https://nestjs.com/) – for powering our server-side apps.
-- The **community** – your feedback and contributions help shape this project's future.
+- The **community** – your feedback and contributions help shape this project’s future.
 
 ---
 

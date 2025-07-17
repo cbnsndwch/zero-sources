@@ -5,13 +5,36 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import type { AppConfig, DbConfig } from '../../config/contracts.js';
 
 @ApiTags('health')
-@Controller('healthcheck')
+@Controller()
 export class HealthzController {
     constructor(private readonly configService: ConfigService<AppConfig>) {}
 
-    @Get()
+    @Get('health')
     @ApiOperation({
-        summary: 'Health check endpoint',
+        summary: 'Simple health check',
+        description: 'Returns OK status for Docker health checks'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Application is healthy',
+        schema: {
+            type: 'object',
+            properties: {
+                status: { type: 'string', example: 'ok' },
+                timestamp: { type: 'string', format: 'date-time' }
+            }
+        }
+    })
+    async health() {
+        return {
+            status: 'ok',
+            timestamp: new Date().toISOString()
+        };
+    }
+
+    @Get('healthcheck')
+    @ApiOperation({
+        summary: 'Detailed health check endpoint',
         description:
             'Returns database connection information to verify system health'
     })
