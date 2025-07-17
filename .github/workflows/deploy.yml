@@ -226,19 +226,19 @@ jobs:
   #         else
   #           echo "📋 Development build completed - no deployment triggered"
   #         fi
-
-  build-status:
-    needs: [changes, build-api, build-frontend]
-    if: always() && (needs.build-api.result == 'success' || needs.build-frontend.result == 'success' || github.event.inputs.force_deploy == 'true')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build status summary
-        run: |
-          echo "✅ Build workflow completed"
-          if [[ "${{ needs.build-api.result }}" == "success" ]]; then
-            echo "🐳 API Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_API }}:latest"
-          fi
-          if [[ "${{ needs.build-frontend.result }}" == "success" ]]; then
-            echo "🌐 Frontend Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_FRONTEND }}:latest"
-          fi
-          echo "📋 Images built successfully - deployment disabled by design"
+  # 
+  # build-status:
+  #   needs: [changes, build-api, build-frontend]
+  #   if: always() && (needs.build-api.result == 'success' || needs.build-frontend.result == 'success' || github.event.inputs.force_deploy == 'true')
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Build status summary
+  #       run: |
+  #         echo "✅ Build workflow completed"
+  #         if [[ "${{ needs.build-api.result }}" == "success" ]]; then
+  #           echo "🐳 API Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_API }}:latest"
+  #         fi
+  #         if [[ "${{ needs.build-frontend.result }}" == "success" ]]; then
+  #           echo "🌐 Frontend Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_FRONTEND }}:latest"
+  #         fi
+  #         echo "📋 Images built successfully - deployment disabled by design"
