@@ -1,11 +1,13 @@
+import 'dotenv/config';
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { WsAdapter } from '@nestjs/platform-ws';
-import { NestExpressApplication } from '@nestjs/platform-express';
+
+import { corsDelegate } from '@cbnsndwch/zero-contracts';
 
 import { AppModule } from './app.module.js';
-
-import { corsDelegate } from './utils/cors.js';
 import { setupSwaggerUi } from './utils/oas.js';
 import { printStartupBanner } from './utils/startup.js';
 

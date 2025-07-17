@@ -62,13 +62,10 @@ Here is an overview of the repository layout. We use pnpm Workspaces to manage m
 .
 ├── apps/
 │   ├── source-mongodb-server/     # zero change source for MongoDB
-│   ├── zchat-api/                 # ZRocket demo API (discriminated unions)
-│   ├── zchat/                     # ZRocket demo frontend
-│   └── todo-example/              # example Todo app with Zero + MongoDB
+│   └── zrocket/                   # unified ZRocket demo (NestJS + React Router 7)
 ├── libs/
 │   ├── eslint-config/             # shared ESLint config
 │   ├── tsconfig/                  # shared TSConfig
-│   ├── zero/                      # re-export of select parts of @rocicorp/zero in CommonJS format
 │   ├── zero-contracts/            # TypeScript contracts and utilities for Zero
 │   ├── zchat-contracts/           # Zero schemas for ZRocket demo
 │   ├── zero-source-mongodb/       # MongoDB change source with discriminated unions
@@ -153,10 +150,8 @@ Each library is published as a separate npm package and can be used independentl
 
 The **apps** contain complete Zero custom change source implementations:
 
-- **`apps/zchat-api`**: ZRocket demo API showcasing discriminated union tables with MongoDB
-- **`apps/zchat`**: React frontend for the ZRocket demo
+- **`apps/zrocket`**: Unified ZRocket demo showcasing discriminated union tables with MongoDB, built with NestJS + React Router 7
 - **`apps/source-mongodb-server`**: General-purpose MongoDB change source server
-- **`apps/todo-example`**: Example Todo application using Zero with MongoDB
 
 Each app can be deployed as a Docker container and provides a complete working example of Zero integration patterns.
 
@@ -222,25 +217,23 @@ pnpm build:libs
 
 **Terminal 1: Start Zero Cache with Discriminated Schema**
 ```bash
-cd apps/zchat-api
-pnpm run dev:zrocket:zero
+cd apps/zrocket
+pnpm run dev:zero
 ```
 
 Wait for Zero Cache to start (you'll see "Zero cache server listening on :4848")
 
-**Terminal 2: Start ZRocket API Server**
+**Terminal 2: Start ZRocket Unified App**
 ```bash
-cd apps/zchat-api
-pnpm run dev:zrocket
+cd apps/zrocket
+pnpm run dev
 ```
 
-Wait for the API server to start (you'll see "Application is running on: http://[::1]:8012")
+This starts both the NestJS API server and React Router 7 frontend in development mode.
 
-**Terminal 3: Start Frontend (Optional)**
-```bash
-cd apps/zchat
-VITE_API_URL=http://localhost:8012 pnpm run dev
-```
+Wait for both servers to start:
+- API server: "Application is running on: http://[::1]:8012"  
+- Frontend dev server: "Local: http://localhost:3000"
 
 #### 5. Seed Sample Data
 
@@ -264,7 +257,10 @@ curl http://localhost:8012/zrocket/demo-info | jq
 Open http://localhost:8012/api-docs in your browser
 
 **Access Frontend Demo:**
-Open http://localhost:5173 in your browser (if you started the frontend)
+Open http://localhost:3000 in your browser
+
+**Access API directly:**
+Open http://localhost:8012 in your browser
 
 ### 🔍 Available Endpoints
 
@@ -297,17 +293,13 @@ From the repository root:
 - **`pnpm lint`**: Lint all packages
 - **`pnpm test`**: Run all tests
 
-From `apps/zchat-api`:
+From `apps/zrocket`:
 
-- **`pnpm run dev:zrocket`**: Start ZRocket API in development mode
-- **`pnpm run dev:zrocket:zero`**: Start Zero Cache with discriminated schema
-- **`pnpm run start:zrocket`**: Start ZRocket API in production mode
-- **`pnpm run build`**: Build the API server
-
-From `apps/zchat`:
-
-- **`pnpm run dev`**: Start frontend development server
-- **`pnpm run build`**: Build frontend for production
+- **`pnpm run dev`**: Start unified development mode (API + Frontend)
+- **`pnpm run dev:api`**: Start only the NestJS API server 
+- **`pnpm run dev:zero`**: Start Zero Cache with discriminated schema
+- **`pnpm run build`**: Build both API and frontend for production
+- **`pnpm run start`**: Start production server
 
 ### 🚨 Troubleshooting
 
@@ -327,9 +319,9 @@ From `apps/zchat`:
 - Verify port 8012 is available
 
 **Frontend Issues:**
-- Set `VITE_API_URL` environment variable
-- Ensure API server is running on the specified URL
+- Ensure API server is running on port 8012
 - Check browser console for CORS or network errors
+- Frontend runs on port 3000 in development mode
 
 ### 📊 Monitoring Changes
 

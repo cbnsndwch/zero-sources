@@ -1,4 +1,4 @@
-import { NestExpressApplication } from '@nestjs/platform-express';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger } from '@nestjs/common';
 
 import { makeTable } from './string-utils.js';
@@ -11,9 +11,10 @@ export async function printStartupBanner(
     const banner = makeTable(
         {
             'Base URL': baseUrl,
-            SwaggerUI: `${baseUrl}/docs`
+            SwaggerUI: `${baseUrl}/api-docs`,
+            'ZRocket Demo': `${baseUrl}/zrocket/demo-info`
         },
-        `🚀 ZChat server is running 🚀`
+        `🚀 ZRocket Server running 🚀`
     );
     banner.forEach(line => logger.log(line));
 }
