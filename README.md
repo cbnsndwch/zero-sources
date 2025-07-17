@@ -435,10 +435,17 @@ If you're not sure where to start, feel free to check the open issues or suggest
 
 Here are some of our future plans and directions:
 
+### Planned Custom Change Sources
+- **Stripe Integration**: API-based initial sync with webhook support for real-time updates
+- **GoHighLevel Integration**: Webhook-based change source using their comprehensive API ([API Documentation](https://highlevel.stoplight.io/docs/integrations/0443d7d1a4bd0-overview))
+
+### Infrastructure & Tooling
 - **GitHub Actions**: Add workflows for CI (build, test, lint) and maybe automated Docker builds.
 - **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`.
 - **Docker Support**: Improve Docker image building processes (multi-stage builds, smaller images).
 - **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.
+
+### Community & Ecosystem
 - **Additional Change Source Implementations**: Based on community feedback or personal needs.
 
 > Don't see something you need? [Open an issue] or [Join the discussion] to suggest improvements.
