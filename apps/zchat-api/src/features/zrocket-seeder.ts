@@ -174,46 +174,6 @@ const sampleData = {
                 invitedBy: 'alice'
             }
         }
-    ],
-    participants: [
-        // User participants
-        {
-            _id: new ObjectId(),
-            type: 'user',
-            userId: 'alice', // Will be updated to actual user ID
-            roomId: '', // Will be set to actual room ID
-            role: 'owner',
-            joinedAt: new Date().toISOString(),
-            lastReadAt: new Date().toISOString(),
-            notificationSettings: {
-                muted: false
-            }
-        },
-        {
-            _id: new ObjectId(),
-            type: 'user',
-            userId: 'bob', // Will be updated to actual user ID
-            roomId: '', // Will be set to actual room ID
-            role: 'member',
-            joinedAt: new Date().toISOString(),
-            lastReadAt: new Date().toISOString(),
-            notificationSettings: {
-                muted: false
-            }
-        },
-        // Bot participant
-        {
-            _id: new ObjectId(),
-            type: 'bot',
-            botId: 'notification_bot',
-            roomId: '', // Will be set to actual room ID
-            role: 'bot',
-            joinedAt: new Date().toISOString(),
-            config: {
-                autoRespond: true,
-                triggers: ['@bot', 'help']
-            }
-        }
     ]
 };
 
@@ -233,8 +193,7 @@ export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27
         await Promise.all([
             db.collection('users').deleteMany({}),
             db.collection('rooms').deleteMany({}),
-            db.collection('messages').deleteMany({}),
-            db.collection('participants').deleteMany({})
+            db.collection('messages').deleteMany({})
         ]);
         
         console.log('Cleared existing data');
@@ -247,13 +206,13 @@ export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27
         const roomsResult = await db.collection('rooms').insertMany(dataToSeed.rooms);
         console.log(`Inserted ${roomsResult.insertedCount} rooms`);
         
-        // Get room IDs for messages and participants
+        // Get room IDs for messages
         const rooms = await db.collection('rooms').find({}).toArray();
         const generalChannel = rooms.find(r => r.name === 'general');
         const projectGroup = rooms.find(r => r.name === 'Project Alpha Team');
         const dmRoom = rooms.find(r => r.t === 'd' && r.usernames.includes('alice') && r.usernames.includes('bob'));
         
-        // Get user IDs for participants
+        // Get user IDs for messages
         const users = await db.collection('users').find({}).toArray();
         const userIdMap = users.reduce((map, user) => {
             map[user.username] = user._id.toString();
@@ -270,17 +229,6 @@ export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27
             // Insert messages
             const messagesResult = await db.collection('messages').insertMany(dataToSeed.messages);
             console.log(`Inserted ${messagesResult.insertedCount} messages`);
-            
-            // Update participants with room IDs and user IDs
-            dataToSeed.participants[0].roomId = generalChannel._id.toString();
-            dataToSeed.participants[0].userId = userIdMap['alice'];
-            dataToSeed.participants[1].roomId = generalChannel._id.toString();
-            dataToSeed.participants[1].userId = userIdMap['bob'];
-            dataToSeed.participants[2].roomId = generalChannel._id.toString();
-            
-            // Insert participants
-            const participantsResult = await db.collection('participants').insertMany(dataToSeed.participants);
-            console.log(`Inserted ${participantsResult.insertedCount} participants`);
         }
         
         console.log('✅ ZRocket sample data seeded successfully!');
