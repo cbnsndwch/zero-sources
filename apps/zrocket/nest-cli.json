@@ -6,10 +6,7 @@
     "compilerOptions": {
         "builder": "swc",
         "deleteOutDir": true,
-        "manualRestart": true
-    },
-    "generateOptions": {
-        "spec": false,
-        "flat": true
+        "manualRestart": true,
+        "tsConfigPath": "./tsconfig.nest.json"
     }
 }

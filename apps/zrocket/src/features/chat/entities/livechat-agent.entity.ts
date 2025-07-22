@@ -1,14 +1,13 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-
 import {
-    ILivechatAgent,
+    type ILivechatAgent,
+    type LivechatAgentStatus,
     LIVECHAT_AGENT_STATUS_NOT_AVAILABLE,
-    LIVECHAT_AGENT_STATUSES,
-    LivechatAgentStatus
+    LIVECHAT_AGENT_STATUSES
 } from '@cbnsndwch/zchat-contracts';
+import { Types } from 'mongoose';
 
 import { User } from '../../users/entities/user.entity.js';
-import { Types } from 'mongoose';
 
 @Schema()
 export class LivechatAgent extends User implements ILivechatAgent {

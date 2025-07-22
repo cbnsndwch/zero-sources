@@ -1,7 +1,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
-
-import { schema } from '@cbnsndwch/zchat-contracts';
+import { discriminatedSchema } from '@cbnsndwch/zchat-contracts';
 import { invariant } from '@cbnsndwch/zero-contracts';
 import {
     ZeroMongoModule,
@@ -11,6 +10,7 @@ import { ZqliteWatermarkModule } from '@cbnsndwch/zero-watermark-zqlite';
 
 import type { AppConfig, DbConfig, ZeroConfig } from '../config/contracts.js';
 import loadYamlConfig from '../config/load-yaml-config.js';
+
 import { tableSpecsFromSchema } from './utils.js';
 
 const isLocalhost = (uri: string) =>
@@ -68,7 +68,8 @@ const zqliteWatermarkModule = ZqliteWatermarkModule.forRootAsync({
     }
 });
 
-const zeroChangeSourceModule = ZeroMongoModule.forRootAsync({
+// ZRocket discriminated union change source module
+const zrocketChangeSourceModule = ZeroMongoModule.forRootAsync({
     inject: [ConfigService],
     async useFactory(config: ConfigService<AppConfig>) {
         const zeroConfig = config.get<ZeroConfig>('zero');
@@ -83,8 +84,8 @@ const zeroChangeSourceModule = ZeroMongoModule.forRootAsync({
             'Invalid zero.auth config, expected object'
         );
 
-        // map schema to table specs
-        const tables = tableSpecsFromSchema(schema);
+        // Use discriminated schema instead of regular schema
+        const tables = tableSpecsFromSchema(discriminatedSchema);
 
         return {
             streamerToken: zeroConfig.auth.token,
@@ -93,10 +94,9 @@ const zeroChangeSourceModule = ZeroMongoModule.forRootAsync({
     }
 });
 
-export const globalModules = [
+export const zrocketGlobalModules = [
     configModule,
     dbModule,
-
     zqliteWatermarkModule,
-    zeroChangeSourceModule
+    zrocketChangeSourceModule
 ];

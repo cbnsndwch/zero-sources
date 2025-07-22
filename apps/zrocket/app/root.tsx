@@ -12,7 +12,7 @@ import {
 } from 'react-router';
 import { ZeroProvider } from '@rocicorp/zero/react';
 
-import type { Route } from '+root';
+import type { Route } from './+types/root';
 import './app.css';
 
 import { LoginProvider } from '@/auth/login.provider';

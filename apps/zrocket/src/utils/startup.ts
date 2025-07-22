@@ -11,7 +11,7 @@ export async function printStartupBanner(
     const banner = makeTable(
         {
             'Base URL': baseUrl,
-            SwaggerUI: `${baseUrl}/api-docs`,
+            SwaggerUI: `${baseUrl}/docs`,
             'ZRocket Demo': `${baseUrl}/zrocket/demo-info`
         },
         `🚀 ZRocket Server running 🚀`

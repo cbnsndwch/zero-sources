@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-
 import type { JwtPayload } from '@cbnsndwch/zchat-contracts';
 
 import type { AppConfig } from '../../../config/contracts.js';

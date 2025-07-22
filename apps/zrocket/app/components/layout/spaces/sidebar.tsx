@@ -1,4 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useState, type CSSProperties } from 'react';
+
+
+import type { SpaceSummary } from '../contracts';
+
+import { spaces } from './data';
 
 import {
     Sidebar,
@@ -8,10 +14,6 @@ import {
     SidebarMenuItem,
     useSidebar
 } from '@/components/ui/sidebar';
-
-import type { SpaceSummary } from '../contracts';
-
-import { spaces } from './data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function SpacesSidebar() {

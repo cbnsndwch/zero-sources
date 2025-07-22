@@ -1,12 +1,11 @@
+import type { IUser } from '@cbnsndwch/zchat-contracts';
 import { Controller, Get, Logger, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
-
-import type { IUser } from '@cbnsndwch/zchat-contracts';
+import type { Request, Response } from 'express';
 
 import { JwtAuthService } from '../jwt/jwt-auth.service.js';
 
-import { GithubOauthGuard } from './github-oauth.guard.js';
+import { GithubOauthGuard } from './gh-oauth.guard.js';
 
 @ApiTags('auth/github')
 @Controller('auth/github')

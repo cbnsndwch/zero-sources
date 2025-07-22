@@ -12,11 +12,9 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-
-import { UserPresenceStatus } from '@cbnsndwch/zchat-contracts';
+import type { UserPresenceStatus } from '@cbnsndwch/zchat-contracts';
 
 import { JwtAuthGuard } from '../../auth/jwt/jwt-auth.guard.js';
-
 import { User } from '../entities/user.entity.js';
 import { CreateUserInput, UpdateUserInput } from '../models/index.js';
 import { UserService } from '../services/user.service.js';

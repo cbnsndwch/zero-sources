@@ -1,4 +1,3 @@
- 
 import type OAuth2Strategy from 'passport-oauth2';
 
 export type StrategyOptions = {

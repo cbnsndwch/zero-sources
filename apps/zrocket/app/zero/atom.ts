@@ -1,5 +1,8 @@
+// eslint-disable-next-line no-unused-vars
+type AtomCallback<T> = (value: T | undefined) => void;
+
 export class Atom<T> {
-    #subs = new Set<(value: T | undefined) => void>();
+    #subs = new Set<AtomCallback<T>>();
     #val: T | undefined;
 
     set current(value: T | undefined) {
@@ -11,7 +14,7 @@ export class Atom<T> {
         return this.#val;
     }
 
-    onChange = (cb: (value: T | undefined) => void) => {
+    onChange = (cb: AtomCallback<T>) => {
         this.#subs.add(cb);
 
         cb(this.#val);

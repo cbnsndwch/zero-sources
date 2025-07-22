@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { MongoClient, ObjectId } from 'mongodb';
 
 // Sample data for ZRocket discriminated union demo
@@ -177,69 +178,85 @@ const sampleData = {
     ]
 };
 
-export async function seedZRocketData(mongoUri: string = 'mongodb://localhost:27017/zrocket', customData?: any) {
+export async function seedZRocketData(
+    mongoUri: string = 'mongodb://localhost:27017/zrocket',
+    customData?: any
+) {
     const client = new MongoClient(mongoUri);
-    
+
     // Use custom data if provided, otherwise use default sample data
     const dataToSeed = customData || sampleData;
-    
+
     try {
         await client.connect();
         console.log('Connected to MongoDB');
-        
+
         const db = client.db();
-        
+
         // Clear existing data
         await Promise.all([
             db.collection('users').deleteMany({}),
             db.collection('rooms').deleteMany({}),
             db.collection('messages').deleteMany({})
         ]);
-        
+
         console.log('Cleared existing data');
-        
+
         // Insert users
-        const usersResult = await db.collection('users').insertMany(dataToSeed.users);
+        const usersResult = await db
+            .collection('users')
+            .insertMany(dataToSeed.users);
         console.log(`Inserted ${usersResult.insertedCount} users`);
-        
+
         // Insert rooms
-        const roomsResult = await db.collection('rooms').insertMany(dataToSeed.rooms);
+        const roomsResult = await db
+            .collection('rooms')
+            .insertMany(dataToSeed.rooms);
         console.log(`Inserted ${roomsResult.insertedCount} rooms`);
-        
+
         // Get room IDs for messages
         const rooms = await db.collection('rooms').find({}).toArray();
         const generalChannel = rooms.find(r => r.name === 'general');
         const projectGroup = rooms.find(r => r.name === 'Project Alpha Team');
-        const dmRoom = rooms.find(r => r.t === 'd' && r.usernames.includes('alice') && r.usernames.includes('bob'));
-        
+        const dmRoom = rooms.find(
+            r =>
+                r.t === 'd' &&
+                r.usernames.includes('alice') &&
+                r.usernames.includes('bob')
+        );
+
         // Get user IDs for messages
         const users = await db.collection('users').find({}).toArray();
-        const userIdMap = users.reduce((map, user) => {
-            map[user.username] = user._id.toString();
-            return map;
-        }, {} as Record<string, string>);
-        
+        const userIdMap = users.reduce(
+            (map, user) => {
+                map[user.username] = user._id.toString();
+                return map;
+            },
+            {} as Record<string, string>
+        );
+
         if (generalChannel && projectGroup && dmRoom) {
             // Update messages with room IDs
             dataToSeed.messages[0].roomId = generalChannel._id.toString();
             dataToSeed.messages[1].roomId = dmRoom._id.toString();
             dataToSeed.messages[2].roomId = projectGroup._id.toString();
             dataToSeed.messages[3].roomId = generalChannel._id.toString();
-            
+
             // Insert messages
-            const messagesResult = await db.collection('messages').insertMany(dataToSeed.messages);
+            const messagesResult = await db
+                .collection('messages')
+                .insertMany(dataToSeed.messages);
             console.log(`Inserted ${messagesResult.insertedCount} messages`);
         }
-        
+
         console.log('✅ ZRocket sample data seeded successfully!');
-        
+
         // Show summary
         const collections = await db.listCollections().toArray();
         for (const collection of collections) {
             const count = await db.collection(collection.name).countDocuments();
             console.log(`📊 ${collection.name}: ${count} documents`);
         }
-        
     } catch (error) {
         console.error('❌ Error seeding data:', error);
         throw error;

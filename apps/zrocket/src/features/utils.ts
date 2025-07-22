@@ -1,5 +1,4 @@
 import type { ValueType, TableSchema, Schema } from '@rocicorp/zero';
-
 import type { TableSpec } from '@cbnsndwch/zero-source-mongodb';
 
 type ColSchema = TableSchema['columns'][string];

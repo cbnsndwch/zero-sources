@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
  
+
 import {
     Schema,
     type Model,

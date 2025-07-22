@@ -1,22 +1,23 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { discriminatedSchema } from '@zero-sources/zchat-contracts';
-import { MetadataService } from './metadata.service';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { discriminatedSchema } from '@cbnsndwch/zchat-contracts';
+
+import { MetadataService } from './metadata.service.js';
 
 // Helper function to extract discriminated union configurations from schema
 function extractTableConfigurations() {
     const configurations: Record<string, any[]> = {};
-    
+
     // Get all tables from the schema
     const tables = discriminatedSchema.tables;
-    
+
     // Group tables by their source collection
     const sourceGroups: Record<string, any[]> = {};
-    
-    for (const table of tables) {
-        const tableName = (table as any).name;
+
+    for (const table of Object.values(tables)) {
+        const tableName = table.name;
         const fromConfig = (table as any).from;
-        
+
         if (fromConfig && typeof fromConfig === 'string') {
             try {
                 const config = JSON.parse(fromConfig);
@@ -27,67 +28,82 @@ function extractTableConfigurations() {
                     sourceGroups[config.source].push({
                         name: tableName,
                         filter: config.filter,
-                        description: getTableDescription(tableName, config.filter)
+                        description: getTableDescription(
+                            tableName,
+                            config.filter
+                        )
                     });
                 }
-            } catch (e) {
+            } catch {
                 // Ignore non-JSON from configs (traditional tables)
             }
         }
     }
-    
+
     // Map source collections to readable names
     const sourceNames: Record<string, string> = {
-        'rooms': 'fromRoomsCollection',
-        'messages': 'fromMessagesCollection',
-        'participants': 'fromParticipantsCollection'
+        rooms: 'fromRoomsCollection',
+        messages: 'fromMessagesCollection',
+        participants: 'fromParticipantsCollection'
     };
-    
+
     for (const [source, tables] of Object.entries(sourceGroups)) {
-        const readableName = sourceNames[source] || `from${source.charAt(0).toUpperCase() + source.slice(1)}Collection`;
+        const readableName =
+            sourceNames[source] ||
+            `from${source.charAt(0).toUpperCase() + source.slice(1)}Collection`;
         configurations[readableName] = tables;
     }
-    
+
     return configurations;
 }
 
 function getTableDescription(tableName: string, filter: any): string {
     const descriptions: Record<string, string> = {
-        'chats': 'Direct message rooms',
-        'groups': 'Private group rooms',
-        'channels': 'Public channel rooms',
-        'textMessages': 'Text-based messages',
-        'imageMessages': 'Image messages with metadata',
-        'systemMessages': 'System-generated messages for events',
-        'userParticipants': 'Human user participants',
-        'botParticipants': 'Bot participants with configuration'
+        chats: 'Direct message rooms',
+        groups: 'Private group rooms',
+        channels: 'Public channel rooms',
+        textMessages: 'Text-based messages',
+        imageMessages: 'Image messages with metadata',
+        systemMessages: 'System-generated messages for events',
+        userParticipants: 'Human user participants',
+        botParticipants: 'Bot participants with configuration'
     };
-    
-    return descriptions[tableName] || `Table filtered by ${JSON.stringify(filter)}`;
+
+    return (
+        descriptions[tableName] || `Table filtered by ${JSON.stringify(filter)}`
+    );
 }
 
 // This controller demonstrates the discriminated union functionality
 @ApiTags('ZRocket Demo')
 @Controller('zrocket')
 export class ZRocketController {
-    constructor(private readonly metadataService: MetadataService) {}
-    
+    #metadataService: MetadataService;
+
+    constructor(metadataService: MetadataService) {
+        this.#metadataService = metadataService;
+    }
+
     @Get('demo-info')
-    @ApiOperation({ 
+    @ApiOperation({
         summary: 'Get information about the ZRocket discriminated union demo',
-        description: 'Returns information about how the discriminated union tables work, sourced from MongoDB metadata'
+        description:
+            'Returns information about how the discriminated union tables work, sourced from MongoDB metadata'
     })
     @ApiResponse({ status: 200, description: 'Demo information' })
     async getDemoInfo() {
         try {
             // Try to get metadata from MongoDB first, fallback to schema extraction
-            const metadata = await this.metadataService.getSchemaMetadata();
-            
-            const totalTables = Object.values(metadata.tableConfigurations).reduce((sum, tables) => sum + tables.length, 0);
-            
+            const metadata = await this.#metadataService.getSchemaMetadata();
+
+            const totalTables = Object.values(
+                metadata.tableConfigurations
+            ).reduce((sum, tables) => sum + tables.length, 0);
+
             return {
                 title: 'ZRocket - Discriminated Union Demo',
-                description: 'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
+                description:
+                    'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
                 tables: metadata.tableConfigurations,
                 features: [
                     'Real-time filtering: Documents are routed to appropriate Zero tables based on filter criteria',
@@ -105,7 +121,8 @@ export class ZRocketController {
                 ],
                 metadata: {
                     totalTables,
-                    sourceCollections: Object.keys(metadata.tableConfigurations).length,
+                    sourceCollections: Object.keys(metadata.tableConfigurations)
+                        .length,
                     generatedAt: new Date().toISOString(),
                     source: 'mongodb',
                     schemaVersion: metadata.version,
@@ -115,11 +132,15 @@ export class ZRocketController {
         } catch (error) {
             // Fallback to original static method if metadata service fails
             const tableConfigurations = extractTableConfigurations();
-            const totalTables = Object.values(tableConfigurations).reduce((sum, tables) => sum + tables.length, 0);
-            
+            const totalTables = Object.values(tableConfigurations).reduce(
+                (sum, tables) => sum + tables.length,
+                0
+            );
+
             return {
                 title: 'ZRocket - Discriminated Union Demo',
-                description: 'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
+                description:
+                    'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
                 tables: tableConfigurations,
                 features: [
                     'Real-time filtering: Documents are routed to appropriate Zero tables based on filter criteria',
@@ -137,7 +158,8 @@ export class ZRocketController {
                     sourceCollections: Object.keys(tableConfigurations).length,
                     generatedAt: new Date().toISOString(),
                     source: 'fallback',
-                    error: error instanceof Error ? error.message : 'Unknown error'
+                    error:
+                        error instanceof Error ? error.message : 'Unknown error'
                 }
             };
         }
@@ -146,19 +168,25 @@ export class ZRocketController {
     @Post('seed-data')
     @ApiOperation({
         summary: 'Seed sample data for the discriminated union demo',
-        description: 'Creates sample rooms, messages, participants, and users in MongoDB to demonstrate the discriminated union functionality. Optionally accepts custom seed data in the request body.'
+        description:
+            'Creates sample rooms, messages, participants, and users in MongoDB to demonstrate the discriminated union functionality. Optionally accepts custom seed data in the request body.'
     })
-    @ApiResponse({ status: 201, description: 'Sample data seeded successfully' })
+    @ApiResponse({
+        status: 201,
+        description: 'Sample data seeded successfully'
+    })
     async seedSampleData(@Body() customData?: any) {
         // Import and run the seeder
-        const { seedZRocketData } = await import('../zrocket-seeder.js');
-        
+        const { seedZRocketData } = await import('../seeder.js');
+
         try {
             // Pass custom data if provided, otherwise use default data
             await seedZRocketData(undefined, customData);
             return {
                 success: true,
-                message: customData ? 'Custom data seeded successfully' : 'Sample data seeded successfully',
+                message: customData
+                    ? 'Custom data seeded successfully'
+                    : 'Sample data seeded successfully',
                 timestamp: new Date().toISOString(),
                 dataSource: customData ? 'custom' : 'default'
             };
@@ -175,39 +203,53 @@ export class ZRocketController {
     @Get('tables')
     @ApiOperation({
         summary: 'List all discriminated Zero tables',
-        description: 'Returns information about all Zero tables created from discriminated unions'
+        description:
+            'Returns information about all Zero tables created from discriminated unions'
     })
     @ApiResponse({ status: 200, description: 'Zero tables information' })
     getZeroTables() {
         const tableConfigurations = extractTableConfigurations();
         const discriminatedTables: Record<string, string[]> = {};
         const traditionalTables: string[] = [];
-        
+
         // Extract discriminated tables by source
-        for (const [sourceName, tables] of Object.entries(tableConfigurations)) {
-            const sourceKey = sourceName.replace('from', '').replace('Collection', '').toLowerCase();
+        for (const [sourceName, tables] of Object.entries(
+            tableConfigurations
+        )) {
+            const sourceKey = sourceName
+                .replace('from', '')
+                .replace('Collection', '')
+                .toLowerCase();
             discriminatedTables[sourceKey] = tables.map(t => t.name);
         }
-        
+
         // Get traditional tables (non-discriminated)
-        const allTableNames = discriminatedSchema.tables.map(table => (table as any).name);
-        const discriminatedTableNames = new Set(Object.values(discriminatedTables).flat());
-        
+        const allTableNames = Object.values(discriminatedSchema.tables).map(
+            table => table.name
+        );
+        const discriminatedTableNames = new Set(
+            Object.values(discriminatedTables).flat()
+        );
+
         for (const tableName of allTableNames) {
             if (!discriminatedTableNames.has(tableName)) {
                 traditionalTables.push(tableName);
             }
         }
-        
+
         const totalTables = allTableNames.length;
-        
+
         return {
             discriminatedTables,
             traditionalTables,
             totalTables,
-            description: 'These tables are automatically created and synced based on discriminated union configurations',
+            description:
+                'These tables are automatically created and synced based on discriminated union configurations',
             metadata: {
-                discriminatedCount: Object.values(discriminatedTables).reduce((sum, tables) => sum + tables.length, 0),
+                discriminatedCount: Object.values(discriminatedTables).reduce(
+                    (sum, tables) => sum + tables.length,
+                    0
+                ),
                 traditionalCount: traditionalTables.length,
                 generatedAt: new Date().toISOString()
             }
@@ -217,12 +259,13 @@ export class ZRocketController {
     @Get('metadata/schemas')
     @ApiOperation({
         summary: 'List all stored schema metadata',
-        description: 'Returns all schema versions stored in MongoDB metadata collections'
+        description:
+            'Returns all schema versions stored in MongoDB metadata collections'
     })
     @ApiResponse({ status: 200, description: 'Schema metadata list' })
     async getSchemaMetadata() {
         try {
-            const schemas = await this.metadataService.listAllSchemas();
+            const schemas = await this.#metadataService.listAllSchemas();
             return {
                 schemas,
                 count: schemas.length,
@@ -246,7 +289,7 @@ export class ZRocketController {
     @ApiResponse({ status: 200, description: 'Schema metadata updated' })
     async updateSchemaMetadata(@Body() metadata: any) {
         try {
-            await this.metadataService.saveSchemaMetadata(metadata);
+            await this.#metadataService.saveSchemaMetadata(metadata);
             return {
                 success: true,
                 message: 'Schema metadata updated successfully',
@@ -265,12 +308,13 @@ export class ZRocketController {
     @Get('metadata/interests')
     @ApiOperation({
         summary: 'List all client interests',
-        description: 'Returns all client interest configurations stored in MongoDB'
+        description:
+            'Returns all client interest configurations stored in MongoDB'
     })
     @ApiResponse({ status: 200, description: 'Client interests list' })
     async getClientInterests() {
         try {
-            const interests = await this.metadataService.listAllInterests();
+            const interests = await this.#metadataService.listAllInterests();
             return {
                 interests,
                 count: interests.length,

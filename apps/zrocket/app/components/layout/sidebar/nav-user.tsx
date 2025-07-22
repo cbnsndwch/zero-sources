@@ -8,6 +8,8 @@ import {
     // SparklesIcon
 } from 'lucide-react';
 
+import type { UserSummary } from '../contracts';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
@@ -25,7 +27,6 @@ import {
     useSidebar
 } from '@/components/ui/sidebar';
 
-import type { UserSummary } from '../contracts';
 
 type NavUserProps = {
     user: UserSummary;

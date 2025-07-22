@@ -4,7 +4,6 @@ import { PassportStrategy } from '@nestjs/passport';
 
 import type { AppConfig } from '../../../config/contracts.js';
 import { UserService } from '../../users/services/user.service.js';
-
 import type { AuthConfig } from '../config/auth-config.contracts.js';
 
 import { Strategy, type GithubProfile } from './passport/index.js';

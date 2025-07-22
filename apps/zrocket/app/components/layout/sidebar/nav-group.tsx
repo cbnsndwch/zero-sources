@@ -2,23 +2,7 @@ import type { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router';
 
 import { ChevronRight } from 'lucide-react';
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger
-} from '@/components/ui/collapsible';
-import {
-    SidebarGroup,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuAction,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubButton,
-    SidebarMenuSubItem,
-    useSidebar
-} from '@/components/ui/sidebar';
+
 import { Badge } from '../../ui/badge';
 import {
     DropdownMenu,
@@ -35,6 +19,23 @@ import {
     type NavLink,
     type NavGroup
 } from '../contracts';
+
+import {
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
+    useSidebar
+} from '@/components/ui/sidebar';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger
+} from '@/components/ui/collapsible';
 
 export function NavGroup({ title, items, actions }: NavGroup) {
     const { state } = useSidebar();

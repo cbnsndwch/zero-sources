@@ -58,11 +58,11 @@ interface CorsOptions {
 }
 
 interface CorsOptionsCallback {
-    (error: Error | null, options: CorsOptions): void;
+    (_error: Error | null, _options: CorsOptions): void;
 }
 
 interface CorsOptionsDelegate<T> {
-    (req: T, cb: CorsOptionsCallback): void;
+    (_req: T, _cb: CorsOptionsCallback): void;
 }
 
 export const corsDelegate: CorsOptionsDelegate<ExpressRequest> = (req, cb) => {

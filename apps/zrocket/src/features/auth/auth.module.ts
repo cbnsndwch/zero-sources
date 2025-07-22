@@ -6,8 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import type { AppConfig } from '../../config/contracts.js';
 
 import type { AuthConfig } from './config/auth-config.contracts.js';
-
-import { githubAuthControllers } from './github/index.js';
+import { githubAuthControllers } from './gh/index.js';
 import { jwtAuthServices } from './jwt/index.js';
 
 @Global()

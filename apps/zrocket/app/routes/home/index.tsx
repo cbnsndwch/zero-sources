@@ -1,7 +1,8 @@
-/* eslint-disable no-empty-pattern */
+ 
+import { Welcome } from './components/welcome/welcome';
+
 import type { Route } from '+routes/home/+types';
 
-import { Welcome } from './components/welcome/welcome';
 
 export function meta({}: Route.MetaArgs) {
     return [

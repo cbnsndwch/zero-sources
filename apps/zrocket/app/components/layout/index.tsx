@@ -1,10 +1,11 @@
 import type { CSSProperties } from 'react';
 import { Outlet } from 'react-router';
 
+import SpacesSidebar from './spaces/sidebar';
+
 import { AppSidebar } from '@/components/layout/sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
-import SpacesSidebar from './spaces/sidebar';
 
 export default function SidebarLayout() {
     return (

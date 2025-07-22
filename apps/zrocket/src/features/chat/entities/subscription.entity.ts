@@ -7,13 +7,12 @@ import {
     IsOptional,
     IsString
 } from 'class-validator';
-
 import {
-    IUserSummaryWithName,
     NOTIFICATION_TYPES,
     NOTIFICATION_TYPES_WITH_DEFAULT,
-    NotificationType,
-    RoomType,
+    type NotificationType,
+    type RoomType,
+    type IUserSummaryWithName,
     type ISubscription,
     type NotificationTypeWithDefault
 } from '@cbnsndwch/zchat-contracts';

@@ -16,6 +16,7 @@ export default function loadYamlConfig() {
     try {
         ymlString = readFileSync(configFilePath, 'utf8');
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(`Failed to read config file: ${configFilePath}`, err);
         process.exit(1);
     }

@@ -14,25 +14,29 @@ This is a unified application that combines both the frontend (React Router 7) a
 ## Quick Start
 
 1. **Start Zero Cache:**
-   ```bash
-   pnpm run dev:zero
-   ```
+
+    ```bash
+    pnpm run dev:zero
+    ```
 
 2. **Start Development Servers:**
-   ```bash
-   pnpm run dev
-   ```
-   This starts both the NestJS API (port 8012) and React Router dev server (port 3000)
+
+    ```bash
+    pnpm run dev
+    ```
+
+    This starts both the NestJS API (port 8012) and React Router dev server (port 3000)
 
 3. **Seed Data:**
-   ```bash
-   curl -X POST http://localhost:8012/zrocket/seed-data
-   ```
+
+    ```bash
+    curl -X POST http://localhost:8012/zrocket/seed-data
+    ```
 
 4. **Access the App:**
-   - Frontend: http://localhost:3000
-   - API: http://localhost:8012
-   - API Docs: http://localhost:8012/api-docs
+    - Frontend: http://localhost:3000
+    - API: http://localhost:8012
+    - API Docs: http://localhost:8012/api-docs
 
 ## Development Commands
 

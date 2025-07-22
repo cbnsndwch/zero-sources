@@ -12,8 +12,7 @@ import {
 } from 'class-validator';
 import type { SerializedEditorState } from 'lexical';
 import { Types } from 'mongoose';
-
-import {
+import type {
     IHasId,
     IHasName,
     IMessage,

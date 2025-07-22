@@ -1,6 +1,8 @@
 import { useQuery } from '@rocicorp/zero/react';
 
-import type { Route } from '+routes/room/+types';
+import type { Route } from './+types/index';
+
+import Skeleton from './skeleton';
 
 import {
     Breadcrumb,
@@ -13,7 +15,6 @@ import {
 
 import { useZero } from '@/zero/use-zero';
 
-import Skeleton from './skeleton';
 import RoomTypeIcon from '@/components/icons/room-icon';
 
 export default function ({ params }: Route.ComponentProps) {

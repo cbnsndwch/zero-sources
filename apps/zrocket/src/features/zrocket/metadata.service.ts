@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient, Db } from 'mongodb';
-import { discriminatedSchema } from '@zero-sources/zchat-contracts';
+import { discriminatedSchema } from '@cbnsndwch/zchat-contracts';
 
 export interface SchemaMetadata {
     _id?: string;
@@ -23,7 +23,10 @@ export class MetadataService {
     private client: MongoClient | null = null;
     private db: Db | null = null;
 
-    async connect(mongoUri: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/zrocket') {
+    async connect(
+        mongoUri: string = process.env.MONGODB_URI ||
+            'mongodb://localhost:27017/zrocket'
+    ) {
         if (!this.client) {
             this.client = new MongoClient(mongoUri);
             await this.client.connect();
@@ -42,10 +45,12 @@ export class MetadataService {
 
     async getSchemaMetadata(): Promise<SchemaMetadata> {
         const db = await this.connect();
-        
+
         // Try to get schema from MongoDB first
-        const storedSchema = await db.collection<SchemaMetadata>('_zero_schemas').findOne({ version: 1 });
-        
+        const storedSchema = await db
+            .collection<SchemaMetadata>('_zero_schemas')
+            .findOne({ version: 1 });
+
         if (storedSchema) {
             return storedSchema;
         }
@@ -60,56 +65,66 @@ export class MetadataService {
 
         // Store the fallback schema for future use
         await this.saveSchemaMetadata(fallbackSchema);
-        
+
         return fallbackSchema;
     }
 
     async saveSchemaMetadata(metadata: SchemaMetadata): Promise<void> {
         const db = await this.connect();
         metadata.lastUpdated = new Date().toISOString();
-        
-        await db.collection<SchemaMetadata>('_zero_schemas').replaceOne(
-            { version: metadata.version },
-            metadata,
-            { upsert: true }
-        );
+
+        await db
+            .collection<SchemaMetadata>('_zero_schemas')
+            .replaceOne({ version: metadata.version }, metadata, {
+                upsert: true
+            });
     }
 
-    async getClientInterests(clientId: string): Promise<InterestMetadata | null> {
+    async getClientInterests(
+        clientId: string
+    ): Promise<InterestMetadata | null> {
         const db = await this.connect();
-        return await db.collection<InterestMetadata>('_zero_interests').findOne({ clientId });
+        return await db
+            .collection<InterestMetadata>('_zero_interests')
+            .findOne({ clientId });
     }
 
     async saveClientInterests(interests: InterestMetadata): Promise<void> {
         const db = await this.connect();
         interests.lastUpdated = new Date().toISOString();
-        
-        await db.collection<InterestMetadata>('_zero_interests').replaceOne(
-            { clientId: interests.clientId },
-            interests,
-            { upsert: true }
-        );
+
+        await db
+            .collection<InterestMetadata>('_zero_interests')
+            .replaceOne({ clientId: interests.clientId }, interests, {
+                upsert: true
+            });
     }
 
     async listAllSchemas(): Promise<SchemaMetadata[]> {
         const db = await this.connect();
-        return await db.collection<SchemaMetadata>('_zero_schemas').find().toArray();
+        return await db
+            .collection<SchemaMetadata>('_zero_schemas')
+            .find()
+            .toArray();
     }
 
     async listAllInterests(): Promise<InterestMetadata[]> {
         const db = await this.connect();
-        return await db.collection<InterestMetadata>('_zero_interests').find().toArray();
+        return await db
+            .collection<InterestMetadata>('_zero_interests')
+            .find()
+            .toArray();
     }
 
     private extractTableConfigurations(): Record<string, any[]> {
         const configurations: Record<string, any[]> = {};
         const tables = discriminatedSchema.tables;
         const sourceGroups: Record<string, any[]> = {};
-        
-        for (const table of tables) {
+
+        for (const table of Object.values(tables)) {
             const tableName = (table as any).name;
             const fromConfig = (table as any).from;
-            
+
             if (fromConfig && typeof fromConfig === 'string') {
                 try {
                     const config = JSON.parse(fromConfig);
@@ -121,27 +136,32 @@ export class MetadataService {
                             name: tableName,
                             filter: config.filter,
                             projection: config.projection || {},
-                            description: this.getTableDescription(tableName, config.filter)
+                            description: this.getTableDescription(
+                                tableName,
+                                config.filter
+                            )
                         });
                     }
-                } catch (e) {
+                } catch {
                     // Ignore non-JSON from configs (traditional tables)
                 }
             }
         }
-        
+
         // Map source collections to readable names
         const sourceNames: Record<string, string> = {
-            'rooms': 'fromRoomsCollection',
-            'messages': 'fromMessagesCollection',
-            'participants': 'fromParticipantsCollection'
+            rooms: 'fromRoomsCollection',
+            messages: 'fromMessagesCollection',
+            participants: 'fromParticipantsCollection'
         };
-        
+
         for (const [source, tables] of Object.entries(sourceGroups)) {
-            const readableName = sourceNames[source] || `from${source.charAt(0).toUpperCase() + source.slice(1)}Collection`;
+            const readableName =
+                sourceNames[source] ||
+                `from${source.charAt(0).toUpperCase() + source.slice(1)}Collection`;
             configurations[readableName] = tables;
         }
-        
+
         return configurations;
     }
 
@@ -151,26 +171,29 @@ export class MetadataService {
         return {
             defaultPolicy: 'ANYONE_CAN_READ_NOBODY_CAN_WRITE',
             tableOverrides: {
-                'users': 'READ_ONLY',
-                'textMessages': 'SENDER_CAN_EDIT',
-                'imageMessages': 'SENDER_CAN_EDIT',
-                'systemMessages': 'READ_ONLY'
+                users: 'READ_ONLY',
+                textMessages: 'SENDER_CAN_EDIT',
+                imageMessages: 'SENDER_CAN_EDIT',
+                systemMessages: 'READ_ONLY'
             }
         };
     }
 
     private getTableDescription(tableName: string, filter: any): string {
         const descriptions: Record<string, string> = {
-            'chats': 'Direct message rooms',
-            'groups': 'Private group rooms', 
-            'channels': 'Public channel rooms',
-            'textMessages': 'Text-based messages',
-            'imageMessages': 'Image messages with metadata',
-            'systemMessages': 'System-generated messages for events',
-            'userParticipants': 'Human user participants',
-            'botParticipants': 'Bot participants with configuration'
+            chats: 'Direct message rooms',
+            groups: 'Private group rooms',
+            channels: 'Public channel rooms',
+            textMessages: 'Text-based messages',
+            imageMessages: 'Image messages with metadata',
+            systemMessages: 'System-generated messages for events',
+            userParticipants: 'Human user participants',
+            botParticipants: 'Bot participants with configuration'
         };
-        
-        return descriptions[tableName] || `Table filtered by ${JSON.stringify(filter)}`;
+
+        return (
+            descriptions[tableName] ||
+            `Table filtered by ${JSON.stringify(filter)}`
+        );
     }
 }

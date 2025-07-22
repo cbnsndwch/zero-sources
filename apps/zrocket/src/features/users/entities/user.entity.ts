@@ -1,13 +1,13 @@
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-
 import {
-    ExternalUserId,
     USER_PRESENCE_STATUSES,
+    type ExternalUserId,
     type IUser,
     type IUserSettings,
     type UserPresenceStatus
 } from '@cbnsndwch/zchat-contracts';
+import type { Dict } from 'src/dict.js';
 
 import { EntityBase } from '../../../common/entities/index.js';
 

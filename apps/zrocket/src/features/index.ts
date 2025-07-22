@@ -1,4 +1,4 @@
-import { globalModules } from './global-modules.js';
+import { zrocketGlobalModules } from './global-modules.js';
 
 // infra
 import { HealthzModule } from './healthz/healthz.module.js';
@@ -7,23 +7,25 @@ import { HealthzModule } from './healthz/healthz.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { ChatModule } from './chat/chat.module.js';
 import { UsersModule } from './users/users.module.js';
+import { ZRocketModule } from './zrocket/zrocket.module.js';
 
 export default [
     /**
-     * Globals
+     * Globals with ZRocket discriminated union support
      */
-    ...globalModules,
+    ...zrocketGlobalModules,
     /**
      * Infra
      */
     HealthzModule,
     /**
-     * Application Feature
+     * Application Features
      */
     AuthModule,
     ChatModule,
-    UsersModule
+    UsersModule,
     /**
-     * Maybe: Spikes, POCs, etc.
+     * ZRocket Demo - Discriminated Union tables
      */
+    ZRocketModule
 ];

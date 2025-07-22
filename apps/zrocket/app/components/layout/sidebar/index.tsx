@@ -6,19 +6,18 @@ import {
 } from 'lucide-react';
 import { useQuery } from '@rocicorp/zero/react';
 
-import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarMenuAction
-} from '@/components/ui/sidebar';
-import { useZero } from '@/zero/use-zero';
-
 import { sidebarData } from './data';
 
 import { NavGroup } from './nav-group';
 import { NavUser } from './nav-user';
 import CreateRoomButton from './create-room-button';
+
+import { useZero } from '@/zero/use-zero';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter
+} from '@/components/ui/sidebar';
 import RoomTypeIcon from '@/components/icons/room-icon';
 
 export function AppSidebar() {
