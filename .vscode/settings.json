@@ -1,15 +1,9 @@
 {
     "eslint.workingDirectories": [
-        /**
-         * Apps
-         */
-        // "apps/xxxxxxxx",
-        /**
-         * Libraries
-         */
-        "libs/ui",
-        "libs/zero",
+        "apps/*",
+        "libs/*",
     ],
+    "eslint.lintTask.options": "-c .eslintrc.vscode.cjs",
     "files.eol": "\n",
     "files.associations": {
         "*.css": "tailwindcss",
@@ -19,7 +13,6 @@
         "package.json": "json"
     },
     "typescript.experimental.expandableHover": true,
-    "svg.preview.background": "transparent",
     "debug.inlineValues": "on",
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
@@ -75,6 +68,7 @@
         "Clefable",
         "Clefairy",
         "Cloyster",
+        "cmdk",
         "Cubone",
         "Dewgong",
         "Diglett",
@@ -215,6 +209,7 @@
         "storer",
         "superadmin",
         "syncer",
+        "tabler",
         "Tangela",
         "Tauros",
         "Tentacool",

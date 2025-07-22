@@ -12,5 +12,6 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
   - protobufjs
+  - unrs-resolver
 
 shamefullyHoist: true

@@ -46,10 +46,7 @@
     ],
     "typings": ".dist/index.d.ts",
     "exports": {
-        ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.cjs"
-        },
+        ".": "./dist/index.js",
         "./package.json": "./package.json"
     },
     "lint-staged": {

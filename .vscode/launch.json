@@ -3,14 +3,12 @@
     "configurations": [
         {
             "type": "node",
-            "name": "ZChat API",
+            "name": "ZRocket",
             "request": "launch",
             "runtimeExecutable": "pnpm",
             "sourceMaps": true,
             "runtimeArgs": [
-                "dev",
-                "--",
-                "--dns-result-order=ipv4first",
+                "dev"
             ],
             "skipFiles": [
                 "<node_internals>/**",
@@ -18,10 +16,10 @@
                 "**/node_modules/@nestjs/**"
             ],
             "console": "integratedTerminal",
-            "cwd": "${workspaceRoot}/apps/zchat-api",
+            "cwd": "${workspaceRoot}/apps/zrocket",
             "env": {
-                "PORT": "8011",
-                "CONFIG_FILE": "${workspaceRoot}/apps/zchat-api/config.yml",
+                // "PORT": "8011",
+                // "CONFIG_FILE": "${workspaceRoot}/apps/zrocket/config.yml",
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
         },
@@ -38,7 +36,7 @@
                 "<node_internals>/**"
             ],
             "console": "integratedTerminal",
-            "cwd": "${workspaceRoot}/apps/zchat-api"
+            "cwd": "${workspaceRoot}/apps/zrocket"
         },
         {
             "type": "node",
