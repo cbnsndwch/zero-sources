@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+ 
 type AtomCallback<T> = (value: T | undefined) => void;
 
 export class Atom<T> {

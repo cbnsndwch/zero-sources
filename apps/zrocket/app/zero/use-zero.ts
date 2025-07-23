@@ -1,5 +1,11 @@
-import { createUseZero, type CustomMutatorDefs } from '@rocicorp/zero/react';
+import { createUseZero } from '@rocicorp/zero/react';
+import type { Zero } from '@rocicorp/zero';
 
 import type { Schema } from '@cbnsndwch/zchat-contracts';
 
-export const useZero = createUseZero<Schema, CustomMutatorDefs<Schema>>();
+import type { Mutators } from './mutators';
+
+export const useZero: () => Zero<Schema, Mutators> = createUseZero<
+    Schema,
+    Mutators
+>();

@@ -13,31 +13,15 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/r/:roomId": {
-    params: {
-      "roomId": string;
-    };
-  };
-  "/zrocket": {
-    params: {};
-  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/r/:roomId" | "/zrocket";
+    page: "/";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
-  };
-  "routes/room/index.tsx": {
-    id: "routes/room/index";
-    page: "/r/:roomId";
-  };
-  "routes/zrocket.tsx": {
-    id: "routes/zrocket";
-    page: "/zrocket";
   };
 };

@@ -9,6 +9,6 @@ export default defineConfig({
         tailwindcss(),
         reactRouter(),
         tsconfigPaths()
-        //
+        // add more plugins here if needed
     ]
 });

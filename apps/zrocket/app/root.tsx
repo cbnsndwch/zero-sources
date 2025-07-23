@@ -61,7 +61,8 @@ export default function App() {
 
     const zero = useSyncExternalStore(
         zeroRef.onChange,
-        useCallback(() => zeroRef.current, [])
+        useCallback(() => zeroRef.current, []),
+        () => null // getServerSnapshot: return null during SSR
     );
 
     if (!zero) {

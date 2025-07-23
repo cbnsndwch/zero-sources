@@ -13,17 +13,18 @@ export type CreateRoomInput = z.infer<typeof createRoomInputSchema>;
 
 async function noop() {}
 
-// HACK:
-// !trick Zero client to think that the custom mutators are there so it sends
-// !pushes to the server
-export const mutators: CustomMutatorDefs<Schema> = {
-    /**
-     * Direct Messages mutators
-     */
-    dm: {
+export function createMutators() {
+    return {
         /**
-         * Create a new direct messages room
+         * Direct Messages mutators
          */
-        create: noop as CustomMutatorImpl<Schema, CreateRoomInput>
-    }
-};
+        dm: {
+            /**
+             * Create a new direct messages room
+             */
+            create: noop as CustomMutatorImpl<Schema, CreateRoomInput>
+        }
+    } as const satisfies CustomMutatorDefs<Schema>;
+}
+
+export type Mutators = ReturnType<typeof createMutators>;

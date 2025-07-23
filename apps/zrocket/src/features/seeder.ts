@@ -226,14 +226,14 @@ export async function seedZRocketData(
         );
 
         // Get user IDs for messages
-        const users = await db.collection('users').find({}).toArray();
-        const userIdMap = users.reduce(
-            (map, user) => {
-                map[user.username] = user._id.toString();
-                return map;
-            },
-            {} as Record<string, string>
-        );
+        // const users = await db.collection('users').find({}).toArray();
+        // const userIdMap = users.reduce(
+        //     (map, user) => {
+        //         map[user.username] = user._id.toString();
+        //         return map;
+        //     },
+        //     {} as Record<string, string>
+        // );
 
         if (generalChannel && projectGroup && dmRoom) {
             // Update messages with room IDs

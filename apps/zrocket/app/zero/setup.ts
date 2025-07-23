@@ -1,12 +1,14 @@
-import { Zero, type CustomMutatorDefs } from '@rocicorp/zero';
+import { Zero as ZeroConstructor } from '@rocicorp/zero';
 
 import { schema, type Schema } from '@cbnsndwch/zchat-contracts';
 
 import { clearJwt, getJwt, getRawJwt } from '../auth/jwt';
 
+import type { Zero } from './contracts';
+
 import { Atom } from './atom';
 import { mark } from './perf';
-import { mutators } from './mutators';
+import { createMutators, type Mutators } from './mutators';
 
 // One more than we display so we can detect if there are more
 // to load.
@@ -21,7 +23,7 @@ export type LoginState = {
     };
 };
 
-export const zeroRef = new Atom<Zero<Schema>>();
+export const zeroRef = new Atom<Zero>();
 export const authRef = new Atom<LoginState>();
 
 const jwt = getJwt();
@@ -40,13 +42,13 @@ authRef.onChange(auth => {
 
     mark('creating new zero');
 
-    zeroRef.current = new Zero<Schema, CustomMutatorDefs<Schema>>({
+    zeroRef.current = new ZeroConstructor<Schema, Mutators>({
         schema,
         logLevel: 'debug',
         server: import.meta.env.VITE_PUBLIC_SERVER,
         userID: auth?.decoded?.sub ?? 'anon',
         kvStore: 'document' in globalThis ? 'idb' : 'mem',
-        mutators,
+        mutators: createMutators(),
         auth: (error?: 'invalid-token') => {
             if (error === 'invalid-token') {
                 clearJwt();
@@ -62,7 +64,7 @@ authRef.onChange(auth => {
 
 let didPreload = false;
 
-export function preload(z: Zero<Schema>) {
+export function preload(z: Zero) {
     if (didPreload) {
         return;
     }
@@ -99,13 +101,10 @@ export function preload(z: Zero<Schema>) {
 }
 
 // To enable accessing zero in the devtools easily.
-function exposeDevHooks(z: Zero<Schema>) {
+function exposeDevHooks(z: Zero) {
     if (!('window' in globalThis)) {
         return;
     }
 
-    const casted = window as unknown as {
-        z?: Zero<Schema>;
-    };
-    casted.z = z;
+    (window as any)['z'] = z;
 }

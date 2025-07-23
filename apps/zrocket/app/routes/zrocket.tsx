@@ -141,7 +141,12 @@ export default function ZRocketDemo() {
 
                 {/* Features */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 className="text-2xl font-semibold mb-4">✨ Features</h2>
+                    <h2 className="text-2xl font-semibold mb-4">
+                        <span role="img" aria-label="">
+                            ✨
+                        </span>
+                        Features
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {demoInfo.features.map(
                             (feature: string, index: number) => (
@@ -164,7 +169,10 @@ export default function ZRocketDemo() {
                 {/* API Endpoints */}
                 <div className="bg-white rounded-lg shadow-md p-6">
                     <h2 className="text-2xl font-semibold mb-4">
-                        🔗 API Endpoints
+                        <span role="img" aria-label="">
+                            🔗
+                        </span>
+                        API Endpoints
                     </h2>
                     <div className="space-y-2">
                         {demoInfo.endpoints.map(
@@ -180,8 +188,13 @@ export default function ZRocketDemo() {
                     </div>
                     <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                         <p className="text-blue-800">
-                            <strong>💡 Tip:</strong> Check the Swagger
-                            documentation at{' '}
+                            <strong>
+                                <span role="img" aria-label="">
+                                    💡
+                                </span>
+                                Tip:
+                            </strong>{' '}
+                            Check the Swagger documentation at{' '}
                             <a
                                 href={`${import.meta.env.VITE_API_URL || 'http://localhost:8012'}/api-docs`}
                                 target="_blank"
@@ -199,32 +212,35 @@ export default function ZRocketDemo() {
                 {/* Architecture Diagram */}
                 <div className="mt-8 bg-white rounded-lg shadow-md p-6">
                     <h2 className="text-2xl font-semibold mb-4">
-                        🏗️ Architecture
+                        <span role="img" aria-label="">
+                            🏗️
+                        </span>
+                        Architecture
                     </h2>
                     <div className="text-center">
                         <div className="inline-block text-left max-w-4xl">
                             <pre className="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
                                 {`MongoDB Collections          Zero Tables
-┌─────────────────┐         ┌─────────────────┐
-│     rooms       │────────▶│     chats       │ (t: 'd')
-│  (all rooms)    │────────▶│     groups      │ (t: 'p')  
-│                 │────────▶│     channels    │ (t: 'c')
-└─────────────────┘         └─────────────────┘
+┌─────────────────┐           ┌─────────────────┐
+│     rooms       │──────────▶│     chats       │ (t: 'd')
+│  (all rooms)    │──────────▶│     groups      │ (t: 'p')  
+│                 │──────────▶│     channels    │ (t: 'c')
+└─────────────────┘           └─────────────────┘
 
-┌─────────────────┐         ┌─────────────────┐
-│    messages     │────────▶│  textMessages   │ (t: 'text')
-│ (all messages)  │────────▶│  imageMessages  │ (t: 'image')
-│                 │────────▶│  systemMessages │ (t: 'system')
-└─────────────────┘         └─────────────────┘
+┌─────────────────┐           ┌─────────────────┐
+│    messages     │──────────▶│  textMessages   │ (t: 'text')
+│ (all messages)  │──────────▶│  imageMessages  │ (t: 'image')
+│                 │──────────▶│  systemMessages │ (t: 'system')
+└─────────────────┘           └─────────────────┘
 
-┌─────────────────┐         ┌─────────────────┐
-│  participants   │────────▶│ userParticipants│ (type: 'user')
-│(all participants)│────────▶│ botParticipants │ (type: 'bot')
-└─────────────────┘         └─────────────────┘
+┌────────────────────┐         ┌─────────────────┐
+│    participants    │────────▶│ userParticipants│ (type: 'user')
+│ (all participants) │────────▶│ botParticipants │ (type: 'bot')
+└────────────────────┘         └─────────────────┘
 
-┌─────────────────┐         ┌─────────────────┐
-│     users       │────────▶│     users       │ (1:1 mapping)
-└─────────────────┘         └─────────────────┘`}
+┌─────────────────┐           ┌─────────────────┐
+│     users       │──────────▶│     users       │ (1:1 mapping)
+└─────────────────┘           └─────────────────┘`}
                             </pre>
                         </div>
                     </div>

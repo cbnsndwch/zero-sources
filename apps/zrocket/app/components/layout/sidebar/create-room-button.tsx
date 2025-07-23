@@ -1,11 +1,9 @@
 import { useCallback } from 'react';
 import { PlusIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import type { RoomType } from '@cbnsndwch/zchat-contracts';
-
-import { Form, useForm } from 'react-hook-form';
-
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +15,7 @@ import {
     DialogTitle
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import {
     Tooltip,
     TooltipContent,
@@ -25,7 +24,6 @@ import {
 
 import { useZero } from '@/zero/use-zero';
 import { createRoomInputSchema, type CreateRoomInput } from '@/zero/mutators';
-
 
 import {
     FormControl,
@@ -45,7 +43,7 @@ export default function CreateRoomButton({
     type,
     title
 }: CreateRoomButtonProps) {
-    const zero = useZero();
+    const z = useZero();
 
     const form = useForm<CreateRoomInput>({
         resolver: zodResolver(createRoomInputSchema),
@@ -57,8 +55,8 @@ export default function CreateRoomButton({
 
     // TODO: review custom mutators docs
     const onSubmit = useCallback(
-        (data: CreateRoomInput) => zero.mutate.dm.create(data),
-        [zero]
+        (data: CreateRoomInput) => z.mutate.dm.create(data),
+        [z]
     );
 
     return (

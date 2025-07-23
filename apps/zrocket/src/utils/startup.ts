@@ -7,7 +7,9 @@ export async function printStartupBanner(
     app: NestExpressApplication,
     logger: Logger
 ) {
-    const baseUrl = await app.getUrl();
+    const baseUrl = await app
+        .getUrl()
+        .then(url => url.replace('[::1]', 'localhost'));
     const banner = makeTable(
         {
             'Base URL': baseUrl,
