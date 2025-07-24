@@ -1,5 +1,8 @@
+import { ZeroProvider } from '@rocicorp/zero/react';
+import { AnimatePresence } from 'framer-motion';
 import {
     useCallback,
+    useState,
     useSyncExternalStore,
     type PropsWithChildren
 } from 'react';
@@ -10,7 +13,6 @@ import {
     Scripts,
     ScrollRestoration
 } from 'react-router';
-import { ZeroProvider } from '@rocicorp/zero/react';
 
 import type { Route } from './+types/root';
 import './app.css';
@@ -18,6 +20,7 @@ import './app.css';
 import { LoginProvider } from '@/auth/login.provider';
 
 import SidebarLayout from '@/components/layout';
+import SplashScreen from '@/components/splash';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 import { zeroRef } from '@/zero/setup';
@@ -57,16 +60,26 @@ export function Layout({ children }: PropsWithChildren) {
 }
 
 export default function App() {
-    // const [contentReady, setContentReady] = useState(false);
+    const [showSplash, setShowSplash] = useState(true);
+    const hideSplash = useCallback(() => setShowSplash(false), []);
 
     const zero = useSyncExternalStore(
         zeroRef.onChange,
-        useCallback(() => zeroRef.current, []),
+        useCallback(() => {
+            // // for demo purposes, always return null
+            // return null;
+
+            return zeroRef.current;
+        }, []),
         () => null // getServerSnapshot: return null during SSR
     );
 
-    if (!zero) {
-        return <h1>Loading data...</h1>;
+    if (showSplash || !zero) {
+        return (
+            <AnimatePresence>
+                <SplashScreen shouldShow={!zero} onComplete={hideSplash} />
+            </AnimatePresence>
+        );
     }
 
     return (

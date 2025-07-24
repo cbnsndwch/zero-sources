@@ -34,3 +34,7 @@ export type IHasName = {
 export type IHasUsername = {
     username: string;
 };
+
+export type HasClassName = {
+    className?: string;
+};

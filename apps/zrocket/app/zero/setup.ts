@@ -45,7 +45,7 @@ authRef.onChange(auth => {
     zeroRef.current = new ZeroConstructor<Schema, Mutators>({
         schema,
         logLevel: 'debug',
-        server: import.meta.env.VITE_PUBLIC_SERVER,
+        server: import.meta.env.VITE_PUBLIC_SYNC_SERVER,
         userID: auth?.decoded?.sub ?? 'anon',
         kvStore: 'document' in globalThis ? 'idb' : 'mem',
         mutators: createMutators(),
