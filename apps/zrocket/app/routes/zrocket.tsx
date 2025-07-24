@@ -8,7 +8,7 @@ export default function ZRocketDemo() {
 
     useEffect(() => {
         // Fetch demo info when component mounts
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8012';
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8011';
         fetch(`${apiUrl}/zrocket/demo-info`)
             .then(res => res.json())
             .then(setDemoInfo)
@@ -20,7 +20,7 @@ export default function ZRocketDemo() {
         setSeedStatus('Seeding data...');
         try {
             const apiUrl =
-                import.meta.env.VITE_API_URL || 'http://localhost:8012';
+                import.meta.env.VITE_API_URL || 'http://localhost:8011';
             const response = await fetch(`${apiUrl}/zrocket/seed-data`, {
                 method: 'POST'
             });
@@ -48,7 +48,7 @@ export default function ZRocketDemo() {
                         Loading ZRocket Demo...
                     </p>
                     <p className="text-sm text-gray-500 mt-2">
-                        Make sure the ZRocket API server is running on port 8012
+                        Make sure the ZRocket API server is running on port 8011
                     </p>
                 </div>
             </div>
@@ -196,13 +196,13 @@ export default function ZRocketDemo() {
                             </strong>{' '}
                             Check the Swagger documentation at{' '}
                             <a
-                                href={`${import.meta.env.VITE_API_URL || 'http://localhost:8012'}/api-docs`}
+                                href={`${import.meta.env.VITE_API_URL || 'http://localhost:8011'}/api-docs`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="underline hover:text-blue-600"
                             >
                                 {import.meta.env.VITE_API_URL ||
-                                    'http://localhost:8012'}
+                                    'http://localhost:8011'}
                                 /api-docs
                             </a>
                         </p>

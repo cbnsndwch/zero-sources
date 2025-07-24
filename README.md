@@ -232,13 +232,13 @@ pnpm run dev
 This starts both the NestJS API server and React Router 7 frontend in development mode.
 
 Wait for both servers to start:
-- API server: "Application is running on: http://[::1]:8012"  
+- API server: "Application is running on: http://localhost:8011"  
 - Frontend dev server: "Local: http://localhost:3000"
 
 #### 5. Seed Sample Data
 
 ```bash
-curl -X POST http://localhost:8012/zrocket/seed-data
+curl -X POST http://localhost:8011/zrocket/seed-data
 ```
 
 This creates sample data including:
@@ -250,17 +250,17 @@ This creates sample data including:
 
 **View Demo Information:**
 ```bash
-curl http://localhost:8012/zrocket/demo-info | jq
+curl http://localhost:8011/zrocket/demo-info | jq
 ```
 
 **Access API Documentation:**
-Open http://localhost:8012/api-docs in your browser
+Open http://localhost:8011/api-docs in your browser
 
 **Access Frontend Demo:**
 Open http://localhost:3000 in your browser
 
 **Access API directly:**
-Open http://localhost:8012 in your browser
+Open http://localhost:8011 in your browser
 
 ### 🔍 Available Endpoints
 
@@ -316,10 +316,10 @@ From `apps/zrocket`:
 **API Server Issues:**
 - Ensure MongoDB connection is working
 - Check that libraries are built: `pnpm build:libs`
-- Verify port 8012 is available
+- Verify port 8011 is available
 
 **Frontend Issues:**
-- Ensure API server is running on port 8012
+- Ensure API server is running on port 8011
 - Check browser console for CORS or network errors
 - Frontend runs on port 3000 in development mode
 

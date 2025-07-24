@@ -15,6 +15,11 @@ export type ZeroMongoModuleOptions = {
      * The schemas of the tables to stream changes for.
      */
     tables: TableSpec[];
+
+    /**
+     * The permissions configuration for the Zero application.
+     */
+    permissions?: any;
 };
 
 export type ZeroMongoModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &

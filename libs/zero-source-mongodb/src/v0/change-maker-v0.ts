@@ -1,3 +1,5 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { createHash } from 'crypto';
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 import type {
     ChangeStreamDeleteDocument,
@@ -10,11 +12,27 @@ import type {
 import { invariant } from '@cbnsndwch/zero-contracts';
 
 import type { IChangeMaker } from '../contracts/index.js';
+import {
+    TOKEN_MODULE_OPTIONS,
+    type ZeroMongoModuleOptions
+} from '../contracts/zero-mongo-module-options.contract.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
 
 type TableSpec = v0.TableCreate['spec'];
 
+@Injectable()
 export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
+    constructor(
+        @Inject(TOKEN_MODULE_OPTIONS)
+        private readonly options: ZeroMongoModuleOptions
+    ) {}
+
+    /**
+     * Generates a SHA-256 hash of the input string
+     */
+    private generateHash(input: string): string {
+        return createHash('sha256').update(input).digest('hex');
+    }
     //#region CRUD
 
     /**
@@ -320,7 +338,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         appId: string,
         shardId: string
     ): v0.ChangeStreamMessage[] {
-        return [
+        const changes: v0.ChangeStreamMessage[] = [
             ...this.makeCreateTableChanges({
                 schema: `public`,
                 name: `${appId}_${shardId}.clients`,
@@ -388,6 +406,31 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 primaryKey: ['lock']
             })
         ];
+
+        // Insert permissions data if available
+        if (this.options.permissions) {
+            const permissionsJson = JSON.stringify(this.options.permissions);
+            const permissionsHash = this.generateHash(permissionsJson);
+
+            changes.push([
+                'data',
+                {
+                    tag: 'insert',
+                    new: {
+                        permissions: permissionsJson,
+                        hash: permissionsHash,
+                        lock: true
+                    },
+                    relation: {
+                        keyColumns: ['lock'],
+                        schema: 'public',
+                        name: `${appId}.permissions`
+                    }
+                }
+            ] satisfies v0.Data);
+        }
+
+        return changes;
     }
 
     //#endregion Zero Pg Compat
