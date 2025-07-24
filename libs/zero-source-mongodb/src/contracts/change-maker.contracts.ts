@@ -112,17 +112,18 @@ export type IChangeMaker<TChangeData> = {
     //#region Zero Pg Compat
 
     /**
-     * Generates table events for the `zero_{SHARD_ID}.clients` table and the
+     * Generates table events for the `{appId}_{shardId}.clients` table and the
      * `zero.schemaVersions` table to address Zero custom sources still having
      * some logic that is very coupled to upstreams being postgres DBs.
      *
      * HACK: this is a temporary solution that MAY go away if zero custom change
      * sources become truly upstream-agnostic.
      *
+     * @param appId - The application ID to use for table name prefixes.
      * @param shardId - The identifier of the shard for which the table changes are to be made.
      * @returns An array of `v0.ChangeStreamMessage` objects representing the table changes.
      */
-    makeZeroRequiredUpstreamTablesChanges(shardId: string): TChangeData[];
+    makeZeroRequiredUpstreamTablesChanges(appId: string, shardId: string): TChangeData[];
 
     //#endregion Zero Pg Compat
 

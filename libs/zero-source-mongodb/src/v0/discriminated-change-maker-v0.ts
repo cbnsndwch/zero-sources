@@ -427,12 +427,12 @@ export class DiscriminatedChangeMakerV0 implements IChangeMaker<v0.ChangeStreamM
 
     //#region Zero Pg Compat
 
-    makeZeroRequiredUpstreamTablesChanges(shardId: string): v0.ChangeStreamMessage[] {
+    makeZeroRequiredUpstreamTablesChanges(appId: string, shardId: string): v0.ChangeStreamMessage[] {
         // This creates the required Zero tables for PostgreSQL compatibility
         return [
             ...this.makeCreateTableChanges({
                 schema: `public`,
-                name: `zero_${shardId}.clients`,
+                name: `${appId}_${shardId}.clients`,
                 columns: {
                     clientGroupID: {
                         pos: 1,
@@ -458,7 +458,7 @@ export class DiscriminatedChangeMakerV0 implements IChangeMaker<v0.ChangeStreamM
             }),
             ...this.makeCreateTableChanges({
                 schema: `public`,
-                name: 'zero.schemaVersions',
+                name: `${appId}.schemaVersions`,
                 columns: {
                     minSupportedVersion: {
                         pos: 1,
@@ -478,7 +478,7 @@ export class DiscriminatedChangeMakerV0 implements IChangeMaker<v0.ChangeStreamM
             }),
             ...this.makeCreateTableChanges({
                 schema: `public`,
-                name: 'zero.permissions',
+                name: `${appId}.permissions`,
                 columns: {
                     permissions: {
                         pos: 1,

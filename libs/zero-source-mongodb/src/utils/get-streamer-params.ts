@@ -12,6 +12,11 @@ export type ShardID = string;
  */
 export type ZeroChangeStreamerParamsBase = {
     /**
+     * The app ID for the Zero application (used for table name prefixes).
+     */
+    appId: string;
+
+    /**
      * The ID of the shard the streamer wants changes for.
      */
     shardId: ShardID;
@@ -78,17 +83,23 @@ export function getStreamerParams(req: Request): ZeroChangeStreamerParams {
     const path = reqUrl.pathname;
 
     const {
-        shardID: shardId,
+        appID: appId,
+        shardNum: shardId, // Zero cache uses shardNum instead of shardId
+        k: token,
         lastWatermark,
         replicaVersion,
-        k: token,
         ...additionalParams
     } = Object.fromEntries(reqUrl.searchParams.entries());
 
-    invariant(!!shardId, 'Zero streamer did not provide shardID');
+    invariant(
+        !!shardId,
+        'Zero streamer did not provide shardID or shardNum'
+    );
+    invariant(!!appId, 'Zero streamer did not provide appID');
 
     return {
         // base params
+        appId,
         shardId,
         replicaVersion,
         lastWatermark,

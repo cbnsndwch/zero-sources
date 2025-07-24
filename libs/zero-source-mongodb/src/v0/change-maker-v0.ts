@@ -312,16 +312,18 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      * ALTER TABLE "zero"."schemaVersions" OWNER TO "user";
      * ```
      *
+     * @param appId - The application ID to use for table name prefixes.
      * @param shardId - The identifier of the shard for which the table changes are to be made.
      * @returns An array of `v0.ChangeStreamMessage` objects representing the table changes.
      */
     makeZeroRequiredUpstreamTablesChanges(
+        appId: string,
         shardId: string
     ): v0.ChangeStreamMessage[] {
         return [
             ...this.makeCreateTableChanges({
                 schema: `public`,
-                name: `zero_${shardId}.clients`,
+                name: `${appId}_${shardId}.clients`,
                 columns: {
                     clientGroupID: {
                         pos: 1,
@@ -347,7 +349,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
             }),
             ...this.makeCreateTableChanges({
                 schema: `public`,
-                name: 'zero.schemaVersions',
+                name: `${appId}.schemaVersions`,
                 columns: {
                     minSupportedVersion: {
                         pos: 1,
@@ -367,7 +369,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
             }),
             ...this.makeCreateTableChanges({
                 schema: `public`,
-                name: 'zero.permissions',
+                name: `${appId}.permissions`,
                 columns: {
                     permissions: {
                         pos: 1,

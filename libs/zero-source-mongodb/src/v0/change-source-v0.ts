@@ -39,6 +39,7 @@ const CHANGE_STREAM_TIMEOUT_MAX = 2_147_483_647;
 export class ChangeSourceV0 {
     #logger = new Logger(ChangeSourceV0.name);
 
+    #appId: string;
     #shard: StreamerShard;
     #watermarkService: IWatermarkService;
 
@@ -51,12 +52,14 @@ export class ChangeSourceV0 {
     #error?: ChangeStreamControllerError;
 
     constructor(
+        appId: string,
         shard: StreamerShard,
         conn: Connection,
         tableSpecs: TableSpec[],
         changeMaker: ChangeMaker,
         watermarkService: IWatermarkService
     ) {
+        this.#appId = appId;
         this.#shard = shard;
         this.#conn = conn;
         this.#tableSpecs = tableSpecs;
@@ -198,6 +201,7 @@ export class ChangeSourceV0 {
             // HACK: the custom change source implementation still expect these
             // tables to exist in the upstream DB
             ...this.#changeMaker.makeZeroRequiredUpstreamTablesChanges(
+                this.#appId,
                 this.#shard._id
             ),
 

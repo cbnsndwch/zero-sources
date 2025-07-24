@@ -95,7 +95,8 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
     async handleConnection(client: WebSocket, req: Request) {
         try {
             const params = getStreamerParams(req);
-            const { shardId, lastWatermark, token, shardPublications } = params;
+            const { appId, shardId, lastWatermark, token, shardPublications } =
+                params;
 
             // enforce auth only if configured
             if (
@@ -117,6 +118,7 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
             );
 
             const source = new ChangeSourceV0(
+                appId,
                 shard,
                 this.#shardModel.db,
                 this.#options.tables,
