@@ -1,6 +1,6 @@
 import { Zero as ZeroConstructor } from '@rocicorp/zero';
 
-import { schema, type Schema } from '@cbnsndwch/zchat-contracts';
+import { discriminatedSchema as schema, type DiscriminatedSchema as Schema } from '@cbnsndwch/zchat-contracts';
 
 import { clearJwt, getJwt, getRawJwt } from '../auth/jwt';
 
@@ -71,7 +71,7 @@ export function preload(z: Zero) {
 
     didPreload = true;
 
-    const baseRoomQuery = z.query.rooms;
+    const baseRoomQuery = z.query.chats;
     // .related('labels')
     // .related('viewState', q => q.where('userID', z.userID));
 

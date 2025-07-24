@@ -18,7 +18,10 @@ Our monorepo contains:
 
 ### Apps (`apps/`)
 - **`zrocket`**: Unified chat application (NestJS + React Router 7) showcasing discriminated union tables
-- **`source-mongodb-server`**: General-purpose MongoDB change source server
+  - Launch app: `cd apps/zrocket && pnpm dev` (runs on port 8011)
+  - Launch Zero cache: `cd apps/zrocket && pnpm dev:zero` (runs on port 4848)
+  - The app integrates MongoDB change source with discriminated union support
+- **`source-mongodb-server`**: General-purpose MongoDB change source server. We will come back to this app once we've accomplished a working implementation in ZRocket. Ignore for now.
 
 ### Libraries (`libs/`)
 - **`zero-contracts`**: Common TypeScript contracts and utilities for Zero
@@ -55,10 +58,21 @@ interface UpstreamTableMapping {
 ```
 
 **ZRocket Demo Implementation:**
-- `rooms` collection → `chats`, `groups`, `channels` (filtered by `t` field)
+- `rooms` collection → `chats`, `groups`, `channels` (filtered by `t` field: 'd', 'p', 'c')
 - `messages` collection → `textMessages`, `imageMessages`, `systemMessages` (filtered by `t` field) 
 - `participants` collection → `userParticipants`, `botParticipants` (filtered by `type` field)
 - `users` collection → `users` (traditional 1:1 mapping)
+
+**Frontend Schema Usage:**
+- Frontend imports `DiscriminatedSchema` instead of regular `Schema`
+- Query discriminated tables: `z.query.chats`, `z.query.textMessages`, etc.
+- No direct access to raw MongoDB collections (`rooms`, `messages`)
+
+**Backend Integration:**
+- MongoDB change source runs within ZRocket app (unified architecture)
+- WebSocket gateway at `/changes-v0` handles Zero cache connections
+- Schema served at `/api/zrocket/zero-schema` endpoint
+- Real-time change stream routing to appropriate Zero tables
 
 **Future planned integrations:**
 - **Stripe**: API-based initial sync with webhook support for real-time updates
@@ -338,3 +352,30 @@ export const schema = createSchema(
     }
 );
 ```
+
+## Development Workflow
+
+### ZRocket Development Setup
+
+The ZRocket app demonstrates discriminated union change sources with a unified NestJS + React Router 7 architecture.
+
+**Quick Start:**
+1. **Start Zero cache first**: `cd apps/zrocket && pnpm dev:zero`
+   - Runs Zero cache on port 4848
+   - Uses discriminated schema from `libs/zchat-contracts`
+   - Connects to MongoDB change source via WebSocket
+   
+2. **Start the application**: `cd apps/zrocket && pnpm dev`
+   - Runs unified app (frontend + backend) on port 8011
+   - Includes MongoDB change source integration
+   - Serves schema JSON at `/api/zrocket/zero-schema`
+
+**Important Notes:**
+- Always start Zero cache (`pnpm dev:zero`) before the main app
+- Zero cache must be running for real-time data synchronization
+- The app uses discriminated union tables: `chats`, `groups`, `channels` (from `rooms` collection) and `textMessages`, `imageMessages`, `systemMessages` (from `messages` collection)
+- Frontend uses `DiscriminatedSchema` type instead of regular `Schema`
+
+**Seeding Data:**
+- POST to `http://localhost:8011/api/zrocket/seed-data` to create sample users, rooms, and messages
+- GET `http://localhost:8011/api/zrocket/tables` to see discriminated union table configurations

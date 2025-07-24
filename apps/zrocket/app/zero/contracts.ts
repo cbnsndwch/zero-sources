@@ -1,6 +1,6 @@
 import type { Zero as ZeroConstructor } from '@rocicorp/zero';
 
-import type { Schema } from '@cbnsndwch/zchat-contracts';
+import type { DiscriminatedSchema as Schema } from '@cbnsndwch/zchat-contracts';
 
 import type { Mutators } from './mutators';
 
