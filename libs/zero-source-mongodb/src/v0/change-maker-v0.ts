@@ -409,15 +409,16 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
 
         // Insert permissions data if available
         if (this.options.permissions) {
-            const permissionsJson = JSON.stringify(this.options.permissions);
-            const permissionsHash = this.generateHash(permissionsJson);
+            // Generate hash from JSON string for versioning
+            const permissionsHash = this.generateHash(JSON.stringify(this.options.permissions));
 
             changes.push([
                 'data',
                 {
                     tag: 'insert',
                     new: {
-                        permissions: permissionsJson,
+                        // Store the actual permissions object directly (NOT as JSON string)
+                        permissions: this.options.permissions,
                         hash: permissionsHash,
                         lock: true
                     },
