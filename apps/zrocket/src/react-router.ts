@@ -5,7 +5,7 @@ import type { NestExpressApplication } from '@nestjs/platform-express';
 import { createRequestHandler } from '@react-router/express';
 
 // sensible defaults for most Nest apps
-const DEFAULT_NEST_PATHS = ['/api', '/docs', '/graphql'];
+const DEFAULT_NEST_PATHS = ['/api', '/docs', '/changes', '/graphql'];
 
 // the path to the React Router server build
 const BUILD_PATH = path.resolve(process.cwd(), 'build', 'server', 'index.js');

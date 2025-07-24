@@ -70,7 +70,7 @@ interface UpstreamTableMapping {
 
 **Backend Integration:**
 - MongoDB change source runs within ZRocket app (unified architecture)
-- WebSocket gateway at `/changes-v0` handles Zero cache connections
+- WebSocket gateway at `/changes/v0/stream` handles Zero cache connections
 - Schema served at `/api/zrocket/zero-schema` endpoint
 - Real-time change stream routing to appropriate Zero tables
 

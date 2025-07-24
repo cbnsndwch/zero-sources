@@ -33,8 +33,7 @@ const loadingSequences = [
     },
     {
         component: GeneratingTerrain,
-        message:
-            'Researching the meaning of life, the universe, and everything...'
+        message: 'Asking about life, the universe, and everything...'
     }
 ];
 
@@ -171,7 +170,7 @@ export default function SplashScreen({
                         </motion.p>
                     </AnimatePresence>
 
-                    {/* <motion.div
+                    <motion.div
                         className="flex gap-2 justify-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -193,7 +192,7 @@ export default function SplashScreen({
                                 }}
                             />
                         ))}
-                    </motion.div> */}
+                    </motion.div>
                 </div>
             </div>
         </motion.div>
