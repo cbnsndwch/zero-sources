@@ -156,9 +156,9 @@ export class ChangeSourceV0 {
                     }
                 })
                 // complete the observable when the change stream is closed
-                .on('close', observer.complete)
+                .on('close', () => observer.complete())
                 // propagate errors from the change stream to the subscriber
-                .on('error', observer.error);
+                .on('error', (err) => observer.error(err));
         });
 
         const tryCloseChangeStream = async () =>
