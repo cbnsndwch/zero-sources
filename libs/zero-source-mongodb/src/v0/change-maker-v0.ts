@@ -238,13 +238,17 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
             {} as v0.IndexCreate['spec']['columns']
         );
 
+        // Create a clean spec without the .from() field for Zero cache
+        const cleanSpec = { ...spec };
+        delete (cleanSpec as any).from;
+
         const changes: v0.ChangeStreamMessage[] = [
             // create the table
             [
                 'data',
                 {
                     tag: 'create-table',
-                    spec
+                    spec: cleanSpec
                 } satisfies v0.TableCreate
             ],
             // and a unique index on the table's primary key columns

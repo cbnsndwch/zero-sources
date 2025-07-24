@@ -15,9 +15,19 @@ const VALUE_TYPE_TO_PG_TYPE: Record<ValueType, PgType> = {
 } as const;
 
 export function tableSpecsFromSchema(schema: Schema) {
-    const tableSpecs = Object.values(schema.tables).map(
-        tableSpecFromTableSchema
-    );
+    // For discriminated schemas, we need to preserve original table identifiers
+    // and map them to clean names while preserving .from() configurations
+    const tableSpecs = Object.entries(schema.tables).map(([tableIdentifier, tableSchema]) => {
+        const spec = tableSpecFromTableSchema(tableSchema);
+        
+        // If this table has a .from() field (discriminated union config),
+        // use the original table identifier as the name, not the .from() value
+        if ((spec as any).from && spec.name.startsWith('{')) {
+            spec.name = tableIdentifier;
+        }
+        
+        return spec;
+    });
     return tableSpecs;
 }
 
@@ -30,12 +40,19 @@ export function tableSpecFromTableSchema(table: TableSchema) {
         {} as ColumnsSpec
     );
 
-    return {
+    const spec: TableSpec = {
         name: table.name,
         primaryKey: [...table.primaryKey],
         schema: 'public',
         columns: tableColumns
-    } satisfies TableSpec;
+    };
+
+    // Preserve the .from() field if it exists (discriminated union configuration)
+    if ((table as any).from) {
+        (spec as any).from = (table as any).from;
+    }
+
+    return spec;
 }
 
 export function columnSpecFromColSchema(column: ColSchema, pos: number) {

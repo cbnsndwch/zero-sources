@@ -30,6 +30,7 @@ import { getStreamerParams } from '../utils/get-streamer-params.js';
 
 import { ChangeMakerV0 } from './change-maker-v0.js';
 import { ChangeSourceV0 } from './change-source-v0.js';
+import { TableMappingService } from './table-mapping.service.js';
 
 type DownstreamState = {
     shard: StreamerShard;
@@ -52,6 +53,8 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
     // maps between mongo resume tokens and zero watermarks (lexi versions)
     #watermarkService: IWatermarkService;
 
+    #discriminatedTableService: TableMappingService;
+
     /**
      * A map of client keys to RxJS subjects that can be used to multicast
      * changes to all clients interested on the same shard.
@@ -62,13 +65,18 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
         @Inject(TOKEN_WATERMARK_SERVICE) watermarkService: IWatermarkService,
         @Inject(TOKEN_MODULE_OPTIONS) options: ZeroMongoModuleOptions,
         @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
-        changeMaker: ChangeMakerV0
+        changeMaker: ChangeMakerV0,
+        discriminatedTableService: TableMappingService
     ) {
         this.#shardModel = shardModel;
         this.#watermarkService = watermarkService;
         this.#changeMaker = changeMaker;
 
         this.#options = options;
+
+        // Initialize the discriminated table service with table specs
+        this.#discriminatedTableService = discriminatedTableService;
+        this.#discriminatedTableService.initialize(options.tables);
     }
 
     //#region Gateway Lifecycle
@@ -137,10 +145,22 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
                       lastWatermark
                   );
 
+            // Determine which collections to watch
+            // If Zero cache provided shardPublications, use those
+            // Otherwise, use all collections from the discriminated table service
+            const collectionsToWatch =
+                shardPublications.length > 0
+                    ? shardPublications
+                    : this.#discriminatedTableService.getAllWatchedCollections();
+
+            this.#logger.log(
+                `Watching collections: ${collectionsToWatch.join(', ')}`
+            );
+
             // stream db changes
             let stream$: Observable<v0.ChangeStreamMessage> =
                 source.streamChanges$(
-                    shardPublications,
+                    collectionsToWatch,
                     abortController.signal,
                     resumeToken
                 );

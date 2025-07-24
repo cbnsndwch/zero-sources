@@ -21,7 +21,7 @@ export interface DiscriminatedTableMapping {
  * Service that manages discriminated table configurations and mappings
  */
 @Injectable()
-export class DiscriminatedTableService {
+export class TableMappingService {
     private discriminatedTables: Map<string, DiscriminatedTableMapping[]> = new Map();
     private fallbackTables: Map<string, TableSpec> = new Map();
     private isInitialized = false;
@@ -34,14 +34,14 @@ export class DiscriminatedTableService {
         this.fallbackTables.clear();
         
         for (const spec of tableSpecs) {
-            // Try to parse discriminated configuration from the table name/from modifier
-            // For now, we'll use a naming convention since we can't store JSON in .from()
-            const config = this.getDiscriminatedConfigForTable(spec.name);
+            // Try to parse discriminated configuration from the .from() modifier
+            const config = this.parseDiscriminatedConfigFromSpec(spec);
             
             if (config) {
                 // This is a discriminated table
+                const cleanTableName = this.getCleanTableName(spec.name);
                 const mapping: DiscriminatedTableMapping = {
-                    tableName: spec.name,
+                    tableName: cleanTableName,
                     config,
                     spec
                 };
@@ -52,7 +52,8 @@ export class DiscriminatedTableService {
                 this.discriminatedTables.get(config.source)!.push(mapping);
             } else {
                 // This is a traditional 1:1 table mapping
-                this.fallbackTables.set(spec.name, spec);
+                const cleanTableName = this.getCleanTableName(spec.name);
+                this.fallbackTables.set(cleanTableName, spec);
             }
         }
         
@@ -88,6 +89,60 @@ export class DiscriminatedTableService {
     }
 
     /**
+     * Parses discriminated configuration from a TableSpec using the from field
+     */
+    private parseDiscriminatedConfigFromSpec(spec: TableSpec): DiscriminatedTableConfig | null {
+        // Check if the spec has a from field with JSON configuration
+        if ((spec as any).from && typeof (spec as any).from === 'string') {
+            const config = parseDiscriminatedConfig((spec as any).from);
+            if (config) {
+                return config;
+            }
+        }
+        
+        // Fallback to the hardcoded naming convention as backup
+        return this.getDiscriminatedConfigForTable(spec.name);
+    }
+
+    /**
+     * Maps JSON configuration strings to clean table names
+     */
+    private getCleanTableName(configOrName: string): string {
+        // If it's a JSON config string, extract the clean table name
+        if (configOrName.startsWith('{')) {
+            try {
+                const config = JSON.parse(configOrName);
+                
+                // Map based on source and filter to clean table names
+                if (config.source === 'rooms') {
+                    if (config.filter?.t === 'd') return 'chats';
+                    if (config.filter?.t === 'p') return 'groups';
+                    if (config.filter?.t === 'c') return 'channels';
+                }
+                
+                if (config.source === 'messages') {
+                    if (config.filter?.t === 'text') return 'textMessages';
+                    if (config.filter?.t === 'image') return 'imageMessages';
+                    if (config.filter?.t === 'system') return 'systemMessages';
+                }
+                
+                if (config.source === 'users') {
+                    return 'users';
+                }
+                
+                // Fallback: use source name if no specific mapping
+                return config.source;
+            } catch {
+                // If JSON parsing fails, return as-is
+                return configOrName;
+            }
+        }
+        
+        // If it's already a clean name, return as-is
+        return configOrName;
+    }
+
+    /**
      * Gets all collections that should be watched (both discriminated and traditional)
      */
     getAllWatchedCollections(): string[] {
@@ -99,7 +154,7 @@ export class DiscriminatedTableService {
 
     /**
      * Determines discriminated configuration for a table based on naming convention
-     * This is a temporary solution until we can properly extract from Zero schema
+     * This is now a fallback solution when no JSON config is found in the .from() field
      */
     private getDiscriminatedConfigForTable(tableName: string): DiscriminatedTableConfig | null {
         // Define discriminated table configurations based on the ZRocket spec

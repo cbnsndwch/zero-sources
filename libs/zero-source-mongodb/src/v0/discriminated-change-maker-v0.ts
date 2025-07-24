@@ -14,13 +14,13 @@ import { invariant } from '@cbnsndwch/zero-contracts';
 import type { IChangeMaker } from '../contracts/index.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
 import { matchesFilter, applyProjection } from '../utils/discriminated-union.js';
-import { DiscriminatedTableService, type DiscriminatedTableMapping } from './discriminated-table.service.js';
+import { TableMappingService, type DiscriminatedTableMapping } from './table-mapping.service.js';
 
 type TableSpec = v0.TableCreate['spec'];
 
 @Injectable()
 export class DiscriminatedChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
-    constructor(private discriminatedTableService: DiscriminatedTableService) {}
+    constructor(private discriminatedTableService: TableMappingService) {}
 
     /**
      * Gets all Zero tables that should receive changes for a given MongoDB collection and document
@@ -395,13 +395,21 @@ export class DiscriminatedChangeMakerV0 implements IChangeMaker<v0.ChangeStreamM
             {} as v0.IndexCreate['spec']['columns']
         );
 
+        // Create a clean spec without the .from() field for Zero cache
+        const cleanSpec: TableSpec = {
+            name: spec.name,
+            schema: spec.schema,
+            primaryKey: spec.primaryKey,
+            columns: spec.columns
+        };
+
         const changes: v0.ChangeStreamMessage[] = [
             // create the table
             [
                 'data',
                 {
                     tag: 'create-table',
-                    spec
+                    spec: cleanSpec
                 } satisfies v0.TableCreate
             ],
             // and a unique index on the table's primary key columns
@@ -410,9 +418,9 @@ export class DiscriminatedChangeMakerV0 implements IChangeMaker<v0.ChangeStreamM
                 {
                     tag: 'create-index',
                     spec: {
-                        name: `pk_${spec.schema}__${spec.name}___id`,
-                        schema: spec.schema,
-                        tableName: spec.name,
+                        name: `pk_${cleanSpec.schema}__${cleanSpec.name}___id`,
+                        schema: cleanSpec.schema,
+                        tableName: cleanSpec.name,
                         columns: pkColumns,
                         unique: true
                     }

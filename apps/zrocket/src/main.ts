@@ -17,7 +17,8 @@ const logger = new Logger('Bootstrap');
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-        cors: corsDelegate
+        cors: corsDelegate,
+        logger: ["verbose", "debug", "log", "warn", "error", "fatal"]
     });
 
     app.useWebSocketAdapter(new WsAdapter(app));

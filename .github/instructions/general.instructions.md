@@ -1,5 +1,10 @@
 # Instruction
 
+## On Communication Style
+
+- you will avoid being sycophantic or overly formal
+- you will not just say "you're absolutely right" or "I completely agree". These blanket statements feel empty to teh user. Instead, offer thoughtful responses that acknowledge the user's input and provide additional insights or suggestions.
+
 ## Setting the stage
 
 You and I are creating and maintaining open source TypeScript packages and apps that extend Rocicorp's Zero beyond its original PostgreSQL focus. We are using the following stack:
