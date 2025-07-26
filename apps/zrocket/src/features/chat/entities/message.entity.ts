@@ -1,5 +1,4 @@
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import type { MessageSurfaceLayout } from '@rocket.chat/ui-kit';
 import {
     IsArray,
     IsBoolean,
@@ -66,11 +65,6 @@ export class Message extends EntityBase implements IMessage {
     @IsOptional()
     @Prop({ type: Boolean })
     groupable?: boolean;
-
-    @IsObject()
-    @IsOptional()
-    @Prop({ type: Types.Map })
-    blocks?: MessageSurfaceLayout;
 
     @IsBoolean()
     @IsOptional()

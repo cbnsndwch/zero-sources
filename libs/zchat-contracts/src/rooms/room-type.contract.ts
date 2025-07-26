@@ -1,22 +1,21 @@
 /**
- * A direct messages room
+ * Room type enumeration
  */
-export const ROOM_TYPE_DIRECT_MESSAGES = 'd';
+export enum RoomType {
+    /**
+     * A direct messages room
+     */
+    DirectMessages = 'd',
 
-/**
- * A public group (nee: channel) room
- */
-export const ROOM_TYPE_PUBLIC_GROUP = 'c';
+    /**
+     * A public group (nee: channel) room
+     */
+    PublicChannel = 'c',
 
-/**
- * A private group room
- */
-export const ROOM_TYPE_PRIVATE_GROUP = 'p';
+    /**
+     * A private group room
+     */
+    PrivateGroup = 'p'
+}
 
-export const ROOM_TYPES = [
-    ROOM_TYPE_DIRECT_MESSAGES,
-    ROOM_TYPE_PUBLIC_GROUP,
-    ROOM_TYPE_PRIVATE_GROUP
-] as const;
-
-export type RoomType = (typeof ROOM_TYPES)[number];
+export const ROOM_TYPES = [...Object.values(RoomType)] as const;

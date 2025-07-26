@@ -1,6 +1,6 @@
 import { Zero as ZeroConstructor } from '@rocicorp/zero';
 
-import { discriminatedSchema as schema, type DiscriminatedSchema as Schema } from '@cbnsndwch/zchat-contracts';
+import { schema, type Schema } from '@cbnsndwch/zchat-contracts';
 
 import { clearJwt, getJwt, getRawJwt } from '../auth/jwt';
 
@@ -71,32 +71,67 @@ export function preload(z: Zero) {
 
     didPreload = true;
 
-    const baseRoomQuery = z.query.chats;
-    // .related('labels')
-    // .related('viewState', q => q.where('userID', z.userID));
+    const initialQueries = [
+        z.query.channels
+            .orderBy('createdAt', 'desc')
+            .limit(50)
+            .related('textMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('imageMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('systemMessages', cb =>
+                cb.orderBy('ts', 'desc').limit(50)
+            ),
+        z.query.groups
+            .orderBy('createdAt', 'desc')
+            .limit(50)
+            .related('textMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('imageMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('systemMessages', cb =>
+                cb.orderBy('ts', 'desc').limit(50)
+            ),
+        z.query.chats
+            .orderBy('createdAt', 'desc')
+            .limit(50)
+            .related('textMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('imageMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('systemMessages', cb =>
+                cb.orderBy('ts', 'desc').limit(50)
+            ),
+        z.query.users.where('active', '=', true)
+    ];
 
-    const { cleanup, complete } = baseRoomQuery.preload();
-
-    complete.then(() => {
-        mark('preload complete');
-
-        cleanup();
-
-        baseRoomQuery
-            // .related('creator')
-            // .related('assignee')
-            // .related('emoji', emoji => emoji.related('creator'))
-            // .related('comments', comments =>
-            //     comments
-            //         .related('creator')
-            //         .related('emoji', emoji => emoji.related('creator'))
-            //         .limit(INITIAL_COMMENT_LIMIT)
-            //         .orderBy('created', 'desc')
-            // )
-            .preload();
+    initialQueries.forEach(query => {
+        query.preload();
     });
 
-    z.query.users.preload();
+    // const preloadQueries = [
+    //     z.query.messages
+
+    // ].map(table => table.preload()).forEach(({ cleanup, complete }) => {
+
+    // });
+
+    // const { cleanup, complete } = preloadQueries.preload();
+
+    // complete.then(() => {
+    //     mark('preload complete');
+
+    //     cleanup();
+
+    //     // preloadQueries
+    //     //     // .related('creator')
+    //     //     // .related('assignee')
+    //     //     // .related('emoji', emoji => emoji.related('creator'))
+    //     //     // .related('comments', comments =>
+    //     //     //     comments
+    //     //     //         .related('creator')
+    //     //     //         .related('emoji', emoji => emoji.related('creator'))
+    //     //     //         .limit(INITIAL_COMMENT_LIMIT)
+    //     //     //         .orderBy('created', 'desc')
+    //     //     // )
+    //     //     .preload();
+    // });
+
+    // z.query.users.preload();
     // z.query.label.preload();
 }
 

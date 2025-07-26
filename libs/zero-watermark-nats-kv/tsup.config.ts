@@ -8,6 +8,6 @@ export default defineConfig({
     sourcemap: true,
     platform: 'node',
     outDir: 'dist',
-    format: ['esm', 'cjs'],
+    format: ['esm'],
     entry: ['src/index.mts']
 });

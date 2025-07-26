@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import type { CustomMutatorDefs, CustomMutatorImpl } from '@rocicorp/zero';
 
-import { ROOM_TYPES, type DiscriminatedSchema as Schema } from '@cbnsndwch/zchat-contracts';
+import { ROOM_TYPES, type Schema } from '@cbnsndwch/zchat-contracts';
 
 export const createRoomInputSchema = z.object({
     t: z.enum(ROOM_TYPES),

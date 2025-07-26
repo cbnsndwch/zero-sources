@@ -13,7 +13,7 @@
         "build:api": "nest build",
         "build:ui": "react-router build",
         "dev": "nest start --watch",
-        "dev:zero": "zero-cache-dev -p ../../libs/zchat-contracts/src/discriminated-schema.ts",
+        "dev:zero": "zero-cache-dev -p ../../libs/zchat-contracts/src/clean-schema.ts",
         "debug": "nest start --watch --debug",
         "format": "prettier --write ./{src,app}/**/*.{ts,tsx,json,md}",
         "start": "node dist/main.js",

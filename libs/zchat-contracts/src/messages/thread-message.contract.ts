@@ -1,9 +1,9 @@
-import type { IMessage } from './message.contracts.js';
+import type { IUserMessage } from './user-message.contract.js';
 
 /**
  * A message that is the starting message for a thread
  */
-export interface IThreadMainMessage extends IMessage {
+export interface IThreadMainMessage extends IUserMessage {
     /**
      * The number of replies to the thread under this message
      */
@@ -20,7 +20,7 @@ export interface IThreadMainMessage extends IMessage {
     repliedBy: string[];
 }
 
-export interface IThreadMessage extends IMessage {
+export interface IThreadMessage extends IUserMessage {
     /**
      * The message ID of the message that started the thread this message belongs to
      */
@@ -41,7 +41,7 @@ export interface IThreadMessage extends IMessage {
  * @returns `true` if the message is a main thread message, otherwise `false`.
  */
 export function isThreadMainMessage(
-    message: IMessage
+    message: IUserMessage
 ): message is IThreadMainMessage {
     return 'threadReplyCount' in message && 'threadLastMReplyAt' in message;
 }
@@ -52,7 +52,7 @@ export function isThreadMainMessage(
  * @param message - The message to check.
  * @returns `true` if the message is a thread message, otherwise `false`.
  */
-export function isThreadMessage(message: IMessage): message is IThreadMessage {
+export function isThreadMessage(message: IUserMessage): message is IThreadMessage {
     const maybeThreadId = (message as IThreadMessage).threadId;
     return Boolean(maybeThreadId);
 }

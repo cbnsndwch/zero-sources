@@ -1,7 +1,7 @@
 export * from './room-type.contract.js';
-export * from './room.contracts.js';
+export * from './room-base.contracts.js';
 
-export * from './direct-messages.js';
-export * from './group-room.contracts.js';
+export * from './direct-messages.contracts.js';
+export * from './group.contracts.js';
 
-export * from './room.schema.js';
+export * from './tables/index.js';

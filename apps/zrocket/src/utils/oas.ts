@@ -8,7 +8,7 @@ export function setupSwaggerUi(app: NestExpressApplication) {
     app.useStaticAssets(path.resolve('public'));
 
     const options = new DocumentBuilder()
-        .setTitle('ZChat')
+        .setTitle('ZRocket')
         .setDescription('A Zero-powered chat app inspired by RocketChat')
         .setVersion('0.1.0')
         .addBasicAuth()
@@ -22,7 +22,7 @@ export function setupSwaggerUi(app: NestExpressApplication) {
         swaggerOptions: {
             persistAuthorization: true
         },
-        customSiteTitle: 'ZChat API Docs',
+        customSiteTitle: 'ZRocket API Docs',
         customCssUrl: '/css/oas-theme.css'
     });
 }

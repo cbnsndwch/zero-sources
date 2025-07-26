@@ -1,5 +1,4 @@
+export * from './user-events.contract.js';
+export * from './user-presence-status.contract.js';
+
 export * from './user.contract.js';
-
-export * from './user-status.contract.js';
-
-export * from './user.schema.js';

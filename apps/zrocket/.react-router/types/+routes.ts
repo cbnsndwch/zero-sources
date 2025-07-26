@@ -13,9 +13,19 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/r/:roomId": {
+  "/d/:chatId": {
     params: {
-      "roomId": string;
+      "chatId": string;
+    };
+  };
+  "/p/:groupId": {
+    params: {
+      "groupId": string;
+    };
+  };
+  "/c/:channelId": {
+    params: {
+      "channelId": string;
     };
   };
   "/zrocket/demo-info": {
@@ -26,15 +36,23 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/r/:roomId" | "/zrocket/demo-info";
+    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/zrocket/demo-info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
   };
-  "routes/room/index.tsx": {
-    id: "routes/room/index";
-    page: "/r/:roomId";
+  "routes/chat/index.tsx": {
+    id: "routes/chat/index";
+    page: "/d/:chatId";
+  };
+  "routes/group/index.tsx": {
+    id: "routes/group/index";
+    page: "/p/:groupId";
+  };
+  "routes/channel/index.tsx": {
+    id: "routes/channel/index";
+    page: "/c/:channelId";
   };
   "routes/zrocket.tsx": {
     id: "routes/zrocket";

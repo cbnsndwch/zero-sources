@@ -6,7 +6,8 @@ import type {
     ChangeStreamInsertDocument,
     ChangeStreamReplaceDocument,
     ChangeStreamUpdateDocument,
-    ChangeStreamDropDocument
+    ChangeStreamDropDocument,
+    ChangeStreamNameSpace
 } from 'mongodb';
 
 import { invariant } from '@cbnsndwch/zero-contracts';
@@ -17,6 +18,8 @@ import {
     type ZeroMongoModuleOptions
 } from '../contracts/zero-mongo-module-options.contract.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
+import { matchesFilter, applyProjection } from '../utils/table-mapping.js';
+import { TableMappingService, type MappedTableMapping } from './table-mapping.service.js';
 
 type TableSpec = v0.TableCreate['spec'];
 
@@ -24,8 +27,14 @@ type TableSpec = v0.TableCreate['spec'];
 export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     constructor(
         @Inject(TOKEN_MODULE_OPTIONS)
-        private readonly options: ZeroMongoModuleOptions
-    ) {}
+        private readonly options: ZeroMongoModuleOptions,
+        private readonly tableMappingService: TableMappingService
+    ) {
+        // Initialize the table mapping service with table specs from options
+        if (this.options.tables) {
+            this.tableMappingService.initialize(this.options.tables);
+        }
+    }
 
     /**
      * Generates a SHA-256 hash of the input string
@@ -33,6 +42,26 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     private generateHash(input: string): string {
         return createHash('sha256').update(input).digest('hex');
     }
+
+    /**
+     * Gets all Zero tables that should receive changes for a given MongoDB collection and document
+     */
+    private getMatchingTables(ns: ChangeStreamNameSpace, document: any): MappedTableMapping[] {
+        const collectionName = ns.coll;
+        const mappedTables = this.tableMappingService.getMappedTables(collectionName);
+        
+        return mappedTables.filter(mapping => 
+            matchesFilter(document, mapping.config.filter || {})
+        );
+    }
+
+    /**
+     * Gets all collections that should be watched (both mapped and traditional)
+     */
+    getAllWatchedCollections(): string[] {
+        return this.tableMappingService.getAllWatchedCollections();
+    }
+
     //#region CRUD
 
     /**
@@ -52,16 +81,41 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         // do not expose the version field to downstream
         delete doc.fullDocument.__v;
 
-        const changes: v0.ChangeStreamMessage[] = [
-            [
-                'data',
-                {
-                    tag: 'insert',
-                    new: doc.fullDocument,
-                    relation: relationFromChangeStreamEvent(doc.ns)
-                }
-            ] satisfies v0.Data
-        ];
+        const changes: v0.ChangeStreamMessage[] = [];
+        const matchingTables = this.getMatchingTables(doc.ns, doc.fullDocument);
+
+        if (matchingTables.length > 0) {
+            // Handle mapped/filtered tables
+            for (const mapping of matchingTables) {
+                const projectedDoc = applyProjection(doc.fullDocument, mapping.config.projection || {});
+                
+                changes.push([
+                    'data',
+                    {
+                        tag: 'insert',
+                        new: projectedDoc,
+                        relation: {
+                            keyColumns: mapping.spec.primaryKey || ['_id'],
+                            schema: mapping.spec.schema,
+                            name: mapping.tableName
+                        }
+                    }
+                ] satisfies v0.Data);
+            }
+        } else {
+            // Fallback to traditional 1:1 mapping
+            const fallbackSpec = this.tableMappingService.getFallbackTable(doc.ns.coll);
+            if (fallbackSpec) {
+                changes.push([
+                    'data',
+                    {
+                        tag: 'insert',
+                        new: doc.fullDocument,
+                        relation: relationFromChangeStreamEvent(doc.ns)
+                    }
+                ] satisfies v0.Data);
+            }
+        }
 
         // if the change is already in a transaction, don't wrap it in another
         if (!withTransaction) {
@@ -85,34 +139,102 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         doc: ChangeStreamUpdateDocument,
         withTransaction = false
     ): v0.ChangeStreamMessage[] {
-        // TODO: figure out whether we can enforce this, it seems to not always work 😱
-        // // pre-image presence is required for this event type
-        // invariant(
-        //     !!doc.fullDocumentBeforeChange,
-        //     'received a change stream update event without a pre-image'
-        // );
-
         // not much of a change if we don't have the post-image ☹️
         invariant(
             !!doc.fullDocument,
             'received a change stream update event without a `fullDocument` value'
         );
 
-        // do not expose the version field to downstream
-        delete doc.fullDocument.__v;
-        delete doc.fullDocumentBeforeChange?.__v;
+        const changes: v0.ChangeStreamMessage[] = [];
+        
+        // For updates, we need both the original and updated document to check filters
+        const originalDoc = doc.fullDocumentBeforeChange;
+        const updatedDoc = doc.fullDocument;
 
-        const changes: v0.ChangeStreamMessage[] = [
-            [
-                'data',
-                {
-                    tag: 'update',
-                    key: doc.documentKey,
-                    new: doc.fullDocument,
-                    relation: relationFromChangeStreamEvent(doc.ns)
+        // do not expose the version field to downstream
+        delete updatedDoc.__v;
+        if (originalDoc) {
+            delete originalDoc.__v;
+        }
+
+        const matchingTablesAfter = this.getMatchingTables(doc.ns, updatedDoc);
+        const matchingTablesBefore = originalDoc ? this.getMatchingTables(doc.ns, originalDoc) : [];
+
+        if (matchingTablesAfter.length > 0 || matchingTablesBefore.length > 0) {
+            // Handle mapped/filtered tables
+            const allTableNames = new Set([
+                ...matchingTablesAfter.map(m => m.tableName),
+                ...matchingTablesBefore.map(m => m.tableName)
+            ]);
+
+            for (const tableName of allTableNames) {
+                const tableAfter = matchingTablesAfter.find(m => m.tableName === tableName);
+                const tableBefore = matchingTablesBefore.find(m => m.tableName === tableName);
+
+                if (tableAfter && tableBefore) {
+                    // Document matches filter both before and after - normal update
+                    const projectedDoc = applyProjection(updatedDoc, tableAfter.config.projection || {});
+                    
+                    changes.push([
+                        'data',
+                        {
+                            tag: 'update',
+                            key: doc.documentKey,
+                            new: projectedDoc,
+                            relation: {
+                                keyColumns: tableAfter.spec.primaryKey || ['_id'],
+                                schema: tableAfter.spec.schema,
+                                name: tableName
+                            }
+                        }
+                    ] satisfies v0.Data);
+                } else if (tableAfter && !tableBefore) {
+                    // Document now matches filter - insert into this table
+                    const projectedDoc = applyProjection(updatedDoc, tableAfter.config.projection || {});
+                    
+                    changes.push([
+                        'data',
+                        {
+                            tag: 'insert',
+                            new: projectedDoc,
+                            relation: {
+                                keyColumns: tableAfter.spec.primaryKey || ['_id'],
+                                schema: tableAfter.spec.schema,
+                                name: tableName
+                            }
+                        }
+                    ] satisfies v0.Data);
+                } else if (!tableAfter && tableBefore) {
+                    // Document no longer matches filter - delete from this table
+                    changes.push([
+                        'data',
+                        {
+                            tag: 'delete',
+                            key: doc.documentKey,
+                            relation: {
+                                keyColumns: tableBefore.spec.primaryKey || ['_id'],
+                                schema: tableBefore.spec.schema,
+                                name: tableName
+                            }
+                        }
+                    ] satisfies v0.Data);
                 }
-            ]
-        ];
+            }
+        } else {
+            // Fallback to traditional 1:1 mapping
+            const fallbackSpec = this.tableMappingService.getFallbackTable(doc.ns.coll);
+            if (fallbackSpec) {
+                changes.push([
+                    'data',
+                    {
+                        tag: 'update',
+                        key: doc.documentKey,
+                        new: updatedDoc,
+                        relation: relationFromChangeStreamEvent(doc.ns)
+                    }
+                ] satisfies v0.Data);
+            }
+        }
 
         if (!withTransaction) {
             return changes;
@@ -138,32 +260,71 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         doc: ChangeStreamReplaceDocument,
         withTransaction = false
     ): v0.ChangeStreamMessage[] {
-        const relation = relationFromChangeStreamEvent(doc.ns);
-
+        const changes: v0.ChangeStreamMessage[] = [];
+        
         // do not expose the version field to downstream
         delete doc.fullDocument.__v;
 
-        const changes: v0.ChangeStreamMessage[] = [
-            // first, delete the old document
-            [
-                'data',
-                {
-                    tag: 'delete',
-                    key: doc.documentKey,
-                    relation
-                } satisfies v0.MessageDelete
-            ],
+        const matchingTables = this.getMatchingTables(doc.ns, doc.fullDocument);
 
-            // then, insert the new document
-            [
-                'data',
-                {
-                    tag: 'insert',
-                    new: doc.fullDocument!,
-                    relation
-                } satisfies v0.MessageInsert
-            ]
-        ];
+        if (matchingTables.length > 0) {
+            // Handle mapped/filtered tables
+            for (const mapping of matchingTables) {
+                const projectedDoc = applyProjection(doc.fullDocument, mapping.config.projection || {});
+                
+                // For replace, we delete the old and insert the new
+                changes.push(
+                    [
+                        'data',
+                        {
+                            tag: 'delete',
+                            key: doc.documentKey,
+                            relation: {
+                                keyColumns: mapping.spec.primaryKey || ['_id'],
+                                schema: mapping.spec.schema,
+                                name: mapping.tableName
+                            }
+                        }
+                    ] satisfies v0.Data,
+                    [
+                        'data',
+                        {
+                            tag: 'insert',
+                            new: projectedDoc,
+                            relation: {
+                                keyColumns: mapping.spec.primaryKey || ['_id'],
+                                schema: mapping.spec.schema,
+                                name: mapping.tableName
+                            }
+                        }
+                    ] satisfies v0.Data
+                );
+            }
+        } else {
+            // Fallback to traditional 1:1 mapping
+            const fallbackSpec = this.tableMappingService.getFallbackTable(doc.ns.coll);
+            if (fallbackSpec) {
+                const relation = relationFromChangeStreamEvent(doc.ns);
+                changes.push(
+                    [
+                        'data',
+                        {
+                            tag: 'delete',
+                            key: doc.documentKey,
+                            relation
+                        }
+                    ] satisfies v0.Data,
+                    [
+                        'data',
+                        {
+                            tag: 'insert',
+                            new: doc.fullDocument!,
+                            relation
+                        }
+                    ] satisfies v0.Data
+                );
+            }
+        }
 
         // if the change is already in a transaction, don't wrap it in another
         if (!withTransaction) {
@@ -194,16 +355,42 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
             'received a change stream delete event without documentKey'
         );
 
-        const changes: v0.ChangeStreamMessage[] = [
-            [
-                'data',
-                {
-                    tag: 'delete',
-                    key: doc.documentKey,
-                    relation: relationFromChangeStreamEvent(doc.ns)
-                } satisfies v0.MessageDelete
-            ]
-        ];
+        const changes: v0.ChangeStreamMessage[] = [];
+
+        // For deletes, we need to send delete to all potential tables since we don't know
+        // which filters the deleted document matched
+        const mappedTables = this.tableMappingService.getMappedTables(doc.ns.coll);
+
+        if (mappedTables.length > 0) {
+            // Handle mapped/filtered tables - send delete to all potential tables
+            for (const mapping of mappedTables) {
+                changes.push([
+                    'data',
+                    {
+                        tag: 'delete',
+                        key: doc.documentKey,
+                        relation: {
+                            keyColumns: mapping.spec.primaryKey || ['_id'],
+                            schema: mapping.spec.schema,
+                            name: mapping.tableName
+                        }
+                    }
+                ] satisfies v0.Data);
+            }
+        } else {
+            // Fallback to traditional 1:1 mapping
+            const fallbackSpec = this.tableMappingService.getFallbackTable(doc.ns.coll);
+            if (fallbackSpec) {
+                changes.push([
+                    'data',
+                    {
+                        tag: 'delete',
+                        key: doc.documentKey,
+                        relation: relationFromChangeStreamEvent(doc.ns)
+                    }
+                ] satisfies v0.Data);
+            }
+        }
 
         // if the change is already in a transaction, don't wrap it in another
         if (!withTransaction) {
@@ -282,18 +469,38 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         watermark: string,
         doc: ChangeStreamDropDocument
     ): v0.ChangeStreamMessage[] {
-        const changes: v0.ChangeStreamMessage[] = [
-            [
+        const changes: v0.ChangeStreamMessage[] = [];
+        
+        // Drop all mapped tables for this collection
+        const mappedTables = this.tableMappingService.getMappedTables(doc.ns.coll);
+        
+        for (const mapping of mappedTables) {
+            changes.push([
                 'data',
                 {
                     tag: 'drop-table',
                     id: {
-                        schema: doc.ns.db,
-                        name: doc.ns.coll
+                        schema: mapping.spec.schema,
+                        name: mapping.tableName
                     }
                 }
-            ] satisfies v0.Data
-        ];
+            ] satisfies v0.Data);
+        }
+
+        // Also handle fallback tables
+        const fallbackSpec = this.tableMappingService.getFallbackTable(doc.ns.coll);
+        if (fallbackSpec) {
+            changes.push([
+                'data',
+                {
+                    tag: 'drop-table',
+                    id: {
+                        schema: fallbackSpec.schema,
+                        name: fallbackSpec.name
+                    }
+                }
+            ] satisfies v0.Data);
+        }
 
         return this.#wrapInTransaction(changes, watermark);
     }

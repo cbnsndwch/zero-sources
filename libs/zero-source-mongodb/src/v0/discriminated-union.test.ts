@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { 
     matchesFilter, 
     applyProjection, 
-    parseDiscriminatedConfig 
-} from '../utils/discriminated-union.js';
+    parseTableMapping 
+} from '../utils/table-mapping.js';
 
 describe('Discriminated Union Utilities', () => {
     describe('parseDiscriminatedConfig', () => {
@@ -14,7 +14,7 @@ describe('Discriminated Union Utilities', () => {
                 projection: { _id: 1, memberIds: 1 }
             });
 
-            const result = parseDiscriminatedConfig(jsonConfig);
+            const result = parseTableMapping(jsonConfig);
             expect(result).toEqual({
                 source: 'rooms',
                 filter: { t: 'd', archived: { $ne: true } },
@@ -23,13 +23,13 @@ describe('Discriminated Union Utilities', () => {
         });
 
         it('should return null for invalid JSON', () => {
-            const result = parseDiscriminatedConfig('invalid-json');
+            const result = parseTableMapping('invalid-json');
             expect(result).toBeNull();
         });
 
         it('should return null for config without source', () => {
             const jsonConfig = JSON.stringify({ filter: { t: 'd' } });
-            const result = parseDiscriminatedConfig(jsonConfig);
+            const result = parseTableMapping(jsonConfig);
             expect(result).toBeNull();
         });
     });

@@ -1,0 +1,197 @@
+import {
+    createSchema,
+    relationships,
+    definePermissions,
+    ExpressionBuilder,
+    ANYONE_CAN,
+    NOBODY_CAN
+} from '@rocicorp/zero';
+
+import type { JwtPayload } from '../auth/index.js';
+
+// Import existing table schemas
+import { chatsTable } from '../rooms/tables/direct-message-room.schema.js';
+import { groupsTable } from '../rooms/tables/private-group.schema.js';  
+import { channelsTable } from '../rooms/tables/public-channel.schema.js';
+import { messages } from '../messages/tables/index.js';
+import { systemMessages } from '../messages/tables/system-message.schema.js';
+import { users } from '../users/tables/user.schema.js';
+
+// Re-export the tables for convenience
+export const chats = chatsTable;
+export const groups = groupsTable;
+export const channels = channelsTable;
+export { messages, systemMessages, users };
+
+// Define relationships using the imported tables
+export const chatRelationships = relationships(chats, ({ many }) => ({
+    messages: many({
+        sourceField: ['_id'],
+        destSchema: messages,
+        destField: ['roomId']
+    }),
+    systemMessages: many({
+        sourceField: ['_id'],
+        destSchema: systemMessages,
+        destField: ['roomId']
+    })
+}));
+
+export const groupRelationships = relationships(groups, ({ many }) => ({
+    messages: many({
+        sourceField: ['_id'],
+        destSchema: messages,
+        destField: ['roomId']
+    }),
+    systemMessages: many({
+        sourceField: ['_id'],
+        destSchema: systemMessages,
+        destField: ['roomId']
+    })
+}));
+
+export const channelRelationships = relationships(channels, ({ many }) => ({
+    messages: many({
+        sourceField: ['_id'],
+        destSchema: messages,
+        destField: ['roomId']
+    }),
+    systemMessages: many({
+        sourceField: ['_id'],
+        destSchema: systemMessages,
+        destField: ['roomId']
+    })
+}));
+
+export const userMessageRelationships = relationships(
+    messages,
+    ({ one }) => ({
+        chat: one({
+            sourceField: ['roomId'],
+            destSchema: chats,
+            destField: ['_id']
+        }),
+        group: one({
+            sourceField: ['roomId'],
+            destSchema: groups,
+            destField: ['_id']
+        }),
+        channel: one({
+            sourceField: ['roomId'],
+            destSchema: channels,
+            destField: ['_id']
+        })
+    })
+);
+
+export const systemMessageRelationships = relationships(
+    systemMessages,
+    ({ one }) => ({
+        chat: one({
+            sourceField: ['roomId'],
+            destSchema: chats,
+            destField: ['_id']
+        }),
+        group: one({
+            sourceField: ['roomId'],
+            destSchema: groups,
+            destField: ['_id']
+        }),
+        channel: one({
+            sourceField: ['roomId'],
+            destSchema: channels,
+            destField: ['_id']
+        })
+    })
+);
+
+export const userRelationships = relationships(users, () => ({}));
+
+export type Schema = typeof schema;
+
+export const schema = createSchema({
+    tables: [
+        users,
+        chats,
+        groups,
+        channels,
+        messages,
+        systemMessages
+    ],
+    relationships: [
+        userRelationships,
+        chatRelationships,
+        groupRelationships,
+        channelRelationships,
+        userMessageRelationships,
+        systemMessageRelationships
+    ]
+});
+
+// Define CRUD permissions
+export const permissions = definePermissions<JwtPayload, Schema>(schema, () => {
+    const allowIfLoggedIn = (
+        authData: JwtPayload,
+        { cmpLit }: ExpressionBuilder<Schema, any>
+    ) => cmpLit(authData.sub, 'IS NOT', null);
+
+    const allowIfMessageSender = (
+        authData: JwtPayload,
+        { cmpLit }: ExpressionBuilder<Schema, 'messages'>
+    ) => cmpLit('sender.id', '=', authData.sub ?? '');
+
+    return {
+        // Room tables - read-only for now (could be extended for room admins)
+        chats: {
+            row: {
+                select: ANYONE_CAN,
+                insert: NOBODY_CAN,
+                update: { preMutation: NOBODY_CAN },
+                delete: NOBODY_CAN
+            }
+        },
+        groups: {
+            row: {
+                select: ANYONE_CAN,
+                insert: NOBODY_CAN,
+                update: { preMutation: NOBODY_CAN },
+                delete: NOBODY_CAN
+            }
+        },
+        channels: {
+            row: {
+                select: ANYONE_CAN,
+                insert: NOBODY_CAN,
+                update: { preMutation: NOBODY_CAN },
+                delete: NOBODY_CAN
+            }
+        },
+        // User Message table - allow users to insert, update own, delete any (like clean schema)
+        messages: {
+            row: {
+                select: ANYONE_CAN,
+                insert: ANYONE_CAN,
+                update: { preMutation: [allowIfMessageSender] },
+                delete: [allowIfLoggedIn]
+            }
+        },
+        // System messages - read-only (generated by the system)
+        systemMessages: {
+            row: {
+                select: ANYONE_CAN,
+                insert: NOBODY_CAN,
+                update: { preMutation: NOBODY_CAN },
+                delete: NOBODY_CAN
+            }
+        },
+        // Users table - read-only for now (profile updates would require more logic)
+        users: {
+            row: {
+                select: ANYONE_CAN,
+                insert: NOBODY_CAN,
+                update: { preMutation: NOBODY_CAN },
+                delete: NOBODY_CAN
+            }
+        }
+    };
+});

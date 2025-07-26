@@ -2,8 +2,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 
 import {
-    discriminatedPermissions,
-    discriminatedSchema
+    // discriminatedPermissions,
+    discriminatedSchema,
+    permissions
 } from '@cbnsndwch/zchat-contracts';
 import { invariant } from '@cbnsndwch/zero-contracts';
 import {
@@ -93,7 +94,7 @@ const zrocketChangeSourceModule = ZeroMongoModule.forRootAsync({
 
         return {
             tables,
-            permissions: await discriminatedPermissions,
+            permissions: await permissions,
             streamerToken: zeroConfig.auth.token
         } satisfies ZeroMongoModuleOptions;
     }

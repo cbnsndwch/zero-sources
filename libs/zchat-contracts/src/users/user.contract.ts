@@ -1,107 +1,125 @@
+import type { Dict } from '@cbnsndwch/zero-contracts';
+
 import type {
     IHasCreatedAt,
-    IHasShortId,
     IEntityBase,
-    IHasName
+    IHasName,
+    IHasUsername
 } from '../common/index.js';
 
-import type { UserPresenceStatus } from './user-status.contract.js';
+import type { UserPresenceStatus } from './user-presence-status.contract.js';
 
 /**
- * A that identifies string contains the provider id and the external
- * user id separated by a slash.
+ * A string that identifies a user's profile in an extenal provider. Compose of
+ * the provider id and the user's id on the provider separated by a slash.
  */
 export type ExternalUserId = `${string}/${string}`;
 
-export interface IUserSettings {
-    profile: Dict;
-    preferences?: Dict;
-}
+/**
+ * Represents a user entity in the chat system.
+ *
+ * @extends IEntityBase - Provides base entity properties like id
+ * @extends IHasCreatedAt - Provides creation timestamp functionality
+ *
+ * @description This interface defines the structure for a user object containing
+ * personal information, contact details, presence status, and user preferences.
+ *
+ * @example
+ * ```typescript
+ * const user: IUser = {
+ *   id: "user123",
+ *   email: "john.doe@example.com",
+ *   name: "John Doe",
+ *   username: "johndoe",
+ *   active: true,
+ *   presence: UserPresenceStatus.ONLINE,
+ *   profile: {},
+ *   createdAt: new Date()
+ * };
+ * ```
+ */
+export interface IUser
+    extends IEntityBase,
+        IHasCreatedAt,
+        IHasName,
+        IHasUsername {
+    //#region Public Profile
 
-export interface IGetRoomRoles {
-    _id: string;
-    rid: string;
-    u: IUserSummary;
-    roles: string[];
-}
-
-export interface IUser extends IEntityBase, IHasCreatedAt {
-    name?: string;
-
-    username?: string;
-
+    /**
+     * The user's preferred email address.
+     */
     email: string;
 
+    /**
+     * The user's additional email addresses.
+     */
     additionalEmails?: string[];
 
+    /**
+     * Whether the user's profile is currently active (enabled) in the system.
+     */
     active: boolean;
 
-    roles: string[];
-
+    /**
+     * A short text bio or description of the user.
+     */
     bio?: string;
 
+    /**
+     * The URL of the user's avatar image.
+     */
     avatarUrl?: string;
 
-    providerId?: ExternalUserId;
+    /**
+     * If the user signed up using an external provider, this field contains
+     * the user's id on that provider.
+     *
+     * The format is `<providerId>/<userId>`, e.g. `google/1234567890` where
+     * `google` is the provider id and `1234567890` is the user's Google Id.
+     */
+    externalId?: ExternalUserId;
 
-    // #####################################
+    //#endregion Public Profile
 
-    presenceStatus?: UserPresenceStatus;
+    //#region User Presence Status
 
-    presenceStatusText?: string;
+    /**
+     * Default presence status of the user.
+     */
+    defaultPresence?: UserPresenceStatus;
 
-    defaultPresenceStatus?: UserPresenceStatus;
+    /**
+     * Current presence status of the user.
+     */
+    presence?: UserPresenceStatus;
 
-    // #####################################
+    /**
+     * Text that describes the user's current presence status.
+     */
+    presenceText?: string;
 
-    settings?: IUserSettings;
+    //#endregion User Presence Status
 
+    //#region User Settings & Preferences
+
+    /**
+     * The default room that the user has set for quick access.
+     */
     defaultRoom?: string;
 
-    // #####################################
+    /**
+     * Additional user profile information stored as a dictionary.
+     */
+    profile: Dict;
 
-    customFields?: Record<string, unknown>;
+    /**
+     * User preferences stored as a dictionary.
+     */
+    preferences?: Dict;
+
+    //#endregion User Settings & Preferences
 }
 
 export type IUserSummary = Pick<IUser, '_id' | 'username'>;
 
-export type IUserSummaryWithName = IUserSummary & IHasName;
-
-export interface IRegisterUser extends IUser {
-    username: string;
-    name: string;
-}
-
-export const isRegisterUser = (user: IUser): user is IRegisterUser =>
-    user.username !== undefined && user.name !== undefined;
-
-export type IUserInsertedEvent = IHasShortId & {
-    type: 'inserted';
-    data: IUser;
-    diff?: never;
-    unset?: never;
-};
-
-export type IUserUpdatedEvent = IHasShortId & {
-    type: 'updated';
-    data?: never;
-    diff: Partial<IUser>;
-    unset: Record<string, number>;
-};
-
-export type IUserRemovedEvent = IHasShortId & {
-    type: 'removed';
-    data?: never;
-    diff?: never;
-    unset?: never;
-};
-
-export type IUserDataEvent =
-    | IUserInsertedEvent
-    | IUserUpdatedEvent
-    | IUserRemovedEvent;
-
-export type IUserInRole = Pick<
-    IUser,
-    '_id' | 'updatedAt' | 'name' | 'username' | 'createdAt' | 'roles' | 'active'
->;
+export type IUserSummaryWithName = Pick<IUser, '_id' | 'username' | 'name'>;

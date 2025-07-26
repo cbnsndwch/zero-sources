@@ -4,7 +4,9 @@ export default [
     index('routes/home/index.tsx'),
 
     // room details
-    route('r/:roomId', 'routes/room/index.tsx'),
+    route('d/:chatId', 'routes/chat/index.tsx'),
+    route('p/:groupId', 'routes/group/index.tsx'),
+    route('c/:channelId', 'routes/channel/index.tsx'),
 
     // ZRocket discriminated union demo
     route('zrocket/demo-info', 'routes/zrocket.tsx')

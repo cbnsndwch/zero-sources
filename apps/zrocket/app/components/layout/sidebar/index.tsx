@@ -18,27 +18,22 @@ import {
     SidebarContent,
     SidebarFooter
 } from '@/components/ui/sidebar';
-import RoomTypeIcon from '@/components/icons/room-icon';
+// import RoomTypeIcon from '@/components/icons/room-icon';
 
 export function AppSidebar() {
     const z = useZero();
 
-    const [dmRooms] = useQuery(
-        z.query.rooms.where('t', '=', 'd').orderBy('lastMessageAt', 'desc')
+    const [chats] = useQuery(z.query.chats.orderBy('lastMessageAt', 'desc'));
+    const [groups] = useQuery(z.query.groups.orderBy('lastMessageAt', 'desc'));
+    const [channels] = useQuery(
+        z.query.channels.orderBy('lastMessageAt', 'desc')
     );
-    const [privateGroups] = useQuery(
-        z.query.rooms.where('t', '=', 'p').orderBy('lastMessageAt', 'desc')
-    );
-    const [publicChannels] = useQuery(
-        z.query.rooms.where('t', '=', 'c').orderBy('lastMessageAt', 'desc')
-    );
-
-    const [allRooms] = useQuery(z.query.rooms.orderBy('lastMessageAt', 'desc'));
 
     return (
         <Sidebar
             variant="sidebar"
             collapsible="none"
+            className="min-w-(--sidebar-width)"
             style={
                 {
                     '--sidebar-width': '16rem',
@@ -56,12 +51,9 @@ export function AppSidebar() {
                             title="Create Public Channel"
                         />
                     ]}
-                    items={publicChannels.map(room => ({
-                        title:
-                            room.name ??
-                            room.usernames?.join(', ') ??
-                            `DM ${room._id}`,
-                        url: `/r/${room._id}`,
+                    items={channels.map(room => ({
+                        title: room.name ?? `Channel ${room._id}`,
+                        url: `/c/${room._id}`,
                         icon: HashIcon
                         // badge: room.unreadCount,
                         // badgeColor: 'bg-red-500'
@@ -77,12 +69,9 @@ export function AppSidebar() {
                             title="Create Private Group"
                         />
                     ]}
-                    items={privateGroups.map(room => ({
-                        title:
-                            room.name ??
-                            room.usernames?.join(', ') ??
-                            `DM ${room._id}`,
-                        url: `/r/${room._id}`,
+                    items={groups.map(room => ({
+                        title: room.name ?? `Group ${room._id}`,
+                        url: `/p/${room._id}`,
                         icon: MessageSquareLockIcon
                         // badge: room.unreadCount,
                         // badgeColor: 'bg-red-500'
@@ -98,19 +87,16 @@ export function AppSidebar() {
                             title="Create DMs Room"
                         />
                     ]}
-                    items={dmRooms.map(room => ({
-                        title:
-                            room.name ??
-                            room.usernames?.join(', ') ??
-                            `DM ${room._id}`,
-                        url: `/r/${room._id}`,
+                    items={chats.map(room => ({
+                        title: room.usernames?.join(', ') ?? `DM ${room._id}`,
+                        url: `/d/${room._id}`,
                         icon: MessageSquareIcon
                         // badge: room.unreadCount,
                         // badgeColor: 'bg-red-500'
                     }))}
                 />
 
-                <NavGroup
+                {/* <NavGroup
                     title="All (DEBUG)"
                     items={allRooms.map(room => ({
                         title:
@@ -122,7 +108,7 @@ export function AppSidebar() {
                         // badge: room.unreadCount,
                         // badgeColor: 'bg-red-500'
                     }))}
-                />
+                /> */}
 
                 {/* {sidebarData.navGroups.map(props => (
                     <NavGroup key={props.title} {...props} />
