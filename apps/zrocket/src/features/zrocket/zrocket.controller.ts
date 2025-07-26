@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { schema } from '@cbnsndwch/zrocket-contracts/schema';
+import { getTableMappings } from '@cbnsndwch/zero-contracts';
 
 import { MetadataService } from './metadata.service.js';
 
@@ -9,35 +10,23 @@ import { MetadataService } from './metadata.service.js';
 function extractTableConfigurations() {
     const configurations: Record<string, any[]> = {};
 
-    // Get all tables from the schema
-    const tables = schema.tables;
+    // Use the new metadata API to get all table mappings
+    const tableMappings = getTableMappings(schema);
 
     // Group tables by their source collection
     const sourceGroups: Record<string, any[]> = {};
 
-    for (const table of Object.values(tables)) {
-        const tableName = table.name;
-        const fromConfig = (table as any).from;
-
-        if (fromConfig && typeof fromConfig === 'string') {
-            try {
-                const config = JSON.parse(fromConfig);
-                if (config.source && config.filter) {
-                    if (!sourceGroups[config.source]) {
-                        sourceGroups[config.source] = [];
-                    }
-                    sourceGroups[config.source].push({
-                        name: tableName,
-                        filter: config.filter,
-                        description: getTableDescription(
-                            tableName,
-                            config.filter
-                        )
-                    });
-                }
-            } catch {
-                // Ignore non-JSON from configs (traditional tables)
+    for (const [tableName, config] of Object.entries(tableMappings)) {
+        if (config && config.source) {
+            if (!sourceGroups[config.source]) {
+                sourceGroups[config.source] = [];
             }
+            sourceGroups[config.source].push({
+                name: tableName,
+                filter: config.filter,
+                projection: config.projection,
+                description: getTableDescription(tableName, config.filter)
+            });
         }
     }
 
