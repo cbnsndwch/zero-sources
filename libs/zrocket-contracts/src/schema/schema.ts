@@ -5,10 +5,14 @@ import {
     channelsTable,
     groupsTable
 } from '../rooms/tables/index.js';
-import { userMessagesTable, systemMessages } from '../messages/tables/index.js';
-import { usersTable } from '../users/tables/user.schema.js';
+import {
+    userMessagesTable,
+    systemMessagesTable
+} from '../messages/tables/index.js';
+import { usersTable } from '../users/tables/index.js';
 
-// Define relationships between discriminated union tables
+//#region Relationships
+
 const chatRelationships = relationships(chatsTable, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
@@ -17,7 +21,7 @@ const chatRelationships = relationships(chatsTable, ({ many }) => ({
     }),
     systemMessages: many({
         sourceField: ['_id'],
-        destSchema: systemMessages,
+        destSchema: systemMessagesTable,
         destField: ['roomId']
     })
 }));
@@ -30,7 +34,7 @@ const channelRelationships = relationships(channelsTable, ({ many }) => ({
     }),
     systemMessages: many({
         sourceField: ['_id'],
-        destSchema: systemMessages,
+        destSchema: systemMessagesTable,
         destField: ['roomId']
     })
 }));
@@ -43,7 +47,7 @@ const groupRelationships = relationships(groupsTable, ({ many }) => ({
     }),
     systemMessages: many({
         sourceField: ['_id'],
-        destSchema: systemMessages,
+        destSchema: systemMessagesTable,
         destField: ['roomId']
     })
 }));
@@ -111,7 +115,7 @@ const userRelationships = relationships(usersTable, () => ({
     // })
 }));
 
-export type Schema = typeof schema;
+//#endregion Relationships
 
 export const schema = createSchema({
     tables: [
@@ -128,7 +132,7 @@ export const schema = createSchema({
         userMessagesTable,
 
         // System messages from 'messages' collection (`t != 'USER'`)
-        systemMessages,
+        systemMessagesTable,
 
         // Users
         usersTable
@@ -142,6 +146,4 @@ export const schema = createSchema({
     ]
 });
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// Define relationships
+export type Schema = typeof schema;
