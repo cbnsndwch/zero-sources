@@ -7,7 +7,7 @@ import {
     type RoomType,
     SYSTEM_MESSAGE_TYPES,
     type SystemMessageType
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { EntityBase } from '../../../../common/entities/base.entity.js';
 

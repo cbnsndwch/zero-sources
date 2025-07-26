@@ -1,4 +1,4 @@
-import { RoomType } from './room-type.contract.js';
+import { RoomType } from './room-type.enum.js';
 import type { IRoomBase } from './room-base.contracts.js';
 
 /**

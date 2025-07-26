@@ -7,11 +7,6 @@ export interface IMessageBase extends IEntityBase {
     roomId: string;
 
     /**
-     * The date and time the message was sent
-     */
-    ts: Date;
-
-    /**
      * Whether to hide the message from the UI
      */
     hidden?: boolean;

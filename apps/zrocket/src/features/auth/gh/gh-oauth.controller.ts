@@ -1,4 +1,4 @@
-import type { IUser } from '@cbnsndwch/zchat-contracts';
+import type { IUser } from '@cbnsndwch/zrocket-contracts';
 import { Controller, Get, Logger, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Request, Response } from 'express';

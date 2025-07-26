@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient, Db } from 'mongodb';
-import { discriminatedSchema } from '@cbnsndwch/zchat-contracts';
+import { discriminatedSchema } from '@cbnsndwch/zrocket-contracts';
 
 export interface SchemaMetadata {
     _id?: string;

@@ -1,6 +1,6 @@
 import { boolean, enumeration, table } from '@rocicorp/zero';
 
-import type { RoomType } from '../room-type.contract.js';
+import type { RoomType } from '../room-type.enum.js';
 
 import { groupRoomBaseColumns } from './room-base.schema.js';
 

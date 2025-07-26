@@ -4,7 +4,7 @@ import { IsString, IsOptional, IsBoolean } from 'class-validator';
 import type {
     IGroupRoomBase,
     ROOM_TYPE_CHANNEL
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { PrivateGroupRoom } from './private-group.entity.js';
 import { RoomBase } from './room-base.entity.js';

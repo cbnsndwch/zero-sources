@@ -5,7 +5,7 @@ import {
     // discriminatedPermissions,
     discriminatedSchema,
     permissions
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 import { invariant } from '@cbnsndwch/zero-contracts';
 import {
     ZeroMongoModule,

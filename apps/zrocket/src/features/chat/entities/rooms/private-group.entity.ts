@@ -6,7 +6,7 @@ import type {
     IRoomBase,
     ROOM_TYPE_CHANNEL,
     ROOM_TYPE_GROUP
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { PrivateGroupRoom } from './private-group.entity.js';
 import { RoomBase } from './room-base.entity.js';

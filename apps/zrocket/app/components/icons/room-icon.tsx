@@ -5,7 +5,7 @@ import {
     MessageSquareLockIcon
 } from 'lucide-react';
 
-import type { RoomType } from '@cbnsndwch/zchat-contracts';
+import type { RoomType } from '@cbnsndwch/zrocket-contracts';
 
 export type RoomTypeIconProps = {
     t: RoomType;

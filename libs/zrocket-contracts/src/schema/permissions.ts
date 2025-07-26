@@ -17,7 +17,7 @@ export const permissions = definePermissions<JwtPayload, Schema>(schema, () => {
 
     const allowIfMessageSender = (
         authData: JwtPayload,
-        { cmpLit }: ExpressionBuilder<Schema, 'messages'>
+        { cmpLit }: ExpressionBuilder<Schema, 'userMessages'>
     ) => cmpLit('sender.id', '=', authData.sub ?? '');
 
     return {
@@ -47,12 +47,19 @@ export const permissions = definePermissions<JwtPayload, Schema>(schema, () => {
             }
         },
         // Message tables (discriminated union from 'messages' collection)
-        messages: {
+        userMessages: {
             row: {
+                // TODO: restrict
                 select: ANYONE_CAN,
-                insert: ANYONE_CAN, // Allow inserting user messages
-                update: { preMutation: [allowIfMessageSender] }, // Only sender can update
-                delete: [allowIfLoggedIn] // Logged in users can delete
+
+                // Logged in users can create messages
+                insert: [allowIfLoggedIn],
+
+                // Only sender can update
+                update: { preMutation: [allowIfMessageSender] },
+
+                // Logged in users can delete
+                delete: [allowIfLoggedIn]
             }
         },
         systemMessages: {

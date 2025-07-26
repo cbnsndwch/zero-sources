@@ -4,7 +4,7 @@ import { IsArray, IsString } from 'class-validator';
 import type {
     IDirectMessagesRoom,
     ROOM_TYPE_DIRECT_MESSAGES
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { RoomBase } from './room-base.entity.js';
 

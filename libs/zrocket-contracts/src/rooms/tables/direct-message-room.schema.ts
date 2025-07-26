@@ -1,7 +1,7 @@
 import { type ColumnBuilder, enumeration, table } from '@rocicorp/zero';
 
 import type { IDirectMessagesRoom } from '../direct-messages.contracts.js';
-import type { RoomType } from '../room-type.contract.js';
+import type { RoomType } from '../room-type.enum.js';
 
 import { roomBaseColumns } from './room-base.schema.js';
 

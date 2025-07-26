@@ -5,7 +5,7 @@ import type {
     SVGAttributes
 } from 'react';
 
-import type { IUser } from '@cbnsndwch/zchat-contracts';
+import type { IUser } from '@cbnsndwch/zrocket-contracts';
 
 export type UserSummary = Pick<
     IUser,

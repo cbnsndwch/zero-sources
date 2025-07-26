@@ -4,7 +4,7 @@ import type { IMessageBase } from './message-base.contract.js';
 import {
     SYSTEM_MESSAGE_TYPES,
     type SystemMessageType
-} from './message-type.contract.js';
+} from './message-type.enum.js';
 
 /**
  * A message that is a control message or an event in the channel

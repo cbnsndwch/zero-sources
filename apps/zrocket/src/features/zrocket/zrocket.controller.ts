@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { discriminatedSchema } from '@cbnsndwch/zchat-contracts';
+import { discriminatedSchema } from '@cbnsndwch/zrocket-contracts';
 
 import { MetadataService } from './metadata.service.js';
 

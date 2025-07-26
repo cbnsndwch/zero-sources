@@ -8,7 +8,7 @@ import {
     type IUser,
     type IUserSettings,
     type UserPresenceStatus
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { EntityBase } from '../../../common/entities/index.js';
 

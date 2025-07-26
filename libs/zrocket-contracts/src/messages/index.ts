@@ -1,6 +1,6 @@
 export * from './attachments/index.js';
 
-export * from './message-type.contract.js';
+export * from './message-type.enum.js';
 export * from './message-base.contract.js';
 export * from './message-reaction.contract.js';
 

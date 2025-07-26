@@ -29,6 +29,13 @@ export enum UserRoomChangeMessageType {
     USER_ADDED = 'USER_ADDED'
 }
 
+export const USER_ROOM_CHANGE_MESSAGE_TYPES = [
+    UserRoomChangeMessageType.USER_JOINED,
+    UserRoomChangeMessageType.USER_LEFT,
+    UserRoomChangeMessageType.USER_REMOVED,
+    UserRoomChangeMessageType.USER_ADDED
+] as const;
+
 //#endregion User System Messages
 
 //#region Message Status Changes
@@ -49,6 +56,11 @@ export enum MessageChangeMessageType {
      */
     MESSAGE_PINNED = 'MESSAGE_PINNED'
 }
+
+export const MESSAGE_CHANGE_MESSAGE_TYPES = [
+    MessageChangeMessageType.MESSAGE_DELETED,
+    MessageChangeMessageType.MESSAGE_PINNED
+] as const;
 
 //#endregion Message Status Changes
 
@@ -136,25 +148,58 @@ export enum RoomChangeMessageType {
     ROOM_OWNER_REMOVED = 'ROOM_OWNER_REMOVED'
 }
 
+export const ROOM_CHANGE_MESSAGE_TYPES = [
+    RoomChangeMessageType.ROOM_RENAMED,
+    RoomChangeMessageType.ROOM_ARCHIVED,
+    RoomChangeMessageType.ROOM_UNARCHIVED,
+    RoomChangeMessageType.ROOM_CHANGED_PRIVACY,
+    RoomChangeMessageType.ROOM_CHANGED_DESCRIPTION,
+    RoomChangeMessageType.ROOM_CHANGED_AVATAR,
+    RoomChangeMessageType.ROOM_CHANGED_TOPIC,
+    RoomChangeMessageType.ROOM_REMOVED_READ_ONLY,
+    RoomChangeMessageType.ROOM_SET_READ_ONLY,
+    RoomChangeMessageType.ROOM_ALLOWED_REACTING,
+    RoomChangeMessageType.ROOM_DISALLOWED_REACTING,
+    RoomChangeMessageType.ROOM_MODERATOR_ADDED,
+    RoomChangeMessageType.ROOM_MODERATOR_REMOVED,
+    RoomChangeMessageType.ROOM_OWNER_ADDED,
+    RoomChangeMessageType.ROOM_OWNER_REMOVED
+] as const;
+
 //#endregion Room Changes
 
-// Type aliases for system message types
+//#region System Messages
+
 export type SystemMessageType =
     | UserRoomChangeMessageType
     | MessageChangeMessageType
     | RoomChangeMessageType;
 
+export const SYSTEM_MESSAGE_TYPES = [
+    ...USER_ROOM_CHANGE_MESSAGE_TYPES,
+    ...MESSAGE_CHANGE_MESSAGE_TYPES,
+    ...USER_ROOM_CHANGE_MESSAGE_TYPES
+] as const;
+
+//#endregion System Messages
+
+//#region User Messages
+
 export enum UserMessageType {
     USER = 'USER'
 }
 
-/**
- * All message types
- */
+export const USER_MESSAGE_TYPES = [UserMessageType.USER] as const;
+
+//#endregion User Messages
+
+//#region All message types
+
 export type MessageType = UserMessageType | SystemMessageType;
 
-export const SYSTEM_MESSAGE_TYPES = [
-    ...Object.values(UserRoomChangeMessageType),
-    ...Object.values(MessageChangeMessageType),
-    ...Object.values(RoomChangeMessageType)
+export const MESSAGE_TYPES = [
+    ...SYSTEM_MESSAGE_TYPES,
+    UserMessageType.USER
 ] as const;
+
+//#endregion All message types

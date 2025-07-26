@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-import type { HasClassName } from '@cbnsndwch/zchat-contracts';
+import type { HasClassName } from '@cbnsndwch/zrocket-contracts';
 /**
  * Animated SVG: Reticulating Splines - Neural network with pulsing connections
  */

@@ -4,7 +4,7 @@ import { Model, RootFilterQuery } from 'mongoose';
 import type {
     ExternalUserId,
     UserPresenceStatus
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { User } from '../entities/index.js';
 import { CreateUserInput, UpdateUserInput } from '../models/index.js';

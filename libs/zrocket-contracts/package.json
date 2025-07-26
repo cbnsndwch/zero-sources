@@ -1,6 +1,6 @@
 {
-    "name": "@cbnsndwch/zchat-contracts",
-    "description": "Contracts and Zero schema for ZChat",
+    "name": "@cbnsndwch/zrocket-contracts",
+    "description": "Contracts and Zero schema for ZRocket",
     "version": "0.0.1",
     "type": "module",
     "license": "MIT",
@@ -46,6 +46,7 @@
     "typings": ".dist/index.d.ts",
     "exports": {
         ".": "./dist/index.js",
+        "./schema": "./dist/schema/index.js",
         "./package.json": "./package.json"
     },
     "lint-staged": {

@@ -30,7 +30,7 @@ Our monorepo contains:
 
 ### Libraries (`libs/`)
 - **`zero-contracts`**: Common TypeScript contracts and utilities for Zero
-- **`zchat-contracts`**: Zero schemas for ZRocket demo (both traditional and discriminated)
+- **`zrocket-contracts`**: Zero schemas for ZRocket demo (both traditional and discriminated)
 - **`zero-source-mongodb`**: MongoDB change source implementation with discriminated union support
 - **`zero-nest-mongoose`**: MongoDB integration utilities for NestJS applications
 - **`zero-watermark-zqlite`**: Utilities for Zero watermarks with SQLite
@@ -69,8 +69,8 @@ interface UpstreamTableMapping {
 - `users` collection → `users` (traditional 1:1 mapping)
 
 **Frontend Schema Usage:**
-- Frontend imports `DiscriminatedSchema` instead of regular `Schema`
-- Query discriminated tables: `z.query.chats`, `z.query.textMessages`, etc.
+- Frontend imports `Schema`
+- Query discriminated tables: `z.query.chats`, `z.query.messages`, etc.
 - No direct access to raw MongoDB collections (`rooms`, `messages`)
 
 **Backend Integration:**
@@ -367,7 +367,7 @@ The ZRocket app demonstrates discriminated union change sources with a unified N
 **Quick Start:**
 1. **Start Zero cache first**: `cd apps/zrocket && pnpm dev:zero`
    - Runs Zero cache on port 4848
-   - Uses discriminated schema from `libs/zchat-contracts`
+   - Uses discriminated schema from `libs/zrocket-contracts`
    - Connects to MongoDB change source via WebSocket
    
 2. **Start the application**: `cd apps/zrocket && pnpm dev`

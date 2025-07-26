@@ -4,24 +4,32 @@ import type { SerializedEditorState } from 'lexical';
 import type { IHasName } from '../../common/index.js';
 import type { IUserSummary } from '../../users/user.contract.js';
 
-import { IMessageReaction } from '../message-reaction.contract.js';
-import { MessageAttachment } from '../attachments/index.js';
+import { UserMessageType } from '../message-type.enum.js';
+import type { IMessageReaction } from '../message-reaction.contract.js';
+import type { MessageAttachment } from '../attachments/index.js';
 
+import { messageBaseColumns } from './message-base.schema.js';
 
-export const messages = table('messages')
+export const userMessagesTable = table('userMessages')
     .from(
         JSON.stringify({
             source: 'messages',
-            filter: { t: { $exists: false } }, // User messages don't have 't' field
+            filter: {
+                t: {
+                    $eq: UserMessageType.USER
+                }
+            },
             projection: {
+                // base
                 _id: 1,
-                roomId: 1,
-                ts: 1,
-                sender: 1,
                 createdAt: 1,
                 updatedAt: 1,
-                contents: 1,
+                roomId: 1,
                 hidden: 1,
+
+                // own
+                sender: 1,
+                contents: 1,
                 groupable: 1,
                 repliedBy: 1,
                 starredBy: 1,
@@ -34,21 +42,15 @@ export const messages = table('messages')
         })
     )
     .columns({
-        // Required fields
-        _id: string(),
-        roomId: string(),
-        ts: string(), // Date stored as ISO string
-        sender: json<Required<IUserSummary> & Partial<IHasName>>(),
+        ...messageBaseColumns,
 
-        // Common metadata
-        createdAt: string(), // Date stored as ISO string
-        updatedAt: string().optional(), // Date stored as ISO string
+        // Required fields
+        sender: json<Required<IUserSummary> & Partial<IHasName>>(),
 
         // @ts-expect-error ReadonlyJSONValue is too strict
         contents: json<SerializedEditorState>(),
 
         // Optional fields
-        hidden: boolean().optional(),
         groupable: boolean().optional(),
 
         repliedBy: json<string[]>().optional(),

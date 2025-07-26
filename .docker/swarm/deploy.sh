@@ -9,7 +9,7 @@ set -euo pipefail
 STACK_NAME="zrocket"
 COMPOSE_FILE="docker-compose.yml"
 ENV_FILE=".env"
-SCHEMA_SOURCE="../../../libs/zchat-contracts/src/discriminated-schema.json"
+SCHEMA_SOURCE="../../../libs/zrocket-contracts/src/discriminated-schema.json"
 SCHEMA_DEST="./schema/discriminated-schema.json"
 
 # Colors for output

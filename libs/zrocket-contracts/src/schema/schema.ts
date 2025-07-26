@@ -5,14 +5,14 @@ import {
     channelsTable,
     groupsTable
 } from '../rooms/tables/index.js';
-import { messages, systemMessages } from '../messages/tables/index.js';
+import { userMessagesTable, systemMessages } from '../messages/tables/index.js';
 import { usersTable } from '../users/tables/user.schema.js';
 
 // Define relationships between discriminated union tables
 const chatRelationships = relationships(chatsTable, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
-        destSchema: messages,
+        destSchema: userMessagesTable,
         destField: ['roomId']
     }),
     systemMessages: many({
@@ -25,7 +25,7 @@ const chatRelationships = relationships(chatsTable, ({ many }) => ({
 const channelRelationships = relationships(channelsTable, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
-        destSchema: messages,
+        destSchema: userMessagesTable,
         destField: ['roomId']
     }),
     systemMessages: many({
@@ -38,7 +38,7 @@ const channelRelationships = relationships(channelsTable, ({ many }) => ({
 const groupRelationships = relationships(groupsTable, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
-        destSchema: messages,
+        destSchema: userMessagesTable,
         destField: ['roomId']
     }),
     systemMessages: many({
@@ -48,47 +48,50 @@ const groupRelationships = relationships(groupsTable, ({ many }) => ({
     })
 }));
 
-const messageRelationships = relationships(messages, ({ one, many }) => ({
-    replies: many({
-        sourceField: ['_id'],
-        destSchema: messages,
-        destField: ['_id']
-    }),
-    senderUser: one({
-        sourceField: ['sender.id'],
-        destSchema: usersTable,
-        destField: ['_id']
-    }),
-    pinnedByUser: one({
-        sourceField: ['pinnedBy.id'],
-        destSchema: usersTable,
-        destField: ['_id']
+const userMessageRelationships = relationships(
+    userMessagesTable,
+    ({ one, many }) => ({
+        replies: many({
+            sourceField: ['_id'],
+            destSchema: userMessagesTable,
+            destField: ['_id']
+        }),
+        senderUser: one({
+            sourceField: ['sender.id'],
+            destSchema: usersTable,
+            destField: ['_id']
+        }),
+        pinnedByUser: one({
+            sourceField: ['pinnedBy.id'],
+            destSchema: usersTable,
+            destField: ['_id']
+        })
+        // starredBy: many(
+        //     {
+        //         sourceField: ['id'],
+        //         destSchema: messageStarred,
+        //         destField: ['messageId']
+        //     },
+        //     {
+        //         sourceField: ['userId'],
+        //         destSchema: user,
+        //         destField: ['id']
+        //     }
+        // ),
+        // mentionedUsers: many(
+        //     {
+        //         sourceField: ['id'],
+        //         destSchema: messageMention,
+        //         destField: ['messageId']
+        //     },
+        //     {
+        //         sourceField: ['userId'],
+        //         destSchema: user,
+        //         destField: ['id']
+        //     }
+        // )
     })
-    // starredBy: many(
-    //     {
-    //         sourceField: ['id'],
-    //         destSchema: messageStarred,
-    //         destField: ['messageId']
-    //     },
-    //     {
-    //         sourceField: ['userId'],
-    //         destSchema: user,
-    //         destField: ['id']
-    //     }
-    // ),
-    // mentionedUsers: many(
-    //     {
-    //         sourceField: ['id'],
-    //         destSchema: messageMention,
-    //         destField: ['messageId']
-    //     },
-    //     {
-    //         sourceField: ['userId'],
-    //         destSchema: user,
-    //         destField: ['id']
-    //     }
-    // )
-}));
+);
 
 const userRelationships = relationships(usersTable, () => ({
     // chats: many({
@@ -112,18 +115,29 @@ export type Schema = typeof schema;
 
 export const schema = createSchema({
     tables: [
-        chatsTable, // Direct messages from 'rooms' collection (t: 'd')
-        channelsTable, // Public channels from 'rooms' collection (t: 'c')
-        groupsTable, // Private groups from 'rooms' collection (t: 'p')
-        messages, // User messages from 'messages' collection (no 't' field)
-        systemMessages, // System messages from 'messages' collection (has 't' field)
+        // Direct messages from 'rooms' collection (`t := 'd'`)
+        chatsTable,
+
+        // Public channels from 'rooms' collection (`t := 'c'`)
+        channelsTable,
+
+        // Private groups from 'rooms' collection (`t := 'p'`)
+        groupsTable,
+
+        // User messages from 'messages' collection (`t := 'USER'`)
+        userMessagesTable,
+
+        // System messages from 'messages' collection (`t != 'USER'`)
+        systemMessages,
+
+        // Users
         usersTable
     ],
     relationships: [
         chatRelationships,
         channelRelationships,
         groupRelationships,
-        messageRelationships,
+        userMessageRelationships,
         userRelationships
     ]
 });

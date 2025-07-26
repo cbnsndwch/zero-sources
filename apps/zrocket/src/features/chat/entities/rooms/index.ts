@@ -17,7 +17,7 @@ import {
     ROOM_TYPE_PUBLIC_GROUP,
     ROOM_TYPES,
     SYSTEM_MESSAGE_TYPES
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { EntityBase } from '../../../../common/entities/base.entity.js';
 

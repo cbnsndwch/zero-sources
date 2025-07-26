@@ -67,7 +67,7 @@ Here is an overview of the repository layout. We use pnpm Workspaces to manage m
 │   ├── eslint-config/             # shared ESLint config
 │   ├── tsconfig/                  # shared TSConfig
 │   ├── zero-contracts/            # TypeScript contracts and utilities for Zero
-│   ├── zchat-contracts/           # Zero schemas for ZRocket demo
+│   ├── zrocket-contracts/           # Zero schemas for ZRocket demo
 │   ├── zero-source-mongodb/       # MongoDB change source with discriminated unions
 │   └── zero-watermark-zqlite/     # utilities for Zero watermarks with ZQLite
 ├── LICENSE.md                     # license file
@@ -138,7 +138,7 @@ You can also navigate into specific packages and run scripts locally, but using 
 The **libraries** in this monorepo provide reusable utilities for Zero applications:
 
 - **`@cbnsndwch/zero-contracts`**: TypeScript contracts and utilities for Zero
-- **`@cbnsndwch/zchat-contracts`**: Zero schemas for the ZRocket demo (both traditional and discriminated)
+- **`@cbnsndwch/zrocket-contracts`**: Zero schemas for the ZRocket demo (both traditional and discriminated)
 - **`@cbnsndwch/zero-source-mongodb`**: MongoDB change source implementation with discriminated union support
 - **`@cbnsndwch/zero-watermark-zqlite`**: Utilities for Zero watermarks with ZQLite
 
@@ -311,7 +311,7 @@ From `apps/zrocket`:
 **Zero Cache Not Starting:**
 - Ensure port 4848 is available
 - Check that discriminated schema builds: `pnpm build:libs`
-- Verify schema file exists: `libs/zchat-contracts/dist/discriminated-schema.js`
+- Verify schema file exists: `libs/zrocket-contracts/dist/schema/index.js`
 
 **API Server Issues:**
 - Ensure MongoDB connection is working

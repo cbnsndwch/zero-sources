@@ -4,7 +4,7 @@
 "@cbnsndwch/zero-nest-mongoose": patch
 "@cbnsndwch/zero-watermark-nats-kv": patch
 "@cbnsndwch/zero-watermark-zqlite": patch
-"@cbnsndwch/zchat-contracts": patch
+"@cbnsndwch/zrocket-contracts": patch
 ---
 
 Setup Changesets for release management

@@ -1,6 +1,6 @@
 import { Zero as ZeroConstructor } from '@rocicorp/zero';
 
-import { schema, type Schema } from '@cbnsndwch/zchat-contracts';
+import { schema, type Schema } from '@cbnsndwch/zrocket-contracts/schema';
 
 import { clearJwt, getJwt, getRawJwt } from '../auth/jwt';
 
@@ -75,26 +75,29 @@ export function preload(z: Zero) {
         z.query.channels
             .orderBy('createdAt', 'desc')
             .limit(50)
-            .related('textMessages', cb => cb.orderBy('ts', 'desc').limit(50))
-            .related('imageMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('messages', cb =>
+                cb.orderBy('createdAt', 'desc').limit(50)
+            )
             .related('systemMessages', cb =>
-                cb.orderBy('ts', 'desc').limit(50)
+                cb.orderBy('createdAt', 'desc').limit(50)
             ),
         z.query.groups
             .orderBy('createdAt', 'desc')
             .limit(50)
-            .related('textMessages', cb => cb.orderBy('ts', 'desc').limit(50))
-            .related('imageMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('messages', cb =>
+                cb.orderBy('createdAt', 'desc').limit(50)
+            )
             .related('systemMessages', cb =>
-                cb.orderBy('ts', 'desc').limit(50)
+                cb.orderBy('createdAt', 'desc').limit(50)
             ),
         z.query.chats
             .orderBy('createdAt', 'desc')
             .limit(50)
-            .related('textMessages', cb => cb.orderBy('ts', 'desc').limit(50))
-            .related('imageMessages', cb => cb.orderBy('ts', 'desc').limit(50))
+            .related('messages', cb =>
+                cb.orderBy('createdAt', 'desc').limit(50)
+            )
             .related('systemMessages', cb =>
-                cb.orderBy('ts', 'desc').limit(50)
+                cb.orderBy('createdAt', 'desc').limit(50)
             ),
         z.query.users.where('active', '=', true)
     ];
@@ -114,9 +117,9 @@ export function preload(z: Zero) {
 
     // complete.then(() => {
     //     mark('preload complete');
-
+    //
     //     cleanup();
-
+    //
     //     // preloadQueries
     //     //     // .related('creator')
     //     //     // .related('assignee')
@@ -137,9 +140,7 @@ export function preload(z: Zero) {
 
 // To enable accessing zero in the devtools easily.
 function exposeDevHooks(z: Zero) {
-    if (!('window' in globalThis)) {
-        return;
+    if ('window' in globalThis) {
+        window.z = z;
     }
-
-    (window as any)['z'] = z;
 }

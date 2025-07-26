@@ -18,4 +18,8 @@ export enum RoomType {
     PrivateGroup = 'p'
 }
 
-export const ROOM_TYPES = [...Object.values(RoomType)] as const;
+export const ROOM_TYPES = [
+    RoomType.DirectMessages,
+    RoomType.PublicChannel,
+    RoomType.PrivateGroup
+] as const;

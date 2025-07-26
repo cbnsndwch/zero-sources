@@ -13,7 +13,7 @@
         "build:api": "nest build",
         "build:ui": "react-router build",
         "dev": "nest start --watch",
-        "dev:zero": "zero-cache-dev -p ../../libs/zchat-contracts/src/schema/index.ts",
+        "dev:zero": "zero-cache-dev -p ../../libs/zrocket-contracts/src/schema/index.ts",
         "debug": "nest start --watch --debug",
         "format": "prettier --write ./{src,app}/**/*.{ts,tsx,json,md}",
         "start": "node dist/main.js",
@@ -24,7 +24,7 @@
         "test:coverage": "vitest --coverage"
     },
     "dependencies": {
-        "@cbnsndwch/zchat-contracts": "workspace:*",
+        "@cbnsndwch/zrocket-contracts": "workspace:*",
         "@cbnsndwch/zero-contracts": "workspace:*",
         "@cbnsndwch/zero-source-mongodb": "workspace:*",
         "@cbnsndwch/zero-watermark-zqlite": "workspace:*",

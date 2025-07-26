@@ -3,7 +3,7 @@ import { enumeration, table, type ColumnBuilder } from '@rocicorp/zero';
 import type { IPrivateGroupRoom } from '../group.contracts.js';
 
 import { groupRoomBaseColumns } from './room-base.schema.js';
-import { RoomType } from '../room-type.contract.js';
+import { RoomType } from '../room-type.enum.js';
 
 const privateGroupColumns = {
     ...groupRoomBaseColumns,

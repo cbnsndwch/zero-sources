@@ -4,7 +4,7 @@ import {
     type LivechatAgentStatus,
     LIVECHAT_AGENT_STATUS_NOT_AVAILABLE,
     LIVECHAT_AGENT_STATUSES
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 import { Types } from 'mongoose';
 
 import { User } from '../../users/entities/user.entity.js';

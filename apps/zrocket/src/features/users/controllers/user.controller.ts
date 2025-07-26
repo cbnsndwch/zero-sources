@@ -12,7 +12,7 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import type { UserPresenceStatus } from '@cbnsndwch/zchat-contracts';
+import type { UserPresenceStatus } from '@cbnsndwch/zrocket-contracts';
 
 import { JwtAuthGuard } from '../../auth/jwt/jwt-auth.guard.js';
 import { User } from '../entities/user.entity.js';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import type { IUser, JwtPayload } from '@cbnsndwch/zchat-contracts';
+import type { IUser, JwtPayload } from '@cbnsndwch/zrocket-contracts';
 
 @Injectable()
 export class JwtAuthService {

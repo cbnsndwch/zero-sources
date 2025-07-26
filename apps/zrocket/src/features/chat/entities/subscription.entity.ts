@@ -15,7 +15,7 @@ import {
     type IUserSummaryWithName,
     type ISubscription,
     type NotificationTypeWithDefault
-} from '@cbnsndwch/zchat-contracts';
+} from '@cbnsndwch/zrocket-contracts';
 
 import { EntityBase } from '../../../common/entities/base.entity.js';
 

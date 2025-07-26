@@ -1,6 +1,6 @@
 import type { PullRow, Zero as ZeroConstructor } from '@rocicorp/zero';
 
-import type { Schema } from '@cbnsndwch/zchat-contracts';
+import type { Schema } from '@cbnsndwch/zrocket-contracts/schema';
 
 import type { Mutators } from './mutators';
 

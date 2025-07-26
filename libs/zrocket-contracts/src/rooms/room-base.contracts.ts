@@ -2,7 +2,7 @@ import type { IEntityBase } from '../common/index.js';
 import type { SystemMessageType } from '../messages/index.js';
 import type { IMessageBase } from '../messages/message-base.contract.js';
 
-import type { RoomType } from './room-type.contract.js';
+import type { RoomType } from './room-type.enum.js';
 
 /**
  * A base data contract for room entities.
