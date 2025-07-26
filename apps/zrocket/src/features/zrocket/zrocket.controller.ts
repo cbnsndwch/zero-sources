@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+
 import { schema } from '@cbnsndwch/zrocket-contracts/schema';
 
 import { MetadataService } from './metadata.service.js';
@@ -43,8 +44,7 @@ function extractTableConfigurations() {
     // Map source collections to readable names
     const sourceNames: Record<string, string> = {
         rooms: 'fromRoomsCollection',
-        messages: 'fromMessagesCollection',
-        participants: 'fromParticipantsCollection'
+        messages: 'fromMessagesCollection'
     };
 
     for (const [source, tables] of Object.entries(sourceGroups)) {
@@ -62,11 +62,9 @@ function getTableDescription(tableName: string, filter: any): string {
         chats: 'Direct message rooms',
         groups: 'Private group rooms',
         channels: 'Public channel rooms',
-        textMessages: 'Text-based messages',
-        imageMessages: 'Image messages with metadata',
+        messages: 'User messages (text, images, etc.)',
         systemMessages: 'System-generated messages for events',
-        userParticipants: 'Human user participants',
-        botParticipants: 'Bot participants with configuration'
+        users: 'User accounts and profiles'
     };
 
     return (
