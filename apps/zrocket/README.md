@@ -11,6 +11,21 @@ This is a unified application that combines both the frontend (React Router 7) a
 - **Real-time**: WebSocket-based Zero synchronization with discriminated union routing
 - **Development**: Concurrent development servers for both frontend and backend
 
+## Discriminated Union Tables
+
+ZRocket demonstrates how multiple Zero tables can map to the same MongoDB collections:
+
+**Room Tables** (all from `rooms` collection):
+- `chatsTable` → Direct messages with filter `{ t: 'd' }`
+- `channelsTable` → Public channels with filter `{ t: 'c' }`  
+- `groupsTable` → Private groups with filter `{ t: 'p' }`
+
+**Message Tables** (all from `messages` collection):
+- `messages` → User messages with filter `{ t: { $exists: false } }`
+- `systemMessages` → System messages with filter `{ t: { $exists: true } }`
+
+Each table uses the `.from()` modifier with JSON configuration to specify source collection, filters, and field projections.
+
 ## Quick Start
 
 1. **Start Zero Cache:**

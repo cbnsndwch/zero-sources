@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { discriminatedSchema } from '@cbnsndwch/zrocket-contracts';
+import { schema } from '@cbnsndwch/zrocket-contracts/schema';
 
 import { MetadataService } from './metadata.service.js';
 
@@ -9,7 +9,7 @@ function extractTableConfigurations() {
     const configurations: Record<string, any[]> = {};
 
     // Get all tables from the schema
-    const tables = discriminatedSchema.tables;
+    const tables = schema.tables;
 
     // Group tables by their source collection
     const sourceGroups: Record<string, any[]> = {};
@@ -224,7 +224,7 @@ export class ZRocketController {
         }
 
         // Get traditional tables (non-discriminated)
-        const allTableNames = Object.values(discriminatedSchema.tables).map(
+        const allTableNames = Object.values(schema.tables).map(
             table => table.name
         );
         const discriminatedTableNames = new Set(

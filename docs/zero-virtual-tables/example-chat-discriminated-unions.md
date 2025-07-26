@@ -7,104 +7,103 @@ This example demonstrates how to use discriminated unions to create a flexible c
 ## MongoDB Collections Structure
 
 ### Collection: `rooms`
-Contains different types of rooms discriminated by `type` field:
+Contains different types of rooms discriminated by `t` field:
 
 ```typescript
 // Direct message room
 {
   _id: ObjectId("..."),
-  type: "d",
-  participantIds: ["user1", "user2"],
-  createdAt: ISODate("..."),
+  t: "d",
+  memberIds: ["user1", "user2"],
+  usernames: ["user1", "user2"],
+  messageCount: 2,
   lastMessageAt: ISODate("..."),
-  isArchived: false
+  updatedAt: ISODate("...")
 }
 
 // Private room (group)
 {
   _id: ObjectId("..."),
-  type: "p",
+  t: "p",
   name: "Project Alpha Team",
-  participantIds: ["user1", "user2", "user3", "user4"],
-  createdAt: ISODate("..."),
+  memberIds: ["user1", "user2", "user3", "user4"],
+  usernames: ["user1", "user2", "user3", "user4"],
+  messageCount: 1,
   lastMessageAt: ISODate("..."),
-  isArchived: false
+  updatedAt: ISODate("..."),
+  description: "Private group for Project Alpha discussions",
+  topic: "Project Alpha"
 }
 
 // Public room (channel)
 {
   _id: ObjectId("..."),
-  type: "c",
+  t: "c",
   name: "general",
   description: "General discussion channel",
-  participantIds: ["user1", "user2", "user3", "user4", "user5"],
-  createdAt: ISODate("..."),
+  topic: "General chat",
+  memberIds: ["user1", "user2", "user3", "user4", "user5"],
+  usernames: ["user1", "user2", "user3", "user4", "user5"],
+  messageCount: 2,
   lastMessageAt: ISODate("..."),
-  isArchived: false
+  updatedAt: ISODate("..."),
+  featured: true,
+  default: true
 }
 ```
 
 ### Collection: `messages`
-Contains different types of messages discriminated by `type` field:
+Contains different types of messages discriminated by presence/absence of `t` field:
 
 ```typescript
-// Text message
+// User message (no 't' field)
 {
   _id: ObjectId("..."),
-  type: "text",
   roomId: ObjectId("..."),
-  senderId: "user1",
-  content: "Hello, how are you?",
+  ts: ISODate("..."),
   createdAt: ISODate("..."),
-  isDeleted: false
-}
-
-// Image upload message
-{
-  _id: ObjectId("..."),
-  type: "image",
-  roomId: ObjectId("..."),
-  senderId: "user2",
-  imageUrl: "https://storage.example.com/images/...",
-  caption: "Check out this photo!",
-  imageMetadata: {
-    width: 1920,
-    height: 1080,
-    fileSize: 2048000,
-    mimeType: "image/jpeg"
+  sender: {
+    id: "user1",
+    name: "User One",
+    username: "user1"
   },
-  createdAt: ISODate("..."),
-  isDeleted: false
+  contents: {
+    root: {
+      children: [...], // Lexical JSON structure
+      direction: "ltr",
+      format: "",
+      indent: 0,
+      type: "root",
+      version: 1
+    }
+  },
+  hidden: false
 }
 
-// System message (not displayed in UI, carries signals)
+// System message (has 't' field)
 {
-  _id: ObjectId("..."),
-  type: "system",
   roomId: ObjectId("..."),
-  action: "user_joined",
-  targetUserId: "user3",
-  createdAt: ISODate("..."),
-  metadata: {
+  ts: ISODate("..."),
+  t: "user_joined", // System message type
+  data: {
+    targetUserId: "user3",
     invitedBy: "user1"
   }
 }
 ```
 
-### Collection: `participants`
-Contains different types of participants discriminated by `type` field:
+## Zero Schema Tables
 
-```typescript
-// Regular user participant
-{
-  _id: ObjectId("..."),
-  type: "user",
-  userId: "user1",
-  roomId: ObjectId("..."),
-  role: "member", // owner, admin, member
-  joinedAt: ISODate("..."),
-  lastReadAt: ISODate("..."),
-  notificationSettings: {
+The ZRocket implementation creates **separate Zero tables** that all map to the **same MongoDB collections** using discriminated union filters:
+
+**Room Tables** (all from `rooms` collection):
+- `chatsTable` → Direct messages with filter `{ t: 'd' }`
+- `channelsTable` → Public channels with filter `{ t: 'c' }`  
+- `groupsTable` → Private groups with filter `{ t: 'p' }`
+
+**Message Tables** (all from `messages` collection):
+- `messages` → User messages with filter `{ t: { $exists: false } }`
+- `systemMessages` → System messages with filter `{ t: { $exists: true } }`
     muted: false,
     muteUntil: null
   }

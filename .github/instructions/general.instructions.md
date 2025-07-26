@@ -63,10 +63,21 @@ interface UpstreamTableMapping {
 ```
 
 **ZRocket Demo Implementation:**
-- `rooms` collection → `chats`, `groups`, `channels` (filtered by `t` field: 'd', 'p', 'c')
-- `messages` collection → `textMessages`, `imageMessages`, `systemMessages` (filtered by `t` field) 
-- `participants` collection → `userParticipants`, `botParticipants` (filtered by `type` field)
-- `users` collection → `users` (traditional 1:1 mapping)
+- **Room Tables** (all from `rooms` collection):
+  - `chats` → filter `{ t: 'd' }` (direct messages)
+  - `channels` → filter `{ t: 'c' }` (public channels)  
+  - `groups` → filter `{ t: 'p' }` (private groups)
+- **Message Tables** (all from `messages` collection):
+  - `messages` → filter `{ t: { $exists: false } }` (user messages)
+  - `systemMessages` → filter `{ t: { $exists: true } }` (system messages)
+- **User Tables** (traditional 1:1 mapping):
+  - `users` collection → `users` (no discrimination)
+
+**Schema Architecture:**
+- Each Zero table uses `.from()` modifier with JSON configuration
+- Separate TypeScript interfaces for each table type (IDirectMessagesRoom, IPublicChannelRoom, etc.)
+- Single MongoDB collections with discriminator fields (`t` field for rooms and messages)
+- Automatic field projection to include only relevant columns per table type
 
 **Frontend Schema Usage:**
 - Frontend imports `Schema`

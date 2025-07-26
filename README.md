@@ -165,9 +165,17 @@ The **ZRocket demo** showcases discriminated union tables in Zero using MongoDB 
 
 Instead of traditional 1:1 mapping between MongoDB collections and Zero tables, discriminated unions allow multiple Zero tables to be derived from a single MongoDB collection based on document characteristics:
 
-- `rooms` collection → `chats`, `groups`, `channels` (filtered by `t` field)
-- `messages` collection → `textMessages`, `imageMessages`, `systemMessages` (filtered by `t` field) 
-- `users` collection → `users` (traditional 1:1 mapping)
+**Room Tables** (all from `rooms` collection):
+- `chatsTable` → `rooms` collection with filter `{ t: 'd' }` (direct messages)
+- `channelsTable` → `rooms` collection with filter `{ t: 'c' }` (public channels)  
+- `groupsTable` → `rooms` collection with filter `{ t: 'p' }` (private groups)
+
+**Message Tables** (all from `messages` collection):
+- `messages` → `messages` collection with filter `{ t: { $exists: false } }` (user messages)
+- `systemMessages` → `messages` collection with filter `{ t: { $exists: true } }` (system messages)
+
+**User Tables** (traditional 1:1 mapping):
+- `users` collection → `users` (no discrimination)
 
 ### 🚀 Quick Start
 
