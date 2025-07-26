@@ -13,7 +13,7 @@ import { entityBaseColumns } from '../../common/tables/common.schema.js';
 import { ExternalUserId } from '../user.contract.js';
 import { UserPresenceStatus } from '../user-presence-status.contract.js';
 
-export const users = table('users')
+export const usersTable = table('users')
     .columns({
         ...entityBaseColumns,
 
@@ -98,7 +98,7 @@ export const users = table('users')
     })
     .primaryKey('_id');
 
-export const userRelationships = relationships(users, () => ({
+export const userRelationships = relationships(usersTable, () => ({
     // rooms: many(
     //     {
     //         sourceField: ['id'],

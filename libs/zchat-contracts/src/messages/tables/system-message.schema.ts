@@ -19,5 +19,19 @@ export const systemMessageColumns = {
 } as const;
 
 export const systemMessages = table('systemMessages')
+    .from(
+        JSON.stringify({
+            source: 'messages',
+            filter: { t: { $exists: true } }, // System messages have 't' field
+            projection: {
+                _id: 1,
+                roomId: 1,
+                ts: 1,
+                t: 1,
+                data: 1,
+                hidden: 1
+            }
+        })
+    )
     .columns(systemMessageColumns)
     .primaryKey('_id');

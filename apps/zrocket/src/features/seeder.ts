@@ -6,172 +6,204 @@ const sampleData = {
     users: [
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             username: 'alice',
             name: 'Alice Cooper',
             email: 'alice@example.com',
-            active: true,
-            type: 'user'
+            active: true
         },
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             username: 'bob',
             name: 'Bob Builder',
             email: 'bob@example.com',
-            active: true,
-            type: 'user'
+            active: true
         },
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             username: 'charlie',
             name: 'Charlie Brown',
             email: 'charlie@example.com',
-            active: true,
-            type: 'user'
+            active: true
         },
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             username: 'diana',
             name: 'Diana Prince',
             email: 'diana@example.com',
-            active: true,
-            type: 'user'
+            active: true
         }
     ],
     rooms: [
-        // Direct messages (chats)
+        // Direct messages (discriminated union: t: 'd')
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             t: 'd',
             memberIds: ['alice', 'bob'],
             usernames: ['alice', 'bob'],
-            createdAt: new Date().toISOString(),
-            lastMessageAt: new Date().toISOString(),
-            archived: false
+            messageCount: 2,
+            lastMessageAt: new Date().toISOString()
         },
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             t: 'd',
             memberIds: ['alice', 'charlie'],
             usernames: ['alice', 'charlie'],
-            createdAt: new Date().toISOString(),
-            lastMessageAt: new Date().toISOString(),
-            archived: false
+            messageCount: 0,
+            lastMessageAt: new Date().toISOString()
         },
-        // Private groups
+        // Private groups (discriminated union: t: 'p')
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             t: 'p',
             name: 'Project Alpha Team',
             memberIds: ['alice', 'bob', 'charlie'],
-            createdAt: new Date().toISOString(),
+            usernames: ['alice', 'bob', 'charlie'],
+            messageCount: 1,
             lastMessageAt: new Date().toISOString(),
             description: 'Private group for Project Alpha discussions',
-            topic: 'Project Alpha',
-            archived: false
+            topic: 'Project Alpha'
         },
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             t: 'p',
             name: 'Engineering Team',
             memberIds: ['alice', 'bob', 'charlie', 'diana'],
-            createdAt: new Date().toISOString(),
+            usernames: ['alice', 'bob', 'charlie', 'diana'],
+            messageCount: 0,
             lastMessageAt: new Date().toISOString(),
             description: 'Engineering team discussions',
-            topic: 'Engineering',
-            archived: false
+            topic: 'Engineering'
         },
-        // Public channels
+        // Public channels (discriminated union: t: 'c')
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             t: 'c',
             name: 'general',
             memberIds: ['alice', 'bob', 'charlie', 'diana'],
-            createdAt: new Date().toISOString(),
+            usernames: ['alice', 'bob', 'charlie', 'diana'],
+            messageCount: 2,
             lastMessageAt: new Date().toISOString(),
             description: 'General discussion channel',
             topic: 'General chat',
             featured: true,
-            default: true,
-            archived: false
+            default: true
         },
         {
             _id: new ObjectId(),
+            updatedAt: new Date().toISOString(),
             t: 'c',
             name: 'random',
             memberIds: ['alice', 'bob', 'diana'],
-            createdAt: new Date().toISOString(),
+            usernames: ['alice', 'bob', 'diana'],
+            messageCount: 0,
             lastMessageAt: new Date().toISOString(),
             description: 'Random discussions and fun',
             topic: 'Random',
             featured: false,
-            default: false,
-            archived: false
+            default: false
         }
     ],
     messages: [
-        // Text messages
+        // User messages (discriminated union: no 't' field = user message)
         {
             _id: new ObjectId(),
-            t: 'text',
             roomId: '', // Will be set to actual room ID
+            ts: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
             sender: {
                 id: 'alice',
                 name: 'Alice Cooper',
                 username: 'alice'
             },
             contents: {
-                ops: [{ insert: 'Hello everyone! 👋' }]
+                root: {
+                    children: [
+                        {
+                            children: [
+                                {
+                                    detail: 0,
+                                    format: 0,
+                                    mode: 'normal',
+                                    style: '',
+                                    text: 'Hello everyone! 👋',
+                                    type: 'text',
+                                    version: 1
+                                }
+                            ],
+                            direction: 'ltr',
+                            format: '',
+                            indent: 0,
+                            type: 'paragraph',
+                            version: 1
+                        }
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'root',
+                    version: 1
+                }
             },
-            md: 'Hello everyone! 👋',
-            ts: new Date().toISOString(),
             hidden: false
         },
         {
             _id: new ObjectId(),
-            t: 'text',
             roomId: '', // Will be set to actual room ID
+            ts: new Date(Date.now() + 1000).toISOString(),
+            createdAt: new Date(Date.now() + 1000).toISOString(),
             sender: {
                 id: 'bob',
                 name: 'Bob Builder',
                 username: 'bob'
             },
             contents: {
-                ops: [{ insert: 'Hey Alice! How are you doing?' }]
+                root: {
+                    children: [
+                        {
+                            children: [
+                                {
+                                    detail: 0,
+                                    format: 0,
+                                    mode: 'normal',
+                                    style: '',
+                                    text: 'Hey Alice! How are you doing?',
+                                    type: 'text',
+                                    version: 1
+                                }
+                            ],
+                            direction: 'ltr',
+                            format: '',
+                            indent: 0,
+                            type: 'paragraph',
+                            version: 1
+                        }
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'root',
+                    version: 1
+                }
             },
-            md: 'Hey Alice! How are you doing?',
-            ts: new Date(Date.now() + 1000).toISOString(),
             hidden: false
         },
-        // Image message
+        // System messages (discriminated union: has 't' field = system message)
         {
             _id: new ObjectId(),
-            t: 'image',
             roomId: '', // Will be set to actual room ID
-            sender: {
-                id: 'charlie',
-                name: 'Charlie Brown',
-                username: 'charlie'
-            },
-            imageUrl: 'https://picsum.photos/800/600?random=1',
-            caption: 'Check out this cool photo!',
-            imageMetadata: {
-                width: 800,
-                height: 600,
-                fileSize: 245760,
-                mimeType: 'image/jpeg'
-            },
-            ts: new Date(Date.now() + 2000).toISOString(),
-            hidden: false
-        },
-        // System message
-        {
-            _id: new ObjectId(),
-            t: 'system',
-            roomId: '', // Will be set to actual room ID
-            action: 'user_joined',
-            targetUserId: 'diana',
             ts: new Date(Date.now() + 3000).toISOString(),
-            metadata: {
+            t: 'user_joined',
+            data: {
+                targetUserId: 'diana',
                 invitedBy: 'alice'
             }
         }
@@ -208,7 +240,7 @@ export async function seedZRocketData(
             .insertMany(dataToSeed.users);
         console.log(`Inserted ${usersResult.insertedCount} users`);
 
-        // Insert rooms
+        // Insert rooms (single collection with discriminated union)
         const roomsResult = await db
             .collection('rooms')
             .insertMany(dataToSeed.rooms);
@@ -216,37 +248,24 @@ export async function seedZRocketData(
 
         // Get room IDs for messages
         const rooms = await db.collection('rooms').find({}).toArray();
+        
         const generalChannel = rooms.find(r => r.name === 'general');
         const projectGroup = rooms.find(r => r.name === 'Project Alpha Team');
         const dmRoom = rooms.find(
-            r =>
-                r.t === 'd' &&
-                r.usernames.includes('alice') &&
-                r.usernames.includes('bob')
+            r => r.t === 'd' && r.usernames.includes('alice') && r.usernames.includes('bob')
         );
 
-        // Get user IDs for messages
-        // const users = await db.collection('users').find({}).toArray();
-        // const userIdMap = users.reduce(
-        //     (map, user) => {
-        //         map[user.username] = user._id.toString();
-        //         return map;
-        //     },
-        //     {} as Record<string, string>
-        // );
-
         if (generalChannel && projectGroup && dmRoom) {
-            // Update messages with room IDs
+            // Update messages with room IDs (both user and system messages)
             dataToSeed.messages[0].roomId = generalChannel._id.toString();
             dataToSeed.messages[1].roomId = dmRoom._id.toString();
-            dataToSeed.messages[2].roomId = projectGroup._id.toString();
-            dataToSeed.messages[3].roomId = generalChannel._id.toString();
+            dataToSeed.messages[2].roomId = generalChannel._id.toString(); // system message
 
-            // Insert messages
+            // Insert all messages (user + system in single collection)
             const messagesResult = await db
                 .collection('messages')
                 .insertMany(dataToSeed.messages);
-            console.log(`Inserted ${messagesResult.insertedCount} messages`);
+            console.log(`Inserted ${messagesResult.insertedCount} messages (user + system)`);
         }
 
         console.log('✅ ZRocket sample data seeded successfully!');
@@ -265,8 +284,11 @@ export async function seedZRocketData(
     }
 }
 
+const currentUrl = import.meta.url;
+const currentScript = new URL(`file://${process.argv[1]}`).href
+
 // CLI usage
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (currentUrl === currentScript) {
     const mongoUri = process.argv[2] || 'mongodb://localhost:27017/zrocket';
     seedZRocketData(mongoUri).catch(console.error);
 }

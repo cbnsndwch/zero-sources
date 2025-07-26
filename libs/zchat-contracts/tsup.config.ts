@@ -9,5 +9,9 @@ export default defineConfig({
     platform: 'node',
     outDir: 'dist',
     format: ['esm'],
-    entry: ['src/index.ts']
+    entry: [
+        'src/index.ts',
+        'src/schema/index.ts'
+        //
+    ]
 });
