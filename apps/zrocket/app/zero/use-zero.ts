@@ -1,7 +1,7 @@
 import { createUseZero } from '@rocicorp/zero/react';
 import type { Zero } from '@rocicorp/zero';
 
-import type { DiscriminatedSchema as Schema } from '@cbnsndwch/zrocket-contracts';
+import type { Schema } from '@cbnsndwch/zrocket-contracts/schema';
 
 import type { Mutators } from './mutators';
 

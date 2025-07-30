@@ -1,18 +1,12 @@
 import { SchemaFactory, Schema } from '@nestjs/mongoose';
 import { IsString, IsOptional, IsBoolean } from 'class-validator';
 
-import type {
-    IGroupRoomBase,
-    ROOM_TYPE_CHANNEL
-} from '@cbnsndwch/zrocket-contracts';
+import type { RoomType } from '@cbnsndwch/zrocket-contracts';
 
-import { PrivateGroupRoom } from './private-group.entity.js';
 import { RoomBase } from './room-base.entity.js';
 
 @Schema()
-export class PublicChannelRoom
-    extends RoomBase<typeof ROOM_TYPE_CHANNEL>
-    implements IGroupRoomBase
+export class PublicChannelRoom extends RoomBase<RoomType.PublicChannel>
 {
     @IsString()
     name!: string;
@@ -43,4 +37,4 @@ export class PublicChannelRoom
 }
 
 export const PublicChannelRoomSchema =
-    SchemaFactory.createForClass(PrivateGroupRoom);
+    SchemaFactory.createForClass(PublicChannelRoom);

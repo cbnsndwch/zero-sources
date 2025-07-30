@@ -80,9 +80,9 @@ export function withTableMapping<T extends TableSchema>(
     builder: TableBuilderWithColumns<T>,
     config: TableMapping
 ): TableBuilderWithMapping<T> {
-    const discriminatedTable = builder as TableBuilderWithMapping<T>;
-    discriminatedTable[kTableMapping] = config;
-    return discriminatedTable;
+    const mappedTable = builder as TableBuilderWithMapping<T>;
+    mappedTable[kTableMapping] = config;
+    return mappedTable;
 }
 
 /**
@@ -91,8 +91,8 @@ export function withTableMapping<T extends TableSchema>(
 export function getTableMapping<T extends TableSchema = TableSchema>(
     table: TableBuilderWithMapping<T>
 ): TableMapping | null {
-    const discriminatedTable = table as TableBuilderWithMapping<T>;
-    return discriminatedTable[kTableMapping] || null;
+    const mappedTable = table as TableBuilderWithMapping<T>;
+    return mappedTable[kTableMapping] || null;
 }
 
 /**

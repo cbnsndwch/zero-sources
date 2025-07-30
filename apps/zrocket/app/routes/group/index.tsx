@@ -1,3 +1,5 @@
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
 import type { Route } from './+types/index';
 
 import Skeleton from './skeleton';
@@ -48,7 +50,10 @@ export default function Group({ params }: Route.ComponentProps) {
                             <BreadcrumbSeparator className="hidden md:block" />
                             <BreadcrumbItem>
                                 <BreadcrumbPage className="flex justify-start items-center gap-1">
-                                    <RoomTypeIcon t="p" className="w-4 h-4" />
+                                    <RoomTypeIcon
+                                        t={RoomType.PrivateGroup}
+                                        className="w-4 h-4"
+                                    />
                                     {room?.name}
                                 </BreadcrumbPage>
                             </BreadcrumbItem>

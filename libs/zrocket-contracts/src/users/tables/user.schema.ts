@@ -2,18 +2,17 @@ import {
     string,
     boolean,
     enumeration,
-    relationships,
-    table,
-    json
+    json,
+    table as defineTable
 } from '@rocicorp/zero';
 
-import type { Dict } from '@cbnsndwch/zero-contracts';
+import type { Dict, RowOf } from '@cbnsndwch/zero-contracts';
 
 import { entityBaseColumns } from '../../common/tables/common.schema.js';
 import { ExternalUserId } from '../user.contract.js';
 import { UserPresenceStatus } from '../user-presence-status.contract.js';
 
-export const usersTable = table('users')
+const table = defineTable('users')
     .columns({
         ...entityBaseColumns,
 
@@ -98,17 +97,8 @@ export const usersTable = table('users')
     })
     .primaryKey('_id');
 
-export const userRelationships = relationships(usersTable, () => ({
-    // rooms: many(
-    //     {
-    //         sourceField: ['id'],
-    //         destSchema: roomMember,
-    //         destField: ['userId']
-    //     },
-    //     {
-    //         sourceField: ['roomId'],
-    //         destSchema: room,
-    //         destField: ['id']
-    //     }
-    // )
-}));
+export type IUser = RowOf<typeof table>;
+
+export default {
+    table
+};

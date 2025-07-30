@@ -9,7 +9,7 @@ export const roomBaseColumns = {
     /**
      * The message types that should be treated as system messages for this room.
      */
-    systemMessages: json<SystemMessageType[]>().optional(),
+    systemMessageTypes: json<SystemMessageType[]>().optional(),
 
     //#region User Cache
 

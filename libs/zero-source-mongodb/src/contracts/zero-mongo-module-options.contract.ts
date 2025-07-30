@@ -17,6 +17,12 @@ export type ZeroMongoModuleOptions = {
     tables: TableSpec[];
 
     /**
+     * (Optional) The source/filter/projection mappings for the schema tables,
+     * if any.
+     */
+    tableMappings?: Record<string, string>;
+
+    /**
      * The permissions configuration for the Zero application.
      */
     permissions?: any;

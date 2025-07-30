@@ -390,7 +390,6 @@ The ZRocket app demonstrates discriminated union change sources with a unified N
 - Always start Zero cache (`pnpm dev:zero`) before the main app
 - Zero cache must be running for real-time data synchronization
 - The app uses discriminated union tables: `chats`, `groups`, `channels` (from `rooms` collection) and `textMessages`, `imageMessages`, `systemMessages` (from `messages` collection)
-- Frontend uses `DiscriminatedSchema` type instead of regular `Schema`
 
 **Seeding Data:**
 - POST to `http://localhost:8011/api/zrocket/seed-data` to create sample users, rooms, and messages

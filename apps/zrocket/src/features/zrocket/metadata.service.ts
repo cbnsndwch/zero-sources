@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient, Db } from 'mongodb';
-import { discriminatedSchema } from '@cbnsndwch/zrocket-contracts';
+import { schema } from '@cbnsndwch/zrocket-contracts/schema';
+import { getTableMappings } from '@cbnsndwch/zero-contracts';
 
 export interface SchemaMetadata {
     _id?: string;
@@ -118,33 +119,24 @@ export class MetadataService {
 
     private extractTableConfigurations(): Record<string, any[]> {
         const configurations: Record<string, any[]> = {};
-        const tables = discriminatedSchema.tables;
+
+        // Use the new metadata API to get all table mappings
+        const tableMappings = getTableMappings(schema);
+
+        // Group tables by their source collection
         const sourceGroups: Record<string, any[]> = {};
 
-        for (const table of Object.values(tables)) {
-            const tableName = (table as any).name;
-            const fromConfig = (table as any).from;
-
-            if (fromConfig && typeof fromConfig === 'string') {
-                try {
-                    const config = JSON.parse(fromConfig);
-                    if (config.source && config.filter) {
-                        if (!sourceGroups[config.source]) {
-                            sourceGroups[config.source] = [];
-                        }
-                        sourceGroups[config.source].push({
-                            name: tableName,
-                            filter: config.filter,
-                            projection: config.projection || {},
-                            description: this.getTableDescription(
-                                tableName,
-                                config.filter
-                            )
-                        });
-                    }
-                } catch {
-                    // Ignore non-JSON from configs (traditional tables)
+        for (const [tableName, config] of Object.entries(tableMappings)) {
+            if (config && config.source) {
+                if (!sourceGroups[config.source]) {
+                    sourceGroups[config.source] = [];
                 }
+                sourceGroups[config.source].push({
+                    name: tableName,
+                    filter: config.filter,
+                    projection: config.projection || {},
+                    description: this.getTableDescription(tableName, config.filter)
+                });
             }
         }
 

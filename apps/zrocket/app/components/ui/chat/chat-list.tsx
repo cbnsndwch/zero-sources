@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Forward, Heart, MoreVerticalIcon } from 'lucide-react';
 
-// import { Message, UserData } from '@/app/data';
+import type { IUserMessage } from '@cbnsndwch/zrocket-contracts';
+
 import { ChatMessageList } from './chat-message-list';
 import {
     ChatBubble,
@@ -12,13 +13,10 @@ import {
     ChatBubbleTimestamp
 } from './chat-bubble';
 
-import type { IImageMessage, ITextMessage } from '@/zero/contracts';
-
 interface ChatListProps {
-    // messages: Message[];
+    messages: IUserMessage[];
     // selectedUser: UserData;
     // sendMessage: (newMessage: Message) => void;
-    messages: Array<ITextMessage | IImageMessage>;
     selectedUser: any;
     sendMessage: (newMessage: any) => void;
 }
@@ -65,7 +63,44 @@ export function ChatList({
                                 style={{ originX: 0.5, originY: 0.5 }}
                                 className="flex flex-col gap-2 p-4"
                             >
-                                {message.type === 'text' ? (
+                                <ChatBubble variant={variant}>
+                                    <ChatBubbleAvatar
+                                        src={(message as any).avatar || '#'}
+                                    />
+                                    <ChatBubbleMessage
+                                    // isLoading={message.isLoading}
+                                    >
+                                        {JSON.stringify(message)}
+
+                                        {message.updatedAt ? (
+                                            <ChatBubbleTimestamp
+                                                timestamp={String(
+                                                    message.updatedAt
+                                                )}
+                                            />
+                                        ) : null}
+                                    </ChatBubbleMessage>
+                                    <ChatBubbleActionWrapper>
+                                        {actionIcons.map(
+                                            ({ icon: Icon, type }) => (
+                                                <ChatBubbleAction
+                                                    className="size-7"
+                                                    key={type}
+                                                    icon={
+                                                        <Icon className="size-4" />
+                                                    }
+                                                    onClick={() =>
+                                                        console.log(
+                                                            `Action ${type} clicked for message ${index}`
+                                                        )
+                                                    }
+                                                />
+                                            )
+                                        )}
+                                    </ChatBubbleActionWrapper>
+                                </ChatBubble>
+
+                                {/* {message.type === 'text' ? (
                                     <ChatBubble variant={variant}>
                                         <ChatBubbleAvatar
                                             src={(message as any).avatar || '#'}
@@ -134,7 +169,7 @@ export function ChatList({
                                             )}
                                         </ChatBubbleActionWrapper>
                                     </ChatBubble>
-                                )}
+                                )} */}
                             </motion.div>
                         );
                     })}

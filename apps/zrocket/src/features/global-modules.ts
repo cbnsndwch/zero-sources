@@ -1,19 +1,16 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 
-import {
-    // discriminatedPermissions,
-    discriminatedSchema,
-    permissions
-} from '@cbnsndwch/zrocket-contracts';
-import { invariant } from '@cbnsndwch/zero-contracts';
+import { invariant, type ZeroConfig } from '@cbnsndwch/zero-contracts';
+import { schema, permissions } from '@cbnsndwch/zrocket-contracts/schema';
+
 import {
     ZeroMongoModule,
     ZeroMongoModuleOptions
 } from '@cbnsndwch/zero-source-mongodb';
 import { ZqliteWatermarkModule } from '@cbnsndwch/zero-watermark-zqlite';
 
-import type { AppConfig, DbConfig, ZeroConfig } from '../config/contracts.js';
+import type { AppConfig, DbConfig } from '../config/contracts.js';
 import loadYamlConfig from '../config/load-yaml-config.js';
 
 import { tableSpecsFromSchema } from './utils.js';
@@ -89,8 +86,7 @@ const zrocketChangeSourceModule = ZeroMongoModule.forRootAsync({
             'Invalid zero.auth config, expected object'
         );
 
-        // Use discriminated schema instead of regular schema
-        const tables = tableSpecsFromSchema(discriminatedSchema);
+        const tables = tableSpecsFromSchema(schema);
 
         return {
             tables,

@@ -1,103 +1,78 @@
 import { createSchema, relationships } from '@rocicorp/zero';
 
-import {
-    chatsTable,
-    channelsTable,
-    groupsTable
-} from '../rooms/tables/index.js';
-import {
-    userMessagesTable,
-    systemMessagesTable
-} from '../messages/tables/index.js';
-import { usersTable } from '../users/tables/index.js';
+import chats from '../rooms/tables/direct-message-room.schema.js';
+import groups from '../rooms/tables/private-group.schema.js';
+import channels from '../rooms/tables/public-channel.schema.js';
+
+import userMessages from '../messages/tables/user-messages.schema.js';
+import systemMessages from '../messages/tables/system-message.schema.js';
+
+import users from '../users/tables/user.schema.js';
 
 //#region Relationships
 
-const chatRelationships = relationships(chatsTable, ({ many }) => ({
+const chatRelationships = relationships(chats.table, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
-        destSchema: userMessagesTable,
+        destSchema: userMessages.table,
         destField: ['roomId']
     }),
     systemMessages: many({
         sourceField: ['_id'],
-        destSchema: systemMessagesTable,
+        destSchema: systemMessages.table,
         destField: ['roomId']
     })
 }));
 
-const channelRelationships = relationships(channelsTable, ({ many }) => ({
+const channelRelationships = relationships(channels.table, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
-        destSchema: userMessagesTable,
+        destSchema: userMessages.table,
         destField: ['roomId']
     }),
     systemMessages: many({
         sourceField: ['_id'],
-        destSchema: systemMessagesTable,
+        destSchema: systemMessages.table,
         destField: ['roomId']
     })
 }));
 
-const groupRelationships = relationships(groupsTable, ({ many }) => ({
+const groupRelationships = relationships(groups.table, ({ many }) => ({
     messages: many({
         sourceField: ['_id'],
-        destSchema: userMessagesTable,
+        destSchema: userMessages.table,
         destField: ['roomId']
     }),
     systemMessages: many({
         sourceField: ['_id'],
-        destSchema: systemMessagesTable,
+        destSchema: systemMessages.table,
         destField: ['roomId']
     })
 }));
 
 const userMessageRelationships = relationships(
-    userMessagesTable,
-    ({ one, many }) => ({
+    userMessages.table,
+    ({ many }) => ({
         replies: many({
             sourceField: ['_id'],
-            destSchema: userMessagesTable,
-            destField: ['_id']
-        }),
-        senderUser: one({
-            sourceField: ['sender.id'],
-            destSchema: usersTable,
-            destField: ['_id']
-        }),
-        pinnedByUser: one({
-            sourceField: ['pinnedBy.id'],
-            destSchema: usersTable,
+            destSchema: userMessages.table,
             destField: ['_id']
         })
-        // starredBy: many(
-        //     {
-        //         sourceField: ['id'],
-        //         destSchema: messageStarred,
-        //         destField: ['messageId']
-        //     },
-        //     {
-        //         sourceField: ['userId'],
-        //         destSchema: user,
-        //         destField: ['id']
-        //     }
-        // ),
-        // mentionedUsers: many(
-        //     {
-        //         sourceField: ['id'],
-        //         destSchema: messageMention,
-        //         destField: ['messageId']
-        //     },
-        //     {
-        //         sourceField: ['userId'],
-        //         destSchema: user,
-        //         destField: ['id']
-        //     }
-        // )
+        // TODO: Uncomment when Zero supports JSON field relationships
+        // senderUser: one({
+        //     sourceField: ['sender.id'],
+        //     destSchema: usersTable,
+        //     destField: ['_id']
+        // }),
+        // pinnedByUser: one({
+        //     sourceField: ['pinnedBy.id'],
+        //     destSchema: usersTable,
+        //     destField: ['_id']
+        // })
     })
 );
 
-const userRelationships = relationships(usersTable, () => ({
+const userRelationships = relationships(users.table, () => ({
     // chats: many({
     //     sourceField: ['_id'],
     //     destSchema: chatsTable,
@@ -120,22 +95,22 @@ const userRelationships = relationships(usersTable, () => ({
 export const schema = createSchema({
     tables: [
         // Direct messages from 'rooms' collection (`t := 'd'`)
-        chatsTable,
+        chats.table,
 
         // Public channels from 'rooms' collection (`t := 'c'`)
-        channelsTable,
+        channels.table,
 
         // Private groups from 'rooms' collection (`t := 'p'`)
-        groupsTable,
+        groups.table,
 
         // User messages from 'messages' collection (`t := 'USER'`)
-        userMessagesTable,
+        userMessages.table,
 
         // System messages from 'messages' collection (`t != 'USER'`)
-        systemMessagesTable,
+        systemMessages.table,
 
         // Users
-        usersTable
+        users.table
     ],
     relationships: [
         chatRelationships,
@@ -147,3 +122,14 @@ export const schema = createSchema({
 });
 
 export type Schema = typeof schema;
+
+export type TableName = keyof typeof schema.tables;
+
+export const tableMappings = {
+    chats: chats.mapping,
+    channels: channels.mapping,
+    groups: groups.mapping,
+    userMessages: userMessages.mapping,
+    systemMessages: systemMessages.mapping
+    // users: users.mapping,
+} as const;

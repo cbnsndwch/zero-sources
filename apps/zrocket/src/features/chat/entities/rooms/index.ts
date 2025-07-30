@@ -1,29 +1,13 @@
-import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import {
-    IsArray,
-    IsBoolean,
-    IsEnum,
-    IsOptional,
-    IsString
-} from 'class-validator';
-import {
-    type IDirectMessagesRoom,
-    type IGroupRoomBase,
-    type RoomType,
-    type SystemMessageType,
-    type IRoomBase,
-    ROOM_TYPE_DIRECT_MESSAGES,
-    ROOM_TYPE_PRIVATE_GROUP,
-    ROOM_TYPE_PUBLIC_GROUP,
-    ROOM_TYPES,
-    SYSTEM_MESSAGE_TYPES
-} from '@cbnsndwch/zrocket-contracts';
+import { ModelDefinition } from '@nestjs/mongoose';
 
-import { EntityBase } from '../../../../common/entities/base.entity.js';
-
-import { Message, MessageSchema } from '../message.entity.js';
 import { Room, RoomSchema } from './room-base.entity.js';
 import { DirectMessagesRoom, DirectMessagesRoomSchema } from './direct-messages-room.entity.js';
+import { PrivateGroupRoom, GroupRoomSchema } from './private-group.entity.js';
+import { PublicChannelRoom, PublicChannelRoomSchema } from './public-channel.entity.js';
+
+// Re-export entities for external use
+export { Room, DirectMessagesRoom, PrivateGroupRoom, PublicChannelRoom };
+export { RoomSchema, DirectMessagesRoomSchema, GroupRoomSchema, PublicChannelRoomSchema };
 
 // ###############################################################
 
@@ -41,8 +25,12 @@ export const roomModelDefinition: ModelDefinition = {
             schema: DirectMessagesRoomSchema
         },
         {
-            name: GroupRoom.name,
+            name: PrivateGroupRoom.name,
             schema: GroupRoomSchema
+        },
+        {
+            name: PublicChannelRoom.name,
+            schema: PublicChannelRoomSchema
         }
     ]
 };

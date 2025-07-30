@@ -1,51 +1,6 @@
 {
-    "eslint.workingDirectories": [
-        "apps/*",
-        "libs/*",
-    ],
-    "eslint.lintTask.options": "-c .eslintrc.vscode.cjs",
-    "files.eol": "\n",
-    "files.associations": {
-        "*.css": "tailwindcss",
-        ".env": "dotenv",
-        "*.json": "jsonc",
-        "nest-cli.json": "json",
-        "package.json": "json"
-    },
-    "typescript.experimental.expandableHover": true,
-    "debug.inlineValues": "on",
-    "explorer.fileNesting.enabled": true,
-    "explorer.fileNesting.patterns": {
-        "*.ts": "${capture}.js,${capture}.spec.ts,${capture}.spec-d.ts,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.options.ts,${capture}.test.ts,${capture}.test-d.ts,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.ts,${capture}.stories.tsx,${capture}.mdx,${capture}.css,${capture}.module.css",
-        "*.mts": "${capture}.mjs,${capture}.spec.mts,${capture}.spec-d.mts,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.options.mts,${capture}.test.mts,${capture}.test-d.mts,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.mts,${capture}.stories.tsx,${capture}.mdx,${capture}.css,${capture}.module.css",
-        "*.tsx": "${capture}.jsx,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.tsx,${capture}.stories.ts,${capture}.mdx,${capture}.css,${capture}.module.css",
-        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.http",
-        "*.cjs": "${capture}.cjs.map, ${capture}.min.cjs",
-        "*.json": "${capture}.js,${capture}.ts",
-        ".env": ".env.*",
-        ".eslintrc.js": ".eslintrc.*.js,.eslintignore",
-        ".gitignore": ".gitkeep,.gitattributes",
-        ".prettierrc.json": ".prettierrc.*.json,.prettierignore",
-        "package.json": "package-lock.json,pnpm-lock.yaml",
-        "vite.config.mts": "vitest.config.mts, vite.config.mts.timestamp-*.mjs",
-        "tsconfig.json": "tsconfig.*.json,tsconfig.tsbuildinfo",
-    },
-    "prettier.prettierPath": "node_modules/prettier/index.cjs",
-    "editor.rulers": [
-        80
-    ],
-    "files.watcherExclude": {
-        "**/.git/objects/**": true,
-        "**/.git/subtree-cache/**": true,
-        "**/node_modules/*/**": true,
-        "**/.turbo/**": true,
-    },
-    "vsicons.presets.nestjs": true,
-    "vsicons.presets.tsOfficial": false,
-    "vsicons.presets.jsOfficial": false,
-    "vsicons.presets.hideFolders": false,
-    "vsicons.presets.hideExplorerArrows": false,
-    "vsicons.presets.foldersAllDefaultIcon": false,
+    "chat.agent.maxRequests": 150,
+    "chat.tools.autoApprove": true,
     "cSpell.words": [
         "Abra",
         "acked",
@@ -245,10 +200,57 @@
         "zschema",
         "Zubat"
     ],
+    "debug.inlineValues": "on",
+    "editor.rulers": [
+        80
+    ],
+    "eslint.lintTask.options": "-c .eslintrc.vscode.cjs",
+    "eslint.workingDirectories": [
+        "apps/*",
+        "libs/*",
+    ],
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        ".env": ".env.*",
+        ".eslintrc.js": ".eslintrc.*.js,.eslintignore",
+        ".gitignore": ".gitkeep,.gitattributes",
+        ".prettierrc.json": ".prettierrc.*.json,.prettierignore",
+        "*.cjs": "${capture}.cjs.map, ${capture}.min.cjs",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.http",
+        "*.json": "${capture}.js,${capture}.ts",
+        "*.mts": "${capture}.mjs,${capture}.spec.mts,${capture}.spec-d.mts,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.options.mts,${capture}.test.mts,${capture}.test-d.mts,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.mts,${capture}.stories.tsx,${capture}.mdx,${capture}.css,${capture}.module.css",
+        "*.ts": "${capture}.js,${capture}.spec.ts,${capture}.spec-d.ts,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.options.ts,${capture}.test.ts,${capture}.test-d.ts,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.ts,${capture}.stories.tsx,${capture}.mdx,${capture}.css,${capture}.module.css",
+        "*.tsx": "${capture}.jsx,${capture}.spec.tsx,${capture}.spec-d.tsx,${capture}.test.tsx,${capture}.test-d.tsx,${capture}.stories.tsx,${capture}.stories.ts,${capture}.mdx,${capture}.css,${capture}.module.css",
+        "package.json": "package-lock.json,pnpm-lock.yaml",
+        "tsconfig.json": "tsconfig.*.json,tsconfig.tsbuildinfo",
+        "vite.config.mts": "vitest.config.mts, vite.config.mts.timestamp-*.mjs"
+    },
+    "files.associations": {
+        ".env": "dotenv",
+        "*.css": "tailwindcss",
+        "*.json": "jsonc",
+        "nest-cli.json": "json",
+        "package.json": "json"
+    },
+    "files.eol": "\n",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/.turbo/**": true,
+        "**/node_modules/*/**": true
+    },
     "github.copilot.enable": {
         "*": true,
-        "plaintext": false,
         "markdown": false,
+        "plaintext": false,
         "scminput": false
     },
+    "prettier.prettierPath": "node_modules/prettier/index.cjs",
+    "typescript.experimental.expandableHover": true,
+    "vsicons.presets.foldersAllDefaultIcon": false,
+    "vsicons.presets.hideExplorerArrows": false,
+    "vsicons.presets.hideFolders": false,
+    "vsicons.presets.jsOfficial": false,
+    "vsicons.presets.nestjs": true,
+    "vsicons.presets.tsOfficial": false
 }

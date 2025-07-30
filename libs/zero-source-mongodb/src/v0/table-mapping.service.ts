@@ -4,7 +4,6 @@ import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 import type { TableMapping } from '@cbnsndwch/zero-contracts';
 
 import { parseTableMapping } from '../utils/table-mapping.js';
-import { ConfigService } from '@nestjs/config';
 
 type TableSpec = v0.TableCreate['spec'];
 
@@ -113,12 +112,17 @@ export class TableMappingService {
     }
 
     /**
-     * Parses discriminated configuration from a TableSpec using the from field
+     * Parses discriminated configuration from a TableSpec using metadata or fallback
      */
     private parseDiscriminatedConfigFromSpec(
         spec: TableSpec
     ): TableMapping | null {
-        // Check if the spec has a from field with JSON configuration
+        // First, check if the spec has metadata from the schema (new approach)
+        if ((spec as any).tableMapping) {
+            return (spec as any).tableMapping as TableMapping;
+        }
+
+        // Legacy: Check if the spec has a from field with JSON configuration
         if ((spec as any).from && typeof (spec as any).from === 'string') {
             const config = parseTableMapping((spec as any).from);
             if (config) {
@@ -126,7 +130,7 @@ export class TableMappingService {
             }
         }
 
-        // Fallback to the hardcoded naming convention as backup
+        // Final fallback to the hardcoded naming convention as backup
         return this.getDiscriminatedConfigForTable(spec.name);
     }
 

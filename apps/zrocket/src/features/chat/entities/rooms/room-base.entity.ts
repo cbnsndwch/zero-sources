@@ -3,6 +3,7 @@ import { IsArray, IsEnum, IsString } from 'class-validator';
 
 import {
     type IRoomBase,
+    type IUserMessage,
     ROOM_TYPES,
     type RoomType,
     SYSTEM_MESSAGE_TYPES,
@@ -11,16 +12,18 @@ import {
 
 import { EntityBase } from '../../../../common/entities/base.entity.js';
 
-import { Message, MessageSchema } from '../message.entity.js';
+import { MessageSchema } from '../message.entity.js';
 
 export abstract class RoomBase<TType extends RoomType = RoomType>
     extends EntityBase
     implements IRoomBase<TType>
 {
     t!: TType;
+    createdAt!: Date;
     memberIds!: string[];
+    usernames!: string[];
     messageCount!: number;
-    lastMessage?: Message;
+    lastMessage?: IUserMessage;
     lastMessageAt?: Date;
     systemMessages?: SystemMessageType[];
 }
@@ -54,7 +57,7 @@ export class Room extends RoomBase implements IRoomBase {
     @Prop({
         type: MessageSchema
     })
-    declare lastMessage?: Message;
+    declare lastMessage?: IUserMessage;
 
     @Prop({
         type: Date

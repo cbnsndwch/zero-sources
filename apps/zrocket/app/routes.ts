@@ -9,6 +9,9 @@ export default [
     route('c/:channelId', 'routes/channel/index.tsx'),
 
     // ZRocket discriminated union demo
+    route('messages', 'routes/messages/index.tsx'),
+
+    // ZRocket discriminated union demo
     route('zrocket/demo-info', 'routes/zrocket.tsx')
 
     //

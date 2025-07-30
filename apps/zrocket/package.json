@@ -20,6 +20,7 @@
         "types": "react-router typegen && tsc",
         "lint": "eslint \"{src,app}/**/*.{ts,tsx}\" --fix",
         "test": "vitest --run --passWithNoTests",
+        "test:ui": "vitest --ui",
         "test:watch": "vitest",
         "test:coverage": "vitest --coverage"
     },
@@ -69,7 +70,7 @@
         "@react-router/express": "^7.6.3",
         "@react-router/node": "^7.6.3",
         "@react-router/serve": "^7.6.3",
-        "@rocicorp/zero": "0.22.2025072600",
+        "@rocicorp/zero": "0.22.2025072901",
         "@tabler/icons-react": "^3.34.0",
         "@types/js-cookie": "^3.0.6",
         "change-case": "^5.4.4",

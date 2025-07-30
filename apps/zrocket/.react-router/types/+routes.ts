@@ -28,6 +28,9 @@ type Pages = {
       "channelId": string;
     };
   };
+  "/messages": {
+    params: {};
+  };
   "/zrocket/demo-info": {
     params: {};
   };
@@ -36,7 +39,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/zrocket/demo-info";
+    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/messages" | "/zrocket/demo-info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
@@ -53,6 +56,10 @@ type RouteFiles = {
   "routes/channel/index.tsx": {
     id: "routes/channel/index";
     page: "/c/:channelId";
+  };
+  "routes/messages/index.tsx": {
+    id: "routes/messages/index";
+    page: "/messages";
   };
   "routes/zrocket.tsx": {
     id: "routes/zrocket";

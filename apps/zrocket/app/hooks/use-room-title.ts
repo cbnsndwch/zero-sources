@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
 
-import type { ChannelWithMessages } from './use-channel';
-import type { ChatWithMessages } from './use-chat';
-import type { GroupWithMessages } from './use-group';
+import type {
+    IPrivateGroupRoom,
+    IPublicChannelRoom,
+    IDirectMessagesRoom
+} from '@cbnsndwch/zrocket-contracts';
 
 export default function useRoomTitle(
-    room: ChatWithMessages | ChannelWithMessages | GroupWithMessages
+    room: IPrivateGroupRoom | IPublicChannelRoom | IDirectMessagesRoom
 ): string {
     return useMemo(() => {
         if (!room) {

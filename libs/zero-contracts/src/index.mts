@@ -1,6 +1,8 @@
 export * from './dict.js';
 export * from './invariant.mjs';
 
+export * from './config/index.mjs';
+
 export * from './lexi-version.mjs';
 
 export * from './upstream/index.js';

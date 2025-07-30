@@ -4,6 +4,7 @@ import {
     IsBoolean,
     IsDate,
     IsDefined,
+    IsEnum,
     IsObject,
     IsOptional,
     IsString,
@@ -11,65 +12,55 @@ import {
 } from 'class-validator';
 import type { SerializedEditorState } from 'lexical';
 import { Types } from 'mongoose';
-import type {
-    IHasId,
-    IHasName,
-    IMessage,
-    IMessageMention,
-    IMessageReaction,
-    IUserSummary,
-    MessageAttachment
+import {
+    MESSAGE_TYPES
 } from '@cbnsndwch/zrocket-contracts';
+import type {
+    IHasName,
+    IMessageReaction,
+    ISystemMessage,
+    IUserMessage,
+    IUserSummary,
+    MessageAttachment,
+    MessageType
+} from '@cbnsndwch/zrocket-contracts';
+import type { Dict } from '@cbnsndwch/zero-contracts';
 
 import { EntityBase } from '../../../common/entities/base.entity.js';
 
 @Schema()
-export class Message extends EntityBase implements IMessage {
+export class Message extends EntityBase {
     @IsString()
     @IsDefined()
     @Prop({ type: String, required: true })
     roomId!: string;
 
-    @IsDate()
+    @IsBoolean()
+    @IsOptional()
+    @Prop({ type: Boolean })
+    hidden?: boolean;
+
+    // Discriminator field - determines if this is a user message or system message
+    @IsEnum(MESSAGE_TYPES)
     @IsDefined()
-    @Prop({ type: Date, required: true })
-    ts!: Date;
+    @Prop({ type: String, required: true })
+    t!: MessageType;
+
+    // User Message Fields (only present when t === 'USER')
+    @IsObject()
+    @IsOptional()
+    @Prop({ type: Types.Map })
+    sender?: Required<IUserSummary> & Partial<IHasName>;
 
     @IsObject()
-    @IsDefined()
-    @Prop({ type: Types.Map, required: true })
-    contents!: SerializedEditorState;
-
-    @IsString()
     @IsOptional()
-    @Prop({ type: String })
-    md?: string;
-
-    @IsString()
-    @IsOptional()
-    @Prop({ type: String })
-    html?: string;
-
-    @IsArray()
-    @ValidateNested({ each: true })
-    @IsOptional()
-    @Prop({ type: [Types.Map] })
-    mentions?: IMessageMention[];
-
-    @IsObject()
-    @IsDefined()
-    @Prop({ type: Types.Map, required: true })
-    sender!: Required<IUserSummary> & Partial<IHasName>;
+    @Prop({ type: Types.Map })
+    contents?: SerializedEditorState;
 
     @IsBoolean()
     @IsOptional()
     @Prop({ type: Boolean })
     groupable?: boolean;
-
-    @IsBoolean()
-    @IsOptional()
-    @Prop({ type: Boolean })
-    hidden?: boolean;
 
     @IsArray()
     @IsString({ each: true })
@@ -78,10 +69,10 @@ export class Message extends EntityBase implements IMessage {
     repliedBy?: string[];
 
     @IsArray()
-    @ValidateNested({ each: true })
+    @IsString({ each: true })
     @IsOptional()
-    @Prop({ type: Types.Map })
-    starred?: IHasId[];
+    @Prop({ type: [String] })
+    starredBy?: string[];
 
     @IsBoolean()
     @IsOptional()
@@ -98,11 +89,6 @@ export class Message extends EntityBase implements IMessage {
     @Prop({ type: Types.Map })
     pinnedBy?: IUserSummary;
 
-    @IsBoolean()
-    @IsOptional()
-    @Prop({ type: Boolean })
-    unread?: boolean;
-
     @IsArray()
     @ValidateNested({ each: true })
     @IsOptional()
@@ -113,6 +99,21 @@ export class Message extends EntityBase implements IMessage {
     @IsOptional()
     @Prop({ type: Types.Map })
     reactions?: Record<string, IMessageReaction>;
+
+    // System Message Fields (only present when t !== 'USER')
+    @IsObject()
+    @IsOptional()
+    @Prop({ type: Types.Map })
+    data?: Dict;
+
+    // Helper methods to check message type
+    isUserMessage(): this is Message & IUserMessage {
+        return this.t === 'USER';
+    }
+
+    isSystemMessage(): this is Message & ISystemMessage {
+        return this.t !== 'USER';
+    }
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

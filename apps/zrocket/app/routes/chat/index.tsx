@@ -1,3 +1,5 @@
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
 import type { Route } from './+types/index';
 
 import Skeleton from './skeleton';
@@ -46,7 +48,10 @@ export default function Chat({ params }: Route.ComponentProps) {
                             <BreadcrumbSeparator className="hidden md:block" />
                             <BreadcrumbItem>
                                 <BreadcrumbPage className="flex justify-start items-center gap-1">
-                                    <RoomTypeIcon t="d" className="w-4 h-4" />
+                                    <RoomTypeIcon
+                                        t={RoomType.DirectMessages}
+                                        className="w-4 h-4"
+                                    />
                                     {roomTitle}
                                 </BreadcrumbPage>
                             </BreadcrumbItem>

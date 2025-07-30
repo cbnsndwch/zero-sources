@@ -84,10 +84,12 @@ jobs:
         run: |
           mkdir -p .docker/swarm/schema
           cat > build-schema.mjs << 'EOF'
-          import { discriminatedSchema } from './libs/zchat-zrocket/dist/schema/index.js';
+          import { schema } from './libs/zchat-zrocket/dist/schema/index.js';
           import { writeFileSync } from 'fs';
-          writeFileSync('.docker/swarm/schema/discriminated-schema.json', 
-            JSON.stringify(discriminatedSchema, null, 2));
+          writeFileSync(
+            '.docker/swarm/schema/discriminated-schema.json', 
+            JSON.stringify(schema, null, 2)
+          );
           console.log('✅ Schema built successfully');
           EOF
           node build-schema.mjs
