@@ -260,18 +260,14 @@ const chatSystemConfig: ZeroSchemaConfig = {
 
 ## Zero Schema Definitions
 
-Using the `.from()` modifier with serialized discriminated union configuration:
+Using separate `TableMapping` objects alongside table definitions:
 
 ```typescript
 import { table, string, boolean, json, number } from '@rocicorp/zero';
+import type { TableMapping } from '@cbnsndwch/zero-contracts';
 
-// Room tables using discriminated union configs
+// Room tables with separate mapping configurations
 const chats = table('chats')
-  .from(JSON.stringify({
-    source: 'rooms',
-    filter: { type: 'd', isArchived: false },
-    projection: { _id: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
-  }))
   .columns({
     id: string(),
     participantIds: json<string[]>(),
@@ -280,12 +276,13 @@ const chats = table('chats')
   })
   .primaryKey('id');
 
+const chatsMapping: TableMapping<IDirectMessageRoom> = {
+  source: 'rooms',
+  filter: { t: { $eq: 'd' }, isArchived: { $ne: true } },
+  projection: { _id: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
+};
+
 const groups = table('groups')
-  .from(JSON.stringify({
-    source: 'rooms',
-    filter: { type: 'p', isArchived: false },
-    projection: { _id: 1, name: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
-  }))
   .columns({
     id: string(),
     name: string(),
@@ -295,12 +292,13 @@ const groups = table('groups')
   })
   .primaryKey('id');
 
+const groupsMapping: TableMapping<IPrivateGroupRoom> = {
+  source: 'rooms',
+  filter: { t: { $eq: 'p' }, isArchived: { $ne: true } },
+  projection: { _id: 1, name: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
+};
+
 const channels = table('channels')
-  .from(JSON.stringify({
-    source: 'rooms',
-    filter: { type: 'c', isArchived: false },
-    projection: { _id: 1, name: 1, description: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
-  }))
   .columns({
     id: string(),
     name: string(),
@@ -311,13 +309,11 @@ const channels = table('channels')
   })
   .primaryKey('id');
 
-// Message tables using discriminated union configs
-const textMessages = table('textMessages')
-  .from(JSON.stringify({
-    source: 'messages',
-    filter: { type: 'text', isDeleted: false },
-    projection: { _id: 1, roomId: 1, senderId: 1, content: 1, createdAt: 1 }
-  }))
+const channelsMapping: TableMapping<IPublicChannelRoom> = {
+  source: 'rooms',
+  filter: { t: { $eq: 'c' }, isArchived: { $ne: true } },
+// Message tables with separate mapping configurations
+const userMessages = table('userMessages')
   .columns({
     id: string(),
     roomId: string(),
@@ -327,34 +323,13 @@ const textMessages = table('textMessages')
   })
   .primaryKey('id');
 
-const imageMessages = table('imageMessages')
-  .from(JSON.stringify({
-    source: 'messages',
-    filter: { type: 'image', isDeleted: false },
-    projection: { _id: 1, roomId: 1, senderId: 1, imageUrl: 1, caption: 1, imageMetadata: 1, createdAt: 1 }
-  }))
-  .columns({
-    id: string(),
-    roomId: string(),
-    senderId: string(),
-    imageUrl: string(),
-    caption: string().optional(),
-    imageMetadata: json<{
-      width: number;
-      height: number;
-      fileSize: number;
-      mimeType: string;
-    }>(),
-    createdAt: string()
-  })
-  .primaryKey('id');
+const userMessagesMapping: TableMapping<IUserMessage> = {
+  source: 'messages',
+  filter: { t: { $in: ['USER', 'text'] }, isDeleted: { $ne: true } },
+  projection: { _id: 1, roomId: 1, senderId: 1, content: 1, createdAt: 1 }
+};
 
 const systemMessages = table('systemMessages')
-  .from(JSON.stringify({
-    source: 'messages',
-    filter: { type: 'system' },
-    projection: { _id: 1, roomId: 1, action: 1, targetUserId: 1, createdAt: 1, metadata: 1 }
-  }))
   .columns({
     id: string(),
     roomId: string(),
@@ -365,45 +340,25 @@ const systemMessages = table('systemMessages')
   })
   .primaryKey('id');
 
-// Participant tables using discriminated union configs
-const userParticipants = table('userParticipants')
-  .from(JSON.stringify({
-    source: 'participants',
-    filter: { type: 'user' },
-    projection: { _id: 1, userId: 1, roomId: 1, role: 1, joinedAt: 1, lastReadAt: 1, 'notificationSettings.muted': 1 }
-  }))
-  .columns({
-    id: string(),
-    userId: string(),
-    roomId: string(),
-    role: string(),
-    joinedAt: string(),
-    lastReadAt: string(),
-    muted: boolean().optional()
-  })
-  .primaryKey('id');
+const systemMessagesMapping: TableMapping<ISystemMessage> = {
+  source: 'messages',
+  filter: { t: { $exists: true, $nin: ['USER', 'text'] } },
+  projection: { _id: 1, roomId: 1, action: 1, targetUserId: 1, createdAt: 1, metadata: 1 }
+};
 
-const botParticipants = table('botParticipants')
-  .from(JSON.stringify({
-    source: 'participants',
-    filter: { type: 'bot' },
-    projection: { _id: 1, botId: 1, roomId: 1, role: 1, joinedAt: 1, config: 1 }
-  }))
-  .columns({
-    id: string(),
-    botId: string(),
-    roomId: string(),
-    role: string(),
-    joinedAt: string(),
-    config: json<any>()
-  })
-  .primaryKey('id');
+// Export table mappings for use by change source
+export const tableMappings = {
+  chats: chatsMapping,
+  groups: groupsMapping,
+  channels: channelsMapping,
+  userMessages: userMessagesMapping,
+  systemMessages: systemMessagesMapping
 ```
 
-The MongoDB change source (or any future change source) can parse these JSON configurations from the `.from()` strings to:
+The MongoDB change source (or any future change source) can use these separate mapping configurations to:
 
 1. **Identify the source collection** (`source: 'rooms'`, `source: 'messages'`, etc.)
-2. **Apply discriminating filters** (`type: 'd'`, `type: 'text'`, etc.)  
+2. **Apply discriminating filters** (`t: { $eq: 'd' }`, `t: { $in: ['USER', 'text'] }`, etc.)  
 3. **Project only required fields** (reducing data transfer and processing)
 4. **Route changes to appropriate Zero tables** based on filter matches
 
@@ -415,16 +370,12 @@ Clients can query specific entity types without complex filtering:
 // Get all public channels
 const channels = z.query.channels;
 
-// Get all text messages for a room
-const textMessages = z.query.textMessages
+// Get all user messages for a room
+const userMessages = z.query.userMessages
   .where('roomId', roomId);
 
-// Get all image messages for a room
-const imageMessages = z.query.imageMessages
-  .where('roomId', roomId);
-
-// Get only user participants (no bots)
-const humanParticipants = z.query.userParticipants
+// Get all system messages for a room
+const systemMessages = z.query.systemMessages
   .where('roomId', roomId);
 ```
 
@@ -437,16 +388,19 @@ Each Zero table has a specific schema that matches its intended use case.
 ### 4. **Flexible Backend Schema**
 MongoDB collections can evolve independently while maintaining clean Zero interfaces.
 
-## Change Stream Processing with Serialized Configs
+### 5. **Maintainable Configuration**
+Table mappings are defined separately from schema definitions, making them easier to modify and maintain.
+
+## Change Stream Processing with Mapping Configurations
 
 When the MongoDB change source processes a document change:
 
-1. **Parse `.from()` configurations**: Extract and parse the JSON configuration from each Zero table's `.from()` modifier
-2. **Match source collections**: For a change in `rooms` collection, find all tables with `"source": "rooms"`
+1. **Access mapping configurations**: Retrieve the `TableMapping` objects for each Zero table
+2. **Match source collections**: For a change in `rooms` collection, find all tables with `source: "rooms"`
 3. **Apply filters**: Check if the changed document matches each table's filter criteria:
-   - `chats`: `{ type: 'd', isArchived: false }`
-   - `groups`: `{ type: 'p', isArchived: false }`  
-   - `channels`: `{ type: 'c', isArchived: false }`
+   - `chats`: `{ t: { $eq: 'd' }, isArchived: { $ne: true } }`
+   - `groups`: `{ t: { $eq: 'p' }, isArchived: { $ne: true } }`  
+   - `channels`: `{ t: { $eq: 'c' }, isArchived: { $ne: true } }`
 4. **Apply projections**: For matching tables, apply the projection to extract only relevant fields
 5. **Route to Zero tables**: Send the projected data to the appropriate Zero table(s)
 
@@ -456,7 +410,7 @@ When the MongoDB change source processes a document change:
 // When a room document changes in MongoDB:
 const changedDocument = {
   _id: ObjectId("..."),
-  type: "c",
+  t: "c",
   name: "general",
   description: "General discussion",
   isArchived: false,
@@ -464,17 +418,17 @@ const changedDocument = {
 };
 
 // Change source processes all tables with source: 'rooms'
-for (const table of tablesWithRoomsSource) {
-  const config = JSON.parse(table.from());
-  
-  if (matchesFilter(changedDocument, config.filter)) {
-    const projectedData = applyProjection(changedDocument, config.projection);
-    routeToZeroTable(table.name, projectedData);
+for (const [tableName, mapping] of Object.entries(tableMappings)) {
+  if (mapping.source === 'rooms') {
+    if (matchesFilter(changedDocument, mapping.filter)) {
+      const projectedData = applyProjection(changedDocument, mapping.projection);
+      routeToZeroTable(tableName, projectedData);
+    }
   }
 }
 
 // Result: Only 'channels' table receives this change because:
-// - type: "c" matches channels filter
+// - t: "c" matches channels filter
 // - isArchived: false matches channels filter  
 // - type: "c" does NOT match chats or groups filters
 ```

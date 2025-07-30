@@ -24,7 +24,7 @@ ZRocket demonstrates how multiple Zero tables can map to the same MongoDB collec
 - `messages` → User messages with filter `{ t: { $exists: false } }`
 - `systemMessages` → System messages with filter `{ t: { $exists: true } }`
 
-Each table uses the `.from()` modifier with JSON configuration to specify source collection, filters, and field projections.
+Each table uses separate `TableMapping` configurations to specify source collection, filters, and field projections.
 
 ## Quick Start
 

@@ -74,7 +74,7 @@ interface UpstreamTableMapping {
   - `users` collection → `users` (no discrimination)
 
 **Schema Architecture:**
-- Each Zero table uses `.from()` modifier with JSON configuration
+- Each Zero table uses separate `TableMapping` objects for discriminated union configuration
 - Separate TypeScript interfaces for each table type (IDirectMessagesRoom, IPublicChannelRoom, etc.)
 - Single MongoDB collections with discriminator fields (`t` field for rooms and messages)
 - Automatic field projection to include only relevant columns per table type
@@ -108,14 +108,10 @@ In order to move quickly and efficiently, we will use a the list of short comman
 - NestJS entity class validation annotations: when I write the `/validations` slash command, you will edit the entity class to add `class-validator` annotations to the entity class properties
 - Generating Zero Schemas: when I write the `/zschema` slash command, you will generate a Zero schema for the entity class. To do so, you will reference the entity class properties and the `class-validator` annotations on the entity's fields, as well as the `@Schema` decorator on the entity class itself, which should contain the name of the collection. You can find documentation for Zero schemas below.
 
-**For discriminated union tables**, use the `.from()` modifier with serialized JSON configuration:
+**For discriminated union tables**, use separate `TableMapping` objects alongside table definitions:
 ```typescript
+// Define the Zero table schema
 const chats = table('chats')
-  .from(JSON.stringify({
-    source: 'rooms',
-    filter: { type: 'd', isArchived: false },
-    projection: { _id: 1, participantIds: 1, createdAt: 1, lastMessageAt: 1 }
-  }))
   .columns({
     id: string(),
     participantIds: json<string[]>(),
@@ -123,6 +119,50 @@ const chats = table('chats')
     lastMessageAt: string().optional()
   })
   .primaryKey('id');
+
+// Define the mapping configuration separately
+const mapping: TableMapping<IDirectMessageRoom> = {
+  source: 'rooms',
+  filter: { 
+    t: { $eq: 'd' },
+    isArchived: { $ne: true }
+  },
+  projection: { 
+    _id: 1, 
+    participantIds: 1, 
+    createdAt: 1, 
+    lastMessageAt: 1 
+  }
+};
+
+// Export both as a unified object
+export default {
+  table,
+  mapping
+};
+```
+
+**Aggregating table mappings in the main schema file:**
+```typescript
+import chats from './rooms/tables/direct-message-room.schema.js';
+import channels from './rooms/tables/public-channel.schema.js';
+import userMessages from './messages/tables/user-messages.schema.js';
+
+export const schema = createSchema({
+  tables: [
+    chats.table,
+    channels.table,
+    userMessages.table
+  ],
+  relationships: [...]
+});
+
+// Export aggregated mappings for change source
+export const tableMappings = {
+  chats: chats.mapping,
+  channels: channels.mapping,
+  userMessages: userMessages.mapping
+} as const;
 ```
 
 ## Zero Schemas
