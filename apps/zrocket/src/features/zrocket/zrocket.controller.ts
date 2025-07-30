@@ -1,17 +1,13 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-import { schema } from '@cbnsndwch/zrocket-contracts/schema';
-import { getTableMappings } from '@cbnsndwch/zero-contracts';
+import { schema, tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
 
 import { MetadataService } from './metadata.service.js';
 
 // Helper function to extract discriminated union configurations from schema
 function extractTableConfigurations() {
     const configurations: Record<string, any[]> = {};
-
-    // Use the new metadata API to get all table mappings
-    const tableMappings = getTableMappings(schema);
 
     // Group tables by their source collection
     const sourceGroups: Record<string, any[]> = {};

@@ -5,12 +5,6 @@ import type { Dict } from '../dict.js';
 import type { Filter } from './filter.contracts.js';
 
 /**
- * Symbol used to attach discriminated union metadata to table schemas
- * without interfering with Zero's internal table structure
- */
-export const kTableMapping = Symbol.for('kTableMapping');
-
-/**
  * Configuration for discriminated union table mapping
  */
 export interface TableMapping<TTable = Dict> {
@@ -29,14 +23,6 @@ export interface TableMapping<TTable = Dict> {
      * simple renaming (`$sourceField`) syntaxes are supported.
      */
     projection?: Record<keyof TTable, 1 | 0 | `$${string}`>;
-}
-
-/**
- * Extended table schema that can carry discriminated union metadata
- */
-export interface TableBuilderWithMapping<T extends TableSchema>
-    extends TableBuilderWithColumns<T> {
-    [kTableMapping]?: TableMapping;
 }
 
 /**

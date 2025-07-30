@@ -2,38 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { 
     matchesFilter, 
     applyProjection, 
-    parseTableMapping 
 } from '../utils/table-mapping.js';
 
 describe('Discriminated Union Utilities', () => {
-    describe('parseDiscriminatedConfig', () => {
-        it('should parse valid JSON configuration', () => {
-            const jsonConfig = JSON.stringify({
-                source: 'rooms',
-                filter: { t: 'd', archived: { $ne: true } },
-                projection: { _id: 1, memberIds: 1 }
-            });
-
-            const result = parseTableMapping(jsonConfig);
-            expect(result).toEqual({
-                source: 'rooms',
-                filter: { t: 'd', archived: { $ne: true } },
-                projection: { _id: 1, memberIds: 1 }
-            });
-        });
-
-        it('should return null for invalid JSON', () => {
-            const result = parseTableMapping('invalid-json');
-            expect(result).toBeNull();
-        });
-
-        it('should return null for config without source', () => {
-            const jsonConfig = JSON.stringify({ filter: { t: 'd' } });
-            const result = parseTableMapping(jsonConfig);
-            expect(result).toBeNull();
-        });
-    });
-
     describe('matchesFilter', () => {
         const sampleDoc = {
             _id: 'room1',

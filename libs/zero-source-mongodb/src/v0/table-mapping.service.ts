@@ -3,9 +3,10 @@ import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 
 import type { TableMapping } from '@cbnsndwch/zero-contracts';
 
-import { parseTableMapping } from '../utils/table-mapping.js';
 
-type TableSpec = v0.TableCreate['spec'];
+type TableSpec = v0.TableCreate['spec'] & {
+    tableMapping?: TableMapping;
+};
 
 /**
  * Mapping of Zero table name to its mapped table configuration
@@ -28,13 +29,6 @@ export class TableMappingService {
     private fallbackTables: Map<string, TableSpec> = new Map();
     private isInitialized = false;
 
-    
-    // constructor(
-    //     config: ConfigService
-    // ) {
-    //     this.mappings = config.get<ZeroConfig>('tableMapping') || [];    
-    // }
-
     /**
      * Initialize the service with table specifications
      */
@@ -43,27 +37,25 @@ export class TableMappingService {
         this.fallbackTables.clear();
 
         for (const spec of tableSpecs) {
-            // Try to parse discriminated configuration from the .from() modifier
-            const config = this.parseDiscriminatedConfigFromSpec(spec);
-
-            if (config) {
-                // This is a mapped table
-                const cleanTableName = this.getCleanTableName(spec.name);
-                const mapping: MappedTableMapping = {
-                    tableName: cleanTableName,
-                    config,
-                    spec
-                };
-
-                if (!this.mappedTables.has(config.source)) {
-                    this.mappedTables.set(config.source, []);
-                }
-                this.mappedTables.get(config.source)!.push(mapping);
-            } else {
-                // This is a traditional 1:1 table mapping
+            // This is a traditional 1:1 table mapping
+            if (!spec.tableMapping) {
                 const cleanTableName = this.getCleanTableName(spec.name);
                 this.fallbackTables.set(cleanTableName, spec);
+                continue;
             }
+
+            // This is a mapped table
+            const cleanTableName = this.getCleanTableName(spec.name);
+            const mapping: MappedTableMapping = {
+                tableName: cleanTableName,
+                config: spec.tableMapping,
+                spec
+            };
+
+            if (!this.mappedTables.has(spec.tableMapping.source)) {
+                this.mappedTables.set(spec.tableMapping.source, []);
+            }
+            this.mappedTables.get(spec.tableMapping.source)!.push(mapping);
         }
 
         this.isInitialized = true;
@@ -109,29 +101,6 @@ export class TableMappingService {
      */
     getFallbackTableNames(): string[] {
         return Array.from(this.fallbackTables.keys());
-    }
-
-    /**
-     * Parses discriminated configuration from a TableSpec using metadata or fallback
-     */
-    private parseDiscriminatedConfigFromSpec(
-        spec: TableSpec
-    ): TableMapping | null {
-        // First, check if the spec has metadata from the schema (new approach)
-        if ((spec as any).tableMapping) {
-            return (spec as any).tableMapping as TableMapping;
-        }
-
-        // Legacy: Check if the spec has a from field with JSON configuration
-        if ((spec as any).from && typeof (spec as any).from === 'string') {
-            const config = parseTableMapping((spec as any).from);
-            if (config) {
-                return config;
-            }
-        }
-
-        // Final fallback to the hardcoded naming convention as backup
-        return this.getDiscriminatedConfigForTable(spec.name);
     }
 
     /**

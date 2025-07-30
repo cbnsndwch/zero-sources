@@ -1,7 +1,6 @@
 import type { Schema, TableSchema, ValueType } from '@rocicorp/zero';
 
-import { getTableMappings } from '@cbnsndwch/zero-contracts';
-import { tableMappings as mappings } from '@cbnsndwch/zrocket-contracts/schema';
+import { tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
 import type { TableSpec } from '@cbnsndwch/zero-source-mongodb';
 
 type ColSchema = TableSchema['columns'][string];
@@ -18,24 +17,16 @@ const VALUE_TYPE_TO_PG_TYPE: Record<ValueType, PgType> = {
 } as const;
 
 export function tableSpecsFromSchema(schema: Schema) {
-    // Get all table mappings using the metadata API
-    let tableMappings = getTableMappings(schema);
-
-    // If no mappings are defined, use the default mappings
-    if (Object.keys(tableMappings).length === 0) {
-        tableMappings = mappings;
-    }
-
     // Extract table specifications with proper metadata handling
     const tableSpecs = Object.entries(schema.tables).map(
-        ([tableIdentifier, tableSchema]) => {
+        ([tableName, tableSchema]) => {
             const spec = tableSpecFromTableSchema(tableSchema);
 
             // Use the table identifier as the name (this is the clean table name)
-            spec.name = tableIdentifier;
+            spec.name = tableName;
 
             // Check if this table has discriminated union metadata
-            const tableMapping = tableMappings[tableIdentifier];
+            const tableMapping = tableMappings[tableName];
             if (tableMapping) {
                 // Attach the table mapping configuration to the spec for the change source
                 (spec as any).tableMapping = tableMapping;
@@ -44,13 +35,14 @@ export function tableSpecsFromSchema(schema: Schema) {
             return spec;
         }
     );
+
     return tableSpecs;
 }
 
 export function tableSpecFromTableSchema(table: TableSchema) {
     const tableColumns = Object.entries(table.columns).reduce(
-        (acc, [columnName, column]: [string, ColSchema], pos) => {
-            acc[columnName] = columnSpecFromColSchema(column, pos);
+        (acc, [columnName, columnSchema]: [string, ColSchema], pos) => {
+            acc[columnName] = columnSpecFromColSchema(columnSchema, pos);
             return acc;
         },
         {} as ColumnsSpec

@@ -1,37 +1,3 @@
-import type { Dict, TableMapping } from '@cbnsndwch/zero-contracts';
-
-/**
- * Parses a Zero table's .from() modifier to extract upstream table mapping
- * configuration
- */
-export function parseTableMapping<T = Dict>(
-    fromModifier: string
-): TableMapping<T> | null {
-    try {
-        const config = JSON.parse(fromModifier);
-
-        // Validate that it has the required source field
-        if (
-            typeof config === 'object' &&
-            config !== null &&
-            typeof config.source === 'string'
-        ) {
-            return {
-                source: config.source,
-                filter: config.filter || {},
-                projection: config.projection || {}
-            };
-        }
-
-        return null;
-    } catch (err) {
-        // If it's not valid JSON, it's probably a traditional table name
-        console.error(err);
-
-        return null;
-    }
-}
-
 /**
  * Checks if a document matches the filter criteria
  */
@@ -134,7 +100,7 @@ function getNestedValue(obj: any, path: string): any {
 
 /**
  * Applies a MongoDB-like projection to a document
- * 
+ *
  * TODO: add support for field renaming
  */
 export function applyProjection(document: any, projection: object): any {

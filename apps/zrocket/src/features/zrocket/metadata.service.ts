@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MongoClient, Db } from 'mongodb';
-import { schema } from '@cbnsndwch/zrocket-contracts/schema';
-import { getTableMappings } from '@cbnsndwch/zero-contracts';
+
+import { tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
 
 export interface SchemaMetadata {
     _id?: string;
@@ -120,9 +120,6 @@ export class MetadataService {
     private extractTableConfigurations(): Record<string, any[]> {
         const configurations: Record<string, any[]> = {};
 
-        // Use the new metadata API to get all table mappings
-        const tableMappings = getTableMappings(schema);
-
         // Group tables by their source collection
         const sourceGroups: Record<string, any[]> = {};
 
@@ -135,7 +132,10 @@ export class MetadataService {
                     name: tableName,
                     filter: config.filter,
                     projection: config.projection || {},
-                    description: this.getTableDescription(tableName, config.filter)
+                    description: this.getTableDescription(
+                        tableName,
+                        config.filter
+                    )
                 });
             }
         }
