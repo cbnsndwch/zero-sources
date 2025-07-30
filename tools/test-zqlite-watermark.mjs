@@ -1,22 +1,16 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import os from 'node:os';
-
 import { Test } from '@nestjs/testing';
-
+import { ZqliteWatermarkModule, ZqliteWatermarkService } from '../libs/zero-watermark-zqlite/dist/index.js';
 import { TOKEN_WATERMARK_SERVICE } from '@cbnsndwch/zero-contracts';
-
-import { ZqliteWatermarkModule } from '../libs/zero-watermark-zqlite/dist/index.js';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
 async function testZqliteWatermarkService() {
     console.log('Testing ZQLite Watermark Service...');
-
+    
     // Create a temporary database file
-    const tempDbFile = path.join(
-        os.tmpdir(),
-        `test-watermark-${Date.now()}.db`
-    );
-
+    const tempDbFile = path.join(os.tmpdir(), `test-watermark-${Date.now()}.db`);
+    
     try {
         // Create a test module
         const module = await Test.createTestingModule({
@@ -35,64 +29,47 @@ async function testZqliteWatermarkService() {
         // Test creating a new watermark
         const shardId = 'test-shard';
         const resumeToken = 'test-resume-token-123';
-
+        
         console.log('Testing getOrCreateWatermark...');
-        const watermark1 = await watermarkService.getOrCreateWatermark(
-            shardId,
-            resumeToken
-        );
+        const watermark1 = await watermarkService.getOrCreateWatermark(shardId, resumeToken);
         console.log(`✓ Created watermark: ${watermark1}`);
 
         // Test retrieving existing watermark
-        const watermark2 = await watermarkService.getOrCreateWatermark(
-            shardId,
-            resumeToken
-        );
+        const watermark2 = await watermarkService.getOrCreateWatermark(shardId, resumeToken);
         console.log(`✓ Retrieved existing watermark: ${watermark2}`);
-
+        
         if (watermark1 !== watermark2) {
-            throw new Error(
-                'Watermarks should be the same for the same resume token'
-            );
+            throw new Error('Watermarks should be the same for the same resume token');
         }
         console.log('✓ Watermark consistency test passed');
 
         // Test retrieving resume token
         console.log('Testing getResumeToken...');
-        const retrievedResumeToken = await watermarkService.getResumeToken(
-            shardId,
-            watermark1
-        );
+        const retrievedResumeToken = await watermarkService.getResumeToken(shardId, watermark1);
         console.log(`✓ Retrieved resume token: ${retrievedResumeToken}`);
-
+        
         if (retrievedResumeToken !== resumeToken) {
-            throw new Error(
-                `Resume token mismatch: expected ${resumeToken}, got ${retrievedResumeToken}`
-            );
+            throw new Error(`Resume token mismatch: expected ${resumeToken}, got ${retrievedResumeToken}`);
         }
         console.log('✓ Resume token retrieval test passed');
 
         // Test creating multiple watermarks for different resume tokens
         console.log('Testing multiple watermarks...');
         const resumeToken2 = 'test-resume-token-456';
-        const watermark3 = await watermarkService.getOrCreateWatermark(
-            shardId,
-            resumeToken2
-        );
+        const watermark3 = await watermarkService.getOrCreateWatermark(shardId, resumeToken2);
         console.log(`✓ Created second watermark: ${watermark3}`);
-
+        
         if (watermark1 === watermark3) {
-            throw new Error(
-                'Different resume tokens should create different watermarks'
-            );
+            throw new Error('Different resume tokens should create different watermarks');
         }
         console.log('✓ Multiple watermarks test passed');
 
         // Clean up
         await module.close();
         console.log('✓ Module closed successfully');
-
+        
         console.log('\n🎉 All ZQLite Watermark Service tests passed!');
+        
     } finally {
         // Clean up the temporary file
         try {

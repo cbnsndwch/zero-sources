@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
+// Simple test to verify table mapping extraction works
 import { getTableMappings } from '@cbnsndwch/zero-contracts';
-import {
-    chatsTable,
-    channelsTable,
-    groupsTable
-} from '@cbnsndwch/zrocket-contracts';
+
+// Import from the main export
+import { chatsTable, channelsTable, groupsTable } from '@cbnsndwch/zrocket-contracts';
 
 console.log('🧪 Testing individual table mapping extraction...\n');
 
@@ -33,9 +32,7 @@ try {
     for (const tableName of expectedTables) {
         const config = tableMappings[tableName];
         if (config) {
-            console.log(
-                `✅ ${tableName}: source="${config.source}", filter=${JSON.stringify(config.filter)}`
-            );
+            console.log(`✅ ${tableName}: source="${config.source}", filter=${JSON.stringify(config.filter)}`);
         } else {
             console.log(`❌ ${tableName}: NOT FOUND`);
             allFound = false;
@@ -49,6 +46,7 @@ try {
         console.log('\n❌ FAILED: Some table mappings are missing');
         process.exit(1);
     }
+
 } catch (error) {
     console.error('❌ Error during table mapping extraction:', error.message);
     process.exit(1);

@@ -11,11 +11,11 @@ async function validateDiscriminatedUnionIntegration() {
         const fs = await import('fs');
         
         // Read the Message entity implementation
-        const messageEntityContent = fs.readFileSync('./apps/zrocket/src/features/chat/entities/message.entity.ts', 'utf8');
+        const messageEntityContent = fs.readFileSync('../apps/zrocket/src/features/chat/entities/message.entity.ts', 'utf8');
         
         // Read the Zero schema table definitions for comparison
-        const userMessagesSchema = fs.readFileSync('./libs/zrocket-contracts/src/messages/tables/user-messages.schema.ts', 'utf8');
-        const systemMessagesSchema = fs.readFileSync('./libs/zrocket-contracts/src/messages/tables/system-message.schema.ts', 'utf8');
+        const userMessagesSchema = fs.readFileSync('../libs/zrocket-contracts/src/messages/tables/user-messages.schema.ts', 'utf8');
+        const systemMessagesSchema = fs.readFileSync('../libs/zrocket-contracts/src/messages/tables/system-message.schema.ts', 'utf8');
         
         console.log('📊 Integration Validation Report:');
         console.log('=====================================\n');

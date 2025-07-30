@@ -3,7 +3,7 @@ async function testMessageEntityDiscriminatedUnion() {
     
     try {
         // Import the Message class
-        const { Message } = await import('./apps/zrocket/dist/features/chat/entities/message.entity.js');
+        const { Message } = await import('../apps/zrocket/dist/features/chat/entities/message.entity.js');
 
         // Test creating a user message
         console.log('\n📝 Testing User Message creation...');

@@ -1,4 +1,4 @@
-import { getTableMappings } from '@cbnsndwch/zero-contractss';
+import { getTableMappings } from '@cbnsndwch/zero-contracts';
 import { schema } from '@cbnsndwch/zrocket-contracts/schemas';
 
 async function debugSchema() {
