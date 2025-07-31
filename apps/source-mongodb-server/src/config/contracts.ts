@@ -50,18 +50,83 @@ export type NatsKvOptions = {
     };
 };
 
+/**
+ * Configuration interface for schema loading.
+ */
+export interface SchemaConfig {
+    /**
+     * Source type for schema loading
+     */
+    source: 'file' | 'url' | 'inline';
+    
+    /**
+     * Path to schema file (when source = 'file')
+     */
+    schemaFile?: string;
+    
+    /**
+     * Path to table mappings file (when source = 'file')
+     */
+    tableMappingsFile?: string;
+    
+    /**
+     * URL to fetch schema from (when source = 'url')
+     */
+    schemaUrl?: string;
+    
+    /**
+     * URL to fetch table mappings from (when source = 'url')
+     */
+    tableMappingsUrl?: string;
+    
+    /**
+     * Inline schema configuration (when source = 'inline')
+     */
+    inlineSchema?: any;
+    
+    /**
+     * Inline table mappings (when source = 'inline')
+     */
+    inlineTableMappings?: Record<string, any>;
+}
+
 export type KvConfig =
     | { provider: 'nats'; nats: NatsKvOptions; zqlite: never }
     | { provider: 'zqlite'; zqlite: ZqliteKvOptions; nats: never };
+
+/**
+ * Configuration for zero-cache and related services
+ */
+export interface ZeroConfig {
+    /**
+     * Auth config for zero-cache
+     */
+    auth: AuthConfig;
+
+    /**
+     * Config for the KV server (NATS or Zqlite)
+     */
+    kv: KvConfig;
+}
 
 /**
  * Configuration for the application.
  */
 export interface AppConfig {
     /**
-     * Auth config for zero-cache
+     * Auth config for the application
      */
-    auth: AuthConfig;
+    auth: {
+        jwt: {
+            secret: string;
+            tokenLifetime: number;
+        };
+        github: {
+            clientId: string;
+            clientSecret: string;
+            callbackUrl: string;
+        };
+    };
 
     /**
      * config for the upstream MongoDB database
@@ -69,7 +134,12 @@ export interface AppConfig {
     db: DbConfig;
 
     /**
-     * Config for the NATS KV server
+     * Configuration for zero-cache and related services
      */
-    kv: NatsKvOptions;
+    zero: ZeroConfig;
+
+    /**
+     * Configuration for schema and table mappings loading
+     */
+    schema: SchemaConfig;
 }

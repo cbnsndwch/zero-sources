@@ -7,7 +7,7 @@
         "build:all": "turbo build",
         "build:libs": "pnpm i && turbo build \"--filter=./libs/*\"",
         "dev": "turbo dev",
-        "reset": "rm -rf ./.local/zrocket_data/*",
+        "reset": "rm -rf ./.data/zrocket_data/*",
         "lint": "turbo lint",
         "test": "turbo test",
         "format": "prettier --write \"**/*.{ts,tsx,mts,cts,md}\"",

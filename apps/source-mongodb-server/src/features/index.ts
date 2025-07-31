@@ -1,15 +1,17 @@
 import { ConfigService } from '@nestjs/config';
-
 import { invariant } from '@cbnsndwch/zero-contracts';
 import { ZeroMongoModule } from '@cbnsndwch/zero-source-mongodb';
 import { ZqliteWatermarkModule } from '@cbnsndwch/zero-watermark-zqlite';
 
-import { AppConfig, AuthConfig, KvConfig } from '../config/contracts.js';
+import { AppConfig, KvConfig } from '../config/contracts.js';
 
 import { globalModules } from './global-modules.js';
 
+import { SchemaLoaderService } from './schema/schema-loader.service.js';
+
 // infra
 import { HealthzModule } from './healthz/healthz.module.js';
+import { MetadataModule } from './metadata/metadata.module.js';
 import { tables } from './table-specs.js';
 
 export default [
@@ -21,6 +23,7 @@ export default [
      * Infra
      */
     HealthzModule,
+    MetadataModule,
     /**
      * Application Feature
      */
@@ -28,7 +31,8 @@ export default [
         inject: [ConfigService],
         async useFactory(config: ConfigService<AppConfig>) {
             // const { token } = config.get<AuthConfig>('auth')!;
-            const { provider, zqlite } = config.get<KvConfig>('kv')!;
+            const { kv } = config.get<{kv: KvConfig}>('zero')!;
+            const { provider, zqlite } = kv;
 
             invariant(provider === 'zqlite', 'KV provider must be zqlite');
             invariant(
@@ -42,18 +46,34 @@ export default [
         }
     }),
     ZeroMongoModule.forRootAsync({
-        inject: [ConfigService],
-        async useFactory(config: ConfigService<AppConfig>) {
-            const authConfig = config.get<AuthConfig>('auth');
+        inject: [ConfigService, SchemaLoaderService],
+        async useFactory(
+            config: ConfigService<AppConfig>,
+            schemaLoader: SchemaLoaderService
+        ) {
+            const { auth: zeroAuth } = config.get<{auth: {token: string}}>('zero')!;
 
             invariant(
-                typeof authConfig === 'object',
-                'Invalid streamer auth config, expected object'
+                typeof zeroAuth === 'object' && typeof zeroAuth.token === 'string',
+                'Invalid streamer auth config, expected object with token'
             );
 
+            // Load schema dynamically
+            let tablesToUse;
+            try {
+                const loadedSchema = await schemaLoader.loadSchema();
+                tablesToUse = loadedSchema.tables;
+            } catch (error) {
+                console.warn(
+                    'Failed to load schema from configuration, falling back to default tables:',
+                    error
+                );
+                tablesToUse = tables; // fallback to hardcoded tables
+            }
+
             return {
-                streamerToken: authConfig.token,
-                tables
+                streamerToken: zeroAuth.token,
+                tables: tablesToUse
             };
         }
     })

@@ -6,7 +6,8 @@
     "compilerOptions": {
         "builder": "swc",
         "deleteOutDir": true,
-        "manualRestart": true
+        "manualRestart": true,
+        "tsConfigPath": "./tsconfig.build.json"
     },
     "generateOptions": {
         "spec": false,

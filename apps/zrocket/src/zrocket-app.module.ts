@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import zrocketImports from './features/index.js';
+import imports from './features/index.js';
 
-@Module({ imports: zrocketImports })
+@Module({ imports })
 export class ZRocketAppModule {}

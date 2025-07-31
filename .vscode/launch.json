@@ -40,6 +40,28 @@
         },
         {
             "type": "node",
+            "name": "Mongo Source - Standalone",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "dev",
+                "--",
+                "--dns-result-order=ipv4first",
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules",
+                "**/node_modules/@nestjs/**"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/apps/source-mongodb-server",
+            "env": {
+                "NODE_OPTIONS": "--dns-result-order=ipv4first"
+            }
+        },
+        {
+            "type": "node",
             "name": "[NODE] Current File",
             "request": "launch",
             "cwd": "${fileDirname}",
@@ -58,29 +80,6 @@
                 "${file}"
             ],
             "env": {
-                "NODE_OPTIONS": "--dns-result-order=ipv4first"
-            }
-        },
-        {
-            "type": "node",
-            "name": "Mongo Source - Standalone",
-            "request": "launch",
-            "runtimeExecutable": "pnpm",
-            "sourceMaps": true,
-            "runtimeArgs": [
-                "dev",
-                "--",
-                "--dns-result-order=ipv4first",
-            ],
-            "skipFiles": [
-                "<node_internals>/**",
-                "**/node_modules",
-                "**/node_modules/@nestjs/**"
-            ],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceRoot}/apps/source-mongodb-server",
-            "env": {
-                "CONFIG_FILE": "${workspaceRoot}/.local/config/source-mongodb/config.yml",
                 "NODE_OPTIONS": "--dns-result-order=ipv4first"
             }
         },

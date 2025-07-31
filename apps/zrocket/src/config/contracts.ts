@@ -1,5 +1,3 @@
-import type { ZeroConfig } from '@cbnsndwch/zero-contracts';
-
 import type { AuthConfig } from '../features/auth/config/auth-config.contracts.js';
 
 /**
@@ -25,9 +23,4 @@ export interface AppConfig {
      * config for the upstream MongoDB database
      */
     db: DbConfig;
-
-    /**
-     * Configuration for the zero-cache change source module
-     */
-    zero: ZeroConfig;
 }

@@ -8,5 +8,9 @@
         "deleteOutDir": true,
         "manualRestart": true,
         "tsConfigPath": "./tsconfig.nest.json"
+    },
+    "generateOptions": {
+        "spec": false,
+        "flat": true
     }
 }

@@ -3,8 +3,6 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { schema, tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
 
-import { MetadataService } from './metadata.service.js';
-
 // Helper function to extract discriminated union configurations from schema
 function extractTableConfigurations() {
     const configurations: Record<string, any[]> = {};
@@ -61,91 +59,46 @@ function getTableDescription(tableName: string, filter: any): string {
 @ApiTags('ZRocket Demo')
 @Controller('zrocket')
 export class ZRocketController {
-    #metadataService: MetadataService;
-
-    constructor(metadataService: MetadataService) {
-        this.#metadataService = metadataService;
-    }
-
     @Get('demo-info')
     @ApiOperation({
         summary: 'Get information about the ZRocket discriminated union demo',
         description:
-            'Returns information about how the discriminated union tables work, sourced from MongoDB metadata'
+            'Returns information about how the discriminated union tables work, extracted from schema'
     })
     @ApiResponse({ status: 200, description: 'Demo information' })
     async getDemoInfo() {
-        try {
-            // Try to get metadata from MongoDB first, fallback to schema extraction
-            const metadata = await this.#metadataService.getSchemaMetadata();
+        // Use static schema extraction since metadata functionality moved to source server
+        const tableConfigurations = extractTableConfigurations();
+        const totalTables = Object.values(tableConfigurations).reduce(
+            (sum, tables) => sum + tables.length,
+            0
+        );
 
-            const totalTables = Object.values(
-                metadata.tableConfigurations
-            ).reduce((sum, tables) => sum + tables.length, 0);
-
-            return {
-                title: 'ZRocket - Discriminated Union Demo',
-                description:
-                    'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
-                tables: metadata.tableConfigurations,
-                features: [
-                    'Real-time filtering: Documents are routed to appropriate Zero tables based on filter criteria',
-                    'Projection support: Only relevant fields are synced to each table',
-                    'Update routing: When documents change, they may be inserted/removed from tables based on new filter matches',
-                    'Efficient change streams: Single MongoDB change stream watches all source collections',
-                    'Dynamic metadata: Schema and configuration stored in MongoDB collections'
-                ],
-                endpoints: [
-                    'GET /zrocket/demo-info - This information',
-                    'POST /zrocket/seed-data - Seeds sample data for testing',
-                    'GET /zrocket/tables - List all discriminated Zero tables',
-                    'GET /zrocket/metadata/schemas - List all stored schema metadata',
-                    'POST /zrocket/metadata/schema - Update schema metadata'
-                ],
-                metadata: {
-                    totalTables,
-                    sourceCollections: Object.keys(metadata.tableConfigurations)
-                        .length,
-                    generatedAt: new Date().toISOString(),
-                    source: 'mongodb',
-                    schemaVersion: metadata.version,
-                    lastUpdated: metadata.lastUpdated
-                }
-            };
-        } catch (error) {
-            // Fallback to original static method if metadata service fails
-            const tableConfigurations = extractTableConfigurations();
-            const totalTables = Object.values(tableConfigurations).reduce(
-                (sum, tables) => sum + tables.length,
-                0
-            );
-
-            return {
-                title: 'ZRocket - Discriminated Union Demo',
-                description:
-                    'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
-                tables: tableConfigurations,
-                features: [
-                    'Real-time filtering: Documents are routed to appropriate Zero tables based on filter criteria',
-                    'Projection support: Only relevant fields are synced to each table',
-                    'Update routing: When documents change, they may be inserted/removed from tables based on new filter matches',
-                    'Efficient change streams: Single MongoDB change stream watches all source collections'
-                ],
-                endpoints: [
-                    'GET /zrocket/demo-info - This information',
-                    'POST /zrocket/seed-data - Seeds sample data for testing',
-                    'GET /zrocket/tables - List all discriminated Zero tables'
-                ],
-                metadata: {
-                    totalTables,
-                    sourceCollections: Object.keys(tableConfigurations).length,
-                    generatedAt: new Date().toISOString(),
-                    source: 'fallback',
-                    error:
-                        error instanceof Error ? error.message : 'Unknown error'
-                }
-            };
-        }
+        return {
+            title: 'ZRocket - Discriminated Union Demo',
+            description:
+                'This demo shows how multiple Zero tables can be created from single MongoDB collections using discriminated unions',
+            tables: tableConfigurations,
+            features: [
+                'Real-time filtering: Documents are routed to appropriate Zero tables based on filter criteria',
+                'Projection support: Only relevant fields are synced to each table',
+                'Update routing: When documents change, they may be inserted/removed from tables based on new filter matches',
+                'Efficient change streams: Single MongoDB change stream watches all source collections',
+                'Schema exported to separate change source server'
+            ],
+            endpoints: [
+                'GET /zrocket/demo-info - This information',
+                'POST /zrocket/seed-data - Seeds sample data for testing',
+                'GET /zrocket/tables - List all discriminated Zero tables'
+            ],
+            metadata: {
+                totalTables,
+                sourceCollections: Object.keys(tableConfigurations).length,
+                generatedAt: new Date().toISOString(),
+                source: 'static_schema',
+                note: 'Metadata functionality moved to separate change source server'
+            }
+        };
     }
 
     @Post('seed-data')
@@ -237,79 +190,5 @@ export class ZRocketController {
                 generatedAt: new Date().toISOString()
             }
         };
-    }
-
-    @Get('metadata/schemas')
-    @ApiOperation({
-        summary: 'List all stored schema metadata',
-        description:
-            'Returns all schema versions stored in MongoDB metadata collections'
-    })
-    @ApiResponse({ status: 200, description: 'Schema metadata list' })
-    async getSchemaMetadata() {
-        try {
-            const schemas = await this.#metadataService.listAllSchemas();
-            return {
-                schemas,
-                count: schemas.length,
-                retrievedAt: new Date().toISOString()
-            };
-        } catch (error) {
-            return {
-                schemas: [],
-                count: 0,
-                error: error instanceof Error ? error.message : 'Unknown error',
-                retrievedAt: new Date().toISOString()
-            };
-        }
-    }
-
-    @Post('metadata/schema')
-    @ApiOperation({
-        summary: 'Update schema metadata',
-        description: 'Updates the schema metadata stored in MongoDB'
-    })
-    @ApiResponse({ status: 200, description: 'Schema metadata updated' })
-    async updateSchemaMetadata(@Body() metadata: any) {
-        try {
-            await this.#metadataService.saveSchemaMetadata(metadata);
-            return {
-                success: true,
-                message: 'Schema metadata updated successfully',
-                timestamp: new Date().toISOString()
-            };
-        } catch (error) {
-            return {
-                success: false,
-                message: 'Failed to update schema metadata',
-                error: error instanceof Error ? error.message : 'Unknown error',
-                timestamp: new Date().toISOString()
-            };
-        }
-    }
-
-    @Get('metadata/interests')
-    @ApiOperation({
-        summary: 'List all client interests',
-        description:
-            'Returns all client interest configurations stored in MongoDB'
-    })
-    @ApiResponse({ status: 200, description: 'Client interests list' })
-    async getClientInterests() {
-        try {
-            const interests = await this.#metadataService.listAllInterests();
-            return {
-                interests,
-                count: interests.length,
-                retrievedAt: new Date().toISOString()
-            };
-        } catch (error) {
-            return {
-                interests: [],
-                count: 0,
-                error: error instanceof Error ? error.message : 'Unknown error',
-                retrievedAt: new Date().toISOString()
-            };
-        }
     }
 }

@@ -202,12 +202,6 @@ importers:
       '@cbnsndwch/zero-contracts':
         specifier: workspace:*
         version: link:../../libs/zero-contracts
-      '@cbnsndwch/zero-source-mongodb':
-        specifier: workspace:*
-        version: link:../../libs/zero-source-mongodb
-      '@cbnsndwch/zero-watermark-zqlite':
-        specifier: workspace:*
-        version: link:../../libs/zero-watermark-zqlite
       '@cbnsndwch/zrocket-contracts':
         specifier: workspace:*
         version: link:../../libs/zrocket-contracts

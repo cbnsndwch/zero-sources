@@ -6,6 +6,7 @@ import { HealthzModule } from './healthz/healthz.module.js';
 // features
 import { AuthModule } from './auth/auth.module.js';
 import { ChatModule } from './chat/chat.module.js';
+import { SchemaExportModule } from './schema-export/schema-export.module.js';
 import { UsersModule } from './users/users.module.js';
 import { ZRocketModule } from './zrocket/zrocket.module.js';
 
@@ -24,6 +25,10 @@ export default [
     AuthModule,
     ChatModule,
     UsersModule,
+    /**
+     * Schema Export API for Source Server
+     */
+    SchemaExportModule,
     /**
      * ZRocket Demo - Discriminated Union tables
      */

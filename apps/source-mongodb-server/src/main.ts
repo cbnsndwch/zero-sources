@@ -26,7 +26,7 @@ async function bootstrap() {
 
     await app.listen(PORT);
 
-    const baseUrl = await app.getUrl();
+    const baseUrl = (await app.getUrl()).replace('[::1]', 'localhost');
     const banner = makeTable(
         {
             'Base URL': baseUrl,

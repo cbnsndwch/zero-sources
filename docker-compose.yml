@@ -1,0 +1,110 @@
+# Docker Compose for Zero Sources Architecture
+# Three-container deployment with independent scaling
+
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: zero-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: zrocket
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo:/docker-entrypoint-initdb.d
+    networks:
+      - zero-network
+
+  # Zero Change Source Server (Port 8001)
+  zero-change-source:
+    build:
+      context: .
+      dockerfile: apps/source-mongodb-server/Dockerfile
+    container_name: zero-change-source
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      PORT: 8001
+      MONGODB_URI: mongodb://mongodb:27017/zrocket
+      LOG_LEVEL: debug
+      # Schema configuration - loads from ZRocket API
+      SCHEMA_SOURCE: url
+      SCHEMA_URL: http://zrocket:8011/api/schema/export
+      TABLE_MAPPINGS_URL: http://zrocket:8011/api/schema/table-mappings
+    depends_on:
+      - mongodb
+      - zrocket
+    networks:
+      - zero-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Zero Cache Server (Port 4848)
+  zero-cache:
+    build:
+      context: .
+      dockerfile: zero-cache/Dockerfile
+    container_name: zero-cache
+    restart: unless-stopped
+    ports:
+      - "4848:4848"
+    environment:
+      ZERO_PORT: 4848
+      ZERO_UPSTREAM_DB: ws://zero-change-source:8001/changes/v0/stream
+      LOG_LEVEL: debug
+    depends_on:
+      - zero-change-source
+    networks:
+      - zero-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4848/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ZRocket Application Server (Port 8011)
+  zrocket:
+    build:
+      context: .
+      dockerfile: apps/zrocket/Dockerfile
+    container_name: zrocket
+    restart: unless-stopped
+    ports:
+      - "8011:8011"
+    environment:
+      PORT: 8011
+      NODE_ENV: production
+      MONGODB_URI: mongodb://mongodb:27017/zrocket
+      # Zero Cache connection for future mutators
+      ZERO_CACHE_URL: ws://zero-cache:4848
+      BASE_URL: http://localhost:8011
+    depends_on:
+      - mongodb
+    networks:
+      - zero-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8011/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mongodb_data:
+
+networks:
+  zero-network:
+    driver: bridge
+
+# Health check commands for manual testing:
+# docker-compose ps
+# docker-compose exec zero-change-source curl http://localhost:8001/health
+# docker-compose exec zero-cache curl http://localhost:4848/health  
+# docker-compose exec zrocket curl http://localhost:8011/health
