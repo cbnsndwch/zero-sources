@@ -10,7 +10,6 @@
     },
     "scripts": {
         "build": "tsup",
-        "build:2": "tsup && tsc --emitDeclarationOnly",
         "lint": "eslint . --fix",
         "test": "vitest --run --passWithNoTests",
         "ci:test": "vitest --run --passWithNoTests --bail 1",
