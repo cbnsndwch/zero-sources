@@ -185,7 +185,7 @@ export function WorkspaceSidebar() {
 
                     <DropdownMenuItem
                         className="cursor-pointer"
-                        onClick={() => navigate('/preferences?tab=files')}
+                        onClick={() => navigate('/files')}
                     >
                         <File className="h-4 w-4 mr-2" />
                         Files

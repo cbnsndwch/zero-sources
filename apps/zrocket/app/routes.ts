@@ -23,6 +23,7 @@ export default [
 
     // User preferences and help
     route('preferences', 'pages/UserPreferencesPage.tsx'),
+    route('files', 'pages/FilesPage.tsx'),
     route('help-support', 'pages/HelpSupportPage.tsx'),
 
     // ZRocket discriminated union demo

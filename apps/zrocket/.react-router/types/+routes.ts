@@ -40,6 +40,9 @@ type Pages = {
   "/preferences": {
     params: {};
   };
+  "/files": {
+    params: {};
+  };
   "/help-support": {
     params: {};
   };
@@ -54,7 +57,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/preferences" | "/help-support" | "/messages" | "/info";
+    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/preferences" | "/files" | "/help-support" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
@@ -99,6 +102,10 @@ type RouteFiles = {
   "pages/UserPreferencesPage.tsx": {
     id: "pages/UserPreferencesPage";
     page: "/preferences";
+  };
+  "pages/FilesPage.tsx": {
+    id: "pages/FilesPage";
+    page: "/files";
   };
   "pages/HelpSupportPage.tsx": {
     id: "pages/HelpSupportPage";

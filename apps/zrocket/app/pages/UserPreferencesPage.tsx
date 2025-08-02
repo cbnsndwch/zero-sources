@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router';
 import { ProfileTab } from './preferences/ProfileTab';
 import { NotificationsTab } from './preferences/NotificationsTab';
 import { PreferencesTab } from './preferences/PreferencesTab';
-import { FilesTab } from './preferences/FilesTab';
 
 import { UserPreferencesLayout } from '@/components/layout/UserPreferencesLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -26,13 +25,12 @@ const UserPreferencesPage = () => {
                 onValueChange={handleTabChange}
                 className="space-y-6"
             >
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="profile">Profile</TabsTrigger>
                     <TabsTrigger value="notifications">
                         Notifications
                     </TabsTrigger>
                     <TabsTrigger value="preferences">Preferences</TabsTrigger>
-                    <TabsTrigger value="files">Files</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="profile">
@@ -45,10 +43,6 @@ const UserPreferencesPage = () => {
 
                 <TabsContent value="preferences">
                     <PreferencesTab />
-                </TabsContent>
-
-                <TabsContent value="files">
-                    <FilesTab />
                 </TabsContent>
             </Tabs>
         </UserPreferencesLayout>
