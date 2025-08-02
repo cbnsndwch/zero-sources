@@ -15,23 +15,23 @@ You and I are creating and maintaining open source TypeScript packages and apps 
 - **Vitest** for testing
 - **React Router 7** for the frontend (with SSR support)
 - **NestJS** with WebSockets for the backend
-- **MongoDB** as our main data store with discriminated union change sources
+- **MongoDB** as our main data store with support for mapped/discriminated union change sources
 
 ## Repository Structure
 
 Our monorepo contains:
 
 ### Apps (`apps/`)
-- **`zrocket`**: Unified chat application (NestJS + React Router 7) showcasing discriminated union tables
+- **`zrocket`**: Unified chat application (NestJS + React Router 7) showcasing mapped/discriminated union tables
   - Launch app: `cd apps/zrocket && pnpm dev` (runs on port 8011)
   - Launch Zero cache: `cd apps/zrocket && pnpm dev:zero` (runs on port 4848)
-  - The app integrates MongoDB change source with discriminated union support
+  - The app integrates MongoDB change source with mapped/discriminated union support
 - **`source-mongodb-server`**: General-purpose MongoDB change source server. We will come back to this app once we've accomplished a working implementation in ZRocket. Ignore for now.
 
 ### Libraries (`libs/`)
 - **`zero-contracts`**: Common TypeScript contracts and utilities for Zero
-- **`zrocket-contracts`**: Zero schemas for ZRocket demo (both traditional and discriminated)
-- **`zero-source-mongodb`**: MongoDB change source implementation with discriminated union support
+- **`zrocket-contracts`**: Zero schemas for ZRocket demo (both direct and mapped)
+- **`zero-source-mongodb`**: MongoDB change source implementation with mapped/discriminated union support
 - **`zero-nest-mongoose`**: MongoDB integration utilities for NestJS applications
 - **`zero-watermark-zqlite`**: Utilities for Zero watermarks with SQLite
 - **`zero-watermark-nats-kv`**: NATS KV watermark storage implementation
@@ -40,9 +40,9 @@ Our monorepo contains:
 
 ## Custom Change Sources
 
-We focus on **MongoDB discriminated union change sources** that allow multiple Zero tables to be derived from single MongoDB collections using filter-based discrimination. This solves the limitation of traditional 1:1 mapping between Zero schema tables and upstream data entities.
+We focus on **MongoDB mapped/discriminated union change sources** that allow multiple Zero tables to be derived from single MongoDB collections using filter-based discrimination. This solves the limitation of direct 1:1 mapping between Zero schema tables and upstream data entities.
 
-### Discriminated Union Architecture
+### Mapped/Discriminated Union Architecture
 
 **Core Concept**: Multiple Zero tables can map to the same upstream MongoDB collection, with documents routed to appropriate tables based on filter criteria and optional field projections.
 
@@ -70,18 +70,18 @@ interface UpstreamTableMapping {
 - **Message Tables** (all from `messages` collection):
   - `messages` → filter `{ t: { $exists: false } }` (user messages)
   - `systemMessages` → filter `{ t: { $exists: true } }` (system messages)
-- **User Tables** (traditional 1:1 mapping):
+- **User Tables** (direct 1:1 mapping):
   - `users` collection → `users` (no discrimination)
 
 **Schema Architecture:**
-- Each Zero table uses separate `TableMapping` objects for discriminated union configuration
+- Each Zero table uses separate `TableMapping` objects for mapped/discriminated union configuration
 - Separate TypeScript interfaces for each table type (IDirectMessagesRoom, IPublicChannelRoom, etc.)
 - Single MongoDB collections with discriminator fields (`t` field for rooms and messages)
 - Automatic field projection to include only relevant columns per table type
 
 **Frontend Schema Usage:**
 - Frontend imports `Schema`
-- Query discriminated tables: `z.query.chats`, `z.query.messages`, etc.
+- Query mapped/discriminated tables: `z.query.chats`, `z.query.messages`, etc.
 - No direct access to raw MongoDB collections (`rooms`, `messages`)
 
 **Backend Integration:**
@@ -108,7 +108,7 @@ In order to move quickly and efficiently, we will use a the list of short comman
 - NestJS entity class validation annotations: when I write the `/validations` slash command, you will edit the entity class to add `class-validator` annotations to the entity class properties
 - Generating Zero Schemas: when I write the `/zschema` slash command, you will generate a Zero schema for the entity class. To do so, you will reference the entity class properties and the `class-validator` annotations on the entity's fields, as well as the `@Schema` decorator on the entity class itself, which should contain the name of the collection. You can find documentation for Zero schemas below.
 
-**For discriminated union tables**, use separate `TableMapping` objects alongside table definitions:
+**For mapped/discriminated union tables**, use separate `TableMapping` objects alongside table definitions:
 ```typescript
 // Define the Zero table schema
 const chats = table('chats')

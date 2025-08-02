@@ -145,10 +145,10 @@ export class ZRocketController {
     @ApiResponse({ status: 200, description: 'Zero tables information' })
     getZeroTables() {
         const tableConfigurations = extractTableConfigurations();
-        const discriminatedTables: Record<string, string[]> = {};
-        const traditionalTables: string[] = [];
+        const mappedTables: Record<string, string[]> = {};
+        const directTables: string[] = [];
 
-        // Extract discriminated tables by source
+        // extract mapped tables by source
         for (const [sourceName, tables] of Object.entries(
             tableConfigurations
         )) {
@@ -156,37 +156,35 @@ export class ZRocketController {
                 .replace('from', '')
                 .replace('Collection', '')
                 .toLowerCase();
-            discriminatedTables[sourceKey] = tables.map(t => t.name);
+            mappedTables[sourceKey] = tables.map(t => t.name);
         }
 
-        // Get traditional tables (non-discriminated)
+        // get direct tables (non-mapped)
         const allTableNames = Object.values(schema.tables).map(
             table => table.name
         );
-        const discriminatedTableNames = new Set(
-            Object.values(discriminatedTables).flat()
-        );
+        const mappedTableNames = new Set(Object.values(mappedTables).flat());
 
         for (const tableName of allTableNames) {
-            if (!discriminatedTableNames.has(tableName)) {
-                traditionalTables.push(tableName);
+            if (!mappedTableNames.has(tableName)) {
+                directTables.push(tableName);
             }
         }
 
         const totalTables = allTableNames.length;
 
         return {
-            discriminatedTables,
-            traditionalTables,
+            mappedTables,
+            directTables,
             totalTables,
             description:
-                'These tables are automatically created and synced based on discriminated union configurations',
+                'These tables are automatically created and synced based on mapped/discriminated union configurations',
             metadata: {
-                discriminatedCount: Object.values(discriminatedTables).reduce(
+                mappedCount: Object.values(mappedTables).reduce(
                     (sum, tables) => sum + tables.length,
                     0
                 ),
-                traditionalCount: traditionalTables.length,
+                directCount: directTables.length,
                 generatedAt: new Date().toISOString()
             }
         };

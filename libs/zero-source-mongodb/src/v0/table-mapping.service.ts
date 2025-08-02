@@ -76,7 +76,7 @@ export class TableMappingService {
     }
 
     /**
-     * Gets fallback table spec for traditional mapping
+     * Gets fallback table spec for direct mapping
      */
     getFallbackTable(tableName: string): TableSpec | undefined {
         return this.fallbackTables.get(tableName);
@@ -97,14 +97,14 @@ export class TableMappingService {
     }
 
     /**
-     * Gets all traditional table names
+     * Gets all direct table names
      */
     getFallbackTableNames(): string[] {
         return Array.from(this.fallbackTables.keys());
     }
 
     /**
-     * Gets all collections that should be watched (both mapped and traditional)
+     * Gets all collections that should be watched (both mapped and direct)
      */
     getAllWatchedCollections(): string[] {
         return [...this.getMappedSources(), ...this.getFallbackTableNames()];

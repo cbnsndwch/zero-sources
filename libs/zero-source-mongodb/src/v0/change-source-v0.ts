@@ -283,8 +283,9 @@ export class ChangeSourceV0 {
             // start a client session with snapshot read concern
             session = await this.#conn.startSession({ snapshot: true });
 
-            // For each collection, read all documents using the same session.
-            const collectionNames = this.#tableSpecs.map(spec => spec.name);
+            // Get the actual MongoDB collection names to read from (not table names)
+            // Cast to concrete implementation to access getAllWatchedCollections method
+            const collectionNames = (this.#changeMaker as any).getAllWatchedCollections();
             for (const collName of collectionNames) {
                 const col = this.#conn.collection(collName);
 

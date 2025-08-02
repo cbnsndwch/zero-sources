@@ -138,7 +138,7 @@ You can also navigate into specific packages and run scripts locally, but using 
 The **libraries** in this monorepo provide reusable utilities for Zero applications:
 
 - **`@cbnsndwch/zero-contracts`**: TypeScript contracts and utilities for Zero
-- **`@cbnsndwch/zrocket-contracts`**: Zero schemas for the ZRocket demo (both traditional and discriminated)
+- **`@cbnsndwch/zrocket-contracts`**: Zero schemas for the ZRocket demo (both direct and discriminated)
 - **`@cbnsndwch/zero-source-mongodb`**: MongoDB change source implementation with discriminated union support
 - **`@cbnsndwch/zero-watermark-zqlite`**: Utilities for Zero watermarks with ZQLite
 
@@ -163,7 +163,7 @@ The **ZRocket demo** showcases discriminated union tables in Zero using MongoDB 
 
 ### 🏗️ Architecture Overview
 
-Instead of traditional 1:1 mapping between MongoDB collections and Zero tables, discriminated unions allow multiple Zero tables to be derived from a single MongoDB collection based on document characteristics:
+Instead of direct 1:1 mapping between MongoDB collections and Zero tables, discriminated unions allow multiple Zero tables to be derived from a single MongoDB collection based on document characteristics:
 
 **Room Tables** (all from `rooms` collection):
 - `chatsTable` → `rooms` collection with filter `{ t: 'd' }` (direct messages)
@@ -174,7 +174,7 @@ Instead of traditional 1:1 mapping between MongoDB collections and Zero tables, 
 - `messages` → `messages` collection with filter `{ t: { $exists: false } }` (user messages)
 - `systemMessages` → `messages` collection with filter `{ t: { $exists: true } }` (system messages)
 
-**User Tables** (traditional 1:1 mapping):
+**User Tables** (direct 1:1 mapping):
 - `users` collection → `users` (no discrimination)
 
 ### 🚀 Quick Start

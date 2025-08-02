@@ -66,7 +66,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     }
 
     /**
-     * Gets all collections that should be watched (both mapped and traditional)
+     * Gets all collections that should be watched (both mapped and direct)
      */
     getAllWatchedCollections(): string[] {
         return this.tableMappingService.getAllWatchedCollections();
@@ -116,7 +116,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 ] satisfies v0.Data);
             }
         } else {
-            // Fallback to traditional 1:1 mapping
+            // Fallback to direct 1:1 mapping
             const fallbackSpec = this.tableMappingService.getFallbackTable(
                 doc.ns.coll
             );
@@ -254,7 +254,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 }
             }
         } else {
-            // Fallback to traditional 1:1 mapping
+            // Fallback to direct 1:1 mapping
             const fallbackSpec = this.tableMappingService.getFallbackTable(
                 doc.ns.coll
             );
@@ -339,7 +339,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 );
             }
         } else {
-            // Fallback to traditional 1:1 mapping
+            // Fallback to direct 1:1 mapping
             const fallbackSpec = this.tableMappingService.getFallbackTable(
                 doc.ns.coll
             );
@@ -420,7 +420,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 ] satisfies v0.Data);
             }
         } else {
-            // Fallback to traditional 1:1 mapping
+            // Fallback to direct 1:1 mapping
             const fallbackSpec = this.tableMappingService.getFallbackTable(
                 doc.ns.coll
             );
