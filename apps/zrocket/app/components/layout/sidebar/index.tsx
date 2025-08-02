@@ -15,12 +15,7 @@ import { NavUser } from './nav-user';
 import CreateRoomButton from './create-room-button';
 
 import { useZero } from '@/zero/use-zero';
-import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter
-} from '@/components/ui/sidebar';
-// import RoomTypeIcon from '@/components/icons/room-icon';
+import { SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 
 export function AppSidebar() {
     const z = useZero();
@@ -32,8 +27,6 @@ export function AppSidebar() {
     return (
         <div
             id="app-sidebar"
-            // variant="sidebar"
-            // collapsible="none"
             className="shrink w-3xs min-w-3xs bg-red-200"
             style={
                 {

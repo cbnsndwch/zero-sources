@@ -13,6 +13,15 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/d": {
+    params: {};
+  };
+  "/p": {
+    params: {};
+  };
+  "/c": {
+    params: {};
+  };
   "/d/:chatId": {
     params: {
       "chatId": string;
@@ -60,11 +69,23 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/chat/:chatId" | "/group/:groupId" | "/channel/:channelId" | "/preferences" | "/help-support" | "/messages" | "/info";
+    page: "/" | "/d" | "/p" | "/c" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/chat/:chatId" | "/group/:groupId" | "/channel/:channelId" | "/preferences" | "/help-support" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
+  };
+  "routes/d/index.tsx": {
+    id: "routes/d/index";
+    page: "/d";
+  };
+  "routes/p/index.tsx": {
+    id: "routes/p/index";
+    page: "/p";
+  };
+  "routes/c/index.tsx": {
+    id: "routes/c/index";
+    page: "/c";
   };
   "routes/d/$chatId.tsx": {
     id: "routes/d/$chatId";

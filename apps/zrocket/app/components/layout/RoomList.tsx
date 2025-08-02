@@ -1,92 +1,9 @@
 import { Hash, Lock, User } from 'lucide-react';
 import { NavLink } from 'react-router';
+import { useQuery } from '@rocicorp/zero/react';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
-
-// Mock data - this will be replaced with zero data
-const directMessages = [
-    { id: 'alice', name: 'Alice Johnson', url: '/d/alice', online: true },
-    { id: 'bob', name: 'Bob Smith', url: '/d/bob', online: false },
-    { id: 'carol', name: 'Carol Wilson', url: '/d/carol', online: true },
-    { id: 'david', name: 'David Brown', url: '/d/david', online: true },
-    { id: 'emily', name: 'Emily Davis', url: '/d/emily', online: false },
-    { id: 'frank', name: 'Frank Miller', url: '/d/frank', online: true },
-    { id: 'grace', name: 'Grace Kim', url: '/d/grace', online: false },
-    { id: 'henry', name: 'Henry Lopez', url: '/d/henry', online: true },
-    { id: 'isabella', name: 'Isabella Chen', url: '/d/isabella', online: true },
-    { id: 'jack', name: 'Jack Thompson', url: '/d/jack', online: false }
-];
-
-const privateGroups = [
-    {
-        id: 'design-team',
-        name: 'Design Team',
-        url: '/p/design-team',
-        members: 8
-    },
-    { id: 'leadership', name: 'Leadership', url: '/p/leadership', members: 3 },
-    {
-        id: 'project-alpha',
-        name: 'Project Alpha',
-        url: '/p/project-alpha',
-        members: 5
-    },
-    {
-        id: 'frontend-guild',
-        name: 'Frontend Guild',
-        url: '/p/frontend-guild',
-        members: 12
-    },
-    {
-        id: 'marketing-team',
-        name: 'Marketing Team',
-        url: '/p/marketing-team',
-        members: 6
-    },
-    {
-        id: 'backend-squad',
-        name: 'Backend Squad',
-        url: '/p/backend-squad',
-        members: 9
-    },
-    { id: 'qa-circle', name: 'QA Circle', url: '/p/qa-circle', members: 4 },
-    {
-        id: 'product-planning',
-        name: 'Product Planning',
-        url: '/p/product-planning',
-        members: 7
-    }
-];
-
-const publicChannels = [
-    {
-        id: 'announcements',
-        name: 'announcements',
-        url: '/c/announcements',
-        members: 156
-    },
-    { id: 'backend', name: 'backend', url: '/c/backend', members: 43 },
-    { id: 'design', name: 'design', url: '/c/design', members: 78 },
-    {
-        id: 'development',
-        name: 'development',
-        url: '/c/development',
-        members: 67
-    },
-    { id: 'frontend', name: 'frontend', url: '/c/frontend', members: 89 },
-    { id: 'general', name: 'general', url: '/c/general', members: 142 },
-    { id: 'help', name: 'help', url: '/c/help', members: 54 },
-    { id: 'marketing', name: 'marketing', url: '/c/marketing', members: 32 },
-    { id: 'product', name: 'product', url: '/c/product', members: 45 },
-    { id: 'random', name: 'random', url: '/c/random', members: 98 },
-    { id: 'testing', name: 'testing', url: '/c/testing', members: 29 },
-    {
-        id: 'ux-research',
-        name: 'ux-research',
-        url: '/c/ux-research',
-        members: 18
-    }
-];
+import { useZero } from '@/zero/use-zero';
 
 interface RoomListProps {
     roomType: string;
@@ -115,23 +32,81 @@ function groupByFirstLetter(items: Room[]): Record<string, Room[]> {
     );
 }
 
+function mapDirectMessageToRoom(dm: any): Room {
+    // For DMs, create a display name from usernames (excluding current user)
+    const displayName = dm.usernames?.join(', ') || `Chat ${dm._id}`;
+    
+    return {
+        id: dm._id,
+        name: displayName,
+        url: `/d/${dm._id}`,
+        online: true // You could determine this from user status
+    };
+}
+
+function mapPrivateGroupToRoom(group: any): Room {
+    return {
+        id: group._id,
+        name: group.name,
+        url: `/p/${group._id}`,
+        members: group.memberIds?.length || 0
+    };
+}
+
+function mapChannelToRoom(channel: any): Room {
+    return {
+        id: channel._id,
+        name: channel.name,
+        url: `/c/${channel._id}`,
+        members: channel.memberIds?.length || 0
+    };
+}
+
 export function RoomList({ roomType, searchQuery }: RoomListProps) {
+    const z = useZero();
+
+    // Query data based on room type
+    const [chats, chatsResult] = useQuery(
+        z.query.chats.orderBy('lastMessageAt', 'desc'),
+        { enabled: !!z && roomType === 'dms' }
+    );
+
+    const [groups, groupsResult] = useQuery(
+        z.query.groups.orderBy('lastMessageAt', 'desc'),
+        { enabled: !!z && roomType === 'groups' }
+    );
+
+    const [channels, channelsResult] = useQuery(
+        z.query.channels.orderBy('lastMessageAt', 'desc'),
+        { enabled: !!z && roomType === 'channels' }
+    );
+
     const getRoomsForType = (): Room[] => {
         switch (roomType) {
             case 'dms':
-                return directMessages.filter(dm =>
-                    dm.name.toLowerCase().includes(searchQuery.toLowerCase())
-                );
+                if (chatsResult.type !== 'complete' || !chats) return [];
+                return chats
+                    .map(mapDirectMessageToRoom)
+                    .filter(dm =>
+                        dm.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                    
             case 'groups':
-                return privateGroups.filter(group =>
-                    group.name.toLowerCase().includes(searchQuery.toLowerCase())
-                );
+                if (groupsResult.type !== 'complete' || !groups) return [];
+                return groups
+                    .map(mapPrivateGroupToRoom)
+                    .filter(group =>
+                        group.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                    
             case 'channels':
-                return publicChannels.filter(channel =>
-                    channel.name
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase())
-                );
+                if (channelsResult.type !== 'complete' || !channels) return [];
+                return channels
+                    .map(mapChannelToRoom)
+                    .filter(channel =>
+                        channel.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                    
             case 'threads':
             case 'starred':
             case 'archived':
@@ -154,6 +129,20 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
                 return Hash;
         }
     };
+
+    // Check if we're still loading
+    const isLoading = 
+        (roomType === 'dms' && chatsResult.type !== 'complete') ||
+        (roomType === 'groups' && groupsResult.type !== 'complete') ||
+        (roomType === 'channels' && channelsResult.type !== 'complete');
+
+    if (isLoading) {
+        return (
+            <div className="p-4 text-center text-muted-foreground">
+                <div className="mb-2">Loading {roomType}...</div>
+            </div>
+        );
+    }
 
     const rooms = getRoomsForType();
     const groupedRooms = groupByFirstLetter(rooms);

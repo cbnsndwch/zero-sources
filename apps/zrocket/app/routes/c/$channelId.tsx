@@ -1,8 +1,10 @@
 import { useParams, useOutletContext } from 'react-router';
+import { useEffect } from 'react';
 
 import { ChatHeader } from '@/components/chat/ChatHeader';
 import { ChatMessages } from '@/components/chat/ChatMessages';
 import { ChatInput } from '@/components/chat/ChatInput';
+import { setLastVisitedRoom } from '@/utils/room-preferences';
 
 interface OutletContext {
     isRoomDetailsOpen: boolean;
@@ -13,6 +15,13 @@ export default function ChannelPage() {
     const { channelId } = useParams();
     const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
         useOutletContext<OutletContext>();
+
+    // Track room visit
+    useEffect(() => {
+        if (channelId) {
+            setLastVisitedRoom('channels', channelId);
+        }
+    }, [channelId]);
 
     return (
         <div className="h-full flex flex-col">
