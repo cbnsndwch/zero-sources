@@ -1,6 +1,4 @@
- 
 import { useCallback, useState, type CSSProperties } from 'react';
-
 
 import type { SpaceSummary } from '../contracts';
 

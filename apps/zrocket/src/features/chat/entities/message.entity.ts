@@ -12,9 +12,7 @@ import {
 } from 'class-validator';
 import type { SerializedEditorState } from 'lexical';
 import { Types } from 'mongoose';
-import {
-    MESSAGE_TYPES
-} from '@cbnsndwch/zrocket-contracts';
+import { MESSAGE_TYPES } from '@cbnsndwch/zrocket-contracts';
 import type {
     IHasName,
     IMessageReaction,

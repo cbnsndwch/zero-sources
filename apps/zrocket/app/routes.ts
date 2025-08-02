@@ -13,6 +13,10 @@ export default [
     route('group/:groupId', 'routes/group/index.tsx'),
     route('channel/:channelId', 'routes/channel/index.tsx'),
 
+    // User preferences and help
+    route('preferences', 'pages/UserPreferencesPage.tsx'),
+    route('help-support', 'pages/HelpSupportPage.tsx'),
+
     // ZRocket discriminated union demo
     route('messages', 'routes/messages/index.tsx'),
 

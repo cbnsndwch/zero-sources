@@ -248,11 +248,14 @@ export async function seedZRocketData(
 
         // Get room IDs for messages
         const rooms = await db.collection('rooms').find({}).toArray();
-        
+
         const generalChannel = rooms.find(r => r.name === 'general');
         const projectGroup = rooms.find(r => r.name === 'Project Alpha Team');
         const dmRoom = rooms.find(
-            r => r.t === 'd' && r.usernames.includes('alice') && r.usernames.includes('bob')
+            r =>
+                r.t === 'd' &&
+                r.usernames.includes('alice') &&
+                r.usernames.includes('bob')
         );
 
         if (generalChannel && projectGroup && dmRoom) {
@@ -265,7 +268,9 @@ export async function seedZRocketData(
             const messagesResult = await db
                 .collection('messages')
                 .insertMany(dataToSeed.messages);
-            console.log(`Inserted ${messagesResult.insertedCount} messages (user + system)`);
+            console.log(
+                `Inserted ${messagesResult.insertedCount} messages (user + system)`
+            );
         }
 
         console.log('✅ ZRocket sample data seeded successfully!');
@@ -285,7 +290,7 @@ export async function seedZRocketData(
 }
 
 const currentUrl = import.meta.url;
-const currentScript = new URL(`file://${process.argv[1]}`).href
+const currentScript = new URL(`file://${process.argv[1]}`).href;
 
 // CLI usage
 if (currentUrl === currentScript) {

@@ -1,4 +1,4 @@
-export { 
+export {
     schema,
     permissions,
     type Schema

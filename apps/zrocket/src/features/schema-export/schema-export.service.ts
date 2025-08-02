@@ -30,7 +30,7 @@ export class SchemaExportService {
      */
     exportSchema(): ExportedSchema {
         const tableSpecs = tableSpecsFromSchema(schema);
-        
+
         return {
             version: 1,
             tables: tableSpecs,

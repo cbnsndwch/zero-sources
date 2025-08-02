@@ -27,9 +27,7 @@ export function AppSidebar() {
 
     const [chats] = useQuery(z.query.chats.orderBy('lastMessageAt', 'desc'));
     const [groups] = useQuery(z.query.groups.orderBy('lastMessageAt', 'desc'));
-    const [channels] = useQuery(
-        z.query.channels
-    );
+    const [channels] = useQuery(z.query.channels);
 
     return (
         <div

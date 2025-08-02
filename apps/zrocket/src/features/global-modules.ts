@@ -28,7 +28,4 @@ const configModule = ConfigModule.forRoot({
     load: [loadYamlConfig]
 });
 
-export const zrocketGlobalModules = [
-    configModule,
-    dbModule
-];
+export const zrocketGlobalModules = [configModule, dbModule];

@@ -6,8 +6,7 @@ import type { RoomType } from '@cbnsndwch/zrocket-contracts';
 import { RoomBase } from './room-base.entity.js';
 
 @Schema()
-export class PrivateGroupRoom extends RoomBase<RoomType.PrivateGroup>
-{
+export class PrivateGroupRoom extends RoomBase<RoomType.PrivateGroup> {
     @IsString()
     name!: string;
 

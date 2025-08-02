@@ -43,6 +43,12 @@ type Pages = {
       "channelId": string;
     };
   };
+  "/preferences": {
+    params: {};
+  };
+  "/help-support": {
+    params: {};
+  };
   "/messages": {
     params: {};
   };
@@ -54,7 +60,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/chat/:chatId" | "/group/:groupId" | "/channel/:channelId" | "/messages" | "/info";
+    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/chat/:chatId" | "/group/:groupId" | "/channel/:channelId" | "/preferences" | "/help-support" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
@@ -83,6 +89,14 @@ type RouteFiles = {
   "routes/channel/index.tsx": {
     id: "routes/channel/index";
     page: "/channel/:channelId";
+  };
+  "pages/UserPreferencesPage.tsx": {
+    id: "pages/UserPreferencesPage";
+    page: "/preferences";
+  };
+  "pages/HelpSupportPage.tsx": {
+    id: "pages/HelpSupportPage";
+    page: "/help-support";
   };
   "routes/messages/index.tsx": {
     id: "routes/messages/index";

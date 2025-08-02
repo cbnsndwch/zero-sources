@@ -79,7 +79,7 @@ export class Strategy extends OAuth2Strategy {
      */
     userProfile(
         accessToken: string,
-         
+
         done: (err?: unknown, profile?: unknown) => void
     ) {
         const fetchProfile = async (): Promise<GithubProfile> => {

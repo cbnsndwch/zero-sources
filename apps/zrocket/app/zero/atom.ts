@@ -1,4 +1,3 @@
- 
 type AtomCallback<T> = (value: T | undefined) => void;
 
 export class Atom<T> {

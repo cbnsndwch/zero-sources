@@ -41,7 +41,7 @@ export type CreateRoomButtonProps = {
 
 export default function CreateRoomButton({
     type,
-    title,
+    title
 }: CreateRoomButtonProps) {
     // const z = useZero();
 

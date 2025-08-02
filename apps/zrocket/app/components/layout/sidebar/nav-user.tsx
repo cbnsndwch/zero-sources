@@ -27,7 +27,6 @@ import {
     useSidebar
 } from '@/components/ui/sidebar';
 
-
 type NavUserProps = {
     user: UserSummary;
 };

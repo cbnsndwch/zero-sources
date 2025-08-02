@@ -22,7 +22,7 @@ export function SplashScreen() {
                     <div className="w-20 h-20 mx-auto">
                         {/* Outer rotating ring */}
                         <div className="absolute inset-0 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin border-t-blue-600 dark:border-t-blue-400"></div>
-                        
+
                         {/* Inner pulsing circle */}
                         <div className="absolute inset-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-pulse flex items-center justify-center">
                             <div className="w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
@@ -59,7 +59,7 @@ export function SplashScreen() {
                                 left: `${20 + i * 15}%`,
                                 top: `${30 + (i % 2) * 40}%`,
                                 animationDelay: `${i * 0.5}s`,
-                                animationDuration: `${2 + i * 0.5}s`,
+                                animationDuration: `${2 + i * 0.5}s`
                             }}
                         ></div>
                     ))}
