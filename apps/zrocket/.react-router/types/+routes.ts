@@ -28,6 +28,21 @@ type Pages = {
       "channelId": string;
     };
   };
+  "/chat/:chatId": {
+    params: {
+      "chatId": string;
+    };
+  };
+  "/group/:groupId": {
+    params: {
+      "groupId": string;
+    };
+  };
+  "/channel/:channelId": {
+    params: {
+      "channelId": string;
+    };
+  };
   "/messages": {
     params: {};
   };
@@ -39,23 +54,35 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/messages" | "/info";
+    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/chat/:chatId" | "/group/:groupId" | "/channel/:channelId" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
   };
+  "routes/d/$chatId.tsx": {
+    id: "routes/d/$chatId";
+    page: "/d/:chatId";
+  };
+  "routes/p/$groupId.tsx": {
+    id: "routes/p/$groupId";
+    page: "/p/:groupId";
+  };
+  "routes/c/$channelId.tsx": {
+    id: "routes/c/$channelId";
+    page: "/c/:channelId";
+  };
   "routes/chat/index.tsx": {
     id: "routes/chat/index";
-    page: "/d/:chatId";
+    page: "/chat/:chatId";
   };
   "routes/group/index.tsx": {
     id: "routes/group/index";
-    page: "/p/:groupId";
+    page: "/group/:groupId";
   };
   "routes/channel/index.tsx": {
     id: "routes/channel/index";
-    page: "/c/:channelId";
+    page: "/channel/:channelId";
   };
   "routes/messages/index.tsx": {
     id: "routes/messages/index";
