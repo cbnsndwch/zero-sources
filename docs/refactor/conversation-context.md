@@ -48,7 +48,7 @@ const chatsMapping: TableMapping<IDirectMessageRoom> = {
 };
 
 // Export table mappings for use by change source
-export const tableMappings = {
+export const mapping = {
   chats: chatsMapping,
   groups: groupsMapping,
   channels: channelsMapping,

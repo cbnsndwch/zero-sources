@@ -3,7 +3,6 @@ import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 
 import type { AppConfig, DbConfig } from '../config/contracts.js';
 import loadYamlConfig from '../config/load-yaml-config.js';
-import { SchemaModule } from './schema/schema.module.js';
 
 const isLocalhost = (uri: string) =>
     ['localhost', '127.0.0.1'].some(localhost => uri.includes(localhost));
@@ -29,6 +28,4 @@ const configModule = ConfigModule.forRoot({
     load: [loadYamlConfig]
 });
 
-const schemaLoaderModule = SchemaModule.forRoot();
-
-export const globalModules = [configModule, dbModule, schemaLoaderModule];
+export const globalModules = [configModule, dbModule];

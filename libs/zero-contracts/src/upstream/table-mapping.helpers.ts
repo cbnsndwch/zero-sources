@@ -2,20 +2,11 @@ import type { TableBuilderWithColumns, TableSchema } from '@rocicorp/zero';
 
 import type { Dict } from '../dict.js';
 
-import type { TableMapping } from './table-mapping.contract.js';
-
-type Schema<TTables extends readonly TableBuilderWithColumns<TableSchema>[]> = {
-    tables: {
-        readonly [K in TTables[number]['schema']['name']]: Extract<
-            TTables[number]['schema'],
-            { name: K }
-        >;
-    };
-};
-
-type TableNames<
-    TTables extends readonly TableBuilderWithColumns<TableSchema>[]
-> = TTables[number]['schema']['name'];
+import type {
+    TableMappings,
+    TableNames,
+    TypedSchema
+} from './table-mapping.contract.js';
 
 /**
  * Group discriminated tables by their source collection
@@ -23,15 +14,12 @@ type TableNames<
  */
 export function groupTablesBySource<
     const TTables extends readonly TableBuilderWithColumns<TableSchema>[]
->(
-    schema: Schema<TTables>,
-    tableMappings: Record<TableNames<TTables>, TableMapping<unknown>>
-) {
+>(schema: TypedSchema<TTables>, mapping: TableMappings<TTables>) {
     const tableNames = Object.keys(schema.tables) as TableNames<TTables>[];
 
     const sourceGroups = tableNames.reduce(
         (acc: Dict<TableNames<TTables>[]>, tableName) => {
-            const config = tableMappings[tableName];
+            const config = mapping[tableName];
             if (!config) {
                 return acc;
             }

@@ -29,6 +29,8 @@ function evaluateFilterCondition(
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         for (const [operator, operatorValue] of Object.entries(value)) {
             switch (operator) {
+                case '$eq':
+                    return docValue === operatorValue;
                 case '$ne':
                     return docValue !== operatorValue;
                 case '$in':

@@ -1,8 +1,15 @@
 import { Logger } from '@nestjs/common';
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
-import type { ChangeStreamDocument, Document, ChangeStream } from 'mongodb';
+import type { ChangeStream, ChangeStreamDocument, Document } from 'mongodb';
 import type { ClientSession, Connection } from 'mongoose';
-import { concatWith, from, ignoreElements, map, Observable, of } from 'rxjs';
+import {
+    concatWith,
+    from,
+    ignoreElements,
+    map,
+    Observable,
+    of
+} from 'rxjs';
 
 import {
     invariant,
@@ -97,7 +104,14 @@ export class ChangeSourceV0 {
         return this.streamChangesWithWatermark$(
             abortSignal,
             lastWatermark
-        ).pipe(map(x => x.data));
+        ).pipe(
+            // tap(x => {
+            //     this.#logger.debug(
+            //         `Change stream event: watermark=${x.watermark} data=${JSON.stringify(x.data)}`
+            //     );
+            // }),
+            map(x => x.data)
+        );
     }
 
     /**
@@ -125,6 +139,22 @@ export class ChangeSourceV0 {
         const changeStream$ = new Observable<
             WithWatermark<v0.ChangeStreamMessage>
         >(observer => {
+            // // Check if this is a replica set
+            // const admin = this.#conn.db!.admin();
+            // admin
+            //     .serverStatus()
+            //     .then(status => {
+            //         this.#logger.debug(
+            //             `MongoDB server info: ${JSON.stringify({
+            //                 version: status.version,
+            //                 repl: status.repl || 'No replica set info'
+            //             })}`
+            //         );
+            //     })
+            //     .catch(err => {
+            //         this.#logger.error('Failed to get server status:', err);
+            //     });
+
             this.#changeStream = this.#conn.watch<Document>(
                 // only stream requested collections
                 this.#pipeline,
@@ -156,9 +186,14 @@ export class ChangeSourceV0 {
                     }
                 })
                 // complete the observable when the change stream is closed
-                .on('close', () => observer.complete())
+                .on('close', () => {
+                    observer.complete();
+                })
                 // propagate errors from the change stream to the subscriber
-                .on('error', (err) => observer.error(err));
+                .on('error', err => {
+                    this.#logger.error(err);
+                    observer.error(err);
+                });
         });
 
         const tryCloseChangeStream = async () =>

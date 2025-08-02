@@ -1,18 +1,27 @@
 import { ConfigService } from '@nestjs/config';
-import { invariant } from '@cbnsndwch/zero-contracts';
-import { ZeroMongoModule } from '@cbnsndwch/zero-source-mongodb';
+import type { SchemaValue } from '@rocicorp/zero';
+
+import {
+    invariant,
+    ZERO_VALUE_TYPE_TO_PG_TYPE
+} from '@cbnsndwch/zero-contracts';
+import {
+    ZeroMongoModule,
+    type TableSpec,
+    type ZeroMongoModuleOptions
+} from '@cbnsndwch/zero-source-mongodb';
 import { ZqliteWatermarkModule } from '@cbnsndwch/zero-watermark-zqlite';
 
-import { AppConfig, KvConfig } from '../config/contracts.js';
+import {
+    mapping,
+    schema,
+    permissions
+} from '@cbnsndwch/zrocket-contracts/schema';
+
+import { AppConfig, KvConfig, ZeroConfig } from '../config/contracts.js';
 
 import { globalModules } from './global-modules.js';
-
-import { SchemaLoaderService } from './schema/schema-loader.service.js';
-
-// infra
 import { HealthzModule } from './healthz/healthz.module.js';
-import { MetadataModule } from './metadata/metadata.module.js';
-import { tables } from './table-specs.js';
 
 export default [
     /**
@@ -23,7 +32,6 @@ export default [
      * Infra
      */
     HealthzModule,
-    MetadataModule,
     /**
      * Application Feature
      */
@@ -31,7 +39,7 @@ export default [
         inject: [ConfigService],
         async useFactory(config: ConfigService<AppConfig>) {
             // const { token } = config.get<AuthConfig>('auth')!;
-            const { kv } = config.get<{kv: KvConfig}>('zero')!;
+            const { kv } = config.get<{ kv: KvConfig }>('zero')!;
             const { provider, zqlite } = kv;
 
             invariant(provider === 'zqlite', 'KV provider must be zqlite');
@@ -46,35 +54,47 @@ export default [
         }
     }),
     ZeroMongoModule.forRootAsync({
-        inject: [ConfigService, SchemaLoaderService],
-        async useFactory(
-            config: ConfigService<AppConfig>,
-            schemaLoader: SchemaLoaderService
-        ) {
-            const { auth: zeroAuth } = config.get<{auth: {token: string}}>('zero')!;
+        inject: [ConfigService],
+        async useFactory(config: ConfigService<AppConfig>) {
+            const zeroConfig = config.get<ZeroConfig>('zero')!;
 
             invariant(
-                typeof zeroAuth === 'object' && typeof zeroAuth.token === 'string',
+                typeof zeroConfig === 'object' &&
+                    typeof zeroConfig.auth === 'object' &&
+                    typeof zeroConfig.auth.token === 'string',
                 'Invalid streamer auth config, expected object with token'
             );
 
-            // Load schema dynamically
-            let tablesToUse;
-            try {
-                const loadedSchema = await schemaLoader.loadSchema();
-                tablesToUse = loadedSchema.tables;
-            } catch (error) {
-                console.warn(
-                    'Failed to load schema from configuration, falling back to default tables:',
-                    error
-                );
-                tablesToUse = tables; // fallback to hardcoded tables
-            }
+            const tables: TableSpec[] = Object.values(schema.tables).map(
+                table =>
+                    ({
+                        schema: 'public',
+                        name: table.name,
+                        columns: Object.fromEntries(
+                            Object.entries(table.columns).map(
+                                ([name, col]: [string, SchemaValue], pos) => [
+                                    name,
+                                    {
+                                        pos,
+                                        dataType:
+                                            ZERO_VALUE_TYPE_TO_PG_TYPE[
+                                                col.type
+                                            ],
+                                        notNull: !col.optional
+                                    }
+                                ]
+                            )
+                        ),
+                        primaryKey: table.primaryKey
+                    }) satisfies TableSpec
+            );
 
             return {
-                streamerToken: zeroAuth.token,
-                tables: tablesToUse
-            };
+                tables,
+                mapping,
+                permissions: await permissions,
+                streamerToken: zeroConfig.auth.token
+            } satisfies ZeroMongoModuleOptions;
         }
     })
     /**

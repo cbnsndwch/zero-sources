@@ -1,4 +1,7 @@
 import type { FactoryProvider, ModuleMetadata } from '@nestjs/common';
+import type { CompiledPermissionsConfig } from '@rocicorp/zero';
+
+import type { TableMapping } from '@cbnsndwch/zero-contracts';
 
 import type { TableSpec } from './change-maker.contracts.js';
 
@@ -6,10 +9,7 @@ import type { TableSpec } from './change-maker.contracts.js';
  * Options for the ZeroMongoModule.
  */
 export type ZeroMongoModuleOptions = {
-    /**
-     * The token to authenticate the streamer with.
-     */
-    streamerToken?: string;
+    // schema: TypedSchema;
 
     /**
      * The schemas of the tables to stream changes for.
@@ -20,12 +20,17 @@ export type ZeroMongoModuleOptions = {
      * (Optional) The source/filter/projection mappings for the schema tables,
      * if any.
      */
-    tableMappings?: Record<string, string>;
+    mapping?: Record<string, TableMapping<any>>;
 
     /**
      * The permissions configuration for the Zero application.
      */
-    permissions?: any;
+    permissions?: CompiledPermissionsConfig;
+
+    /**
+     * The token to authenticate the streamer with.
+     */
+    streamerToken?: string;
 };
 
 export type ZeroMongoModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &

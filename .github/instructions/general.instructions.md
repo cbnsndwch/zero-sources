@@ -158,7 +158,7 @@ export const schema = createSchema({
 });
 
 // Export aggregated mappings for change source
-export const tableMappings = {
+export const mapping = {
   chats: chats.mapping,
   channels: channels.mapping,
   userMessages: userMessages.mapping

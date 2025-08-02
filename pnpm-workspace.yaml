@@ -15,3 +15,6 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 shamefullyHoist: true
+
+overrides:
+  source-map: ^0.7.6

@@ -41,7 +41,7 @@ export type CreateRoomButtonProps = {
 
 export default function CreateRoomButton({
     type,
-    title
+    title,
 }: CreateRoomButtonProps) {
     // const z = useZero();
 
@@ -69,7 +69,7 @@ export default function CreateRoomButton({
                             <Button
                                 size="icon"
                                 variant="ghost"
-                                className="cursor-pointer h-3 w-3 p-1"
+                                className="cursor-pointer h-3 w-3 p-1 opacity-0 group-hover/navgroup:opacity-100 transition-opacity"
                             >
                                 <PlusIcon className="h-2 w-2" />
                             </Button>

@@ -17,11 +17,7 @@
             ],
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}/apps/zrocket",
-            "env": {
-                "PORT": "8011",
-                "CONFIG_FILE": "${workspaceRoot}/.local/config/zrocket/config.yml",
-                "NODE_OPTIONS": "--dns-result-order=ipv4first"
-            }
+            "envFile": "${workspaceRoot}/apps/zrocket/.env",
         },
         {
             "type": "node",
@@ -40,7 +36,7 @@
         },
         {
             "type": "node",
-            "name": "Mongo Source - Standalone",
+            "name": "Mongo Change Source",
             "request": "launch",
             "runtimeExecutable": "pnpm",
             "sourceMaps": true,
@@ -56,9 +52,7 @@
             ],
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}/apps/source-mongodb-server",
-            "env": {
-                "NODE_OPTIONS": "--dns-result-order=ipv4first"
-            }
+            "envFile": "${workspaceRoot}/apps/source-mongodb-server/.env",
         },
         {
             "type": "node",

@@ -125,7 +125,7 @@ export type Schema = typeof schema;
 
 export type TableName = keyof typeof schema.tables;
 
-export const tableMappings = {
+export const mapping = {
     chats: chats.mapping,
     channels: channels.mapping,
     groups: groups.mapping,

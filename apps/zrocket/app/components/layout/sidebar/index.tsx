@@ -6,6 +6,8 @@ import {
 } from 'lucide-react';
 import { useQuery } from '@rocicorp/zero/react';
 
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
 import { sidebarData } from './data';
 
 import { NavGroup } from './nav-group';
@@ -26,7 +28,7 @@ export function AppSidebar() {
     const [chats] = useQuery(z.query.chats.orderBy('lastMessageAt', 'desc'));
     const [groups] = useQuery(z.query.groups.orderBy('lastMessageAt', 'desc'));
     const [channels] = useQuery(
-        z.query.channels.orderBy('lastMessageAt', 'desc')
+        z.query.channels
     );
 
     return (
@@ -47,7 +49,7 @@ export function AppSidebar() {
                     actions={[
                         <CreateRoomButton
                             key="create"
-                            type="c"
+                            type={RoomType.PublicChannel}
                             title="Create Public Channel"
                         />
                     ]}
@@ -65,7 +67,7 @@ export function AppSidebar() {
                     actions={[
                         <CreateRoomButton
                             key="create"
-                            type="p"
+                            type={RoomType.PrivateGroup}
                             title="Create Private Group"
                         />
                     ]}
@@ -83,7 +85,7 @@ export function AppSidebar() {
                     actions={[
                         <CreateRoomButton
                             key="create"
-                            type="d"
+                            type={RoomType.DirectMessages}
                             title="Create DMs Room"
                         />
                     ]}

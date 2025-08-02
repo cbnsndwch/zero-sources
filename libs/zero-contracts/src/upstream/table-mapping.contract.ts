@@ -33,3 +33,22 @@ export type RowOf<T extends TableBuilderWithColumns<TableSchema>> = {
         T['schema']['columns'][K]
     >;
 };
+
+export type TypedSchema<
+    TTables extends readonly TableBuilderWithColumns<TableSchema>[]
+> = {
+    tables: {
+        readonly [K in TTables[number]['schema']['name']]: Extract<
+            TTables[number]['schema'],
+            { name: K }
+        >;
+    };
+};
+
+export type TableNames<
+    TTables extends readonly TableBuilderWithColumns<TableSchema>[]
+> = TTables[number]['schema']['name'];
+
+export type TableMappings<
+    TTables extends readonly TableBuilderWithColumns<TableSchema>[]
+> = Record<TableNames<TTables>, TableMapping<unknown>>;

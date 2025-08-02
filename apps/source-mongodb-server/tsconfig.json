@@ -29,7 +29,7 @@
     },
     "include": [
         "src"
-    ],
+, "../../libs/zero-contracts/src/utils/column-type.utils.ts"    ],
     "exclude": [
         "node_modules",
         "dist"

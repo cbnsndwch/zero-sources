@@ -347,7 +347,7 @@ const systemMessagesMapping: TableMapping<ISystemMessage> = {
 };
 
 // Export table mappings for use by change source
-export const tableMappings = {
+export const mapping = {
   chats: chatsMapping,
   groups: groupsMapping,
   channels: channelsMapping,
@@ -418,7 +418,7 @@ const changedDocument = {
 };
 
 // Change source processes all tables with source: 'rooms'
-for (const [tableName, mapping] of Object.entries(tableMappings)) {
+for (const [tableName, mapping] of Object.entries(mapping)) {
   if (mapping.source === 'rooms') {
     if (matchesFilter(changedDocument, mapping.filter)) {
       const projectedData = applyProjection(changedDocument, mapping.projection);

@@ -35,7 +35,10 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     ) {
         // Initialize the table mapping service with table specs from options
         if (this.options.tables) {
-            this.tableMappingService.initialize(this.options.tables);
+            this.tableMappingService.initialize(
+                this.options.tables,
+                this.options.mapping
+            );
         }
     }
 
@@ -466,17 +469,13 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
             {} as v0.IndexCreate['spec']['columns']
         );
 
-        // Create a clean spec without the .from() field for Zero cache
-        const cleanSpec = { ...spec };
-        delete (cleanSpec as any).from;
-
         const changes: v0.ChangeStreamMessage[] = [
             // create the table
             [
                 'data',
                 {
                     tag: 'create-table',
-                    spec: cleanSpec
+                    spec
                 } satisfies v0.TableCreate
             ],
             // and a unique index on the table's primary key columns
@@ -680,7 +679,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                         dataType: 'int8',
                         notNull: true
                     },
-                    result: {
+                    mutation: {
                         pos: 4,
                         dataType: 'json',
                         notNull: true

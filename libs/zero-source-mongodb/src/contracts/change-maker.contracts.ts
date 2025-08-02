@@ -9,6 +9,7 @@ import type {
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 
 export type TableSpec = v0.TableCreate['spec'];
+export type TableSpecColumn = TableSpec['columns'][number];
 
 export type IChangeMaker<TChangeData> = {
     //#region CRUD

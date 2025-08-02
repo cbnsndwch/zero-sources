@@ -7,10 +7,10 @@ import { getTableMappings } from '@cbnsndwch/zero-contracts';
 console.log('🧪 Testing table mapping extraction from schema metadata...\n');
 
 // Extract table mappings using the metadata API
-const tableMappings = getTableMappings(schema);
+const mapping = getTableMappings(schema);
 
 console.log('📊 Extracted table mappings:');
-console.log(JSON.stringify(tableMappings, null, 2));
+console.log(JSON.stringify(mapping, null, 2));
 
 console.log('\n🔍 Checking discriminated union tables:');
 
@@ -25,7 +25,7 @@ const expectedTables = [
 
 let allFound = true;
 for (const tableName of expectedTables) {
-    const config = tableMappings[tableName];
+    const config = mapping[tableName];
     if (config) {
         console.log(`✅ ${tableName}: source="${config.source}", filter=${JSON.stringify(config.filter)}`);
     } else {
@@ -35,7 +35,7 @@ for (const tableName of expectedTables) {
 }
 
 console.log('\n📈 Summary:');
-console.log(`Total tables with mappings: ${Object.keys(tableMappings).length}`);
+console.log(`Total tables with mappings: ${Object.keys(mapping).length}`);
 console.log(`Expected discriminated tables found: ${allFound ? 'ALL' : 'SOME MISSING'}`);
 
 if (allFound) {

@@ -17,7 +17,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
 // Import the schema and utilities
-import { schema, tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
+import { schema, mapping } from '@cbnsndwch/zrocket-contracts/schema';
 
 // Convert Zero schema to table specs (simplified version of utils.ts function)
 function tableSpecsFromSchema(schema) {
@@ -42,7 +42,7 @@ function tableSpecsFromSchema(schema) {
         };
 
         // Check if this table has mapping metadata
-        const tableMapping = tableMappings[tableName];
+        const tableMapping = mapping[tableName];
         if (tableMapping) {
             spec.tableMapping = tableMapping;
         }
@@ -84,7 +84,7 @@ async function exportSchemaFiles() {
     // Generate table mappings export
     const tableMappingsExport = {
         version: 1,
-        mappings: tableMappings,
+        mappings: mapping,
         metadata: {
             application: 'zrocket',
             exportedAt: new Date().toISOString(),

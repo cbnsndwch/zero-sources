@@ -42,7 +42,7 @@ export function NavGroup({ title, items, actions }: NavGroup) {
     const { pathname } = useLocation();
 
     return (
-        <SidebarGroup>
+        <SidebarGroup className='group/navgroup'>
             <SidebarGroupLabel className="justify-start">
                 <span className="grow">{title}</span>
                 {actions}

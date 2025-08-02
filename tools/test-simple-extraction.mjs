@@ -19,10 +19,10 @@ const testSchema = {
 
 try {
     // Extract table mappings using the metadata API
-    const tableMappings = getTableMappings(testSchema);
+    const mapping = getTableMappings(testSchema);
 
     console.log('📊 Extracted table mappings:');
-    console.log(JSON.stringify(tableMappings, null, 2));
+    console.log(JSON.stringify(mapping, null, 2));
 
     console.log('\n🔍 Checking individual tables:');
 
@@ -30,7 +30,7 @@ try {
     let allFound = true;
 
     for (const tableName of expectedTables) {
-        const config = tableMappings[tableName];
+        const config = mapping[tableName];
         if (config) {
             console.log(`✅ ${tableName}: source="${config.source}", filter=${JSON.stringify(config.filter)}`);
         } else {

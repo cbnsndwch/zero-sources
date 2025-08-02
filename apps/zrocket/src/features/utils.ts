@@ -1,6 +1,6 @@
 import type { Schema, TableSchema, ValueType } from '@rocicorp/zero';
 
-import { tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
+import { mapping } from '@cbnsndwch/zrocket-contracts/schema';
 import type { TableSpec } from '@cbnsndwch/zero-source-mongodb';
 
 type ColSchema = TableSchema['columns'][string];
@@ -26,7 +26,7 @@ export function tableSpecsFromSchema(schema: Schema) {
             spec.name = tableName;
 
             // Check if this table has discriminated union metadata
-            const tableMapping = tableMappings[tableName];
+            const tableMapping = mapping[tableName];
             if (tableMapping) {
                 // Attach the table mapping configuration to the spec for the change source
                 (spec as any).tableMapping = tableMapping;

@@ -1,11 +1,11 @@
-import { tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
+import { mapping } from '@cbnsndwch/zrocket-contracts/schema';
 
 async function validateTableMappings() {
     console.log('🧪 Testing discriminated union table mappings...');
     
     try {
         console.log('\n📋 Extracted table mappings:');
-        for (const [tableName, mapping] of Object.entries(tableMappings)) {
+        for (const [tableName, mapping] of Object.entries(mapping)) {
             console.log(`\n📄 Table: ${tableName}`);
             console.log(`   Source: ${mapping.source}`);
             console.log(`   Filter: ${JSON.stringify(mapping.filter)}`);
@@ -16,7 +16,7 @@ async function validateTableMappings() {
         
         // Validate that we have the expected discriminated union tables
         const expectedTables = ['chats', 'channels', 'groups'];
-        const actualTables = Object.keys(tableMappings);
+        const actualTables = Object.keys(mapping);
         
         for (const expectedTable of expectedTables) {
             if (!actualTables.includes(expectedTable)) {
@@ -34,7 +34,7 @@ async function validateTableMappings() {
         };
         
         for (const [tableName, expectedSource] of Object.entries(expectedSources)) {
-            const mapping = tableMappings[tableName];
+            const mapping = mapping[tableName];
             if (!mapping) continue;
             
             if (mapping.source !== expectedSource) {
@@ -50,7 +50,7 @@ async function validateTableMappings() {
         };
         
         for (const [tableName, expectedFilter] of Object.entries(expectedFilters)) {
-            const mapping = tableMappings[tableName];
+            const mapping = mapping[tableName];
             if (!mapping) continue;
             
             const actualFilter = JSON.stringify(mapping.filter);

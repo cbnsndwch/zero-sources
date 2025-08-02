@@ -27,8 +27,8 @@ async function debugSchema() {
         
         // Try extracting mappings anyway
         console.log('\n🧪 Attempting to extract mappings...');
-        const tableMappings = getTableMappings(schema);
-        console.log('Result:', tableMappings);
+        const mapping = getTableMappings(schema);
+        console.log('Result:', mapping);
         
     } catch (error) {
         console.error('❌ Debug failed:', error.message);

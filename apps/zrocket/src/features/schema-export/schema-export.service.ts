@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { schema, tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
+import { schema, mapping } from '@cbnsndwch/zrocket-contracts/schema';
 
 import { tableSpecsFromSchema } from '../utils.js';
 
@@ -48,7 +48,7 @@ export class SchemaExportService {
     exportTableMappings(): ExportedTableMappings {
         return {
             version: 1,
-            mappings: tableMappings,
+            mappings: mapping,
             metadata: {
                 application: 'zrocket',
                 exportedAt: new Date().toISOString(),
@@ -63,7 +63,7 @@ export class SchemaExportService {
     exportCombinedConfig() {
         return {
             schema: this.exportSchema(),
-            tableMappings: this.exportTableMappings(),
+            mapping: this.exportTableMappings(),
             exportedAt: new Date().toISOString()
         };
     }

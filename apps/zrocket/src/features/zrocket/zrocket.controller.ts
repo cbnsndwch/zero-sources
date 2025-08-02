@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-import { schema, tableMappings } from '@cbnsndwch/zrocket-contracts/schema';
+import { schema, mapping } from '@cbnsndwch/zrocket-contracts/schema';
 
 // Helper function to extract discriminated union configurations from schema
 function extractTableConfigurations() {
@@ -10,7 +10,7 @@ function extractTableConfigurations() {
     // Group tables by their source collection
     const sourceGroups: Record<string, any[]> = {};
 
-    for (const [tableName, config] of Object.entries(tableMappings)) {
+    for (const [tableName, config] of Object.entries(mapping)) {
         if (config && config.source) {
             if (!sourceGroups[config.source]) {
                 sourceGroups[config.source] = [];
