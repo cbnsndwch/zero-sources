@@ -16,38 +16,23 @@ type Pages = {
   "/d": {
     params: {};
   };
-  "/p": {
-    params: {};
-  };
-  "/c": {
-    params: {};
-  };
   "/d/:chatId": {
     params: {
       "chatId": string;
     };
   };
-  "/p/:groupId": {
-    params: {
-      "groupId": string;
-    };
+  "/p": {
+    params: {};
   };
-  "/c/:channelId": {
-    params: {
-      "channelId": string;
-    };
-  };
-  "/chat/:chatId": {
+  "/p/:chatId": {
     params: {
       "chatId": string;
     };
   };
-  "/group/:groupId": {
-    params: {
-      "groupId": string;
-    };
+  "/c": {
+    params: {};
   };
-  "/channel/:channelId": {
+  "/c/:channelId": {
     params: {
       "channelId": string;
     };
@@ -69,47 +54,47 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d" | "/p" | "/c" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/chat/:chatId" | "/group/:groupId" | "/channel/:channelId" | "/preferences" | "/help-support" | "/messages" | "/info";
+    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/preferences" | "/help-support" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
   };
+  "routes/d/layout.tsx": {
+    id: "routes/d/layout";
+    page: "/d" | "/d/:chatId";
+  };
   "routes/d/index.tsx": {
     id: "routes/d/index";
     page: "/d";
+  };
+  "routes/d/chat.tsx": {
+    id: "routes/d/chat";
+    page: "/d/:chatId";
+  };
+  "routes/p/layout.tsx": {
+    id: "routes/p/layout";
+    page: "/p" | "/p/:chatId";
   };
   "routes/p/index.tsx": {
     id: "routes/p/index";
     page: "/p";
   };
+  "routes/p/chat.tsx": {
+    id: "routes/p/chat";
+    page: "/p/:chatId";
+  };
+  "routes/c/layout.tsx": {
+    id: "routes/c/layout";
+    page: "/c" | "/c/:channelId";
+  };
   "routes/c/index.tsx": {
     id: "routes/c/index";
     page: "/c";
   };
-  "routes/d/$chatId.tsx": {
-    id: "routes/d/$chatId";
-    page: "/d/:chatId";
-  };
-  "routes/p/$groupId.tsx": {
-    id: "routes/p/$groupId";
-    page: "/p/:groupId";
-  };
-  "routes/c/$channelId.tsx": {
-    id: "routes/c/$channelId";
+  "routes/c/channel.tsx": {
+    id: "routes/c/channel";
     page: "/c/:channelId";
-  };
-  "routes/chat/index.tsx": {
-    id: "routes/chat/index";
-    page: "/chat/:chatId";
-  };
-  "routes/group/index.tsx": {
-    id: "routes/group/index";
-    page: "/group/:groupId";
-  };
-  "routes/channel/index.tsx": {
-    id: "routes/channel/index";
-    page: "/channel/:channelId";
   };
   "pages/UserPreferencesPage.tsx": {
     id: "pages/UserPreferencesPage";

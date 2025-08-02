@@ -9,32 +9,36 @@ import { setLastVisitedRoom } from '@/utils/room-preferences';
 interface OutletContext {
     isRoomDetailsOpen: boolean;
     setIsRoomDetailsOpen: (open: boolean) => void;
+    roomType: 'channel';
 }
 
-export default function GroupPage() {
-    const { groupId } = useParams();
-    const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
-        useOutletContext<OutletContext>();
+export default function ChannelPage() {
+    const { channelId } = useParams();
+    const { isRoomDetailsOpen, setIsRoomDetailsOpen } = useOutletContext<OutletContext>();
 
     // Track room visit
     useEffect(() => {
-        if (groupId) {
-            setLastVisitedRoom('groups', groupId);
+        if (channelId) {
+            setLastVisitedRoom('channels', channelId);
         }
-    }, [groupId]);
+    }, [channelId]);
+
+    if (!channelId) {
+        return <div>Channel not found</div>;
+    }
 
     return (
         <div className="h-full flex flex-col">
             <ChatHeader
-                roomId={groupId!}
-                roomType="group"
+                roomId={channelId}
+                roomType="channel"
                 isRoomDetailsOpen={isRoomDetailsOpen}
                 setIsRoomDetailsOpen={setIsRoomDetailsOpen}
             />
             <div className="flex-1 overflow-hidden">
-                <ChatMessages roomId={groupId!} roomType="group" />
+                <ChatMessages roomId={channelId} roomType="channel" />
             </div>
-            <ChatInput roomId={groupId!} roomType="group" />
+            <ChatInput roomId={channelId} roomType="channel" />
         </div>
     );
 }

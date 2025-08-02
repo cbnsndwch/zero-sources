@@ -1,60 +1,70 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
+
 import { useQuery } from '@rocicorp/zero/react';
 
 import { EmptyChat } from '@/components/layout/EmptyChat';
 import { useZero } from '@/zero/use-zero';
 import { getLastVisitedRoom, setLastVisitedRoom } from '@/utils/room-preferences';
 
-export default function PrivateGroupsIndex() {
+interface OutletContext {
+    isRoomDetailsOpen: boolean;
+    setIsRoomDetailsOpen: (open: boolean) => void;
+    roomType: 'group';
+}
+
+export default function GroupsIndex() {
     const navigate = useNavigate();
+    useOutletContext<OutletContext>(); // Just to validate context exists
     const z = useZero();
 
-    const [groups, result] = useQuery(
-        z.query.groups.orderBy('lastMessageAt', 'desc'),
+    // Get group chats
+    const [chats, chatsResult] = useQuery(
+        z.query.chats.orderBy('lastMessageAt', 'desc'),
         { enabled: !!z }
     );
 
     useEffect(() => {
-        if (result.type !== 'complete' || !groups) return;
+        const attemptRedirect = () => {
+            // Check if we're still loading
+            if (chatsResult.type !== 'complete') return;
 
-        // If no groups exist, stay on this page to show empty state
-        if (groups.length === 0) return;
+            // Filter for group chats only
+            const groupChats = chats?.filter((chat: any) => chat.type === 'group') || [];
 
-        // Check for last visited room
-        const lastVisited = getLastVisitedRoom('groups');
-        
-        if (lastVisited) {
-            // Verify the room still exists
-            const roomExists = groups.find((group: any) => group._id === lastVisited);
-            if (roomExists) {
-                navigate(`/p/${lastVisited}`, { replace: true });
-                return;
+            if (groupChats.length === 0) {
+                return; // No chats available, stay on index page to show empty state
             }
-        }
 
-        // If no last visited room or it doesn't exist, go to the first available room
-        const firstRoom = groups[0] as any;
-        if (firstRoom) {
-            setLastVisitedRoom('groups', firstRoom._id);
-            navigate(`/p/${firstRoom._id}`, { replace: true });
-        }
-    }, [groups, result.type, navigate]);
+            // Check for last visited room of this type
+            const lastVisitedRoomId = getLastVisitedRoom('groups');
+            const lastVisitedRoom = lastVisitedRoomId 
+                ? groupChats.find(chat => chat._id === lastVisitedRoomId)
+                : null;
+
+            if (lastVisitedRoom) {
+                navigate(`/p/${lastVisitedRoom._id}`, { replace: true });
+            } else {
+                // Navigate to the first available room and set it as last visited
+                const firstRoom = groupChats[0];
+                setLastVisitedRoom('groups', firstRoom._id);
+                navigate(`/p/${firstRoom._id}`, { replace: true });
+            }
+        };
+
+        attemptRedirect();
+    }, [chats, chatsResult.type, navigate]);
 
     // Show loading state while querying
-    if (result.type !== 'complete') {
+    if (chatsResult.type !== 'complete') {
         return (
             <div className="h-full flex items-center justify-center">
-                <div className="text-muted-foreground">Loading private groups...</div>
+                <div className="text-muted-foreground">
+                    Loading groups...
+                </div>
             </div>
         );
     }
 
-    // Show empty state if no groups exist
-    if (!groups || groups.length === 0) {
-        return <EmptyChat roomType="groups" />;
-    }
-
-    // This should not be reached since we navigate away, but just in case
     return <EmptyChat roomType="groups" />;
 }

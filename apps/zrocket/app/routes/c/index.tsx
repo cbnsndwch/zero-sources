@@ -1,60 +1,69 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useOutletContext } from 'react-router';
+
 import { useQuery } from '@rocicorp/zero/react';
 
 import { EmptyChat } from '@/components/layout/EmptyChat';
 import { useZero } from '@/zero/use-zero';
 import { getLastVisitedRoom, setLastVisitedRoom } from '@/utils/room-preferences';
 
-export default function PublicChannelsIndex() {
+interface OutletContext {
+    isRoomDetailsOpen: boolean;
+    setIsRoomDetailsOpen: (open: boolean) => void;
+    roomType: 'channel';
+}
+
+export default function ChannelsIndex() {
     const navigate = useNavigate();
+    useOutletContext<OutletContext>(); // Just to validate context exists
     const z = useZero();
 
-    const [channels, result] = useQuery(
-        z.query.channels.orderBy('lastMessageAt', 'desc'),
+    // Get channels
+    const [channels, channelsResult] = useQuery(
+        z.query.channels.orderBy('name', 'asc'),
         { enabled: !!z }
     );
 
     useEffect(() => {
-        if (result.type !== 'complete' || !channels) return;
+        const attemptRedirect = () => {
+            // Check if we're still loading
+            if (channelsResult.type !== 'complete') return;
 
-        // If no channels exist, stay on this page to show empty state
-        if (channels.length === 0) return;
+            const channelList = channels || [];
 
-        // Check for last visited room
-        const lastVisited = getLastVisitedRoom('channels');
-        
-        if (lastVisited) {
-            // Verify the room still exists
-            const roomExists = channels.find((channel: any) => channel._id === lastVisited);
-            if (roomExists) {
-                navigate(`/c/${lastVisited}`, { replace: true });
-                return;
+            if (channelList.length === 0) {
+                return; // No channels available, stay on index page to show empty state
             }
-        }
 
-        // If no last visited room or it doesn't exist, go to the first available room
-        const firstRoom = channels[0] as any;
-        if (firstRoom) {
-            setLastVisitedRoom('channels', firstRoom._id);
-            navigate(`/c/${firstRoom._id}`, { replace: true });
-        }
-    }, [channels, result.type, navigate]);
+            // Check for last visited room of this type
+            const lastVisitedRoomId = getLastVisitedRoom('channels');
+            const lastVisitedRoom = lastVisitedRoomId 
+                ? channelList.find(channel => channel._id === lastVisitedRoomId)
+                : null;
+
+            if (lastVisitedRoom) {
+                navigate(`/c/${lastVisitedRoom._id}`, { replace: true });
+            } else {
+                // Navigate to the first available room and set it as last visited
+                const firstRoom = channelList[0];
+                setLastVisitedRoom('channels', firstRoom._id);
+                navigate(`/c/${firstRoom._id}`, { replace: true });
+            }
+        };
+
+        attemptRedirect();
+    }, [channels, channelsResult.type, navigate]);
 
     // Show loading state while querying
-    if (result.type !== 'complete') {
+    if (channelsResult.type !== 'complete') {
         return (
             <div className="h-full flex items-center justify-center">
-                <div className="text-muted-foreground">Loading public channels...</div>
+                <div className="text-muted-foreground">
+                    Loading channels...
+                </div>
             </div>
         );
     }
 
-    // Show empty state if no channels exist
-    if (!channels || channels.length === 0) {
-        return <EmptyChat roomType="channels" />;
-    }
-
-    // This should not be reached since we navigate away, but just in case
     return <EmptyChat roomType="channels" />;
 }

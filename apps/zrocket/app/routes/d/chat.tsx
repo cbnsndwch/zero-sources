@@ -9,12 +9,12 @@ import { setLastVisitedRoom } from '@/utils/room-preferences';
 interface OutletContext {
     isRoomDetailsOpen: boolean;
     setIsRoomDetailsOpen: (open: boolean) => void;
+    roomType: 'dm';
 }
 
 export default function DirectMessagePage() {
     const { chatId } = useParams();
-    const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
-        useOutletContext<OutletContext>();
+    const { isRoomDetailsOpen, setIsRoomDetailsOpen } = useOutletContext<OutletContext>();
 
     // Track room visit
     useEffect(() => {
@@ -23,18 +23,22 @@ export default function DirectMessagePage() {
         }
     }, [chatId]);
 
+    if (!chatId) {
+        return <div>Chat not found</div>;
+    }
+
     return (
         <div className="h-full flex flex-col">
             <ChatHeader
-                roomId={chatId!}
+                roomId={chatId}
                 roomType="dm"
                 isRoomDetailsOpen={isRoomDetailsOpen}
                 setIsRoomDetailsOpen={setIsRoomDetailsOpen}
             />
             <div className="flex-1 overflow-hidden">
-                <ChatMessages roomId={chatId!} roomType="dm" />
+                <ChatMessages roomId={chatId} roomType="dm" />
             </div>
-            <ChatInput roomId={chatId!} roomType="dm" />
+            <ChatInput roomId={chatId} roomType="dm" />
         </div>
     );
 }
