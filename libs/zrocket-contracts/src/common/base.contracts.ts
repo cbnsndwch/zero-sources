@@ -15,7 +15,7 @@ export type IHasCreatedAt = {
 };
 
 export type IHasDeletedAt = {
-    updatedAt: Date;
+    deletedAt: Date;
 };
 
 export type IEntityBase = IHasId & IHasCreatedAt & IHasUpdatedAt;

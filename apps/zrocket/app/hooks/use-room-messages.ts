@@ -5,7 +5,7 @@ import type { ChatWithMessages } from './use-chat';
 import type { GroupWithMessages } from './use-group';
 
 export default function useRoomMessages(
-    room: ChatWithMessages | ChannelWithMessages | GroupWithMessages
+    room?: ChatWithMessages | ChannelWithMessages | GroupWithMessages 
     // includeSystemMessages?: boolean
 ) {
     const messages = useMemo(() => {

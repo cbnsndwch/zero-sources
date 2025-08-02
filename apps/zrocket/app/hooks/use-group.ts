@@ -1,5 +1,5 @@
 import type { Query } from '@rocicorp/zero';
-import { useQuery, type Schema } from '@rocicorp/zero/react';
+import { useQuery, type QueryResult, type Schema } from '@rocicorp/zero/react';
 
 import type {
     IPrivateGroupRoom,
@@ -19,9 +19,9 @@ export default function useGroup(id: string) {
         .related('systemMessages');
 
     return useQuery(
-        query as unknown as Query<Schema, 'groups', GroupWithMessages>,
+        query, // as unknown as Query<Schema, 'groups', GroupWithMessages>,
         { enabled: zero && !!id }
-    );
+    ) as unknown as QueryResult<GroupWithMessages | undefined>;
 }
 
 export type GroupWithMessages = Readonly<

@@ -7,7 +7,7 @@ import type {
 } from '@cbnsndwch/zrocket-contracts';
 
 export default function useRoomTitle(
-    room: IPrivateGroupRoom | IPublicChannelRoom | IDirectMessagesRoom
+    room?: IPrivateGroupRoom | IPublicChannelRoom | IDirectMessagesRoom
 ): string {
     return useMemo(() => {
         if (!room) {
