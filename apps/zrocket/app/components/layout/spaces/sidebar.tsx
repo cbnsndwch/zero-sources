@@ -22,6 +22,7 @@ export default function SpacesSidebar() {
 
     return (
         <Sidebar
+            id="spaces-sidebar"
             variant="inset"
             collapsible="icon"
             className="pt-5 pr-0 bg-transparent"

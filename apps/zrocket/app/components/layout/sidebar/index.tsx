@@ -32,10 +32,11 @@ export function AppSidebar() {
     );
 
     return (
-        <Sidebar
-            variant="sidebar"
-            collapsible="none"
-            className="min-w-(--sidebar-width)"
+        <div
+            id="app-sidebar"
+            // variant="sidebar"
+            // collapsible="none"
+            className="shrink w-3xs min-w-3xs bg-red-200"
             style={
                 {
                     '--sidebar-width': '16rem',
@@ -120,6 +121,6 @@ export function AppSidebar() {
             <SidebarFooter>
                 <NavUser user={sidebarData.user} />
             </SidebarFooter>
-        </Sidebar>
+        </div>
     );
 }

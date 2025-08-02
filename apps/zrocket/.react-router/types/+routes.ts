@@ -31,7 +31,7 @@ type Pages = {
   "/messages": {
     params: {};
   };
-  "/zrocket/demo-info": {
+  "/info": {
     params: {};
   };
 };
@@ -39,7 +39,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/messages" | "/zrocket/demo-info";
+    page: "/" | "/d/:chatId" | "/p/:groupId" | "/c/:channelId" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
@@ -63,6 +63,6 @@ type RouteFiles = {
   };
   "routes/zrocket.tsx": {
     id: "routes/zrocket";
-    page: "/zrocket/demo-info";
+    page: "/info";
   };
 };

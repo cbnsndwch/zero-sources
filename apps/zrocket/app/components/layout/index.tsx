@@ -30,7 +30,7 @@ export default function SidebarLayout() {
                     } as CSSProperties
                 }
             >
-                <div className="h-full flex justify-start items-stretch">
+                <div className="h-full flex justify-start">
                     <AppSidebar />
                     <Outlet />
                 </div>
