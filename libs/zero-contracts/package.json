@@ -44,7 +44,7 @@
     "files": [
         "dist"
     ],
-    "typings": ".dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
     "exports": {
         ".": {
             "import": "./dist/index.js",
