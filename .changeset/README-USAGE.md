@@ -11,6 +11,7 @@ pnpm changeset
 ```
 
 This will:
+
 1. Ask which packages have changed
 2. Ask what type of change (major, minor, patch)
 3. Ask for a summary of the changes

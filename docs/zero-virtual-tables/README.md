@@ -22,139 +22,179 @@ Introduce a **discriminated union system** that allows:
 
 ```typescript
 interface UpstreamTableMapping {
-  source: string;              // Upstream entity identifier (collection, table, endpoint)
-  filter?: object;             // Optional source-specific filter query
-  projection?: object;         // Optional source-specific projection
+    source: string; // Upstream entity identifier (collection, table, endpoint)
+    filter?: object; // Optional source-specific filter query
+    projection?: object; // Optional source-specific projection
 }
 
 interface ZeroSchemaConfig {
-  tables: {
-    [zeroTableName: string]: UpstreamTableMapping;
-  };
+    tables: {
+        [zeroTableName: string]: UpstreamTableMapping;
+    };
 }
 ```
 
 ## Example Use Cases
 
 ### Use Case 1: MongoDB - Discriminated Union by Document Type
+
 ```typescript
 // Single 'entities' collection contains users, organizations, and projects
 const mongoConfig = {
-  tables: {
-    users: {
-      source: 'entities',
-      filter: { entityType: 'user', isActive: true },
-      projection: { _id: 1, name: 1, email: 1, createdAt: 1 }
-    },
-    organizations: {
-      source: 'entities', 
-      filter: { entityType: 'organization', isDeleted: { $ne: true } },
-      projection: { _id: 1, name: 1, domain: 1, memberCount: 1 }
-    },
-    projects: {
-      source: 'entities',
-      filter: { entityType: 'project', status: { $in: ['active', 'paused'] } },
-      projection: { _id: 1, name: 1, organizationId: 1, status: 1 }
+    tables: {
+        users: {
+            source: 'entities',
+            filter: { entityType: 'user', isActive: true },
+            projection: { _id: 1, name: 1, email: 1, createdAt: 1 }
+        },
+        organizations: {
+            source: 'entities',
+            filter: { entityType: 'organization', isDeleted: { $ne: true } },
+            projection: { _id: 1, name: 1, domain: 1, memberCount: 1 }
+        },
+        projects: {
+            source: 'entities',
+            filter: {
+                entityType: 'project',
+                status: { $in: ['active', 'paused'] }
+            },
+            projection: { _id: 1, name: 1, organizationId: 1, status: 1 }
+        }
     }
-  }
 };
 ```
 
 ### Use Case 2: SQL Database - Table Views with Conditions
+
 ```typescript
 // Single 'orders' table with different time-based views
 const sqlConfig = {
-  tables: {
-    recentOrders: {
-      source: 'orders',
-      filter: { 
-        created_at: { $gte: '30 days ago' },
-        status: { $not: 'cancelled' }
-      },
-      projection: { id: 1, user_id: 1, total: 1, status: 1, created_at: 1 }
-    },
-    archivedOrders: {
-      source: 'orders',
-      filter: { 
-        created_at: { $lt: '1 year ago' }
-      },
-      projection: { id: 1, user_id: 1, total: 1, archived_at: 1 }
+    tables: {
+        recentOrders: {
+            source: 'orders',
+            filter: {
+                created_at: { $gte: '30 days ago' },
+                status: { $not: 'cancelled' }
+            },
+            projection: {
+                id: 1,
+                user_id: 1,
+                total: 1,
+                status: 1,
+                created_at: 1
+            }
+        },
+        archivedOrders: {
+            source: 'orders',
+            filter: {
+                created_at: { $lt: '1 year ago' }
+            },
+            projection: { id: 1, user_id: 1, total: 1, archived_at: 1 }
+        }
     }
-  }
 };
 ```
 
 ### Use Case 3: REST API + Webhooks - Stripe Custom Change Source
+
 ```typescript
 // Stripe integration: REST API for backfill, webhooks for real-time updates
 const stripeConfig = {
-  tables: {
-    customers: {
-      source: '/v1/customers',
-      filter: { deleted: { $ne: true } },
-      projection: { 
-        id: 1, email: 1, name: 1, created: 1, 
-        default_source: 1, currency: 1, metadata: 1 
-      }
-    },
-    activeSubscriptions: {
-      source: '/v1/subscriptions',
-      filter: { 
-        status: { $in: ['active', 'trialing', 'past_due'] }
-      },
-      projection: { 
-        id: 1, customer: 1, status: 1, current_period_start: 1,
-        current_period_end: 1, items: 1, metadata: 1
-      }
-    },
-    canceledSubscriptions: {
-      source: '/v1/subscriptions',
-      filter: { 
-        status: { $in: ['canceled', 'incomplete_expired'] }
-      },
-      projection: { 
-        id: 1, customer: 1, status: 1, canceled_at: 1,
-        cancellation_details: 1, ended_at: 1
-      }
-    },
-    paymentMethods: {
-      source: '/v1/payment_methods',
-      filter: { type: { $in: ['card', 'bank_account', 'us_bank_account'] } },
-      projection: { 
-        id: 1, customer: 1, type: 1, card: 1, 
-        billing_details: 1, created: 1
-      }
-    },
-    successfulCharges: {
-      source: '/v1/charges',
-      filter: { 
-        status: 'succeeded',
-        amount: { $gte: 100 } // Only charges >= $1.00
-      },
-      projection: { 
-        id: 1, customer: 1, amount: 1, currency: 1,
-        created: 1, payment_method: 1, invoice: 1
-      }
+    tables: {
+        customers: {
+            source: '/v1/customers',
+            filter: { deleted: { $ne: true } },
+            projection: {
+                id: 1,
+                email: 1,
+                name: 1,
+                created: 1,
+                default_source: 1,
+                currency: 1,
+                metadata: 1
+            }
+        },
+        activeSubscriptions: {
+            source: '/v1/subscriptions',
+            filter: {
+                status: { $in: ['active', 'trialing', 'past_due'] }
+            },
+            projection: {
+                id: 1,
+                customer: 1,
+                status: 1,
+                current_period_start: 1,
+                current_period_end: 1,
+                items: 1,
+                metadata: 1
+            }
+        },
+        canceledSubscriptions: {
+            source: '/v1/subscriptions',
+            filter: {
+                status: { $in: ['canceled', 'incomplete_expired'] }
+            },
+            projection: {
+                id: 1,
+                customer: 1,
+                status: 1,
+                canceled_at: 1,
+                cancellation_details: 1,
+                ended_at: 1
+            }
+        },
+        paymentMethods: {
+            source: '/v1/payment_methods',
+            filter: {
+                type: { $in: ['card', 'bank_account', 'us_bank_account'] }
+            },
+            projection: {
+                id: 1,
+                customer: 1,
+                type: 1,
+                card: 1,
+                billing_details: 1,
+                created: 1
+            }
+        },
+        successfulCharges: {
+            source: '/v1/charges',
+            filter: {
+                status: 'succeeded',
+                amount: { $gte: 100 } // Only charges >= $1.00
+            },
+            projection: {
+                id: 1,
+                customer: 1,
+                amount: 1,
+                currency: 1,
+                created: 1,
+                payment_method: 1,
+                invoice: 1
+            }
+        }
     }
-  }
 };
 ```
 
 ## Technical Implementation Considerations
 
 ### Change Processing
+
 1. **Single Change Stream**: Monitor one change stream per upstream entity, not per Zero table
 2. **Record Routing**: For each change event, determine which Zero tables are affected by applying filters
 3. **Projection Application**: Apply table-specific projections before sending to Zero
 4. **Efficient Filtering**: Use source-specific optimization (e.g., MongoDB aggregation pipeline, SQL indexes)
 
 ### Performance Implications
+
 1. **Filter Efficiency**: Complex filters might impact change processing performance
 2. **Projection Benefits**: Projections reduce network payload and client memory usage
 3. **Index Requirements**: Filters should be backed by appropriate indexes in the upstream source
 4. **Change Volume**: Multiple Zero tables from one upstream entity increases change event volume
 
 ### Error Handling
+
 1. **Filter Validation**: Validate filter syntax at configuration time
 2. **Projection Validation**: Ensure projections don't break Zero schema expectations
 3. **Graceful Degradation**: Handle cases where filters or projections fail
@@ -170,15 +210,19 @@ const stripeConfig = {
 ## Risks and Mitigation
 
 ### Risk 1: Complex Configuration
+
 - **Mitigation**: Provide clear examples, validation, and potentially a configuration UI
 
 ### Risk 2: Performance Impact
+
 - **Mitigation**: Profile change processing performance across different source types, provide guidance on filter optimization
 
 ### Risk 3: Data Consistency
+
 - **Mitigation**: Ensure atomic operations and proper error handling during filtering/projection across all source types
 
 ### Risk 4: Debugging Complexity
+
 - **Mitigation**: Comprehensive logging and debugging tools for tracing document flow
 
 ## Questions for Validation
@@ -197,4 +241,3 @@ const stripeConfig = {
 3. **API Design**: Finalize the configuration schema and validation logic
 4. **Documentation**: Create comprehensive guides and examples for MongoDB, SQL, and API sources
 5. **Migration Path**: Design upgrade path for existing change sources
-

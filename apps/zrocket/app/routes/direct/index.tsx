@@ -5,7 +5,10 @@ import { useQuery } from '@rocicorp/zero/react';
 
 import { EmptyChat } from '@/components/layout/EmptyChat';
 import { useZero } from '@/zero/use-zero';
-import { getLastVisitedRoom, setLastVisitedRoom } from '@/utils/room-preferences';
+import {
+    getLastVisitedRoom,
+    setLastVisitedRoom
+} from '@/utils/room-preferences';
 
 interface OutletContext {
     isRoomDetailsOpen: boolean;
@@ -30,7 +33,8 @@ export default function DirectMessagesIndex() {
             if (chatsResult.type !== 'complete') return;
 
             // Filter for DM chats only
-            const dmChats = chats?.filter((chat: any) => chat.type === 'dm') || [];
+            const dmChats =
+                chats?.filter((chat: any) => chat.type === 'dm') || [];
 
             if (dmChats.length === 0) {
                 return; // No chats available, stay on index page to show empty state
@@ -38,7 +42,7 @@ export default function DirectMessagesIndex() {
 
             // Check for last visited room of this type
             const lastVisitedRoomId = getLastVisitedRoom('dms');
-            const lastVisitedRoom = lastVisitedRoomId 
+            const lastVisitedRoom = lastVisitedRoomId
                 ? dmChats.find(chat => chat._id === lastVisitedRoomId)
                 : null;
 

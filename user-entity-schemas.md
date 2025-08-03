@@ -5,6 +5,7 @@ This document contains all TypeScript interfaces and types that define the schem
 ## Base Types
 
 ### Entity Base Types
+
 ```typescript
 export type IHasId = {
     _id: string;
@@ -34,6 +35,7 @@ export type IHasUsername = {
 ```
 
 ### Utility Types
+
 ```typescript
 /**
  * Dictionary type for key-value pairs
@@ -43,7 +45,7 @@ export type Dict<T = any> = {
 };
 
 /**
- * A string that identifies a user's profile in an external provider. 
+ * A string that identifies a user's profile in an external provider.
  * Composed of the provider id and the user's id on the provider separated by a slash.
  */
 export type ExternalUserId = `${string}/${string}`;
@@ -52,6 +54,7 @@ export type ExternalUserId = `${string}/${string}`;
 ## User Presence
 
 ### User Presence Status Enum
+
 ```typescript
 export enum UserPresenceStatus {
     ONLINE = 'ONLINE',
@@ -69,7 +72,8 @@ export const USER_PRESENCE_STATUSES = [
 ## User Interface
 
 ### Main User Interface
-```typescript
+
+````typescript
 /**
  * Represents a user entity in the chat system.
  *
@@ -175,9 +179,10 @@ export interface IUser
 
     //#endregion User Settings & Preferences
 }
-```
+````
 
 ### User Summary Types
+
 ```typescript
 /**
  * Minimal user information containing only ID and username
@@ -193,6 +198,7 @@ export type IUserSummaryWithName = Pick<IUser, '_id' | 'username' | 'name'>;
 ## User Events
 
 ### User Data Event Types
+
 ```typescript
 /**
  * Event fired when a user is inserted/created
@@ -238,24 +244,29 @@ export type IUserDataEvent =
 The user entity schema includes:
 
 ### Core Properties
+
 - **Identity**: `_id`, `username`, `name`, `email`
 - **Timestamps**: `createdAt`, `updatedAt`
 - **Status**: `active` flag to enable/disable users
 - **External Integration**: `externalId` for third-party provider authentication
 
 ### Profile Information
+
 - **Personal**: `bio`, `avatarUrl`, `additionalEmails`
 - **Flexible Data**: `profile` dictionary for additional profile information
 - **Preferences**: `preferences` dictionary for user settings
 
 ### Presence System
+
 - **Status**: Current and default presence status (Online, Away, Offline, Busy, Disabled)
 - **Custom Text**: `presenceText` for custom status messages
 
 ### Chat Integration
+
 - **Default Room**: Quick access to a preferred chat room
 
 ### Event System
+
 - **Change Tracking**: Insert, update, and remove events with diff support
 - **Flexible Updates**: Partial updates with unset field tracking
 

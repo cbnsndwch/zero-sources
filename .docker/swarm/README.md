@@ -22,6 +22,7 @@ This directory contains the Docker Swarm stack configuration for deploying the Z
 ## Services
 
 ### 1. PostgreSQL (`postgres`)
+
 - **Image**: `postgres:16-alpine`
 - **Purpose**: Zero CDC and CVR databases
 - **Resources**: 512MB RAM, 0.5 CPU
@@ -29,6 +30,7 @@ This directory contains the Docker Swarm stack configuration for deploying the Z
 - **Networks**: Internal `zero-network`
 
 ### 2. Zero Sync (`zero-sync`)
+
 - **Image**: `rocicorp/zero-cache:latest`
 - **Purpose**: Zero synchronization service
 - **Resources**: 1GB RAM, 1.0 CPU
@@ -37,6 +39,7 @@ This directory contains the Docker Swarm stack configuration for deploying the Z
 - **TLS**: Let's Encrypt via Traefik
 
 ### 3. ZRocket API (`zrocket-api`)
+
 - **Image**: `ghcr.io/cbnsndwch/zero-sources/zrocket-api:latest`
 - **Purpose**: NestJS API with discriminated unions
 - **Resources**: 512MB RAM, 0.5 CPU
@@ -46,6 +49,7 @@ This directory contains the Docker Swarm stack configuration for deploying the Z
 - **TLS**: Let's Encrypt via Traefik
 
 ### 4. ZRocket Frontend (`zrocket-frontend`)
+
 - **Image**: `ghcr.io/cbnsndwch/zero-sources/zrocket-frontend:latest`
 - **Purpose**: React frontend with Zero integration
 - **Resources**: 128MB RAM, 0.25 CPU
@@ -64,6 +68,7 @@ This directory contains the Docker Swarm stack configuration for deploying the Z
 ## Deployment
 
 ### 1. Setup Environment
+
 ```bash
 # Copy and configure environment
 cp .env.example .env
@@ -71,6 +76,7 @@ cp .env.example .env
 ```
 
 ### 2. Create Docker Secrets
+
 ```bash
 # Create PostgreSQL password secret
 echo "your_secure_postgres_password" | docker secret create zrocket_postgres_password -
@@ -80,12 +86,14 @@ echo "your_secure_jwt_secret_at_least_32_chars" | docker secret create zrocket_j
 ```
 
 ### 3. Deploy Stack
+
 ```bash
 # Deploy via Portainer (recommended) or Docker CLI
 docker stack deploy -c docker-compose.yml zrocket
 ```
 
 ### 4. Copy Zero Schema
+
 ```bash
 # Copy discriminated schema to the deployment
 docker cp path/to/discriminated-schema.json $(docker ps -q -f name=zrocket_zero-sync):/app/schema/
@@ -94,13 +102,15 @@ docker cp path/to/discriminated-schema.json $(docker ps -q -f name=zrocket_zero-
 ## Traefik Configuration
 
 The stack expects these Traefik middleware to be available:
+
 - `secure-headers`: Security headers middleware
-- `rate-limit`: Rate limiting middleware  
+- `rate-limit`: Rate limiting middleware
 - `compression`: Gzip compression middleware
 
 ## Health Checks
 
 All services include health checks:
+
 - **API**: `GET /health`
 - **Frontend**: `GET /health`
 - **PostgreSQL**: Built-in health check
@@ -109,6 +119,7 @@ All services include health checks:
 ## Monitoring
 
 Check service status:
+
 ```bash
 # View stack services
 docker stack services zrocket
@@ -121,11 +132,12 @@ docker service logs zrocket_zero-sync
 ## Scaling
 
 Scale services as needed:
+
 ```bash
 # Scale API service
 docker service scale zrocket_zrocket-api=4
 
-# Scale frontend service  
+# Scale frontend service
 docker service scale zrocket_zrocket-frontend=3
 ```
 
@@ -142,6 +154,7 @@ docker service scale zrocket_zrocket-frontend=3
 ## Backup
 
 Important data to backup:
+
 - PostgreSQL volume: `postgres_data`
 - MongoDB Atlas: Use Atlas backup features
 - Docker secrets: Store securely offline
@@ -156,6 +169,7 @@ Important data to backup:
 4. **TLS certificate issues**: Verify domain DNS points to Traefik load balancer
 
 ### Useful Commands
+
 ```bash
 # Check stack status
 docker stack ps zrocket

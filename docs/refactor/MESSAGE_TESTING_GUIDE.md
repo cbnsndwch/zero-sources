@@ -7,6 +7,7 @@ The Message entity has been successfully updated to support discriminated union 
 ## ✅ Completed: Structure Validation
 
 We've already validated that the entity structure is correct:
+
 - Discriminator field `t` with proper enum validation
 - Optional fields for user messages (`sender`, `contents`, etc.)
 - Optional fields for system messages (`data`)
@@ -16,17 +17,20 @@ We've already validated that the entity structure is correct:
 ## Testing Approaches
 
 ### 1. **Structure Test** ✅ (Already completed)
+
 ```bash
 node test-message-structure.mjs
 ```
+
 This validates the code structure, imports, and compilation without running the app.
 
 ### 2. **Integration Test** (Requires running app)
+
 ```bash
 # Terminal 1: Start Zero cache
 cd apps/zrocket && pnpm dev:zero
 
-# Terminal 2: Start ZRocket app  
+# Terminal 2: Start ZRocket app
 cd apps/zrocket && pnpm dev
 
 # Terminal 3: Run integration test
@@ -34,6 +38,7 @@ node test-message-integration.mjs
 ```
 
 ### 3. **Manual Testing via API** (Requires running app)
+
 ```bash
 # Seed test data with both message types
 curl -X POST http://localhost:8011/api/zrocket/seed-data \
@@ -48,14 +53,17 @@ curl http://localhost:8011/api/zrocket/tables
 ```
 
 ### 4. **Unit Tests** (Limited due to Mongoose schema requirements)
+
 ```bash
 cd apps/zrocket && pnpm test
 ```
+
 Note: Full unit tests require mocking Mongoose schemas, which is complex. The structure test is more reliable.
 
 ## Message Entity Usage Examples
 
 ### Creating a User Message
+
 ```typescript
 const userMessage = new Message();
 userMessage.roomId = 'room-123';
@@ -84,20 +92,21 @@ if (userMessage.isUserMessage()) {
 ```
 
 ### Creating a System Message
+
 ```typescript
 const systemMessage = new Message();
 systemMessage.roomId = 'room-123';
 systemMessage.t = UserRoomChangeMessageType.USER_JOINED;
 systemMessage.data = {
-  userId: 'user-456',
-  username: 'newuser',
-  joinedAt: new Date().toISOString()
+    userId: 'user-456',
+    username: 'newuser',
+    joinedAt: new Date().toISOString()
 };
 
 // Type checking
 if (systemMessage.isSystemMessage()) {
-  // TypeScript knows this has data field
-  console.log(systemMessage.data.userId);
+    // TypeScript knows this has data field
+    console.log(systemMessage.data.userId);
 }
 ```
 
@@ -107,9 +116,9 @@ The discriminated union works by:
 
 1. **Single Collection**: All messages stored in `messages` MongoDB collection
 2. **Discriminator**: Field `t` determines message type
-3. **Zero Tables**: 
-   - `userMessages` table filters for `t = "USER"`
-   - `systemMessages` table filters for system message types
+3. **Zero Tables**:
+    - `userMessages` table filters for `t = "USER"`
+    - `systemMessages` table filters for system message types
 4. **Field Projection**: Each table only includes relevant fields
 
 ## Database Schema
@@ -120,16 +129,16 @@ The discriminated union works by:
   _id: "msg-123",
   roomId: "room-456",
   t: "USER", // or system message type
-  
+
   // User message fields (only when t="USER")
   sender?: { _id: string, username: string, ... },
   contents?: SerializedEditorState,
   groupable?: boolean,
   // ... other user message fields
-  
-  // System message fields (only when t != "USER")  
+
+  // System message fields (only when t != "USER")
   data?: { userId: string, ... }, // varies by system message type
-  
+
   // Common fields
   createdAt: Date,
   updatedAt: Date,

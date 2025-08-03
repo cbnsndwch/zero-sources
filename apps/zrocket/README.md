@@ -16,11 +16,13 @@ This is a unified application that combines both the frontend (React Router 7) a
 ZRocket demonstrates how multiple Zero tables can map to the same MongoDB collections:
 
 **Room Tables** (all from `rooms` collection):
+
 - `chatsTable` → Direct messages with filter `{ t: 'd' }`
-- `channelsTable` → Public channels with filter `{ t: 'c' }`  
+- `channelsTable` → Public channels with filter `{ t: 'c' }`
 - `groupsTable` → Private groups with filter `{ t: 'p' }`
 
 **Message Tables** (all from `messages` collection):
+
 - `messages` → User messages with filter `{ t: { $exists: false } }`
 - `systemMessages` → System messages with filter `{ t: { $exists: true } }`
 

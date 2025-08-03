@@ -13,14 +13,24 @@ interface ChatMessagesProps {
 export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
     // Fetch room data based on room type
     const channelQueryResult = useChannel(roomType === 'channel' ? roomId : '');
-    const groupQueryResult = useGroup(roomType === 'group' ? roomId : '');  
+    const groupQueryResult = useGroup(roomType === 'group' ? roomId : '');
     const chatQueryResult = useChat(roomType === 'dm' ? roomId : '');
 
     // Get the appropriate room data from query results
-    const room = roomType === 'channel' ? (Array.isArray(channelQueryResult[0]) ? channelQueryResult[0][0] : channelQueryResult[0])
-               : roomType === 'group' ? (Array.isArray(groupQueryResult[0]) ? groupQueryResult[0][0] : groupQueryResult[0])
-               : roomType === 'dm' ? (Array.isArray(chatQueryResult[0]) ? chatQueryResult[0][0] : chatQueryResult[0])
-               : undefined;
+    const room =
+        roomType === 'channel'
+            ? Array.isArray(channelQueryResult[0])
+                ? channelQueryResult[0][0]
+                : channelQueryResult[0]
+            : roomType === 'group'
+              ? Array.isArray(groupQueryResult[0])
+                  ? groupQueryResult[0][0]
+                  : groupQueryResult[0]
+              : roomType === 'dm'
+                ? Array.isArray(chatQueryResult[0])
+                    ? chatQueryResult[0][0]
+                    : chatQueryResult[0]
+                : undefined;
 
     // Get messages for the room
     const messages = useRoomMessages(room);
@@ -36,7 +46,7 @@ export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
     // Helper function to extract text content from Lexical SerializedEditorState
     const getMessageText = (contents: any): string => {
         if (!contents || !contents.root) return '';
-        
+
         const extractText = (node: any): string => {
             if (node.type === 'text') {
                 return node.text || '';
@@ -72,9 +82,12 @@ export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
                             new Date(prevMessage.createdAt).getTime() <
                             5 * 60 * 1000; // 5 minutes
 
-                    const senderName = message.sender?.name || message.sender?.username || 'Unknown User';
+                    const senderName =
+                        message.sender?.name ||
+                        message.sender?.username ||
+                        'Unknown User';
                     const messageText = getMessageText(message.contents);
-                    
+
                     return (
                         <div
                             key={message._id}

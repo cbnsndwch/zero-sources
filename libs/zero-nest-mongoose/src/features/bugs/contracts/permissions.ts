@@ -6,7 +6,6 @@ import {
 
 import { schema, type Schema, type TableName } from './schema.js';
 
- 
 type Condition = any;
 
 /**

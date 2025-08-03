@@ -5,7 +5,10 @@ import { useQuery } from '@rocicorp/zero/react';
 
 import { EmptyChat } from '@/components/layout/EmptyChat';
 import { useZero } from '@/zero/use-zero';
-import { getLastVisitedRoom, setLastVisitedRoom } from '@/utils/room-preferences';
+import {
+    getLastVisitedRoom,
+    setLastVisitedRoom
+} from '@/utils/room-preferences';
 
 interface OutletContext {
     isRoomDetailsOpen: boolean;
@@ -30,7 +33,8 @@ export default function GroupsIndex() {
             if (chatsResult.type !== 'complete') return;
 
             // Filter for group chats only
-            const groupChats = chats?.filter((chat: any) => chat.type === 'group') || [];
+            const groupChats =
+                chats?.filter((chat: any) => chat.type === 'group') || [];
 
             if (groupChats.length === 0) {
                 return; // No chats available, stay on index page to show empty state
@@ -38,7 +42,7 @@ export default function GroupsIndex() {
 
             // Check for last visited room of this type
             const lastVisitedRoomId = getLastVisitedRoom('groups');
-            const lastVisitedRoom = lastVisitedRoomId 
+            const lastVisitedRoom = lastVisitedRoomId
                 ? groupChats.find(chat => chat._id === lastVisitedRoomId)
                 : null;
 
@@ -59,9 +63,7 @@ export default function GroupsIndex() {
     if (chatsResult.type !== 'complete') {
         return (
             <div className="h-full flex items-center justify-center">
-                <div className="text-muted-foreground">
-                    Loading groups...
-                </div>
+                <div className="text-muted-foreground">Loading groups...</div>
             </div>
         );
     }

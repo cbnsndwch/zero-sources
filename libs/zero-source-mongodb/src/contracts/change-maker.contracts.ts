@@ -124,7 +124,10 @@ export type IChangeMaker<TChangeData> = {
      * @param shardId - The identifier of the shard for which the table changes are to be made.
      * @returns An array of `v0.ChangeStreamMessage` objects representing the table changes.
      */
-    makeZeroRequiredUpstreamTablesChanges(appId: string, shardId: string): TChangeData[];
+    makeZeroRequiredUpstreamTablesChanges(
+        appId: string,
+        shardId: string
+    ): TChangeData[];
 
     //#endregion Zero Pg Compat
 

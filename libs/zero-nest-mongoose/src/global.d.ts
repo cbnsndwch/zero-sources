@@ -1,4 +1,3 @@
- 
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import type { Type } from '@nestjs/common';
 import type { SchemaDefinitionProperty, SchemaOptions } from 'mongoose';

@@ -25,13 +25,21 @@ pnpm add @cbnsndwch/zrocket-contracts
 ### Importing Schema and Contracts
 
 ```typescript
-import { schema, mapping, permissions } from '@cbnsndwch/zrocket-contracts/schema';
+import {
+    schema,
+    mapping,
+    permissions
+} from '@cbnsndwch/zrocket-contracts/schema';
 ```
 
 ### Individual Table Imports
 
 ```typescript
-import { chatsTable, channelsTable, groupsTable } from '@cbnsndwch/zrocket-contracts';
+import {
+    chatsTable,
+    channelsTable,
+    groupsTable
+} from '@cbnsndwch/zrocket-contracts';
 ```
 
 ## Configuration Export
@@ -54,34 +62,39 @@ This will generate JSON files in `.local/config/`:
 ### Generated Files
 
 The exported files can be used by:
+
 - MongoDB change source servers
 - External monitoring tools
 - Development debugging
 - Configuration validation
 
 Example table mapping structure:
+
 ```json
 {
-  "chats": {
-    "source": "rooms",
-    "filter": { "t": { "$eq": "d" } },
-    "projection": { "_id": 1, "memberIds": 1, "createdAt": 1 }
-  }
+    "chats": {
+        "source": "rooms",
+        "filter": { "t": { "$eq": "d" } },
+        "projection": { "_id": 1, "memberIds": 1, "createdAt": 1 }
+    }
 }
 ```
 
 ## Table Structure
 
 ### Room Tables (from `rooms` collection)
+
 - **chats** - Direct message rooms (`t = 'd'`)
 - **groups** - Private group rooms (`t = 'p'`)
 - **channels** - Public channel rooms (`t = 'c'`)
 
 ### Message Tables (from `messages` collection)
+
 - **userMessages** - User-generated messages (`t = 'USER'`)
 - **systemMessages** - System-generated messages (`t != 'USER'`)
 
 ### Other Tables
+
 - **users** - User accounts and profiles
 
 ## Development

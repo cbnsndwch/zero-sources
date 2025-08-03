@@ -19,6 +19,7 @@ import useChannel from '@/hooks/use-channel';
 import useGroup from '@/hooks/use-group';
 import useChat from '@/hooks/use-chat';
 import useUsersByIds from '@/hooks/use-users-by-ids';
+import useCurrentUser from '@/hooks/use-current-user';
 
 export function RoomDetails() {
     const params = useParams();
@@ -29,26 +30,47 @@ export function RoomDetails() {
           ? 'group'
           : 'channel';
 
+    // Get current user ID
+    const currentUserId = useCurrentUser();
+
     // Fetch room data based on room type
-    const channelQueryResult = useChannel(roomType === 'channel' && roomId ? roomId : '');
-    const groupQueryResult = useGroup(roomType === 'group' && roomId ? roomId : '');  
+    const channelQueryResult = useChannel(
+        roomType === 'channel' && roomId ? roomId : ''
+    );
+    const groupQueryResult = useGroup(
+        roomType === 'group' && roomId ? roomId : ''
+    );
     const chatQueryResult = useChat(roomType === 'dm' && roomId ? roomId : '');
-    
+
     // Get the appropriate room data
-    const room = roomType === 'channel' ? channelQueryResult[0] 
-               : roomType === 'group' ? groupQueryResult[0] 
-               : roomType === 'dm' ? chatQueryResult[0]
-               : undefined;
+    const room =
+        roomType === 'channel'
+            ? channelQueryResult[0]
+            : roomType === 'group'
+              ? groupQueryResult[0]
+              : roomType === 'dm'
+                ? chatQueryResult[0]
+                : undefined;
 
     // Get member IDs from room
     const memberIds = room && 'memberIds' in room ? room.memberIds || [] : [];
-    
-    // Get users for members
-    const usersMap = useUsersByIds(memberIds);
-    
-    // Get room members
-    const roomMembers = memberIds.map(memberId => usersMap.get(memberId)).filter(Boolean);
 
+    // For DMs, we need to get the usernames and filter out current user
+    const dmUsernames =
+        roomType === 'dm' &&
+        room &&
+        'usernames' in room &&
+        Array.isArray(room.usernames)
+            ? room.usernames.filter(username => username !== currentUserId)
+            : [];
+
+    // Get users for members (for DM username lookup if needed)
+    const usersMap = useUsersByIds(memberIds);
+
+    // Get room members
+    const roomMembers = memberIds
+        .map(memberId => usersMap.get(memberId))
+        .filter(Boolean);
     const getRoomIcon = () => {
         switch (roomType) {
             case 'dm':
@@ -64,22 +86,40 @@ export function RoomDetails() {
 
     const getRoomTitle = () => {
         if (!roomId) return 'No room selected';
-        
-        if (room && 'name' in room) {
-            return room.name;
+
+        switch (roomType) {
+            case 'dm':
+                // For DMs, show list of usernames excluding current user
+                if (dmUsernames.length > 0) {
+                    return dmUsernames.join(', ');
+                }
+                return 'Direct Message';
+
+            case 'channel':
+                // For public channels, show room name or 'N/A'
+                if (room && 'name' in room && room.name) {
+                    return room.name;
+                }
+                return 'N/A';
+
+            case 'group':
+                // For private groups, show room name or 'N/A'
+                if (room && 'name' in room && room.name) {
+                    return room.name;
+                }
+                return 'N/A';
+
+            default:
+                return 'N/A';
         }
-        
-        // For DMs, try to get usernames
-        if (roomType === 'dm' && room && 'usernames' in room && Array.isArray(room.usernames)) {
-            return room.usernames.join(', ') || roomId;
-        }
-        
-        return roomId.charAt(0).toUpperCase() + roomId.slice(1);
     };
 
     const getRoomDescription = () => {
         if (roomType === 'channel' && room && 'description' in room) {
-            return room.description || `Welcome to #${getRoomTitle()}! This is where the team collaborates.`;
+            return (
+                room.description ||
+                `Welcome to #${getRoomTitle()}! This is where the team collaborates.`
+            );
         }
         if (roomType === 'group') {
             return `Private group for ${getRoomTitle()} discussions.`;
@@ -164,14 +204,22 @@ export function RoomDetails() {
                                             <div className="relative">
                                                 <Avatar className="h-6 w-6">
                                                     <AvatarFallback className="text-xs">
-                                                        {(member.name || member.username || 'U').charAt(0).toUpperCase()}
+                                                        {(
+                                                            member.name ||
+                                                            member.username ||
+                                                            'U'
+                                                        )
+                                                            .charAt(0)
+                                                            .toUpperCase()}
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div
                                                     className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-background ${
-                                                        member.status === 'online'
+                                                        member.status ===
+                                                        'online'
                                                             ? 'bg-green-500'
-                                                            : member.status === 'away'
+                                                            : member.status ===
+                                                                'away'
                                                               ? 'bg-yellow-500'
                                                               : 'bg-gray-400'
                                                     }`}

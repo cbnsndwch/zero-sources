@@ -17,7 +17,7 @@ export default function loadYamlConfig() {
         // Current working directory
         resolve(process.cwd(), YAML_CONFIG_FILENAME),
         // Relative to this file's directory
-        isAbsolute(YAML_CONFIG_FILENAME) 
+        isAbsolute(YAML_CONFIG_FILENAME)
             ? resolve(YAML_CONFIG_FILENAME)
             : resolve(__dirname, YAML_CONFIG_FILENAME),
         // Root of the app directory
@@ -28,7 +28,7 @@ export default function loadYamlConfig() {
 
     let ymlString: string;
     let configFilePath: string | null = null;
-    
+
     for (const path of possiblePaths) {
         try {
             ymlString = readFileSync(path, 'utf8');
@@ -41,7 +41,10 @@ export default function loadYamlConfig() {
     }
 
     if (!configFilePath) {
-        console.error(`Failed to find config file. Tried paths:`, possiblePaths);
+        console.error(
+            `Failed to find config file. Tried paths:`,
+            possiblePaths
+        );
         process.exit(1);
     }
 

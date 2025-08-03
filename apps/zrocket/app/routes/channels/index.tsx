@@ -5,7 +5,10 @@ import { useQuery } from '@rocicorp/zero/react';
 
 import { EmptyChat } from '@/components/layout/EmptyChat';
 import { useZero } from '@/zero/use-zero';
-import { getLastVisitedRoom, setLastVisitedRoom } from '@/utils/room-preferences';
+import {
+    getLastVisitedRoom,
+    setLastVisitedRoom
+} from '@/utils/room-preferences';
 
 interface OutletContext {
     isRoomDetailsOpen: boolean;
@@ -37,7 +40,7 @@ export default function ChannelsIndex() {
 
             // Check for last visited room of this type
             const lastVisitedRoomId = getLastVisitedRoom('channels');
-            const lastVisitedRoom = lastVisitedRoomId 
+            const lastVisitedRoom = lastVisitedRoomId
                 ? channelList.find(channel => channel._id === lastVisitedRoomId)
                 : null;
 
@@ -58,9 +61,7 @@ export default function ChannelsIndex() {
     if (channelsResult.type !== 'complete') {
         return (
             <div className="h-full flex items-center justify-center">
-                <div className="text-muted-foreground">
-                    Loading channels...
-                </div>
+                <div className="text-muted-foreground">Loading channels...</div>
             </div>
         );
     }

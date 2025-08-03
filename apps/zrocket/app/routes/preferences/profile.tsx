@@ -47,13 +47,20 @@ export default function ProfileTab() {
     const [profileInfo, setProfileInfo] = useState(originalProfileInfo);
     const [contactInfo, setContactInfo] = useState(originalContactInfo);
     const [presenceInfo, setPresenceInfo] = useState(originalPresenceInfo);
-    const [additionalInfo, setAdditionalInfo] = useState(originalAdditionalInfo);
+    const [additionalInfo, setAdditionalInfo] = useState(
+        originalAdditionalInfo
+    );
 
     // Check for changes functions
-    const hasProfileChanges = JSON.stringify(profileInfo) !== JSON.stringify(originalProfileInfo);
-    const hasContactChanges = JSON.stringify(contactInfo) !== JSON.stringify(originalContactInfo);
-    const hasPresenceChanges = JSON.stringify(presenceInfo) !== JSON.stringify(originalPresenceInfo);
-    const hasAdditionalChanges = JSON.stringify(additionalInfo) !== JSON.stringify(originalAdditionalInfo);
+    const hasProfileChanges =
+        JSON.stringify(profileInfo) !== JSON.stringify(originalProfileInfo);
+    const hasContactChanges =
+        JSON.stringify(contactInfo) !== JSON.stringify(originalContactInfo);
+    const hasPresenceChanges =
+        JSON.stringify(presenceInfo) !== JSON.stringify(originalPresenceInfo);
+    const hasAdditionalChanges =
+        JSON.stringify(additionalInfo) !==
+        JSON.stringify(originalAdditionalInfo);
 
     const handleSaveProfile = () => {
         console.log('Saving profile information:', profileInfo);
@@ -87,10 +94,14 @@ export default function ProfileTab() {
                                 Profile Information
                             </CardTitle>
                             <CardDescription>
-                                Update your personal information and profile details
+                                Update your personal information and profile
+                                details
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveProfile} disabled={!hasProfileChanges}>
+                        <Button
+                            onClick={handleSaveProfile}
+                            disabled={!hasProfileChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -99,9 +110,15 @@ export default function ProfileTab() {
                     {/* Avatar Section */}
                     <div className="flex items-center gap-4">
                         <Avatar className="h-20 w-20">
-                            <AvatarImage src={profileInfo.avatarUrl} alt="Profile picture" />
+                            <AvatarImage
+                                src={profileInfo.avatarUrl}
+                                alt="Profile picture"
+                            />
                             <AvatarFallback className="text-lg">
-                                {profileInfo.name.split(' ').map((n: string) => n[0]).join('')}
+                                {profileInfo.name
+                                    .split(' ')
+                                    .map((n: string) => n[0])
+                                    .join('')}
                             </AvatarFallback>
                         </Avatar>
                         <div className="space-y-2">
@@ -178,7 +195,10 @@ export default function ProfileTab() {
                                 Manage your email addresses and contact details
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveContact} disabled={!hasContactChanges}>
+                        <Button
+                            onClick={handleSaveContact}
+                            disabled={!hasContactChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -203,26 +223,37 @@ export default function ProfileTab() {
                     <div className="space-y-2">
                         <Label>Additional Email Addresses</Label>
                         <div className="space-y-2">
-                            {contactInfo.additionalEmails.map((email: string, index: number) => (
-                                <div key={index} className="flex items-center gap-2">
-                                    <Badge variant="secondary" className="px-3 py-1">
-                                        {email}
-                                    </Badge>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => {
-                                            const newEmails = contactInfo.additionalEmails.filter((_, i) => i !== index);
-                                            setContactInfo({
-                                                ...contactInfo,
-                                                additionalEmails: newEmails
-                                            });
-                                        }}
+                            {contactInfo.additionalEmails.map(
+                                (email: string, index: number) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center gap-2"
                                     >
-                                        Remove
-                                    </Button>
-                                </div>
-                            ))}
+                                        <Badge
+                                            variant="secondary"
+                                            className="px-3 py-1"
+                                        >
+                                            {email}
+                                        </Badge>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => {
+                                                const newEmails =
+                                                    contactInfo.additionalEmails.filter(
+                                                        (_, i) => i !== index
+                                                    );
+                                                setContactInfo({
+                                                    ...contactInfo,
+                                                    additionalEmails: newEmails
+                                                });
+                                            }}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </div>
+                                )
+                            )}
                         </div>
                         <Button variant="outline" size="sm">
                             Add Email Address
@@ -244,7 +275,10 @@ export default function ProfileTab() {
                                 Configure your availability and status messages
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSavePresence} disabled={!hasPresenceChanges}>
+                        <Button
+                            onClick={handleSavePresence}
+                            disabled={!hasPresenceChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -252,7 +286,13 @@ export default function ProfileTab() {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="presence">Status</Label>
-                        <Badge variant={presenceInfo.presence === 'ONLINE' ? 'default' : 'secondary'}>
+                        <Badge
+                            variant={
+                                presenceInfo.presence === 'ONLINE'
+                                    ? 'default'
+                                    : 'secondary'
+                            }
+                        >
                             {presenceInfo.presence}
                         </Badge>
                     </div>
@@ -297,10 +337,14 @@ export default function ProfileTab() {
                                 Additional Information
                             </CardTitle>
                             <CardDescription>
-                                Optional information about your location and preferences
+                                Optional information about your location and
+                                preferences
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveAdditional} disabled={!hasAdditionalChanges}>
+                        <Button
+                            onClick={handleSaveAdditional}
+                            disabled={!hasAdditionalChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -359,4 +403,4 @@ export default function ProfileTab() {
             </Card>
         </div>
     );
-};
+}

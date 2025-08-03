@@ -14,7 +14,8 @@ interface OutletContext {
 
 export default function GroupPage() {
     const { chatId } = useParams();
-    const { isRoomDetailsOpen, setIsRoomDetailsOpen } = useOutletContext<OutletContext>();
+    const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
+        useOutletContext<OutletContext>();
 
     // Track room visit
     useEffect(() => {

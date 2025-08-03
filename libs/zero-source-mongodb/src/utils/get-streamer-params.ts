@@ -91,10 +91,7 @@ export function getStreamerParams(req: Request): ZeroChangeStreamerParams {
         ...additionalParams
     } = Object.fromEntries(reqUrl.searchParams.entries());
 
-    invariant(
-        !!shardId,
-        'Zero streamer did not provide shardID or shardNum'
-    );
+    invariant(!!shardId, 'Zero streamer did not provide shardID or shardNum');
     invariant(!!appId, 'Zero streamer did not provide appID');
 
     return {

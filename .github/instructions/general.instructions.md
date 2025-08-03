@@ -22,13 +22,15 @@ You and I are creating and maintaining open source TypeScript packages and apps 
 Our monorepo contains:
 
 ### Apps (`apps/`)
+
 - **`zrocket`**: Unified chat application (NestJS + React Router 7) showcasing mapped/discriminated union tables
-  - Launch app: `cd apps/zrocket && pnpm dev` (runs on port 8011)
-  - Launch Zero cache: `cd apps/zrocket && pnpm dev:zero` (runs on port 4848)
-  - The app integrates MongoDB change source with mapped/discriminated union support
+    - Launch app: `cd apps/zrocket && pnpm dev` (runs on port 8011)
+    - Launch Zero cache: `cd apps/zrocket && pnpm dev:zero` (runs on port 4848)
+    - The app integrates MongoDB change source with mapped/discriminated union support
 - **`source-mongodb-server`**: General-purpose MongoDB change source server. We will come back to this app once we've accomplished a working implementation in ZRocket. Ignore for now.
 
 ### Libraries (`libs/`)
+
 - **`zero-contracts`**: Common TypeScript contracts and utilities for Zero
 - **`zrocket-contracts`**: Zero schemas for ZRocket demo (both direct and mapped)
 - **`zero-source-mongodb`**: MongoDB change source implementation with mapped/discriminated union support
@@ -47,6 +49,7 @@ We focus on **MongoDB mapped/discriminated union change sources** that allow mul
 **Core Concept**: Multiple Zero tables can map to the same upstream MongoDB collection, with documents routed to appropriate tables based on filter criteria and optional field projections.
 
 **Key Components:**
+
 1. **Entity Mapping**: Multiple Zero schema tables → Single MongoDB collection
 2. **Filter-Based Routing**: Documents filtered by criteria (e.g., `type`, `status` fields)
 3. **Field Projection**: Only relevant fields synced to each Zero table
@@ -54,47 +57,54 @@ We focus on **MongoDB mapped/discriminated union change sources** that allow mul
 5. **Single Change Stream**: One change stream per collection, not per Zero table
 
 **Configuration Pattern:**
+
 ```typescript
 interface UpstreamTableMapping {
-  source: string;              // MongoDB collection name
-  filter?: object;             // MongoDB filter query
-  projection?: object;         // Field projection specification
+    source: string; // MongoDB collection name
+    filter?: object; // MongoDB filter query
+    projection?: object; // Field projection specification
 }
 ```
 
 **ZRocket Demo Implementation:**
+
 - **Room Tables** (all from `rooms` collection):
-  - `chats` → filter `{ t: 'd' }` (direct messages)
-  - `channels` → filter `{ t: 'c' }` (public channels)  
-  - `groups` → filter `{ t: 'p' }` (private groups)
+    - `chats` → filter `{ t: 'd' }` (direct messages)
+    - `channels` → filter `{ t: 'c' }` (public channels)
+    - `groups` → filter `{ t: 'p' }` (private groups)
 - **Message Tables** (all from `messages` collection):
-  - `messages` → filter `{ t: { $exists: false } }` (user messages)
-  - `systemMessages` → filter `{ t: { $exists: true } }` (system messages)
+    - `messages` → filter `{ t: { $exists: false } }` (user messages)
+    - `systemMessages` → filter `{ t: { $exists: true } }` (system messages)
 - **User Tables** (direct 1:1 mapping):
-  - `users` collection → `users` (no discrimination)
+    - `users` collection → `users` (no discrimination)
 
 **Schema Architecture:**
+
 - Each Zero table uses separate `TableMapping` objects for mapped/discriminated union configuration
 - Separate TypeScript interfaces for each table type (IDirectMessagesRoom, IPublicChannelRoom, etc.)
 - Single MongoDB collections with discriminator fields (`t` field for rooms and messages)
 - Automatic field projection to include only relevant columns per table type
 
 **Frontend Schema Usage:**
+
 - Frontend imports `Schema`
 - Query mapped/discriminated tables: `z.query.chats`, `z.query.messages`, etc.
 - No direct access to raw MongoDB collections (`rooms`, `messages`)
 
 **Backend Integration:**
+
 - MongoDB change source runs within ZRocket app (unified architecture)
 - WebSocket gateway at `/changes/v0/stream` handles Zero cache connections
 - Schema served at `/api/zrocket/zero-schema` endpoint
 - Real-time change stream routing to appropriate Zero tables
 
 **Future planned integrations:**
+
 - **Stripe**: API-based initial sync with webhook support for real-time updates
 - **GoHighLevel**: Webhook-based change source using their comprehensive API ([API Documentation](https://highlevel.stoplight.io/docs/integrations/0443d7d1a4bd0-overview))
 
 ### Technical Benefits
+
 1. **Flexibility**: Support complex upstream data structures across multiple source types
 2. **Performance**: Reduce data transfer through projections and filtering at source
 3. **Security**: Apply data access controls at the change source level
@@ -109,40 +119,42 @@ In order to move quickly and efficiently, we will use a the list of short comman
 - Generating Zero Schemas: when I write the `/zschema` slash command, you will generate a Zero schema for the entity class. To do so, you will reference the entity class properties and the `class-validator` annotations on the entity's fields, as well as the `@Schema` decorator on the entity class itself, which should contain the name of the collection. You can find documentation for Zero schemas below.
 
 **For mapped/discriminated union tables**, use separate `TableMapping` objects alongside table definitions:
+
 ```typescript
 // Define the Zero table schema
 const chats = table('chats')
-  .columns({
-    id: string(),
-    participantIds: json<string[]>(),
-    createdAt: string(),
-    lastMessageAt: string().optional()
-  })
-  .primaryKey('id');
+    .columns({
+        id: string(),
+        participantIds: json<string[]>(),
+        createdAt: string(),
+        lastMessageAt: string().optional()
+    })
+    .primaryKey('id');
 
 // Define the mapping configuration separately
 const mapping: TableMapping<IDirectMessageRoom> = {
-  source: 'rooms',
-  filter: { 
-    t: { $eq: 'd' },
-    isArchived: { $ne: true }
-  },
-  projection: { 
-    _id: 1, 
-    participantIds: 1, 
-    createdAt: 1, 
-    lastMessageAt: 1 
-  }
+    source: 'rooms',
+    filter: {
+        t: { $eq: 'd' },
+        isArchived: { $ne: true }
+    },
+    projection: {
+        _id: 1,
+        participantIds: 1,
+        createdAt: 1,
+        lastMessageAt: 1
+    }
 };
 
 // Export both as a unified object
 export default {
-  table,
-  mapping
+    table,
+    mapping
 };
 ```
 
 **Aggregating table mappings in the main schema file:**
+
 ```typescript
 import chats from './rooms/tables/direct-message-room.schema.js';
 import channels from './rooms/tables/public-channel.schema.js';
@@ -416,21 +428,23 @@ export const schema = createSchema(
 The ZRocket app demonstrates discriminated union change sources with a unified NestJS + React Router 7 architecture.
 
 **Quick Start:**
+
 1. **Start Zero cache first**: `cd apps/zrocket && pnpm dev:zero`
-   - Runs Zero cache on port 4848
-   - Uses discriminated schema from `libs/zrocket-contracts`
-   - Connects to MongoDB change source via WebSocket
-   
+    - Runs Zero cache on port 4848
+    - Uses discriminated schema from `libs/zrocket-contracts`
+    - Connects to MongoDB change source via WebSocket
 2. **Start the application**: `cd apps/zrocket && pnpm dev`
-   - Runs unified app (frontend + backend) on port 8011
-   - Includes MongoDB change source integration
-   - Serves schema JSON at `/api/zrocket/zero-schema`
+    - Runs unified app (frontend + backend) on port 8011
+    - Includes MongoDB change source integration
+    - Serves schema JSON at `/api/zrocket/zero-schema`
 
 **Important Notes:**
+
 - Always start Zero cache (`pnpm dev:zero`) before the main app
 - Zero cache must be running for real-time data synchronization
 - The app uses discriminated union tables: `chats`, `groups`, `channels` (from `rooms` collection) and `textMessages`, `imageMessages`, `systemMessages` (from `messages` collection)
 
 **Seeding Data:**
+
 - POST to `http://localhost:8011/api/zrocket/seed-data` to create sample users, rooms, and messages
 - GET `http://localhost:8011/api/zrocket/tables` to see discriminated union table configurations

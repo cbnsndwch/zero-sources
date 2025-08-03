@@ -2,14 +2,7 @@ import { Logger } from '@nestjs/common';
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 import type { ChangeStream, ChangeStreamDocument, Document } from 'mongodb';
 import type { ClientSession, Connection } from 'mongoose';
-import {
-    concatWith,
-    from,
-    ignoreElements,
-    map,
-    Observable,
-    of
-} from 'rxjs';
+import { concatWith, from, ignoreElements, map, Observable, of } from 'rxjs';
 
 import {
     invariant,
@@ -285,7 +278,9 @@ export class ChangeSourceV0 {
 
             // Get the actual MongoDB collection names to read from (not table names)
             // Cast to concrete implementation to access getAllWatchedCollections method
-            const collectionNames = (this.#changeMaker as any).getAllWatchedCollections();
+            const collectionNames = (
+                this.#changeMaker as any
+            ).getAllWatchedCollections();
             for (const collName of collectionNames) {
                 const col = this.#conn.collection(collName);
 

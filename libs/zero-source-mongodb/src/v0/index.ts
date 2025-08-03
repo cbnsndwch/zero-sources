@@ -6,7 +6,7 @@ export * from './change-source-v0.js';
 export * from './table-mapping.service.js';
 
 export const v0ChangeSourceServices = [
-    ChangesGatewayV0, 
-    ChangeMakerV0, 
+    ChangesGatewayV0,
+    ChangeMakerV0,
     TableMappingService
 ];

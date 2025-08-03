@@ -5,6 +5,7 @@ This document contains all TypeScript interfaces and types that define the schem
 ## Base Types
 
 ### Entity Base Types
+
 ```typescript
 export type IHasId = {
     _id: string;
@@ -22,6 +23,7 @@ export type IEntityBase = IHasId & IHasCreatedAt & IHasUpdatedAt;
 ```
 
 ### Message Base Interface
+
 ```typescript
 export interface IMessageBase extends IEntityBase {
     /**
@@ -39,6 +41,7 @@ export interface IMessageBase extends IEntityBase {
 ## Room Type Enums
 
 ### Room Type Enumeration
+
 ```typescript
 /**
  * Room type enumeration
@@ -68,6 +71,7 @@ export const ROOM_TYPES = [
 ```
 
 ### System Message Types
+
 ```typescript
 /**
  * User room change message types
@@ -198,6 +202,7 @@ export type SystemMessageType =
 ## Room Interfaces
 
 ### Base Room Interface
+
 ```typescript
 /**
  * A base data contract for room entities.
@@ -250,11 +255,13 @@ export interface IRoomBase<TType extends RoomType = RoomType>
 ```
 
 ### Direct Messages Room
+
 ```typescript
 export type IDirectMessagesRoom = IRoomBase<RoomType.DirectMessages>;
 ```
 
 ### Group Room Base
+
 ```typescript
 /**
  * Represents the base structure for a group room.
@@ -290,6 +297,7 @@ export type IGroupRoomBase<
 ```
 
 ### Public Channel Room
+
 ```typescript
 export type IPublicChannelRoom = IGroupRoomBase<RoomType.PublicChannel> & {
     /**
@@ -305,6 +313,7 @@ export type IPublicChannelRoom = IGroupRoomBase<RoomType.PublicChannel> & {
 ```
 
 ### Private Group Room
+
 ```typescript
 export type IPrivateGroupRoom = IGroupRoomBase<RoomType.PrivateGroup>;
 ```
@@ -312,6 +321,7 @@ export type IPrivateGroupRoom = IGroupRoomBase<RoomType.PrivateGroup>;
 ## Type Guards
 
 ### Direct Messages Type Guards
+
 ```typescript
 /**
  * Determines if a given room is a direct message room.
@@ -333,6 +343,7 @@ export function isMultiDirectMessagesRoom(
 ```
 
 ### Group Room Type Guards
+
 ```typescript
 export function isPublicGroupRoom(
     room: Partial<IRoomBase>
@@ -350,8 +361,12 @@ export function isPrivateGroupRoom(
 ## Union Types
 
 ### All Room Types
+
 ```typescript
-export type IRoom = IDirectMessagesRoom | IPublicChannelRoom | IPrivateGroupRoom;
+export type IRoom =
+    | IDirectMessagesRoom
+    | IPublicChannelRoom
+    | IPrivateGroupRoom;
 ```
 
 ## Summary
@@ -363,9 +378,10 @@ The room entity schema is organized around a discriminated union pattern with th
 3. **Private Groups** (`RoomType.PrivateGroup = 'p'`) - Named private rooms
 
 All rooms share a common base structure (`IRoomBase`) that includes:
-- Basic entity properties (_id, createdAt, updatedAt)
+
+- Basic entity properties (\_id, createdAt, updatedAt)
 - Room type discriminator (`t`)
-- User membership data (memberIds, usernames)  
+- User membership data (memberIds, usernames)
 - Message cache data (messageCount, lastMessage, lastMessageAt)
 - Optional system message types
 

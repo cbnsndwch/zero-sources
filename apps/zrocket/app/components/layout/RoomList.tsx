@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import type { RoomType } from '@/utils/room-preferences';
 import { useZero } from '@/zero/use-zero';
 import { cn } from '@/lib/utils';
+import useRoomTitle from '@/hooks/use-room-title';
 
 interface RoomListProps {
     roomType: RoomType;
@@ -19,7 +20,61 @@ type Room = {
     url: string;
     online?: boolean;
     members?: number;
+    originalData?: any; // Store original data for title generation
 };
+
+// Component to handle individual room item with proper title
+function RoomListItem({
+    room,
+    roomData,
+    roomType
+}: {
+    room: Room;
+    roomData: any;
+    roomType: RoomType;
+}) {
+    // Map RoomType to the expected type for useRoomTitle
+    const getRoomTypeForTitle = (
+        type: RoomType
+    ): 'dm' | 'group' | 'channel' | undefined => {
+        switch (type) {
+            case 'dms':
+                return 'dm';
+            case 'groups':
+                return 'group';
+            case 'channels':
+                return 'channel';
+            default:
+                return undefined;
+        }
+    };
+
+    const title = useRoomTitle(roomData, getRoomTypeForTitle(roomType));
+    const Icon = ROOM_ICON_BY_TYPE[roomType] || Hash;
+
+    return (
+        <NavLink
+            to={room.url}
+            className={({ isActive }) =>
+                cn(
+                    'flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground rounded-md',
+                    isActive && 'bg-accent text-accent-foreground'
+                )
+            }
+        >
+            <Icon className="h-4 w-4 shrink-0" />
+            <span className="truncate flex-1">{title || room.name}</span>
+            {room.online && (
+                <div className="h-2 w-2 bg-green-500 rounded-full shrink-0" />
+            )}
+            {room.members !== undefined && (
+                <span className="text-xs text-muted-foreground shrink-0">
+                    {room.members}
+                </span>
+            )}
+        </NavLink>
+    );
+}
 
 function groupByFirstLetter(items: Room[]): Record<string, Room[]> {
     return items.reduce(
@@ -45,7 +100,8 @@ function mapDirectMessageToRoom(dm: any): Room {
         id: dm._id,
         name: displayName,
         url: `/d/${dm._id}`,
-        online: true // You could determine this from user status
+        online: true, // You could determine this from user status
+        originalData: dm
     };
 }
 
@@ -54,7 +110,8 @@ function mapPrivateGroupToRoom(group: any): Room {
         id: group._id,
         name: group.name,
         url: `/p/${group._id}`,
-        members: group.memberIds?.length || 0
+        members: group.memberIds?.length || 0,
+        originalData: group
     };
 }
 
@@ -63,7 +120,8 @@ function mapChannelToRoom(channel: any): Room {
         id: channel._id,
         name: channel.name,
         url: `/c/${channel._id}`,
-        members: channel.memberIds?.length || 0
+        members: channel.memberIds?.length || 0,
+        originalData: channel
     };
 }
 
@@ -168,8 +226,6 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
         [groupedRooms]
     );
 
-    const Icon = ROOM_ICON_BY_TYPE[roomType] ?? Hash;
-
     if (isLoading) {
         return (
             <div className="p-4 text-center text-muted-foreground">
@@ -199,40 +255,12 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
                         </div>
                         <div className="space-y-1">
                             {groupedRooms[letter].map(room => (
-                                <NavLink
+                                <RoomListItem
                                     key={room.id}
-                                    to={room.url}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-2 px-2 py-1.5 rounded-md text-sm transition-colors hover:bg-muted ${
-                                            isActive
-                                                ? 'bg-primary text-primary-foreground'
-                                                : 'text-foreground'
-                                        }`
-                                    }
-                                >
-                                    <Icon className="h-4 w-4 flex-shrink-0" />
-                                    <span className="truncate flex-1">
-                                        {room.name}
-                                    </span>
-
-                                    {roomType === 'dms' &&
-                                    room.online !== undefined ? (
-                                        <div
-                                            className={cn(
-                                                `w-2 h-2 rounded-full flex-shrink-0`,
-                                                room.online
-                                                    ? 'bg-green-500'
-                                                    : 'bg-gray-400'
-                                            )}
-                                        />
-                                    ) : null}
-
-                                    {roomType !== 'dms' && room.members ? (
-                                        <span className="text-xs text-muted-foreground flex-shrink-0">
-                                            {room.members}
-                                        </span>
-                                    ) : null}
-                                </NavLink>
+                                    room={room}
+                                    roomData={room.originalData}
+                                    roomType={roomType}
+                                />
                             ))}
                         </div>
                     </div>

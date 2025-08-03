@@ -39,10 +39,7 @@ export default function UserMenu() {
             <DropdownMenuTrigger asChild>
                 <div className="relative">
                     <Avatar className="h-8 w-8 cursor-pointer">
-                        <AvatarImage
-                            src="/avatars/cbnsndwch.jpg"
-                            alt="User"
-                        />
+                        <AvatarImage src="/avatars/cbnsndwch.jpg" alt="User" />
                         <AvatarFallback className="bg-primary text-primary-foreground text-xs">
                             U
                         </AvatarFallback>
@@ -59,10 +56,7 @@ export default function UserMenu() {
             >
                 <DropdownMenuLabel className="flex items-center gap-2">
                     <Avatar className="h-8 w-8 cursor-pointer">
-                        <AvatarImage
-                            src="/avatars/cbnsndwch.jpg"
-                            alt="User"
-                        />
+                        <AvatarImage src="/avatars/cbnsndwch.jpg" alt="User" />
                         <AvatarFallback className="bg-primary text-primary-foreground text-xs">
                             U
                         </AvatarFallback>

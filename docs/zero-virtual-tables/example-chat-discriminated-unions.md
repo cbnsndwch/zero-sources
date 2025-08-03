@@ -7,6 +7,7 @@ This example demonstrates how to use discriminated unions to create a flexible c
 ## MongoDB Collections Structure
 
 ### Collection: `rooms`
+
 Contains different types of rooms discriminated by `t` field:
 
 ```typescript
@@ -53,6 +54,7 @@ Contains different types of rooms discriminated by `t` field:
 ```
 
 ### Collection: `messages`
+
 Contains different types of messages discriminated by presence/absence of `t` field:
 
 ```typescript
@@ -97,32 +99,35 @@ Contains different types of messages discriminated by presence/absence of `t` fi
 The ZRocket implementation creates **separate Zero tables** that all map to the **same MongoDB collections** using discriminated union filters:
 
 **Room Tables** (all from `rooms` collection):
+
 - `chatsTable` → Direct messages with filter `{ t: 'd' }`
-- `channelsTable` → Public channels with filter `{ t: 'c' }`  
+- `channelsTable` → Public channels with filter `{ t: 'c' }`
 - `groupsTable` → Private groups with filter `{ t: 'p' }`
 
 **Message Tables** (all from `messages` collection):
+
 - `messages` → User messages with filter `{ t: { $exists: false } }`
 - `systemMessages` → System messages with filter `{ t: { $exists: true } }`
-    muted: false,
-    muteUntil: null
+  muted: false,
+  muteUntil: null
   }
-}
+  }
 
 // Bot participant
 {
-  _id: ObjectId("..."),
-  type: "bot",
-  botId: "notification_bot",
-  roomId: ObjectId("..."),
-  role: "bot",
-  joinedAt: ISODate("..."),
-  config: {
-    autoRespond: true,
-    triggers: ["@bot", "help"]
-  }
+\_id: ObjectId("..."),
+type: "bot",
+botId: "notification_bot",
+roomId: ObjectId("..."),
+role: "bot",
+joinedAt: ISODate("..."),
+config: {
+autoRespond: true,
+triggers: ["@bot", "help"]
 }
-```
+}
+
+````
 
 ## Zero Schema Configuration
 
@@ -132,45 +137,45 @@ const chatSystemConfig: ZeroSchemaConfig = {
     // Room tables
     chats: {
       source: 'rooms',
-      filter: { 
+      filter: {
         type: 'd',
-        isArchived: false 
+        isArchived: false
       },
-      projection: { 
-        _id: 1, 
-        participantIds: 1, 
-        createdAt: 1, 
-        lastMessageAt: 1 
-      }
-    },
-    
-    groups: {
-      source: 'rooms',
-      filter: { 
-        type: 'p',
-        isArchived: false 
-      },
-      projection: { 
-        _id: 1, 
-        name: 1, 
-        participantIds: 1, 
-        createdAt: 1, 
+      projection: {
+        _id: 1,
+        participantIds: 1,
+        createdAt: 1,
         lastMessageAt: 1
       }
     },
-    
+
+    groups: {
+      source: 'rooms',
+      filter: {
+        type: 'p',
+        isArchived: false
+      },
+      projection: {
+        _id: 1,
+        name: 1,
+        participantIds: 1,
+        createdAt: 1,
+        lastMessageAt: 1
+      }
+    },
+
     channels: {
       source: 'rooms',
-      filter: { 
+      filter: {
         type: 'c',
-        isArchived: false 
+        isArchived: false
       },
-      projection: { 
-        _id: 1, 
-        name: 1, 
+      projection: {
+        _id: 1,
+        name: 1,
         description: 1,
-        participantIds: 1, 
-        createdAt: 1, 
+        participantIds: 1,
+        createdAt: 1,
         lastMessageAt: 1
       }
     },
@@ -178,85 +183,85 @@ const chatSystemConfig: ZeroSchemaConfig = {
     // Message tables
     textMessages: {
       source: 'messages',
-      filter: { 
+      filter: {
         type: 'text',
-        isDeleted: false 
+        isDeleted: false
       },
-      projection: { 
-        _id: 1, 
-        roomId: 1, 
-        senderId: 1, 
-        content: 1, 
-        createdAt: 1 
+      projection: {
+        _id: 1,
+        roomId: 1,
+        senderId: 1,
+        content: 1,
+        createdAt: 1
       }
     },
-    
+
     imageMessages: {
       source: 'messages',
-      filter: { 
+      filter: {
         type: 'image',
-        isDeleted: false 
+        isDeleted: false
       },
-      projection: { 
-        _id: 1, 
-        roomId: 1, 
-        senderId: 1, 
-        imageUrl: 1, 
+      projection: {
+        _id: 1,
+        roomId: 1,
+        senderId: 1,
+        imageUrl: 1,
         caption: 1,
         imageMetadata: 1,
-        createdAt: 1 
+        createdAt: 1
       }
     },
-    
+
     systemMessages: {
       source: 'messages',
-      filter: { 
-        type: 'system' 
+      filter: {
+        type: 'system'
       },
-      projection: { 
-        _id: 1, 
-        roomId: 1, 
-        action: 1, 
-        targetUserId: 1, 
+      projection: {
+        _id: 1,
+        roomId: 1,
+        action: 1,
+        targetUserId: 1,
         createdAt: 1,
-        metadata: 1 
+        metadata: 1
       }
     },
 
     // Participant tables
     userParticipants: {
       source: 'participants',
-      filter: { 
-        type: 'user' 
+      filter: {
+        type: 'user'
       },
-      projection: { 
-        _id: 1, 
-        userId: 1, 
-        roomId: 1, 
-        role: 1, 
-        joinedAt: 1, 
+      projection: {
+        _id: 1,
+        userId: 1,
+        roomId: 1,
+        role: 1,
+        joinedAt: 1,
         lastReadAt: 1,
-        'notificationSettings.muted': 1 
+        'notificationSettings.muted': 1
       }
     },
-    
+
     botParticipants: {
       source: 'participants',
-      filter: { 
-        type: 'bot' 
+      filter: {
+        type: 'bot'
       },
-      projection: { 
-        _id: 1, 
-        botId: 1, 
-        roomId: 1, 
-        role: 1, 
+      projection: {
+        _id: 1,
+        botId: 1,
+        roomId: 1,
+        role: 1,
         joinedAt: 1,
-        config: 1 
+        config: 1
       }
     }
   }
 };
-```
+````
 
 ## Zero Schema Definitions
 
@@ -358,37 +363,41 @@ export const mapping = {
 The MongoDB change source (or any future change source) can use these separate mapping configurations to:
 
 1. **Identify the source collection** (`source: 'rooms'`, `source: 'messages'`, etc.)
-2. **Apply discriminating filters** (`t: { $eq: 'd' }`, `t: { $in: ['USER', 'text'] }`, etc.)  
+2. **Apply discriminating filters** (`t: { $eq: 'd' }`, `t: { $in: ['USER', 'text'] }`, etc.)
 3. **Project only required fields** (reducing data transfer and processing)
 4. **Route changes to appropriate Zero tables** based on filter matches
 
 ## Benefits of This Approach
 
 ### 1. **Clean Client Interface**
+
 Clients can query specific entity types without complex filtering:
+
 ```typescript
 // Get all public channels
 const channels = z.query.channels;
 
 // Get all user messages for a room
-const userMessages = z.query.userMessages
-  .where('roomId', roomId);
+const userMessages = z.query.userMessages.where('roomId', roomId);
 
 // Get all system messages for a room
-const systemMessages = z.query.systemMessages
-  .where('roomId', roomId);
+const systemMessages = z.query.systemMessages.where('roomId', roomId);
 ```
 
 ### 2. **Efficient Data Transfer**
+
 Only relevant fields are projected and transferred to Zero clients.
 
 ### 3. **Type Safety**
+
 Each Zero table has a specific schema that matches its intended use case.
 
 ### 4. **Flexible Backend Schema**
+
 MongoDB collections can evolve independently while maintaining clean Zero interfaces.
 
 ### 5. **Maintainable Configuration**
+
 Table mappings are defined separately from schema definitions, making them easier to modify and maintain.
 
 ## Change Stream Processing with Mapping Configurations
@@ -398,9 +407,9 @@ When the MongoDB change source processes a document change:
 1. **Access mapping configurations**: Retrieve the `TableMapping` objects for each Zero table
 2. **Match source collections**: For a change in `rooms` collection, find all tables with `source: "rooms"`
 3. **Apply filters**: Check if the changed document matches each table's filter criteria:
-   - `chats`: `{ t: { $eq: 'd' }, isArchived: { $ne: true } }`
-   - `groups`: `{ t: { $eq: 'p' }, isArchived: { $ne: true } }`  
-   - `channels`: `{ t: { $eq: 'c' }, isArchived: { $ne: true } }`
+    - `chats`: `{ t: { $eq: 'd' }, isArchived: { $ne: true } }`
+    - `groups`: `{ t: { $eq: 'p' }, isArchived: { $ne: true } }`
+    - `channels`: `{ t: { $eq: 'c' }, isArchived: { $ne: true } }`
 4. **Apply projections**: For matching tables, apply the projection to extract only relevant fields
 5. **Route to Zero tables**: Send the projected data to the appropriate Zero table(s)
 
@@ -409,27 +418,30 @@ When the MongoDB change source processes a document change:
 ```typescript
 // When a room document changes in MongoDB:
 const changedDocument = {
-  _id: ObjectId("..."),
-  t: "c",
-  name: "general",
-  description: "General discussion",
-  isArchived: false,
-  // ... other fields
+    _id: ObjectId('...'),
+    t: 'c',
+    name: 'general',
+    description: 'General discussion',
+    isArchived: false
+    // ... other fields
 };
 
 // Change source processes all tables with source: 'rooms'
 for (const [tableName, mapping] of Object.entries(mapping)) {
-  if (mapping.source === 'rooms') {
-    if (matchesFilter(changedDocument, mapping.filter)) {
-      const projectedData = applyProjection(changedDocument, mapping.projection);
-      routeToZeroTable(tableName, projectedData);
+    if (mapping.source === 'rooms') {
+        if (matchesFilter(changedDocument, mapping.filter)) {
+            const projectedData = applyProjection(
+                changedDocument,
+                mapping.projection
+            );
+            routeToZeroTable(tableName, projectedData);
+        }
     }
-  }
 }
 
 // Result: Only 'channels' table receives this change because:
 // - t: "c" matches channels filter
-// - isArchived: false matches channels filter  
+// - isArchived: false matches channels filter
 // - type: "c" does NOT match chats or groups filters
 ```
 
@@ -437,32 +449,30 @@ for (const [tableName, mapping] of Object.entries(mapping)) {
 
 ```typescript
 // Get all public rooms with their user participants
-const channelsWithUsers = z.query.channels
-  .related('users', z.query.userParticipants
-    .where('roomId', (room) => room.id)
-  );
+const channelsWithUsers = z.query.channels.related(
+    'users',
+    z.query.userParticipants.where('roomId', room => room.id)
+);
 
 // Get recent text messages from direct message rooms
 const recentDirectMessages = z.query.textMessages
-  .where('roomId', 'in', 
-    z.query.chats.select('id')
-  )
-  .orderBy('createdAt', 'desc')
-  .limit(50);
+    .where('roomId', 'in', z.query.chats.select('id'))
+    .orderBy('createdAt', 'desc')
+    .limit(50);
 
 // Get all media (images) shared in a private room
 const roomImages = z.query.imageMessages
-  .where('roomId', 'in',
-    z.query.groups
-      .where('name', 'Project Alpha Team')
-      .select('id')
-  )
-  .orderBy('createdAt', 'desc');
+    .where(
+        'roomId',
+        'in',
+        z.query.groups.where('name', 'Project Alpha Team').select('id')
+    )
+    .orderBy('createdAt', 'desc');
 
 // Get system messages for UI signals (but don't display them)
 const systemEvents = z.query.systemMessages
-  .where('roomId', roomId)
-  .where('action', 'in', ['user_joined', 'user_left', 'room_created']);
+    .where('roomId', roomId)
+    .where('action', 'in', ['user_joined', 'user_left', 'room_created']);
 ```
 
 This example demonstrates how discriminated unions enable a flexible, type-safe, and performant chat system architecture with Zero sync.

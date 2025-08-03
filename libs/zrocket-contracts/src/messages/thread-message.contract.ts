@@ -52,7 +52,9 @@ export function isThreadMainMessage(
  * @param message - The message to check.
  * @returns `true` if the message is a thread message, otherwise `false`.
  */
-export function isThreadMessage(message: IUserMessage): message is IThreadMessage {
+export function isThreadMessage(
+    message: IUserMessage
+): message is IThreadMessage {
     const maybeThreadId = (message as IThreadMessage).threadId;
     return Boolean(maybeThreadId);
 }

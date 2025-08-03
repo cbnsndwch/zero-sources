@@ -49,19 +49,32 @@ export default function NotificationsTab() {
     };
 
     // Current state
-    const [desktopSettings, setDesktopSettings] = useState(originalDesktopSettings);
+    const [desktopSettings, setDesktopSettings] = useState(
+        originalDesktopSettings
+    );
     const [emailSettings, setEmailSettings] = useState(originalEmailSettings);
     const [quietHours, setQuietHours] = useState(originalQuietHours);
-    const [channelSettings, setChannelSettings] = useState(originalChannelSettings);
+    const [channelSettings, setChannelSettings] = useState(
+        originalChannelSettings
+    );
 
     // Check for changes functions
-    const hasDesktopChanges = JSON.stringify(desktopSettings) !== JSON.stringify(originalDesktopSettings);
-    const hasEmailChanges = JSON.stringify(emailSettings) !== JSON.stringify(originalEmailSettings);
-    const hasQuietHoursChanges = JSON.stringify(quietHours) !== JSON.stringify(originalQuietHours);
-    const hasChannelChanges = JSON.stringify(channelSettings) !== JSON.stringify(originalChannelSettings);
+    const hasDesktopChanges =
+        JSON.stringify(desktopSettings) !==
+        JSON.stringify(originalDesktopSettings);
+    const hasEmailChanges =
+        JSON.stringify(emailSettings) !== JSON.stringify(originalEmailSettings);
+    const hasQuietHoursChanges =
+        JSON.stringify(quietHours) !== JSON.stringify(originalQuietHours);
+    const hasChannelChanges =
+        JSON.stringify(channelSettings) !==
+        JSON.stringify(originalChannelSettings);
 
     const handleSaveDesktop = () => {
-        console.log('Saving desktop notification preferences:', desktopSettings);
+        console.log(
+            'Saving desktop notification preferences:',
+            desktopSettings
+        );
         // TODO: Save to backend/Zero and update original values
     };
 
@@ -76,7 +89,10 @@ export default function NotificationsTab() {
     };
 
     const handleSaveChannels = () => {
-        console.log('Saving channel notification preferences:', channelSettings);
+        console.log(
+            'Saving channel notification preferences:',
+            channelSettings
+        );
         // TODO: Save to backend/Zero and update original values
     };
 
@@ -92,10 +108,14 @@ export default function NotificationsTab() {
                                 Desktop Notifications
                             </CardTitle>
                             <CardDescription>
-                                Configure when and how you receive desktop notifications
+                                Configure when and how you receive desktop
+                                notifications
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveDesktop} disabled={!hasDesktopChanges}>
+                        <Button
+                            onClick={handleSaveDesktop}
+                            disabled={!hasDesktopChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -179,7 +199,8 @@ export default function NotificationsTab() {
                         <div className="space-y-0.5">
                             <Label>Reactions</Label>
                             <p className="text-sm text-muted-foreground">
-                                Get notified when someone reacts to your messages
+                                Get notified when someone reacts to your
+                                messages
                             </p>
                         </div>
                         <Switch
@@ -197,7 +218,8 @@ export default function NotificationsTab() {
                         <div className="space-y-0.5">
                             <Label>Thread Replies</Label>
                             <p className="text-sm text-muted-foreground">
-                                Get notified for replies to threads you're following
+                                Get notified for replies to threads you're
+                                following
                             </p>
                         </div>
                         <Switch
@@ -223,10 +245,14 @@ export default function NotificationsTab() {
                                 Email Notifications
                             </CardTitle>
                             <CardDescription>
-                                Control how often you receive email notifications
+                                Control how often you receive email
+                                notifications
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveEmail} disabled={!hasEmailChanges}>
+                        <Button
+                            onClick={handleSaveEmail}
+                            disabled={!hasEmailChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -265,10 +291,18 @@ export default function NotificationsTab() {
                                 <SelectValue placeholder="Select frequency" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="immediate">Immediate</SelectItem>
-                                <SelectItem value="hourly">Hourly Digest</SelectItem>
-                                <SelectItem value="daily">Daily Digest</SelectItem>
-                                <SelectItem value="weekly">Weekly Digest</SelectItem>
+                                <SelectItem value="immediate">
+                                    Immediate
+                                </SelectItem>
+                                <SelectItem value="hourly">
+                                    Hourly Digest
+                                </SelectItem>
+                                <SelectItem value="daily">
+                                    Daily Digest
+                                </SelectItem>
+                                <SelectItem value="weekly">
+                                    Weekly Digest
+                                </SelectItem>
                                 <SelectItem value="never">Never</SelectItem>
                             </SelectContent>
                         </Select>
@@ -286,10 +320,14 @@ export default function NotificationsTab() {
                                 Quiet Hours
                             </CardTitle>
                             <CardDescription>
-                                Set times when you don't want to receive notifications
+                                Set times when you don't want to receive
+                                notifications
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveQuietHours} disabled={!hasQuietHoursChanges}>
+                        <Button
+                            onClick={handleSaveQuietHours}
+                            disabled={!hasQuietHoursChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -299,7 +337,8 @@ export default function NotificationsTab() {
                         <div className="space-y-0.5">
                             <Label>Enable Quiet Hours</Label>
                             <p className="text-sm text-muted-foreground">
-                                Automatically disable notifications during set hours
+                                Automatically disable notifications during set
+                                hours
                             </p>
                         </div>
                         <Switch
@@ -331,9 +370,14 @@ export default function NotificationsTab() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         {Array.from({ length: 24 }, (_, i) => {
-                                            const hour = i.toString().padStart(2, '0');
+                                            const hour = i
+                                                .toString()
+                                                .padStart(2, '0');
                                             return (
-                                                <SelectItem key={i} value={`${hour}:00`}>
+                                                <SelectItem
+                                                    key={i}
+                                                    value={`${hour}:00`}
+                                                >
                                                     {hour}:00
                                                 </SelectItem>
                                             );
@@ -357,9 +401,14 @@ export default function NotificationsTab() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         {Array.from({ length: 24 }, (_, i) => {
-                                            const hour = i.toString().padStart(2, '0');
+                                            const hour = i
+                                                .toString()
+                                                .padStart(2, '0');
                                             return (
-                                                <SelectItem key={i} value={`${hour}:00`}>
+                                                <SelectItem
+                                                    key={i}
+                                                    value={`${hour}:00`}
+                                                >
                                                     {hour}:00
                                                 </SelectItem>
                                             );
@@ -382,10 +431,14 @@ export default function NotificationsTab() {
                                 Channel Settings
                             </CardTitle>
                             <CardDescription>
-                                Configure channel-specific notification preferences
+                                Configure channel-specific notification
+                                preferences
                             </CardDescription>
                         </div>
-                        <Button onClick={handleSaveChannels} disabled={!hasChannelChanges}>
+                        <Button
+                            onClick={handleSaveChannels}
+                            disabled={!hasChannelChanges}
+                        >
                             Save
                         </Button>
                     </div>
@@ -414,21 +467,24 @@ export default function NotificationsTab() {
                     <div className="space-y-2">
                         <Label>Notification Keywords</Label>
                         <p className="text-sm text-muted-foreground">
-                            Get notified when these keywords are mentioned (comma-separated)
+                            Get notified when these keywords are mentioned
+                            (comma-separated)
                         </p>
                         <div className="flex flex-wrap gap-2">
-                            {channelSettings.keywords.map((keyword: string, index: number) => (
-                                <span
-                                    key={index}
-                                    className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm"
-                                >
-                                    {keyword}
-                                </span>
-                            ))}
+                            {channelSettings.keywords.map(
+                                (keyword: string, index: number) => (
+                                    <span
+                                        key={index}
+                                        className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm"
+                                    >
+                                        {keyword}
+                                    </span>
+                                )
+                            )}
                         </div>
                     </div>
                 </CardContent>
             </Card>
         </div>
     );
-};
+}

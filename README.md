@@ -166,15 +166,18 @@ The **ZRocket demo** showcases discriminated union tables in Zero using MongoDB 
 Instead of direct 1:1 mapping between MongoDB collections and Zero tables, discriminated unions allow multiple Zero tables to be derived from a single MongoDB collection based on document characteristics:
 
 **Room Tables** (all from `rooms` collection):
+
 - `chatsTable` → `rooms` collection with filter `{ t: 'd' }` (direct messages)
-- `channelsTable` → `rooms` collection with filter `{ t: 'c' }` (public channels)  
+- `channelsTable` → `rooms` collection with filter `{ t: 'c' }` (public channels)
 - `groupsTable` → `rooms` collection with filter `{ t: 'p' }` (private groups)
 
 **Message Tables** (all from `messages` collection):
+
 - `messages` → `messages` collection with filter `{ t: { $exists: false } }` (user messages)
 - `systemMessages` → `messages` collection with filter `{ t: { $exists: true } }` (system messages)
 
 **User Tables** (direct 1:1 mapping):
+
 - `users` collection → `users` (no discrimination)
 
 ### 🚀 Quick Start
@@ -182,6 +185,7 @@ Instead of direct 1:1 mapping between MongoDB collections and Zero tables, discr
 #### 1. Prerequisites Setup
 
 **Option A: Local MongoDB**
+
 ```bash
 # Install MongoDB locally (macOS with Homebrew)
 brew install mongodb-community
@@ -192,6 +196,7 @@ docker run -d --name mongodb -p 27017:27017 mongo:7
 ```
 
 **Option B: MongoDB Atlas**
+
 1. Create a free MongoDB Atlas account at [mongodb.com](https://www.mongodb.com/cloud/atlas)
 2. Create a new cluster
 3. Get your connection string (format: `mongodb+srv://username:password@cluster.mongodb.net/`)
@@ -224,6 +229,7 @@ pnpm build:libs
 #### 4. Start the Services
 
 **Terminal 1: Start Zero Cache with Discriminated Schema**
+
 ```bash
 cd apps/zrocket
 pnpm run dev:zero
@@ -232,6 +238,7 @@ pnpm run dev:zero
 Wait for Zero Cache to start (you'll see "Zero cache server listening on :4848")
 
 **Terminal 2: Start ZRocket Unified App**
+
 ```bash
 cd apps/zrocket
 pnpm run dev
@@ -240,7 +247,8 @@ pnpm run dev
 This starts both the NestJS API server and React Router 7 frontend in development mode.
 
 Wait for both servers to start:
-- API server: "Application is running on: http://localhost:8011"  
+
+- API server: "Application is running on: http://localhost:8011"
 - Frontend dev server: "Local: http://localhost:3000"
 
 #### 5. Seed Sample Data
@@ -250,6 +258,7 @@ curl -X POST http://localhost:8011/zrocket/seed-data
 ```
 
 This creates sample data including:
+
 - 4 users (alice, bob, charlie, diana)
 - 6 rooms (2 direct messages, 2 private groups, 2 public channels)
 - 4 messages (2 text, 1 image, 1 system)
@@ -257,6 +266,7 @@ This creates sample data including:
 #### 6. Explore the Demo
 
 **View Demo Information:**
+
 ```bash
 curl http://localhost:8011/zrocket/demo-info | jq
 ```
@@ -281,12 +291,14 @@ Open http://localhost:8011 in your browser
 ### 🧪 Testing the Implementation
 
 Run the discriminated union utility tests:
+
 ```bash
 cd libs/zero-source-mongodb
 pnpm test
 ```
 
 Run all tests across the monorepo:
+
 ```bash
 pnpm test
 ```
@@ -296,7 +308,7 @@ pnpm test
 From the repository root:
 
 - **`pnpm build:all`**: Build all packages
-- **`pnpm build:libs`**: Build only library packages  
+- **`pnpm build:libs`**: Build only library packages
 - **`pnpm dev`**: Start all development servers
 - **`pnpm lint`**: Lint all packages
 - **`pnpm test`**: Run all tests
@@ -304,7 +316,7 @@ From the repository root:
 From `apps/zrocket`:
 
 - **`pnpm run dev`**: Start unified development mode (API + Frontend)
-- **`pnpm run dev:api`**: Start only the NestJS API server 
+- **`pnpm run dev:api`**: Start only the NestJS API server
 - **`pnpm run dev:zero`**: Start Zero Cache with discriminated schema
 - **`pnpm run build`**: Build both API and frontend for production
 - **`pnpm run start`**: Start production server
@@ -312,21 +324,25 @@ From `apps/zrocket`:
 ### 🚨 Troubleshooting
 
 **MongoDB Connection Issues:**
+
 - Verify MongoDB is running: `mongosh --eval "db.adminCommand('ping')"`
 - Check connection string format for Atlas
 - Ensure IP whitelist includes your IP (Atlas)
 
 **Zero Cache Not Starting:**
+
 - Ensure port 4848 is available
 - Check that discriminated schema builds: `pnpm build:libs`
 - Verify schema file exists: `libs/zrocket-contracts/dist/schema/index.js`
 
 **API Server Issues:**
+
 - Ensure MongoDB connection is working
 - Check that libraries are built: `pnpm build:libs`
 - Verify port 8011 is available
 
 **Frontend Issues:**
+
 - Ensure API server is running on port 8011
 - Check browser console for CORS or network errors
 - Frontend runs on port 3000 in development mode
@@ -436,16 +452,19 @@ If you're not sure where to start, feel free to check the open issues or suggest
 Here are some of our future plans and directions:
 
 ### Planned Custom Change Sources
+
 - **Stripe Integration**: API-based initial sync with webhook support for real-time updates
 - **GoHighLevel Integration**: Webhook-based change source using their comprehensive API ([API Documentation](https://highlevel.stoplight.io/docs/integrations/0443d7d1a4bd0-overview))
 
 ### Infrastructure & Tooling
+
 - **GitHub Actions**: Add workflows for CI (build, test, lint) and maybe automated Docker builds.
 - **Examples & Demos**: Provide concrete usage examples or a sample application demonstrating how these libraries integrate with `@rocicorp/zero`.
 - **Docker Support**: Improve Docker image building processes (multi-stage builds, smaller images).
 - **Extended Documentation**: Each library and app might get deeper documentation, usage guides, or best practices for integration with Zero.
 
 ### Community & Ecosystem
+
 - **Additional Change Source Implementations**: Based on community feedback or personal needs.
 
 > Don't see something you need? [Open an issue] or [Join the discussion] to suggest improvements.
