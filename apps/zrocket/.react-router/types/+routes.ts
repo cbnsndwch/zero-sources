@@ -37,13 +37,22 @@ type Pages = {
       "channelId": string;
     };
   };
-  "/preferences": {
-    params: {};
-  };
   "/files": {
     params: {};
   };
+  "/preferences": {
+    params: {};
+  };
+  "/preferences/notifications": {
+    params: {};
+  };
+  "/preferences/advanced": {
+    params: {};
+  };
   "/help-support": {
+    params: {};
+  };
+  "/help-support/contact": {
     params: {};
   };
   "/messages": {
@@ -57,59 +66,79 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/preferences" | "/files" | "/help-support" | "/messages" | "/info";
+    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/files" | "/preferences" | "/preferences/notifications" | "/preferences/advanced" | "/help-support" | "/help-support/contact" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
   };
-  "routes/d/layout.tsx": {
-    id: "routes/d/layout";
+  "routes/direct/layout.tsx": {
+    id: "routes/direct/layout";
     page: "/d" | "/d/:chatId";
   };
-  "routes/d/index.tsx": {
-    id: "routes/d/index";
+  "routes/direct/index.tsx": {
+    id: "routes/direct/index";
     page: "/d";
   };
-  "routes/d/chat.tsx": {
-    id: "routes/d/chat";
+  "routes/direct/chat.tsx": {
+    id: "routes/direct/chat";
     page: "/d/:chatId";
   };
-  "routes/private-groups/layout.tsx": {
-    id: "routes/private-groups/layout";
+  "routes/groups/layout.tsx": {
+    id: "routes/groups/layout";
     page: "/p" | "/p/:chatId";
   };
-  "routes/private-groups/index.tsx": {
-    id: "routes/private-groups/index";
+  "routes/groups/index.tsx": {
+    id: "routes/groups/index";
     page: "/p";
   };
-  "routes/private-groups/chat.tsx": {
-    id: "routes/private-groups/chat";
+  "routes/groups/chat.tsx": {
+    id: "routes/groups/chat";
     page: "/p/:chatId";
   };
-  "routes/c/layout.tsx": {
-    id: "routes/c/layout";
+  "routes/channels/layout.tsx": {
+    id: "routes/channels/layout";
     page: "/c" | "/c/:channelId";
   };
-  "routes/c/index.tsx": {
-    id: "routes/c/index";
+  "routes/channels/index.tsx": {
+    id: "routes/channels/index";
     page: "/c";
   };
-  "routes/c/channel.tsx": {
-    id: "routes/c/channel";
+  "routes/channels/channel.tsx": {
+    id: "routes/channels/channel";
     page: "/c/:channelId";
   };
-  "pages/UserPreferencesPage.tsx": {
-    id: "pages/UserPreferencesPage";
-    page: "/preferences";
-  };
-  "pages/FilesPage.tsx": {
-    id: "pages/FilesPage";
+  "routes/files.tsx": {
+    id: "routes/files";
     page: "/files";
   };
-  "pages/HelpSupportPage.tsx": {
-    id: "pages/HelpSupportPage";
+  "routes/preferences/layout.tsx": {
+    id: "routes/preferences/layout";
+    page: "/preferences" | "/preferences/notifications" | "/preferences/advanced";
+  };
+  "routes/preferences/index.tsx": {
+    id: "routes/preferences/index";
+    page: "/preferences";
+  };
+  "routes/preferences/notifications.tsx": {
+    id: "routes/preferences/notifications";
+    page: "/preferences/notifications";
+  };
+  "routes/preferences/advanced.tsx": {
+    id: "routes/preferences/advanced";
+    page: "/preferences/advanced";
+  };
+  "routes/help-support/layout.tsx": {
+    id: "routes/help-support/layout";
+    page: "/help-support" | "/help-support/contact";
+  };
+  "routes/help-support/index.tsx": {
+    id: "routes/help-support/index";
     page: "/help-support";
+  };
+  "routes/help-support/contact.tsx": {
+    id: "routes/help-support/contact";
+    page: "/help-support/contact";
   };
   "routes/messages/index.tsx": {
     id: "routes/messages/index";

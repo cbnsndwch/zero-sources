@@ -4,27 +4,34 @@ export default [
     index('routes/home/index.tsx'),
 
     // Direct Messages
-    route('d', 'routes/d/layout.tsx', [
-        index('routes/d/index.tsx'),
-        route(':chatId', 'routes/d/chat.tsx')
+    route('d', 'routes/direct/layout.tsx', [
+        index('routes/direct/index.tsx'),
+        route(':chatId', 'routes/direct/chat.tsx')
     ]),
 
     // Private Groups
-    route('p', 'routes/private-groups/layout.tsx', [
-        index('routes/private-groups/index.tsx'),
-        route(':chatId', 'routes/private-groups/chat.tsx')
+    route('p', 'routes/groups/layout.tsx', [
+        index('routes/groups/index.tsx'),
+        route(':chatId', 'routes/groups/chat.tsx')
     ]),
 
     // Public Channels
-    route('c', 'routes/c/layout.tsx', [
-        index('routes/c/index.tsx'),
-        route(':channelId', 'routes/c/channel.tsx')
+    route('c', 'routes/channels/layout.tsx', [
+        index('routes/channels/index.tsx'),
+        route(':channelId', 'routes/channels/channel.tsx')
     ]),
 
     // User preferences and help
-    route('preferences', 'pages/UserPreferencesPage.tsx'),
-    route('files', 'pages/FilesPage.tsx'),
-    route('help-support', 'pages/HelpSupportPage.tsx'),
+    route('files', 'routes/files.tsx'),
+    route('preferences', 'routes/preferences/layout.tsx', [
+        index('routes/preferences/index.tsx'),
+        route('notifications', 'routes/preferences/notifications.tsx'),
+        route('advanced', 'routes/preferences/advanced.tsx')
+    ]),
+    route('help-support', 'routes/help-support/layout.tsx', [
+        index('routes/help-support/index.tsx'),
+        route('contact', 'routes/help-support/contact.tsx')
+    ]),
 
     // ZRocket discriminated union demo
     route('messages', 'routes/messages/index.tsx'),
