@@ -1,205 +1,249 @@
 @import 'tailwindcss';
 
-@plugin 'tailwindcss-animated';
-
-@custom-variant dark (&:is(.dark *));
+@plugin 'tailwindcss-animate';
 
 @theme {
-    --font-sans:
-        'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-}
+    /* Container configuration */
+    --default-container-center: true;
+    --default-container-padding: 2rem;
+    --default-container-screens-2xl: 1400px;
 
-html,
-body {
-    @apply bg-muted/30 dark:bg-gray-950;
+    /* Border radius */
+    --radius: 0.75rem;
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
 
-    @media (prefers-color-scheme: dark) {
-        color-scheme: dark;
-    }
-}
+    /* Base colors - converted to OKLCH for v4 */
+    --color-background: oklch(from hsl(var(--background)) l c h);
+    --color-foreground: oklch(from hsl(var(--foreground)) l c h);
+    --color-card: oklch(from hsl(var(--card)) l c h);
+    --color-card-foreground: oklch(from hsl(var(--card-foreground)) l c h);
+    --color-popover: oklch(from hsl(var(--popover)) l c h);
+    --color-popover-foreground: oklch(
+        from hsl(var(--popover-foreground)) l c h
+    );
 
-@layer components {
-    .fade-in-500 {
-        @apply animate-fade animate-once animate-duration-300 animate-ease-in;
-    }
-}
-
-:root {
-    /* Main backgrounds */
-    --background: hsl(0 0% 100%);
-    --foreground: hsl(220 13% 18%);
-
-    /* Card and surface colors */
-    --card: hsl(0 0% 100%);
-    --card-foreground: hsl(220 13% 18%);
-    --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(220 13% 18%);
-
-    /* Brand colors - Modern purple/blue gradient theme */
-    --primary: hsl(262 83% 58%);
-    --primary-foreground: hsl(0 0% 100%);
+    /* Primary colors */
+    --color-primary: oklch(from hsl(var(--primary)) l c h);
+    --color-primary-foreground: oklch(
+        from hsl(var(--primary-foreground)) l c h
+    );
+    --color-primary-glow: oklch(from hsl(var(--primary-glow)) l c h);
 
     /* Secondary colors */
-    --secondary: hsl(220 14% 96%);
-    --secondary-foreground: hsl(220 13% 18%);
+    --color-secondary: oklch(from hsl(var(--secondary)) l c h);
+    --color-secondary-foreground: oklch(
+        from hsl(var(--secondary-foreground)) l c h
+    );
 
-    /* Muted colors for subtle elements */
-    --muted: hsl(220 14% 96%);
-    --muted-foreground: hsl(220 9% 46%);
+    /* Muted colors */
+    --color-muted: oklch(from hsl(var(--muted)) l c h);
+    --color-muted-foreground: oklch(from hsl(var(--muted-foreground)) l c h);
 
     /* Accent colors */
-    --accent: hsl(220 14% 96%);
-    --accent-foreground: hsl(220 13% 18%);
+    --color-accent: oklch(from hsl(var(--accent)) l c h);
+    --color-accent-foreground: oklch(from hsl(var(--accent-foreground)) l c h);
 
     /* Status colors */
-    --destructive: hsl(0 84% 60%);
-    --destructive-foreground: hsl(0 0% 100%);
+    --color-destructive: oklch(from hsl(var(--destructive)) l c h);
+    --color-destructive-foreground: oklch(
+        from hsl(var(--destructive-foreground)) l c h
+    );
+    --color-success: oklch(from hsl(var(--success)) l c h);
+    --color-success-foreground: oklch(
+        from hsl(var(--success-foreground)) l c h
+    );
+    --color-warning: oklch(from hsl(var(--warning)) l c h);
+    --color-warning-foreground: oklch(
+        from hsl(var(--warning-foreground)) l c h
+    );
+
+    /* Border and input */
+    --color-border: oklch(from hsl(var(--border)) l c h);
+    --color-input: oklch(from hsl(var(--input)) l c h);
+    --color-ring: oklch(from hsl(var(--ring)) l c h);
+
+    /* Chat colors */
+    --color-chat-sidebar: oklch(from hsl(var(--chat-sidebar)) l c h);
+    --color-chat-sidebar-hover: oklch(
+        from hsl(var(--chat-sidebar-hover)) l c h
+    );
+    --color-chat-active: oklch(from hsl(var(--chat-active)) l c h);
+    --color-chat-active-foreground: oklch(
+        from hsl(var(--chat-active-foreground)) l c h
+    );
+    --color-chat-message-bg: oklch(from hsl(var(--chat-message-bg)) l c h);
+    --color-chat-message-own: oklch(from hsl(var(--chat-message-own)) l c h);
+
+    /* Sidebar colors */
+    --color-sidebar: oklch(from hsl(var(--sidebar-background)) l c h);
+    --color-sidebar-foreground: oklch(
+        from hsl(var(--sidebar-foreground)) l c h
+    );
+    --color-sidebar-primary: oklch(from hsl(var(--sidebar-primary)) l c h);
+    --color-sidebar-primary-foreground: oklch(
+        from hsl(var(--sidebar-primary-foreground)) l c h
+    );
+    --color-sidebar-accent: oklch(from hsl(var(--sidebar-accent)) l c h);
+    --color-sidebar-accent-foreground: oklch(
+        from hsl(var(--sidebar-accent-foreground)) l c h
+    );
+    --color-sidebar-border: oklch(from hsl(var(--sidebar-border)) l c h);
+    --color-sidebar-ring: oklch(from hsl(var(--sidebar-ring)) l c h);
+
+    /* Animation keyframes */
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+    from {
+        height: 0;
+    }
+    to {
+        height: var(--radix-accordion-content-height);
+    }
+}
+
+@keyframes accordion-up {
+    from {
+        height: var(--radix-accordion-content-height);
+    }
+    to {
+        height: 0;
+    }
+}
+
+/* Exact color values from v3 config */
+:root {
+    /* Main backgrounds */
+    --background: 0 0% 100%;
+    --foreground: 220 13% 18%;
+
+    /* Card and surface colors */
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 18%;
+
+    /* Brand colors - Modern purple/blue gradient theme */
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 252 100% 74%;
+
+    /* Secondary colors */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 18%;
+
+    /* Muted colors for subtle elements */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    /* Accent colors */
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 13% 18%;
+
+    /* Status colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
     /* Border and input colors */
-    --border: hsl(220 13% 91%);
-    --input: hsl(220 13% 91%);
-    --ring: hsl(262 83% 58%);
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262 83% 58%;
 
-    /* Charts */
-    --chart-1: hsl(12 76% 61%);
-    --chart-2: hsl(173 58% 39%);
-    --chart-3: hsl(197 37% 24%);
-    --chart-4: hsl(43 74% 66%);
-    --chart-5: hsl(27 87% 67%);
+    /* Chat-specific colors */
+    --chat-sidebar: 220 14% 96%;
+    --chat-sidebar-hover: 220 14% 90%;
+    --chat-active: 262 83% 58%;
+    --chat-active-foreground: 0 0% 100%;
+    --chat-message-bg: 0 0% 100%;
+    --chat-message-own: 262 83% 96%;
 
-    /* Sidebar */
-    --sidebar-background: hsl(0 0% 98%);
-    --sidebar-foreground: hsl(240 5.3% 26.1%);
-    --sidebar-primary: hsl(240 5.9% 10%);
-    --sidebar-primary-foreground: hsl(0 0% 98%);
-    --sidebar-accent: hsl(240 4.8% 95.9%);
-    --sidebar-accent-foreground: hsl(240 5.9% 10%);
-    --sidebar-border: hsl(220 13% 91%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-
+    /* Radius */
     --radius: 0.75rem;
+
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
 }
 
 .dark {
     /* Main backgrounds */
-    --background: hsl(224 71% 4%);
-    --foreground: hsl(213 31% 91%);
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
 
     /* Card and surface colors */
-    --card: hsl(224 71% 4%);
-    --card-foreground: hsl(213 31% 91%);
-    --popover: hsl(224 71% 4%);
-    --popover-foreground: hsl(213 31% 91%);
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
 
     /* Brand colors - Dark mode adaptation */
-    --primary: hsl(263 70% 50%);
-    --primary-foreground: hsl(213 31% 91%);
+    --primary: 263 70% 50%;
+    --primary-foreground: 213 31% 91%;
+    --primary-glow: 252 100% 74%;
 
     /* Secondary colors */
-    --secondary: hsl(215 28% 17%);
-    --secondary-foreground: hsl(213 31% 91%);
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 213 31% 91%;
 
     /* Muted colors for proper contrast */
-    --muted: hsl(215 28% 17%);
-    --muted-foreground: hsl(217 32% 65%);
+    --muted: 215 28% 17%;
+    --muted-foreground: 217 32% 65%;
 
     /* Accent colors */
-    --accent: hsl(215 28% 17%);
-    --accent-foreground: hsl(213 31% 91%);
+    --accent: 215 28% 17%;
+    --accent-foreground: 213 31% 91%;
 
     /* Status colors */
-    --destructive: hsl(0 63% 31%);
-    --destructive-foreground: hsl(213 31% 91%);
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 213 31% 91%;
+    --success: 142 76% 36%;
+    --success-foreground: 213 31% 91%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 213 31% 91%;
 
     /* Border and input colors */
-    --border: hsl(215 28% 17%);
-    --input: hsl(215 28% 17%);
-    --ring: hsl(263 70% 50%);
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 263 70% 50%;
 
-    /* Charts */
-    --chart-1: hsl(220 70% 50%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
+    /* Chat-specific dark colors */
+    --chat-sidebar: 215 28% 17%;
+    --chat-sidebar-hover: 215 28% 20%;
+    --chat-active: 263 70% 50%;
+    --chat-active-foreground: 213 31% 91%;
+    --chat-message-bg: 215 28% 17%;
+    --chat-message-own: 263 70% 20%;
 
-    /* Sidebar colors */
-    --sidebar-background: hsl(224 71% 4%);
-    --sidebar-foreground: hsl(213 31% 91%);
-    --sidebar-primary: hsl(263 70% 50%);
-    --sidebar-primary-foreground: hsl(213 31% 91%);
-    --sidebar-accent: hsl(215 28% 17%);
-    --sidebar-accent-foreground: hsl(213 31% 91%);
-    --sidebar-border: hsl(215 28% 17%);
-    --sidebar-ring: hsl(263 70% 50%);
+    /* Sidebar dark colors */
+    --sidebar-background: 224 71% 4%;
+    --sidebar-foreground: 213 31% 91%;
+    --sidebar-primary: 263 70% 50%;
+    --sidebar-primary-foreground: 213 31% 91%;
+    --sidebar-accent: 215 28% 17%;
+    --sidebar-accent-foreground: 213 31% 91%;
+    --sidebar-border: 215 28% 17%;
+    --sidebar-ring: 263 70% 50%;
 }
 
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-destructive: var(--destructive);
-    --color-destructive-foreground: var(--destructive-foreground);
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
-    --radius-sm: calc(var(--radius) - 4px);
-    --radius-md: calc(var(--radius) - 2px);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 4px);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-background: var(--sidebar-background);
-
-    --animate-accordion-down: accordion-down 0.2s ease-out;
-    --animate-accordion-up: accordion-up 0.2s ease-out;
-
-    @keyframes accordion-down {
-        from {
-            height: 0;
-        }
-        to {
-            height: var(--radix-accordion-content-height);
-        }
-    }
-
-    @keyframes accordion-up {
-        from {
-            height: var(--radix-accordion-content-height);
-        }
-        to {
-            height: 0;
-        }
-    }
+* {
+    border-color: hsl(var(--border));
 }
 
-@layer base {
-    * {
-        @apply border-border outline-ring/50;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
 }
