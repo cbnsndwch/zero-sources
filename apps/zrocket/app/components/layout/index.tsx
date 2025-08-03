@@ -66,6 +66,7 @@ export default function AppLayout() {
         if (isManualSelection) {
             return;
         }
+
         const pathParts = location.pathname.split('/');
         if (pathParts[1]) {
             const currentType =
@@ -236,7 +237,7 @@ export default function AppLayout() {
                                     </main>
                                 </ResizablePanel>
 
-                                {isRoomDetailsOpen && (
+                                {isRoomDetailsOpen ? (
                                     <>
                                         <ResizableHandle withHandle />
 
@@ -249,7 +250,7 @@ export default function AppLayout() {
                                             <RoomDetails />
                                         </ResizablePanel>
                                     </>
-                                )}
+                                ) : null}
                             </ResizablePanelGroup>
                         </div>
                     </div>

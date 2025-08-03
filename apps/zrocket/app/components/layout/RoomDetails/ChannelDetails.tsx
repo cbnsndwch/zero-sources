@@ -1,5 +1,7 @@
 import { Hash } from 'lucide-react';
 
+import type { IHasShortId } from '@cbnsndwch/zrocket-contracts';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import useChannel from '@/hooks/use-channel';
@@ -12,12 +14,8 @@ import { PinnedMessages } from './shared/PinnedMessages';
 import { MembersList } from './shared/MembersList';
 import { RoomActions } from './shared/RoomActions';
 
-interface ChannelDetailsProps {
-    channelId: string;
-}
-
-export function ChannelDetails({ channelId }: ChannelDetailsProps) {
-    const channelResult = useChannel(channelId);
+export default function ChannelDetails({ id }: IHasShortId) {
+    const channelResult = useChannel(id);
     const channel = channelResult[0] as any;
 
     const title = useRoomTitle(channel, 'channel');

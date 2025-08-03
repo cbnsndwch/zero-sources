@@ -1,5 +1,7 @@
 import { Lock } from 'lucide-react';
 
+import type { IHasShortId } from '@cbnsndwch/zrocket-contracts';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import useGroup from '@/hooks/use-group';
@@ -12,12 +14,8 @@ import { PinnedMessages } from './shared/PinnedMessages';
 import { MembersList } from './shared/MembersList';
 import { RoomActions } from './shared/RoomActions';
 
-interface GroupDetailsProps {
-    groupId: string;
-}
-
-export function GroupDetails({ groupId }: GroupDetailsProps) {
-    const groupResult = useGroup(groupId);
+export default function GroupDetails({ id }: IHasShortId) {
+    const groupResult = useGroup(id);
     const group = groupResult[0] as any;
 
     const title = useRoomTitle(group, 'group');

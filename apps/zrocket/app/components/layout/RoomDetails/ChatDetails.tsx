@@ -1,5 +1,7 @@
 import { User } from 'lucide-react';
 
+import type { IHasShortId } from '@cbnsndwch/zrocket-contracts';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import useChat from '@/hooks/use-chat';
@@ -10,12 +12,8 @@ import { RoomAbout } from './shared/RoomAbout';
 import { PinnedMessages } from './shared/PinnedMessages';
 import { RoomActions } from './shared/RoomActions';
 
-interface ChatDetailsProps {
-    chatId: string;
-}
-
-export function ChatDetails({ chatId }: ChatDetailsProps) {
-    const chatResult = useChat(chatId);
+export default function ChatDetails({ id }: IHasShortId) {
+    const chatResult = useChat(id);
     const chat = chatResult[0] as any;
 
     const title = useRoomTitle(chat, 'dm');
