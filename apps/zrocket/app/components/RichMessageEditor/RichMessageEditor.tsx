@@ -18,6 +18,10 @@ import type {
   EditorErrorBoundaryProps, 
   EditorErrorBoundaryState 
 } from './types';
+import { 
+  validateSerializedEditorState, 
+  ensureValidSerializedEditorState 
+} from './serialization-utils';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -66,7 +70,17 @@ function KeyboardPlugin({ onSendMessage }: { onSendMessage: (content: Serialized
         
         // Get the current editor state and serialize it
         const editorState = editor.getEditorState();
-        const serializedState = editorState.toJSON();
+        const rawSerializedState = editorState.toJSON();
+        
+        // Ensure the serialized state complies with the expected format
+        const serializedState = ensureValidSerializedEditorState(rawSerializedState);
+        
+        // Validate the format for debugging (in development)
+        if (process.env.NODE_ENV === 'development') {
+          if (!validateSerializedEditorState(serializedState)) {
+            console.warn('SerializedEditorState validation failed, but proceeding with normalized state');
+          }
+        }
         
         // Check if the editor has content before sending
         let hasContent = false;
