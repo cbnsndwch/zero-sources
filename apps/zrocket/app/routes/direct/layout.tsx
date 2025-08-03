@@ -1,18 +1,19 @@
-import { Outlet } from 'react-router';
-import { useState } from 'react';
+import { Outlet, useOutletContext } from 'react-router';
 
-interface OutletContext {
+interface MainLayoutContext {
     isRoomDetailsOpen: boolean;
     setIsRoomDetailsOpen: (open: boolean) => void;
+}
+
+interface OutletContext extends MainLayoutContext {
     roomType: 'dm';
 }
 
 export default function DLayout() {
-    const [isRoomDetailsOpen, setIsRoomDetailsOpen] = useState(false);
+    const mainContext = useOutletContext<MainLayoutContext>();
 
     const context: OutletContext = {
-        isRoomDetailsOpen,
-        setIsRoomDetailsOpen,
+        ...mainContext,
         roomType: 'dm'
     };
 

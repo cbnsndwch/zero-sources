@@ -1,4 +1,4 @@
-import { Hash, Lock, User, Settings, Info, Users } from 'lucide-react';
+import { Hash, Lock, User, Info, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -26,11 +26,12 @@ export function ChatHeader({
     const chatResult = useChat(roomType === 'dm' ? roomId : '');
 
     // Get the appropriate room data
-    const room = roomType === 'channel' 
-        ? channelResult[0] 
-        : roomType === 'group' 
-        ? groupResult[0] 
-        : chatResult[0];
+    const room =
+        roomType === 'channel'
+            ? channelResult[0]
+            : roomType === 'group'
+              ? groupResult[0]
+              : chatResult[0];
 
     // Use the proper room title hook
     const roomTitle = useRoomTitle(room as any, roomType);
@@ -50,7 +51,10 @@ export function ChatHeader({
 
     const getRoomDescription = () => {
         if (roomType === 'channel' && room && 'description' in room) {
-            return room.description || `Welcome to #${roomTitle}! This is where the team collaborates.`;
+            return (
+                room.description ||
+                `Welcome to #${roomTitle}! This is where the team collaborates.`
+            );
         }
         return null;
     };
@@ -94,17 +98,30 @@ export function ChatHeader({
                     </Button>
                 )}
 
-                <Button variant="ghost" size="sm">
+                {/* <Button variant="ghost" size="sm">
                     <Settings className="h-4 w-4" />
-                </Button>
+                </Button> */}
 
                 <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setIsRoomDetailsOpen(!isRoomDetailsOpen)}
-                    className={isRoomDetailsOpen ? 'bg-muted' : ''}
+                    className={`transition-all duration-200 ${
+                        isRoomDetailsOpen
+                            ? 'bg-muted text-foreground shadow-sm'
+                            : 'hover:bg-muted'
+                    }`}
+                    title={
+                        isRoomDetailsOpen
+                            ? 'Hide room details'
+                            : 'Show room details'
+                    }
                 >
-                    <Info className="h-4 w-4" />
+                    <Info
+                        className={`h-4 w-4 transition-transform duration-200 ${
+                            isRoomDetailsOpen ? 'rotate-180' : ''
+                        }`}
+                    />
                 </Button>
             </div>
         </div>

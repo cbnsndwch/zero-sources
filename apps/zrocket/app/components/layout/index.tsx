@@ -61,6 +61,20 @@ export default function AppLayout() {
     const [isManualSelection, setIsManualSelection] = useState(false);
     const [isRoomDetailsOpen, setIsRoomDetailsOpen] = useState(true);
 
+    // Add keyboard shortcut for room details toggle
+    useEffect(() => {
+        const handleKeydown = (event: KeyboardEvent) => {
+            // Ctrl/Cmd + Shift + I to toggle room details
+            if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'I') {
+                event.preventDefault();
+                setIsRoomDetailsOpen(prev => !prev);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeydown);
+        return () => window.removeEventListener('keydown', handleKeydown);
+    }, []);
+
     // Determine current room type from URL - but respect manual selections
     useEffect(() => {
         if (isManualSelection) {
@@ -239,13 +253,17 @@ export default function AppLayout() {
 
                                 {isRoomDetailsOpen ? (
                                     <>
-                                        <ResizableHandle withHandle />
+                                        <ResizableHandle 
+                                            withHandle 
+                                            className="transition-opacity duration-300" 
+                                        />
 
                                         {/* Room details panel */}
                                         <ResizablePanel
                                             defaultSize={25}
                                             minSize={20}
                                             maxSize={40}
+                                            className="animate-in slide-in-from-right duration-300"
                                         >
                                             <RoomDetails />
                                         </ResizablePanel>
