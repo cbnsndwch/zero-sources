@@ -55,6 +55,35 @@ Each table uses separate `TableMapping` configurations to specify source collect
     - API: http://localhost:8011/api
     - API Docs: http://localhost:8011/api-docs
 
+## Rich Message Composer
+
+ZRocket includes Lexical editor packages for building rich text message composition capabilities:
+
+### Installed Lexical Packages
+
+- **Core**: `lexical` - Core editor functionality
+- **React**: `@lexical/react` - React bindings and components
+- **Rich Text**: `@lexical/rich-text` - Rich text formatting support
+- **History**: `@lexical/history` - Undo/redo functionality
+- **Lists**: `@lexical/list` - Ordered and unordered lists
+- **Links**: `@lexical/link` - Link insertion and editing
+- **Utils**: `@lexical/utils` - Utility functions and helpers
+
+### Version Information
+
+All Lexical packages are pinned to version `^0.33.1` for consistency and compatibility.
+
+### Usage Example
+
+```tsx
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+```
+
 ## Development Commands
 
 - `pnpm run dev` - Start both API and frontend servers
