@@ -4,3 +4,9 @@ export type {
   EditorErrorBoundaryProps, 
   EditorErrorBoundaryState 
 } from './types';
+export { 
+  validateSerializedEditorState, 
+  createEmptySerializedEditorState,
+  ensureValidSerializedEditorState,
+  type ValidSerializedEditorState
+} from './types';
