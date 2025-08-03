@@ -1,6 +1,24 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup
+} from '@/components/ui/resizable';
+
+import { SidebarProvider } from '@/components/ui/sidebar';
+
+import type { RoomType } from '@/utils/room-preferences';
+
+import { zeroRef } from '@/zero/setup';
+
+import useChannels from '@/hooks/use-channels';
+
+import useGroups from '@/hooks/use-groups';
+
+import useChats from '@/hooks/use-chats';
+
 import SplashScreen from '../splash';
 
 import { EmptyChat } from './EmptyChat';
@@ -9,20 +27,6 @@ import { RoomList } from './RoomList';
 import RoomTypeSidebar from './RoomTypeSidebar';
 import { SearchHeader } from './SearchHeader';
 import WorkspaceSidebar from './WorkspaceSidebar';
-
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup
-} from '@/components/ui/resizable';
-import { SidebarProvider } from '@/components/ui/sidebar';
-
-import type { RoomType } from '@/utils/room-preferences';
-
-import { zeroRef } from '@/zero/setup';
-import useChannels from '@/hooks/use-channels';
-import useGroups from '@/hooks/use-groups';
-import useChats from '@/hooks/use-chats';
 
 // Helper functions for localStorage
 function getLastVisitedRoom(roomType: string): string | null {

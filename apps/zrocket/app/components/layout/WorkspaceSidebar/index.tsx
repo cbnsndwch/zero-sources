@@ -1,8 +1,8 @@
+import { Spacer } from '@/components/ui/spacer';
+
 import AddWorkspaceButton from './AddWorkspaceButton';
 import UserMenu from './UserMenu';
 import WorkspacesList from './WorkspacesList';
-
-import { Spacer } from '@/components/ui/spacer';
 
 export default function WorkspaceSidebar() {
     return (

@@ -20,8 +20,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 export default function ProfileTab() {
     // Original values for comparison
     const originalProfileInfo = {
-        name: 'John Doe',
-        username: 'johndoe',
+        name: 'Serge the Lion',
+        username: 'cbnsndwch',
         bio: 'Software engineer passionate about building great user experiences',
         avatarUrl: '/lovable-uploads/3658d516-e621-4d21-83bf-d04d79ea3c27.png'
     };

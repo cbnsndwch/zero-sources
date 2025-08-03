@@ -8,12 +8,14 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
-import ZeroOutlet from './contexts/ZeroOutlet';
-import './app.css';
 
 import { LoginProvider } from '@/auth/login.provider';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { TooltipProvider } from '@/components/ui/tooltip';
+
+import ZeroOutlet from './contexts/ZeroOutlet';
+
+import './app.css';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

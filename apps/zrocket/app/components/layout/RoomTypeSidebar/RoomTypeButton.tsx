@@ -1,5 +1,3 @@
-import type { RoomTypeItem, RoomTypeSidebarProps } from './contracts';
-
 import { Button } from '@/components/ui/button';
 import {
     Tooltip,
@@ -7,6 +5,8 @@ import {
     TooltipTrigger
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+
+import type { RoomTypeItem, RoomTypeSidebarProps } from './contracts';
 
 type RoomTypeButtonProps = RoomTypeItem & RoomTypeSidebarProps;
 

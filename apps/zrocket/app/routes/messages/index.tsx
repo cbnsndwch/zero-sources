@@ -3,8 +3,6 @@ import { useQuery, type Schema } from '@rocicorp/zero/react';
 
 import type { IUserMessage } from '@cbnsndwch/zrocket-contracts';
 
-import Skeleton from './skeleton';
-
 // import {
 //     Breadcrumb,
 //     BreadcrumbItem,
@@ -19,6 +17,8 @@ import { ChatList } from '@/components/ui/chat/chat-list';
 import ChatBottomBar from '@/components/ui/chat/chat-bottom-bar';
 
 import { useZero } from '@/zero/use-zero';
+
+import Skeleton from './skeleton';
 
 const roomTitle = 'Messages Demo';
 

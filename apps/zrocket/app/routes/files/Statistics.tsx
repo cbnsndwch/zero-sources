@@ -1,8 +1,8 @@
 import { Download, FolderOpen, File } from 'lucide-react';
 
-import { downloads, totalSize } from './constants';
-
 import { Card, CardContent } from '@/components/ui/card';
+
+import { downloads, totalSize } from './constants';
 
 export default function Statistics() {
     return (

@@ -1,10 +1,11 @@
 import { useSearchParams } from 'react-router';
 
+import TabsLayout from '@/components/layout/TabsLayout';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import LearnTab from './learn';
 import SupportTab from './support';
-
-import TabsLayout from '@/components/layout/TabsLayout';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function HelpSupportLayout() {
     const [searchParams, setSearchParams] = useSearchParams();

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { Download, Trash2 } from 'lucide-react';
 
-import { downloads, TYPE_COLOR } from './constants';
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+
+import { downloads, TYPE_COLOR } from './constants';
 
 type Props = {
     searchQuery: string;

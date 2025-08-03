@@ -1,8 +1,8 @@
+import TabsLayout from '@/components/layout/TabsLayout';
+
 import Statistics from './Statistics';
 
 import StorageSettings from './StorageSettings';
-
-import TabsLayout from '@/components/layout/TabsLayout';
 
 export default function FilesPage() {
     return (

@@ -16,7 +16,7 @@ export default function useRoomTitle(
 
     return useMemo(() => {
         if (!room) {
-            return '';
+            return 'N/A';
         }
 
         // Determine room type from room data if not provided

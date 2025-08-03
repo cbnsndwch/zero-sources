@@ -1,5 +1,4 @@
-import type { Query } from '@rocicorp/zero';
-import { useQuery, type QueryResult, type Schema } from '@rocicorp/zero/react';
+import { useQuery, type QueryResult } from '@rocicorp/zero/react';
 
 import type {
     IPrivateGroupRoom,

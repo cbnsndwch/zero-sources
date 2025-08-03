@@ -8,6 +8,7 @@ import SplashScreen from '@/components/splash';
 
 import { useZeroRef } from '@/zero/setup';
 
+
 export function meta({}: Route.MetaArgs) {
     return [
         { title: 'ZRocket ~ Zero Cache + Mongo' },

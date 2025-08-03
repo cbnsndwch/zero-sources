@@ -1,11 +1,12 @@
 import { useSearchParams } from 'react-router';
 
+import TabsLayout from '@/components/layout/TabsLayout';
+
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+
 import ProfileTab from './profile';
 import NotificationsTab from './notifications';
 import AdvancedTab from './advanced';
-
-import TabsLayout from '@/components/layout/TabsLayout';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export default function UserPreferencesPage() {
     const [searchParams, setSearchParams] = useSearchParams();

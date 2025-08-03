@@ -28,6 +28,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
 
 export default function UserMenu() {
     const navigate = useNavigate();
@@ -61,14 +62,21 @@ export default function UserMenu() {
                             U
                         </AvatarFallback>
                     </Avatar>
-                    <div>
-                        <div className="font-medium">John Doe</div>
-                        <div className="text-xs text-muted-foreground flex items-center gap-1">
-                            <Circle
-                                className={`h-2 w-2 rounded-full ${userStatus === 'online' ? 'fill-green-500 text-green-500' : 'fill-gray-400 text-gray-400'}`}
-                            />
-                            {userStatus === 'online' ? 'Active' : 'Away'}
-                        </div>
+                    <div className="flex flex-col gap-1">
+                        <div className="font-medium">Made by Serge</div>
+                        <a
+                            href="https://x.com/cbnsndwch"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex"
+                        >
+                            <Badge
+                                variant="secondary"
+                                className="text-xs justify-start items-center gap-1 hover:bg-muted-foreground/20 transition-colors"
+                            >
+                                @cbnsndwch
+                            </Badge>
+                        </a>
                     </div>
                 </DropdownMenuLabel>
 

@@ -8,14 +8,15 @@ import { useQuery } from '@rocicorp/zero/react';
 
 import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
+import { useZero } from '@/zero/use-zero';
+
+import { SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
+
 import { sidebarData } from './data';
 
 import { NavGroup } from './nav-group';
 import { NavUser } from './nav-user';
 import CreateRoomButton from './create-room-button';
-
-import { useZero } from '@/zero/use-zero';
-import { SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 
 export function AppSidebar() {
     const z = useZero();

@@ -75,12 +75,22 @@ module.exports = [
                     pathGroups: [
                         // make imports from `src` their own group
                         {
+                            pattern: './+types/**',
+                            group: 'external',
+                            position: 'after'
+                        },
+                        {
                             pattern: 'src/**',
                             group: 'external',
                             position: 'after'
                         },
                         {
                             pattern: 'app/**',
+                            group: 'external',
+                            position: 'after'
+                        },
+                        {
+                            pattern: '@/**',
                             group: 'external',
                             position: 'after'
                         }

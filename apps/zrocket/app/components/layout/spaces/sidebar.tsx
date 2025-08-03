@@ -1,9 +1,5 @@
 import { useCallback, useState, type CSSProperties } from 'react';
 
-import type { SpaceSummary } from '../contracts';
-
-import { spaces } from './data';
-
 import {
     Sidebar,
     SidebarContent,
@@ -12,7 +8,12 @@ import {
     SidebarMenuItem,
     useSidebar
 } from '@/components/ui/sidebar';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+import type { SpaceSummary } from '../contracts';
+
+import { spaces } from './data';
 
 export default function SpacesSidebar() {
     // TODO:: move this to a zustand store / the router / the url

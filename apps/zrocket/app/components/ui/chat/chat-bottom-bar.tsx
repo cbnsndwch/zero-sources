@@ -10,14 +10,14 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
+import { useIsMobile } from '@/hooks/use-is-mobile';
+
+import { cn } from '@/lib/utils';
+
 import { Button, buttonVariants } from '../button';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 
 import { ChatInput } from './chat-input';
-
-import { useIsMobile } from '@/hooks/use-is-mobile';
-
-import { cn } from '@/lib/utils';
 
 // import { EmojiPicker } from '../emoji-picker';
 // import { Message, loggedInUserData } from '@/app/data';
