@@ -1,20 +1,26 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router';
-import { Outlet } from 'react-router';
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
-import { WorkspaceSidebar } from './WorkspaceSidebar';
-import { SearchHeader } from './SearchHeader';
-import { RoomTypeSidebar } from './RoomTypeSidebar';
-import { RoomList } from './RoomList';
-import { RoomDetails } from './RoomDetails';
+import { ZeroProvider } from '@rocicorp/zero/react';
+
+import SplashScreen from '../splash';
+
 import { EmptyChat } from './EmptyChat';
+import { RoomDetails } from './RoomDetails';
+import { RoomList } from './RoomList';
+import { RoomTypeSidebar } from './RoomTypeSidebar';
+import { SearchHeader } from './SearchHeader';
+import WorkspaceSidebar from './WorkspaceSidebar';
 
-import { SidebarProvider } from '@/components/ui/sidebar';
 import {
-    ResizablePanelGroup,
+    ResizableHandle,
     ResizablePanel,
-    ResizableHandle
+    ResizablePanelGroup
 } from '@/components/ui/resizable';
+import { SidebarProvider } from '@/components/ui/sidebar';
+
+import { zeroRef } from '@/zero/setup';
+import type { RoomType } from '@/utils/room-preferences';
 
 // Room data for navigation - this will be replaced with zero data
 const roomsByType = {
@@ -58,28 +64,37 @@ const roomsByType = {
 
 // Helper functions for localStorage
 function getLastVisitedRoom(roomType: string): string | null {
+    if (typeof localStorage === 'undefined') {
+        return null;
+    }
+
     return localStorage.getItem(`lastVisited_${roomType}`);
 }
 
 function setLastVisitedRoom(roomType: string, roomId: string) {
+    if (typeof localStorage === 'undefined') {
+        return;
+    }
+
     localStorage.setItem(`lastVisited_${roomType}`, roomId);
 }
 
-export default function SidebarLayout() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [activeRoomType, setActiveRoomType] = useState('channels');
-    const [isManualSelection, setIsManualSelection] = useState(false);
-    const [isRoomDetailsOpen, setIsRoomDetailsOpen] = useState(true);
+export default function AppLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const params = useParams();
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [activeRoomType, setActiveRoomType] = useState<RoomType>('channels');
+
+    const [isManualSelection, setIsManualSelection] = useState(false);
+    const [isRoomDetailsOpen, setIsRoomDetailsOpen] = useState(true);
 
     // Determine current room type from URL - but respect manual selections
     useEffect(() => {
         if (isManualSelection) {
             return;
         }
-
         const pathParts = location.pathname.split('/');
         if (pathParts[1]) {
             const currentType =
@@ -90,11 +105,9 @@ export default function SidebarLayout() {
                       : pathParts[1] === 'd'
                         ? 'dms'
                         : 'channels';
-
             if (currentType !== activeRoomType) {
                 setActiveRoomType(currentType);
             }
-
             // Save current room as last visited for this type
             if (pathParts[2]) {
                 setLastVisitedRoom(currentType, pathParts[2]);
@@ -103,7 +116,7 @@ export default function SidebarLayout() {
     }, [location.pathname, activeRoomType, isManualSelection]);
 
     // Handle room type change with smart navigation
-    const handleRoomTypeChange = (newRoomType: string) => {
+    const handleRoomTypeChange = (newRoomType: RoomType) => {
         if (newRoomType === activeRoomType) return;
 
         setActiveRoomType(newRoomType);
@@ -140,114 +153,133 @@ export default function SidebarLayout() {
         navigate(targetRoom.url);
     };
 
-    // Handle initial navigation - if user visits root, go to last visited or first channel
-    useEffect(() => {
-        if (location.pathname === '/') {
-            const lastVisited = getLastVisitedRoom('channels');
-            const channelsForType = roomsByType.channels;
+    // // Handle initial navigation - if user visits root, go to last visited or first channel
+    // useEffect(() => {
+    //     if (location.pathname === '/') {
+    //         const lastVisited = getLastVisitedRoom('channels');
+    //         const channelsForType = roomsByType.channels;
 
-            if (lastVisited) {
-                const foundRoom = channelsForType.find(
-                    room => room.id === lastVisited
-                );
-                if (foundRoom) {
-                    navigate(foundRoom.url, { replace: true });
-                    return;
-                }
-            }
+    //         if (lastVisited) {
+    //             const foundRoom = channelsForType.find(
+    //                 room => room.id === lastVisited
+    //             );
+    //             if (foundRoom) {
+    //                 navigate(foundRoom.url, { replace: true });
+    //                 return;
+    //             }
+    //         }
 
-            // Navigate to first channel as fallback
-            navigate(channelsForType[0].url, { replace: true });
-        }
-    }, [location.pathname, navigate]);
+    //         // Navigate to first channel as fallback
+    //         navigate(channelsForType[0].url, { replace: true });
+    //     }
+    // }, [location.pathname, navigate]);
+
+    const zero = useSyncExternalStore(
+        zeroRef.onChange,
+        useCallback(() => {
+            // // for demo purposes, always return null
+            // return null;
+
+            return zeroRef.current;
+        }, []),
+        () => null // getServerSnapshot: return null during SSR
+    );
+
+    if (!zero) {
+        return <SplashScreen shouldShow={true} />;
+    }
 
     return (
-        <SidebarProvider>
-            <div className="h-screen flex w-full bg-muted/30 p-3">
-                {/* Left workspace sidebar */}
-                <WorkspaceSidebar />
+        <ZeroProvider zero={zero}>
+            <SidebarProvider>
+                <div className="h-screen flex w-full bg-muted/30 p-3">
+                    {/* Left workspace sidebar */}
+                    <WorkspaceSidebar />
 
-                <div className="flex-1 flex flex-col ml-3 min-h-0">
-                    {/* Search header outside main content */}
-                    <SearchHeader
-                        searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery}
-                    />
+                    <div className="flex-1 flex flex-col ml-3 min-h-0">
+                        {/* Search header outside main content */}
+                        <SearchHeader
+                            searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                        />
 
-                    {/* Main content area with rounded border */}
-                    <div className="flex-1 flex bg-background rounded-lg border border-border shadow-sm overflow-hidden mt-3 min-h-0">
-                        <div className="flex-1 flex overflow-hidden">
-                            {/* Room type sidebar */}
-                            <RoomTypeSidebar
-                                activeRoomType={activeRoomType}
-                                setActiveRoomType={handleRoomTypeChange}
-                            />
+                        {/* Main content area with rounded border */}
+                        <div className="flex-1 flex bg-background rounded-lg border border-border shadow-sm overflow-hidden mt-3 min-h-0">
+                            <div className="flex-1 flex overflow-hidden">
+                                {/* Room type sidebar */}
+                                <RoomTypeSidebar
+                                    activeRoomType={activeRoomType}
+                                    setActiveRoomType={handleRoomTypeChange}
+                                />
 
-                            {/* Resizable panels for room list, chat content, and room details */}
-                            <ResizablePanelGroup
-                                direction="horizontal"
-                                className="flex-1"
-                            >
-                                {/* Room list panel */}
-                                <ResizablePanel
-                                    defaultSize={20}
-                                    minSize={15}
-                                    maxSize={35}
+                                {/* Resizable panels for room list, chat content, and room details */}
+                                <ResizablePanelGroup
+                                    direction="horizontal"
+                                    className="flex-1"
                                 >
-                                    <div className="h-full border-r border-border bg-background overflow-hidden">
-                                        <RoomList
-                                            roomType={activeRoomType}
-                                            searchQuery={searchQuery}
-                                        />
-                                    </div>
-                                </ResizablePanel>
-
-                                <ResizableHandle withHandle />
-
-                                {/* Chat content panel */}
-                                <ResizablePanel
-                                    defaultSize={isRoomDetailsOpen ? 55 : 80}
-                                    minSize={30}
-                                >
-                                    <main className="h-full overflow-hidden">
-                                        {params.chatId ||
-                                        params.groupId ||
-                                        params.channelId ? (
-                                            <div className="h-full">
-                                                <Outlet
-                                                    context={{
-                                                        isRoomDetailsOpen,
-                                                        setIsRoomDetailsOpen
-                                                    }}
-                                                />
-                                            </div>
-                                        ) : (
-                                            <EmptyChat
+                                    {/* Room list panel */}
+                                    <ResizablePanel
+                                        defaultSize={20}
+                                        minSize={15}
+                                        maxSize={35}
+                                    >
+                                        <div className="h-full border-r border-border bg-background overflow-hidden">
+                                            <RoomList
                                                 roomType={activeRoomType}
+                                                searchQuery={searchQuery}
                                             />
-                                        )}
-                                    </main>
-                                </ResizablePanel>
+                                        </div>
+                                    </ResizablePanel>
 
-                                {isRoomDetailsOpen && (
-                                    <>
-                                        <ResizableHandle withHandle />
+                                    <ResizableHandle withHandle />
 
-                                        {/* Room details panel */}
-                                        <ResizablePanel
-                                            defaultSize={25}
-                                            minSize={20}
-                                            maxSize={40}
-                                        >
-                                            <RoomDetails />
-                                        </ResizablePanel>
-                                    </>
-                                )}
-                            </ResizablePanelGroup>
+                                    {/* Chat content panel */}
+                                    <ResizablePanel
+                                        defaultSize={
+                                            isRoomDetailsOpen ? 55 : 80
+                                        }
+                                        minSize={30}
+                                    >
+                                        <main className="h-full overflow-hidden">
+                                            {params.chatId ||
+                                            params.groupId ||
+                                            params.channelId ? (
+                                                <div className="h-full">
+                                                    <Outlet
+                                                        context={{
+                                                            isRoomDetailsOpen,
+                                                            setIsRoomDetailsOpen
+                                                        }}
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <EmptyChat
+                                                    roomType={activeRoomType}
+                                                />
+                                            )}
+                                        </main>
+                                    </ResizablePanel>
+
+                                    {isRoomDetailsOpen && (
+                                        <>
+                                            <ResizableHandle withHandle />
+
+                                            {/* Room details panel */}
+                                            <ResizablePanel
+                                                defaultSize={25}
+                                                minSize={20}
+                                                maxSize={40}
+                                            >
+                                                <RoomDetails />
+                                            </ResizablePanel>
+                                        </>
+                                    )}
+                                </ResizablePanelGroup>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </SidebarProvider>
+            </SidebarProvider>
+        </ZeroProvider>
     );
 }

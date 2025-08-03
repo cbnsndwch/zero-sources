@@ -88,7 +88,7 @@ const commonIssues = [
     }
 ];
 
-export default function Contact() {
+export default function SupportTab() {
     const [ticketForm, setTicketForm] = useState({
         subject: '',
         category: '',

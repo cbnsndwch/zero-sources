@@ -1,12 +1,15 @@
-import { Hash, Lock, User } from 'lucide-react';
-import { NavLink } from 'react-router';
 import { useQuery } from '@rocicorp/zero/react';
+import { Hash, Lock, User, type LucideIcon } from 'lucide-react';
+import { useMemo } from 'react';
+import { NavLink } from 'react-router';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
+import type { RoomType } from '@/utils/room-preferences';
 import { useZero } from '@/zero/use-zero';
+import { cn } from '@/lib/utils';
 
 interface RoomListProps {
-    roomType: string;
+    roomType: RoomType;
     searchQuery: string;
 }
 
@@ -22,9 +25,11 @@ function groupByFirstLetter(items: Room[]): Record<string, Room[]> {
     return items.reduce(
         (groups, item) => {
             const firstLetter = item.name.charAt(0).toLowerCase();
+
             if (!groups[firstLetter]) {
                 groups[firstLetter] = [];
             }
+
             groups[firstLetter].push(item);
             return groups;
         },
@@ -35,7 +40,7 @@ function groupByFirstLetter(items: Room[]): Record<string, Room[]> {
 function mapDirectMessageToRoom(dm: any): Room {
     // For DMs, create a display name from usernames (excluding current user)
     const displayName = dm.usernames?.join(', ') || `Chat ${dm._id}`;
-    
+
     return {
         id: dm._id,
         name: displayName,
@@ -62,6 +67,12 @@ function mapChannelToRoom(channel: any): Room {
     };
 }
 
+const ROOM_ICON_BY_TYPE: Partial<Record<RoomType, LucideIcon>> = {
+    dms: User,
+    groups: Lock,
+    channels: Hash
+};
+
 export function RoomList({ roomType, searchQuery }: RoomListProps) {
     const z = useZero();
 
@@ -81,60 +92,83 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
         { enabled: !!z && roomType === 'channels' }
     );
 
-    const getRoomsForType = (): Room[] => {
+    const rooms = useMemo(() => {
         switch (roomType) {
             case 'dms':
-                if (chatsResult.type !== 'complete' || !chats) return [];
+                if (chatsResult.type !== 'complete' || !chats) {
+                    return [];
+                }
+
                 return chats
                     .map(mapDirectMessageToRoom)
                     .filter(dm =>
-                        dm.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        dm.name
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase())
                     );
-                    
+
             case 'groups':
-                if (groupsResult.type !== 'complete' || !groups) return [];
+                if (groupsResult.type !== 'complete' || !groups) {
+                    return [];
+                }
+
                 return groups
                     .map(mapPrivateGroupToRoom)
                     .filter(group =>
-                        group.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        group.name
+                            ?.toLowerCase()
+                            ?.includes(searchQuery.toLowerCase())
                     );
-                    
+
             case 'channels':
-                if (channelsResult.type !== 'complete' || !channels) return [];
+                if (channelsResult.type !== 'complete' || !channels) {
+                    return [];
+                }
+
                 return channels
                     .map(mapChannelToRoom)
                     .filter(channel =>
-                        channel.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        channel.name
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase())
                     );
-                    
-            case 'threads':
-            case 'starred':
-            case 'archived':
-                // These room types don't have data yet, return empty array
-                return [];
-            default:
-                return [];
-        }
-    };
 
-    const getRoomIcon = () => {
-        switch (roomType) {
-            case 'dms':
-                return User;
-            case 'groups':
-                return Lock;
-            case 'channels':
-                return Hash;
+            // case 'threads':
+            // case 'starred':
+            // case 'archived':
+            //     // These room types don't have data yet, return empty array
+            //     return [];
             default:
-                return Hash;
+                return [];
         }
-    };
+    }, [
+        roomType,
+        chatsResult.type,
+        chats,
+        groupsResult.type,
+        groups,
+        channelsResult.type,
+        channels,
+        searchQuery
+    ]);
 
     // Check if we're still loading
-    const isLoading = 
-        (roomType === 'dms' && chatsResult.type !== 'complete') ||
-        (roomType === 'groups' && groupsResult.type !== 'complete') ||
-        (roomType === 'channels' && channelsResult.type !== 'complete');
+    const isLoading = useMemo(
+        () =>
+            (roomType === 'dms' && chatsResult.type !== 'complete') ||
+            (roomType === 'groups' && groupsResult.type !== 'complete') ||
+            (roomType === 'channels' && channelsResult.type !== 'complete'),
+        [channelsResult.type, chatsResult.type, groupsResult.type, roomType]
+    );
+
+    const groupedRooms = useMemo(() => groupByFirstLetter(rooms), [rooms]);
+
+    const sortedGroups = useMemo(
+        () => Object.keys(groupedRooms).sort(),
+        [groupedRooms]
+    );
+
+    const Icon = ROOM_ICON_BY_TYPE[roomType] ?? Hash;
 
     if (isLoading) {
         return (
@@ -143,11 +177,6 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
             </div>
         );
     }
-
-    const rooms = getRoomsForType();
-    const groupedRooms = groupByFirstLetter(rooms);
-    const sortedGroups = Object.keys(groupedRooms).sort();
-    const Icon = getRoomIcon();
 
     if (rooms.length === 0) {
         return (
@@ -185,21 +214,24 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
                                     <span className="truncate flex-1">
                                         {room.name}
                                     </span>
+
                                     {roomType === 'dms' &&
-                                        room.online !== undefined && (
-                                            <div
-                                                className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                                                    room.online
-                                                        ? 'bg-green-500'
-                                                        : 'bg-gray-400'
-                                                }`}
-                                            />
-                                        )}
-                                    {roomType !== 'dms' && room.members && (
+                                    room.online !== undefined ? (
+                                        <div
+                                            className={cn(
+                                                `w-2 h-2 rounded-full flex-shrink-0`,
+                                                room.online
+                                                    ? 'bg-green-500'
+                                                    : 'bg-gray-400'
+                                            )}
+                                        />
+                                    ) : null}
+
+                                    {roomType !== 'dms' && room.members ? (
                                         <span className="text-xs text-muted-foreground flex-shrink-0">
                                             {room.members}
                                         </span>
-                                    )}
+                                    ) : null}
                                 </NavLink>
                             ))}
                         </div>

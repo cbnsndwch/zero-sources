@@ -1,15 +1,9 @@
-import { ZeroProvider } from '@rocicorp/zero/react';
-// import { AnimatePresence } from 'framer-motion';
-import {
-    useCallback,
-    // useState,
-    useSyncExternalStore,
-    type PropsWithChildren
-} from 'react';
+import type { PropsWithChildren } from 'react';
 import {
     isRouteErrorResponse,
     Links,
     Meta,
+    Outlet,
     Scripts,
     ScrollRestoration
 } from 'react-router';
@@ -19,12 +13,7 @@ import './app.css';
 
 import { LoginProvider } from '@/auth/login.provider';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-
 import { TooltipProvider } from '@/components/ui/tooltip';
-import SidebarLayout from '@/components/layout';
-// import SplashScreen from '@/components/splash';
-
-import { zeroRef } from '@/zero/setup';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -41,7 +30,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: PropsWithChildren) {
     return (
-        <html lang="en">
+        <html lang="en" className="h-full">
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -51,7 +40,7 @@ export function Layout({ children }: PropsWithChildren) {
                 <Meta />
                 <Links />
             </head>
-            <body>
+            <body className="h-full min-h-[100dvh]">
                 {children}
                 <ScrollRestoration />
                 <Scripts />
@@ -61,40 +50,12 @@ export function Layout({ children }: PropsWithChildren) {
 }
 
 export default function App() {
-    // const [showSplash, setShowSplash] = useState(true);
-    // const hideSplash = useCallback(() => setShowSplash(false), []);
-
-    const zero = useSyncExternalStore(
-        zeroRef.onChange,
-        useCallback(() => {
-            // // for demo purposes, always return null
-            // return null;
-
-            return zeroRef.current;
-        }, []),
-        () => null // getServerSnapshot: return null during SSR
-    );
-
-    if (!zero) {
-        return null;
-    }
-
-    // if (showSplash || !zero) {
-    //     return (
-    //         <AnimatePresence>
-    //             <SplashScreen shouldShow={!zero} onComplete={hideSplash} />
-    //         </AnimatePresence>
-    //     );
-    // }
-
     return (
         <LoginProvider>
             <ThemeProvider>
-                <ZeroProvider zero={zero}>
-                    <TooltipProvider>
-                        <SidebarLayout />
-                    </TooltipProvider>
-                </ZeroProvider>
+                <TooltipProvider>
+                    <Outlet />
+                </TooltipProvider>
             </ThemeProvider>
         </LoginProvider>
     );

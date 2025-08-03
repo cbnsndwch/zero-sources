@@ -24,6 +24,15 @@ export type LoginState = {
 };
 
 export const zeroRef = new Atom<Zero>();
+
+export function getZeroSnapshot() {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
+    return zeroRef.current;
+}
+
 export const authRef = new Atom<LoginState>();
 
 const jwt = getJwt();

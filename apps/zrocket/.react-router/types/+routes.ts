@@ -43,16 +43,7 @@ type Pages = {
   "/preferences": {
     params: {};
   };
-  "/preferences/notifications": {
-    params: {};
-  };
-  "/preferences/advanced": {
-    params: {};
-  };
-  "/help-support": {
-    params: {};
-  };
-  "/help-support/contact": {
+  "/support": {
     params: {};
   };
   "/messages": {
@@ -66,11 +57,15 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/files" | "/preferences" | "/preferences/notifications" | "/preferences/advanced" | "/help-support" | "/help-support/contact" | "/messages" | "/info";
+    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/files" | "/preferences" | "/support" | "/messages" | "/info";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
     page: "/";
+  };
+  "components/layout/index.tsx": {
+    id: "components/layout/index";
+    page: "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId";
   };
   "routes/direct/layout.tsx": {
     id: "routes/direct/layout";
@@ -108,37 +103,17 @@ type RouteFiles = {
     id: "routes/channels/channel";
     page: "/c/:channelId";
   };
-  "routes/files.tsx": {
-    id: "routes/files";
+  "routes/files/index.tsx": {
+    id: "routes/files/index";
     page: "/files";
-  };
-  "routes/preferences/layout.tsx": {
-    id: "routes/preferences/layout";
-    page: "/preferences" | "/preferences/notifications" | "/preferences/advanced";
   };
   "routes/preferences/index.tsx": {
     id: "routes/preferences/index";
     page: "/preferences";
   };
-  "routes/preferences/notifications.tsx": {
-    id: "routes/preferences/notifications";
-    page: "/preferences/notifications";
-  };
-  "routes/preferences/advanced.tsx": {
-    id: "routes/preferences/advanced";
-    page: "/preferences/advanced";
-  };
-  "routes/help-support/layout.tsx": {
-    id: "routes/help-support/layout";
-    page: "/help-support" | "/help-support/contact";
-  };
-  "routes/help-support/index.tsx": {
-    id: "routes/help-support/index";
-    page: "/help-support";
-  };
-  "routes/help-support/contact.tsx": {
-    id: "routes/help-support/contact";
-    page: "/help-support/contact";
+  "routes/support/index.tsx": {
+    id: "routes/support/index";
+    page: "/support";
   };
   "routes/messages/index.tsx": {
     id: "routes/messages/index";

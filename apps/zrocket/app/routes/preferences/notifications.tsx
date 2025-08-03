@@ -21,7 +21,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 
-export default function NotificationsPreferences() {
+export default function NotificationsTab() {
     // Original values for comparison
     const originalDesktopSettings = {
         desktop: true,

@@ -1,7 +1,12 @@
-import { useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { useCallback, useEffect, useSyncExternalStore } from 'react';
 import { useNavigate } from 'react-router';
 
 import type { Route } from './+types/index';
+
+import SplashScreen from '@/components/splash';
+
+import { getZeroSnapshot, zeroRef } from '@/zero/setup';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -13,13 +18,29 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // Redirect to general channel by default
+    const hideSplash = useCallback(() => {
         navigate('/c/general', { replace: true });
     }, [navigate]);
 
+    const zero = useSyncExternalStore(
+        zeroRef.onChange,
+        getZeroSnapshot,
+        getZeroSnapshot
+    );
+
+    useEffect(() => {
+        if (!zero) {
+            return;
+        }
+
+        hideSplash();
+    }, [zero, hideSplash]);
+
     return (
-        <div className="relative h-full min-h-full w-full overflow-hidden bg-background">
+        <div
+            id="home"
+            className="relative h-full min-h-full w-full flex justify-center items-center overflow-hidden bg-background"
+        >
             <div className="relative mx-auto flex max-w-7xl flex-col">
                 <div className="flex items-center justify-center h-64">
                     <div className="text-center">
@@ -30,6 +51,10 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            <AnimatePresence>
+                <SplashScreen shouldShow={!zero} onComplete={hideSplash} />
+            </AnimatePresence>
         </div>
     );
 }

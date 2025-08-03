@@ -8,7 +8,8 @@ import { LoginContext } from './use-login';
 export function LoginProvider({ children }: { children: React.ReactNode }) {
     const loginState = useSyncExternalStore(
         authRef.onChange,
-        useCallback(() => authRef.current, [])
+        useCallback(() => authRef.current, []),
+        () => undefined // getServerSnapshot: return undefined during SSR
     );
 
     return (

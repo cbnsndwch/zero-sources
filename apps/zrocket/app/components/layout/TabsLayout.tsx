@@ -5,16 +5,16 @@ import { ArrowLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-type UserPreferencesLayoutProps = PropsWithChildren<{
+type TabsLayoutProps = PropsWithChildren<{
     title: string;
-    description: string;
+    description?: string;
 }>;
 
-export function UserPreferencesLayout({
+export default function TabsLayout({
     children,
     title,
     description
-}: UserPreferencesLayoutProps) {
+}: TabsLayoutProps) {
     const navigate = useNavigate();
 
     return (
@@ -31,7 +31,11 @@ export function UserPreferencesLayout({
                     </Button>
                     <div>
                         <h1 className="text-3xl font-bold">{title}</h1>
-                        <p className="text-muted-foreground">{description}</p>
+                        {description ? (
+                            <p className="text-muted-foreground">
+                                {description}
+                            </p>
+                        ) : null}
                     </div>
                 </div>
 

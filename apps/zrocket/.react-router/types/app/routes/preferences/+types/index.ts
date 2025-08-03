@@ -13,9 +13,6 @@ type Matches = [{
   id: "root";
   module: typeof import("../../../root.js");
 }, {
-  id: "routes/preferences/layout";
-  module: typeof import("../layout.js");
-}, {
   id: "routes/preferences/index";
   module: typeof import("../index.js");
 }];

@@ -77,7 +77,7 @@ const categories = [
     'Security'
 ];
 
-export default function Learn() {
+export default function LearnTab() {
     const getTypeIcon = (type: string) => {
         switch (type) {
             case 'video':

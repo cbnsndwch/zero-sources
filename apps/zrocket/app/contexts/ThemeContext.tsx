@@ -19,7 +19,11 @@ const ThemeProviderContext = createContext<
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
     const [theme, setTheme] = useState<Theme>(() => {
-        return (localStorage.getItem('theme') as Theme) || 'system';
+        if (typeof localStorage === 'undefined') {
+            return 'system';
+        }
+
+        return (localStorage.getItem('theme') || 'system') as Theme;
     });
 
     useEffect(() => {
@@ -41,7 +45,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const value = {
         theme,
         setTheme: (theme: Theme) => {
-            localStorage.setItem('theme', theme);
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('theme', theme);
+            }
+
             setTheme(theme);
         }
     };

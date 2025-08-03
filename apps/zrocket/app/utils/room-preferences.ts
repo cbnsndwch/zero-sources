@@ -2,19 +2,17 @@
  * Utility functions for managing room navigation preferences
  */
 
-export type RoomType = 'dms' | 'groups' | 'channels';
+export type RoomType =
+    | 'dms'
+    | 'groups'
+    | 'channels'
+    | 'threads'
+    | 'starred'
+    | 'archived';
 
 interface RoomPreferences {
-    lastVisitedRooms: {
-        dms?: string;
-        groups?: string;
-        channels?: string;
-    };
-    visitHistory: {
-        dms: string[];
-        groups: string[];
-        channels: string[];
-    };
+    lastVisitedRooms: Partial<Record<RoomType, string>>;
+    visitHistory: Partial<Record<RoomType, string[]>>;
 }
 
 const STORAGE_KEY = 'zrocket-room-preferences';
@@ -29,7 +27,14 @@ function getPreferences(): RoomPreferences {
     if (typeof window === 'undefined') {
         return {
             lastVisitedRooms: {},
-            visitHistory: { dms: [], groups: [], channels: [] }
+            visitHistory: {
+                dms: [],
+                groups: [],
+                channels: [],
+                threads: [],
+                starred: [],
+                archived: []
+            }
         };
     }
 
@@ -65,26 +70,26 @@ export function getLastVisitedRoom(roomType: RoomType): string | undefined {
 
 export function setLastVisitedRoom(roomType: RoomType, roomId: string): void {
     const preferences = getPreferences();
-    
+
     // Update last visited
     preferences.lastVisitedRooms[roomType] = roomId;
-    
+
     // Update visit history
-    const history = preferences.visitHistory[roomType];
+    const history = preferences.visitHistory?.[roomType] || [];
     const existingIndex = history.indexOf(roomId);
-    
+
     if (existingIndex > -1) {
         // Move to front if already exists
         history.splice(existingIndex, 1);
     }
-    
+
     history.unshift(roomId);
-    
+
     // Keep only recent history
     if (history.length > MAX_HISTORY) {
         history.splice(MAX_HISTORY);
     }
-    
+
     savePreferences(preferences);
 }
 
