@@ -43,10 +43,13 @@ export function ChatInput({
                 }
             });
         }
-        
+
         if (textContent.trim()) {
             // Here we'll integrate with zero to send the rich message
-            console.log('Sending rich message:', { textContent, serializedState: content });
+            console.log('Sending rich message:', {
+                textContent,
+                serializedState: content
+            });
         }
     };
 

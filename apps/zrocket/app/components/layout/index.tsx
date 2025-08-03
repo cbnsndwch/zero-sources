@@ -65,7 +65,11 @@ export default function AppLayout() {
     useEffect(() => {
         const handleKeydown = (event: KeyboardEvent) => {
             // Ctrl/Cmd + Shift + I to toggle room details
-            if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'I') {
+            if (
+                (event.ctrlKey || event.metaKey) &&
+                event.shiftKey &&
+                event.key === 'I'
+            ) {
                 event.preventDefault();
                 setIsRoomDetailsOpen(prev => !prev);
             }
@@ -253,9 +257,9 @@ export default function AppLayout() {
 
                                 {isRoomDetailsOpen ? (
                                     <>
-                                        <ResizableHandle 
-                                            withHandle 
-                                            className="transition-opacity duration-300" 
+                                        <ResizableHandle
+                                            withHandle
+                                            className="transition-opacity duration-300"
                                         />
 
                                         {/* Room details panel */}
