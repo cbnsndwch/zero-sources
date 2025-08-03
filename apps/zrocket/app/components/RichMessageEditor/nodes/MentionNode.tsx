@@ -1,11 +1,8 @@
+import type { ReactElement } from 'react';
 import {
-    $isNodeOfType,
     DecoratorNode,
-    EditorConfig,
-    LexicalNode,
-    NodeKey,
-    SerializedLexicalNode,
-    Spread
+    type SerializedLexicalNode,
+    type NodeKey
 } from 'lexical';
 
 export interface MentionPayload {
@@ -14,16 +11,13 @@ export interface MentionPayload {
     name?: string;
 }
 
-export type SerializedMentionNode = Spread<
-    {
-        mentionID: string;
-        username: string;
-        name?: string;
-    },
-    SerializedLexicalNode
->;
+export type SerializedMentionNode = SerializedLexicalNode & {
+    mentionID: string;
+    username: string;
+    name?: string;
+};
 
-export class MentionNode extends DecoratorNode<JSX.Element> {
+export class MentionNode extends DecoratorNode<ReactElement> {
     __mentionID: string;
     __username: string;
     __name?: string;
@@ -69,7 +63,7 @@ export class MentionNode extends DecoratorNode<JSX.Element> {
         this.__name = payload.name;
     }
 
-    createDOM(config: EditorConfig): HTMLElement {
+    createDOM(): HTMLElement {
         const span = document.createElement('span');
         span.className = 'mention';
         span.setAttribute('data-mention-id', this.__mentionID);
@@ -120,7 +114,7 @@ export class MentionNode extends DecoratorNode<JSX.Element> {
         return true;
     }
 
-    decorate(): JSX.Element {
+    decorate(): ReactElement {
         return (
             <span
                 className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-blue-100 text-blue-800 text-sm font-medium border border-blue-200 hover:bg-blue-200 transition-colors"
@@ -141,7 +135,7 @@ export function $createMentionNode(payload: MentionPayload): MentionNode {
 }
 
 export function $isMentionNode(
-    node: LexicalNode | null | undefined
+    node: any
 ): node is MentionNode {
-    return $isNodeOfType(node, MentionNode);
+    return node instanceof MentionNode;
 }

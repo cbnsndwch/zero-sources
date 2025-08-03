@@ -4,7 +4,6 @@ import {
     $isRangeSelection,
     $isTextNode,
     $createTextNode,
-    TextNode,
     KEY_DOWN_COMMAND,
     COMMAND_PRIORITY_LOW
 } from 'lexical';
@@ -13,7 +12,6 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $createMentionNode, MentionNode } from '../nodes/MentionNode';
 import {
     MentionDropdown,
-    MentionDropdownRef,
     type User
 } from '../components/MentionDropdown';
 
@@ -49,7 +47,6 @@ export function MentionsPlugin(): JSX.Element | null {
     const [queryString, setQueryString] = useState('');
     const [results, setResults] = useState<User[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const dropdownRef = useRef<MentionDropdownRef>(null);
 
     // Debounced search
     useEffect(() => {
@@ -115,7 +112,7 @@ export function MentionsPlugin(): JSX.Element | null {
                         mentionNode.insertAfter(newTextNode);
                         newTextNode.select();
                     } else {
-                        // Just remove the current node if no after text
+                        // Just remove the current node if no after text and no before text
                         if (!beforeText) {
                             anchorNode.remove();
                         }
@@ -216,7 +213,6 @@ export function MentionsPlugin(): JSX.Element | null {
 
     return (
         <MentionDropdown
-            ref={dropdownRef}
             users={results}
             selectedIndex={selectedIndex}
             onSelect={handleMentionInsert}
