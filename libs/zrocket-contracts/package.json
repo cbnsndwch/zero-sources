@@ -21,6 +21,9 @@
     "engines": {
         "node": ">=22"
     },
+    "dependencies": {
+        "@cbnsndwch/zero-contracts": "workspace:*"
+    },
     "peerDependencies": {
         "@rocicorp/zero": "*"
     },
@@ -45,7 +48,7 @@
     "files": [
         "dist"
     ],
-    "typings": ".dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
     "exports": {
         ".": "./dist/index.js",
         "./schema": "./dist/schema/index.js",
