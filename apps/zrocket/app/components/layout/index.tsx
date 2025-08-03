@@ -8,7 +8,7 @@ import SplashScreen from '../splash';
 import { EmptyChat } from './EmptyChat';
 import { RoomDetails } from './RoomDetails';
 import { RoomList } from './RoomList';
-import { RoomTypeSidebar } from './RoomTypeSidebar';
+import RoomTypeSidebar from './RoomTypeSidebar';
 import { SearchHeader } from './SearchHeader';
 import WorkspaceSidebar from './WorkspaceSidebar';
 
@@ -19,8 +19,9 @@ import {
 } from '@/components/ui/resizable';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-import { zeroRef } from '@/zero/setup';
 import type { RoomType } from '@/utils/room-preferences';
+
+import { zeroRef } from '@/zero/setup';
 
 // Room data for navigation - this will be replaced with zero data
 const roomsByType = {
@@ -108,6 +109,7 @@ export default function AppLayout() {
             if (currentType !== activeRoomType) {
                 setActiveRoomType(currentType);
             }
+            
             // Save current room as last visited for this type
             if (pathParts[2]) {
                 setLastVisitedRoom(currentType, pathParts[2]);
