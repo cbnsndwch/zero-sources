@@ -6,6 +6,7 @@ import {
     Delete,
     Param,
     Body,
+    Query,
     HttpStatus,
     HttpException,
     NotFoundException,
@@ -45,6 +46,21 @@ export class UserController {
                 HttpStatus.BAD_REQUEST
             );
         }
+    }
+
+    @Get()
+    @ApiOperation({ summary: 'Search users' })
+    @ApiResponse({ status: 200, description: 'Return matching users' })
+    async search(
+        @Query('q') query: string,
+        @Query('limit') limit?: number
+    ): Promise<User[]> {
+        if (!query || query.trim().length === 0) {
+            return [];
+        }
+        
+        const searchLimit = limit && limit > 0 && limit <= 50 ? limit : 10;
+        return this.#userService.search(query.trim(), searchLimit);
     }
 
     @Get(':id')
