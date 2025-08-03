@@ -1,5 +1,13 @@
 import type { SerializedEditorState } from 'lexical';
 
+// Re-export serialization utilities for external use
+export { 
+  validateSerializedEditorState, 
+  createEmptySerializedEditorState,
+  ensureValidSerializedEditorState,
+  type ValidSerializedEditorState
+} from './serialization-utils';
+
 /**
  * Props for the RichMessageEditor component
  */

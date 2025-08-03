@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { SerializedEditorState } from 'lexical';
+
 import { RichMessageEditor } from '@/components/RichMessageEditor';
 
 export default function RichMessageEditorDemo() {
@@ -81,7 +82,7 @@ export default function RichMessageEditorDemo() {
           <h2 className="text-xl font-semibold">Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border rounded-lg p-4 bg-card">
-              <h3 className="font-medium mb-2">🎯 Key Features</h3>
+              <h3 className="font-medium mb-2"><span role="img" aria-label="target">🎯</span> Key Features</h3>
               <ul className="text-sm space-y-1 text-muted-foreground">
                 <li>• Rich text editing with Lexical</li>
                 <li>• Enter to send, Shift+Enter for new line</li>
@@ -92,7 +93,7 @@ export default function RichMessageEditorDemo() {
               </ul>
             </div>
             <div className="border rounded-lg p-4 bg-card">
-              <h3 className="font-medium mb-2">📦 Implementation</h3>
+              <h3 className="font-medium mb-2"><span role="img" aria-label="package">📦</span> Implementation</h3>
               <ul className="text-sm space-y-1 text-muted-foreground">
                 <li>• LexicalComposer setup</li>
                 <li>• RichTextPlugin integration</li>
