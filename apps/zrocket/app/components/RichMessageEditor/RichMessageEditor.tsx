@@ -1,6 +1,10 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
-import { $getRoot, $getSelection } from 'lexical';
-import type { EditorState, SerializedEditorState } from 'lexical';
+import { Component, useCallback, useEffect, useState } from 'react';
+import {
+    $getRoot,
+    $getSelection,
+    type EditorState,
+    type SerializedEditorState
+} from 'lexical';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';

@@ -16,19 +16,20 @@ export default defineConfig(({ mode }) => ({
     },
     optimizeDeps: {
         include: [
-            'lexical',
-            '@lexical/react',
-            '@lexical/rich-text',
-            '@lexical/history',
-            '@lexical/link',
-            '@lexical/list',
-            '@lexical/utils'
+            'lexical'
+            // '@lexical/rich-text',
+            // '@lexical/history',
+            // '@lexical/link',
+            // '@lexical/list',
+            // '@lexical/utils'
         ],
         exclude: [],
         force: true
     },
     define: {
-        'process.env.NODE_ENV': JSON.stringify(mode === 'development' ? 'development' : 'production')
+        'process.env.NODE_ENV': JSON.stringify(
+            mode === 'development' ? 'development' : 'production'
+        )
     },
     build: {
         rollupOptions: {
