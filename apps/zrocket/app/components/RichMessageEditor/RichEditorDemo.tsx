@@ -75,12 +75,22 @@ export function RichEditorDemo() {
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Message Input Demo</CardTitle>
-                    <CardDescription>
-                        Try typing and sending messages. Press Enter to send,
-                        Shift+Enter for new lines.
+      <Card>
+        <CardHeader>
+          <CardTitle>Message Input Demo</CardTitle>
+          <CardDescription>
+            Try typing and sending messages. Press Enter to send, Shift+Enter for new lines.
+            {useRichEditor && (
+              <div className="mt-2 p-2 bg-blue-50 rounded-md">
+                <strong>Text Formatting Shortcuts:</strong>
+                <div className="text-xs mt-1 space-y-1">
+                  <div>• <kbd className="px-1 py-0.5 bg-gray-200 rounded text-xs">Ctrl+B</kbd> - Bold</div>
+                  <div>• <kbd className="px-1 py-0.5 bg-gray-200 rounded text-xs">Ctrl+I</kbd> - Italic</div>
+                  <div>• <kbd className="px-1 py-0.5 bg-gray-200 rounded text-xs">Ctrl+U</kbd> - Underline</div>
+                  <div>• <kbd className="px-1 py-0.5 bg-gray-200 rounded text-xs">Ctrl+Shift+S</kbd> - Strikethrough</div>
+                </div>
+              </div>
+            )}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -159,12 +169,14 @@ export function RichEditorDemo() {
                             <ul className="text-sm space-y-1 text-muted-foreground">
                                 <li>• Lexical editor integration</li>
                                 <li>• SerializedEditorState output</li>
+                <li>• Text formatting (bold, italic, underline, strikethrough)</li>
+                <li>• Keyboard shortcuts for formatting</li>
+                <li>• Format combinations support</li>
                                 <li>• Backward compatibility</li>
                                 <li>• TypeScript support</li>
                                 <li>• Error boundaries</li>
                                 <li>• Character limits</li>
-                                <li>• Keyboard shortcuts</li>
-                                <li>• 40 passing tests</li>
+                <li>• 62 passing tests</li>
                             </ul>
                         </div>
                         <div>
@@ -176,8 +188,10 @@ export function RichEditorDemo() {
                                 <li>• HistoryPlugin for undo/redo</li>
                                 <li>• OnChangePlugin for tracking</li>
                                 <li>• Custom KeyboardPlugin</li>
+                <li>• FormattingPlugin for text styles</li>
                                 <li>• CharacterLimitPlugin</li>
                                 <li>• Validation utilities</li>
+                <li>• Format utilities & helpers</li>
                                 <li>• Error handling</li>
                                 <li>• Integration tests</li>
                             </ul>

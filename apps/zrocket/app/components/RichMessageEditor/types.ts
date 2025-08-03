@@ -8,6 +8,20 @@ export {
     type ValidSerializedEditorState
 } from './serialization-utils';
 
+// Re-export formatting utilities for external use
+export {
+  toggleTextFormat,
+  isFormatActive,
+  getActiveFormats,
+  getFormattingShortcut,
+  FORMATTING_SHORTCUTS
+} from './formatting-utils';
+
+/**
+ * Text formatting types supported by the editor
+ */
+export type TextFormatType = 'bold' | 'italic' | 'underline' | 'strikethrough';
+
 /**
  * Props for the RichMessageEditor component
  */
