@@ -1,5 +1,8 @@
-import { useParams, useOutletContext } from 'react-router';
-import { useEffect } from 'react';
+import {
+    type ClientLoaderFunctionArgs,
+    useParams,
+    useOutletContext
+} from 'react-router';
 
 import { ChatHeader } from '@/components/chat/ChatHeader';
 import { ChatMessages } from '@/components/chat/ChatMessages';
@@ -17,13 +20,6 @@ export default function DirectMessagePage() {
     const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
         useOutletContext<OutletContext>();
 
-    // Track room visit
-    useEffect(() => {
-        if (chatId) {
-            setLastVisitedRoom('dms', chatId);
-        }
-    }, [chatId]);
-
     if (!chatId) {
         return <div>Chat not found</div>;
     }
@@ -39,7 +35,15 @@ export default function DirectMessagePage() {
             <div className="flex-1 overflow-hidden">
                 <ChatMessages roomId={chatId} roomType="dm" />
             </div>
-            <ChatInput roomId={chatId} roomType="dm" useRichEditor />
+            <ChatInput roomId={chatId} roomType="dm" />
         </div>
     );
+}
+
+export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
+    if (params.chatId) {
+        setLastVisitedRoom('dms', params.chatId);
+    }
+
+    return null;
 }

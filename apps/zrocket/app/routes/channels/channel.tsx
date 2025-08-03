@@ -1,5 +1,8 @@
-import { useParams, useOutletContext } from 'react-router';
-import { useEffect } from 'react';
+import {
+    useParams,
+    useOutletContext,
+    type ClientLoaderFunctionArgs
+} from 'react-router';
 
 import { ChatHeader } from '@/components/chat/ChatHeader';
 import { ChatMessages } from '@/components/chat/ChatMessages';
@@ -16,13 +19,6 @@ export default function ChannelPage() {
     const { channelId } = useParams();
     const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
         useOutletContext<OutletContext>();
-
-    // Track room visit
-    useEffect(() => {
-        if (channelId) {
-            setLastVisitedRoom('channels', channelId);
-        }
-    }, [channelId]);
 
     if (!channelId) {
         return <div>Channel not found</div>;
@@ -42,4 +38,12 @@ export default function ChannelPage() {
             <ChatInput roomId={channelId} roomType="channel" />
         </div>
     );
+}
+
+export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
+    if (params.channelId) {
+        setLastVisitedRoom('channels', params.channelId);
+    }
+
+    return null;
 }

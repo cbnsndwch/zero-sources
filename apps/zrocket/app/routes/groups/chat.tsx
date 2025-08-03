@@ -1,5 +1,8 @@
-import { useParams, useOutletContext } from 'react-router';
-import { useEffect } from 'react';
+import {
+    useParams,
+    useOutletContext,
+    type ClientLoaderFunctionArgs
+} from 'react-router';
 
 import { ChatHeader } from '@/components/chat/ChatHeader';
 import { ChatMessages } from '@/components/chat/ChatMessages';
@@ -17,13 +20,6 @@ export default function GroupPage() {
     const { isRoomDetailsOpen, setIsRoomDetailsOpen } =
         useOutletContext<OutletContext>();
 
-    // Track room visit
-    useEffect(() => {
-        if (chatId) {
-            setLastVisitedRoom('groups', chatId);
-        }
-    }, [chatId]);
-
     if (!chatId) {
         return <div>Group not found</div>;
     }
@@ -39,7 +35,15 @@ export default function GroupPage() {
             <div className="flex-1 overflow-hidden">
                 <ChatMessages roomId={chatId} roomType="group" />
             </div>
-            <ChatInput roomId={chatId} roomType="group" useRichEditor />
+            <ChatInput roomId={chatId} roomType="group" />
         </div>
     );
+}
+
+export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
+    if (params.chatId) {
+        setLastVisitedRoom('groups', params.chatId);
+    }
+
+    return null;
 }

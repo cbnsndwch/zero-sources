@@ -107,9 +107,7 @@ describe('ChatInput', () => {
     });
 
     it('applies correct room type and id props', () => {
-        render(
-            <ChatInput roomId="my-room" roomType="group" useRichEditor />
-        );
+        render(<ChatInput roomId="my-room" roomType="group" useRichEditor />);
 
         // Component should render successfully with all prop variations
         expect(screen.getByTestId('rich-message-editor')).toBeInTheDocument();

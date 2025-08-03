@@ -283,6 +283,14 @@ export function RichMessageEditor({
                             }
                             ErrorBoundary={LexicalErrorBoundary}
                         />
+
+                        {/* Character count display - only show when over 85% of limit */}
+                        {maxLength && currentLength > (maxLength * 0.85) && (
+                            <div className="absolute top-2 right-2 text-xs text-muted-foreground bg-background/80 px-1 rounded pointer-events-none">
+                                {currentLength}/{maxLength}
+                            </div>
+                        )}
+
                         <HistoryPlugin />
                         <OnChangePlugin onChange={handleContentChange} />
                         <KeyboardPlugin onSendMessage={onSendMessage} />
@@ -291,13 +299,6 @@ export function RichMessageEditor({
                             <CharacterLimitPlugin maxLength={maxLength} />
                         )}
                     </div>
-
-                    {/* Character count display */}
-                    {maxLength && (
-                        <div className="mt-1 text-xs text-muted-foreground text-right">
-                            {currentLength}/{maxLength}
-                        </div>
-                    )}
                 </LexicalComposer>
             </div>
         </EditorErrorBoundary>
