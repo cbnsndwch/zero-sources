@@ -1,5 +1,6 @@
 import type { LexicalEditor } from 'lexical';
 import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from 'lexical';
+
 import type { TextFormatType } from './types';
 
 /**
