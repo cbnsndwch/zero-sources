@@ -2,6 +2,10 @@ import { Hash, Lock, User, Settings, Info, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import useChannel from '@/hooks/use-channel';
+import useGroup from '@/hooks/use-group';
+import useChat from '@/hooks/use-chat';
+import useRoomTitle from '@/hooks/use-room-title';
 
 interface ChatHeaderProps {
     roomId: string;
@@ -16,6 +20,21 @@ export function ChatHeader({
     isRoomDetailsOpen,
     setIsRoomDetailsOpen
 }: ChatHeaderProps) {
+    // Fetch room data based on room type
+    const channelResult = useChannel(roomType === 'channel' ? roomId : '');
+    const groupResult = useGroup(roomType === 'group' ? roomId : '');
+    const chatResult = useChat(roomType === 'dm' ? roomId : '');
+
+    // Get the appropriate room data
+    const room = roomType === 'channel' 
+        ? channelResult[0] 
+        : roomType === 'group' 
+        ? groupResult[0] 
+        : chatResult[0];
+
+    // Use the proper room title hook
+    const roomTitle = useRoomTitle(room as any, roomType);
+
     const getRoomIcon = () => {
         switch (roomType) {
             case 'dm':
@@ -29,17 +48,18 @@ export function ChatHeader({
         }
     };
 
-    const getRoomTitle = () => {
-        if (roomType === 'channel') {
-            return `# ${roomId}`;
+    const getRoomDescription = () => {
+        if (roomType === 'channel' && room && 'description' in room) {
+            return room.description || `Welcome to #${roomTitle}! This is where the team collaborates.`;
         }
-        if (roomType === 'group') {
-            return (
-                roomId.charAt(0).toUpperCase() +
-                roomId.slice(1).replace('-', ' ')
-            );
+        return null;
+    };
+
+    const getMemberCount = () => {
+        if (room && 'memberIds' in room && Array.isArray(room.memberIds)) {
+            return room.memberIds.length;
         }
-        return roomId.charAt(0).toUpperCase() + roomId.slice(1);
+        return 0;
     };
 
     const Icon = getRoomIcon();
@@ -50,18 +70,17 @@ export function ChatHeader({
                 {roomType === 'dm' ? (
                     <Avatar className="h-8 w-8">
                         <AvatarFallback className="text-sm">
-                            {roomId.charAt(0).toUpperCase()}
+                            {roomTitle?.charAt(0)?.toUpperCase() || 'U'}
                         </AvatarFallback>
                     </Avatar>
                 ) : (
                     <Icon className="h-5 w-5 text-muted-foreground" />
                 )}
                 <div>
-                    <h1 className="font-semibold text-lg">{getRoomTitle()}</h1>
+                    <h1 className="font-semibold text-lg">{roomTitle}</h1>
                     {roomType === 'channel' && (
                         <p className="text-sm text-muted-foreground">
-                            Welcome to #{roomId}! This is where the team
-                            collaborates.
+                            {getRoomDescription()}
                         </p>
                     )}
                 </div>
@@ -71,7 +90,7 @@ export function ChatHeader({
                 {roomType !== 'dm' && (
                     <Button variant="ghost" size="sm">
                         <Users className="h-4 w-4 mr-1" />
-                        <span className="text-sm">12</span>
+                        <span className="text-sm">{getMemberCount()}</span>
                     </Button>
                 )}
 
