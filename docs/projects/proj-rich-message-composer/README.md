@@ -7,7 +7,7 @@ This project aims to replace the current simple textarea-based message input wit
 ## 🎯 Project Goals
 
 1. **Enhanced User Experience**: Replace basic textarea with a feature-rich text editor
-2. **Contract Compliance**: Fully support the `SerializedEditorState` format defined in message contracts  
+2. **Contract Compliance**: Fully support the `SerializedEditorState` format defined in message contracts
 3. **Rich Text Features**: Enable formatting, mentions, links, and other rich content
 4. **Backward Compatibility**: Maintain compatibility with existing plain text messages
 5. **Performance**: Ensure optimal performance with lazy loading and modern React patterns
@@ -16,7 +16,7 @@ This project aims to replace the current simple textarea-based message input wit
 ## 📋 Key Documents
 
 - [📖 Product Requirements Document (PRD)](./PRD.md) - Detailed requirements and specifications
-- [🏗️ Technical Architecture](./TECHNICAL_ARCHITECTURE.md) - System design and implementation approach  
+- [🏗️ Technical Architecture](./TECHNICAL_ARCHITECTURE.md) - System design and implementation approach
 - [📊 Project Plan](./PROJECT_PLAN.md) - Epics, user stories, and timeline
 - [🧪 Testing Strategy](./TESTING_STRATEGY.md) - Quality assurance approach
 - [🚀 Implementation Guide](./IMPLEMENTATION_GUIDE.md) - Step-by-step development guide
@@ -31,6 +31,7 @@ This project aims to replace the current simple textarea-based message input wit
 ## 📞 Contact & Support
 
 For questions or clarifications about this project, please:
+
 - Review the documentation thoroughly
 - Check the implementation guide for technical details
 - Refer to the testing strategy for quality requirements

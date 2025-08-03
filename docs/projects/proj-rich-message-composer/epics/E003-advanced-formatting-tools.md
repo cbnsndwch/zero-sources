@@ -15,6 +15,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 ## Epic Goals
 
 ### Primary Objectives
+
 1. **Rich Text Formatting**: Implement core formatting options (bold, italic, underline, strikethrough)
 2. **Structural Elements**: Add support for headings, lists, and blockquotes
 3. **Formatting Toolbar**: Create intuitive toolbar with formatting controls
@@ -22,6 +23,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 5. **Format Persistence**: Ensure formatting is properly serialized and restored
 
 ### Success Criteria
+
 - ✅ All major formatting options are functional and accessible
 - ✅ Formatting toolbar provides intuitive user experience
 - ✅ Keyboard shortcuts work consistently across browsers
@@ -31,11 +33,13 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 ## User Stories
 
 ### Story E003-US01: Basic Text Formatting
+
 **As a** user  
 **I want** to apply bold, italic, and underline formatting to my messages  
-**So that** I can emphasize important parts of my communication  
+**So that** I can emphasize important parts of my communication
 
 **Acceptance Criteria:**
+
 - [ ] Bold formatting via toolbar button and Ctrl+B/Cmd+B
 - [ ] Italic formatting via toolbar button and Ctrl+I/Cmd+I
 - [ ] Underline formatting via toolbar button and Ctrl+U/Cmd+U
@@ -45,6 +49,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - [ ] Visual feedback shows active formatting states
 
 **Definition of Done:**
+
 - All formatting options work correctly
 - Keyboard shortcuts are responsive (<50ms)
 - Toolbar buttons show active/inactive states
@@ -52,11 +57,13 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - Unit tests cover all formatting scenarios
 
 ### Story E003-US02: Heading Support
+
 **As a** user  
 **I want** to create headings in my messages  
-**So that** I can structure longer messages clearly  
+**So that** I can structure longer messages clearly
 
 **Acceptance Criteria:**
+
 - [ ] Support for H1, H2, and H3 headings
 - [ ] Heading selection via dropdown in toolbar
 - [ ] Keyboard shortcuts for common headings (Ctrl+1, Ctrl+2, Ctrl+3)
@@ -65,6 +72,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - [ ] Headings maintain semantic meaning in output
 
 **Definition of Done:**
+
 - Heading dropdown works in toolbar
 - Keyboard shortcuts function correctly
 - Visual styling matches design system
@@ -72,11 +80,13 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - Serialization preserves heading information
 
 ### Story E003-US03: List Support
+
 **As a** user  
 **I want** to create bulleted and numbered lists  
-**So that** I can organize information clearly  
+**So that** I can organize information clearly
 
 **Acceptance Criteria:**
+
 - [ ] Bulleted (unordered) lists via toolbar button
 - [ ] Numbered (ordered) lists via toolbar button
 - [ ] Nested lists with proper indentation
@@ -85,6 +95,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - [ ] Tab/Shift+Tab for list indentation/outdentation
 
 **Definition of Done:**
+
 - List creation and management works smoothly
 - Nested lists maintain proper structure
 - Keyboard navigation is intuitive
@@ -92,11 +103,13 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - Complex list structures serialize correctly
 
 ### Story E003-US04: Formatting Toolbar
+
 **As a** user  
 **I want** an accessible toolbar with formatting options  
-**So that** I can easily discover and apply formatting  
+**So that** I can easily discover and apply formatting
 
 **Acceptance Criteria:**
+
 - [ ] Floating toolbar appears on text selection
 - [ ] Fixed toolbar option for persistent access
 - [ ] Toolbar contains all major formatting options
@@ -106,6 +119,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - [ ] Mobile-optimized toolbar layout
 
 **Definition of Done:**
+
 - Toolbar appearance is consistent with design system
 - All accessibility requirements met (ARIA labels, keyboard nav)
 - Mobile toolbar is usable on touch devices
@@ -113,11 +127,13 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - Button states accurately reflect formatting
 
 ### Story E003-US05: Keyboard Shortcuts
+
 **As a** power user  
 **I want** comprehensive keyboard shortcuts for formatting  
-**So that** I can format text efficiently without using the mouse  
+**So that** I can format text efficiently without using the mouse
 
 **Acceptance Criteria:**
+
 - [ ] Standard shortcuts work (Ctrl+B, Ctrl+I, Ctrl+U, etc.)
 - [ ] Cross-platform compatibility (Ctrl on Windows/Linux, Cmd on Mac)
 - [ ] Shortcuts work when toolbar is not visible
@@ -126,6 +142,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - [ ] Custom shortcuts for headings and lists
 
 **Definition of Done:**
+
 - All standard formatting shortcuts implemented
 - Cross-platform testing completed
 - Help documentation includes shortcut reference
@@ -133,11 +150,13 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - Performance impact is minimal
 
 ### Story E003-US06: Format Validation and Cleanup
+
 **As a** developer  
 **I want** formatting to be validated and cleaned up appropriately  
-**So that** the output is consistent and secure  
+**So that** the output is consistent and secure
 
 **Acceptance Criteria:**
+
 - [ ] Invalid or corrupted formatting is cleaned up
 - [ ] Nested formatting is properly handled
 - [ ] Empty formatting nodes are removed
@@ -146,6 +165,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 - [ ] Import of external formatted content is sanitized
 
 **Definition of Done:**
+
 - Format validation prevents corruption
 - Cleanup functions maintain readability
 - Security review passes for input sanitization
@@ -155,6 +175,7 @@ Implement advanced text formatting capabilities including bold, italic, underlin
 ## Technical Implementation
 
 ### Lexical Plugins Required
+
 ```typescript
 // Core formatting plugins
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
@@ -169,68 +190,74 @@ import { FormatValidationPlugin } from './plugins/FormatValidationPlugin';
 ```
 
 ### Node Configuration
+
 ```typescript
 const editorConfig = {
-  // ... other config
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    // Custom nodes as needed
-  ]
+    // ... other config
+    nodes: [
+        HeadingNode,
+        ListNode,
+        ListItemNode
+        // Custom nodes as needed
+    ]
 };
 ```
 
 ### Toolbar Component Structure
+
 ```typescript
 interface ToolbarProps {
-  editor: LexicalEditor;
-  activeFormats: Set<string>;
-  onFormatChange: (format: string, value?: any) => void;
-  disabled?: boolean;
-  mobile?: boolean;
+    editor: LexicalEditor;
+    activeFormats: Set<string>;
+    onFormatChange: (format: string, value?: any) => void;
+    disabled?: boolean;
+    mobile?: boolean;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
-  editor,
-  activeFormats,
-  onFormatChange,
-  disabled,
-  mobile
+    editor,
+    activeFormats,
+    onFormatChange,
+    disabled,
+    mobile
 }) => {
-  // Toolbar implementation
+    // Toolbar implementation
 };
 ```
 
 ### Keyboard Shortcut Implementation
+
 ```typescript
 const KEYBOARD_SHORTCUTS = {
-  'mod+b': () => toggleFormat('bold'),
-  'mod+i': () => toggleFormat('italic'),
-  'mod+u': () => toggleFormat('underline'),
-  'mod+shift+x': () => toggleFormat('strikethrough'),
-  'mod+1': () => toggleHeading('h1'),
-  'mod+2': () => toggleHeading('h2'),
-  'mod+3': () => toggleHeading('h3'),
-  // ... other shortcuts
+    'mod+b': () => toggleFormat('bold'),
+    'mod+i': () => toggleFormat('italic'),
+    'mod+u': () => toggleFormat('underline'),
+    'mod+shift+x': () => toggleFormat('strikethrough'),
+    'mod+1': () => toggleHeading('h1'),
+    'mod+2': () => toggleHeading('h2'),
+    'mod+3': () => toggleHeading('h3')
+    // ... other shortcuts
 };
 ```
 
 ## Design Requirements
 
 ### Toolbar Design
+
 - **Visual Hierarchy**: Clear button grouping and separation
 - **Active States**: Obvious indication of active formatting
 - **Responsive Layout**: Adapts to different screen sizes
 - **Accessibility**: Proper contrast and focus indicators
 
 ### Formatting Visualization
+
 - **Real-time Preview**: Immediate visual feedback
 - **Consistent Styling**: Matches final message appearance
 - **Clear Hierarchy**: Headings have obvious visual weight differences
 - **List Styling**: Proper indentation and bullet/number styling
 
 ### Mobile Considerations
+
 - **Touch Targets**: Minimum 44px touch target size
 - **Simplified Toolbar**: Essential tools only on small screens
 - **Gesture Support**: Touch selection for formatting
@@ -239,6 +266,7 @@ const KEYBOARD_SHORTCUTS = {
 ## Testing Strategy
 
 ### Unit Tests
+
 - Format application and removal
 - Keyboard shortcut handling
 - Toolbar button interactions
@@ -246,6 +274,7 @@ const KEYBOARD_SHORTCUTS = {
 - Format validation and cleanup
 
 ### Integration Tests
+
 - Cross-browser compatibility
 - Mobile device testing
 - Complex formatting scenarios
@@ -253,6 +282,7 @@ const KEYBOARD_SHORTCUTS = {
 - Accessibility compliance
 
 ### Manual Testing
+
 - User workflow validation
 - Edge case discovery
 - Performance testing
@@ -262,12 +292,14 @@ const KEYBOARD_SHORTCUTS = {
 ## Performance Requirements
 
 ### Formatting Performance
+
 - **Format Application**: <50ms response time
 - **Toolbar Updates**: <16ms for state changes
 - **Keyboard Shortcuts**: <30ms response time
 - **Complex Documents**: Smooth editing with 1000+ words
 
 ### Memory Optimization
+
 - **Toolbar Rendering**: Efficient re-renders
 - **Event Handling**: Proper cleanup of listeners
 - **Format Caching**: Intelligent caching of format states
@@ -276,18 +308,21 @@ const KEYBOARD_SHORTCUTS = {
 ## Accessibility Requirements
 
 ### Keyboard Accessibility
+
 - **Full Navigation**: All functionality accessible via keyboard
 - **Focus Management**: Logical focus order and visible indicators
 - **Shortcut Conflicts**: No conflicts with assistive technology
 - **Help Integration**: Discoverable shortcut information
 
 ### Screen Reader Support
+
 - **ARIA Labels**: Descriptive labels for all toolbar buttons
 - **State Announcements**: Format changes announced appropriately
 - **Structure Navigation**: Proper heading and list semantics
 - **Content Description**: Clear description of formatted content
 
 ### Visual Accessibility
+
 - **High Contrast**: Support for high contrast themes
 - **Color Independence**: Formatting doesn't rely solely on color
 - **Focus Indicators**: Clear visual focus indicators
@@ -296,31 +331,35 @@ const KEYBOARD_SHORTCUTS = {
 ## Risk Assessment
 
 ### High Risk
+
 1. **Performance Degradation**: Complex formatting may slow down editor
-   - *Mitigation*: Performance monitoring and optimization
-   - *Contingency*: Progressive loading of formatting features
+    - _Mitigation_: Performance monitoring and optimization
+    - _Contingency_: Progressive loading of formatting features
 
 2. **Cross-Platform Inconsistency**: Keyboard shortcuts may vary across platforms
-   - *Mitigation*: Comprehensive cross-platform testing
-   - *Contingency*: Platform-specific shortcut mappings
+    - _Mitigation_: Comprehensive cross-platform testing
+    - _Contingency_: Platform-specific shortcut mappings
 
 ### Medium Risk
+
 3. **Mobile Usability**: Formatting toolbar may be difficult on mobile
-   - *Mitigation*: Mobile-first design and testing
-   - *Contingency*: Simplified mobile toolbar
+    - _Mitigation_: Mobile-first design and testing
+    - _Contingency_: Simplified mobile toolbar
 
 4. **Format Corruption**: Complex nested formatting may cause issues
-   - *Mitigation*: Robust validation and cleanup
-   - *Contingency*: Format repair utilities
+    - _Mitigation_: Robust validation and cleanup
+    - _Contingency_: Format repair utilities
 
 ### Low Risk
+
 5. **User Confusion**: Too many options may overwhelm users
-   - *Mitigation*: Progressive disclosure and user testing
-   - *Contingency*: Simplified default view with advanced options
+    - _Mitigation_: Progressive disclosure and user testing
+    - _Contingency_: Simplified default view with advanced options
 
 ## Acceptance Criteria
 
 ### Epic Completion Checklist
+
 - [ ] All user stories completed and tested
 - [ ] Formatting tools work correctly across all browsers
 - [ ] Keyboard shortcuts are comprehensive and responsive
@@ -331,6 +370,7 @@ const KEYBOARD_SHORTCUTS = {
 - [ ] Integration with existing components complete
 
 ### Quality Gates
+
 - [ ] Unit test coverage >90%
 - [ ] Cross-browser compatibility verified
 - [ ] Performance regression tests pass
@@ -341,18 +381,21 @@ const KEYBOARD_SHORTCUTS = {
 ## Handoff Documentation
 
 ### For Epic E004 (Interactive Features)
+
 - Toolbar extension patterns
 - Plugin development guidelines
 - Format validation utilities
 - Performance optimization techniques
 
 ### For Epic E005 (Mobile Optimization)
+
 - Mobile toolbar patterns
 - Touch interaction handling
 - Responsive design considerations
 - Performance constraints
 
 ### For Epic E006 (Testing & QA)
+
 - Comprehensive test scenarios
 - Performance benchmarks
 - Accessibility test cases

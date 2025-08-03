@@ -1,9 +1,10 @@
 # Implementation Guide
+
 # Rich Message Composer - Lexical Integration
 
 **Version**: 1.0.0  
 **Date**: January 2025  
-**Status**: Draft  
+**Status**: Draft
 
 ---
 
@@ -14,18 +15,21 @@ This guide provides step-by-step instructions for implementing the Rich Message 
 ### 1.1 Prerequisites
 
 **Required Knowledge:**
+
 - React 18+ and TypeScript
 - Modern JavaScript (ES6+)
 - CSS-in-JS or CSS Modules
 - Git workflow and pull request process
 
 **Development Environment:**
+
 - Node.js 18+ and npm/pnpm
 - VS Code or similar IDE with TypeScript support
 - Git and GitHub access
 - Browser developer tools familiarity
 
 **Project Context:**
+
 - Familiarity with existing ZRocket and Circle-Talk codebases
 - Understanding of message contracts and SerializedEditorState
 - Knowledge of the project's design system and component patterns
@@ -95,22 +99,24 @@ import { editorTheme } from './editorTheme';
 import { MentionNode } from '../nodes/MentionNode';
 import { HashtagNode } from '../nodes/HashtagNode';
 
-export const createEditorConfig = (namespace: string = 'RichMessageEditor'): InitialConfigType => ({
-  namespace,
-  theme: editorTheme,
-  onError: (error: Error) => {
-    console.error('Lexical Editor Error:', error);
-    // TODO: Integrate with error reporting service
-  },
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    LinkNode,
-    MentionNode,
-    HashtagNode,
-  ],
-  editorState: null, // Start with empty state
+export const createEditorConfig = (
+    namespace: string = 'RichMessageEditor'
+): InitialConfigType => ({
+    namespace,
+    theme: editorTheme,
+    onError: (error: Error) => {
+        console.error('Lexical Editor Error:', error);
+        // TODO: Integrate with error reporting service
+    },
+    nodes: [
+        HeadingNode,
+        ListNode,
+        ListItemNode,
+        LinkNode,
+        MentionNode,
+        HashtagNode
+    ],
+    editorState: null // Start with empty state
 });
 ```
 
@@ -120,28 +126,28 @@ export const createEditorConfig = (namespace: string = 'RichMessageEditor'): Ini
 import { EditorThemeClasses } from 'lexical';
 
 export const editorTheme: EditorThemeClasses = {
-  root: 'rich-editor-root',
-  paragraph: 'rich-editor-paragraph',
-  text: {
-    bold: 'rich-editor-text-bold',
-    italic: 'rich-editor-text-italic',
-    underline: 'rich-editor-text-underline',
-    strikethrough: 'rich-editor-text-strikethrough',
-  },
-  heading: {
-    h1: 'rich-editor-heading-h1',
-    h2: 'rich-editor-heading-h2',
-    h3: 'rich-editor-heading-h3',
-  },
-  list: {
-    ol: 'rich-editor-list-ol',
-    ul: 'rich-editor-list-ul',
-    listitem: 'rich-editor-list-item',
-  },
-  link: 'rich-editor-link',
-  // Custom node themes
-  mention: 'rich-editor-mention',
-  hashtag: 'rich-editor-hashtag',
+    root: 'rich-editor-root',
+    paragraph: 'rich-editor-paragraph',
+    text: {
+        bold: 'rich-editor-text-bold',
+        italic: 'rich-editor-text-italic',
+        underline: 'rich-editor-text-underline',
+        strikethrough: 'rich-editor-text-strikethrough'
+    },
+    heading: {
+        h1: 'rich-editor-heading-h1',
+        h2: 'rich-editor-heading-h2',
+        h3: 'rich-editor-heading-h3'
+    },
+    list: {
+        ol: 'rich-editor-list-ol',
+        ul: 'rich-editor-list-ul',
+        listitem: 'rich-editor-list-item'
+    },
+    link: 'rich-editor-link',
+    // Custom node themes
+    mention: 'rich-editor-mention',
+    hashtag: 'rich-editor-hashtag'
 };
 ```
 
@@ -153,66 +159,72 @@ export const editorTheme: EditorThemeClasses = {
 import { EditorState, SerializedEditorState } from 'lexical';
 import { $isTextNode, $isParagraphNode } from 'lexical';
 
-export const normalizeContent = (content: string | SerializedEditorState): SerializedEditorState => {
-  if (typeof content === 'string') {
-    // Convert plain text to SerializedEditorState
-    return {
-      root: {
-        children: [
-          {
-            children: [
-              {
-                detail: 0,
-                format: 0,
-                mode: 'normal',
-                style: '',
-                text: content,
-                type: 'text',
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            type: 'paragraph',
-            version: 1,
-          },
-        ],
-        direction: 'ltr',
-        format: '',
-        indent: 0,
-        type: 'root',
-        version: 1,
-      },
+export const normalizeContent = (
+    content: string | SerializedEditorState
+): SerializedEditorState => {
+    if (typeof content === 'string') {
+        // Convert plain text to SerializedEditorState
+        return {
+            root: {
+                children: [
+                    {
+                        children: [
+                            {
+                                detail: 0,
+                                format: 0,
+                                mode: 'normal',
+                                style: '',
+                                text: content,
+                                type: 'text',
+                                version: 1
+                            }
+                        ],
+                        direction: 'ltr',
+                        format: '',
+                        indent: 0,
+                        type: 'paragraph',
+                        version: 1
+                    }
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'root',
+                version: 1
+            }
+        };
+    }
+    return content;
+};
+
+export const validateEditorState = (
+    state: any
+): state is SerializedEditorState => {
+    return (
+        state &&
+        typeof state === 'object' &&
+        state.root &&
+        state.root.type === 'root' &&
+        Array.isArray(state.root.children)
+    );
+};
+
+export const extractPlainText = (
+    editorState: SerializedEditorState
+): string => {
+    const extractTextFromNode = (node: any): string => {
+        if (node.type === 'text') {
+            return node.text || '';
+        }
+
+        if (node.children && Array.isArray(node.children)) {
+            return node.children.map(extractTextFromNode).join('');
+        }
+
+        return '';
     };
-  }
-  return content;
-};
 
-export const validateEditorState = (state: any): state is SerializedEditorState => {
-  return (
-    state &&
-    typeof state === 'object' &&
-    state.root &&
-    state.root.type === 'root' &&
-    Array.isArray(state.root.children)
-  );
-};
-
-export const extractPlainText = (editorState: SerializedEditorState): string => {
-  const extractTextFromNode = (node: any): string => {
-    if (node.type === 'text') {
-      return node.text || '';
-    }
-    
-    if (node.children && Array.isArray(node.children)) {
-      return node.children.map(extractTextFromNode).join('');
-    }
-    
-    return '';
-  };
-
-  return editorState.root.children.map(extractTextFromNode).join('\n');
+    return editorState.root.children.map(extractTextFromNode).join('\n');
 };
 ```
 
@@ -266,11 +278,11 @@ function EditorInner({
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
-        
+
         if (onSendMessage) {
           const editorState = editor.getEditorState();
           const serializedState = editorState.toJSON();
-          
+
           // Check if editor has content
           const hasContent = editorState.read(() => {
             const root = $getRoot();
@@ -279,7 +291,7 @@ function EditorInner({
 
           if (hasContent) {
             onSendMessage(serializedState);
-            
+
             // Clear editor after sending
             editor.update(() => {
               const root = $getRoot();
@@ -324,12 +336,12 @@ export function RichMessageEditor({
 }: RichMessageEditorProps) {
   const [editorConfig] = useState(() => {
     const config = createEditorConfig();
-    
+
     if (initialContent) {
       const normalizedContent = normalizeContent(initialContent);
       config.editorState = JSON.stringify(normalizedContent);
     }
-    
+
     return config;
   });
 
@@ -347,118 +359,118 @@ export function RichMessageEditor({
 
 ```css
 .rich-message-editor-container {
-  position: relative;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background: white;
-  min-height: 40px;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    min-height: 40px;
 }
 
 .rich-message-editor {
-  position: relative;
+    position: relative;
 }
 
 .rich-message-editor__content {
-  padding: 12px 16px;
-  min-height: 40px;
-  outline: none;
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: none;
-  overflow-y: auto;
-  max-height: 120px;
+    padding: 12px 16px;
+    min-height: 40px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    overflow-y: auto;
+    max-height: 120px;
 }
 
 .rich-message-editor__content:focus {
-  outline: none;
+    outline: none;
 }
 
 .rich-message-editor__placeholder {
-  position: absolute;
-  top: 12px;
-  left: 16px;
-  color: #999;
-  pointer-events: none;
-  font-size: 14px;
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    color: #999;
+    pointer-events: none;
+    font-size: 14px;
 }
 
 /* Text formatting styles */
 .rich-editor-text-bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .rich-editor-text-italic {
-  font-style: italic;
+    font-style: italic;
 }
 
 .rich-editor-text-underline {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .rich-editor-text-strikethrough {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
 /* Heading styles */
 .rich-editor-heading-h1 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 0.5em 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.5em 0;
 }
 
 .rich-editor-heading-h2 {
-  font-size: 1.3em;
-  font-weight: bold;
-  margin: 0.4em 0;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0.4em 0;
 }
 
 .rich-editor-heading-h3 {
-  font-size: 1.1em;
-  font-weight: bold;
-  margin: 0.3em 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0.3em 0;
 }
 
 /* List styles */
 .rich-editor-list-ol,
 .rich-editor-list-ul {
-  margin: 0.5em 0;
-  padding-left: 1.5em;
+    margin: 0.5em 0;
+    padding-left: 1.5em;
 }
 
 .rich-editor-list-item {
-  margin: 0.2em 0;
+    margin: 0.2em 0;
 }
 
 /* Link styles */
 .rich-editor-link {
-  color: #0066cc;
-  text-decoration: underline;
-  cursor: pointer;
+    color: #0066cc;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .rich-editor-link:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 /* Custom node styles */
 .rich-editor-mention {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 2px 4px;
-  border-radius: 3px;
-  text-decoration: none;
-  cursor: pointer;
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 2px 4px;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .rich-editor-hashtag {
-  color: #1976d2;
-  font-weight: 500;
-  cursor: pointer;
+    color: #1976d2;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .rich-editor-hashtag:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 ```
 
@@ -536,7 +548,7 @@ import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 
 // Add to EditorInner component
-function EditorInner({ 
+function EditorInner({
   onSendMessage,
   onContentChange,
   placeholder = 'Type a message...',
@@ -618,7 +630,7 @@ export function RichMessageDisplay({
   const htmlContent = React.useMemo(() => {
     try {
       const normalizedContent = normalizeContent(content);
-      
+
       if (!validateEditorState(normalizedContent)) {
         // Fallback to plain text if content is invalid
         return typeof content === 'string' ? content : JSON.stringify(content);
@@ -627,9 +639,9 @@ export function RichMessageDisplay({
       // Create a temporary editor to generate HTML
       const config = createEditorConfig('RichMessageDisplay');
       const editor = createEditor(config);
-      
+
       const editorState = editor.parseEditorState(JSON.stringify(normalizedContent));
-      
+
       return editorState.read(() => {
         return $generateHtmlFromNodes(editor, null);
       });
@@ -642,7 +654,7 @@ export function RichMessageDisplay({
   const handleClick = React.useCallback(
     (event: React.MouseEvent) => {
       const target = event.target as HTMLElement;
-      
+
       // Handle mention clicks
       if (target.classList.contains('rich-editor-mention')) {
         event.preventDefault();
@@ -652,7 +664,7 @@ export function RichMessageDisplay({
         }
         return;
       }
-      
+
       // Handle hashtag clicks
       if (target.classList.contains('rich-editor-hashtag')) {
         event.preventDefault();
@@ -662,7 +674,7 @@ export function RichMessageDisplay({
         }
         return;
       }
-      
+
       // Handle link clicks
       if (target.tagName === 'A') {
         const href = target.getAttribute('href');
@@ -691,101 +703,101 @@ export function RichMessageDisplay({
 
 ```css
 .rich-message-display {
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.5;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .rich-message-display p {
-  margin: 0.5em 0;
+    margin: 0.5em 0;
 }
 
 .rich-message-display p:first-child {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .rich-message-display p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* Inherit all styles from editor theme */
 .rich-message-display .rich-editor-text-bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .rich-message-display .rich-editor-text-italic {
-  font-style: italic;
+    font-style: italic;
 }
 
 .rich-message-display .rich-editor-text-underline {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .rich-message-display .rich-editor-text-strikethrough {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
 .rich-message-display .rich-editor-heading-h1 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 0.5em 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.5em 0;
 }
 
 .rich-message-display .rich-editor-heading-h2 {
-  font-size: 1.3em;
-  font-weight: bold;
-  margin: 0.4em 0;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0.4em 0;
 }
 
 .rich-message-display .rich-editor-heading-h3 {
-  font-size: 1.1em;
-  font-weight: bold;
-  margin: 0.3em 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0.3em 0;
 }
 
 .rich-message-display .rich-editor-list-ol,
 .rich-message-display .rich-editor-list-ul {
-  margin: 0.5em 0;
-  padding-left: 1.5em;
+    margin: 0.5em 0;
+    padding-left: 1.5em;
 }
 
 .rich-message-display .rich-editor-list-item {
-  margin: 0.2em 0;
+    margin: 0.2em 0;
 }
 
 .rich-message-display .rich-editor-link {
-  color: #0066cc;
-  text-decoration: underline;
-  cursor: pointer;
+    color: #0066cc;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .rich-message-display .rich-editor-link:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .rich-message-display .rich-editor-mention {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 2px 4px;
-  border-radius: 3px;
-  text-decoration: none;
-  cursor: pointer;
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 2px 4px;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .rich-message-display .rich-editor-mention:hover {
-  background-color: #bbdefb;
+    background-color: #bbdefb;
 }
 
 .rich-message-display .rich-editor-hashtag {
-  color: #1976d2;
-  font-weight: 500;
-  cursor: pointer;
+    color: #1976d2;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .rich-message-display .rich-editor-hashtag:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 ```
 
@@ -798,103 +810,113 @@ import { useState, useCallback, useEffect } from 'react';
 import { EditorState, SerializedEditorState } from 'lexical';
 
 interface UseMessageEditorOptions {
-  autoSave?: boolean;
-  autoSaveKey?: string;
-  onDraftSave?: (content: SerializedEditorState | null) => void;
+    autoSave?: boolean;
+    autoSaveKey?: string;
+    onDraftSave?: (content: SerializedEditorState | null) => void;
 }
 
 interface UseMessageEditorReturn {
-  editorState: SerializedEditorState | null;
-  isDirty: boolean;
-  error: Error | null;
-  handleContentChange: (editorState: SerializedEditorState) => void;
-  clearEditor: () => void;
-  setError: (error: Error | null) => void;
-  saveDraft: () => void;
-  clearDraft: () => void;
+    editorState: SerializedEditorState | null;
+    isDirty: boolean;
+    error: Error | null;
+    handleContentChange: (editorState: SerializedEditorState) => void;
+    clearEditor: () => void;
+    setError: (error: Error | null) => void;
+    saveDraft: () => void;
+    clearDraft: () => void;
 }
 
-export function useMessageEditor(options: UseMessageEditorOptions = {}): UseMessageEditorReturn {
-  const { autoSave = true, autoSaveKey = 'rich-editor-draft', onDraftSave } = options;
-  
-  const [editorState, setEditorState] = useState<SerializedEditorState | null>(null);
-  const [isDirty, setIsDirty] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+export function useMessageEditor(
+    options: UseMessageEditorOptions = {}
+): UseMessageEditorReturn {
+    const {
+        autoSave = true,
+        autoSaveKey = 'rich-editor-draft',
+        onDraftSave
+    } = options;
 
-  // Load draft on mount
-  useEffect(() => {
-    if (autoSave && autoSaveKey) {
-      try {
-        const savedDraft = localStorage.getItem(autoSaveKey);
-        if (savedDraft) {
-          const parsedDraft = JSON.parse(savedDraft);
-          setEditorState(parsedDraft);
+    const [editorState, setEditorState] =
+        useState<SerializedEditorState | null>(null);
+    const [isDirty, setIsDirty] = useState(false);
+    const [error, setError] = useState<Error | null>(null);
+
+    // Load draft on mount
+    useEffect(() => {
+        if (autoSave && autoSaveKey) {
+            try {
+                const savedDraft = localStorage.getItem(autoSaveKey);
+                if (savedDraft) {
+                    const parsedDraft = JSON.parse(savedDraft);
+                    setEditorState(parsedDraft);
+                }
+            } catch (err) {
+                console.warn('Failed to load draft:', err);
+            }
         }
-      } catch (err) {
-        console.warn('Failed to load draft:', err);
-      }
-    }
-  }, [autoSave, autoSaveKey]);
+    }, [autoSave, autoSaveKey]);
 
-  const handleContentChange = useCallback(
-    (newEditorState: SerializedEditorState) => {
-      setEditorState(newEditorState);
-      setIsDirty(true);
-      setError(null);
+    const handleContentChange = useCallback(
+        (newEditorState: SerializedEditorState) => {
+            setEditorState(newEditorState);
+            setIsDirty(true);
+            setError(null);
 
-      // Auto-save draft
-      if (autoSave && autoSaveKey) {
-        try {
-          localStorage.setItem(autoSaveKey, JSON.stringify(newEditorState));
-          onDraftSave?.(newEditorState);
-        } catch (err) {
-          console.warn('Failed to save draft:', err);
+            // Auto-save draft
+            if (autoSave && autoSaveKey) {
+                try {
+                    localStorage.setItem(
+                        autoSaveKey,
+                        JSON.stringify(newEditorState)
+                    );
+                    onDraftSave?.(newEditorState);
+                } catch (err) {
+                    console.warn('Failed to save draft:', err);
+                }
+            }
+        },
+        [autoSave, autoSaveKey, onDraftSave]
+    );
+
+    const clearEditor = useCallback(() => {
+        setEditorState(null);
+        setIsDirty(false);
+        setError(null);
+
+        if (autoSave && autoSaveKey) {
+            localStorage.removeItem(autoSaveKey);
+            onDraftSave?.(null);
         }
-      }
-    },
-    [autoSave, autoSaveKey, onDraftSave]
-  );
+    }, [autoSave, autoSaveKey, onDraftSave]);
 
-  const clearEditor = useCallback(() => {
-    setEditorState(null);
-    setIsDirty(false);
-    setError(null);
+    const saveDraft = useCallback(() => {
+        if (editorState && autoSaveKey) {
+            try {
+                localStorage.setItem(autoSaveKey, JSON.stringify(editorState));
+                onDraftSave?.(editorState);
+            } catch (err) {
+                console.error('Failed to save draft:', err);
+                setError(new Error('Failed to save draft'));
+            }
+        }
+    }, [editorState, autoSaveKey, onDraftSave]);
 
-    if (autoSave && autoSaveKey) {
-      localStorage.removeItem(autoSaveKey);
-      onDraftSave?.(null);
-    }
-  }, [autoSave, autoSaveKey, onDraftSave]);
+    const clearDraft = useCallback(() => {
+        if (autoSaveKey) {
+            localStorage.removeItem(autoSaveKey);
+            onDraftSave?.(null);
+        }
+    }, [autoSaveKey, onDraftSave]);
 
-  const saveDraft = useCallback(() => {
-    if (editorState && autoSaveKey) {
-      try {
-        localStorage.setItem(autoSaveKey, JSON.stringify(editorState));
-        onDraftSave?.(editorState);
-      } catch (err) {
-        console.error('Failed to save draft:', err);
-        setError(new Error('Failed to save draft'));
-      }
-    }
-  }, [editorState, autoSaveKey, onDraftSave]);
-
-  const clearDraft = useCallback(() => {
-    if (autoSaveKey) {
-      localStorage.removeItem(autoSaveKey);
-      onDraftSave?.(null);
-    }
-  }, [autoSaveKey, onDraftSave]);
-
-  return {
-    editorState,
-    isDirty,
-    error,
-    handleContentChange,
-    clearEditor,
-    setError,
-    saveDraft,
-    clearDraft,
-  };
+    return {
+        editorState,
+        isDirty,
+        error,
+        handleContentChange,
+        clearEditor,
+        setError,
+        saveDraft,
+        clearDraft
+    };
 }
 ```
 
@@ -922,21 +944,21 @@ describe('RichMessageEditor', () => {
 
   it('accepts text input', async () => {
     render(<RichMessageEditor />);
-    
+
     const textbox = screen.getByRole('textbox');
     await user.type(textbox, 'Hello world');
-    
+
     expect(textbox).toHaveTextContent('Hello world');
   });
 
   it('calls onSendMessage when Enter is pressed', async () => {
     const onSendMessage = jest.fn();
     render(<RichMessageEditor onSendMessage={onSendMessage} />);
-    
+
     const textbox = screen.getByRole('textbox');
     await user.type(textbox, 'Hello world');
     await user.keyboard('{Enter}');
-    
+
     expect(onSendMessage).toHaveBeenCalledWith(
       expect.objectContaining({
         root: expect.objectContaining({
@@ -949,9 +971,9 @@ describe('RichMessageEditor', () => {
   it('calls onContentChange when content changes', async () => {
     const onContentChange = jest.fn();
     render(<RichMessageEditor onContentChange={onContentChange} />);
-    
+
     await user.type(screen.getByRole('textbox'), 'Hello');
-    
+
     await waitFor(() => {
       expect(onContentChange).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -966,15 +988,15 @@ describe('RichMessageEditor', () => {
   it('handles Shift+Enter for new lines', async () => {
     const onSendMessage = jest.fn();
     render(<RichMessageEditor onSendMessage={onSendMessage} />);
-    
+
     const textbox = screen.getByRole('textbox');
     await user.type(textbox, 'First line');
     await user.keyboard('{Shift>}{Enter}{/Shift}');
     await user.type(textbox, 'Second line');
-    
+
     // Should not send message yet
     expect(onSendMessage).not.toHaveBeenCalled();
-    
+
     // Should contain both lines
     expect(textbox).toHaveTextContent('First line\nSecond line');
   });
@@ -991,76 +1013,78 @@ import { useMessageEditor } from './useMessageEditor';
 
 // Mock localStorage
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    removeItem: jest.fn()
 };
 Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
+    value: localStorageMock
 });
 
 describe('useMessageEditor', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('initializes with empty state', () => {
-    const { result } = renderHook(() => useMessageEditor());
-    
-    expect(result.current.editorState).toBeNull();
-    expect(result.current.isDirty).toBe(false);
-    expect(result.current.error).toBeNull();
-  });
-
-  it('updates state on content change', () => {
-    const { result } = renderHook(() => useMessageEditor());
-    
-    const mockEditorState = { root: { type: 'root', children: [] } };
-    
-    act(() => {
-      result.current.handleContentChange(mockEditorState as any);
+    beforeEach(() => {
+        jest.clearAllMocks();
     });
-    
-    expect(result.current.editorState).toBe(mockEditorState);
-    expect(result.current.isDirty).toBe(true);
-  });
 
-  it('saves draft to localStorage when autoSave is enabled', () => {
-    const { result } = renderHook(() => 
-      useMessageEditor({ autoSave: true, autoSaveKey: 'test-draft' })
-    );
-    
-    const mockEditorState = { root: { type: 'root', children: [] } };
-    
-    act(() => {
-      result.current.handleContentChange(mockEditorState as any);
-    });
-    
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'test-draft',
-      JSON.stringify(mockEditorState)
-    );
-  });
+    it('initializes with empty state', () => {
+        const { result } = renderHook(() => useMessageEditor());
 
-  it('clears editor and draft', () => {
-    const { result } = renderHook(() => 
-      useMessageEditor({ autoSave: true, autoSaveKey: 'test-draft' })
-    );
-    
-    // Set some content first
-    act(() => {
-      result.current.handleContentChange({ root: { type: 'root', children: [] } } as any);
+        expect(result.current.editorState).toBeNull();
+        expect(result.current.isDirty).toBe(false);
+        expect(result.current.error).toBeNull();
     });
-    
-    // Clear editor
-    act(() => {
-      result.current.clearEditor();
+
+    it('updates state on content change', () => {
+        const { result } = renderHook(() => useMessageEditor());
+
+        const mockEditorState = { root: { type: 'root', children: [] } };
+
+        act(() => {
+            result.current.handleContentChange(mockEditorState as any);
+        });
+
+        expect(result.current.editorState).toBe(mockEditorState);
+        expect(result.current.isDirty).toBe(true);
     });
-    
-    expect(result.current.editorState).toBeNull();
-    expect(result.current.isDirty).toBe(false);
-    expect(localStorageMock.removeItem).toHaveBeenCalledWith('test-draft');
-  });
+
+    it('saves draft to localStorage when autoSave is enabled', () => {
+        const { result } = renderHook(() =>
+            useMessageEditor({ autoSave: true, autoSaveKey: 'test-draft' })
+        );
+
+        const mockEditorState = { root: { type: 'root', children: [] } };
+
+        act(() => {
+            result.current.handleContentChange(mockEditorState as any);
+        });
+
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+            'test-draft',
+            JSON.stringify(mockEditorState)
+        );
+    });
+
+    it('clears editor and draft', () => {
+        const { result } = renderHook(() =>
+            useMessageEditor({ autoSave: true, autoSaveKey: 'test-draft' })
+        );
+
+        // Set some content first
+        act(() => {
+            result.current.handleContentChange({
+                root: { type: 'root', children: [] }
+            } as any);
+        });
+
+        // Clear editor
+        act(() => {
+            result.current.clearEditor();
+        });
+
+        expect(result.current.editorState).toBeNull();
+        expect(result.current.isDirty).toBe(false);
+        expect(localStorageMock.removeItem).toHaveBeenCalledWith('test-draft');
+    });
 });
 ```
 
@@ -1084,7 +1108,7 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
   const handleSendMessage = (content: SerializedEditorState) => {
     // TODO: Integrate with Zero mutation
     console.log('Sending message:', { roomId, roomType, content });
-    
+
     // Example integration:
     // sendMessage.mutate({
     //   roomId,
@@ -1134,7 +1158,7 @@ export function ChatInput({ onSendMessage }: ChatInputProps) {
       timestamp: new Date(),
       sender: 'current-user', // TODO: Get from auth context
     };
-    
+
     onSendMessage(message);
   };
 
@@ -1157,35 +1181,35 @@ export function ChatInput({ onSendMessage }: ChatInputProps) {
 
 ```json
 {
-  "name": "@zero/rich-message-composer",
-  "version": "1.0.0",
-  "description": "Rich text message composer powered by Lexical",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
-  "files": ["dist"],
-  "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
-  },
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0",
-    "lexical": ">=0.22.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0",
-    "rollup": "^3.0.0",
-    "@rollup/plugin-typescript": "^11.0.0",
-    "jest": "^29.0.0",
-    "@testing-library/react": "^13.0.0"
-  }
+    "name": "@zero/rich-message-composer",
+    "version": "1.0.0",
+    "description": "Rich text message composer powered by Lexical",
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
+    "files": ["dist"],
+    "scripts": {
+        "build": "rollup -c",
+        "dev": "rollup -c -w",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "lint": "eslint src --ext .ts,.tsx",
+        "type-check": "tsc --noEmit"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0",
+        "lexical": ">=0.22.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "typescript": "^5.0.0",
+        "rollup": "^3.0.0",
+        "@rollup/plugin-typescript": "^11.0.0",
+        "jest": "^29.0.0",
+        "@testing-library/react": "^13.0.0"
+    }
 }
 ```
 
@@ -1198,37 +1222,37 @@ import typescript from '@rollup/plugin-typescript';
 import { resolve } from 'path';
 
 export default {
-  input: 'src/index.ts',
-  output: [
-    {
-      file: 'dist/index.js',
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      file: 'dist/index.esm.js',
-      format: 'esm',
-      sourcemap: true,
-    },
-  ],
-  external: [
-    'react',
-    'react-dom',
-    'lexical',
-    '@lexical/react',
-    '@lexical/rich-text',
-    '@lexical/history',
-    '@lexical/utils',
-    '@lexical/link',
-    '@lexical/list',
-  ],
-  plugins: [
-    typescript({
-      tsconfig: resolve('./tsconfig.json'),
-      declaration: true,
-      declarationDir: 'dist',
-    }),
-  ],
+    input: 'src/index.ts',
+    output: [
+        {
+            file: 'dist/index.js',
+            format: 'cjs',
+            sourcemap: true
+        },
+        {
+            file: 'dist/index.esm.js',
+            format: 'esm',
+            sourcemap: true
+        }
+    ],
+    external: [
+        'react',
+        'react-dom',
+        'lexical',
+        '@lexical/react',
+        '@lexical/rich-text',
+        '@lexical/history',
+        '@lexical/utils',
+        '@lexical/link',
+        '@lexical/list'
+    ],
+    plugins: [
+        typescript({
+            tsconfig: resolve('./tsconfig.json'),
+            declaration: true,
+            declarationDir: 'dist'
+        })
+    ]
 };
 ```
 
@@ -1238,18 +1262,18 @@ export default {
 
 ```json
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable"],
-    "allowJs": false,
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
-    "strict": true,
-    "jsx": "react-jsx"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*"]
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "lib": ["DOM", "DOM.Iterable"],
+        "allowJs": false,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "dist",
+        "strict": true,
+        "jsx": "react-jsx"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*"]
 }
 ```
 
@@ -1258,11 +1282,12 @@ export default {
 ### 8.1 Common Issues and Solutions
 
 **Issue: Editor not rendering**
+
 ```typescript
 // Check if Lexical config is properly set up
 const debugConfig = () => {
-  console.log('Editor config:', editorConfig);
-  console.log('Nodes registered:', editorConfig.nodes);
+    console.log('Editor config:', editorConfig);
+    console.log('Nodes registered:', editorConfig.nodes);
 };
 
 // Verify all required packages are installed
@@ -1270,41 +1295,44 @@ const debugConfig = () => {
 ```
 
 **Issue: SerializedEditorState compatibility**
+
 ```typescript
 // Add validation before sending
 const validateBeforeSend = (editorState: SerializedEditorState) => {
-  if (!validateEditorState(editorState)) {
-    console.error('Invalid editor state:', editorState);
-    throw new Error('Invalid editor state');
-  }
-  
-  // Check for required message contract fields
-  const textContent = extractPlainText(editorState);
-  if (!textContent.trim()) {
-    throw new Error('Empty message not allowed');
-  }
+    if (!validateEditorState(editorState)) {
+        console.error('Invalid editor state:', editorState);
+        throw new Error('Invalid editor state');
+    }
+
+    // Check for required message contract fields
+    const textContent = extractPlainText(editorState);
+    if (!textContent.trim()) {
+        throw new Error('Empty message not allowed');
+    }
 };
 ```
 
 **Issue: Performance problems**
+
 ```typescript
 // Add performance monitoring
 const measurePerformance = (operation: string, fn: () => void) => {
-  const start = performance.now();
-  fn();
-  const end = performance.now();
-  console.log(`${operation} took ${end - start}ms`);
+    const start = performance.now();
+    fn();
+    const end = performance.now();
+    console.log(`${operation} took ${end - start}ms`);
 };
 
 // Monitor editor updates
-const handleChange = measurePerformance('Editor update', (editorState) => {
-  // Handle change logic
+const handleChange = measurePerformance('Editor update', editorState => {
+    // Handle change logic
 });
 ```
 
 ### 8.2 Development Tools
 
 **Debug Component:**
+
 ```typescript
 // Development-only debug overlay
 function DebugOverlay({ editorState }: { editorState: SerializedEditorState | null }) {
@@ -1313,18 +1341,18 @@ function DebugOverlay({ editorState }: { editorState: SerializedEditorState | nu
   }
 
   return (
-    <div style={{ 
-      position: 'fixed', 
-      top: 0, 
-      right: 0, 
-      background: 'rgba(0,0,0,0.8)', 
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      background: 'rgba(0,0,0,0.8)',
       color: 'white',
       padding: '1rem',
       maxWidth: '300px',
       maxHeight: '400px',
       overflow: 'auto',
       fontSize: '12px',
-      zIndex: 9999 
+      zIndex: 9999
     }}>
       <h4>Debug Info</h4>
       <pre>{JSON.stringify(editorState, null, 2)}</pre>
@@ -1334,28 +1362,31 @@ function DebugOverlay({ editorState }: { editorState: SerializedEditorState | nu
 ```
 
 **Performance Monitor:**
+
 ```typescript
 // Hook for monitoring performance
 function usePerformanceMonitor() {
-  const [metrics, setMetrics] = useState({
-    renderTime: 0,
-    updateCount: 0,
-    averageUpdateTime: 0,
-  });
+    const [metrics, setMetrics] = useState({
+        renderTime: 0,
+        updateCount: 0,
+        averageUpdateTime: 0
+    });
 
-  const measureRender = useCallback((fn: () => void) => {
-    const start = performance.now();
-    fn();
-    const end = performance.now();
-    
-    setMetrics(prev => ({
-      renderTime: end - start,
-      updateCount: prev.updateCount + 1,
-      averageUpdateTime: (prev.averageUpdateTime * prev.updateCount + (end - start)) / (prev.updateCount + 1),
-    }));
-  }, []);
+    const measureRender = useCallback((fn: () => void) => {
+        const start = performance.now();
+        fn();
+        const end = performance.now();
 
-  return { metrics, measureRender };
+        setMetrics(prev => ({
+            renderTime: end - start,
+            updateCount: prev.updateCount + 1,
+            averageUpdateTime:
+                (prev.averageUpdateTime * prev.updateCount + (end - start)) /
+                (prev.updateCount + 1)
+        }));
+    }, []);
+
+    return { metrics, measureRender };
 }
 ```
 

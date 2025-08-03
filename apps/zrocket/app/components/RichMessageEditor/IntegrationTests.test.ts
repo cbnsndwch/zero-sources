@@ -1,11 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import type { SerializedEditorState } from 'lexical';
+import type {
+    SerializedEditorState,
+    SerializedParagraphNode,
+    SerializedTextNode
+} from 'lexical';
 
 import {
     validateSerializedEditorState,
-    createEmptySerializedEditorState,
-    ensureValidSerializedEditorState,
-    type ValidSerializedEditorState
+    ensureValidSerializedEditorState
 } from './serialization-utils';
 
 describe('RichMessageEditor - Complete Integration Scenarios', () => {
@@ -24,6 +26,11 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
                     root: {
                         children: [
                             {
+                                type: 'paragraph',
+                                direction: 'ltr',
+                                format: '',
+                                indent: 0,
+                                version: 1,
                                 children: [
                                     {
                                         text: 'Hello everyone! ',
@@ -50,12 +57,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
                                         format: 0,
                                         type: 'text'
                                     }
-                                ],
-                                direction: 'ltr',
-                                format: '',
-                                indent: 0,
-                                type: 'paragraph',
-                                version: 1
+                                ]
                             }
                         ],
                         direction: 'ltr',
@@ -64,7 +66,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
                         type: 'root',
                         version: 1
                     }
-                } as SerializedEditorState,
+                } as SerializedEditorState<any>,
                 createdAt: new Date(),
                 updatedAt: new Date()
             };
@@ -112,11 +114,12 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
             expect(normalizedContent.root.version).toBe(1);
             expect(normalizedContent.root.direction).toBe('ltr');
 
-            const paragraph = normalizedContent.root.children[0];
+            const paragraph = normalizedContent.root
+                .children[0] as SerializedParagraphNode;
             expect(paragraph.type).toBe('paragraph');
             expect(paragraph.version).toBe(1);
 
-            const textNode = paragraph.children[0];
+            const textNode = paragraph.children[0] as SerializedTextNode;
             expect(textNode.text).toBe('Legacy message text');
             expect(textNode.format).toBe(0);
             expect(textNode.type).toBe('text');
@@ -147,7 +150,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
 
     describe('Real-world Message Content Scenarios', () => {
         it('should handle complex chat message with multiple formatting', () => {
-            const complexMessage: SerializedEditorState = {
+            const complexMessage = {
                 root: {
                     children: [
                         {
@@ -253,7 +256,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
                     type: 'root',
                     version: 1
                 }
-            };
+            } as any;
 
             expect(validateSerializedEditorState(complexMessage)).toBe(true);
 
@@ -272,7 +275,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
         });
 
         it('should handle code snippets and technical content', () => {
-            const codeMessage: SerializedEditorState = {
+            const codeMessage = {
                 root: {
                     children: [
                         {
@@ -370,7 +373,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
                     type: 'root',
                     version: 1
                 }
-            };
+            } as any;
 
             expect(validateSerializedEditorState(codeMessage)).toBe(true);
 
@@ -435,7 +438,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
     describe('Contract Compliance', () => {
         it('should match the exact format specified in the issue requirements', () => {
             // This is the exact format from the issue
-            const issueFormat: ValidSerializedEditorState = {
+            const issueFormat = {
                 root: {
                     children: [
                         {
@@ -460,7 +463,7 @@ describe('RichMessageEditor - Complete Integration Scenarios', () => {
                     type: 'root',
                     version: 1
                 }
-            };
+            } as any;
 
             expect(validateSerializedEditorState(issueFormat)).toBe(true);
 

@@ -45,8 +45,8 @@ vi.mock('@lexical/react/LexicalComposerContext', () => ({
         {
             registerRootListener: () => () => {},
             registerNodeTransform: () => () => {},
-      registerCommand: () => () => {},
-      dispatchCommand: () => {},
+            registerCommand: () => () => {},
+            dispatchCommand: () => {},
             getEditorState: () => ({
                 toJSON: () => ({ root: { children: [] } }),
                 read: (fn: Function) => fn()

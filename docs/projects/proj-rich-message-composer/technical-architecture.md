@@ -1,9 +1,10 @@
 # Technical Architecture Document
+
 # Rich Message Composer - Lexical Integration
 
 **Version**: 1.0.0  
 **Date**: January 2025  
-**Status**: Draft  
+**Status**: Draft
 
 ---
 
@@ -19,25 +20,25 @@ graph TB
         ZR[ZRocket App]
         CT[Circle-Talk App]
     end
-    
+
     subgraph "Rich Message Composer"
         RME[RichMessageEditor]
         RMD[RichMessageDisplay]
         LIB[Shared Component Library]
     end
-    
+
     subgraph "Lexical Framework"
         CORE[Lexical Core]
         REACT[Lexical React]
         PLUGINS[Lexical Plugins]
     end
-    
+
     subgraph "Backend Systems"
         API[Message API]
         DB[Database]
         USER[User Directory]
     end
-    
+
     ZR --> RME
     CT --> RME
     RME --> LIB
@@ -45,7 +46,7 @@ graph TB
     LIB --> CORE
     LIB --> REACT
     LIB --> PLUGINS
-    
+
     RME --> API
     API --> DB
     RME --> USER
@@ -86,6 +87,7 @@ rich-message-composer/
 
 **Purpose**: Main editor component that replaces existing ChatInput
 **Responsibilities**:
+
 - Render Lexical editor with configured plugins
 - Handle user input and formatting
 - Generate SerializedEditorState output
@@ -93,14 +95,14 @@ rich-message-composer/
 
 ```typescript
 interface RichMessageEditorProps {
-  onSendMessage: (content: SerializedEditorState) => void;
-  placeholder?: string;
-  initialContent?: SerializedEditorState | string;
-  disabled?: boolean;
-  maxLength?: number;
-  onDraftChange?: (content: SerializedEditorState | null) => void;
-  theme?: EditorTheme;
-  plugins?: EditorPlugin[];
+    onSendMessage: (content: SerializedEditorState) => void;
+    placeholder?: string;
+    initialContent?: SerializedEditorState | string;
+    disabled?: boolean;
+    maxLength?: number;
+    onDraftChange?: (content: SerializedEditorState | null) => void;
+    theme?: EditorTheme;
+    plugins?: EditorPlugin[];
 }
 ```
 
@@ -108,6 +110,7 @@ interface RichMessageEditorProps {
 
 **Purpose**: Read-only component for displaying formatted messages
 **Responsibilities**:
+
 - Render SerializedEditorState as formatted content
 - Handle interactive elements (links, mentions)
 - Support legacy plain text messages
@@ -115,12 +118,12 @@ interface RichMessageEditorProps {
 
 ```typescript
 interface RichMessageDisplayProps {
-  content: SerializedEditorState | string;
-  className?: string;
-  theme?: DisplayTheme;
-  onMentionClick?: (userId: string) => void;
-  onHashtagClick?: (hashtag: string) => void;
-  onLinkClick?: (url: string) => void;
+    content: SerializedEditorState | string;
+    className?: string;
+    theme?: DisplayTheme;
+    onMentionClick?: (userId: string) => void;
+    onHashtagClick?: (hashtag: string) => void;
+    onLinkClick?: (url: string) => void;
 }
 ```
 
@@ -128,6 +131,7 @@ interface RichMessageDisplayProps {
 
 **Purpose**: Formatting controls for the editor
 **Responsibilities**:
+
 - Display available formatting options
 - Show active formatting state
 - Handle user interactions
@@ -135,11 +139,11 @@ interface RichMessageDisplayProps {
 
 ```typescript
 interface ToolbarProps {
-  editor: LexicalEditor;
-  activeFormats: Set<string>;
-  disabled?: boolean;
-  compact?: boolean;
-  customTools?: ToolbarTool[];
+    editor: LexicalEditor;
+    activeFormats: Set<string>;
+    disabled?: boolean;
+    compact?: boolean;
+    customTools?: ToolbarTool[];
 }
 ```
 
@@ -171,7 +175,7 @@ sequenceDiagram
     participant Editor
     participant Plugin
     participant Parent
-    
+
     User->>Editor: Types text
     Editor->>Plugin: Transform content
     Plugin->>Editor: Return transformed state
@@ -194,20 +198,20 @@ The editor output must comply with the existing message contract:
 
 ```typescript
 interface SerializedEditorState {
-  root: {
-    children: Array<SerializedNode>;
-    direction: 'ltr' | 'rtl';
-    format: string;
-    indent: number;
-    type: 'root';
-    version: number;
-  };
+    root: {
+        children: Array<SerializedNode>;
+        direction: 'ltr' | 'rtl';
+        format: string;
+        indent: number;
+        type: 'root';
+        version: number;
+    };
 }
 
 interface SerializedNode {
-  type: string;
-  version: number;
-  [key: string]: any; // Node-specific properties
+    type: string;
+    version: number;
+    [key: string]: any; // Node-specific properties
 }
 ```
 
@@ -217,10 +221,10 @@ interface SerializedNode {
 
 ```typescript
 interface SerializedMentionNode extends SerializedLexicalNode {
-  type: 'mention';
-  userId: string;
-  username: string;
-  displayName: string;
+    type: 'mention';
+    userId: string;
+    username: string;
+    displayName: string;
 }
 ```
 
@@ -228,9 +232,9 @@ interface SerializedMentionNode extends SerializedLexicalNode {
 
 ```typescript
 interface SerializedHashtagNode extends SerializedLexicalNode {
-  type: 'hashtag';
-  tag: string;
-  normalizedTag: string;
+    type: 'hashtag';
+    tag: string;
+    normalizedTag: string;
 }
 ```
 
@@ -238,9 +242,9 @@ interface SerializedHashtagNode extends SerializedLexicalNode {
 
 ```typescript
 interface SerializedEmojiNode extends SerializedLexicalNode {
-  type: 'emoji';
-  emoji: string;
-  shortcode?: string;
+    type: 'emoji';
+    emoji: string;
+    shortcode?: string;
 }
 ```
 
@@ -254,7 +258,7 @@ graph LR
     D --> E[SerializedEditorState]
     E --> F[Message API]
     F --> G[Database]
-    
+
     G --> H[Message Retrieval]
     H --> I[RichMessageDisplay]
     I --> J[Rendered Content]
@@ -325,16 +329,16 @@ export { RichMessageDisplay } from './components/RichMessageDisplay';
 export { Toolbar } from './components/Toolbar';
 
 export type {
-  RichMessageEditorProps,
-  RichMessageDisplayProps,
-  EditorTheme,
-  ToolbarTool
+    RichMessageEditorProps,
+    RichMessageDisplayProps,
+    EditorTheme,
+    ToolbarTool
 } from './types';
 
 export {
-  useMessageEditor,
-  useDraftPersistence,
-  useMessageDisplay
+    useMessageEditor,
+    useDraftPersistence,
+    useMessageDisplay
 } from './hooks';
 ```
 
@@ -358,19 +362,19 @@ const MentionsPlugin = lazy(() => import('./plugins/MentionsPlugin'));
 
 // Conditional loading based on features used
 const useConditionalPlugins = (enabledFeatures: string[]) => {
-  return useMemo(() => {
-    const plugins = [RichTextPlugin, HistoryPlugin]; // Always loaded
-    
-    if (enabledFeatures.includes('mentions')) {
-      plugins.push(MentionsPlugin);
-    }
-    
-    if (enabledFeatures.includes('emoji')) {
-      plugins.push(EmojiPlugin);
-    }
-    
-    return plugins;
-  }, [enabledFeatures]);
+    return useMemo(() => {
+        const plugins = [RichTextPlugin, HistoryPlugin]; // Always loaded
+
+        if (enabledFeatures.includes('mentions')) {
+            plugins.push(MentionsPlugin);
+        }
+
+        if (enabledFeatures.includes('emoji')) {
+            plugins.push(EmojiPlugin);
+        }
+
+        return plugins;
+    }, [enabledFeatures]);
 };
 ```
 
@@ -379,18 +383,18 @@ const useConditionalPlugins = (enabledFeatures: string[]) => {
 ```javascript
 // webpack.config.js optimization
 module.exports = {
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        lexical: {
-          test: /[\\/]node_modules[\\/](@lexical|lexical)[\\/]/,
-          name: 'lexical',
-          chunks: 'all',
-        },
-      },
-    },
-  },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                lexical: {
+                    test: /[\\/]node_modules[\\/](@lexical|lexical)[\\/]/,
+                    name: 'lexical',
+                    chunks: 'all'
+                }
+            }
+        }
+    }
 };
 ```
 
@@ -399,20 +403,24 @@ module.exports = {
 ```typescript
 // Proper cleanup in components
 const useEditorCleanup = (editor: LexicalEditor) => {
-  useEffect(() => {
-    const unregisterListeners: (() => void)[] = [];
-    
-    // Register listeners and store cleanup functions
-    unregisterListeners.push(
-      editor.registerUpdateListener(handleUpdate),
-      editor.registerCommand(SOME_COMMAND, handleCommand, COMMAND_PRIORITY_LOW)
-    );
-    
-    return () => {
-      // Cleanup all listeners
-      unregisterListeners.forEach(cleanup => cleanup());
-    };
-  }, [editor]);
+    useEffect(() => {
+        const unregisterListeners: (() => void)[] = [];
+
+        // Register listeners and store cleanup functions
+        unregisterListeners.push(
+            editor.registerUpdateListener(handleUpdate),
+            editor.registerCommand(
+                SOME_COMMAND,
+                handleCommand,
+                COMMAND_PRIORITY_LOW
+            )
+        );
+
+        return () => {
+            // Cleanup all listeners
+            unregisterListeners.forEach(cleanup => cleanup());
+        };
+    }, [editor]);
 };
 ```
 
@@ -423,19 +431,19 @@ const useEditorCleanup = (editor: LexicalEditor) => {
 ```typescript
 // Content sanitization before serialization
 const sanitizeContent = (editorState: EditorState): EditorState => {
-  return editorState.read(() => {
-    const root = $getRoot();
-    const sanitized = root.clone();
-    
-    // Remove dangerous nodes and attributes
-    sanitized.getChildren().forEach(child => {
-      if (isUnsafeNode(child)) {
-        child.remove();
-      }
+    return editorState.read(() => {
+        const root = $getRoot();
+        const sanitized = root.clone();
+
+        // Remove dangerous nodes and attributes
+        sanitized.getChildren().forEach(child => {
+            if (isUnsafeNode(child)) {
+                child.remove();
+            }
+        });
+
+        return sanitized;
     });
-    
-    return sanitized;
-  });
 };
 ```
 
@@ -444,16 +452,18 @@ const sanitizeContent = (editorState: EditorState): EditorState => {
 ```typescript
 // URL validation for links
 const validateUrl = (url: string): boolean => {
-  const allowedProtocols = ['http:', 'https:', 'mailto:'];
-  const blockedProtocols = ['javascript:', 'data:', 'vbscript:'];
-  
-  try {
-    const parsed = new URL(url);
-    return allowedProtocols.includes(parsed.protocol) && 
-           !blockedProtocols.includes(parsed.protocol);
-  } catch {
-    return false;
-  }
+    const allowedProtocols = ['http:', 'https:', 'mailto:'];
+    const blockedProtocols = ['javascript:', 'data:', 'vbscript:'];
+
+    try {
+        const parsed = new URL(url);
+        return (
+            allowedProtocols.includes(parsed.protocol) &&
+            !blockedProtocols.includes(parsed.protocol)
+        );
+    } catch {
+        return false;
+    }
 };
 ```
 
@@ -462,12 +472,12 @@ const validateUrl = (url: string): boolean => {
 ```typescript
 // CSP headers for applications
 const cspDirectives = {
-  'default-src': ["'self'"],
-  'script-src': ["'self'", "'unsafe-inline'"], // Minimize unsafe-inline
-  'style-src': ["'self'", "'unsafe-inline'"],
-  'img-src': ["'self'", "data:", "https:"],
-  'connect-src': ["'self'", "wss:", "https:"],
-  'font-src': ["'self'", "data:"],
+    'default-src': ["'self'"],
+    'script-src': ["'self'", "'unsafe-inline'"], // Minimize unsafe-inline
+    'style-src': ["'self'", "'unsafe-inline'"],
+    'img-src': ["'self'", 'data:', 'https:'],
+    'connect-src': ["'self'", 'wss:', 'https:'],
+    'font-src': ["'self'", 'data:']
 };
 ```
 
@@ -483,10 +493,10 @@ describe('RichMessageEditor', () => {
   it('should emit SerializedEditorState on content change', async () => {
     const onContentChange = jest.fn();
     render(<RichMessageEditor onContentChange={onContentChange} />);
-    
+
     const editor = screen.getByRole('textbox');
     await user.type(editor, 'Hello world');
-    
+
     expect(onContentChange).toHaveBeenCalledWith(
       expect.objectContaining({
         root: expect.objectContaining({
@@ -506,10 +516,10 @@ describe('MentionsPlugin', () => {
   it('should create mention node when selecting user', async () => {
     const users = [{ id: '1', username: 'john', displayName: 'John Doe' }];
     render(<RichMessageEditor mentionUsers={users} />);
-    
+
     await user.type(screen.getByRole('textbox'), '@jo');
     await user.click(screen.getByText('John Doe'));
-    
+
     const editorState = getEditorState();
     expect(editorState).toContainNode('mention');
   });
@@ -521,18 +531,20 @@ describe('MentionsPlugin', () => {
 ```typescript
 // End-to-end testing with Playwright
 test('should send formatted message successfully', async ({ page }) => {
-  await page.goto('/chat/room/123');
-  
-  // Type and format message
-  await page.fill('[data-testid="message-editor"]', 'Hello world');
-  await page.keyboard.press('Control+A');
-  await page.click('[data-testid="bold-button"]');
-  
-  // Send message
-  await page.click('[data-testid="send-button"]');
-  
-  // Verify message appears formatted
-  await expect(page.locator('[data-testid="message-content"] strong')).toHaveText('Hello world');
+    await page.goto('/chat/room/123');
+
+    // Type and format message
+    await page.fill('[data-testid="message-editor"]', 'Hello world');
+    await page.keyboard.press('Control+A');
+    await page.click('[data-testid="bold-button"]');
+
+    // Send message
+    await page.click('[data-testid="send-button"]');
+
+    // Verify message appears formatted
+    await expect(
+        page.locator('[data-testid="message-content"] strong')
+    ).toHaveText('Hello world');
 });
 ```
 
@@ -541,17 +553,17 @@ test('should send formatted message successfully', async ({ page }) => {
 ```typescript
 // Performance benchmarking
 const performanceTest = async () => {
-  const start = performance.now();
-  
-  // Simulate typing 1000 characters
-  for (let i = 0; i < 1000; i++) {
-    await typeCharacter('a');
-  }
-  
-  const end = performance.now();
-  const avgLatency = (end - start) / 1000;
-  
-  expect(avgLatency).toBeLessThan(16); // 60fps requirement
+    const start = performance.now();
+
+    // Simulate typing 1000 characters
+    for (let i = 0; i < 1000; i++) {
+        await typeCharacter('a');
+    }
+
+    const end = performance.now();
+    const avgLatency = (end - start) / 1000;
+
+    expect(avgLatency).toBeLessThan(16); // 60fps requirement
 };
 ```
 
@@ -565,32 +577,32 @@ name: Build and Test
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
-      - run: npm run e2e
-      - run: npm run bundle-analysis
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+            - run: npm ci
+            - run: npm run build
+            - run: npm run test
+            - run: npm run e2e
+            - run: npm run bundle-analysis
 ```
 
 ### 8.2 Package Distribution
 
 ```json
 {
-  "name": "@zero/rich-message-composer",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
-  "files": ["dist"],
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "lexical": ">=0.22.0"
-  }
+    "name": "@zero/rich-message-composer",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
+    "files": ["dist"],
+    "peerDependencies": {
+        "react": ">=16.8.0",
+        "lexical": ">=0.22.0"
+    }
 }
 ```
 
@@ -599,25 +611,25 @@ jobs:
 ```typescript
 // Performance monitoring
 const reportPerformanceMetrics = (metrics: PerformanceMetrics) => {
-  // Report to monitoring service
-  analytics.track('editor_performance', {
-    renderTime: metrics.renderTime,
-    keystrokeLatency: metrics.keystrokeLatency,
-    memoryUsage: metrics.memoryUsage,
-    bundleSize: metrics.bundleSize
-  });
+    // Report to monitoring service
+    analytics.track('editor_performance', {
+        renderTime: metrics.renderTime,
+        keystrokeLatency: metrics.keystrokeLatency,
+        memoryUsage: metrics.memoryUsage,
+        bundleSize: metrics.bundleSize
+    });
 };
 
 // Error tracking
 const reportError = (error: Error, context: ErrorContext) => {
-  errorTracker.captureException(error, {
-    tags: {
-      component: context.component,
-      plugin: context.plugin,
-      browser: context.browser
-    },
-    extra: context.additionalData
-  });
+    errorTracker.captureException(error, {
+        tags: {
+            component: context.component,
+            plugin: context.plugin,
+            browser: context.browser
+        },
+        extra: context.additionalData
+    });
 };
 ```
 
@@ -627,17 +639,21 @@ const reportError = (error: Error, context: ErrorContext) => {
 
 ```typescript
 // Support for existing plain text messages
-const normalizeContent = (content: string | SerializedEditorState): SerializedEditorState => {
-  if (typeof content === 'string') {
-    // Convert plain text to SerializedEditorState
-    return createEmptyEditorState().update(() => {
-      const root = $getRoot();
-      const paragraph = $createParagraphNode();
-      paragraph.append($createTextNode(content));
-      root.append(paragraph);
-    }).toJSON();
-  }
-  return content;
+const normalizeContent = (
+    content: string | SerializedEditorState
+): SerializedEditorState => {
+    if (typeof content === 'string') {
+        // Convert plain text to SerializedEditorState
+        return createEmptyEditorState()
+            .update(() => {
+                const root = $getRoot();
+                const paragraph = $createParagraphNode();
+                paragraph.append($createTextNode(content));
+                root.append(paragraph);
+            })
+            .toJSON();
+    }
+    return content;
 };
 ```
 
@@ -651,7 +667,7 @@ const useFeatureFlag = (flag: string) => {
 
 const ChatInput = (props: ChatInputProps) => {
   const useRichEditor = useFeatureFlag('rich-message-composer');
-  
+
   return useRichEditor ? (
     <RichMessageEditor {...props} />
   ) : (

@@ -10,11 +10,11 @@ export {
 
 // Re-export formatting utilities for external use
 export {
-  toggleTextFormat,
-  isFormatActive,
-  getActiveFormats,
-  getFormattingShortcut,
-  FORMATTING_SHORTCUTS
+    toggleTextFormat,
+    isFormatActive,
+    getActiveFormats,
+    getFormattingShortcut,
+    FORMATTING_SHORTCUTS
 } from './formatting-utils';
 
 /**
