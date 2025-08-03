@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import { useState } from 'react';
 import type { SerializedEditorState } from 'lexical';
 

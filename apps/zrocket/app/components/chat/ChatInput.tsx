@@ -32,16 +32,8 @@ export function ChatInput({
         // Extract text content from the serialized state for logging
         // In real implementation, you'd send the full SerializedEditorState
         let textContent = '';
-        if (content.root && content.root.children) {
-            content.root.children.forEach(child => {
-                if (child.children) {
-                    child.children.forEach(textNode => {
-                        if (textNode.text) {
-                            textContent += textNode.text;
-                        }
-                    });
-                }
-            });
+        if (content.root?.children) {
+            textContent = JSON.stringify(content);
         }
 
         if (textContent.trim()) {

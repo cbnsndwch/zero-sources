@@ -39,7 +39,7 @@ export default function GroupPage() {
             <div className="flex-1 overflow-hidden">
                 <ChatMessages roomId={chatId} roomType="group" />
             </div>
-            <ChatInput roomId={chatId} roomType="group" />
+            <ChatInput roomId={chatId} roomType="group" useRichEditor />
         </div>
     );
 }

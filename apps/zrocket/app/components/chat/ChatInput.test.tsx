@@ -49,7 +49,7 @@ describe('ChatInput', () => {
     });
 
     it('renders with RichMessageEditor when useRichEditor is true', () => {
-        render(<ChatInput {...defaultProps} useRichEditor={true} />);
+        render(<ChatInput {...defaultProps} useRichEditor />);
 
         expect(screen.getByTestId('rich-message-editor')).toBeInTheDocument();
         expect(screen.getByTestId('rich-editor-placeholder')).toHaveTextContent(
@@ -68,7 +68,7 @@ describe('ChatInput', () => {
         expect(screen.getAllByRole('button')).toHaveLength(4);
 
         // Check rich editor mode: Plus, Send, Paperclip, Smile + mock send button
-        rerender(<ChatInput {...defaultProps} useRichEditor={true} />);
+        rerender(<ChatInput {...defaultProps} useRichEditor />);
         expect(screen.getAllByRole('button').length).toBeGreaterThanOrEqual(4);
     });
 
@@ -77,7 +77,7 @@ describe('ChatInput', () => {
             .spyOn(console, 'log')
             .mockImplementation(() => {});
 
-        render(<ChatInput {...defaultProps} useRichEditor={true} />);
+        render(<ChatInput {...defaultProps} useRichEditor />);
 
         const sendButton = screen.getByTestId('rich-editor-send');
         sendButton.click();
@@ -108,7 +108,7 @@ describe('ChatInput', () => {
 
     it('applies correct room type and id props', () => {
         render(
-            <ChatInput roomId="my-room" roomType="group" useRichEditor={true} />
+            <ChatInput roomId="my-room" roomType="group" useRichEditor />
         );
 
         // Component should render successfully with all prop variations

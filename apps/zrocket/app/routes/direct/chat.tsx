@@ -39,7 +39,7 @@ export default function DirectMessagePage() {
             <div className="flex-1 overflow-hidden">
                 <ChatMessages roomId={chatId} roomType="dm" />
             </div>
-            <ChatInput roomId={chatId} roomType="dm" />
+            <ChatInput roomId={chatId} roomType="dm" useRichEditor />
         </div>
     );
 }
