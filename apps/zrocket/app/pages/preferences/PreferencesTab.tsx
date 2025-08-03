@@ -22,11 +22,13 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const PreferencesTab = () => {
-    // Original values for comparison
+    const { theme, setTheme } = useTheme();
+    
+    // Original values for comparison (excluding theme as it's managed by ThemeContext)
     const originalAppearanceSettings = {
-        theme: 'system',
         density: 'comfortable',
         fontSize: [14],
         compactLayout: false,
@@ -110,13 +112,8 @@ export const PreferencesTab = () => {
                     <div className="space-y-3">
                         <Label>Theme</Label>
                         <RadioGroup
-                            value={appearanceSettings.theme}
-                            onValueChange={value =>
-                                setAppearanceSettings({
-                                    ...appearanceSettings,
-                                    theme: value
-                                })
-                            }
+                            value={theme}
+                            onValueChange={setTheme}
                             className="flex gap-6"
                         >
                             <div className="flex items-center space-x-2">

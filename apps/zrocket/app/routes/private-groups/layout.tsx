@@ -7,7 +7,7 @@ interface OutletContext {
     roomType: 'group';
 }
 
-export default function PLayout() {
+export default function PrivateGroupLayout() {
     const [isRoomDetailsOpen, setIsRoomDetailsOpen] = useState(false);
 
     const context: OutletContext = {

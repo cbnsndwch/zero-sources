@@ -75,16 +75,16 @@ type RouteFiles = {
     id: "routes/d/chat";
     page: "/d/:chatId";
   };
-  "routes/p/layout.tsx": {
-    id: "routes/p/layout";
+  "routes/private-groups/layout.tsx": {
+    id: "routes/private-groups/layout";
     page: "/p" | "/p/:chatId";
   };
-  "routes/p/index.tsx": {
-    id: "routes/p/index";
+  "routes/private-groups/index.tsx": {
+    id: "routes/private-groups/index";
     page: "/p";
   };
-  "routes/p/chat.tsx": {
-    id: "routes/p/chat";
+  "routes/private-groups/chat.tsx": {
+    id: "routes/private-groups/chat";
     page: "/p/:chatId";
   };
   "routes/c/layout.tsx": {

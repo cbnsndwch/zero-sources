@@ -1,6 +1,7 @@
-import type { Route } from './+types/index';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
-// import { Welcome } from './components/welcome/welcome';
+import type { Route } from './+types/index';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -10,10 +11,24 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Redirect to general channel by default
+        navigate('/c/general', { replace: true });
+    }, [navigate]);
+
     return (
-        <div className="relative h-full min-h-full w-full overflow-hidden bg-grid-white dark:bg-grid-small-white/[0.025]">
+        <div className="relative h-full min-h-full w-full overflow-hidden bg-background">
             <div className="relative mx-auto flex max-w-7xl flex-col">
-                {/* <Welcome /> */}
+                <div className="flex items-center justify-center h-64">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+                        <p className="mt-4 text-muted-foreground">
+                            Loading ZRocket...
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

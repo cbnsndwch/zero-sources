@@ -18,6 +18,7 @@ import type { Route } from './+types/root';
 import './app.css';
 
 import { LoginProvider } from '@/auth/login.provider';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import SidebarLayout from '@/components/layout';
@@ -88,11 +89,13 @@ export default function App() {
 
     return (
         <LoginProvider>
-            <ZeroProvider zero={zero}>
-                <TooltipProvider>
-                    <SidebarLayout />
-                </TooltipProvider>
-            </ZeroProvider>
+            <ThemeProvider>
+                <ZeroProvider zero={zero}>
+                    <TooltipProvider>
+                        <SidebarLayout />
+                    </TooltipProvider>
+                </ZeroProvider>
+            </ThemeProvider>
         </LoginProvider>
     );
 }

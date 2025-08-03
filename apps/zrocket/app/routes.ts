@@ -10,9 +10,9 @@ export default [
     ]),
 
     // Private Groups
-    route('p', 'routes/p/layout.tsx', [
-        index('routes/p/index.tsx'),
-        route(':chatId', 'routes/p/chat.tsx')
+    route('p', 'routes/private-groups/layout.tsx', [
+        index('routes/private-groups/index.tsx'),
+        route(':chatId', 'routes/private-groups/chat.tsx')
     ]),
 
     // Public Channels
