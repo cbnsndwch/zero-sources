@@ -1,12 +1,12 @@
 import { AnimatePresence } from 'framer-motion';
-import { useCallback, useEffect, useSyncExternalStore } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import type { Route } from './+types/index';
 
 import SplashScreen from '@/components/splash';
 
-import { getZeroSnapshot, zeroRef } from '@/zero/setup';
+import { useZeroRef } from '@/zero/setup';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -19,14 +19,11 @@ export default function Home() {
     const navigate = useNavigate();
 
     const hideSplash = useCallback(() => {
-        navigate('/c/general', { replace: true });
+        // redirect to DMs by default when the zero instance is ready
+        navigate('/d', { replace: true });
     }, [navigate]);
 
-    const zero = useSyncExternalStore(
-        zeroRef.onChange,
-        getZeroSnapshot,
-        getZeroSnapshot
-    );
+    const zero = useZeroRef();
 
     useEffect(() => {
         if (!zero) {

@@ -15,18 +15,10 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-
-// Mock data for room members
-const mockMembers = [
-    { id: '1', name: 'Alice Johnson', status: 'online', avatar: 'AJ' },
-    { id: '2', name: 'Bob Smith', status: 'away', avatar: 'BS' },
-    { id: '3', name: 'Carol Wilson', status: 'online', avatar: 'CW' },
-    { id: '4', name: 'David Brown', status: 'offline', avatar: 'DB' },
-    { id: '5', name: 'Emily Davis', status: 'online', avatar: 'ED' },
-    { id: '6', name: 'Frank Miller', status: 'away', avatar: 'FM' },
-    { id: '7', name: 'Grace Kim', status: 'online', avatar: 'GK' },
-    { id: '8', name: 'Henry Lopez', status: 'offline', avatar: 'HL' }
-];
+import useChannel from '@/hooks/use-channel';
+import useGroup from '@/hooks/use-group';
+import useChat from '@/hooks/use-chat';
+import useUsersByIds from '@/hooks/use-users-by-ids';
 
 export function RoomDetails() {
     const params = useParams();
@@ -36,6 +28,26 @@ export function RoomDetails() {
         : params.groupId
           ? 'group'
           : 'channel';
+
+    // Fetch room data based on room type
+    const channelQueryResult = useChannel(roomType === 'channel' && roomId ? roomId : '');
+    const groupQueryResult = useGroup(roomType === 'group' && roomId ? roomId : '');  
+    const chatQueryResult = useChat(roomType === 'dm' && roomId ? roomId : '');
+    
+    // Get the appropriate room data
+    const room = roomType === 'channel' ? channelQueryResult[0] 
+               : roomType === 'group' ? groupQueryResult[0] 
+               : roomType === 'dm' ? chatQueryResult[0]
+               : undefined;
+
+    // Get member IDs from room
+    const memberIds = room && 'memberIds' in room ? room.memberIds || [] : [];
+    
+    // Get users for members
+    const usersMap = useUsersByIds(memberIds);
+    
+    // Get room members
+    const roomMembers = memberIds.map(memberId => usersMap.get(memberId)).filter(Boolean);
 
     const getRoomIcon = () => {
         switch (roomType) {
@@ -52,7 +64,30 @@ export function RoomDetails() {
 
     const getRoomTitle = () => {
         if (!roomId) return 'No room selected';
+        
+        if (room && 'name' in room) {
+            return room.name;
+        }
+        
+        // For DMs, try to get usernames
+        if (roomType === 'dm' && room && 'usernames' in room && Array.isArray(room.usernames)) {
+            return room.usernames.join(', ') || roomId;
+        }
+        
         return roomId.charAt(0).toUpperCase() + roomId.slice(1);
+    };
+
+    const getRoomDescription = () => {
+        if (roomType === 'channel' && room && 'description' in room) {
+            return room.description || `Welcome to #${getRoomTitle()}! This is where the team collaborates.`;
+        }
+        if (roomType === 'group') {
+            return `Private group for ${getRoomTitle()} discussions.`;
+        }
+        if (roomType === 'dm') {
+            return `Direct messages with ${getRoomTitle()}.`;
+        }
+        return '';
     };
 
     const Icon = getRoomIcon();
@@ -92,12 +127,7 @@ export function RoomDetails() {
                     <div className="space-y-2">
                         <h3 className="font-medium text-sm">About</h3>
                         <p className="text-sm text-muted-foreground">
-                            {roomType === 'channel' &&
-                                `Welcome to #${roomId}! This is where the team collaborates.`}
-                            {roomType === 'group' &&
-                                `Private group for ${getRoomTitle()} discussions.`}
-                            {roomType === 'dm' &&
-                                `Direct messages with ${getRoomTitle()}.`}
+                            {getRoomDescription()}
                         </p>
                     </div>
 
@@ -122,35 +152,33 @@ export function RoomDetails() {
                             <div className="space-y-3">
                                 <h3 className="font-medium text-sm flex items-center gap-2">
                                     <Users className="h-4 w-4" />
-                                    Members ({mockMembers.length})
+                                    Members ({roomMembers.length})
                                 </h3>
 
                                 <div className="space-y-2">
-                                    {mockMembers.map(member => (
+                                    {roomMembers.map((member: any) => (
                                         <div
-                                            key={member.id}
+                                            key={member._id}
                                             className="flex items-center gap-2 p-2 rounded-md hover:bg-muted/50 cursor-pointer"
                                         >
                                             <div className="relative">
                                                 <Avatar className="h-6 w-6">
                                                     <AvatarFallback className="text-xs">
-                                                        {member.avatar}
+                                                        {(member.name || member.username || 'U').charAt(0).toUpperCase()}
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div
                                                     className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-background ${
-                                                        member.status ===
-                                                        'online'
+                                                        member.status === 'online'
                                                             ? 'bg-green-500'
-                                                            : member.status ===
-                                                                'away'
+                                                            : member.status === 'away'
                                                               ? 'bg-yellow-500'
                                                               : 'bg-gray-400'
                                                     }`}
                                                 />
                                             </div>
                                             <span className="text-sm font-medium">
-                                                {member.name}
+                                                {member.name || member.username}
                                             </span>
                                         </div>
                                     ))}

@@ -3,16 +3,16 @@ import { useMemo, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function WorkspacesList() {
-    const [activeWorkspace, setActiveWorkspace] = useState('rocicorp');
+    const [activeWorkspace, setActiveWorkspace] = useState('zero');
 
     // TODO: useQuery
     const workspaces = useMemo(
         () => [
             {
-                id: 'rocicorp',
-                name: 'Rocicorp',
-                avatar: 'RC',
-                img: '/avatars/rocicorp.png',
+                id: 'zero',
+                name: 'Zero Sync',
+                avatar: 'ZS',
+                img: '/avatars/zero-256.png',
                 active: true
             },
             {

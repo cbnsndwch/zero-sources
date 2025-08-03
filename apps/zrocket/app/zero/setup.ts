@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 import { Zero as ZeroConstructor } from '@rocicorp/zero';
 
 import { schema, type Schema } from '@cbnsndwch/zrocket-contracts/schema';
@@ -31,6 +32,14 @@ export function getZeroSnapshot() {
     }
 
     return zeroRef.current;
+}
+
+export function useZeroRef() {
+    return useSyncExternalStore(
+        zeroRef.onChange,
+        getZeroSnapshot,
+        getZeroSnapshot
+    );
 }
 
 export const authRef = new Atom<LoginState>();

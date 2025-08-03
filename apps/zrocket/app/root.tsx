@@ -3,12 +3,12 @@ import {
     isRouteErrorResponse,
     Links,
     Meta,
-    Outlet,
     Scripts,
     ScrollRestoration
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import ZeroOutlet from './contexts/ZeroOutlet';
 import './app.css';
 
 import { LoginProvider } from '@/auth/login.provider';
@@ -54,7 +54,7 @@ export default function App() {
         <LoginProvider>
             <ThemeProvider>
                 <TooltipProvider>
-                    <Outlet />
+                    <ZeroOutlet />
                 </TooltipProvider>
             </ThemeProvider>
         </LoginProvider>
