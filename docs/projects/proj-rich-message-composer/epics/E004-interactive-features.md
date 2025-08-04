@@ -253,7 +253,40 @@ const URL_MATCHERS = [
 
 ### Emoji System
 
+**Selected Component: [Frimousse](https://frimousse.liveblocks.io/)**
+
+**Rationale for Selection:**
+- Lightweight, unstyled, and composable architecture
+- Built-in virtualization for performance with large emoji datasets
+- Comprehensive TypeScript support with detailed API
+- shadcn/ui integration available for consistent design system integration
+- Accessibility-first design with keyboard navigation
+- Mobile-optimized touch interactions
+- Based on Emojibase data with Unicode standards compliance
+
+**Installation:**
+```bash
+npm install frimousse
+# OR via shadcn CLI
+npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
+```
+
+**Core Components Integration:**
 ```typescript
+import { EmojiPicker } from 'frimousse';
+
+// Frimousse implementation
+interface FrimousseEmojiPickerProps {
+    onEmojiSelect: ({ emoji }: { emoji: string }) => void;
+    locale?: string;
+    skinTone?: 'none' | 'light' | 'medium-light' | 'medium' | 'medium-dark' | 'dark';
+    columns?: number;
+    sticky?: boolean;
+    emojiVersion?: number;
+    className?: string;
+}
+
+// Legacy interface for compatibility
 interface EmojiPickerProps {
     onEmojiSelect: (emoji: string) => void;
     recentEmojis: string[];
@@ -266,7 +299,34 @@ interface EmojiCategory {
     emojis: string[];
     icon: string;
 }
+
+// Frimousse-based implementation
+const RichMessageEmojiPicker = ({ onEmojiSelect, className }: FrimousseEmojiPickerProps) => (
+    <EmojiPicker.Root 
+        onEmojiSelect={onEmojiSelect}
+        className={className}
+        columns={10}
+        skinTone="none"
+        sticky={true}
+    >
+        <EmojiPicker.Search />
+        <EmojiPicker.Viewport>
+            <EmojiPicker.Loading>Loading emojis...</EmojiPicker.Loading>
+            <EmojiPicker.Empty>No emoji found.</EmojiPicker.Empty>
+            <EmojiPicker.List />
+        </EmojiPicker.Viewport>
+    </EmojiPicker.Root>
+);
 ```
+
+**Key Features:**
+- **Virtualized Performance**: Built-in virtualization handles thousands of emojis efficiently
+- **Search & Filtering**: Native search functionality with category-based organization
+- **Skin Tone Support**: `EmojiPicker.SkinToneSelector` for customizable skin tones
+- **Keyboard Navigation**: Full accessibility with arrow keys and Enter selection
+- **Mobile Optimization**: Touch-friendly interactions and responsive design
+- **Emoji Data**: Powered by Emojibase with Unicode compliance and version control
+- **Custom Styling**: CSS variables and attribute selectors for complete customization
 
 ## Design Requirements
 
