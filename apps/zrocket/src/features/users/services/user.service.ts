@@ -94,5 +94,26 @@ export class UserService {
         return user;
     }
 
+    async search(query: string, limit: number = 10): Promise<User[]> {
+        if (!query.trim()) {
+            return [];
+        }
+
+        const searchRegex = new RegExp(query, 'i'); // case-insensitive search
+
+        return this.#model
+            .find({
+                active: true, // only active users
+                $or: [
+                    { username: searchRegex },
+                    { name: searchRegex },
+                    { email: searchRegex }
+                ]
+            })
+            .limit(limit)
+            .select('_id username name email avatarUrl') // only return needed fields
+            .exec();
+    }
+
     //#endregion Custom Methods
 }

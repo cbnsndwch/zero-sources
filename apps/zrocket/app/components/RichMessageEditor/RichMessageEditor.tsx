@@ -28,6 +28,8 @@ import {
     validateSerializedEditorState,
     ensureValidSerializedEditorState
 } from './serialization-utils';
+import { MentionNode } from './nodes/MentionNode';
+import { MentionsPlugin } from './plugins/MentionsPlugin';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -237,6 +239,7 @@ export function RichMessageEditor({
     // Lexical editor configuration
     const initialConfig = {
         namespace: 'RichMessageEditor',
+        nodes: [MentionNode], // Register the MentionNode
         theme: {
             paragraph: 'mb-1',
             text: {
@@ -285,7 +288,7 @@ export function RichMessageEditor({
                         />
 
                         {/* Character count display - only show when over 85% of limit */}
-                        {maxLength && currentLength > (maxLength * 0.85) && (
+                        {maxLength && currentLength > maxLength * 0.85 && (
                             <div className="absolute top-2 right-2 text-xs text-muted-foreground bg-background/80 px-1 rounded pointer-events-none">
                                 {currentLength}/{maxLength}
                             </div>
@@ -295,6 +298,7 @@ export function RichMessageEditor({
                         <OnChangePlugin onChange={handleContentChange} />
                         <KeyboardPlugin onSendMessage={onSendMessage} />
                         <FormattingPlugin />
+                        <MentionsPlugin />
                         {maxLength && (
                             <CharacterLimitPlugin maxLength={maxLength} />
                         )}
