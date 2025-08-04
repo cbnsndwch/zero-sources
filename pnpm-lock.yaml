@@ -413,7 +413,16 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.10.0(react-hook-form@7.62.0(react@19.1.1))
+      '@lexical/clipboard':
+        specifier: ^0.33.1
+        version: 0.33.1
+      '@lexical/headless':
+        specifier: ^0.33.1
+        version: 0.33.1
       '@lexical/history':
+        specifier: ^0.33.1
+        version: 0.33.1
+      '@lexical/html':
         specifier: ^0.33.1
         version: 0.33.1
       '@lexical/link':
@@ -2128,6 +2137,9 @@ packages:
 
   '@lexical/hashtag@0.33.1':
     resolution: {integrity: sha512-M3IsDe4cifggMBZgYAVT7hCLWcwQ3dIcUPdr9Xc6wDQQQdEqOQYB0PO//9bSYUVq+BNiiTgysc+TtlM7PiJfiw==}
+
+  '@lexical/headless@0.33.1':
+    resolution: {integrity: sha512-OfoNpAgoWmh36h5jT1xMyuowWIN4fwQwtF9zTS5LT8bIgM4I4eMtO48NqsMXFXqND4eRHv69pkUKBgZpvRDTbA==}
 
   '@lexical/history@0.33.1':
     resolution: {integrity: sha512-Bk0h3D6cFkJ7w3HKvqQua7n6Xfz7nR7L3gLDBH9L0nsS4MM9+LteSEZPUe0kj4VuEjnxufYstTc9HA2aNLKxnQ==}
@@ -10305,6 +10317,10 @@ snapshots:
   '@lexical/hashtag@0.33.1':
     dependencies:
       '@lexical/utils': 0.33.1
+      lexical: 0.33.1
+
+  '@lexical/headless@0.33.1':
+    dependencies:
       lexical: 0.33.1
 
   '@lexical/history@0.33.1':
