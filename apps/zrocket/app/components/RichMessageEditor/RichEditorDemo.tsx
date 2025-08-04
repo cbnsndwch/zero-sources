@@ -14,6 +14,8 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ChatInput } from '@/components/chat/ChatInput';
 
+import { PerformanceDashboard } from './components/PerformanceDashboard';
+
 export function RichEditorDemo() {
     const [useRichEditor, setUseRichEditor] = useState(false);
     const [messages, setMessages] = useState<
@@ -120,11 +122,7 @@ export function RichEditorDemo() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ChatInput
-                        roomId="demo-room"
-                        roomType="channel"
-                        useRichEditor={useRichEditor}
-                    />
+                    <ChatInput roomId="demo-room" roomType="channel" />
                 </CardContent>
             </Card>
 
@@ -228,6 +226,9 @@ export function RichEditorDemo() {
                     </div>
                 </CardContent>
             </Card>
+
+            {/* Performance monitoring dashboard */}
+            <PerformanceDashboard showDetailedMetrics={true} />
         </div>
     );
 }

@@ -1,36 +1,42 @@
-import { Component, useCallback, useEffect, useState } from 'react';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import {
     $getRoot,
     $getSelection,
     $isRangeSelection,
+    COMMAND_PRIORITY_NORMAL,
     FORMAT_TEXT_COMMAND,
     KEY_DOWN_COMMAND,
-    COMMAND_PRIORITY_NORMAL,
     RootNode,
     type EditorState,
     type SerializedEditorState,
     type TextFormatType
 } from 'lexical';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { Component, useCallback, useEffect, useRef, useState } from 'react';
 
+import { FormattingToolbar } from './components/FormattingToolbar';
+import { MentionNode } from './nodes/MentionNode';
+import { ClipboardPlugin } from './plugins/ClipboardPlugin';
+import { MentionsPlugin } from './plugins/MentionsPlugin';
+import {
+    ensureValidSerializedEditorState,
+    validateSerializedEditorState
+} from './serialization-utils';
 import type {
-    RichMessageEditorProps,
     EditorErrorBoundaryProps,
-    EditorErrorBoundaryState
+    EditorErrorBoundaryState,
+    RichMessageEditorProps
 } from './types';
 import {
-    validateSerializedEditorState,
-    ensureValidSerializedEditorState
-} from './serialization-utils';
-import { MentionNode } from './nodes/MentionNode';
-import { MentionsPlugin } from './plugins/MentionsPlugin';
-import { FormattingToolbar } from './components/FormattingToolbar';
+    memoryLeakDetector,
+    usePerformanceMonitor
+} from './utils/performance-monitor';
+import ActionBar from './components/ActionBar';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -73,25 +79,35 @@ class EditorErrorBoundary extends Component<
  * Custom plugin to handle keyboard events (Enter to send, Shift+Enter for new lines)
  */
 function KeyboardPlugin({
-    onSendMessage
+    onSendMessage,
+    onPerformanceUpdate
 }: {
     onSendMessage: (content: SerializedEditorState) => void;
+    onPerformanceUpdate?: (
+        type: 'keystroke' | 'serialization',
+        startTime: number
+    ) => void;
 }) {
     const [editor] = useLexicalComposerContext();
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            const keystrokeStart = performance.now();
+
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 event.stopPropagation();
 
                 // Get the current editor state and serialize it
+                const serializationStart = performance.now();
                 const editorState = editor.getEditorState();
                 const rawSerializedState = editorState.toJSON();
 
                 // Ensure the serialized state complies with the expected format
                 const serializedState =
                     ensureValidSerializedEditorState(rawSerializedState);
+
+                onPerformanceUpdate?.('serialization', serializationStart);
 
                 // Validate the format for debugging (in development)
                 if (process.env.NODE_ENV === 'development') {
@@ -119,6 +135,9 @@ function KeyboardPlugin({
                         root.clear();
                     });
                 }
+            } else {
+                // Track keystroke latency for regular typing
+                onPerformanceUpdate?.('keystroke', keystrokeStart);
             }
         };
 
@@ -130,7 +149,7 @@ function KeyboardPlugin({
                 rootElement.addEventListener('keydown', handleKeyDown);
             }
         });
-    }, [editor, onSendMessage]);
+    }, [editor, onSendMessage, onPerformanceUpdate]);
 
     return null;
 }
@@ -229,13 +248,56 @@ function CharacterLimitPlugin({ maxLength }: { maxLength?: number }) {
  * RichMessageEditor component with Lexical editor integration
  */
 export function RichMessageEditor({
+    onPaste,
     onSendMessage,
     placeholder = 'Type a message...',
     initialContent,
-    disabled = false,
-    maxLength
+    maxLength,
+    disabled = false
 }: RichMessageEditorProps) {
     const [currentLength, setCurrentLength] = useState(0);
+    const initTimeRef = useRef<number>(0);
+    const performanceMonitor = usePerformanceMonitor();
+
+    // Initialize performance monitoring
+    useEffect(() => {
+        initTimeRef.current = performance.now();
+
+        // Start memory leak detection in development
+        if (import.meta.env.DEV) {
+            memoryLeakDetector.startMonitoring(30000); // Check every 30 seconds
+        }
+
+        return () => {
+            // Stop memory monitoring on unmount
+            if (!import.meta.env.DEV) {
+                return;
+            }
+
+            memoryLeakDetector.stopMonitoring();
+        };
+    }, []);
+
+    // Record initialization time once editor is ready
+    useEffect(() => {
+        if (initTimeRef.current > 0) {
+            performanceMonitor.recordInitialization(initTimeRef.current);
+            initTimeRef.current = 0; // Reset to avoid multiple recordings
+        }
+    }, [performanceMonitor]);
+
+    // Handle performance updates from plugins
+    const handlePerformanceUpdate = useCallback(
+        (type: 'keystroke' | 'serialization', startTime: number) => {
+            if (type === 'keystroke') {
+                performanceMonitor.recordKeystroke(startTime);
+            } else if (type === 'serialization') {
+                const textLength = currentLength;
+                performanceMonitor.recordSerialization(startTime, textLength);
+            }
+        },
+        [performanceMonitor, currentLength]
+    );
 
     // Lexical editor configuration
     const initialConfig = {
@@ -254,56 +316,139 @@ export function RichMessageEditor({
             console.error('Lexical Editor Error:', error);
         },
         editorState: initialContent
-            ? JSON.stringify(initialContent)
+            ? (() => {
+                  const deserializationStart = performance.now();
+                  const result = JSON.stringify(initialContent);
+                  performanceMonitor.recordDeserialization(
+                      deserializationStart,
+                      result.length
+                  );
+                  return result;
+              })()
             : undefined,
         editable: !disabled
     };
 
-    // Handle content changes
-    const handleContentChange = useCallback((editorState: EditorState) => {
-        editorState.read(() => {
-            const root = $getRoot();
-            const textContent = root.getTextContent();
-            setCurrentLength(textContent.length);
-        });
-    }, []);
+    // Handle content changes with performance tracking
+    const handleContentChange = useCallback(
+        (editorState: EditorState) => {
+            const changeStart = performance.now();
+
+            editorState.read(() => {
+                const root = $getRoot();
+                const textContent = root.getTextContent();
+                setCurrentLength(textContent.length);
+            });
+
+            // Track render performance
+            requestAnimationFrame(() => {
+                const renderTime = performance.now() - changeStart;
+                if (renderTime > 16 && process.env.NODE_ENV === 'development') {
+                    console.warn(
+                        `⚠️ Content change took ${renderTime.toFixed(2)}ms (>16ms target)`
+                    );
+                }
+            });
+
+            // Periodic memory monitoring
+            if (Math.random() < 0.1) {
+                // 10% chance to record memory
+                performanceMonitor.recordMemoryUsage();
+            }
+        },
+        [performanceMonitor]
+    );
+
+    // Handle paste events
+    const handlePaste = useCallback(
+        (content: { html?: string; text?: string; nodes?: any[] }) => {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Content pasted:', content);
+            }
+            onPaste?.(content);
+        },
+        [onPaste]
+    );
 
     return (
         <EditorErrorBoundary>
-            <div className="relative">
+            <div
+                id="rich-message-editor-container"
+                className="relative flex flex-col gap-2"
+            >
                 <LexicalComposer initialConfig={initialConfig}>
-                    <div className="relative border border-input rounded-md bg-background">
-                        <FormattingToolbar disabled={disabled} />
-                        <RichTextPlugin
-                            contentEditable={
-                                <ContentEditable
-                                    className="min-h-[40px] max-h-32 overflow-y-auto p-3 pr-20 resize-none outline-none"
-                                    aria-placeholder={placeholder}
-                                    placeholder={
-                                        <div className="absolute top-3 left-3 text-muted-foreground pointer-events-none select-none">
-                                            {placeholder}
-                                        </div>
-                                    }
-                                />
-                            }
-                            ErrorBoundary={LexicalErrorBoundary}
-                        />
+                    {/* Slack-style unified "island" card design */}
+                    <div
+                        className="relative border border-border/60 rounded-xl bg-background shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden"
+                        id="rich-message-editor-card"
+                    >
+                        {/* Top Row: Formatting Toolbar */}
+                        <div id="rich-message-editor-toolbar-section">
+                            <FormattingToolbar disabled={disabled} />
+                        </div>
 
-                        {/* Character count display - only show when over 85% of limit */}
-                        {maxLength && currentLength > maxLength * 0.85 && (
-                            <div className="absolute top-2 right-2 text-xs text-muted-foreground bg-background/80 px-1 rounded pointer-events-none">
-                                {currentLength}/{maxLength}
-                            </div>
-                        )}
+                        {/* Middle Row: Main Content Area */}
+                        <div
+                            className="relative"
+                            id="rich-message-editor-content-section"
+                        >
+                            <RichTextPlugin
+                                contentEditable={
+                                    <ContentEditable
+                                        id="rich-message-editor-input"
+                                        aria-placeholder={placeholder}
+                                        className="min-h-[60px] max-h-40 overflow-y-auto px-3 py-2 resize-none outline-none text-base leading-relaxed selection:bg-primary/20"
+                                        placeholder={
+                                            <div
+                                                className="absolute top-2 left-3 text-muted-foreground/60 pointer-events-none select-none text-base"
+                                                id="rich-message-editor-placeholder"
+                                            >
+                                                {placeholder}
+                                            </div>
+                                        }
+                                    />
+                                }
+                                ErrorBoundary={LexicalErrorBoundary}
+                            />
+
+                            {/* Character count display - only show when over 85% of limit */}
+                            {maxLength && currentLength > maxLength * 0.85 && (
+                                <div
+                                    className="absolute top-2 right-3 text-xs text-muted-foreground bg-background/90 px-2 py-1 rounded-md pointer-events-none shadow-sm border border-border/30"
+                                    id="rich-message-editor-char-count"
+                                >
+                                    {currentLength}/{maxLength}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Bottom Row: Action Bar */}
+                        <ActionBar disabled={disabled} />
 
                         <HistoryPlugin />
                         <OnChangePlugin onChange={handleContentChange} />
-                        <KeyboardPlugin onSendMessage={onSendMessage} />
+                        <KeyboardPlugin
+                            onSendMessage={onSendMessage}
+                            onPerformanceUpdate={handlePerformanceUpdate}
+                        />
                         <FormattingPlugin />
                         <MentionsPlugin />
-                        {maxLength && (
+                        <ClipboardPlugin
+                            preserveFormatting={true}
+                            maxPasteLength={maxLength}
+                            onPaste={handlePaste}
+                        />
+                        {maxLength ? (
                             <CharacterLimitPlugin maxLength={maxLength} />
-                        )}
+                        ) : null}
+                    </div>
+
+                    {/* Only show when editor has content */}
+                    <div
+                        id="rich-message-editor-send-section"
+                        className="flex justify-end items-center text-xs text-muted-foreground font-xs gap-1"
+                    >
+                        Shift + Enter adds a new line
                     </div>
                 </LexicalComposer>
             </div>

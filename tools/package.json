@@ -1,0 +1,28 @@
+{
+    "name": "status-monitor",
+    "version": "1.0.0",
+    "description": "GitHub status monitoring tool for Rich Text Features development",
+    "main": "status-monitor.js",
+    "type": "module",
+    "scripts": {
+        "start": "node status-monitor.js",
+        "check": "node status-monitor.js --once",
+        "monitor:5m": "node status-monitor.js --interval 5",
+        "monitor:10m": "node status-monitor.js --interval 10",
+        "monitor:15m": "node status-monitor.js --interval 15"
+    },
+    "keywords": [
+        "github",
+        "monitoring",
+        "status",
+        "project-management"
+    ],
+    "author": "",
+    "license": "MIT",
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "bin": {
+        "status-monitor": "./status-monitor.js"
+    }
+}

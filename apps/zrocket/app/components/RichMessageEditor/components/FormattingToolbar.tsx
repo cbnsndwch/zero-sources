@@ -4,16 +4,21 @@ import { $getSelection, $isRangeSelection } from 'lexical';
 import { Bold, Italic, Underline, Strikethrough } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { toggleTextFormat, isFormatActive } from '../formatting-utils';
+
+import { toggleTextFormat } from '../formatting-utils';
 import type { TextFormatType } from '../types';
 
 interface FormattingToolbarProps {
     disabled?: boolean;
 }
 
-export function FormattingToolbar({ disabled = false }: FormattingToolbarProps) {
+export function FormattingToolbar({
+    disabled = false
+}: FormattingToolbarProps) {
     const [editor] = useLexicalComposerContext();
-    const [activeFormats, setActiveFormats] = useState<Set<TextFormatType>>(new Set());
+    const [activeFormats, setActiveFormats] = useState<Set<TextFormatType>>(
+        new Set()
+    );
 
     // Update active formats when selection changes
     const updateActiveFormats = useCallback(() => {
@@ -23,17 +28,24 @@ export function FormattingToolbar({ disabled = false }: FormattingToolbarProps) 
                 const newActiveFormats = new Set<TextFormatType>();
 
                 if ($isRangeSelection(selection)) {
-                    if (selection.hasFormat('bold')) newActiveFormats.add('bold');
-                    if (selection.hasFormat('italic')) newActiveFormats.add('italic');
-                    if (selection.hasFormat('underline')) newActiveFormats.add('underline');
-                    if (selection.hasFormat('strikethrough')) newActiveFormats.add('strikethrough');
+                    if (selection.hasFormat('bold'))
+                        newActiveFormats.add('bold');
+                    if (selection.hasFormat('italic'))
+                        newActiveFormats.add('italic');
+                    if (selection.hasFormat('underline'))
+                        newActiveFormats.add('underline');
+                    if (selection.hasFormat('strikethrough'))
+                        newActiveFormats.add('strikethrough');
                 }
 
                 setActiveFormats(newActiveFormats);
             });
         } catch (error) {
             // In test environment or when editor is not properly initialized, fail silently
-            console.debug('FormattingToolbar: Unable to update active formats', error);
+            console.debug(
+                'FormattingToolbar: Unable to update active formats',
+                error
+            );
         }
     }, [editor]);
 
@@ -53,11 +65,14 @@ export function FormattingToolbar({ disabled = false }: FormattingToolbarProps) 
     }, [editor, updateActiveFormats]);
 
     // Handle format button clicks
-    const handleFormatClick = useCallback((formatType: TextFormatType) => {
-        if (!disabled) {
-            toggleTextFormat(editor, formatType);
-        }
-    }, [editor, disabled]);
+    const handleFormatClick = useCallback(
+        (formatType: TextFormatType) => {
+            if (!disabled) {
+                toggleTextFormat(editor, formatType);
+            }
+        },
+        [editor, disabled]
+    );
 
     const formatButtons: Array<{
         type: TextFormatType;
@@ -67,20 +82,34 @@ export function FormattingToolbar({ disabled = false }: FormattingToolbarProps) 
     }> = [
         { type: 'bold', icon: Bold, label: 'Bold', shortcut: 'Ctrl+B' },
         { type: 'italic', icon: Italic, label: 'Italic', shortcut: 'Ctrl+I' },
-        { type: 'underline', icon: Underline, label: 'Underline', shortcut: 'Ctrl+U' },
-        { type: 'strikethrough', icon: Strikethrough, label: 'Strikethrough', shortcut: 'Ctrl+Shift+S' }
+        {
+            type: 'underline',
+            icon: Underline,
+            label: 'Underline',
+            shortcut: 'Ctrl+U'
+        },
+        {
+            type: 'strikethrough',
+            icon: Strikethrough,
+            label: 'Strikethrough',
+            shortcut: 'Ctrl+Shift+S'
+        }
     ];
 
     return (
-        <div className="flex gap-1 p-2 border-b border-input bg-muted/20">
+        <div className="flex gap-0.5 px-2 pt-2">
             {formatButtons.map(({ type, icon: Icon, label, shortcut }) => {
                 const isActive = activeFormats.has(type);
                 return (
                     <Button
                         key={type}
-                        variant={isActive ? "default" : "ghost"}
+                        variant={isActive ? 'default' : 'ghost'}
                         size="sm"
-                        className={`h-8 w-8 p-0 ${isActive ? 'bg-primary text-primary-foreground' : ''}`}
+                        className={`h-8 w-8 p-0 transition-all duration-150 ${
+                            isActive
+                                ? 'bg-primary text-primary-foreground shadow-sm'
+                                : 'hover:bg-muted/60 text-muted-foreground hover:text-foreground'
+                        }`}
                         onClick={() => handleFormatClick(type)}
                         disabled={disabled}
                         title={`${label} (${shortcut})`}

@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-08-04T03:59:18.324Z",
+  "issue10State": "OPEN",
+  "activeRichTextPRs": [
+    {
+      "number": 42,
+      "title": "[WIP] Add Text Formatting (Bold, Italic, Underline, Strikethrough)",
+      "author": "app/copilot-swe-agent",
+      "isDraft": true,
+      "createdAt": "2025-08-04T03:43:45Z"
+    },
+    {
+      "number": 41,
+      "title": "[WIP] Performance Optimization and Cross-Browser Testing",
+      "author": "app/copilot-swe-agent",
+      "isDraft": true,
+      "createdAt": "2025-08-04T03:38:46Z"
+    },
+    {
+      "number": 40,
+      "title": "[WIP] Implement Copy/Paste Support for Rich Text",
+      "author": "app/copilot-swe-agent",
+      "isDraft": true,
+      "createdAt": "2025-08-04T03:38:43Z"
+    }
+  ],
+  "summary": "Issue #10 (OPEN) | PRs: 3 total (3 draft, 0 ready)"
+}

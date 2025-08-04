@@ -14,7 +14,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 
 export default function RichMessageEditorDemo() {
     const [messages, setMessages] = useState<SerializedEditorState[]>([]);
@@ -126,11 +125,7 @@ export default function RichMessageEditorDemo() {
                                     </span>
                                 )}
                             </p>
-                            <ChatInput
-                                roomId="demo-room"
-                                roomType="channel"
-                                useRichEditor={useRichEditor}
-                            />
+                            <ChatInput roomId="demo-room" roomType="channel" />
                         </div>
                     </CardContent>
                 </Card>
@@ -142,26 +137,37 @@ export default function RichMessageEditorDemo() {
                             ✨ NEW: Text Formatting Toolbar - COMPLETED
                         </CardTitle>
                         <CardDescription className="text-blue-700 dark:text-blue-300">
-                            Visual formatting controls with keyboard shortcuts • All acceptance criteria met
+                            Visual formatting controls with keyboard shortcuts •
+                            All acceptance criteria met
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="grid md:grid-cols-2 gap-4">
                             <div>
-                                <h4 className="font-semibold mb-2">🎯 Features Implemented</h4>
+                                <h4 className="font-semibold mb-2">
+                                    🎯 Features Implemented
+                                </h4>
                                 <ul className="text-sm space-y-1 text-muted-foreground">
                                     <li>✅ Toolbar with B, I, U, S buttons</li>
-                                    <li>✅ Keyboard shortcuts (Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Shift+S)</li>
-                                    <li>✅ Visual feedback for active formats</li>
+                                    <li>
+                                        ✅ Keyboard shortcuts (Ctrl+B, Ctrl+I,
+                                        Ctrl+U, Ctrl+Shift+S)
+                                    </li>
+                                    <li>
+                                        ✅ Visual feedback for active formats
+                                    </li>
                                     <li>✅ Multiple formats simultaneously</li>
                                     <li>✅ Formatting persists in content</li>
                                     <li>✅ Cross-browser compatibility</li>
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="font-semibold mb-2">🎮 Try It Out</h4>
+                                <h4 className="font-semibold mb-2">
+                                    🎮 Try It Out
+                                </h4>
                                 <p className="text-sm text-muted-foreground mb-3">
-                                    Use the formatting toolbar or keyboard shortcuts:
+                                    Use the formatting toolbar or keyboard
+                                    shortcuts:
                                 </p>
                                 <RichMessageEditor
                                     onSendMessage={handleSendMessage}
@@ -171,8 +177,6 @@ export default function RichMessageEditorDemo() {
                         </div>
                     </CardContent>
                 </Card>
-
-                <Separator />
 
                 {/* Standalone RichMessageEditor Examples */}
                 <div>
