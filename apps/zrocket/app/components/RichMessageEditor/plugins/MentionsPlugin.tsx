@@ -97,7 +97,7 @@ export function MentionsPlugin(): JSX.Element | null {
 
                     // Split the text node at the @ symbol
                     const beforeText = textContent.slice(0, matchIndex);
-                    const afterText = textContent.slice(matchIndex + match[0].length);
+                    const afterText = textContent.slice(matchIndex + match[0].length - 1);
 
                     replaceTextNodeWithMention(anchorNode, mentionNode, beforeText, afterText);
                 }
