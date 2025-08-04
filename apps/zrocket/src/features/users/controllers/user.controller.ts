@@ -53,13 +53,19 @@ export class UserController {
     @ApiResponse({ status: 200, description: 'Return matching users' })
     async search(
         @Query('q') query: string,
-        @Query('limit') limit?: number
+        @Query('limit') limit?: string
     ): Promise<User[]> {
         if (!query || query.trim().length === 0) {
             return [];
         }
         
-        const searchLimit = limit && limit > 0 && limit <= 50 ? limit : 10;
+        let searchLimit = 10;
+        if (typeof limit === 'string') {
+            const parsedLimit = parseInt(limit, 10);
+            if (!isNaN(parsedLimit) && parsedLimit > 0 && parsedLimit <= 50) {
+                searchLimit = parsedLimit;
+            }
+        }
         return this.#userService.search(query.trim(), searchLimit);
     }
 
