@@ -238,21 +238,26 @@ export function ClipboardPlugin(config: ClipboardPluginConfig = {}) {
                     if (event.key === 'v' && event.shiftKey && (event.ctrlKey || event.metaKey)) {
                         event.preventDefault();
                         
-                        // Trigger paste with forced plain text
-                        navigator.clipboard.readText().then(text => {
-                            if (text) {
-                                editor.update(() => {
-                                    const selection = $getSelection();
-                                    if ($isRangeSelection(selection)) {
-                                        selection.insertText(text);
-                                    }
-                                });
-                                
-                                config.onPaste?.({ text });
-                            }
-                        }).catch(error => {
-                            console.warn('Could not read clipboard for plain text paste:', error);
-                        });
+                        // Check if clipboard API is available
+                        if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.readText) {
+                            // Trigger paste with forced plain text
+                            navigator.clipboard.readText().then(text => {
+                                if (text) {
+                                    editor.update(() => {
+                                        const selection = $getSelection();
+                                        if ($isRangeSelection(selection)) {
+                                            selection.insertText(text);
+                                        }
+                                    });
+                                    
+                                    config.onPaste?.({ text });
+                                }
+                            }).catch(error => {
+                                console.warn('Could not read clipboard for plain text paste:', error);
+                            });
+                        } else {
+                            console.warn('Clipboard API not available for plain text paste');
+                        }
                         
                         return true;
                     }
@@ -288,23 +293,45 @@ export function copyToClipboard(editor: LexicalEditor): Promise<boolean> {
                 return;
             }
             
-            // Copy to clipboard
-            const clipboardItem = new ClipboardItem({
-                'text/html': new Blob([htmlString], { type: 'text/html' }),
-                'text/plain': new Blob([textString], { type: 'text/plain' })
-            });
+            // Check if clipboard API is available
+            if (typeof navigator === 'undefined' || !navigator.clipboard) {
+                console.warn('Clipboard API not available');
+                resolve(false);
+                return;
+            }
             
-            navigator.clipboard.write([clipboardItem]).then(() => {
-                resolve(true);
-            }).catch(error => {
-                console.error('Failed to copy to clipboard:', error);
+            // Copy to clipboard
+            if (navigator.clipboard.write) {
+                const clipboardItem = new ClipboardItem({
+                    'text/html': new Blob([htmlString], { type: 'text/html' }),
+                    'text/plain': new Blob([textString], { type: 'text/plain' })
+                });
+                
+                navigator.clipboard.write([clipboardItem]).then(() => {
+                    resolve(true);
+                }).catch(error => {
+                    console.error('Failed to copy to clipboard:', error);
+                    // Fallback to text-only copy
+                    if (navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(textString).then(() => {
+                            resolve(true);
+                        }).catch(() => {
+                            resolve(false);
+                        });
+                    } else {
+                        resolve(false);
+                    }
+                });
+            } else if (navigator.clipboard.writeText) {
                 // Fallback to text-only copy
                 navigator.clipboard.writeText(textString).then(() => {
                     resolve(true);
                 }).catch(() => {
                     resolve(false);
                 });
-            });
+            } else {
+                resolve(false);
+            }
         });
     });
 }
