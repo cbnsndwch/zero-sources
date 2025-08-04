@@ -270,12 +270,15 @@ export function RichMessageEditor({
     }, []);
 
     // Handle paste events
-    const handlePaste = useCallback((content: { html?: string; text?: string; nodes?: any[] }) => {
-        if (process.env.NODE_ENV === 'development') {
-            console.log('Content pasted:', content);
-        }
-        onPaste?.(content);
-    }, [onPaste]);
+    const handlePaste = useCallback(
+        (content: { html?: string; text?: string; nodes?: any[] }) => {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Content pasted:', content);
+            }
+            onPaste?.(content);
+        },
+        [onPaste]
+    );
 
     return (
         <EditorErrorBoundary>

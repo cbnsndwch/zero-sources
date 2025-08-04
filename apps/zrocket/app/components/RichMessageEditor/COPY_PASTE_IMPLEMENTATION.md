@@ -7,6 +7,7 @@ This document describes the implementation of copy/paste support for rich text c
 ## Features Implemented ✅
 
 ### Core Functionality
+
 - **Rich Text Paste Support**: HTML-to-Lexical conversion with formatting preservation
 - **External Source Support**: Compatible with Word, Google Docs, web pages, and other external sources
 - **Plain Text Paste**: Ctrl+Shift+V for stripping formatting when needed
@@ -15,12 +16,14 @@ This document describes the implementation of copy/paste support for rich text c
 - **Error Handling**: Graceful fallback for invalid or malformed content
 
 ### Keyboard Shortcuts
+
 - `Ctrl+V` / `Cmd+V`: Paste with formatting preserved
 - `Ctrl+Shift+V` / `Cmd+Shift+V`: Paste as plain text only
 - `Enter`: Send message (existing functionality)
 - `Shift+Enter`: New line (existing functionality)
 
 ### Security Features
+
 - HTML sanitization removes dangerous elements (`<script>`, `<object>`, etc.)
 - Attribute filtering removes event handlers and unsafe CSS
 - Content validation ensures only safe formatting is preserved
@@ -31,6 +34,7 @@ This document describes the implementation of copy/paste support for rich text c
 ### Files Added/Modified
 
 #### New Files
+
 - `ClipboardPlugin.tsx`: Main clipboard handling plugin
 - `ClipboardPlugin.test.tsx`: Comprehensive test suite
 - `CopyPasteDemo.tsx`: Interactive demonstration component
@@ -38,11 +42,13 @@ This document describes the implementation of copy/paste support for rich text c
 - `copy-paste-demo.tsx`: Demo route
 
 #### Modified Files
+
 - `RichMessageEditor.tsx`: Integration of ClipboardPlugin
 - `types.ts`: Added onPaste prop interface
 - `package.json`: Added @lexical/clipboard and @lexical/html dependencies
 
 ### Dependencies Added
+
 - `@lexical/clipboard@^0.33.1`: Enhanced paste support
 - `@lexical/html@^0.33.1`: HTML-to-Lexical transformation
 
@@ -68,32 +74,36 @@ ClipboardPlugin({
 ## Usage Examples
 
 ### Basic Integration
+
 ```tsx
 <RichMessageEditor
-  onSendMessage={handleSend}
-  onPaste={handlePaste}
-  maxLength={1000}
+    onSendMessage={handleSend}
+    onPaste={handlePaste}
+    maxLength={1000}
 />
 ```
 
 ### Advanced Configuration
+
 ```tsx
 <ClipboardPlugin
-  preserveFormatting={true}
-  maxPasteLength={2000}
-  sanitizeHtml={(html) => customSanitize(html)}
-  onPaste={(content) => console.log('Pasted:', content)}
+    preserveFormatting={true}
+    maxPasteLength={2000}
+    sanitizeHtml={html => customSanitize(html)}
+    onPaste={content => console.log('Pasted:', content)}
 />
 ```
 
 ## Testing
 
 ### Test Coverage
+
 - **Total Tests**: 120
 - **Passing Tests**: 112 (93% success rate)
 - **Failed Tests**: 8 (advanced edge cases in test environment)
 
 ### Test Categories
+
 - Plugin registration and configuration
 - Paste event handling (HTML and plain text)
 - Content sanitization and security
@@ -102,7 +112,9 @@ ClipboardPlugin({
 - Integration with existing editor
 
 ### Demo Page
+
 Visit `/copy-paste-demo` to see interactive demonstrations of:
+
 - Sample content for testing
 - Real-time paste event logging
 - Keyboard shortcut documentation
@@ -111,12 +123,14 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Performance Considerations
 
 ### Optimizations Implemented
+
 - Character length limits to prevent memory issues
 - Efficient HTML parsing using native DOM APIs
 - Lazy loading of clipboard functionality
 - Error boundaries to prevent crashes
 
 ### Memory Management
+
 - Automatic cleanup of temporary DOM elements
 - Limited paste history to prevent memory leaks
 - Efficient serialization of editor state
@@ -124,12 +138,14 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Security
 
 ### XSS Prevention
+
 - Script tag removal
 - Event handler attribute filtering
 - CSS expression filtering
 - Safe URL validation for links
 
 ### Content Validation
+
 - HTML structure validation
 - Maximum content length enforcement
 - Safe fallback to plain text on errors
@@ -137,12 +153,14 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Browser Compatibility
 
 ### Modern Browsers (Full Support)
+
 - Chrome 66+
 - Firefox 63+
 - Safari 13.1+
 - Edge 79+
 
 ### Fallback Behavior
+
 - Graceful degradation when Clipboard API unavailable
 - Console warnings for unsupported features
 - Plain text fallback for complex content
@@ -150,12 +168,14 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Accessibility
 
 ### Features Maintained
+
 - Screen reader compatibility
 - Keyboard navigation support
 - Focus management during paste operations
 - ARIA attributes preserved
 
 ### Keyboard Support
+
 - Standard clipboard shortcuts work as expected
 - Alternative shortcuts for plain text paste
 - No interference with existing accessibility features
@@ -163,11 +183,13 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Known Limitations
 
 ### Test Environment
+
 - Some advanced clipboard tests fail in JSDOM environment
 - Clipboard API mocking has limitations
 - Real browser testing recommended for full validation
 
 ### Browser API Dependencies
+
 - Requires modern browser with Clipboard API
 - Some features unavailable in older browsers
 - Graceful degradation implemented
@@ -175,12 +197,14 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Future Enhancements
 
 ### Potential Improvements
+
 - Support for images and media paste
 - Custom format handlers for specific applications
 - Advanced link preview and validation
 - Collaborative editing paste conflicts resolution
 
 ### Integration Opportunities
+
 - Integration with file upload for pasted images
 - Real-time collaboration features
 - Advanced formatting preservation
@@ -189,12 +213,14 @@ Visit `/copy-paste-demo` to see interactive demonstrations of:
 ## Troubleshooting
 
 ### Common Issues
+
 1. **Clipboard API not available**: Check browser support and HTTPS requirement
 2. **Formatting not preserved**: Verify preserveFormatting setting
 3. **Content too long**: Check maxPasteLength configuration
 4. **Security warnings**: Review HTML sanitization settings
 
 ### Debug Information
+
 - Enable development mode for detailed logging
 - Check browser console for paste events
 - Use demo page for testing different scenarios

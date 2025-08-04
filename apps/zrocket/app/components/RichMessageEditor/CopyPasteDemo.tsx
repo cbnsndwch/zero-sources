@@ -1,12 +1,21 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import { useState } from 'react';
 import type { SerializedEditorState } from 'lexical';
 
-import { RichMessageEditor } from './RichMessageEditor';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Copy, Clipboard, FileText, Globe, Code } from 'lucide-react';
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from '@/components/ui/card';
+
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Copy, Clipboard, FileText, Globe, Code } from 'lucide-react';
+
+import { RichMessageEditor } from './RichMessageEditor';
 
 interface PasteEvent {
     id: string;
@@ -28,7 +37,11 @@ export function CopyPasteDemo() {
         setMessages(prev => [...prev, content]);
     };
 
-    const handlePaste = (content: { html?: string; text?: string; nodes?: any[] }) => {
+    const handlePaste = (content: {
+        html?: string;
+        text?: string;
+        nodes?: any[];
+    }) => {
         const event: PasteEvent = {
             id: Math.random().toString(36).substr(2, 9),
             timestamp: new Date(),
@@ -46,17 +59,20 @@ export function CopyPasteDemo() {
     const sampleContent = [
         {
             title: 'Rich HTML Content',
-            content: '<p><strong>Bold text</strong>, <em>italic text</em>, and <u>underlined text</u>.</p><p>Multiple paragraphs with <a href="https://example.com">links</a>.</p>',
+            content:
+                '<p><strong>Bold text</strong>, <em>italic text</em>, and <u>underlined text</u>.</p><p>Multiple paragraphs with <a href="https://example.com">links</a>.</p>',
             description: 'Copy and paste this HTML content'
         },
         {
             title: 'Plain Text',
-            content: 'This is plain text without any formatting.\nIt has multiple lines\nand should be pasted as-is.',
+            content:
+                'This is plain text without any formatting.\nIt has multiple lines\nand should be pasted as-is.',
             description: 'Copy and paste this plain text'
         },
         {
             title: 'Mixed Content',
-            content: '<p>This contains <strong>bold</strong> and <em>italic</em> text.</p><ul><li>List item 1</li><li>List item 2</li></ul><p>With a <a href="https://example.com">link</a>.</p>',
+            content:
+                '<p>This contains <strong>bold</strong> and <em>italic</em> text.</p><ul><li>List item 1</li><li>List item 2</li></ul><p>With a <a href="https://example.com">link</a>.</p>',
             description: 'Copy from external sources like Word or Google Docs'
         }
     ];
@@ -68,7 +84,8 @@ export function CopyPasteDemo() {
                     📋 Copy/Paste Support Demo
                 </h1>
                 <p className="text-muted-foreground">
-                    Test rich text copy/paste functionality with external sources and formatting preservation
+                    Test rich text copy/paste functionality with external
+                    sources and formatting preservation
                 </p>
             </div>
 
@@ -80,30 +97,49 @@ export function CopyPasteDemo() {
                         Sample Content to Copy
                     </CardTitle>
                     <CardDescription>
-                        Copy these samples and paste them into the editor below to test different scenarios
+                        Copy these samples and paste them into the editor below
+                        to test different scenarios
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {sampleContent.map((sample, index) => (
                         <div key={index} className="border rounded-lg p-4">
                             <div className="flex items-center justify-between mb-2">
-                                <h4 className="font-semibold">{sample.title}</h4>
+                                <h4 className="font-semibold">
+                                    {sample.title}
+                                </h4>
                                 <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={() => {
                                         if (sample.content.includes('<')) {
                                             // Copy as HTML
-                                            const blob = new Blob([sample.content], { type: 'text/html' });
-                                            const textBlob = new Blob([sample.content.replace(/<[^>]*>/g, '')], { type: 'text/plain' });
-                                            const clipboardItem = new ClipboardItem({
-                                                'text/html': blob,
-                                                'text/plain': textBlob
-                                            });
-                                            navigator.clipboard.write([clipboardItem]);
+                                            const blob = new Blob(
+                                                [sample.content],
+                                                { type: 'text/html' }
+                                            );
+                                            const textBlob = new Blob(
+                                                [
+                                                    sample.content.replace(
+                                                        /<[^>]*>/g,
+                                                        ''
+                                                    )
+                                                ],
+                                                { type: 'text/plain' }
+                                            );
+                                            const clipboardItem =
+                                                new ClipboardItem({
+                                                    'text/html': blob,
+                                                    'text/plain': textBlob
+                                                });
+                                            navigator.clipboard.write([
+                                                clipboardItem
+                                            ]);
                                         } else {
                                             // Copy as plain text
-                                            navigator.clipboard.writeText(sample.content);
+                                            navigator.clipboard.writeText(
+                                                sample.content
+                                            );
                                         }
                                     }}
                                 >
@@ -111,12 +147,20 @@ export function CopyPasteDemo() {
                                     Copy
                                 </Button>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-2">{sample.description}</p>
+                            <p className="text-sm text-muted-foreground mb-2">
+                                {sample.description}
+                            </p>
                             <div className="bg-muted/50 p-3 rounded text-sm font-mono">
                                 {sample.content.includes('<') ? (
-                                    <div dangerouslySetInnerHTML={{ __html: sample.content }} />
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: sample.content
+                                        }}
+                                    />
                                 ) : (
-                                    <pre className="whitespace-pre-wrap">{sample.content}</pre>
+                                    <pre className="whitespace-pre-wrap">
+                                        {sample.content}
+                                    </pre>
                                 )}
                             </div>
                         </div>
@@ -132,7 +176,8 @@ export function CopyPasteDemo() {
                         Rich Text Editor with Copy/Paste Support
                     </CardTitle>
                     <CardDescription>
-                        Paste content here. Use Ctrl+V for rich paste, Ctrl+Shift+V for plain text paste
+                        Paste content here. Use Ctrl+V for rich paste,
+                        Ctrl+Shift+V for plain text paste
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -142,14 +187,36 @@ export function CopyPasteDemo() {
                         maxLength={2000}
                         onPaste={handlePaste}
                     />
-                    
+
                     <div className="mt-4 text-sm text-muted-foreground">
-                        <p><strong>Keyboard shortcuts:</strong></p>
+                        <p>
+                            <strong>Keyboard shortcuts:</strong>
+                        </p>
                         <ul className="list-disc list-inside space-y-1">
-                            <li><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl+V</kbd> - Paste with formatting preserved</li>
-                            <li><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl+Shift+V</kbd> - Paste as plain text</li>
-                            <li><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Enter</kbd> - Send message</li>
-                            <li><kbd className="px-1 py-0.5 bg-muted rounded text-xs">Shift+Enter</kbd> - New line</li>
+                            <li>
+                                <kbd className="px-1 py-0.5 bg-muted rounded text-xs">
+                                    Ctrl+V
+                                </kbd>{' '}
+                                - Paste with formatting preserved
+                            </li>
+                            <li>
+                                <kbd className="px-1 py-0.5 bg-muted rounded text-xs">
+                                    Ctrl+Shift+V
+                                </kbd>{' '}
+                                - Paste as plain text
+                            </li>
+                            <li>
+                                <kbd className="px-1 py-0.5 bg-muted rounded text-xs">
+                                    Enter
+                                </kbd>{' '}
+                                - Send message
+                            </li>
+                            <li>
+                                <kbd className="px-1 py-0.5 bg-muted rounded text-xs">
+                                    Shift+Enter
+                                </kbd>{' '}
+                                - New line
+                            </li>
                         </ul>
                     </div>
                 </CardContent>
@@ -169,7 +236,11 @@ export function CopyPasteDemo() {
                             </CardDescription>
                         </div>
                         {pasteEvents.length > 0 && (
-                            <Button variant="outline" size="sm" onClick={clearPasteEvents}>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={clearPasteEvents}
+                            >
                                 Clear
                             </Button>
                         )}
@@ -178,48 +249,86 @@ export function CopyPasteDemo() {
                         <div className="max-h-80 overflow-y-auto space-y-3">
                             {pasteEvents.length === 0 ? (
                                 <p className="text-muted-foreground text-center py-8">
-                                    No paste events yet. Copy and paste content to see events here.
+                                    No paste events yet. Copy and paste content
+                                    to see events here.
                                 </p>
                             ) : (
-                                pasteEvents.map((event) => (
-                                    <div key={event.id} className="border rounded-lg p-3 space-y-2">
+                                pasteEvents.map(event => (
+                                    <div
+                                        key={event.id}
+                                        className="border rounded-lg p-3 space-y-2"
+                                    >
                                         <div className="flex items-center justify-between">
-                                            <Badge variant={event.type === 'html' ? 'default' : 'secondary'}>
+                                            <Badge
+                                                variant={
+                                                    event.type === 'html'
+                                                        ? 'default'
+                                                        : 'secondary'
+                                                }
+                                            >
                                                 {event.type === 'html' ? (
-                                                    <><Code className="h-3 w-3 mr-1" /> Rich Text</>
+                                                    <>
+                                                        <Code className="h-3 w-3 mr-1" />{' '}
+                                                        Rich Text
+                                                    </>
                                                 ) : (
-                                                    <><FileText className="h-3 w-3 mr-1" /> Plain Text</>
+                                                    <>
+                                                        <FileText className="h-3 w-3 mr-1" />{' '}
+                                                        Plain Text
+                                                    </>
                                                 )}
                                             </Badge>
                                             <span className="text-xs text-muted-foreground">
                                                 {event.timestamp.toLocaleTimeString()}
                                             </span>
                                         </div>
-                                        
+
                                         <div className="text-sm">
-                                            <p className="font-medium">{event.source}</p>
+                                            <p className="font-medium">
+                                                {event.source}
+                                            </p>
                                             {event.content.html && (
                                                 <div className="mt-1">
-                                                    <p className="text-xs text-muted-foreground">HTML:</p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        HTML:
+                                                    </p>
                                                     <code className="text-xs bg-muted px-1 rounded">
-                                                        {event.content.html.substring(0, 100)}
-                                                        {event.content.html.length > 100 ? '...' : ''}
+                                                        {event.content.html.substring(
+                                                            0,
+                                                            100
+                                                        )}
+                                                        {event.content.html
+                                                            .length > 100
+                                                            ? '...'
+                                                            : ''}
                                                     </code>
                                                 </div>
                                             )}
                                             {event.content.text && (
                                                 <div className="mt-1">
-                                                    <p className="text-xs text-muted-foreground">Text:</p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Text:
+                                                    </p>
                                                     <code className="text-xs bg-muted px-1 rounded">
-                                                        {event.content.text.substring(0, 100)}
-                                                        {event.content.text.length > 100 ? '...' : ''}
+                                                        {event.content.text.substring(
+                                                            0,
+                                                            100
+                                                        )}
+                                                        {event.content.text
+                                                            .length > 100
+                                                            ? '...'
+                                                            : ''}
                                                     </code>
                                                 </div>
                                             )}
                                             {event.content.nodes && (
                                                 <div className="mt-1">
                                                     <p className="text-xs text-muted-foreground">
-                                                        Lexical Nodes: {event.content.nodes.length}
+                                                        Lexical Nodes:{' '}
+                                                        {
+                                                            event.content.nodes
+                                                                .length
+                                                        }
                                                     </p>
                                                 </div>
                                             )}
@@ -244,7 +353,11 @@ export function CopyPasteDemo() {
                             </CardDescription>
                         </div>
                         {messages.length > 0 && (
-                            <Button variant="outline" size="sm" onClick={clearMessages}>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={clearMessages}
+                            >
                                 Clear
                             </Button>
                         )}
@@ -253,15 +366,26 @@ export function CopyPasteDemo() {
                         <div className="max-h-80 overflow-y-auto space-y-3">
                             {messages.length === 0 ? (
                                 <p className="text-muted-foreground text-center py-8">
-                                    No messages sent yet. Paste content and press Enter to send.
+                                    No messages sent yet. Paste content and
+                                    press Enter to send.
                                 </p>
                             ) : (
                                 messages.map((message, index) => (
-                                    <div key={index} className="border rounded-lg p-3">
+                                    <div
+                                        key={index}
+                                        className="border rounded-lg p-3"
+                                    >
                                         <div className="text-sm">
-                                            <p className="font-medium mb-2">Message {messages.length - index}</p>
+                                            <p className="font-medium mb-2">
+                                                Message{' '}
+                                                {messages.length - index}
+                                            </p>
                                             <pre className="text-xs bg-muted p-2 rounded overflow-x-auto">
-                                                {JSON.stringify(message, null, 2)}
+                                                {JSON.stringify(
+                                                    message,
+                                                    null,
+                                                    2
+                                                )}
                                             </pre>
                                         </div>
                                     </div>
@@ -279,13 +403,16 @@ export function CopyPasteDemo() {
                         ✅ Copy/Paste Features Implemented
                     </CardTitle>
                     <CardDescription className="text-green-700 dark:text-green-300">
-                        Enhanced paste support with formatting preservation and content sanitization
+                        Enhanced paste support with formatting preservation and
+                        content sanitization
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid md:grid-cols-3 gap-4 text-sm">
                         <div>
-                            <h4 className="font-semibold mb-2">Rich Text Support ✅</h4>
+                            <h4 className="font-semibold mb-2">
+                                Rich Text Support ✅
+                            </h4>
                             <ul className="space-y-1 text-muted-foreground">
                                 <li>• HTML-to-Lexical conversion</li>
                                 <li>• Formatting preservation</li>
@@ -294,7 +421,9 @@ export function CopyPasteDemo() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-semibold mb-2">Keyboard Shortcuts ✅</h4>
+                            <h4 className="font-semibold mb-2">
+                                Keyboard Shortcuts ✅
+                            </h4>
                             <ul className="space-y-1 text-muted-foreground">
                                 <li>• Ctrl+V rich paste</li>
                                 <li>• Ctrl+Shift+V plain paste</li>
@@ -303,7 +432,9 @@ export function CopyPasteDemo() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-semibold mb-2">Security & Performance ✅</h4>
+                            <h4 className="font-semibold mb-2">
+                                Security & Performance ✅
+                            </h4>
                             <ul className="space-y-1 text-muted-foreground">
                                 <li>• HTML sanitization</li>
                                 <li>• Length limits</li>

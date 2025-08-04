@@ -58,7 +58,11 @@ export interface RichMessageEditorProps {
      * Callback function called when content is pasted
      * @param content - The pasted content information
      */
-    onPaste?: (content: { html?: string; text?: string; nodes?: any[] }) => void;
+    onPaste?: (content: {
+        html?: string;
+        text?: string;
+        nodes?: any[];
+    }) => void;
 }
 
 /**

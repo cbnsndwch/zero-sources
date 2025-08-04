@@ -48,8 +48,8 @@ describe('MentionsPlugin Integration', () => {
         // Since fireEvent.input doesn't trigger Lexical's registerUpdateListener,
         // we test the API search function directly instead
         const { searchUsers } = await import('../plugins/MentionsPlugin');
-        
-        // Test the search function directly  
+
+        // Test the search function directly
         await searchUsers('john');
 
         // Should call the user search API
@@ -66,15 +66,15 @@ describe('MentionsPlugin Integration', () => {
         });
 
         const { searchUsers } = await import('../plugins/MentionsPlugin');
-        
-        // Test the search function directly  
+
+        // Test the search function directly
         const result = await searchUsers('nonexistent');
 
         // Should call the API but return empty results
         expect(mockFetch).toHaveBeenCalledWith(
             expect.stringContaining('/api/users?q=nonexistent&limit=10')
         );
-        
+
         expect(result).toEqual([]);
     });
 
@@ -83,7 +83,7 @@ describe('MentionsPlugin Integration', () => {
         mockFetch.mockRejectedValueOnce(new Error('API Error'));
 
         const { searchUsers } = await import('../plugins/MentionsPlugin');
-        
+
         // Test the search function directly with error
         const result = await searchUsers('john');
 

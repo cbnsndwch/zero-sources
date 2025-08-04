@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+
 import { RichMessageEditor } from '../RichMessageEditor';
 
 // Simple integration test to verify clipboard functionality works with the main editor
@@ -7,7 +8,7 @@ describe('RichMessageEditor Clipboard Integration', () => {
     it('should integrate ClipboardPlugin without errors', () => {
         const onSendMessage = vi.fn();
         const onPaste = vi.fn();
-        
+
         render(
             <RichMessageEditor
                 onSendMessage={onSendMessage}
@@ -16,11 +17,11 @@ describe('RichMessageEditor Clipboard Integration', () => {
                 maxLength={1000}
             />
         );
-        
+
         // Editor should render without errors
         const editor = screen.getByRole('textbox');
         expect(editor).toBeInTheDocument();
-        
+
         // Should have the expected placeholder
         expect(screen.getByText('Test editor')).toBeInTheDocument();
     });
@@ -28,7 +29,7 @@ describe('RichMessageEditor Clipboard Integration', () => {
     it('should accept onPaste callback prop', () => {
         const onSendMessage = vi.fn();
         const onPaste = vi.fn();
-        
+
         // Should not throw when onPaste is provided
         expect(() => {
             render(
@@ -42,21 +43,17 @@ describe('RichMessageEditor Clipboard Integration', () => {
 
     it('should work without onPaste callback', () => {
         const onSendMessage = vi.fn();
-        
+
         // Should not throw when onPaste is not provided
         expect(() => {
-            render(
-                <RichMessageEditor
-                    onSendMessage={onSendMessage}
-                />
-            );
+            render(<RichMessageEditor onSendMessage={onSendMessage} />);
         }).not.toThrow();
     });
 
     it('should apply max length to clipboard plugin', () => {
         const onSendMessage = vi.fn();
         const onPaste = vi.fn();
-        
+
         render(
             <RichMessageEditor
                 onSendMessage={onSendMessage}
@@ -64,7 +61,7 @@ describe('RichMessageEditor Clipboard Integration', () => {
                 maxLength={100}
             />
         );
-        
+
         // Editor should render with max length configuration
         const editor = screen.getByRole('textbox');
         expect(editor).toBeInTheDocument();
@@ -73,26 +70,26 @@ describe('RichMessageEditor Clipboard Integration', () => {
     it('should handle keyboard shortcuts setup', async () => {
         const onSendMessage = vi.fn();
         const onPaste = vi.fn();
-        
+
         render(
             <RichMessageEditor
                 onSendMessage={onSendMessage}
                 onPaste={onPaste}
             />
         );
-        
+
         const editor = screen.getByRole('textbox');
-        
+
         // Focus the editor
         fireEvent.focus(editor);
-        
+
         // Try keyboard combination (this tests that the plugin is listening)
         fireEvent.keyDown(editor, {
             key: 'v',
             ctrlKey: true,
             shiftKey: true
         });
-        
+
         // Should not throw errors
         expect(editor).toBeInTheDocument();
     });
@@ -100,7 +97,7 @@ describe('RichMessageEditor Clipboard Integration', () => {
     it('should handle formatting preservation setting', () => {
         const onSendMessage = vi.fn();
         const onPaste = vi.fn();
-        
+
         // Test with default settings (preserveFormatting: true)
         const { unmount } = render(
             <RichMessageEditor
@@ -108,11 +105,11 @@ describe('RichMessageEditor Clipboard Integration', () => {
                 onPaste={onPaste}
             />
         );
-        
+
         expect(screen.getByRole('textbox')).toBeInTheDocument();
-        
+
         unmount();
-        
+
         // Test that editor can be re-rendered with different props
         render(
             <RichMessageEditor
@@ -121,7 +118,7 @@ describe('RichMessageEditor Clipboard Integration', () => {
                 maxLength={500}
             />
         );
-        
+
         expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 });
@@ -130,7 +127,7 @@ describe('Copy/Paste Feature Requirements', () => {
     it('should meet all acceptance criteria', () => {
         const onSendMessage = vi.fn();
         const onPaste = vi.fn();
-        
+
         render(
             <RichMessageEditor
                 onSendMessage={onSendMessage}
@@ -138,9 +135,9 @@ describe('Copy/Paste Feature Requirements', () => {
                 maxLength={2000}
             />
         );
-        
+
         const editor = screen.getByRole('textbox');
-        
+
         // ✅ Rich text formatting is preserved when copying/pasting within the editor
         // ✅ Pasting from external sources (Word, Google Docs, web pages) works correctly
         // ✅ HTML formatting is converted to appropriate Lexical nodes
@@ -149,7 +146,7 @@ describe('Copy/Paste Feature Requirements', () => {
         // ✅ Links are preserved and properly converted during paste
         // ✅ Lists maintain structure and nesting when pasted
         // ✅ Performance remains good with large paste operations
-        
+
         expect(editor).toBeInTheDocument();
         expect(onPaste).toBeDefined();
         expect(onSendMessage).toBeDefined();
@@ -162,7 +159,7 @@ describe('Copy/Paste Feature Requirements', () => {
         // ✅ Create paste-specific validation and error handling
         // ✅ Ensure proper conversion of external formatting to Lexical nodes
         // ✅ Add support for paste-specific keyboard shortcuts
-        
+
         expect(true).toBe(true); // All requirements implemented
     });
 
@@ -173,7 +170,7 @@ describe('Copy/Paste Feature Requirements', () => {
         // ✅ Performance is acceptable for large content pastes
         // ✅ Edge cases (empty pastes, invalid HTML) are handled gracefully
         // ✅ Accessibility requirements maintained during paste operations
-        
+
         expect(true).toBe(true); // All criteria met
     });
 });

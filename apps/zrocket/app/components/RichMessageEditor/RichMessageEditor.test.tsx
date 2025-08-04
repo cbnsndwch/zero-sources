@@ -112,7 +112,7 @@ describe('RichMessageEditor', () => {
         // Character count is only shown when content is over 85% of limit
         // With an empty editor (0 characters), it should not show character count
         expect(screen.queryByText('0/100')).not.toBeInTheDocument();
-        
+
         // The component should render without errors
         expect(screen.getByTestId('lexical-composer')).toBeInTheDocument();
     });
