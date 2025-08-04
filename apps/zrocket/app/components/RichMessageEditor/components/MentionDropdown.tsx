@@ -85,8 +85,8 @@ export const MentionDropdown = forwardRef<MentionDropdownRef, MentionDropdownPro
                         }`}
                         onClick={() => handleUserSelect(user)}
                         onMouseEnter={(e) => {
-                            // Don't trigger hover styles during keyboard navigation
-                            if (document.activeElement !== e.target) {
+                            // Only focus on mouse hover if last input was mouse (not keyboard navigation)
+                            if (!lastInputWasKeyboard.current) {
                                 e.currentTarget.focus();
                             }
                         }}
