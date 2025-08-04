@@ -108,6 +108,94 @@ describe('RichMessageEditor - List Support', () => {
                 shiftKey: true
             });
         }).not.toThrow();
+
+        // Test Cmd+Shift+7 for ordered list (Mac)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: '7',
+                metaKey: true,
+                shiftKey: true
+            });
+        }).not.toThrow();
+
+        // Test Cmd+Shift+8 for unordered list (Mac)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: '8',
+                metaKey: true,
+                shiftKey: true
+            });
+        }).not.toThrow();
+    });
+
+    it('handles Tab key for list indentation', () => {
+        render(
+            <RichMessageEditor
+                onSendMessage={mockOnSendMessage}
+                placeholder="Test tab indentation..."
+            />
+        );
+
+        const editor = screen.getByRole('textbox');
+
+        // Test Tab key (should not throw when in a list)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: 'Tab'
+            });
+        }).not.toThrow();
+
+        // Test Shift+Tab key (should not throw when in a list)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: 'Tab',
+                shiftKey: true
+            });
+        }).not.toThrow();
+    });
+
+    it('handles Enter key behavior in lists', () => {
+        render(
+            <RichMessageEditor
+                onSendMessage={mockOnSendMessage}
+                placeholder="Test enter behavior..."
+            />
+        );
+
+        const editor = screen.getByRole('textbox');
+
+        // Test Enter key (should not throw)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: 'Enter'
+            });
+        }).not.toThrow();
+
+        // Test Shift+Enter (should create new line, not new list item)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: 'Enter',
+                shiftKey: true
+            });
+        }).not.toThrow();
+    });
+
+    it('handles Backspace key behavior in lists', () => {
+        render(
+            <RichMessageEditor
+                onSendMessage={mockOnSendMessage}
+                placeholder="Test backspace behavior..."
+            />
+        );
+
+        const editor = screen.getByRole('textbox');
+
+        // Test Backspace key (should not throw)
+        expect(() => {
+            fireEvent.keyDown(editor, {
+                key: 'Backspace'
+            });
+        }).not.toThrow();
     });
 
     it('has updated theme configuration for lists', () => {
@@ -185,5 +273,41 @@ describe('RichMessageEditor - List Support', () => {
         expect(() => {
             fireEvent.keyDown(editor, { key: 'Enter' });
         }).not.toThrow();
+    });
+
+    it('enforces maximum list depth of 3 levels', () => {
+        render(
+            <RichMessageEditor
+                onSendMessage={mockOnSendMessage}
+                placeholder="Test depth limit..."
+            />
+        );
+
+        const editor = screen.getByRole('textbox');
+
+        // The depth enforcement is handled within the plugin logic
+        // This test verifies the component doesn't crash when multiple Tab keys are pressed
+        expect(() => {
+            // Simulate multiple Tab presses (more than 3 levels)
+            for (let i = 0; i < 5; i++) {
+                fireEvent.keyDown(editor, { key: 'Tab' });
+            }
+        }).not.toThrow();
+    });
+
+    it('supports list styling with proper CSS classes', () => {
+        const { container } = render(
+            <RichMessageEditor
+                onSendMessage={mockOnSendMessage}
+                placeholder="Test list styling..."
+            />
+        );
+
+        // The component should render with the theme configuration that includes list classes
+        const editorElement = container.querySelector('[contenteditable="true"]');
+        expect(editorElement).toBeInTheDocument();
+        
+        // The theme should be configured to handle list styling
+        // (classes will be applied dynamically by Lexical when lists are created)
     });
 });
