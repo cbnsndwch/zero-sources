@@ -1,4 +1,5 @@
 export { RichMessageEditor } from './RichMessageEditor';
+export { AutoLinkDemo } from './AutoLinkDemo';
 export type {
     RichMessageEditorProps,
     EditorErrorBoundaryProps,

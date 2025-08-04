@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import type { SerializedEditorState } from 'lexical';
 
-import { RichMessageEditor } from '@/components/RichMessageEditor';
+import { RichMessageEditor, AutoLinkDemo } from '@/components/RichMessageEditor';
 import { ChatInput } from '@/components/chat/ChatInput';
 import {
     Card,
@@ -132,6 +132,23 @@ export default function RichMessageEditorDemo() {
                                 useRichEditor={useRichEditor}
                             />
                         </div>
+                    </CardContent>
+                </Card>
+
+                <Separator />
+
+                {/* AutoLink Plugin Demo */}
+                <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950 dark:border-blue-800">
+                    <CardHeader>
+                        <CardTitle className="text-blue-800 dark:text-blue-200">
+                            🔗 AutoLink Plugin - NEW FEATURE
+                        </CardTitle>
+                        <CardDescription className="text-blue-700 dark:text-blue-300">
+                            Automatic URL detection and conversion to clickable links
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <AutoLinkDemo />
                     </CardContent>
                 </Card>
 
