@@ -1,4 +1,4 @@
-import { Component, useCallback, useEffect, useState } from 'react';
+import { Component, useCallback, useEffect, useState, useRef } from 'react';
 import {
     $getRoot,
     $getSelection,
@@ -30,6 +30,8 @@ import {
 } from './serialization-utils';
 import { MentionNode } from './nodes/MentionNode';
 import { MentionsPlugin } from './plugins/MentionsPlugin';
+import { usePerformanceMonitor, memoryLeakDetector } from './utils/performance-monitor';
+import { pluginLoader, PluginPriority } from './utils/lazy-loading';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -72,25 +74,32 @@ class EditorErrorBoundary extends Component<
  * Custom plugin to handle keyboard events (Enter to send, Shift+Enter for new lines)
  */
 function KeyboardPlugin({
-    onSendMessage
+    onSendMessage,
+    onPerformanceUpdate
 }: {
     onSendMessage: (content: SerializedEditorState) => void;
+    onPerformanceUpdate?: (type: 'keystroke' | 'serialization', startTime: number) => void;
 }) {
     const [editor] = useLexicalComposerContext();
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            const keystrokeStart = performance.now();
+            
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 event.stopPropagation();
 
                 // Get the current editor state and serialize it
+                const serializationStart = performance.now();
                 const editorState = editor.getEditorState();
                 const rawSerializedState = editorState.toJSON();
 
                 // Ensure the serialized state complies with the expected format
                 const serializedState =
                     ensureValidSerializedEditorState(rawSerializedState);
+
+                onPerformanceUpdate?.('serialization', serializationStart);
 
                 // Validate the format for debugging (in development)
                 if (process.env.NODE_ENV === 'development') {
@@ -118,6 +127,9 @@ function KeyboardPlugin({
                         root.clear();
                     });
                 }
+            } else {
+                // Track keystroke latency for regular typing
+                onPerformanceUpdate?.('keystroke', keystrokeStart);
             }
         };
 
@@ -129,7 +141,7 @@ function KeyboardPlugin({
                 rootElement.addEventListener('keydown', handleKeyDown);
             }
         });
-    }, [editor, onSendMessage]);
+    }, [editor, onSendMessage, onPerformanceUpdate]);
 
     return null;
 }
@@ -235,6 +247,43 @@ export function RichMessageEditor({
     maxLength
 }: RichMessageEditorProps) {
     const [currentLength, setCurrentLength] = useState(0);
+    const initTimeRef = useRef<number>(0);
+    const performanceMonitor = usePerformanceMonitor();
+
+    // Initialize performance monitoring
+    useEffect(() => {
+        initTimeRef.current = performance.now();
+        
+        // Start memory leak detection in development
+        if (process.env.NODE_ENV === 'development') {
+            memoryLeakDetector.startMonitoring(30000); // Check every 30 seconds
+        }
+
+        return () => {
+            // Stop memory monitoring on unmount
+            if (process.env.NODE_ENV === 'development') {
+                memoryLeakDetector.stopMonitoring();
+            }
+        };
+    }, []);
+
+    // Record initialization time once editor is ready
+    useEffect(() => {
+        if (initTimeRef.current > 0) {
+            performanceMonitor.recordInitialization(initTimeRef.current);
+            initTimeRef.current = 0; // Reset to avoid multiple recordings
+        }
+    }, [performanceMonitor]);
+
+    // Handle performance updates from plugins
+    const handlePerformanceUpdate = useCallback((type: 'keystroke' | 'serialization', startTime: number) => {
+        if (type === 'keystroke') {
+            performanceMonitor.recordKeystroke(startTime);
+        } else if (type === 'serialization') {
+            const textLength = currentLength;
+            performanceMonitor.recordSerialization(startTime, textLength);
+        }
+    }, [performanceMonitor, currentLength]);
 
     // Lexical editor configuration
     const initialConfig = {
@@ -253,19 +302,39 @@ export function RichMessageEditor({
             console.error('Lexical Editor Error:', error);
         },
         editorState: initialContent
-            ? JSON.stringify(initialContent)
+            ? (() => {
+                const deserializationStart = performance.now();
+                const result = JSON.stringify(initialContent);
+                performanceMonitor.recordDeserialization(deserializationStart, result.length);
+                return result;
+            })()
             : undefined,
         editable: !disabled
     };
 
-    // Handle content changes
+    // Handle content changes with performance tracking
     const handleContentChange = useCallback((editorState: EditorState) => {
+        const changeStart = performance.now();
+        
         editorState.read(() => {
             const root = $getRoot();
             const textContent = root.getTextContent();
             setCurrentLength(textContent.length);
         });
-    }, []);
+
+        // Track render performance
+        requestAnimationFrame(() => {
+            const renderTime = performance.now() - changeStart;
+            if (renderTime > 16 && process.env.NODE_ENV === 'development') {
+                console.warn(`⚠️ Content change took ${renderTime.toFixed(2)}ms (>16ms target)`);
+            }
+        });
+
+        // Periodic memory monitoring
+        if (Math.random() < 0.1) { // 10% chance to record memory
+            performanceMonitor.recordMemoryUsage();
+        }
+    }, [performanceMonitor]);
 
     return (
         <EditorErrorBoundary>
@@ -296,7 +365,10 @@ export function RichMessageEditor({
 
                         <HistoryPlugin />
                         <OnChangePlugin onChange={handleContentChange} />
-                        <KeyboardPlugin onSendMessage={onSendMessage} />
+                        <KeyboardPlugin 
+                            onSendMessage={onSendMessage} 
+                            onPerformanceUpdate={handlePerformanceUpdate}
+                        />
                         <FormattingPlugin />
                         <MentionsPlugin />
                         {maxLength && (

@@ -13,6 +13,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ChatInput } from '@/components/chat/ChatInput';
+import { PerformanceDashboard } from './components/PerformanceDashboard';
 
 export function RichEditorDemo() {
     const [useRichEditor, setUseRichEditor] = useState(false);
@@ -228,6 +229,9 @@ export function RichEditorDemo() {
                     </div>
                 </CardContent>
             </Card>
+            
+            {/* Performance monitoring dashboard */}
+            <PerformanceDashboard showDetailedMetrics={true} />
         </div>
     );
 }
