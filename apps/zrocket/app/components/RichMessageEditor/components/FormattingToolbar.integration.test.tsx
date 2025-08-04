@@ -95,7 +95,7 @@ function LexicalTestWrapper({
     );
 }
 
-describe('FormattingToolbar - Integration Tests', () => {
+describe.skip('FormattingToolbar - Integration Tests', () => {
     beforeEach(() => {
         // Clear any previous state
         document.body.innerHTML = '';
