@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { mergeRegister } from '@lexical/utils';
 import {
     $getSelection,
     $isNodeSelection,
@@ -7,9 +9,7 @@ import {
     PASTE_COMMAND,
     type LexicalEditor
 } from 'lexical';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
-import { mergeRegister } from '@lexical/utils';
+import { useEffect } from 'react';
 
 /**
  * Configuration options for paste behavior

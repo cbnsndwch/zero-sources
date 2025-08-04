@@ -8,8 +8,10 @@ import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode, command }) => {
-    const isTest = command === 'serve' && process.env.NODE_ENV === 'test' || process.env.VITEST;
-    
+    const isTest =
+        (command === 'serve' && process.env.NODE_ENV === 'test') ||
+        process.env.VITEST;
+
     return {
         plugins: [
             tailwindcss(),
