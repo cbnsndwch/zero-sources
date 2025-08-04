@@ -58,7 +58,7 @@ export class UserController {
         if (!query || query.trim().length === 0) {
             return [];
         }
-        
+
         let searchLimit = 10;
         if (typeof limit === 'string') {
             const parsedLimit = parseInt(limit, 10);

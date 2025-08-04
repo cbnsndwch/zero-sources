@@ -288,7 +288,7 @@ export function RichMessageEditor({
                         />
 
                         {/* Character count display - only show when over 85% of limit */}
-                        {maxLength && currentLength > (maxLength * 0.85) && (
+                        {maxLength && currentLength > maxLength * 0.85 && (
                             <div className="absolute top-2 right-2 text-xs text-muted-foreground bg-background/80 px-1 rounded pointer-events-none">
                                 {currentLength}/{maxLength}
                             </div>

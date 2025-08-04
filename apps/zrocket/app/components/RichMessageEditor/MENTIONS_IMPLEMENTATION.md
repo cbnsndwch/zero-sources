@@ -7,6 +7,7 @@ The MentionsPlugin has been successfully implemented for the RichMessageEditor w
 ## 🎯 Features Implemented
 
 ### Core Functionality
+
 - **@ Trigger Detection**: Automatically detects when user types `@` character
 - **Real-time Search**: Debounced user search (300ms) with max 10 results
 - **Autocomplete Dropdown**: Visual dropdown with user avatars and names
@@ -15,6 +16,7 @@ The MentionsPlugin has been successfully implemented for the RichMessageEditor w
 - **Visual Mentions**: Blue-styled mention chips in the editor
 
 ### Technical Implementation
+
 - **Custom MentionNode**: Lexical decorator node with JSX rendering
 - **User Search API**: `GET /api/users?q={query}&limit=10`
 - **Error Handling**: Graceful handling of API failures and edge cases
@@ -24,6 +26,7 @@ The MentionsPlugin has been successfully implemented for the RichMessageEditor w
 ## 🔧 API Integration
 
 ### User Search Endpoint
+
 ```typescript
 GET /api/users?q=john&limit=10
 
@@ -31,7 +34,7 @@ Response:
 [
   {
     "_id": "user123",
-    "username": "johndoe", 
+    "username": "johndoe",
     "name": "John Doe",
     "email": "john@example.com",
     "avatarUrl": "https://..."
@@ -40,10 +43,11 @@ Response:
 ```
 
 ### MentionNode Serialization
+
 ```typescript
 {
   "type": "mention",
-  "mentionID": "user123", 
+  "mentionID": "user123",
   "username": "johndoe",
   "name": "John Doe",
   "version": 1
@@ -53,6 +57,7 @@ Response:
 ## 📋 Usage Instructions
 
 ### 1. Seed Test Data
+
 ```bash
 # Start the application
 cd apps/zrocket && pnpm dev
@@ -62,6 +67,7 @@ curl -X POST http://localhost:8011/api/zrocket/seed-data
 ```
 
 ### 2. Test Mentions
+
 1. Go to `http://localhost:8011/rich-editor-demo`
 2. Type `@` in the editor
 3. Type a username like `alice`, `bob`, `charlie`, or `diana`
@@ -70,6 +76,7 @@ curl -X POST http://localhost:8011/api/zrocket/seed-data
 6. See the mention rendered as a blue chip
 
 ### 3. Keyboard Shortcuts
+
 - `@` - Trigger mention detection
 - `↑/↓` - Navigate dropdown options
 - `Enter` - Select current option
@@ -80,6 +87,7 @@ curl -X POST http://localhost:8011/api/zrocket/seed-data
 ## 🏗️ Architecture
 
 ### Files Created
+
 ```
 app/components/RichMessageEditor/
 ├── nodes/
@@ -93,6 +101,7 @@ app/components/RichMessageEditor/
 ```
 
 ### Backend Changes
+
 ```
 src/features/users/
 ├── controllers/user.controller.ts   # Added search endpoint
@@ -102,8 +111,9 @@ src/features/users/
 ## 🎨 Styling
 
 Mentions are styled with:
+
 - Blue background (`bg-blue-100`)
-- Blue text (`text-blue-800`) 
+- Blue text (`text-blue-800`)
 - Blue border (`border-blue-200`)
 - Hover effects (`hover:bg-blue-200`)
 - Rounded corners and padding
@@ -112,6 +122,7 @@ Mentions are styled with:
 ## 🔮 Future Enhancements
 
 Potential improvements for future iterations:
+
 - **User status indicators** (online, away, etc.)
 - **Role-based filtering** (only mention users with certain permissions)
 - **Recent mentions** (show recently mentioned users first)
@@ -122,6 +133,7 @@ Potential improvements for future iterations:
 ## 🧪 Testing
 
 ### Manual Testing Checklist
+
 - [ ] @ character triggers dropdown
 - [ ] Search results appear correctly
 - [ ] Keyboard navigation works
@@ -133,9 +145,11 @@ Potential improvements for future iterations:
 - [ ] Mentions serialize correctly
 
 ### Test Users Available
+
 After seeding data, these users are available for testing:
+
 - `alice` (Alice Cooper)
-- `bob` (Bob Builder) 
+- `bob` (Bob Builder)
 - `charlie` (Charlie Brown)
 - `diana` (Diana Prince)
 

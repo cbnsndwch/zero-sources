@@ -100,7 +100,7 @@ export class UserService {
         }
 
         const searchRegex = new RegExp(query, 'i'); // case-insensitive search
-        
+
         return this.#model
             .find({
                 active: true, // only active users

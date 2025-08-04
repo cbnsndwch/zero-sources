@@ -36,20 +36,8 @@ describe('ChatInput', () => {
         roomType: 'channel' as const
     };
 
-    it('renders with basic textarea by default', () => {
+    it('renders with RichMessageEditor by default', () => {
         render(<ChatInput {...defaultProps} />);
-
-        expect(
-            screen.getByPlaceholderText('Type a message...')
-        ).toBeInTheDocument();
-        expect(screen.getAllByRole('button')).toHaveLength(4); // Plus, Send, Paperclip, Smile
-        expect(
-            screen.queryByTestId('rich-message-editor')
-        ).not.toBeInTheDocument();
-    });
-
-    it('renders with RichMessageEditor when useRichEditor is true', () => {
-        render(<ChatInput {...defaultProps} useRichEditor />);
 
         expect(screen.getByTestId('rich-message-editor')).toBeInTheDocument();
         expect(screen.getByTestId('rich-editor-placeholder')).toHaveTextContent(
@@ -58,18 +46,26 @@ describe('ChatInput', () => {
         expect(screen.getByTestId('rich-editor-max-length')).toHaveTextContent(
             '1000'
         );
-        expect(screen.queryByRole('textbox')).not.toBeInTheDocument(); // No textarea
+        expect(screen.getAllByRole('button')).toHaveLength(5); // Plus, Paperclip, Smile, Send, mock send button
     });
 
-    it('includes attachment and emoji buttons in both modes', () => {
-        const { rerender } = render(<ChatInput {...defaultProps} />);
+    it('renders with RichMessageEditor', () => {
+        render(<ChatInput {...defaultProps} />);
 
-        // Check basic mode: Plus, Send, Paperclip, Smile buttons
-        expect(screen.getAllByRole('button')).toHaveLength(4);
+        expect(screen.getByTestId('rich-message-editor')).toBeInTheDocument();
+        expect(screen.getByTestId('rich-editor-placeholder')).toHaveTextContent(
+            'Type a message...'
+        );
+        expect(screen.getByTestId('rich-editor-max-length')).toHaveTextContent(
+            '1000'
+        );
+    });
 
-        // Check rich editor mode: Plus, Send, Paperclip, Smile + mock send button
-        rerender(<ChatInput {...defaultProps} useRichEditor />);
-        expect(screen.getAllByRole('button').length).toBeGreaterThanOrEqual(4);
+    it('includes attachment and emoji buttons', () => {
+        render(<ChatInput {...defaultProps} />);
+
+        // Check rich editor mode: Plus, Paperclip, Smile, Send + mock send button
+        expect(screen.getAllByRole('button')).toHaveLength(5);
     });
 
     it('handles rich message sending', () => {
@@ -77,7 +73,7 @@ describe('ChatInput', () => {
             .spyOn(console, 'log')
             .mockImplementation(() => {});
 
-        render(<ChatInput {...defaultProps} useRichEditor />);
+        render(<ChatInput {...defaultProps} />);
 
         const sendButton = screen.getByTestId('rich-editor-send');
         sendButton.click();
@@ -101,13 +97,14 @@ describe('ChatInput', () => {
     it('maintains backward compatibility with existing API', () => {
         // Should render without errors with existing props
         render(<ChatInput roomId="test" roomType="dm" />);
-        expect(
-            screen.getByPlaceholderText('Type a message...')
-        ).toBeInTheDocument();
+        expect(screen.getByTestId('rich-message-editor')).toBeInTheDocument();
+        expect(screen.getByTestId('rich-editor-placeholder')).toHaveTextContent(
+            'Type a message...'
+        );
     });
 
     it('applies correct room type and id props', () => {
-        render(<ChatInput roomId="my-room" roomType="group" useRichEditor />);
+        render(<ChatInput roomId="my-room" roomType="group" />);
 
         // Component should render successfully with all prop variations
         expect(screen.getByTestId('rich-message-editor')).toBeInTheDocument();

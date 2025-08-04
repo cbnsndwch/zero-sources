@@ -134,8 +134,6 @@ export function $createMentionNode(payload: MentionPayload): MentionNode {
     return new MentionNode(payload);
 }
 
-export function $isMentionNode(
-    node: any
-): node is MentionNode {
+export function $isMentionNode(node: any): node is MentionNode {
     return node instanceof MentionNode;
 }

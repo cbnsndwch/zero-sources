@@ -99,7 +99,7 @@ describe('RichMessageEditor', () => {
         expect(screen.getByTestId('error-boundary')).toBeInTheDocument();
     });
 
-    it('shows character count when maxLength is provided', () => {
+    it('shows character count when maxLength is provided and content is near limit', () => {
         const mockOnSendMessage = vi.fn();
 
         render(
@@ -109,14 +109,12 @@ describe('RichMessageEditor', () => {
             />
         );
 
-        // Check if either the character count is shown or error boundary is triggered
-        // In real usage, Lexical works correctly, but in tests with mocked Lexical it might trigger error boundary
-        const characterCount = screen.queryByText('0/100');
-        const errorBoundary = screen.queryByText(
-            'Something went wrong with the message editor. Please refresh the page.'
-        );
-
-        expect(characterCount || errorBoundary).toBeTruthy();
+        // Character count is only shown when content is over 85% of limit
+        // With an empty editor (0 characters), it should not show character count
+        expect(screen.queryByText('0/100')).not.toBeInTheDocument();
+        
+        // The component should render without errors
+        expect(screen.getByTestId('lexical-composer')).toBeInTheDocument();
     });
 
     it('does not show character count when maxLength is not provided', () => {
