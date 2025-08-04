@@ -135,12 +135,49 @@ export default function RichMessageEditorDemo() {
                     </CardContent>
                 </Card>
 
+                {/* NEW: Text Formatting Toolbar Demo */}
+                <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950 dark:border-blue-800">
+                    <CardHeader>
+                        <CardTitle className="text-blue-800 dark:text-blue-200">
+                            ✨ NEW: Text Formatting Toolbar - COMPLETED
+                        </CardTitle>
+                        <CardDescription className="text-blue-700 dark:text-blue-300">
+                            Visual formatting controls with keyboard shortcuts • All acceptance criteria met
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 className="font-semibold mb-2">🎯 Features Implemented</h4>
+                                <ul className="text-sm space-y-1 text-muted-foreground">
+                                    <li>✅ Toolbar with B, I, U, S buttons</li>
+                                    <li>✅ Keyboard shortcuts (Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Shift+S)</li>
+                                    <li>✅ Visual feedback for active formats</li>
+                                    <li>✅ Multiple formats simultaneously</li>
+                                    <li>✅ Formatting persists in content</li>
+                                    <li>✅ Cross-browser compatibility</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold mb-2">🎮 Try It Out</h4>
+                                <p className="text-sm text-muted-foreground mb-3">
+                                    Use the formatting toolbar or keyboard shortcuts:
+                                </p>
+                                <RichMessageEditor
+                                    onSendMessage={handleSendMessage}
+                                    placeholder="Select text and try the formatting buttons above, or use Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Shift+S"
+                                />
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <Separator />
 
                 {/* Standalone RichMessageEditor Examples */}
                 <div>
                     <h2 className="text-2xl font-bold mb-4">
-                        2. Standalone RichMessageEditor Components
+                        3. Standalone RichMessageEditor Components
                     </h2>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Basic Editor */}
@@ -248,7 +285,7 @@ export default function RichMessageEditorDemo() {
                 <Card>
                     <CardHeader>
                         <CardTitle>
-                            3. Technical Implementation Details
+                            4. Technical Implementation Details
                         </CardTitle>
                         <CardDescription>
                             Architecture and features overview

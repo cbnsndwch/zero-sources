@@ -52,6 +52,7 @@ vi.mock('@lexical/react/LexicalComposerContext', () => ({
             registerRootListener: () => () => {},
             registerNodeTransform: () => () => {},
             registerCommand: vi.fn(() => () => {}),
+            registerUpdateListener: vi.fn(() => () => {}),
             dispatchCommand: vi.fn(),
             getEditorState: () => ({
                 toJSON: () => ({ root: { children: [] } }),
@@ -190,5 +191,29 @@ describe('RichMessageEditor - Text Formatting', () => {
         // The serialization should work with formatted content
         // This is tested more thoroughly in the SerializedEditorStateCompliance tests
         expect(screen.getByTestId('lexical-composer')).toBeInTheDocument();
+    });
+
+    it('includes FormattingToolbar in the component', () => {
+        const mockOnSendMessage = vi.fn();
+
+        render(<RichMessageEditor onSendMessage={mockOnSendMessage} />);
+
+        // Check that the formatting toolbar buttons are present
+        expect(screen.getByTestId('format-bold')).toBeInTheDocument();
+        expect(screen.getByTestId('format-italic')).toBeInTheDocument();
+        expect(screen.getByTestId('format-underline')).toBeInTheDocument();
+        expect(screen.getByTestId('format-strikethrough')).toBeInTheDocument();
+    });
+
+    it('disables toolbar when editor is disabled', () => {
+        const mockOnSendMessage = vi.fn();
+
+        render(<RichMessageEditor onSendMessage={mockOnSendMessage} disabled={true} />);
+
+        // All toolbar buttons should be disabled when editor is disabled
+        expect(screen.getByTestId('format-bold')).toBeDisabled();
+        expect(screen.getByTestId('format-italic')).toBeDisabled();
+        expect(screen.getByTestId('format-underline')).toBeDisabled();
+        expect(screen.getByTestId('format-strikethrough')).toBeDisabled();
     });
 });

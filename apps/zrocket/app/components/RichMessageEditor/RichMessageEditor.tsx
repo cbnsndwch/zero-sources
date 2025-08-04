@@ -30,6 +30,7 @@ import {
 } from './serialization-utils';
 import { MentionNode } from './nodes/MentionNode';
 import { MentionsPlugin } from './plugins/MentionsPlugin';
+import { FormattingToolbar } from './components/FormattingToolbar';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -272,6 +273,7 @@ export function RichMessageEditor({
             <div className="relative">
                 <LexicalComposer initialConfig={initialConfig}>
                     <div className="relative border border-input rounded-md bg-background">
+                        <FormattingToolbar disabled={disabled} />
                         <RichTextPlugin
                             contentEditable={
                                 <ContentEditable
