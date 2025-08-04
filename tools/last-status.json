@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-08-04T03:54:51.475Z",
+  "timestamp": "2025-08-04T03:59:18.324Z",
   "issue10State": "OPEN",
   "activeRichTextPRs": [
     {
@@ -22,14 +22,7 @@
       "author": "app/copilot-swe-agent",
       "isDraft": true,
       "createdAt": "2025-08-04T03:38:43Z"
-    },
-    {
-      "number": 39,
-      "title": "Document current state of Lexical Rich Text Editor implementation",
-      "author": "app/copilot-swe-agent",
-      "isDraft": false,
-      "createdAt": "2025-08-04T03:38:19Z"
     }
   ],
-  "summary": "Issue #10 (OPEN) | PRs: 4 total (3 draft, 1 ready)"
+  "summary": "Issue #10 (OPEN) | PRs: 3 total (3 draft, 0 ready)"
 }
