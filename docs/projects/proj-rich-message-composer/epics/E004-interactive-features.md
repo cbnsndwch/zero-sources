@@ -262,6 +262,7 @@ const URL_MATCHERS = [
 **Selected Component: [Frimousse](https://frimousse.liveblocks.io/)**
 
 **Rationale for Selection:**
+
 - Lightweight, unstyled, and composable architecture
 - Built-in virtualization for performance with large emoji datasets
 - Comprehensive TypeScript support with detailed API
@@ -271,6 +272,7 @@ const URL_MATCHERS = [
 - Based on Emojibase data with Unicode standards compliance
 
 **Installation:**
+
 ```bash
 npm install frimousse
 # OR via shadcn CLI
@@ -278,6 +280,7 @@ npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
 ```
 
 **Core Components Integration:**
+
 ```typescript
 import { EmojiPicker } from 'frimousse';
 
@@ -308,7 +311,7 @@ interface EmojiCategory {
 
 // Frimousse-based implementation
 const RichMessageEmojiPicker = ({ onEmojiSelect, className }: FrimousseEmojiPickerProps) => (
-    <EmojiPicker.Root 
+    <EmojiPicker.Root
         onEmojiSelect={onEmojiSelect}
         className={className}
         columns={10}
@@ -326,6 +329,7 @@ const RichMessageEmojiPicker = ({ onEmojiSelect, className }: FrimousseEmojiPick
 ```
 
 **Key Features:**
+
 - **Virtualized Performance**: Built-in virtualization handles thousands of emojis efficiently
 - **Search & Filtering**: Native search functionality with category-based organization
 - **Skin Tone Support**: `EmojiPicker.SkinToneSelector` for customizable skin tones
