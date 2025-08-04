@@ -1,37 +1,40 @@
-import { Component, useCallback, useEffect, useState, useRef } from 'react';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import {
     $getRoot,
     $getSelection,
     $isRangeSelection,
+    COMMAND_PRIORITY_NORMAL,
     FORMAT_TEXT_COMMAND,
     KEY_DOWN_COMMAND,
-    COMMAND_PRIORITY_NORMAL,
     RootNode,
     type EditorState,
     type SerializedEditorState,
     type TextFormatType
 } from 'lexical';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { Component, useCallback, useEffect, useRef, useState } from 'react';
 
+import { MentionNode } from './nodes/MentionNode';
+import { ClipboardPlugin } from './plugins/ClipboardPlugin';
+import { MentionsPlugin } from './plugins/MentionsPlugin';
+import {
+    ensureValidSerializedEditorState,
+    validateSerializedEditorState
+} from './serialization-utils';
 import type {
-    RichMessageEditorProps,
     EditorErrorBoundaryProps,
-    EditorErrorBoundaryState
+    EditorErrorBoundaryState,
+    RichMessageEditorProps
 } from './types';
 import {
-    validateSerializedEditorState,
-    ensureValidSerializedEditorState
-} from './serialization-utils';
-import { MentionNode } from './nodes/MentionNode';
-import { MentionsPlugin } from './plugins/MentionsPlugin';
-import { usePerformanceMonitor, memoryLeakDetector } from './utils/performance-monitor';
-import { pluginLoader, PluginPriority } from './utils/lazy-loading';
+    memoryLeakDetector,
+    usePerformanceMonitor
+} from './utils/performance-monitor';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -78,14 +81,17 @@ function KeyboardPlugin({
     onPerformanceUpdate
 }: {
     onSendMessage: (content: SerializedEditorState) => void;
-    onPerformanceUpdate?: (type: 'keystroke' | 'serialization', startTime: number) => void;
+    onPerformanceUpdate?: (
+        type: 'keystroke' | 'serialization',
+        startTime: number
+    ) => void;
 }) {
     const [editor] = useLexicalComposerContext();
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             const keystrokeStart = performance.now();
-            
+
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -244,7 +250,8 @@ export function RichMessageEditor({
     placeholder = 'Type a message...',
     initialContent,
     disabled = false,
-    maxLength
+    maxLength,
+    onPaste
 }: RichMessageEditorProps) {
     const [currentLength, setCurrentLength] = useState(0);
     const initTimeRef = useRef<number>(0);
@@ -253,7 +260,7 @@ export function RichMessageEditor({
     // Initialize performance monitoring
     useEffect(() => {
         initTimeRef.current = performance.now();
-        
+
         // Start memory leak detection in development
         if (process.env.NODE_ENV === 'development') {
             memoryLeakDetector.startMonitoring(30000); // Check every 30 seconds
@@ -276,14 +283,17 @@ export function RichMessageEditor({
     }, [performanceMonitor]);
 
     // Handle performance updates from plugins
-    const handlePerformanceUpdate = useCallback((type: 'keystroke' | 'serialization', startTime: number) => {
-        if (type === 'keystroke') {
-            performanceMonitor.recordKeystroke(startTime);
-        } else if (type === 'serialization') {
-            const textLength = currentLength;
-            performanceMonitor.recordSerialization(startTime, textLength);
-        }
-    }, [performanceMonitor, currentLength]);
+    const handlePerformanceUpdate = useCallback(
+        (type: 'keystroke' | 'serialization', startTime: number) => {
+            if (type === 'keystroke') {
+                performanceMonitor.recordKeystroke(startTime);
+            } else if (type === 'serialization') {
+                const textLength = currentLength;
+                performanceMonitor.recordSerialization(startTime, textLength);
+            }
+        },
+        [performanceMonitor, currentLength]
+    );
 
     // Lexical editor configuration
     const initialConfig = {
@@ -303,38 +313,58 @@ export function RichMessageEditor({
         },
         editorState: initialContent
             ? (() => {
-                const deserializationStart = performance.now();
-                const result = JSON.stringify(initialContent);
-                performanceMonitor.recordDeserialization(deserializationStart, result.length);
-                return result;
-            })()
+                  const deserializationStart = performance.now();
+                  const result = JSON.stringify(initialContent);
+                  performanceMonitor.recordDeserialization(
+                      deserializationStart,
+                      result.length
+                  );
+                  return result;
+              })()
             : undefined,
         editable: !disabled
     };
 
     // Handle content changes with performance tracking
-    const handleContentChange = useCallback((editorState: EditorState) => {
-        const changeStart = performance.now();
-        
-        editorState.read(() => {
-            const root = $getRoot();
-            const textContent = root.getTextContent();
-            setCurrentLength(textContent.length);
-        });
+    const handleContentChange = useCallback(
+        (editorState: EditorState) => {
+            const changeStart = performance.now();
 
-        // Track render performance
-        requestAnimationFrame(() => {
-            const renderTime = performance.now() - changeStart;
-            if (renderTime > 16 && process.env.NODE_ENV === 'development') {
-                console.warn(`⚠️ Content change took ${renderTime.toFixed(2)}ms (>16ms target)`);
+            editorState.read(() => {
+                const root = $getRoot();
+                const textContent = root.getTextContent();
+                setCurrentLength(textContent.length);
+            });
+
+            // Track render performance
+            requestAnimationFrame(() => {
+                const renderTime = performance.now() - changeStart;
+                if (renderTime > 16 && process.env.NODE_ENV === 'development') {
+                    console.warn(
+                        `⚠️ Content change took ${renderTime.toFixed(2)}ms (>16ms target)`
+                    );
+                }
+            });
+
+            // Periodic memory monitoring
+            if (Math.random() < 0.1) {
+                // 10% chance to record memory
+                performanceMonitor.recordMemoryUsage();
             }
-        });
+        },
+        [performanceMonitor]
+    );
 
-        // Periodic memory monitoring
-        if (Math.random() < 0.1) { // 10% chance to record memory
-            performanceMonitor.recordMemoryUsage();
-        }
-    }, [performanceMonitor]);
+    // Handle paste events
+    const handlePaste = useCallback(
+        (content: { html?: string; text?: string; nodes?: any[] }) => {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Content pasted:', content);
+            }
+            onPaste?.(content);
+        },
+        [onPaste]
+    );
 
     return (
         <EditorErrorBoundary>
@@ -365,12 +395,17 @@ export function RichMessageEditor({
 
                         <HistoryPlugin />
                         <OnChangePlugin onChange={handleContentChange} />
-                        <KeyboardPlugin 
-                            onSendMessage={onSendMessage} 
+                        <KeyboardPlugin
+                            onSendMessage={onSendMessage}
                             onPerformanceUpdate={handlePerformanceUpdate}
                         />
                         <FormattingPlugin />
                         <MentionsPlugin />
+                        <ClipboardPlugin
+                            preserveFormatting={true}
+                            maxPasteLength={maxLength}
+                            onPaste={handlePaste}
+                        />
                         {maxLength && (
                             <CharacterLimitPlugin maxLength={maxLength} />
                         )}

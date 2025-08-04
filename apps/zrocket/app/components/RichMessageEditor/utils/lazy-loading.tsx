@@ -4,6 +4,7 @@
  */
 
 import { lazy, ComponentType, Suspense } from 'react';
+
 import { performanceMonitor } from './performance-monitor';
 
 /**
@@ -15,21 +16,27 @@ export function lazyLoadPlugin<T = any>(
 ): ComponentType<T> {
     const LazyComponent = lazy(() => {
         const startTime = performance.now();
-        
+
         return importFn().then(module => {
             const loadTime = performance.now() - startTime;
             performanceMonitor.addEntry('bundleLoadTime' as any, loadTime);
-            
+
             if (process.env.NODE_ENV === 'development') {
                 console.log(`📦 Plugin loaded in ${loadTime.toFixed(2)}ms`);
             }
-            
+
             return module;
         });
     });
 
     return (props: T) => (
-        <Suspense fallback={fallback ? <FallbackComponent component={fallback} props={props} /> : null}>
+        <Suspense
+            fallback={
+                fallback ? (
+                    <FallbackComponent component={fallback} props={props} />
+                ) : null
+            }
+        >
             <LazyComponent {...props} />
         </Suspense>
     );
@@ -50,16 +57,20 @@ export function preloadPlugin(importFn: () => Promise<any>): void {
 
     schedulePreload(() => {
         const startTime = performance.now();
-        
-        importFn().then(() => {
-            const loadTime = performance.now() - startTime;
-            
-            if (process.env.NODE_ENV === 'development') {
-                console.log(`🔄 Plugin preloaded in ${loadTime.toFixed(2)}ms`);
-            }
-        }).catch(error => {
-            console.warn('Failed to preload plugin:', error);
-        });
+
+        importFn()
+            .then(() => {
+                const loadTime = performance.now() - startTime;
+
+                if (process.env.NODE_ENV === 'development') {
+                    console.log(
+                        `🔄 Plugin preloaded in ${loadTime.toFixed(2)}ms`
+                    );
+                }
+            })
+            .catch(error => {
+                console.warn('Failed to preload plugin:', error);
+            });
     });
 }
 
@@ -73,15 +84,19 @@ export class BundleAnalyzer {
 
     trackChunk(name: string, size?: number): void {
         this.loadedChunks.add(name);
-        
+
         if (size) {
             this.chunkSizes.set(name, size);
             this.totalSize += size;
         }
-        
+
         if (process.env.NODE_ENV === 'development') {
-            console.log(`📊 Chunk loaded: ${name}${size ? ` (${(size / 1024).toFixed(1)}KB)` : ''}`);
-            console.log(`📦 Total bundle size: ${(this.totalSize / 1024).toFixed(1)}KB`);
+            console.log(
+                `📊 Chunk loaded: ${name}${size ? ` (${(size / 1024).toFixed(1)}KB)` : ''}`
+            );
+            console.log(
+                `📦 Total bundle size: ${(this.totalSize / 1024).toFixed(1)}KB`
+            );
         }
     }
 
@@ -103,7 +118,13 @@ export const bundleAnalyzer = new BundleAnalyzer();
 /**
  * Wrapper component for fallbacks
  */
-function FallbackComponent<T>({ component: Component, props }: { component: ComponentType<T>; props: T }) {
+function FallbackComponent<T>({
+    component: Component,
+    props
+}: {
+    component: ComponentType<T>;
+    props: T;
+}) {
     return <Component {...props} />;
 }
 
@@ -111,10 +132,10 @@ function FallbackComponent<T>({ component: Component, props }: { component: Comp
  * Optimized plugin loading with priority levels
  */
 export enum PluginPriority {
-    CRITICAL = 'critical',    // Load immediately (core editor functions)
-    HIGH = 'high',           // Load after critical (formatting, basic features)
-    MEDIUM = 'medium',       // Load on user interaction (mentions, toolbar)
-    LOW = 'low'              // Load on demand (advanced features)
+    CRITICAL = 'critical', // Load immediately (core editor functions)
+    HIGH = 'high', // Load after critical (formatting, basic features)
+    MEDIUM = 'medium', // Load on user interaction (mentions, toolbar)
+    LOW = 'low' // Load on demand (advanced features)
 }
 
 class PluginLoader {
@@ -147,19 +168,21 @@ class PluginLoader {
         queue.push(async () => {
             this.loading.add(name);
             const startTime = performance.now();
-            
+
             try {
                 const module = await importFn();
                 const loadTime = performance.now() - startTime;
-                
+
                 this.loaded.add(name);
                 bundleAnalyzer.trackChunk(name);
                 performanceMonitor.addEntry('bundleLoadTime' as any, loadTime);
-                
+
                 if (process.env.NODE_ENV === 'development') {
-                    console.log(`✅ Plugin ${name} loaded (${priority}) in ${loadTime.toFixed(2)}ms`);
+                    console.log(
+                        `✅ Plugin ${name} loaded (${priority}) in ${loadTime.toFixed(2)}ms`
+                    );
                 }
-                
+
                 return module;
             } catch (error) {
                 console.error(`❌ Failed to load plugin ${name}:`, error);
@@ -232,7 +255,7 @@ class PluginLoader {
         pending: Record<PluginPriority, number>;
     } {
         const pending: Record<PluginPriority, number> = {} as any;
-        
+
         Object.values(PluginPriority).forEach(priority => {
             pending[priority] = this.loadQueue.get(priority)?.length || 0;
         });
@@ -279,7 +302,7 @@ export function createIntersectionLoader(
         if (!element) return;
 
         observer = new IntersectionObserver(
-            (entries) => {
+            entries => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         callback();

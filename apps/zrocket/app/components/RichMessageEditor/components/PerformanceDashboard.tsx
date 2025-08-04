@@ -1,14 +1,17 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 /**
  * Performance Dashboard Component
  * Displays real-time performance metrics for the Rich Message Editor
  */
 
 import { useState, useEffect } from 'react';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
+
 import { usePerformanceMonitor } from '../utils/performance-monitor';
 
 interface PerformanceDashboardProps {
@@ -16,9 +19,13 @@ interface PerformanceDashboardProps {
     showDetailedMetrics?: boolean;
 }
 
-export function PerformanceDashboard({ 
+function getStatusBadge(isGood: boolean) {
+    return isGood ? 'default' : 'destructive';
+}
+
+export function PerformanceDashboard({
     className = '',
-    showDetailedMetrics = false 
+    showDetailedMetrics = false
 }: PerformanceDashboardProps) {
     const performanceMonitor = usePerformanceMonitor();
     const [summary, setSummary] = useState(performanceMonitor.getSummary());
@@ -37,9 +44,6 @@ export function PerformanceDashboard({
     if (process.env.NODE_ENV !== 'development') {
         return null;
     }
-
-    const getStatusColor = (isGood: boolean) => isGood ? 'bg-green-500' : 'bg-red-500';
-    const getStatusBadge = (isGood: boolean) => isGood ? 'success' : 'destructive';
 
     return (
         <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
@@ -75,25 +79,44 @@ export function PerformanceDashboard({
                             <div>
                                 <div className="flex items-center justify-between">
                                     <span>Initialization</span>
-                                    <Badge variant={getStatusBadge(summary.meetsTargets.initialization)}>
-                                        {summary.initializationTime.toFixed(1)}ms
+                                    <Badge
+                                        variant={getStatusBadge(
+                                            summary.meetsTargets.initialization
+                                        )}
+                                    >
+                                        {summary.initializationTime.toFixed(1)}
+                                        ms
                                     </Badge>
                                 </div>
-                                <Progress 
-                                    value={Math.min(100, (summary.initializationTime / 100) * 100)} 
+                                <Progress
+                                    value={Math.min(
+                                        100,
+                                        (summary.initializationTime / 100) * 100
+                                    )}
                                     className="h-1 mt-1"
                                 />
                             </div>
-                            
+
                             <div>
                                 <div className="flex items-center justify-between">
                                     <span>Avg Keystroke</span>
-                                    <Badge variant={getStatusBadge(summary.meetsTargets.keystroke)}>
-                                        {summary.averageKeystrokeLatency.toFixed(1)}ms
+                                    <Badge
+                                        variant={getStatusBadge(
+                                            summary.meetsTargets.keystroke
+                                        )}
+                                    >
+                                        {summary.averageKeystrokeLatency.toFixed(
+                                            1
+                                        )}
+                                        ms
                                     </Badge>
                                 </div>
-                                <Progress 
-                                    value={Math.min(100, (summary.averageKeystrokeLatency / 16) * 100)} 
+                                <Progress
+                                    value={Math.min(
+                                        100,
+                                        (summary.averageKeystrokeLatency / 16) *
+                                            100
+                                    )}
                                     className="h-1 mt-1"
                                 />
                             </div>
@@ -106,25 +129,39 @@ export function PerformanceDashboard({
                             <div>
                                 <div className="flex items-center justify-between">
                                     <span>Serialization</span>
-                                    <Badge variant={getStatusBadge(summary.meetsTargets.serialization)}>
+                                    <Badge
+                                        variant={getStatusBadge(
+                                            summary.meetsTargets.serialization
+                                        )}
+                                    >
                                         {summary.serializationTime.toFixed(1)}ms
                                     </Badge>
                                 </div>
-                                <Progress 
-                                    value={Math.min(100, (summary.serializationTime / 50) * 100)} 
+                                <Progress
+                                    value={Math.min(
+                                        100,
+                                        (summary.serializationTime / 50) * 100
+                                    )}
                                     className="h-1 mt-1"
                                 />
                             </div>
-                            
+
                             <div>
                                 <div className="flex items-center justify-between">
                                     <span>Undo/Redo</span>
-                                    <Badge variant={getStatusBadge(summary.meetsTargets.undoRedo)}>
+                                    <Badge
+                                        variant={getStatusBadge(
+                                            summary.meetsTargets.undoRedo
+                                        )}
+                                    >
                                         {summary.undoRedoTime.toFixed(1)}ms
                                     </Badge>
                                 </div>
-                                <Progress 
-                                    value={Math.min(100, (summary.undoRedoTime / 100) * 100)} 
+                                <Progress
+                                    value={Math.min(
+                                        100,
+                                        (summary.undoRedoTime / 100) * 100
+                                    )}
                                     className="h-1 mt-1"
                                 />
                             </div>
@@ -140,8 +177,11 @@ export function PerformanceDashboard({
                                     {summary.memoryUsageMB.toFixed(1)}MB
                                 </Badge>
                             </div>
-                            <Progress 
-                                value={Math.min(100, (summary.memoryUsageMB / 100) * 100)} 
+                            <Progress
+                                value={Math.min(
+                                    100,
+                                    (summary.memoryUsageMB / 100) * 100
+                                )}
                                 className="h-1 mt-1"
                             />
                         </div>
@@ -149,46 +189,91 @@ export function PerformanceDashboard({
                         {showDetailedMetrics && (
                             <>
                                 <Separator />
-                                
+
                                 {/* Detailed Metrics */}
                                 <div className="space-y-2 text-xs">
-                                    <div className="font-medium">Detailed Metrics</div>
-                                    
+                                    <div className="font-medium">
+                                        Detailed Metrics
+                                    </div>
+
                                     <div className="grid grid-cols-2 gap-2">
                                         <div>Target: &lt;100ms init</div>
-                                        <div className={summary.meetsTargets.initialization ? 'text-green-600' : 'text-red-600'}>
-                                            {summary.meetsTargets.initialization ? '✓ Pass' : '✗ Fail'}
+                                        <div
+                                            className={
+                                                summary.meetsTargets
+                                                    .initialization
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600'
+                                            }
+                                        >
+                                            {summary.meetsTargets.initialization
+                                                ? '✓ Pass'
+                                                : '✗ Fail'}
                                         </div>
-                                        
+
                                         <div>Target: &lt;16ms keystroke</div>
-                                        <div className={summary.meetsTargets.keystroke ? 'text-green-600' : 'text-red-600'}>
-                                            {summary.meetsTargets.keystroke ? '✓ Pass' : '✗ Fail'}
+                                        <div
+                                            className={
+                                                summary.meetsTargets.keystroke
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600'
+                                            }
+                                        >
+                                            {summary.meetsTargets.keystroke
+                                                ? '✓ Pass'
+                                                : '✗ Fail'}
                                         </div>
-                                        
+
                                         <div>Target: &lt;50ms serialize</div>
-                                        <div className={summary.meetsTargets.serialization ? 'text-green-600' : 'text-red-600'}>
-                                            {summary.meetsTargets.serialization ? '✓ Pass' : '✗ Fail'}
+                                        <div
+                                            className={
+                                                summary.meetsTargets
+                                                    .serialization
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600'
+                                            }
+                                        >
+                                            {summary.meetsTargets.serialization
+                                                ? '✓ Pass'
+                                                : '✗ Fail'}
                                         </div>
-                                        
+
                                         <div>Target: &lt;100ms undo</div>
-                                        <div className={summary.meetsTargets.undoRedo ? 'text-green-600' : 'text-red-600'}>
-                                            {summary.meetsTargets.undoRedo ? '✓ Pass' : '✗ Fail'}
+                                        <div
+                                            className={
+                                                summary.meetsTargets.undoRedo
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600'
+                                            }
+                                        >
+                                            {summary.meetsTargets.undoRedo
+                                                ? '✓ Pass'
+                                                : '✗ Fail'}
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex gap-2">
                                     <Button
                                         onClick={() => {
-                                            const data = performanceMonitor.monitor.exportData();
-                                            console.log('Performance Data:', data);
-                                            
+                                            const data =
+                                                performanceMonitor.monitor.exportData();
+                                            console.log(
+                                                'Performance Data:',
+                                                data
+                                            );
+
                                             // Download as JSON
-                                            const blob = new Blob([JSON.stringify(data, null, 2)], {
-                                                type: 'application/json'
-                                            });
-                                            const url = URL.createObjectURL(blob);
-                                            const a = document.createElement('a');
+                                            const blob = new Blob(
+                                                [JSON.stringify(data, null, 2)],
+                                                {
+                                                    type: 'application/json'
+                                                }
+                                            );
+                                            const url =
+                                                URL.createObjectURL(blob);
+                                            const a =
+                                                document.createElement('a');
                                             a.href = url;
                                             a.download = `editor-performance-${Date.now()}.json`;
                                             a.click();
@@ -200,9 +285,11 @@ export function PerformanceDashboard({
                                     >
                                         Export Data
                                     </Button>
-                                    
+
                                     <Button
-                                        onClick={() => performanceMonitor.monitor.clear()}
+                                        onClick={() =>
+                                            performanceMonitor.monitor.clear()
+                                        }
                                         variant="outline"
                                         size="sm"
                                         className="text-xs"
@@ -223,9 +310,11 @@ export function PerformanceDashboard({
                             >
                                 Hide
                             </Button>
-                            
+
                             <div className="flex gap-1">
-                                {Object.values(summary.meetsTargets).every(Boolean) ? (
+                                {Object.values(summary.meetsTargets).every(
+                                    Boolean
+                                ) ? (
                                     <div className="flex items-center text-xs text-green-600">
                                         <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
                                         All targets met
@@ -255,7 +344,9 @@ export function PerformanceIndicator() {
     useEffect(() => {
         const interval = setInterval(() => {
             const summary = performanceMonitor.getSummary();
-            const targetsMet = Object.values(summary.meetsTargets).every(Boolean);
+            const targetsMet = Object.values(summary.meetsTargets).every(
+                Boolean
+            );
             setAllTargetsMet(targetsMet);
         }, 5000); // Check every 5 seconds
 

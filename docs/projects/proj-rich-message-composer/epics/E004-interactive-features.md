@@ -24,11 +24,17 @@ Implement interactive features that make messages more engaging and functional, 
 
 ### Success Criteria
 
-- ✅ Links are automatically detected and rendered as clickable elements
-- ✅ User mentions work with autocomplete and proper user resolution
-- ✅ Hashtags are recognized and consistently formatted
-- ✅ Emoji picker provides comprehensive emoji selection
-- ✅ All interactive elements maintain accessibility standards
+- ✅ **FOUNDATION COMPLETE** - Lexical Rich Text Editor fully integrated (PR #39 merged)
+- 🔄 **IN PROGRESS** - Text formatting toolbar (Bold, Italic, Underline, Strikethrough) - PR #42
+- ⏳ Advanced copy/paste support for rich content - PR #40
+- ⏳ Performance optimization and cross-browser testing - PR #41
+- ⏳ Links are automatically detected and rendered as clickable elements
+- ⏳ User mentions work with autocomplete and proper user resolution
+- ⏳ Hashtags are recognized and consistently formatted
+- ⏳ Emoji picker provides comprehensive emoji selection
+- ⏳ All interactive elements maintain accessibility standards
+
+**Current Status (Aug 4, 2025):** Foundation complete, 3 PRs in active development
 
 ## User Stories
 
@@ -256,6 +262,7 @@ const URL_MATCHERS = [
 **Selected Component: [Frimousse](https://frimousse.liveblocks.io/)**
 
 **Rationale for Selection:**
+
 - Lightweight, unstyled, and composable architecture
 - Built-in virtualization for performance with large emoji datasets
 - Comprehensive TypeScript support with detailed API
@@ -265,6 +272,7 @@ const URL_MATCHERS = [
 - Based on Emojibase data with Unicode standards compliance
 
 **Installation:**
+
 ```bash
 npm install frimousse
 # OR via shadcn CLI
@@ -272,6 +280,7 @@ npx shadcn@latest add https://frimousse.liveblocks.io/r/emoji-picker
 ```
 
 **Core Components Integration:**
+
 ```typescript
 import { EmojiPicker } from 'frimousse';
 
@@ -302,7 +311,7 @@ interface EmojiCategory {
 
 // Frimousse-based implementation
 const RichMessageEmojiPicker = ({ onEmojiSelect, className }: FrimousseEmojiPickerProps) => (
-    <EmojiPicker.Root 
+    <EmojiPicker.Root
         onEmojiSelect={onEmojiSelect}
         className={className}
         columns={10}
@@ -320,6 +329,7 @@ const RichMessageEmojiPicker = ({ onEmojiSelect, className }: FrimousseEmojiPick
 ```
 
 **Key Features:**
+
 - **Virtualized Performance**: Built-in virtualization handles thousands of emojis efficiently
 - **Search & Filtering**: Native search functionality with category-based organization
 - **Skin Tone Support**: `EmojiPicker.SkinToneSelector` for customizable skin tones
