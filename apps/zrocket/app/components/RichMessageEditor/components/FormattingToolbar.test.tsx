@@ -2,82 +2,91 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { FormattingToolbar } from './FormattingToolbar';
-
-// Mock the formatting utils
+// Mock the formatting utils first
 vi.mock('../formatting-utils', () => ({
     toggleTextFormat: vi.fn()
 }));
 
-// Mock UI components
+// Mock UI Button component
 vi.mock('@/components/ui/button', () => ({
     Button: ({
         children,
         onClick,
         disabled,
-        className,
         title,
         'data-testid': testId,
-        variant,
-        size
+        ...props
     }: any) => (
         <button
             onClick={onClick}
             disabled={disabled}
-            className={className}
             title={title}
             data-testid={testId}
-            data-variant={variant}
-            data-size={size}
+            {...props}
         >
             {children}
         </button>
     )
 }));
 
-// Mock Lucide icons
+// Mock lucide-react icons
 vi.mock('lucide-react', () => ({
-    Bold: () => <span>B</span>,
-    Italic: () => <span>I</span>,
-    Underline: () => <span>U</span>,
-    Strikethrough: () => <span>S</span>
+    Bold: () => <span data-testid="bold-icon">B</span>,
+    Italic: () => <span data-testid="italic-icon">I</span>,
+    Underline: () => <span data-testid="underline-icon">U</span>,
+    Strikethrough: () => <span data-testid="strikethrough-icon">S</span>
 }));
 
-describe('FormattingToolbar', () => {
-    it('renders a basic div structure', () => {
-        // Simple test to verify component creation without depending on complex mocks
-        const TestComponent = () => (
-            <div data-testid="test-component">Simple Test</div>
-        );
-        render(<TestComponent />);
-
-        expect(screen.getByTestId('test-component')).toBeInTheDocument();
-        expect(screen.getByText('Simple Test')).toBeInTheDocument();
-    });
-
-    it('renders all formatting buttons', () => {
-        try {
-            const { container } = render(<FormattingToolbar />);
-
-            // Debug: let's see what's actually rendered
-            console.log('Container HTML:', container.innerHTML);
-            console.log('Container firstChild:', container.firstChild);
-            console.log('Container children count:', container.children.length);
-
-            // Try to find the toolbar div first
-            const toolbarDiv = container.querySelector('div');
-            console.log('Toolbar div found:', toolbarDiv);
-
-            expect(screen.getByTestId('format-bold')).toBeInTheDocument();
-            expect(screen.getByTestId('format-italic')).toBeInTheDocument();
-            expect(screen.getByTestId('format-underline')).toBeInTheDocument();
-            expect(
-                screen.getByTestId('format-strikethrough')
-            ).toBeInTheDocument();
-        } catch (err) {
-            console.error('Test error details:', err);
-            throw err;
+// Mock Lexical modules
+vi.mock('@lexical/react/LexicalComposerContext', () => ({
+    useLexicalComposerContext: () => [
+        {
+            registerUpdateListener: vi.fn(callback => {
+                // Simulate an update by immediately calling the callback
+                setTimeout(() => {
+                    callback({
+                        editorState: {
+                            read: vi.fn(fn => fn())
+                        }
+                    });
+                }, 0);
+                // Return cleanup function
+                return () => {};
+            }),
+            getEditorState: vi.fn(() => ({
+                read: vi.fn(fn => fn())
+            })),
+            dispatchCommand: vi.fn()
         }
+    ]
+}));
+
+vi.mock('lexical', () => ({
+    $getSelection: vi.fn(() => ({
+        hasFormat: vi.fn(format => {
+            // Mock some formats as active for testing
+            return format === 'bold';
+        })
+    })),
+    $isRangeSelection: vi.fn(() => true)
+}));
+
+import { toggleTextFormat } from '../formatting-utils';
+
+import { FormattingToolbar } from './FormattingToolbar';
+
+describe('FormattingToolbar', () => {
+    it('renders all formatting buttons', () => {
+        const { container } = render(<FormattingToolbar />);
+
+        // Debug output to see what's rendered
+        console.log('Rendered HTML:', container.innerHTML);
+        console.log('Document body:', document.body.innerHTML);
+
+        expect(screen.getByTestId('format-bold')).toBeInTheDocument();
+        expect(screen.getByTestId('format-italic')).toBeInTheDocument();
+        expect(screen.getByTestId('format-underline')).toBeInTheDocument();
+        expect(screen.getByTestId('format-strikethrough')).toBeInTheDocument();
     });
 
     it('shows correct tooltips for each button', () => {
@@ -102,18 +111,40 @@ describe('FormattingToolbar', () => {
     });
 
     it('handles button clicks correctly', () => {
+        const mockToggleTextFormat = vi.mocked(toggleTextFormat);
         render(<FormattingToolbar />);
 
         const boldButton = screen.getByTestId('format-bold');
         const italicButton = screen.getByTestId('format-italic');
+        const underlineButton = screen.getByTestId('format-underline');
+        const strikethroughButton = screen.getByTestId('format-strikethrough');
 
         fireEvent.click(boldButton);
         fireEvent.click(italicButton);
+        fireEvent.click(underlineButton);
+        fireEvent.click(strikethroughButton);
 
-        // In real environment, these would dispatch FORMAT_TEXT_COMMAND
-        // In test environment, we verify the buttons can be clicked
-        expect(boldButton).toBeInTheDocument();
-        expect(italicButton).toBeInTheDocument();
+        expect(mockToggleTextFormat).toHaveBeenCalledTimes(4);
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            1,
+            expect.any(Object),
+            'bold'
+        );
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            2,
+            expect.any(Object),
+            'italic'
+        );
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            3,
+            expect.any(Object),
+            'underline'
+        );
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            4,
+            expect.any(Object),
+            'strikethrough'
+        );
     });
 
     it('disables all buttons when disabled prop is true', () => {
@@ -125,21 +156,31 @@ describe('FormattingToolbar', () => {
         expect(screen.getByTestId('format-strikethrough')).toBeDisabled();
     });
 
+    it('does not call toggleTextFormat when disabled', () => {
+        const mockToggleTextFormat = vi.mocked(toggleTextFormat);
+        render(<FormattingToolbar disabled={true} />);
+
+        const boldButton = screen.getByTestId('format-bold');
+        fireEvent.click(boldButton);
+
+        expect(mockToggleTextFormat).not.toHaveBeenCalled();
+    });
+
     it('renders with proper styling classes', () => {
         render(<FormattingToolbar />);
 
         // Check that the toolbar container has correct styling
         const toolbar = screen.getByTestId('format-bold').closest('div');
-        expect(toolbar).toHaveClass('flex', 'gap-1', 'p-2');
+        expect(toolbar).toHaveClass('flex', 'gap-0.5', 'px-2', 'pt-2');
     });
 
-    it('shows icons correctly', () => {
+    it('buttons have correct variant and size attributes', () => {
         render(<FormattingToolbar />);
 
-        // Check that icons are rendered (mocked as text)
-        expect(screen.getByText('B')).toBeInTheDocument();
-        expect(screen.getByText('I')).toBeInTheDocument();
-        expect(screen.getByText('U')).toBeInTheDocument();
-        expect(screen.getByText('S')).toBeInTheDocument();
+        const boldButton = screen.getByTestId('format-bold');
+
+        // Check button attributes for mocked button component
+        expect(boldButton).toHaveAttribute('data-variant', 'ghost');
+        expect(boldButton).toHaveAttribute('data-size', 'sm');
     });
 });

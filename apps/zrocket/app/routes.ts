@@ -9,6 +9,7 @@ export default [
     index('routes/home/index.tsx'),
 
     layout('components/layout/index.tsx', [
+        // Direct Messages
         route('d', 'routes/direct/layout.tsx', [
             index('routes/direct/index.tsx'),
             route(':chatId', 'routes/direct/chat.tsx')
@@ -27,20 +28,12 @@ export default [
         ])
     ]),
 
-    // Direct Messages
-
     // User preferences and help
     route('files', 'routes/files/index.tsx'),
     route('preferences', 'routes/preferences/index.tsx'),
     route('support', 'routes/support/index.tsx'),
 
-    // ZRocket discriminated union demo
-    route('messages', 'routes/messages/index.tsx'),
-
-    // ZRocket info
-    route('info', 'routes/zrocket.tsx')
+    // demos
+    route('demos/rich-message-editor', 'routes/demos/rich-editor-demo.tsx'),
+    route('demos/copy-paste', 'routes/demos/copy-paste-demo.tsx')
 ] satisfies RouteConfig;
-
-// <ZeroProvider zero={zero}>
-//     <SidebarLayout />
-// </ZeroProvider>

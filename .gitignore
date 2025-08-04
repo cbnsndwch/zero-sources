@@ -39,3 +39,6 @@ yarn-error.log*
 /apps/**/*.sqlite
 /apps/**/*.db*
 /apps/*/config.yml
+
+playwright-report
+test-results
