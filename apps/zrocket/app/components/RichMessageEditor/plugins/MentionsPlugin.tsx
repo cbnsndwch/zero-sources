@@ -99,28 +99,7 @@ export function MentionsPlugin(): JSX.Element | null {
                     const beforeText = textContent.slice(0, matchIndex);
                     const afterText = textContent.slice(matchIndex + match[0].length);
 
-                    if (beforeText) {
-                        anchorNode.setTextContent(beforeText);
-                        mentionNode.insertAfter(anchorNode);
-                    } else {
-                        mentionNode.insertBefore(anchorNode);
-                    }
-
-                    if (afterText) {
-                        // Create a new text node for the remaining text
-                        const newTextNode = $createTextNode(afterText);
-                        mentionNode.insertAfter(newTextNode);
-                        newTextNode.select();
-                    } else {
-                        // Just remove the current node if no after text and no before text
-                        if (!beforeText) {
-                            anchorNode.remove();
-                        }
-                        // Insert a space after the mention
-                        const spaceNode = $createTextNode(' ');
-                        mentionNode.insertAfter(spaceNode);
-                        spaceNode.select();
-                    }
+                    replaceTextNodeWithMention(anchorNode, mentionNode, beforeText, afterText);
                 }
 
                 setShowDropdown(false);
