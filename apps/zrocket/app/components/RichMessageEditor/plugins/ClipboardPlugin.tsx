@@ -310,71 +310,89 @@ export function ClipboardPlugin(config: ClipboardPluginConfig = {}) {
  */
 export function copyToClipboard(editor: LexicalEditor): Promise<boolean> {
     return new Promise(resolve => {
-        editor.getEditorState().read(() => {
-            const selection = $getSelection();
+        // Add null check for editor
+        if (!editor) {
+            resolve(false);
+            return;
+        }
 
-            if (!$isRangeSelection(selection)) {
-                resolve(false);
-                return;
-            }
+        try {
+            editor.getEditorState().read(() => {
+                const selection = $getSelection();
 
-            // Generate HTML from selected nodes
-            const htmlString = $generateHtmlFromNodes(editor, selection);
-            const textString = selection.getTextContent();
+                if (!$isRangeSelection(selection)) {
+                    resolve(false);
+                    return;
+                }
 
-            if (!htmlString && !textString) {
-                resolve(false);
-                return;
-            }
+                // Generate HTML from selected nodes
+                const htmlString = $generateHtmlFromNodes(editor, selection);
+                const textString = selection.getTextContent();
 
-            // Check if clipboard API is available
-            if (typeof navigator === 'undefined' || !navigator.clipboard) {
-                console.warn('Clipboard API not available');
-                resolve(false);
-                return;
-            }
+                if (!htmlString && !textString) {
+                    resolve(false);
+                    return;
+                }
 
-            // Copy to clipboard
-            if (navigator.clipboard.write) {
-                const clipboardItem = new ClipboardItem({
-                    'text/html': new Blob([htmlString], { type: 'text/html' }),
-                    'text/plain': new Blob([textString], { type: 'text/plain' })
-                });
+                // Check if clipboard API is available
+                if (typeof navigator === 'undefined' || !navigator.clipboard) {
+                    console.warn('Clipboard API not available');
+                    resolve(false);
+                    return;
+                }
 
-                navigator.clipboard
-                    .write([clipboardItem])
-                    .then(() => {
-                        resolve(true);
-                    })
-                    .catch(error => {
-                        console.error('Failed to copy to clipboard:', error);
-                        // Fallback to text-only copy
-                        if (navigator.clipboard.writeText) {
-                            navigator.clipboard
-                                .writeText(textString)
-                                .then(() => {
-                                    resolve(true);
-                                })
-                                .catch(() => {
-                                    resolve(false);
-                                });
-                        } else {
+                // Copy to clipboard
+                if (navigator.clipboard.write) {
+                    const clipboardItem = new ClipboardItem({
+                        'text/html': new Blob([htmlString], {
+                            type: 'text/html'
+                        }),
+                        'text/plain': new Blob([textString], {
+                            type: 'text/plain'
+                        })
+                    });
+
+                    navigator.clipboard
+                        .write([clipboardItem])
+                        .then(() => {
+                            resolve(true);
+                        })
+                        .catch(error => {
+                            console.error(
+                                'Failed to copy to clipboard:',
+                                error
+                            );
+                            // Fallback to text-only copy
+                            if (navigator.clipboard.writeText) {
+                                navigator.clipboard
+                                    .writeText(textString)
+                                    .then(() => {
+                                        resolve(true);
+                                    })
+                                    .catch(() => {
+                                        resolve(false);
+                                    });
+                            } else {
+                                resolve(false);
+                            }
+                        });
+                } else if (navigator.clipboard.writeText) {
+                    // Fallback to text-only copy
+                    navigator.clipboard
+                        .writeText(textString)
+                        .then(() => {
+                            resolve(true);
+                        })
+                        .catch(() => {
                             resolve(false);
-                        }
-                    });
-            } else if (navigator.clipboard.writeText) {
-                // Fallback to text-only copy
-                navigator.clipboard
-                    .writeText(textString)
-                    .then(() => {
-                        resolve(true);
-                    })
-                    .catch(() => {
-                        resolve(false);
-                    });
-            } else {
-                resolve(false);
-            }
-        });
+                        });
+                } else {
+                    resolve(false);
+                }
+            });
+        } catch (error) {
+            console.error('Error copying to clipboard:', error);
+            resolve(false);
+        }
     });
 }
