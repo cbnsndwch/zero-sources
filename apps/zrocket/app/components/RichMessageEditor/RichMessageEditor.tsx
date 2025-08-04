@@ -18,6 +18,10 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { 
+    ListNode, 
+    ListItemNode
+} from '@lexical/list';
 
 import type {
     RichMessageEditorProps,
@@ -30,6 +34,8 @@ import {
 } from './serialization-utils';
 import { MentionNode } from './nodes/MentionNode';
 import { MentionsPlugin } from './plugins/MentionsPlugin';
+import { Toolbar } from './components/Toolbar';
+import { CustomListPlugin } from './plugins/CustomListPlugin';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -239,7 +245,7 @@ export function RichMessageEditor({
     // Lexical editor configuration
     const initialConfig = {
         namespace: 'RichMessageEditor',
-        nodes: [MentionNode], // Register the MentionNode
+        nodes: [MentionNode, ListNode, ListItemNode], // Register the MentionNode and list nodes
         theme: {
             paragraph: 'mb-1',
             text: {
@@ -247,6 +253,24 @@ export function RichMessageEditor({
                 italic: 'italic',
                 underline: 'underline',
                 strikethrough: 'line-through'
+            },
+            list: {
+                listitem: 'my-2',
+                listitemChecked: 'my-2',
+                listitemUnchecked: 'my-2',
+                nested: {
+                    listitem: 'my-1'
+                },
+                olDepth: [
+                    'list-decimal pl-4',
+                    'list-[lower-alpha] pl-6',
+                    'list-[lower-roman] pl-8'
+                ],
+                ulDepth: [
+                    'list-disc pl-4',
+                    'list-circle pl-6',
+                    'list-square pl-8'
+                ]
             }
         },
         onError: (error: Error) => {
@@ -272,6 +296,7 @@ export function RichMessageEditor({
             <div className="relative">
                 <LexicalComposer initialConfig={initialConfig}>
                     <div className="relative border border-input rounded-md bg-background">
+                        <Toolbar />
                         <RichTextPlugin
                             contentEditable={
                                 <ContentEditable
@@ -298,6 +323,7 @@ export function RichMessageEditor({
                         <OnChangePlugin onChange={handleContentChange} />
                         <KeyboardPlugin onSendMessage={onSendMessage} />
                         <FormattingPlugin />
+                        <CustomListPlugin />
                         <MentionsPlugin />
                         {maxLength && (
                             <CharacterLimitPlugin maxLength={maxLength} />
