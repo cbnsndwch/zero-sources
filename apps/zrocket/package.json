@@ -32,6 +32,7 @@
         "@hookform/resolvers": "^3.9.0",
         "@lexical/clipboard": "^0.33.1",
         "@lexical/history": "^0.33.1",
+        "@lexical/html": "^0.33.1",
         "@lexical/link": "^0.33.1",
         "@lexical/list": "^0.33.1",
         "@lexical/react": "^0.33.1",

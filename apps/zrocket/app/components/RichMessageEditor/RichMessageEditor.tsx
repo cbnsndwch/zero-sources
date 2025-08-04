@@ -30,6 +30,7 @@ import {
 } from './serialization-utils';
 import { MentionNode } from './nodes/MentionNode';
 import { MentionsPlugin } from './plugins/MentionsPlugin';
+import { ClipboardPlugin } from './plugins/ClipboardPlugin';
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -232,7 +233,8 @@ export function RichMessageEditor({
     placeholder = 'Type a message...',
     initialContent,
     disabled = false,
-    maxLength
+    maxLength,
+    onPaste
 }: RichMessageEditorProps) {
     const [currentLength, setCurrentLength] = useState(0);
 
@@ -267,6 +269,14 @@ export function RichMessageEditor({
         });
     }, []);
 
+    // Handle paste events
+    const handlePaste = useCallback((content: { html?: string; text?: string; nodes?: any[] }) => {
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Content pasted:', content);
+        }
+        onPaste?.(content);
+    }, [onPaste]);
+
     return (
         <EditorErrorBoundary>
             <div className="relative">
@@ -299,6 +309,11 @@ export function RichMessageEditor({
                         <KeyboardPlugin onSendMessage={onSendMessage} />
                         <FormattingPlugin />
                         <MentionsPlugin />
+                        <ClipboardPlugin
+                            preserveFormatting={true}
+                            maxPasteLength={maxLength}
+                            onPaste={handlePaste}
+                        />
                         {maxLength && (
                             <CharacterLimitPlugin maxLength={maxLength} />
                         )}
