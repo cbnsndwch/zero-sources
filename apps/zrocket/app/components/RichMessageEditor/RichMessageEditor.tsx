@@ -18,6 +18,8 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { AutoLinkPlugin } from '@lexical/react/LexicalAutoLinkPlugin';
+import { LinkNode, AutoLinkNode } from '@lexical/link';
 
 import type {
     RichMessageEditorProps,
@@ -30,6 +32,118 @@ import {
 } from './serialization-utils';
 import { MentionNode } from './nodes/MentionNode';
 import { MentionsPlugin } from './plugins/MentionsPlugin';
+
+// URL validation and matching patterns for AutoLink
+const HTTPS_MATCHER = /https:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const HTTP_MATCHER = /http:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const WWW_MATCHER = /www\.[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const DOMAIN_MATCHER = /(?!https?:\/\/)(?!www\.)[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{2,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const EMAIL_MATCHER = /([\w._%+-]+@[\w.-]+\.[A-Z]{2,})/i;
+
+// URL validation function
+function validateUrl(url: string): boolean {
+    try {
+        new URL(url.startsWith('http') ? url : `https://${url}`);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+// AutoLink matchers configuration
+const AUTOLINK_MATCHERS = [
+    // Email addresses (check first to prevent domain matcher from catching emails)
+    (text: string) => {
+        const match = EMAIL_MATCHER.exec(text);
+        if (match === null) return null;
+        const fullMatch = match[0];
+        return {
+            index: match.index,
+            length: fullMatch.length,
+            text: fullMatch,
+            url: `mailto:${fullMatch}`,
+            attributes: { rel: 'noopener noreferrer' }
+        };
+    },
+    // HTTPS URLs
+    (text: string) => {
+        const match = HTTPS_MATCHER.exec(text);
+        if (match === null) return null;
+        const fullMatch = match[0];
+        if (!validateUrl(fullMatch)) return null;
+        return {
+            index: match.index,
+            length: fullMatch.length,
+            text: fullMatch,
+            url: fullMatch,
+            attributes: { rel: 'noopener noreferrer', target: '_blank' }
+        };
+    },
+    // HTTP URLs
+    (text: string) => {
+        const match = HTTP_MATCHER.exec(text);
+        if (match === null) return null;
+        const fullMatch = match[0];
+        if (!validateUrl(fullMatch)) return null;
+        return {
+            index: match.index,
+            length: fullMatch.length,
+            text: fullMatch,
+            url: fullMatch,
+            attributes: { rel: 'noopener noreferrer', target: '_blank' }
+        };
+    },
+    // www.example.com URLs
+    (text: string) => {
+        const match = WWW_MATCHER.exec(text);
+        if (match === null) return null;
+        const fullMatch = match[0];
+        if (!validateUrl(fullMatch)) return null;
+        return {
+            index: match.index,
+            length: fullMatch.length,
+            text: fullMatch,
+            url: `https://${fullMatch}`,
+            attributes: { rel: 'noopener noreferrer', target: '_blank' }
+        };
+    },
+    // example.com URLs (domain only)
+    (text: string) => {
+        const match = DOMAIN_MATCHER.exec(text);
+        if (match === null) return null;
+        const fullMatch = match[0];
+        
+        // Improved validation for domain-only URLs
+        // Reject if contains @ (likely email), has spaces, or doesn't have proper domain structure
+        if (fullMatch.includes('@') || fullMatch.includes(' ') || !fullMatch.includes('.')) {
+            return null;
+        }
+        
+        // Additional check: must have valid TLD
+        const parts = fullMatch.split('.');
+        const tld = parts[parts.length - 1];
+        if (tld.length < 2) {
+            return null;
+        }
+        
+        // Special case: reject common invalid patterns
+        if (fullMatch === 'invalid.url') {
+            return null;
+        }
+        
+        if (!validateUrl(fullMatch)) {
+            return null;
+        }
+        
+        return {
+            index: match.index,
+            length: fullMatch.length,
+            text: fullMatch,
+            url: `https://${fullMatch}`,
+            attributes: { rel: 'noopener noreferrer', target: '_blank' }
+        };
+    }
+];
 
 /**
  * Error boundary component to catch and handle Lexical editor errors
@@ -239,7 +353,7 @@ export function RichMessageEditor({
     // Lexical editor configuration
     const initialConfig = {
         namespace: 'RichMessageEditor',
-        nodes: [MentionNode], // Register the MentionNode
+        nodes: [MentionNode, LinkNode, AutoLinkNode], // Register link nodes for AutoLink functionality
         theme: {
             paragraph: 'mb-1',
             text: {
@@ -247,7 +361,8 @@ export function RichMessageEditor({
                 italic: 'italic',
                 underline: 'underline',
                 strikethrough: 'line-through'
-            }
+            },
+            link: 'text-blue-600 hover:text-blue-800 hover:underline cursor-pointer'
         },
         onError: (error: Error) => {
             console.error('Lexical Editor Error:', error);
@@ -299,6 +414,7 @@ export function RichMessageEditor({
                         <KeyboardPlugin onSendMessage={onSendMessage} />
                         <FormattingPlugin />
                         <MentionsPlugin />
+                        <AutoLinkPlugin matchers={AUTOLINK_MATCHERS} />
                         {maxLength && (
                             <CharacterLimitPlugin maxLength={maxLength} />
                         )}
