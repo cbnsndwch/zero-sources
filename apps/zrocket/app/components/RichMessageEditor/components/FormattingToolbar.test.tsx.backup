@@ -1,0 +1,201 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { FormattingToolbar } from './FormattingToolbar';
+
+// Mock all the dependencies
+vi.mock('../formatting-utils', () => ({
+    toggleTextFormat: vi.fn()
+}));
+
+vi.mock('@/components/ui/button', () => ({
+    Button: vi.fn(({ children, onClick, disabled, title, 'data-testid': testId, className, variant, size, ...props }) => {
+        // Use React.createElement to avoid JSX issues
+        const React = require('react');
+        return React.createElement('button', {
+            onClick,
+            disabled,
+            title,
+            'data-testid': testId,
+            'data-variant': variant,
+            'data-size': size,
+            className,
+            ...props
+        }, children);
+    })
+}));
+
+vi.mock('lucide-react', () => ({
+    Bold: vi.fn(({ size }) => {
+        const React = require('react');
+        return React.createElement('span', { 'data-testid': 'bold-icon', 'data-size': size }, 'B');
+    }),
+    Italic: vi.fn(({ size }) => {
+        const React = require('react');
+        return React.createElement('span', { 'data-testid': 'italic-icon', 'data-size': size }, 'I');
+    }),
+    Underline: vi.fn(({ size }) => {
+        const React = require('react');
+        return React.createElement('span', { 'data-testid': 'underline-icon', 'data-size': size }, 'U');
+    }),
+    Strikethrough: vi.fn(({ size }) => {
+        const React = require('react');
+        return React.createElement('span', { 'data-testid': 'strikethrough-icon', 'data-size': size }, 'S');
+    })
+}));
+
+// Create a mock editor with all required methods
+const createMockEditor = () => ({
+    registerUpdateListener: vi.fn(() => () => {}), // Return cleanup function
+    getEditorState: vi.fn(() => ({
+        read: vi.fn((fn) => {
+            try {
+                return fn();
+            } catch (error) {
+                console.debug('Mock editor read error:', error);
+                return undefined;
+            }
+        })
+    })),
+    dispatchCommand: vi.fn()
+});
+
+vi.mock('@lexical/react/LexicalComposerContext', () => ({
+    useLexicalComposerContext: vi.fn(() => [createMockEditor()])
+}));
+
+// Mock lexical selection functions
+const mockSelection = {
+    hasFormat: vi.fn((format) => format === 'bold') // Mock bold as active for testing
+};
+
+vi.mock('lexical', () => ({
+    $getSelection: vi.fn(() => mockSelection),
+    $isRangeSelection: vi.fn(() => true)
+}));
+
+// Add React import for JSX
+const React = require('react');
+
+describe('FormattingToolbar', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('renders without crashing', () => {
+        const { container } = render(React.createElement(FormattingToolbar));
+        
+        console.log('Rendered HTML:', container.innerHTML);
+        
+        // Just check that something rendered
+        expect(container.firstChild).toBeTruthy();
+    });
+
+    it('renders all formatting buttons', () => {
+        render(React.createElement(FormattingToolbar));
+
+        expect(screen.getByTestId('format-bold')).toBeInTheDocument();
+        expect(screen.getByTestId('format-italic')).toBeInTheDocument();
+        expect(screen.getByTestId('format-underline')).toBeInTheDocument();
+        expect(screen.getByTestId('format-strikethrough')).toBeInTheDocument();
+    });
+
+    it('shows correct tooltips for each button', () => {
+        render(React.createElement(FormattingToolbar));
+
+        expect(screen.getByTestId('format-bold')).toHaveAttribute(
+            'title',
+            'Bold (Ctrl+B)'
+        );
+        expect(screen.getByTestId('format-italic')).toHaveAttribute(
+            'title',
+            'Italic (Ctrl+I)'
+        );
+        expect(screen.getByTestId('format-underline')).toHaveAttribute(
+            'title',
+            'Underline (Ctrl+U)'
+        );
+        expect(screen.getByTestId('format-strikethrough')).toHaveAttribute(
+            'title',
+            'Strikethrough (Ctrl+Shift+S)'
+        );
+    });
+
+    it('handles button clicks correctly', () => {
+        const { toggleTextFormat } = await import('../formatting-utils');
+        const mockToggleTextFormat = vi.mocked(toggleTextFormat);
+        
+        render(React.createElement(FormattingToolbar));
+
+        const boldButton = screen.getByTestId('format-bold');
+        const italicButton = screen.getByTestId('format-italic');
+        const underlineButton = screen.getByTestId('format-underline');
+        const strikethroughButton = screen.getByTestId('format-strikethrough');
+
+        fireEvent.click(boldButton);
+        fireEvent.click(italicButton);
+        fireEvent.click(underlineButton);
+        fireEvent.click(strikethroughButton);
+
+        expect(mockToggleTextFormat).toHaveBeenCalledTimes(4);
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            1,
+            expect.any(Object),
+            'bold'
+        );
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            2,
+            expect.any(Object),
+            'italic'
+        );
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            3,
+            expect.any(Object),
+            'underline'
+        );
+        expect(mockToggleTextFormat).toHaveBeenNthCalledWith(
+            4,
+            expect.any(Object),
+            'strikethrough'
+        );
+    });
+
+    it('disables all buttons when disabled prop is true', () => {
+        render(React.createElement(FormattingToolbar, { disabled: true }));
+
+        expect(screen.getByTestId('format-bold')).toBeDisabled();
+        expect(screen.getByTestId('format-italic')).toBeDisabled();
+        expect(screen.getByTestId('format-underline')).toBeDisabled();
+        expect(screen.getByTestId('format-strikethrough')).toBeDisabled();
+    });
+
+    it('does not call toggleTextFormat when disabled', async () => {
+        const { toggleTextFormat } = await import('../formatting-utils');
+        const mockToggleTextFormat = vi.mocked(toggleTextFormat);
+        
+        render(React.createElement(FormattingToolbar, { disabled: true }));
+
+        const boldButton = screen.getByTestId('format-bold');
+        fireEvent.click(boldButton);
+
+        expect(mockToggleTextFormat).not.toHaveBeenCalled();
+    });
+
+    it('renders with proper styling classes', () => {
+        render(React.createElement(FormattingToolbar));
+
+        // Check that the toolbar container has correct styling
+        const toolbar = screen.getByTestId('format-bold').closest('div');
+        expect(toolbar).toHaveClass('flex', 'gap-0.5', 'px-2', 'pt-2');
+    });
+
+    it('buttons have correct variant and size attributes', () => {
+        render(React.createElement(FormattingToolbar));
+
+        const boldButton = screen.getByTestId('format-bold');
+
+        // Check button attributes for mocked button component
+        expect(boldButton).toHaveAttribute('data-variant', 'ghost');
+        expect(boldButton).toHaveAttribute('data-size', 'sm');
+    });
+});

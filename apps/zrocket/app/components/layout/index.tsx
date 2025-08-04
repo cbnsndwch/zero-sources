@@ -228,7 +228,10 @@ export default function AppLayout() {
                                     </div>
                                 </ResizablePanel>
 
-                                <ResizableHandle withHandle />
+                                <ResizableHandle
+                                    className="bg-transparent"
+                                    withHandle
+                                />
 
                                 {/* Chat content panel */}
                                 <ResizablePanel
@@ -258,8 +261,8 @@ export default function AppLayout() {
                                 {isRoomDetailsOpen ? (
                                     <>
                                         <ResizableHandle
+                                            className="transition-opacity duration-300 bg-transparent"
                                             withHandle
-                                            className="transition-opacity duration-300"
                                         />
 
                                         {/* Room details panel */}

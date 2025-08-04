@@ -46,10 +46,10 @@ type Pages = {
   "/support": {
     params: {};
   };
-  "/messages": {
+  "/demos/rich-message-editor": {
     params: {};
   };
-  "/info": {
+  "/demos/copy-paste": {
     params: {};
   };
 };
@@ -57,7 +57,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/files" | "/preferences" | "/support" | "/messages" | "/info";
+    page: "/" | "/d" | "/d/:chatId" | "/p" | "/p/:chatId" | "/c" | "/c/:channelId" | "/files" | "/preferences" | "/support" | "/demos/rich-message-editor" | "/demos/copy-paste";
   };
   "routes/home/index.tsx": {
     id: "routes/home/index";
@@ -115,12 +115,12 @@ type RouteFiles = {
     id: "routes/support/index";
     page: "/support";
   };
-  "routes/messages/index.tsx": {
-    id: "routes/messages/index";
-    page: "/messages";
+  "routes/demos/rich-editor-demo.tsx": {
+    id: "routes/demos/rich-editor-demo";
+    page: "/demos/rich-message-editor";
   };
-  "routes/zrocket.tsx": {
-    id: "routes/zrocket";
-    page: "/info";
+  "routes/demos/copy-paste-demo.tsx": {
+    id: "routes/demos/copy-paste-demo";
+    page: "/demos/copy-paste";
   };
 };

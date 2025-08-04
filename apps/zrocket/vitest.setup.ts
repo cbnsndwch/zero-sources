@@ -9,7 +9,7 @@ beforeAll(() => {
     // Configure React Testing Library for React 19
     configure({
         asyncUtilTimeout: 5000,
-        testIdAttribute: 'data-testid',
+        testIdAttribute: 'data-testid'
     });
 
     // Fix React 19 compatibility: React.act was removed in React 19
@@ -49,34 +49,42 @@ beforeAll(() => {
 
     // Mock DOMParser for Lexical HTML parsing
     global.DOMParser = vi.fn().mockImplementation(() => ({
-        parseFromString: vi.fn().mockImplementation((html: string, type: string) => {
-            // Create a simple mock document
-            const div = document.createElement('div');
-            div.innerHTML = html;
-            return {
-                body: div,
-                documentElement: div,
-                createElement: document.createElement.bind(document),
-                querySelectorAll: div.querySelectorAll.bind(div)
-            };
-        })
+        parseFromString: vi
+            .fn()
+            .mockImplementation((html: string, type: string) => {
+                // Create a simple mock document
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                return {
+                    body: div,
+                    documentElement: div,
+                    createElement: document.createElement.bind(document),
+                    querySelectorAll: div.querySelectorAll.bind(div)
+                };
+            })
     }));
 
     // Mock ClipboardItem for Lexical clipboard functionality
-    (global as any).ClipboardItem = vi.fn().mockImplementation((items: Record<string, Blob>) => ({
-        types: Object.keys(items),
-        getType: vi.fn().mockImplementation(async (type: string) => items[type])
-    }));
+    (global as any).ClipboardItem = vi
+        .fn()
+        .mockImplementation((items: Record<string, Blob>) => ({
+            types: Object.keys(items),
+            getType: vi
+                .fn()
+                .mockImplementation(async (type: string) => items[type])
+        }));
     (global as any).ClipboardItem.supports = vi.fn().mockReturnValue(true);
 
     // Mock Blob constructor
-    (global as any).Blob = vi.fn().mockImplementation((content: any[], options?: { type?: string }) => ({
-        type: options?.type || '',
-        size: content.join('').length,
-        stream: vi.fn(),
-        text: vi.fn().mockResolvedValue(content.join('')),
-        arrayBuffer: vi.fn()
-    }));
+    (global as any).Blob = vi
+        .fn()
+        .mockImplementation((content: any[], options?: { type?: string }) => ({
+            type: options?.type || '',
+            size: content.join('').length,
+            stream: vi.fn(),
+            text: vi.fn().mockResolvedValue(content.join('')),
+            arrayBuffer: vi.fn()
+        }));
 
     // Mock Range API for Lexical selection
     const MockRange = vi.fn().mockImplementation(() => ({

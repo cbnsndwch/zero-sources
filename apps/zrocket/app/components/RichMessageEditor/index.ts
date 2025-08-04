@@ -1,4 +1,5 @@
 export { RichMessageEditor } from './RichMessageEditor';
+export { FormattingToolbar } from './components/FormattingToolbar';
 export type {
     RichMessageEditorProps,
     EditorErrorBoundaryProps,
@@ -8,5 +9,11 @@ export {
     validateSerializedEditorState,
     createEmptySerializedEditorState,
     ensureValidSerializedEditorState,
-    type ValidSerializedEditorState
+    type ValidSerializedEditorState,
+    toggleTextFormat,
+    isFormatActive,
+    getActiveFormats,
+    getFormattingShortcut,
+    FORMATTING_SHORTCUTS,
+    type TextFormatType
 } from './types';

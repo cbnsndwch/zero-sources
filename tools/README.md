@@ -26,6 +26,7 @@ Simple, reliable PowerShell script that uses GitHub CLI to check status.
 ```
 
 **Features:**
+
 - ✅ No external dependencies (uses GitHub CLI)
 - ✅ Real system clock intervals
 - ✅ Detailed logging to file
@@ -50,6 +51,7 @@ node tools/status-monitor.js --owner myorg --repo myrepo
 ```
 
 **Features:**
+
 - ✅ Cross-platform (Windows, macOS, Linux)
 - ✅ No external dependencies
 - ✅ Built-in CLI argument parsing
@@ -98,6 +100,7 @@ node status-monitor.js --interval 10
 ### Rich Text Features (Issue #10)
 
 The monitor tracks:
+
 - **Issue #10 state** (open/closed)
 - **Active PRs** related to Rich Text Features (#33-#38)
 - **Draft vs Ready status** of PRs
@@ -106,16 +109,18 @@ The monitor tracks:
 ### Current Tracking (as of this session)
 
 Based on our analysis, it monitors:
+
 - **Issue #33**: Lexical Foundation & Editor Setup
 - **Issue #34**: Text Formatting (Bold, Italic, etc.)
 - **Issue #35**: AutoLink Plugin Integration
-- **Issue #36**: List Plugin Integration  
+- **Issue #36**: List Plugin Integration
 - **Issue #37**: Advanced Copy/Paste Support
 - **Issue #38**: Performance & Memory Optimization
 
 ### Alert Conditions
 
 The monitor will alert when:
+
 - ✅ PRs change from Draft to Ready for Review
 - ✅ New PRs are created for Rich Text Features
 - ❌ Issues or PRs are closed
@@ -124,6 +129,7 @@ The monitor will alert when:
 ## Output Examples
 
 ### Console Output
+
 ```
 [2025-01-03 10:30:00] [INFO] Checking Rich Text Features status...
 [2025-01-03 10:30:02] [INFO] Issue #10 (open) | PRs: 4 total (2 draft, 2 ready)
@@ -134,26 +140,28 @@ The monitor will alert when:
 ```
 
 ### JSON Output (`last-status.json`)
+
 ```json
 {
-  "timestamp": "2025-01-03T10:30:00.000Z",
-  "issue10State": "open",
-  "activeRichTextPRs": [
-    {
-      "number": 39,
-      "title": "Lexical Foundation & Editor Setup",
-      "author": "github-copilot[bot]",
-      "isDraft": false,
-      "createdAt": "2025-01-03T09:15:00Z"
-    }
-  ],
-  "summary": "Issue #10 (open) | PRs: 4 total (2 draft, 2 ready)"
+    "timestamp": "2025-01-03T10:30:00.000Z",
+    "issue10State": "open",
+    "activeRichTextPRs": [
+        {
+            "number": 39,
+            "title": "Lexical Foundation & Editor Setup",
+            "author": "github-copilot[bot]",
+            "isDraft": false,
+            "createdAt": "2025-01-03T09:15:00Z"
+        }
+    ],
+    "summary": "Issue #10 (open) | PRs: 4 total (2 draft, 2 ready)"
 }
 ```
 
 ## Configuration
 
 ### Environment Variables (Node.js)
+
 ```bash
 export GITHUB_OWNER=cbnsndwch
 export GITHUB_REPO=zero-sources
@@ -161,6 +169,7 @@ export MONITOR_INTERVAL=300  # 5 minutes
 ```
 
 ### PowerShell Parameters
+
 ```powershell
 # Custom parameters
 .\tools\status-monitor.ps1 -Owner "myorg" -Repo "myrepo" -IntervalSeconds 600
@@ -169,32 +178,37 @@ export MONITOR_INTERVAL=300  # 5 minutes
 ## Integration Ideas
 
 ### VS Code Tasks
+
 Add to `.vscode/tasks.json`:
+
 ```json
 {
-  "label": "Start Status Monitor",
-  "type": "shell",
-  "command": "node",
-  "args": ["tools/status-monitor.js", "--interval", "10"],
-  "group": "build",
-  "presentation": {
-    "echo": true,
-    "reveal": "always",
-    "panel": "new"
-  },
-  "isBackground": true
+    "label": "Start Status Monitor",
+    "type": "shell",
+    "command": "node",
+    "args": ["tools/status-monitor.js", "--interval", "10"],
+    "group": "build",
+    "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new"
+    },
+    "isBackground": true
 }
 ```
 
 ### GitHub Actions (Future)
+
 Could be integrated into CI/CD for automated status reporting.
 
 ### Webhook Integration (Future)
+
 Could be enhanced to receive GitHub webhooks for real-time updates.
 
 ## Troubleshooting
 
 ### GitHub CLI Issues
+
 ```bash
 # Check authentication
 gh auth status
@@ -207,6 +221,7 @@ gh repo view cbnsndwch/zero-sources
 ```
 
 ### Permission Issues
+
 ```bash
 # Check repository access
 gh api repos/cbnsndwch/zero-sources
@@ -216,6 +231,7 @@ gh api rate_limit
 ```
 
 ### Node.js Issues
+
 ```bash
 # Check Node.js version
 node --version  # Should be >= 14.0.0
@@ -227,12 +243,14 @@ ls -la tools/status-monitor.js
 ## License
 
 Based on Simple-Timer-MCP-Server (Apache 2.0 License)
+
 - Original: https://github.com/tonyOgbonna/Simple-Timer-MCP-Server
 - Modifications: Enhanced for GitHub project management and Rich Text Features monitoring
 
 ## Contributing
 
 Feel free to enhance these monitoring tools:
+
 1. Add Slack/Discord notifications
 2. Create web dashboard
 3. Integrate with project management tools
