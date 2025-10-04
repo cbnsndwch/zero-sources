@@ -30,7 +30,7 @@ This guide provides step-by-step instructions for implementing the Rich Message 
 
 **Project Context:**
 
-- Familiarity with existing ZRocket and Circle-Talk codebases
+- Familiarity with existing ZRocket codebase
 - Understanding of message contracts and SerializedEditorState
 - Knowledge of the project's design system and component patterns
 
@@ -1124,49 +1124,6 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
         onSendMessage={handleSendMessage}
         placeholder="Type a message..."
         autoFocus
-      />
-    </div>
-  );
-}
-```
-
-### 6.2 Circle-Talk Integration
-
-**File: `apps/circle-talk/src/components/ChatInput.tsx`**
-
-```typescript
-import React from 'react';
-import { RichMessageEditor } from '@zero/rich-message-composer';
-import { SerializedEditorState } from 'lexical';
-
-interface Message {
-  id: string;
-  content: SerializedEditorState;
-  timestamp: Date;
-  sender: string;
-}
-
-interface ChatInputProps {
-  onSendMessage: (message: Message) => void;
-}
-
-export function ChatInput({ onSendMessage }: ChatInputProps) {
-  const handleSendMessage = (content: SerializedEditorState) => {
-    const message: Message = {
-      id: crypto.randomUUID(),
-      content,
-      timestamp: new Date(),
-      sender: 'current-user', // TODO: Get from auth context
-    };
-
-    onSendMessage(message);
-  };
-
-  return (
-    <div className="chat-input-container">
-      <RichMessageEditor
-        onSendMessage={handleSendMessage}
-        placeholder="Type a message..."
       />
     </div>
   );

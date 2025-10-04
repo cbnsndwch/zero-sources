@@ -15,7 +15,7 @@ Establish the foundational integration of Lexical editor framework into the exis
 
 ### Primary Objectives
 
-1. **Lexical Framework Setup**: Install and configure Lexical packages in both ZRocket and Circle-Talk applications
+1. **Lexical Framework Setup**: Install and configure Lexical packages in the ZRocket application
 2. **Basic Editor Implementation**: Create a functional Lexical editor that can handle text input and output SerializedEditorState
 3. **TypeScript Integration**: Ensure full TypeScript support with proper type definitions
 4. **Contract Compliance**: Verify output matches existing message contract requirements

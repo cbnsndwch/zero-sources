@@ -14,13 +14,12 @@
 
 ### 1.1 System Context
 
-The Rich Message Composer integrates Lexical editor framework into existing ZRocket and Circle-Talk applications to replace basic text inputs with sophisticated rich text editing capabilities while maintaining full compatibility with existing message contracts.
+The Rich Message Composer integrates Lexical editor framework into existing ZRocket application to replace basic text inputs with sophisticated rich text editing capabilities while maintaining full compatibility with existing message contracts.
 
 ```mermaid
 graph TB
     subgraph "Client Applications"
         ZR[ZRocket App]
-        CT[Circle-Talk App]
     end
 
     subgraph "Rich Message Composer"
@@ -42,7 +41,6 @@ graph TB
     end
 
     ZR --> RME
-    CT --> RME
     RME --> LIB
     RMD --> LIB
     LIB --> CORE
@@ -683,33 +681,6 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
       content,
       // ... other fields
     });
-  };
-
-  return (
-    <RichMessageEditor
-      onSendMessage={handleSendMessage}
-      placeholder="Type a message..."
-    />
-  );
-}
-```
-
-#### 4.1.2 Circle-Talk Integration
-
-```typescript
-// apps/circle-talk/src/components/ChatInput.tsx
-import { RichMessageEditor } from '@zero/rich-message-composer';
-
-export function ChatInput({ onSendMessage }: ChatInputProps) {
-  const handleSendMessage = (content: SerializedEditorState) => {
-    // Convert to application format if needed
-    const message = {
-      id: generateId(),
-      content,
-      timestamp: new Date(),
-      // ... other fields
-    };
-    onSendMessage(message);
   };
 
   return (

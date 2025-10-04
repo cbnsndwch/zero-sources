@@ -699,29 +699,6 @@ describe('Application Integration', () => {
       });
     });
   });
-
-  describe('Circle-Talk Integration', () => {
-    it('should integrate with existing message sending flow', async () => {
-      const mockOnSendMessage = jest.fn();
-
-      render(
-        <CircleTalkChatInput onSendMessage={mockOnSendMessage} />
-      );
-
-      await user.type(screen.getByRole('textbox'), 'Hello world');
-      await user.keyboard('{Enter}');
-
-      expect(mockOnSendMessage).toHaveBeenCalledWith(
-        expect.objectContaining({
-          content: expect.objectContaining({
-            root: expect.objectContaining({
-              type: 'root'
-            })
-          })
-        })
-      );
-    });
-  });
 });
 ```
 
@@ -1984,7 +1961,7 @@ This document represents a comprehensive merger of two previous testing strategy
 
 The consolidation includes:
 - ✅ **Enhanced test implementation examples** with actual TypeScript code
-- ✅ **Comprehensive application integration** for both ZRocket and Circle-Talk
+- ✅ **Comprehensive application integration** for ZRocket
 - ✅ **Detailed cross-browser testing strategy** with Playwright examples
 - ✅ **Advanced test data management** with factories and utilities
 - ✅ **Complete CI/CD pipeline configuration** with GitHub Actions
@@ -2001,7 +1978,7 @@ The consolidation includes:
 ### Key Improvements
 
 1. **Comprehensive Test Examples**: Real TypeScript test implementations
-2. **Application-Specific Integration**: ZRocket and Circle-Talk specific testing
+2. **Application-Specific Integration**: ZRocket specific testing
 3. **Enhanced Route Testing**: Actual application routes (/d/, /p/, /c/)
 4. **Advanced Mock Strategies**: Complete factory patterns and utilities
 5. **Performance Monitoring**: Detailed benchmarks and monitoring setup

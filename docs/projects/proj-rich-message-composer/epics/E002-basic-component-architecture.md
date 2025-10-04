@@ -10,7 +10,7 @@
 
 ## Epic Summary
 
-Design and implement the foundational component architecture for the rich message composer. This epic focuses on creating reusable, well-structured components that can be shared between ZRocket and Circle-Talk applications while maintaining clean separation of concerns and following established design patterns.
+Design and implement the foundational component architecture for the rich message composer. This epic focuses on creating reusable, well-structured components that can be shared between ZRocket and other demo applications while maintaining clean separation of concerns and following established design patterns.
 
 ## Epic Goals
 
@@ -344,7 +344,7 @@ const useMessageEditor = (initialContent?: SerializedEditorState) => {
 ### Epic Completion Checklist
 
 - [ ] All user stories completed and tested
-- [ ] Components work in both ZRocket and Circle-Talk
+- [ ] Components work in ZRocket
 - [ ] Props interface is intuitive and well-documented
 - [ ] Visual design matches existing applications
 - [ ] Accessibility requirements met
