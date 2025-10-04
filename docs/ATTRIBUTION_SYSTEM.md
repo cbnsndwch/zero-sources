@@ -17,6 +17,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Location**: `./ACKNOWLEDGMENTS.md`
 
 **Contains**:
+
 - ✅ Direct dependencies (Rocicorp Zero, NestJS, etc.)
 - ✅ Inspirational sources (Rocket.Chat domain model)
 - ✅ Development tools (Turborepo, pnpm, Changesets)
@@ -25,12 +26,14 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 - ✅ All significant third-party influences
 
 **When to Update**:
+
 - Adding a new major dependency
 - Drawing inspiration from a new external project
 - Adapting code patterns from other sources
 - Changing technology stack components
 
 **Key Sections**:
+
 - Core Dependencies & Inspirations
 - Inspirational Sources & Design Influences (non-dependencies)
 - Development Tools & Infrastructure
@@ -49,12 +52,14 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Key Features**:
 
 #### A. Contributor License Agreement (CLA)
+
 - **Requirement**: All contributors must sign before first PR is merged
 - **Protection**: Contributors grant cbnsndwch LLC MIT license rights
 - **Process**: Simple comment-based signing on first PR
 - **Corporate CLA**: Available for company contributors
 
 #### B. Attribution Requirements Section
+
 - Guidelines for attributing external code
 - Code comment templates for direct adaptations
 - Rules for inspired-by acknowledgments
@@ -89,12 +94,14 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Location**: `./README.md`
 
 **Acknowledgments Section Includes**:
+
 - Top-level thanks to major projects (Rocicorp Zero, NestJS)
 - Special mention of Rocket.Chat inspiration
 - Link to full ACKNOWLEDGMENTS.md
 - Updated Contributing section with CLA notice
 
 **Key Changes Made**:
+
 - ✅ Expanded acknowledgments with Rocket.Chat mention
 - ✅ Added prominent link to ACKNOWLEDGMENTS.md
 - ✅ Enhanced Contributing section with CLA warning
@@ -111,18 +118,21 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Key Sections**:
 
 #### CLA Section
+
 - Checkbox reminder for first-time contributors
 - Full CLA statement template to paste as comment
 - Corporate contributor pathway
 - Link to detailed CLA docs
 
 #### Attribution & Licensing Section
+
 - Checkboxes for external code usage
 - Requirements list for proper attribution
 - Space to list sources used
 - Link to ACKNOWLEDGMENTS.md
 
 **Enforces**:
+
 - ✅ CLA signing for new contributors
 - ✅ Proper attribution of external code
 - ✅ License compatibility verification
@@ -137,6 +147,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Location**: `.github/ISSUE_TEMPLATE/`
 
 **Templates Created**:
+
 - `bug_report.md` - Structured bug reporting
 - `feature_request.md` - Feature proposal format
 
@@ -145,31 +156,37 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 ## Different Types of Attribution
 
 ### Type 1: Direct Dependencies
+
 **What**: npm packages in `package.json`
 **Where**: Listed in ACKNOWLEDGMENTS.md
 **Example**: `@rocicorp/zero`, `@nestjs/core`
 **License Handling**: Automatically included via `node_modules/*/LICENSE`
 
 ### Type 2: Inspirational Sources (Non-Dependencies)
+
 **What**: Projects that influenced design but aren't direct dependencies
-**Where**: 
+**Where**:
+
 - ACKNOWLEDGMENTS.md (detailed)
 - README.md (brief mention)
-**Example**: Rocket.Chat domain model inspiration for zrocket
-**Attribution Required**: Yes, with clear disclaimer about independent implementation
+  **Example**: Rocket.Chat domain model inspiration for zrocket
+  **Attribution Required**: Yes, with clear disclaimer about independent implementation
 
 ### Type 3: Borrowed Code Patterns
+
 **What**: Specific code implementations adapted from other projects
-**Where**: 
+**Where**:
+
 - Inline code comments (with template)
 - ACKNOWLEDGMENTS.md (if significant)
-**Example**: Algorithm adaptation from Stack Overflow, GitHub repos
-**Requirements**: 
+  **Example**: Algorithm adaptation from Stack Overflow, GitHub repos
+  **Requirements**:
 - License compatibility check
 - Inline attribution comment
 - Update ACKNOWLEDGMENTS.md for major borrowings
 
 ### Type 4: Learned Techniques
+
 **What**: General programming patterns, best practices
 **Where**: ACKNOWLEDGMENTS.md under "Documentation & Learning Resources"
 **Example**: Twelve-Factor App principles, Conventional Commits
@@ -182,6 +199,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 ### For Contributors (Incoming)
 
 #### Workflow A: Contributing Original Code
+
 1. Read CONTRIBUTING.md
 2. Develop feature/fix
 3. Create PR using template
@@ -189,6 +207,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 5. No additional attribution needed
 
 #### Workflow B: Contributing Adapted/Inspired Code
+
 1. Read CONTRIBUTING.md attribution section
 2. Check license compatibility
 3. Add inline attribution comments using templates
@@ -200,6 +219,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 ### For Maintainers (Managing)
 
 #### Code Review Checklist:
+
 - [ ] CLA signed (for first-time contributors)
 - [ ] External code properly attributed
 - [ ] ACKNOWLEDGMENTS.md updated (if needed)
@@ -213,26 +233,27 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 ### What This System Protects:
 
 1. **cbnsndwch LLC** from:
-   - Copyright infringement claims
-   - License violation accusations
-   - Contributor disputes over ownership
-   - GPL/copyleft contamination
+    - Copyright infringement claims
+    - License violation accusations
+    - Contributor disputes over ownership
+    - GPL/copyleft contamination
 
 2. **Contributors** by:
-   - Clarifying ownership (they keep copyright)
-   - Defining usage rights (MIT grant)
-   - Protecting against employer disputes (certification)
-   - Providing clear process
+    - Clarifying ownership (they keep copyright)
+    - Defining usage rights (MIT grant)
+    - Protecting against employer disputes (certification)
+    - Providing clear process
 
 3. **The Project** by:
-   - Ensuring all contributions are properly licensed
-   - Maintaining license compliance
-   - Building trust with community
-   - Creating audit trail
+    - Ensuring all contributions are properly licensed
+    - Maintaining license compliance
+    - Building trust with community
+    - Creating audit trail
 
 ### License Compatibility
 
 **Acceptable** (compatible with MIT):
+
 - ✅ MIT
 - ✅ Apache-2.0
 - ✅ BSD (2-clause, 3-clause)
@@ -240,11 +261,13 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 - ✅ CC0 (public domain)
 
 **Requires Approval** (copyleft or complex):
+
 - ⚠️ GPL, LGPL, AGPL
 - ⚠️ MPL (Mozilla Public License)
 - ⚠️ EPL (Eclipse Public License)
 
 **Not Acceptable** (copyleft, commercial restrictions, or unclear):
+
 - ❌ **SSPL** (Server Side Public License) - Strong copyleft, not OSI-approved
 - ❌ **FSL** (Functional Source License) - Time-delayed commercial restriction
 - ❌ **BSL** (Business Source License) - Time-delayed commercial restriction
@@ -264,12 +287,14 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 ### Regular Updates
 
 **Quarterly Review** (every 3 months):
+
 - [ ] Review ACKNOWLEDGMENTS.md for accuracy
 - [ ] Check if any major dependencies changed
 - [ ] Update technology versions listed
 - [ ] Verify all links still work
 
 **After Major Changes**:
+
 - [ ] New major dependency → Update ACKNOWLEDGMENTS.md
 - [ ] New inspiration source → Update ACKNOWLEDGMENTS.md + README.md
 - [ ] Technology stack change → Update all relevant docs
@@ -277,6 +302,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 ### When Issues Arise
 
 **If someone claims missed attribution**:
+
 1. Investigate immediately
 2. Add proper attribution if valid
 3. Thank the reporter
@@ -284,6 +310,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 5. Consider process improvement
 
 **If license violation claimed**:
+
 1. Contact legal@cbnsndwch.com
 2. Investigate the code history
 3. Obtain legal guidance
@@ -320,6 +347,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Scenario**: Studied Rocket.Chat's message entity structure for zrocket.
 
 **Actions Taken**:
+
 1. ✅ Added Rocket.Chat to ACKNOWLEDGMENTS.md under "Inspirational Sources"
 2. ✅ Mentioned in README.md acknowledgments
 3. ✅ Noted: "No code directly copied, concepts reimplemented"
@@ -332,8 +360,10 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Scenario**: Found efficient sorting algorithm in another MIT-licensed project.
 
 **Actions Needed**:
+
 1. Check license (MIT ✅)
 2. Add inline comment:
+
 ```typescript
 /**
  * Adapted from: project-name (https://github.com/user/repo/blob/main/file.ts)
@@ -342,6 +372,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
  * Changes made: Modified to work with TypeScript types, added error handling
  */
 ```
+
 3. If significant: Add to ACKNOWLEDGMENTS.md
 4. Note in PR template under "Attribution & Licensing"
 
@@ -350,6 +381,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 **Scenario**: Implemented feature based on AWS SDK documentation patterns.
 
 **Actions Needed**:
+
 1. Add to ACKNOWLEDGMENTS.md under "Documentation & Learning Resources"
 2. Brief mention: "Patterns learned from AWS SDK documentation"
 3. No inline comments needed (general knowledge)

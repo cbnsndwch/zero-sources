@@ -20,18 +20,23 @@ This package provides shared TypeScript configurations for all packages and appl
 ## Available Configurations
 
 ### `base.json`
+
 Base configuration for all TypeScript projects.
 
 ### `node22.json`
+
 Configuration for Node.js 22+ projects (libraries and backend services).
 
 ### `nestjs.json`
+
 Optimized for NestJS applications.
 
 ### `react.json`
+
 Configuration for React applications.
 
 ### `library.json`
+
 Optimized for library packages that will be published to npm.
 
 ## Installation

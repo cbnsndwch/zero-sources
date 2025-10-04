@@ -37,7 +37,7 @@ Did you learn a technique from documentation/tutorial?
  * Changes: Brief description of modifications
  */
 export function myFunction() {
-  // Your code
+    // Your code
 }
 ```
 
@@ -49,7 +49,7 @@ export function myFunction() {
  * See: https://github.com/user/repo/path/to/file
  */
 export class MyClass {
-  // Your implementation
+    // Your implementation
 }
 ```
 
@@ -58,7 +58,7 @@ export class MyClass {
 ```typescript
 // Algorithm based on: https://stackoverflow.com/questions/123456
 function efficientSort() {
-  // Your implementation
+    // Your implementation
 }
 ```
 
@@ -69,36 +69,36 @@ function efficientSort() {
 > [!NOTE]
 > The list below is not exhaustive, use it as a reference only. You are ultimately responsible for verifying license compliance.
 
-| Source License | Can Use? | Notes |
-|----------------|----------|-------|
-| MIT            | ✅ YES   | Fully compatible |
-| Apache-2.0     | ✅ YES   | Fully compatible, preserve notices |
-| BSD (2/3)      | ✅ YES   | Fully compatible |
-| ISC            | ✅ YES   | Fully compatible |
-| CC0            | ✅ YES   | Public domain |
-| MPL            | ⚠️ ASK   | File-level copyleft, get approval |
-| GPL/LGPL/AGPL  | ❌ NO    | Copyleft - not compatible |
-| SSPL           | ❌ NO    | Server-side copyleft, not OSI-approved |
-| FSL (Functional Source License) | ❌ NO | Time-delayed commercial restriction |
-| BSL (Business Source License) | ❌ NO | Time-delayed commercial restriction |
-| Fair Source    | ❌ NO    | User limit restrictions |
-| Fair Code      | ❌ NO    | Commercial use restrictions |
-| Elastic License | ❌ NO   | Commercial/SaaS restrictions |
-| Commons Clause | ❌ NO    | Commercial sale prohibition |
-| CC BY-NC (Non-Commercial) | ❌ NO | Non-commercial restriction |
-| "All Rights Reserved" | ❌ NO | Proprietary |
-| No license     | ❌ NO    | Unclear ownership |
+| Source License                  | Can Use? | Notes                                  |
+| ------------------------------- | -------- | -------------------------------------- |
+| MIT                             | ✅ YES   | Fully compatible                       |
+| Apache-2.0                      | ✅ YES   | Fully compatible, preserve notices     |
+| BSD (2/3)                       | ✅ YES   | Fully compatible                       |
+| ISC                             | ✅ YES   | Fully compatible                       |
+| CC0                             | ✅ YES   | Public domain                          |
+| MPL                             | ⚠️ ASK   | File-level copyleft, get approval      |
+| GPL/LGPL/AGPL                   | ❌ NO    | Copyleft - not compatible              |
+| SSPL                            | ❌ NO    | Server-side copyleft, not OSI-approved |
+| FSL (Functional Source License) | ❌ NO    | Time-delayed commercial restriction    |
+| BSL (Business Source License)   | ❌ NO    | Time-delayed commercial restriction    |
+| Fair Source                     | ❌ NO    | User limit restrictions                |
+| Fair Code                       | ❌ NO    | Commercial use restrictions            |
+| Elastic License                 | ❌ NO    | Commercial/SaaS restrictions           |
+| Commons Clause                  | ❌ NO    | Commercial sale prohibition            |
+| CC BY-NC (Non-Commercial)       | ❌ NO    | Non-commercial restriction             |
+| "All Rights Reserved"           | ❌ NO    | Proprietary                            |
+| No license                      | ❌ NO    | Unclear ownership                      |
 
 ---
 
 ## Where to Document
 
-| Type | Inline Comment | ACKNOWLEDGMENTS.md | PR Template |
-|------|----------------|-------------------|-------------|
-| Direct code copy/adapt | ✅ REQUIRED | ✅ If significant | ✅ REQUIRED |
-| Design inspiration | ⚠️ Recommended | ✅ REQUIRED | ✅ REQUIRED |
-| npm dependency | ❌ Not needed | ✅ If major | ❌ Not needed |
-| Tutorial/docs learning | ❌ Not needed | ⚠️ Nice to have | ❌ Not needed |
+| Type                   | Inline Comment | ACKNOWLEDGMENTS.md | PR Template   |
+| ---------------------- | -------------- | ------------------ | ------------- |
+| Direct code copy/adapt | ✅ REQUIRED    | ✅ If significant  | ✅ REQUIRED   |
+| Design inspiration     | ⚠️ Recommended | ✅ REQUIRED        | ✅ REQUIRED   |
+| npm dependency         | ❌ Not needed  | ✅ If major        | ❌ Not needed |
+| Tutorial/docs learning | ❌ Not needed  | ⚠️ Nice to have    | ❌ Not needed |
 
 ---
 
@@ -107,6 +107,7 @@ function efficientSort() {
 ### Scenario: Found code on Stack Overflow
 
 **Action**:
+
 ```typescript
 // Solution adapted from: https://stackoverflow.com/a/123456/username
 // License: CC BY-SA 4.0 (Stack Overflow default)
@@ -119,6 +120,7 @@ function efficientSort() {
 ### Scenario: Learned pattern from another Zero project
 
 **Action**:
+
 ```typescript
 /**
  * Change source pattern inspired by @rocicorp/zero documentation
@@ -133,6 +135,7 @@ function efficientSort() {
 ### Scenario: Using official library examples
 
 **Action**: Usually no attribution needed (examples meant to be copied), but nice to add:
+
 ```typescript
 // Based on example from: https://docs.example.com/guide
 ```
@@ -142,9 +145,11 @@ function efficientSort() {
 ### Scenario: Rocket.Chat-style architecture (like zrocket)
 
 **Action**:
+
 - ✅ Add to ACKNOWLEDGMENTS.md under "Inspirational Sources"
 - ✅ Mention in PR description
 - ✅ Add comment in key files:
+
 ```typescript
 /**
  * Entity schema inspired by Rocket.Chat's domain model

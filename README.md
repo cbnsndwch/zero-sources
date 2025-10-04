@@ -447,6 +447,7 @@ Contributions are **welcome**! We'd love your help in making this project better
 ### Full Guidelines
 
 Please read our **[Contributing Guide](./CONTRIBUTING.md)** for:
+
 - Detailed setup instructions
 - Coding standards and best practices
 - Testing requirements

@@ -28,20 +28,21 @@ pnpm add @cbnsndwch/zero-source-mongodb
 ```
 
 **Peer Dependencies:**
+
 ```json
 {
-  "@nestjs/common": "^11",
-  "@nestjs/config": "^4",
-  "@nestjs/core": "^11",
-  "@nestjs/mongoose": "^11",
-  "@nestjs/platform-express": "^11",
-  "@nestjs/platform-ws": "^11",
-  "@nestjs/swagger": "^11",
-  "@nestjs/websockets": "^11",
-  "@rocicorp/zero": "*",
-  "mongodb": "^6.16.0",
-  "mongoose": "^8.9.5",
-  "ws": "^8.18.1"
+    "@nestjs/common": "^11",
+    "@nestjs/config": "^4",
+    "@nestjs/core": "^11",
+    "@nestjs/mongoose": "^11",
+    "@nestjs/platform-express": "^11",
+    "@nestjs/platform-ws": "^11",
+    "@nestjs/swagger": "^11",
+    "@nestjs/websockets": "^11",
+    "@rocicorp/zero": "*",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.9.5",
+    "ws": "^8.18.1"
 }
 ```
 
@@ -65,15 +66,15 @@ import { ZeroMongoModule } from '@cbnsndwch/zero-source-mongodb';
                         columns: {
                             id: { type: 'string' },
                             name: { type: 'string' },
-                            email: { type: 'string' },
+                            email: { type: 'string' }
                         },
-                        primaryKey: ['id'],
-                    },
-                },
+                        primaryKey: ['id']
+                    }
+                }
             },
-            collections: ['users'],
-        }),
-    ],
+            collections: ['users']
+        })
+    ]
 })
 export class AppModule {}
 ```
@@ -100,7 +101,7 @@ import { Zero } from '@rocicorp/zero';
 const zero = new Zero({
     server: 'ws://localhost:8001/changes/v0/stream',
     userID: 'user-123',
-    schema,
+    schema
 });
 ```
 
@@ -113,28 +114,28 @@ const zero = new Zero({
 ```yaml
 # config.yml
 schema:
-  source: file
-  schemaFile: ./schemas/my-schema.json
-  tableMappingsFile: ./schemas/table-mappings.json
+    source: file
+    schemaFile: ./schemas/my-schema.json
+    tableMappingsFile: ./schemas/table-mappings.json
 
 db:
-  uri: mongodb://localhost:27017/mydb
-  db: mydb
-  publish: [users, posts, comments]
+    uri: mongodb://localhost:27017/mydb
+    db: mydb
+    publish: [users, posts, comments]
 ```
 
 #### URL-Based Schema
 
 ```yaml
 schema:
-  source: url
-  schemaUrl: http://api.example.com/api/schema/export
-  tableMappingsUrl: http://api.example.com/api/schema/table-mappings
+    source: url
+    schemaUrl: http://api.example.com/api/schema/export
+    tableMappingsUrl: http://api.example.com/api/schema/table-mappings
 
 db:
-  uri: mongodb://localhost:27017/mydb
-  db: mydb
-  publish: [users, posts, comments]
+    uri: mongodb://localhost:27017/mydb
+    db: mydb
+    publish: [users, posts, comments]
 ```
 
 #### Inline Schema
@@ -145,8 +146,8 @@ ZeroMongoModule.forRoot({
         source: 'inline',
         tables: {
             // Define tables directly
-        },
-    },
+        }
+    }
 });
 ```
 
@@ -159,16 +160,16 @@ Map multiple Zero tables from a single MongoDB collection based on a discriminat
 const tableMappings = {
     chats: {
         collection: 'rooms',
-        discriminator: { field: 'type', value: 'chat' },
+        discriminator: { field: 'type', value: 'chat' }
     },
     channels: {
         collection: 'rooms',
-        discriminator: { field: 'type', value: 'channel' },
+        discriminator: { field: 'type', value: 'channel' }
     },
     groups: {
         collection: 'rooms',
-        discriminator: { field: 'type', value: 'group' },
-    },
+        discriminator: { field: 'type', value: 'group' }
+    }
 };
 
 // Result: Three Zero tables from one MongoDB collection
@@ -225,10 +226,10 @@ export class MyChangeProcessor extends ChangeProcessor {
 ```typescript
 ZeroMongoModule.forRoot({
     // ... other config
-    changeFilter: (change) => {
+    changeFilter: change => {
         // Only stream certain operations
         return ['insert', 'update', 'delete'].includes(change.operationType);
-    },
+    }
 });
 ```
 
@@ -287,16 +288,16 @@ CMD ["node", "dist/main.js"]
 
 ```yaml
 services:
-  change-source:
-    image: my-change-source:latest
-    ports:
-      - "8001:8001"
-    environment:
-      - MONGODB_URI=mongodb://mongo:27017/mydb
-      - SCHEMA_URL=http://api:8011/api/schema/export
-    depends_on:
-      - mongo
-      - api
+    change-source:
+        image: my-change-source:latest
+        ports:
+            - '8001:8001'
+        environment:
+            - MONGODB_URI=mongodb://mongo:27017/mydb
+            - SCHEMA_URL=http://api:8011/api/schema/export
+        depends_on:
+            - mongo
+            - api
 ```
 
 ## Monitoring
@@ -328,6 +329,7 @@ The change source provides structured logging:
 ### Common Issues
 
 **Schema Not Loading:**
+
 ```bash
 # Check schema URL accessibility
 curl http://api:8011/api/schema/export
@@ -337,11 +339,13 @@ curl http://localhost:8001/metadata/status
 ```
 
 **Change Stream Not Working:**
+
 - Ensure MongoDB replica set is configured
 - Check MongoDB connection string
 - Verify collection names in configuration
 
 **WebSocket Connection Failed:**
+
 - Check firewall rules
 - Verify WebSocket endpoint URL
 - Check client authentication

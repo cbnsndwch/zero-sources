@@ -9,16 +9,19 @@ All package.json files have been updated with detailed, informative descriptions
 ### Core Packages
 
 #### @cbnsndwch/zero-contracts
+
 **Before:** "Contracts and shared data types for Zero custom change sources"
 
 **After:** "Core TypeScript contracts, utilities, and protocols for building custom change sources with Rocicorp Zero. Includes upstream protocols, watermark interfaces, configuration types, and shared utilities for real-time data synchronization."
 
 #### @cbnsndwch/zero-source-mongodb
+
 **Before:** "Generate Zero schemas from @nestjs/mongoose schemas"
 
 **After:** "Production-ready MongoDB change source for Rocicorp Zero with NestJS integration. Features MongoDB change streams, discriminated union support, WebSocket streaming, dynamic schema loading, and comprehensive metadata APIs for real-time data synchronization."
 
 #### @cbnsndwch/zero-nest-mongoose
+
 **Before:** "Generate Zero schemas from @nestjs/mongoose schemas"
 
 **After:** "Automatic Zero schema generation from NestJS Mongoose schemas with full TypeScript support. Seamlessly convert your existing Mongoose models into Rocicorp Zero schemas with type-safe table definitions, relationships, and virtual tables."
@@ -26,11 +29,13 @@ All package.json files have been updated with detailed, informative descriptions
 ### Watermark Storage Packages
 
 #### @cbnsndwch/zero-watermark-zqlite
+
 **Before:** "Watermark KV service for custom Zero change sources backed by @rocicorp/zero-sqlite3"
 
 **After:** "High-performance watermark storage for Rocicorp Zero change sources using SQLite (via @rocicorp/zero-sqlite3). Provides persistent, reliable watermark tracking for distributed change streaming with NestJS integration."
 
 #### @cbnsndwch/zero-watermark-nats-kv
+
 **Before:** "Watermark service for custom Zero change sources backed by NATS KV"
 
 **After:** "Distributed watermark storage for Rocicorp Zero change sources using NATS JetStream KV. Enables scalable, cloud-native watermark tracking across multiple change source instances with automatic replication and high availability."
@@ -38,6 +43,7 @@ All package.json files have been updated with detailed, informative descriptions
 ### Application Schema Packages
 
 #### @cbnsndwch/zrocket-contracts
+
 **Before:** "Contracts and Zero schema for ZRocket"
 
 **After:** "Complete Zero schema, table mappings, and permissions for ZRocket - a Rocket.Chat-style application demonstrating discriminated union tables, room types (chats, groups, channels), and message types with full TypeScript support."
@@ -45,7 +51,9 @@ All package.json files have been updated with detailed, informative descriptions
 ## New README Files Created
 
 ### 1. @cbnsndwch/zero-contracts/README.md ✨ NEW
+
 Comprehensive documentation covering:
+
 - Overview of contracts and protocols
 - Installation and peer dependencies
 - Usage examples for upstream protocols, watermark management, configuration types
@@ -54,6 +62,7 @@ Comprehensive documentation covering:
 - Development and testing guidelines
 
 **Key Sections:**
+
 - Upstream Protocols
 - Watermark Management
 - Configuration Types
@@ -62,7 +71,9 @@ Comprehensive documentation covering:
 - Integration with Other Packages
 
 ### 2. @cbnsndwch/zero-source-mongodb/README.md ✨ NEW
+
 Production-ready documentation including:
+
 - Feature overview with emojis for visual appeal
 - Quick start guide with 3 simple steps
 - Configuration options (file-based, URL-based, inline)
@@ -74,6 +85,7 @@ Production-ready documentation including:
 - Monitoring and troubleshooting
 
 **Key Sections:**
+
 - Quick Start (3 steps)
 - Dynamic Schema Loading
 - Discriminated Unions
@@ -84,7 +96,9 @@ Production-ready documentation including:
 - Monitoring
 
 ### 3. @cbnsndwch/zero-nest-mongoose/README.md ✨ NEW
+
 Developer-friendly documentation featuring:
+
 - Automatic schema generation overview
 - Quick start with Mongoose schema examples
 - Advanced usage (multiple schemas, custom mapping, relationships)
@@ -96,6 +110,7 @@ Developer-friendly documentation featuring:
 - Best practices
 
 **Key Sections:**
+
 - Quick Start
 - Advanced Usage
 - Type Mapping Table
@@ -105,7 +120,9 @@ Developer-friendly documentation featuring:
 - Best Practices
 
 ### 4. @cbnsndwch/zero-watermark-zqlite/README.md ✨ NEW
+
 Complete watermark storage documentation with:
+
 - Overview of persistent watermark storage
 - Feature highlights
 - API reference for all methods
@@ -117,6 +134,7 @@ Complete watermark storage documentation with:
 - Troubleshooting guide
 
 **Key Sections:**
+
 - Quick Start
 - API Reference
 - Advanced Usage (multiple collections, custom metadata, transactions)
@@ -127,7 +145,9 @@ Complete watermark storage documentation with:
 - Troubleshooting
 
 ### 5. @cbnsndwch/zero-watermark-nats-kv/README.md ✨ NEW
+
 Distributed storage documentation including:
+
 - Distributed watermark storage overview
 - Cloud-native features
 - API reference with watch support
@@ -140,6 +160,7 @@ Distributed storage documentation including:
 - NATS JetStream configuration guide
 
 **Key Sections:**
+
 - Quick Start
 - Configuration & Authentication
 - Advanced Usage (multi-instance, optimistic locking, watching)
@@ -149,7 +170,9 @@ Distributed storage documentation including:
 - NATS Configuration
 
 ### 6. @cbnsndwch/zrocket-contracts/README.md ✅ ENHANCED
+
 Significantly expanded and improved:
+
 - Complete schema architecture documentation
 - Discriminated union pattern explanation
 - All table schemas with TypeScript interfaces
@@ -160,6 +183,7 @@ Significantly expanded and improved:
 - Integration with ZRocket app
 
 **New Sections Added:**
+
 - Schema Architecture with examples
 - All table definitions (Chat, Channel, Group, UserMessage, SystemMessage, User, Participant)
 - Usage Examples (queries, real-time subscriptions)
@@ -168,7 +192,9 @@ Significantly expanded and improved:
 - Integration with ZRocket App
 
 ### 7. @repo/eslint-config/README.md ✅ ENHANCED
+
 Improved from minimal documentation to comprehensive guide:
+
 - Overview of shared ESLint configuration
 - Available configurations (base, react, library)
 - Usage examples for different project types
@@ -177,6 +203,7 @@ Improved from minimal documentation to comprehensive guide:
 - VS Code integration
 
 **New Sections Added:**
+
 - Available Configurations
 - Usage in Workspace Packages
 - Included Rules
@@ -185,7 +212,9 @@ Improved from minimal documentation to comprehensive guide:
 - VS Code Integration
 
 ### 8. @repo/tsconfig/README.md ✨ NEW
+
 Complete TypeScript configuration documentation:
+
 - Overview of shared TypeScript configs
 - All available configurations (base, node22, nestjs, react, library)
 - Usage examples for each project type
@@ -196,6 +225,7 @@ Complete TypeScript configuration documentation:
 - Troubleshooting section
 
 **Key Sections:**
+
 - Available Configurations
 - Usage (for each project type)
 - Configuration Details
@@ -210,12 +240,14 @@ Complete TypeScript configuration documentation:
 All READMEs follow consistent standards:
 
 ### 1. Visual Elements
+
 - ✅ npm version badges
 - ✅ License badges
 - ✅ Emoji section markers for visual appeal
 - ✅ Mermaid diagrams where appropriate
 
 ### 2. Structure
+
 - Clear, concise overview at the top
 - Feature highlights with emojis
 - Installation section with peer dependencies
@@ -229,12 +261,14 @@ All READMEs follow consistent standards:
 - Resources
 
 ### 3. Code Examples
+
 - Real, working code examples
 - TypeScript with proper types
 - Configuration file examples
 - Command-line examples with proper shell syntax
 
 ### 4. Cross-References
+
 - Links to related packages
 - Links to main documentation
 - Links to external resources (Rocicorp Zero docs, etc.)
@@ -242,18 +276,21 @@ All READMEs follow consistent standards:
 ## Benefits for npm Publication
 
 ### For Developers Discovering Packages
+
 1. **Clear Purpose**: Immediately understand what each package does
 2. **Quick Start**: Get up and running in minutes with step-by-step guides
 3. **Complete Examples**: Real-world usage examples they can copy and adapt
 4. **Visual Appeal**: Emojis and badges make documentation scannable
 
 ### For Package Maintainers
+
 1. **Reduced Support**: Comprehensive docs reduce support questions
 2. **Better Discovery**: Detailed descriptions improve npm search results
 3. **Professional Appearance**: Polished documentation builds trust
 4. **Easy Updates**: Consistent structure makes updates straightforward
 
 ### For the Ecosystem
+
 1. **Reusability**: Clear docs encourage package reuse
 2. **Contribution**: Good docs make it easier for others to contribute
 3. **Standards**: Establishes documentation patterns for the ecosystem

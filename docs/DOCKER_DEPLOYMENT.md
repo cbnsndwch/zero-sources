@@ -24,9 +24,8 @@ When Docker-based CI/CD is needed in the future, the implementation should inclu
 ### Prerequisites
 
 1. **Dockerfiles**: Create production-ready Dockerfiles for:
-   - `apps/zrocket` - Full-stack demo application
-   - `apps/source-mongodb-server` - Generic MongoDB change source server
-   
+    - `apps/zrocket` - Full-stack demo application
+    - `apps/source-mongodb-server` - Generic MongoDB change source server
 2. **Multi-stage Builds**: Use multi-stage Docker builds to optimize image size and build time
 
 3. **Build Context**: Ensure Dockerfiles properly handle monorepo structure and workspace dependencies
@@ -40,15 +39,16 @@ A new GitHub Actions workflow should:
 3. **Schema Generation**: Generate Zero schema JSON files as needed
 4. **Multi-platform Support**: Build for multiple architectures (AMD64, ARM64) if needed
 5. **Registry Integration**: Push to GitHub Container Registry (GHCR)
-6. **Tagging Strategy**: 
-   - `latest` for main branch
-   - `SHA` tags for traceability
-   - `branch` tags for feature branches
+6. **Tagging Strategy**:
+    - `latest` for main branch
+    - `SHA` tags for traceability
+    - `branch` tags for feature branches
 7. **Deployment Hooks**: Integration with deployment platform (Portainer, Kubernetes, etc.)
 
 ### Container Registry
 
 Images should be published to GitHub Container Registry:
+
 - `ghcr.io/cbnsndwch/zero-sources/zrocket:latest`
 - `ghcr.io/cbnsndwch/zero-sources/source-mongodb-server:latest`
 

@@ -91,7 +91,7 @@ export default [
         files: ['**/*.ts'],
         rules: {
             '@typescript-eslint/interface-name-prefix': 'off',
-            '@typescript-eslint/explicit-function-return-type': 'off',
+            '@typescript-eslint/explicit-function-return-type': 'off'
         }
     }
 ];
@@ -104,7 +104,7 @@ export default [
 const reactConfig = require('@repo/eslint-config/react-internal');
 
 module.exports = {
-    ...reactConfig,
+    ...reactConfig
     // App-specific overrides
 };
 ```
@@ -160,7 +160,7 @@ export default [
         rules: {
             // Override specific rules
             'no-console': 'warn',
-            '@typescript-eslint/no-explicit-any': 'error',
+            '@typescript-eslint/no-explicit-any': 'error'
         }
     }
 ];
@@ -172,12 +172,7 @@ export default [
 export default [
     ...baseConfig,
     {
-        ignores: [
-            'dist/**',
-            'build/**',
-            'coverage/**',
-            '**/*.config.js'
-        ]
+        ignores: ['dist/**', 'build/**', 'coverage/**', '**/*.config.js']
     }
 ];
 ```

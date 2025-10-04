@@ -27,9 +27,10 @@ pnpm add @cbnsndwch/zrocket-contracts
 ```
 
 **Peer Dependencies:**
+
 ```json
 {
-  "@rocicorp/zero": "*"
+    "@rocicorp/zero": "*"
 }
 ```
 
@@ -44,7 +45,7 @@ import { Zero } from '@rocicorp/zero';
 const zero = new Zero({
     server: 'ws://localhost:4848',
     schema,
-    userID: 'user-123',
+    userID: 'user-123'
 });
 
 // Query chats
@@ -61,7 +62,7 @@ import {
     channelsTable,
     groupsTable,
     userMessagesTable,
-    systemMessagesTable,
+    systemMessagesTable
 } from '@cbnsndwch/zrocket-contracts';
 ```
 
@@ -90,15 +91,15 @@ ZRocket uses discriminated unions to create multiple Zero tables from single Mon
 // MongoDB: One collection
 db.rooms.insertOne({
     _id: 'room-123',
-    type: 'chat',      // Discriminator field
+    type: 'chat', // Discriminator field
     name: 'Team Chat',
-    participantIds: ['user-1', 'user-2'],
+    participantIds: ['user-1', 'user-2']
 });
 
 // Zero: Three separate tables
-zero.query.chats.run()      // WHERE type = 'chat'
-zero.query.channels.run()   // WHERE type = 'channel'
-zero.query.groups.run()     // WHERE type = 'group'
+zero.query.chats.run(); // WHERE type = 'chat'
+zero.query.channels.run(); // WHERE type = 'channel'
+zero.query.groups.run(); // WHERE type = 'group'
 ```
 
 #### Message Types (Single `messages` Collection)
@@ -250,14 +251,14 @@ pnpm build:schema
 ```yaml
 # config.yml for zero-source-mongodb
 schema:
-  source: file
-  schemaFile: ./schemas/zrocket-schema.json
-  tableMappingsFile: ./schemas/zrocket-table-mappings.json
+    source: file
+    schemaFile: ./schemas/zrocket-schema.json
+    tableMappingsFile: ./schemas/zrocket-table-mappings.json
 
 db:
-  uri: mongodb://localhost:27017/zrocket
-  db: zrocket
-  publish: [rooms, messages, users, participants]
+    uri: mongodb://localhost:27017/zrocket
+    db: zrocket
+    publish: [rooms, messages, users, participants]
 ```
 
 ## Usage Examples
@@ -271,7 +272,7 @@ import { schema } from '@cbnsndwch/zrocket-contracts';
 const zero = new Zero({
     server: 'ws://localhost:4848',
     schema,
-    userID: 'user-123',
+    userID: 'user-123'
 });
 
 // Get all chats for current user
@@ -308,7 +309,7 @@ const systemMessages = await zero.query.systemMessages
 
 // Get messages with relationships
 const messagesWithUsers = await zero.query.userMessages
-    .related('user')  // Automatically loads user data
+    .related('user') // Automatically loads user data
     .where('roomId', '=', 'room-123')
     .run();
 ```
@@ -321,17 +322,15 @@ zero.query.userMessages
     .where('roomId', '=', 'room-123')
     .orderBy('createdAt', 'desc')
     .limit(50)
-    .subscribe((messages) => {
+    .subscribe(messages => {
         console.log('Messages updated:', messages);
         // UI automatically updates
     });
 
 // Subscribe to room changes
-zero.query.chats
-    .where('participantIds', 'has', 'user-123')
-    .subscribe((chats) => {
-        console.log('Chats updated:', chats);
-    });
+zero.query.chats.where('participantIds', 'has', 'user-123').subscribe(chats => {
+    console.log('Chats updated:', chats);
+});
 ```
 
 ## Benefits of This Pattern
@@ -363,23 +362,25 @@ zero.query.chats
 ## Best Practices
 
 1. **Indexing**: Create MongoDB indexes on discriminator fields
-   ```javascript
-   db.rooms.createIndex({ type: 1, lastMessageAt: -1 });
-   db.messages.createIndex({ type: 1, roomId: 1, createdAt: -1 });
-   ```
+
+    ```javascript
+    db.rooms.createIndex({ type: 1, lastMessageAt: -1 });
+    db.messages.createIndex({ type: 1, roomId: 1, createdAt: -1 });
+    ```
 
 2. **Validation**: Use MongoDB schema validation for discriminated types
-   ```javascript
-   db.createCollection('rooms', {
-       validator: {
-           $jsonSchema: {
-               properties: {
-                   type: { enum: ['chat', 'channel', 'group'] }
-               }
-           }
-       }
-   });
-   ```
+
+    ```javascript
+    db.createCollection('rooms', {
+        validator: {
+            $jsonSchema: {
+                properties: {
+                    type: { enum: ['chat', 'channel', 'group'] }
+                }
+            }
+        }
+    });
+    ```
 
 3. **Migration**: Plan discriminator field migrations carefully
 

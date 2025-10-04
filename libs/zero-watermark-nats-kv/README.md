@@ -28,13 +28,14 @@ pnpm add @cbnsndwch/zero-watermark-nats-kv
 ```
 
 **Peer Dependencies:**
+
 ```json
 {
-  "@nats-io/kv": "^3",
-  "@nats-io/transport-node": "^3",
-  "@nestjs/common": "^11",
-  "@nestjs/config": "^4",
-  "@nestjs/core": "^11"
+    "@nats-io/kv": "^3",
+    "@nats-io/transport-node": "^3",
+    "@nestjs/common": "^11",
+    "@nestjs/config": "^4",
+    "@nestjs/core": "^11"
 }
 ```
 
@@ -50,9 +51,9 @@ import { ZeroWatermarkNatsKvModule } from '@cbnsndwch/zero-watermark-nats-kv';
     imports: [
         ZeroWatermarkNatsKvModule.forRoot({
             servers: ['nats://localhost:4222'],
-            bucket: 'zero-watermarks',
-        }),
-    ],
+            bucket: 'zero-watermarks'
+        })
+    ]
 })
 export class AppModule {}
 ```
@@ -70,10 +71,10 @@ export class ChangeSourceService {
     async processChanges() {
         // Get last processed watermark
         const watermark = await this.watermarkService.get('users');
-        
+
         // Process changes after watermark
         const changes = await this.getChangesAfter(watermark);
-        
+
         // Update watermark - automatically replicated across instances
         await this.watermarkService.set('users', changes.lastVersion);
     }
@@ -103,7 +104,7 @@ Sets or updates a watermark (replicated across cluster).
 ```typescript
 await watermarkService.set('users', '00000000001704067200000', {
     lastId: 'user-123',
-    count: 42,
+    count: 42
 });
 ```
 
@@ -132,7 +133,7 @@ Watch for changes to a specific watermark.
 
 ```typescript
 // Watch for watermark updates
-const unwatch = await watermarkService.watch('users', (watermark) => {
+const unwatch = await watermarkService.watch('users', watermark => {
     console.log('Watermark updated:', watermark.version);
 });
 
@@ -167,7 +168,7 @@ interface NatsKvConfig {
 ```typescript
 ZeroWatermarkNatsKvModule.forRoot({
     servers: ['nats://localhost:4222'],
-    bucket: 'zero-watermarks',
+    bucket: 'zero-watermarks'
 });
 ```
 
@@ -178,10 +179,10 @@ ZeroWatermarkNatsKvModule.forRoot({
     servers: [
         'nats://nats-1.example.com:4222',
         'nats://nats-2.example.com:4222',
-        'nats://nats-3.example.com:4222',
+        'nats://nats-3.example.com:4222'
     ],
     bucket: 'zero-watermarks',
-    credentials: './nats.creds', // NATS 2.0 credentials
+    credentials: './nats.creds' // NATS 2.0 credentials
 });
 ```
 
@@ -195,8 +196,8 @@ ZeroWatermarkNatsKvModule.forRootAsync({
     useFactory: (config: ConfigService) => ({
         servers: config.get('NATS_SERVERS').split(','),
         bucket: config.get('NATS_BUCKET'),
-        credentials: config.get('NATS_CREDENTIALS'),
-    }),
+        credentials: config.get('NATS_CREDENTIALS')
+    })
 });
 ```
 
@@ -209,7 +210,7 @@ ZeroWatermarkNatsKvModule.forRoot({
     servers: ['nats://localhost:4222'],
     bucket: 'zero-watermarks',
     user: 'myuser',
-    pass: 'mypassword',
+    pass: 'mypassword'
 });
 ```
 
@@ -219,7 +220,7 @@ ZeroWatermarkNatsKvModule.forRoot({
 ZeroWatermarkNatsKvModule.forRoot({
     servers: ['nats://localhost:4222'],
     bucket: 'zero-watermarks',
-    token: 'my-secret-token',
+    token: 'my-secret-token'
 });
 ```
 
@@ -229,7 +230,7 @@ ZeroWatermarkNatsKvModule.forRoot({
 ZeroWatermarkNatsKvModule.forRoot({
     servers: ['nats://localhost:4222'],
     bucket: 'zero-watermarks',
-    credentials: './config/nats.creds',
+    credentials: './config/nats.creds'
 });
 ```
 
@@ -257,10 +258,10 @@ export class CoordinatedProcessor {
 
     async processWithLocking(collection: string) {
         const currentWatermark = await this.watermarkService.get(collection);
-        
+
         // Process changes
         const newVersion = await this.processChanges(currentWatermark);
-        
+
         // Update watermark (other instances will see this)
         await this.watermarkService.set(collection, newVersion);
     }
@@ -276,7 +277,7 @@ export class WatermarkMonitor {
 
     async onModuleInit() {
         // Watch for watermark changes
-        await this.watermarkService.watch('users', (watermark) => {
+        await this.watermarkService.watch('users', watermark => {
             console.log('Watermark changed by another instance:', watermark);
             // React to changes from other instances
         });
@@ -301,12 +302,12 @@ export class HealthController {
             return {
                 status: 'healthy',
                 watermarkCount: watermarks.size,
-                watermarks: Array.from(watermarks.entries()),
+                watermarks: Array.from(watermarks.entries())
             };
         } catch (error) {
             return {
                 status: 'unhealthy',
-                error: error.message,
+                error: error.message
             };
         }
     }
@@ -321,70 +322,70 @@ export class HealthController {
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zero-change-source
+    name: zero-change-source
 spec:
-  replicas: 3  # Multiple instances share watermarks via NATS
-  template:
-    spec:
-      containers:
-      - name: change-source
-        image: my-change-source:latest
-        env:
-        - name: NATS_SERVERS
-          value: "nats://nats-1:4222,nats://nats-2:4222,nats://nats-3:4222"
-        - name: NATS_BUCKET
-          value: "zero-watermarks"
+    replicas: 3 # Multiple instances share watermarks via NATS
+    template:
+        spec:
+            containers:
+                - name: change-source
+                  image: my-change-source:latest
+                  env:
+                      - name: NATS_SERVERS
+                        value: 'nats://nats-1:4222,nats://nats-2:4222,nats://nats-3:4222'
+                      - name: NATS_BUCKET
+                        value: 'zero-watermarks'
 ```
 
 ### Docker Compose
 
 ```yaml
 services:
-  nats:
-    image: nats:latest
-    command: ["-js", "-sd", "/data"]
-    volumes:
-      - nats-data:/data
-    ports:
-      - "4222:4222"
+    nats:
+        image: nats:latest
+        command: ['-js', '-sd', '/data']
+        volumes:
+            - nats-data:/data
+        ports:
+            - '4222:4222'
 
-  change-source-1:
-    image: my-change-source:latest
-    environment:
-      NATS_SERVERS: nats://nats:4222
-      NATS_BUCKET: zero-watermarks
+    change-source-1:
+        image: my-change-source:latest
+        environment:
+            NATS_SERVERS: nats://nats:4222
+            NATS_BUCKET: zero-watermarks
 
-  change-source-2:
-    image: my-change-source:latest
-    environment:
-      NATS_SERVERS: nats://nats:4222
-      NATS_BUCKET: zero-watermarks
+    change-source-2:
+        image: my-change-source:latest
+        environment:
+            NATS_SERVERS: nats://nats:4222
+            NATS_BUCKET: zero-watermarks
 
 volumes:
-  nats-data:
+    nats-data:
 ```
 
 ### Docker Swarm
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
-  nats:
-    image: nats:latest
-    command: ["-js", "-sd", "/data"]
-    deploy:
-      replicas: 3
-      placement:
-        constraints:
-          - node.role == manager
+    nats:
+        image: nats:latest
+        command: ['-js', '-sd', '/data']
+        deploy:
+            replicas: 3
+            placement:
+                constraints:
+                    - node.role == manager
 
-  change-source:
-    image: my-change-source:latest
-    deploy:
-      replicas: 5  # Scale horizontally
-    environment:
-      NATS_SERVERS: nats://nats:4222
-      NATS_BUCKET: zero-watermarks
+    change-source:
+        image: my-change-source:latest
+        deploy:
+            replicas: 5 # Scale horizontally
+        environment:
+            NATS_SERVERS: nats://nats:4222
+            NATS_BUCKET: zero-watermarks
 ```
 
 ## Performance
@@ -430,14 +431,14 @@ nats kv get zero-watermarks users
 
 ## Comparison with SQLite Storage
 
-| Feature | NATS KV | SQLite |
-|---------|---------|--------|
-| **Distribution** | ✅ Multi-instance | ❌ Single-instance |
-| **Replication** | ✅ Automatic | ❌ Manual |
-| **Scalability** | ✅ Horizontal | ⚠️ Vertical |
-| **Latency** | ⚡ Network latency | 🚀 Local disk |
-| **Setup Complexity** | ⚠️ Requires NATS | ✅ Zero config |
-| **Use Case** | Production clusters | Single servers |
+| Feature              | NATS KV             | SQLite             |
+| -------------------- | ------------------- | ------------------ |
+| **Distribution**     | ✅ Multi-instance   | ❌ Single-instance |
+| **Replication**      | ✅ Automatic        | ❌ Manual          |
+| **Scalability**      | ✅ Horizontal       | ⚠️ Vertical        |
+| **Latency**          | ⚡ Network latency  | 🚀 Local disk      |
+| **Setup Complexity** | ⚠️ Requires NATS    | ✅ Zero config     |
+| **Use Case**         | Production clusters | Single servers     |
 
 ## Troubleshooting
 
@@ -449,7 +450,7 @@ import { connect } from '@nats-io/transport-node';
 
 const nc = await connect({
     servers: ['nats://localhost:4222'],
-    debug: true, // Enable debug logging
+    debug: true // Enable debug logging
 });
 ```
 
@@ -501,9 +502,9 @@ describe('WatermarkService', () => {
             imports: [
                 ZeroWatermarkNatsKvModule.forRoot({
                     servers: ['nats://localhost:4222'],
-                    bucket: 'test-watermarks',
-                }),
-            ],
+                    bucket: 'test-watermarks'
+                })
+            ]
         }).compile();
 
         service = module.get<WatermarkService>(WatermarkService);

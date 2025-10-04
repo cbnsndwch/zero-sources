@@ -10,5 +10,6 @@ We have a quick list of common questions to get you started engaging with this p
 ## Project-Specific Documentation
 
 For information about how we use Changesets in this project, see:
+
 - [Changesets Documentation](../docs/changesets/README-CHANGESETS.md)
 - [Usage Guide](../docs/changesets/USAGE.md)

@@ -25,6 +25,7 @@ pnpm add @cbnsndwch/zero-contracts
 ```
 
 **Peer Dependencies:**
+
 - `@rocicorp/zero` - The core Rocicorp Zero library
 
 ## Usage
@@ -173,10 +174,10 @@ This package includes full TypeScript definitions and is built with `strict` mod
 
 ```typescript
 // Full IntelliSense support
-import { 
-    Watermark, 
-    UpstreamProtocol, 
-    ChangeSourceConfig 
+import {
+    Watermark,
+    UpstreamProtocol,
+    ChangeSourceConfig
 } from '@cbnsndwch/zero-contracts';
 ```
 

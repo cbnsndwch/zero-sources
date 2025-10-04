@@ -27,11 +27,12 @@ pnpm add @cbnsndwch/zero-watermark-zqlite
 ```
 
 **Peer Dependencies:**
+
 ```json
 {
-  "@nestjs/common": "^11",
-  "@nestjs/config": "^4",
-  "@rocicorp/zero-sqlite3": "*"
+    "@nestjs/common": "^11",
+    "@nestjs/config": "^4",
+    "@rocicorp/zero-sqlite3": "*"
 }
 ```
 
@@ -46,9 +47,9 @@ import { ZeroWatermarkZqliteModule } from '@cbnsndwch/zero-watermark-zqlite';
 @Module({
     imports: [
         ZeroWatermarkZqliteModule.forRoot({
-            database: './watermarks.db',
-        }),
-    ],
+            database: './watermarks.db'
+        })
+    ]
 })
 export class AppModule {}
 ```
@@ -66,10 +67,10 @@ export class ChangeSourceService {
     async processChanges() {
         // Get last processed watermark
         const watermark = await this.watermarkService.get('users');
-        
+
         // Process changes after watermark
         const changes = await this.getChangesAfter(watermark);
-        
+
         // Update watermark after processing
         await this.watermarkService.set('users', changes.lastVersion);
     }
@@ -99,7 +100,7 @@ Sets or updates a watermark.
 ```typescript
 await watermarkService.set('users', '00000000001704067200000', {
     lastId: 'user-123',
-    count: 42,
+    count: 42
 });
 ```
 
@@ -169,7 +170,7 @@ await watermarkService.set('users', version, {
     lastProcessedId: 'user-456',
     documentsProcessed: 100,
     errors: 0,
-    processingTime: 1234,
+    processingTime: 1234
 });
 
 // Retrieve metadata
@@ -191,13 +192,10 @@ export class ChangeProcessor {
         try {
             // Process changes
             await this.processChanges(changes);
-            
+
             // Update watermark only after successful processing
             const lastChange = changes[changes.length - 1];
-            await this.watermarkService.set(
-                'users',
-                lastChange.version
-            );
+            await this.watermarkService.set('users', lastChange.version);
         } catch (error) {
             // Watermark not updated on error - will retry from last position
             console.error('Processing failed, watermark not updated');
@@ -224,7 +222,7 @@ export class MonitoringController {
             collection: key,
             version: mark.version,
             timestamp: mark.timestamp,
-            age: Date.now() - mark.timestamp,
+            age: Date.now() - mark.timestamp
         }));
     }
 }
@@ -238,14 +236,14 @@ export class MonitoringController {
 ZeroWatermarkZqliteModule.forRoot({
     // Database file path
     database: './data/watermarks.db',
-    
+
     // Custom table name (optional)
     tableName: 'change_watermarks',
-    
+
     // SQLite options (optional)
     sqliteOptions: {
-        verbose: console.log,
-    },
+        verbose: console.log
+    }
 });
 ```
 
@@ -257,8 +255,8 @@ import { ConfigService } from '@nestjs/config';
 ZeroWatermarkZqliteModule.forRootAsync({
     inject: [ConfigService],
     useFactory: (config: ConfigService) => ({
-        database: config.get('WATERMARK_DB_PATH'),
-    }),
+        database: config.get('WATERMARK_DB_PATH')
+    })
 });
 ```
 
@@ -276,19 +274,16 @@ export class MongoChangeSource {
 
     async watchCollection(collection: string) {
         const watermark = await this.watermarkService.get(collection);
-        
+
         const changeStream = db.collection(collection).watch([], {
-            startAfter: watermark?.version,
+            startAfter: watermark?.version
         });
 
-        changeStream.on('change', async (change) => {
+        changeStream.on('change', async change => {
             await this.processChange(change);
-            
+
             // Update watermark after successful processing
-            await this.watermarkService.set(
-                collection,
-                change._id.toString()
-            );
+            await this.watermarkService.set(collection, change._id.toString());
         });
     }
 }
@@ -320,7 +315,7 @@ import { promises as fs } from 'fs';
 async function backupWatermarks(watermarkService: WatermarkService) {
     const watermarks = await watermarkService.getAll();
     const backup = Object.fromEntries(watermarks);
-    
+
     await fs.writeFile(
         'watermarks-backup.json',
         JSON.stringify(backup, null, 2)
@@ -336,7 +331,7 @@ async function restoreWatermarks(
     backupPath: string
 ) {
     const backup = JSON.parse(await fs.readFile(backupPath, 'utf-8'));
-    
+
     for (const [key, watermark] of Object.entries(backup)) {
         await watermarkService.set(key, watermark.version, watermark.data);
     }
@@ -352,8 +347,8 @@ async function restoreWatermarks(
 ZeroWatermarkZqliteModule.forRoot({
     database: './watermarks.db',
     sqliteOptions: {
-        busyTimeout: 5000, // Wait up to 5 seconds for locks
-    },
+        busyTimeout: 5000 // Wait up to 5 seconds for locks
+    }
 });
 ```
 
@@ -404,9 +399,9 @@ describe('WatermarkService', () => {
         const module = await Test.createTestingModule({
             imports: [
                 ZeroWatermarkZqliteModule.forRoot({
-                    database: ':memory:', // In-memory for testing
-                }),
-            ],
+                    database: ':memory:' // In-memory for testing
+                })
+            ]
         }).compile();
 
         service = module.get<WatermarkService>(WatermarkService);

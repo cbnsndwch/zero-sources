@@ -6,31 +6,31 @@ Quick reference guide for all packages in the zero-sources monorepo.
 
 ### Core Infrastructure
 
-| Package | npm Package | Purpose | Size |
-|---------|-------------|---------|------|
-| zero-contracts | `@cbnsndwch/zero-contracts` | Core contracts, protocols, and utilities | 5.75 KB |
-| zero-source-mongodb | `@cbnsndwch/zero-source-mongodb` | MongoDB change source with WebSocket streaming | 9.35 KB |
-| zero-nest-mongoose | `@cbnsndwch/zero-nest-mongoose` | Auto-generate Zero schemas from Mongoose | 10.13 KB |
+| Package             | npm Package                      | Purpose                                        | Size     |
+| ------------------- | -------------------------------- | ---------------------------------------------- | -------- |
+| zero-contracts      | `@cbnsndwch/zero-contracts`      | Core contracts, protocols, and utilities       | 5.75 KB  |
+| zero-source-mongodb | `@cbnsndwch/zero-source-mongodb` | MongoDB change source with WebSocket streaming | 9.35 KB  |
+| zero-nest-mongoose  | `@cbnsndwch/zero-nest-mongoose`  | Auto-generate Zero schemas from Mongoose       | 10.13 KB |
 
 ### Watermark Storage
 
-| Package | npm Package | Purpose | Size |
-|---------|-------------|---------|------|
-| zero-watermark-zqlite | `@cbnsndwch/zero-watermark-zqlite` | SQLite-backed watermark storage | 10.82 KB |
+| Package                | npm Package                         | Purpose                               | Size     |
+| ---------------------- | ----------------------------------- | ------------------------------------- | -------- |
+| zero-watermark-zqlite  | `@cbnsndwch/zero-watermark-zqlite`  | SQLite-backed watermark storage       | 10.82 KB |
 | zero-watermark-nats-kv | `@cbnsndwch/zero-watermark-nats-kv` | Distributed NATS KV watermark storage | 12.70 KB |
 
 ### Application Schemas
 
-| Package | npm Package | Purpose | Size |
-|---------|-------------|---------|------|
+| Package           | npm Package                    | Purpose                          | Size    |
+| ----------------- | ------------------------------ | -------------------------------- | ------- |
 | zrocket-contracts | `@cbnsndwch/zrocket-contracts` | ZRocket chat application schemas | 9.99 KB |
 
 ### Configuration
 
-| Package | Workspace Package | Purpose | Size |
-|---------|------------------|---------|------|
-| eslint-config | `@repo/eslint-config` | Shared ESLint configuration | 4.25 KB |
-| tsconfig | `@repo/tsconfig` | Shared TypeScript configuration | 7.60 KB |
+| Package       | Workspace Package     | Purpose                         | Size    |
+| ------------- | --------------------- | ------------------------------- | ------- |
+| eslint-config | `@repo/eslint-config` | Shared ESLint configuration     | 4.25 KB |
+| tsconfig      | `@repo/tsconfig`      | Shared TypeScript configuration | 7.60 KB |
 
 ## 🚀 Quick Start Patterns
 
@@ -99,6 +99,7 @@ ZeroWatermarkNatsKvModule.forRoot({
 ### Scenario 1: Single-Server MongoDB Sync
 
 **Recommended Packages:**
+
 - `@cbnsndwch/zero-source-mongodb`
 - `@cbnsndwch/zero-watermark-zqlite`
 - `@cbnsndwch/zero-nest-mongoose` (optional, for auto-generation)
@@ -108,6 +109,7 @@ ZeroWatermarkNatsKvModule.forRoot({
 ### Scenario 2: Distributed Multi-Instance Sync
 
 **Recommended Packages:**
+
 - `@cbnsndwch/zero-source-mongodb`
 - `@cbnsndwch/zero-watermark-nats-kv`
 - `@cbnsndwch/zero-contracts`
@@ -117,6 +119,7 @@ ZeroWatermarkNatsKvModule.forRoot({
 ### Scenario 3: Chat/Messaging Application
 
 **Recommended Packages:**
+
 - `@cbnsndwch/zrocket-contracts` (as reference)
 - `@cbnsndwch/zero-source-mongodb`
 - `@cbnsndwch/zero-nest-mongoose`
@@ -126,6 +129,7 @@ ZeroWatermarkNatsKvModule.forRoot({
 ### Scenario 4: Auto-Generated Schemas
 
 **Recommended Packages:**
+
 - `@cbnsndwch/zero-nest-mongoose`
 - `@cbnsndwch/zero-contracts`
 
@@ -140,14 +144,14 @@ graph TD
     A --> D[zero-watermark-nats-kv]
     A --> E[zrocket-contracts]
     A --> F[zero-nest-mongoose]
-    
+
     B --> G[Change Source Server]
     C --> G
     D --> G
-    
+
     F --> H[Schema Generation]
     E --> H
-    
+
     style A fill:#e1f5ff
     style B fill:#fff4e1
     style C fill:#ffe1f5
@@ -158,49 +162,51 @@ graph TD
 
 ## 📚 Documentation Links
 
-| Package | README | npm |
-|---------|--------|-----|
-| zero-contracts | [README](../libs/zero-contracts/README.md) | [@cbnsndwch/zero-contracts](https://npmjs.com/package/@cbnsndwch/zero-contracts) |
-| zero-source-mongodb | [README](../libs/zero-source-mongodb/README.md) | [@cbnsndwch/zero-source-mongodb](https://npmjs.com/package/@cbnsndwch/zero-source-mongodb) |
-| zero-nest-mongoose | [README](../libs/zero-nest-mongoose/README.md) | [@cbnsndwch/zero-nest-mongoose](https://npmjs.com/package/@cbnsndwch/zero-nest-mongoose) |
-| zero-watermark-zqlite | [README](../libs/zero-watermark-zqlite/README.md) | [@cbnsndwch/zero-watermark-zqlite](https://npmjs.com/package/@cbnsndwch/zero-watermark-zqlite) |
+| Package                | README                                             | npm                                                                                              |
+| ---------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| zero-contracts         | [README](../libs/zero-contracts/README.md)         | [@cbnsndwch/zero-contracts](https://npmjs.com/package/@cbnsndwch/zero-contracts)                 |
+| zero-source-mongodb    | [README](../libs/zero-source-mongodb/README.md)    | [@cbnsndwch/zero-source-mongodb](https://npmjs.com/package/@cbnsndwch/zero-source-mongodb)       |
+| zero-nest-mongoose     | [README](../libs/zero-nest-mongoose/README.md)     | [@cbnsndwch/zero-nest-mongoose](https://npmjs.com/package/@cbnsndwch/zero-nest-mongoose)         |
+| zero-watermark-zqlite  | [README](../libs/zero-watermark-zqlite/README.md)  | [@cbnsndwch/zero-watermark-zqlite](https://npmjs.com/package/@cbnsndwch/zero-watermark-zqlite)   |
 | zero-watermark-nats-kv | [README](../libs/zero-watermark-nats-kv/README.md) | [@cbnsndwch/zero-watermark-nats-kv](https://npmjs.com/package/@cbnsndwch/zero-watermark-nats-kv) |
-| zrocket-contracts | [README](../libs/zrocket-contracts/README.md) | [@cbnsndwch/zrocket-contracts](https://npmjs.com/package/@cbnsndwch/zrocket-contracts) |
-| eslint-config | [README](../libs/eslint-config/README.md) | Workspace only |
-| tsconfig | [README](../libs/tsconfig/README.md) | Workspace only |
+| zrocket-contracts      | [README](../libs/zrocket-contracts/README.md)      | [@cbnsndwch/zrocket-contracts](https://npmjs.com/package/@cbnsndwch/zrocket-contracts)           |
+| eslint-config          | [README](../libs/eslint-config/README.md)          | Workspace only                                                                                   |
+| tsconfig               | [README](../libs/tsconfig/README.md)               | Workspace only                                                                                   |
 
 ## 🎨 Features Comparison
 
 ### Watermark Storage
 
-| Feature | SQLite (zqlite) | NATS KV (nats-kv) |
-|---------|-----------------|-------------------|
-| **Setup Complexity** | ✅ Simple | ⚠️ Requires NATS |
-| **Distribution** | ❌ Single instance | ✅ Multi-instance |
-| **Latency** | 🚀 Local disk (<1ms) | ⚡ Network (~5ms) |
-| **Scalability** | ⚠️ Vertical only | ✅ Horizontal |
-| **Replication** | ❌ Manual | ✅ Automatic |
-| **Best For** | Single servers | Distributed systems |
+| Feature              | SQLite (zqlite)      | NATS KV (nats-kv)   |
+| -------------------- | -------------------- | ------------------- |
+| **Setup Complexity** | ✅ Simple            | ⚠️ Requires NATS    |
+| **Distribution**     | ❌ Single instance   | ✅ Multi-instance   |
+| **Latency**          | 🚀 Local disk (<1ms) | ⚡ Network (~5ms)   |
+| **Scalability**      | ⚠️ Vertical only     | ✅ Horizontal       |
+| **Replication**      | ❌ Manual            | ✅ Automatic        |
+| **Best For**         | Single servers       | Distributed systems |
 
 ### Schema Management
 
-| Feature | Manual | zero-nest-mongoose | zrocket-contracts |
-|---------|--------|-------------------|-------------------|
-| **Type Safety** | ✅ | ✅ | ✅ |
-| **Auto-generation** | ❌ | ✅ | ❌ |
-| **Discriminated Unions** | ✅ | ⚠️ Manual | ✅ |
-| **Mongoose Integration** | ❌ | ✅ | ❌ |
-| **Best For** | Custom schemas | Existing Mongoose | Chat/messaging |
+| Feature                  | Manual         | zero-nest-mongoose | zrocket-contracts |
+| ------------------------ | -------------- | ------------------ | ----------------- |
+| **Type Safety**          | ✅             | ✅                 | ✅                |
+| **Auto-generation**      | ❌             | ✅                 | ❌                |
+| **Discriminated Unions** | ✅             | ⚠️ Manual          | ✅                |
+| **Mongoose Integration** | ❌             | ✅                 | ❌                |
+| **Best For**             | Custom schemas | Existing Mongoose  | Chat/messaging    |
 
 ## 💡 Pro Tips
 
 ### 1. Schema Management
+
 ```bash
 # Generate schemas at build time
 pnpm --filter @cbnsndwch/zrocket-contracts build:schema
 ```
 
 ### 2. Development Workflow
+
 ```bash
 # Watch mode for library development
 pnpm --filter @cbnsndwch/zero-contracts dev
@@ -210,17 +216,19 @@ pnpm --filter @cbnsndwch/zero-source-mongodb test
 ```
 
 ### 3. Type Safety
+
 ```typescript
 // Import types for full IntelliSense
 import type { Watermark, UpstreamProtocol } from '@cbnsndwch/zero-contracts';
 ```
 
 ### 4. Configuration
+
 ```yaml
 # Use environment variables for configuration
 schema:
-  source: ${SCHEMA_SOURCE:-url}
-  schemaUrl: ${SCHEMA_URL}
+    source: ${SCHEMA_SOURCE:-url}
+    schemaUrl: ${SCHEMA_URL}
 ```
 
 ## 🔧 Common Commands

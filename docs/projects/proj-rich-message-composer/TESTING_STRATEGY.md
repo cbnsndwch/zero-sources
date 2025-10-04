@@ -575,6 +575,7 @@ export const createMockUser = (overrides = {}): User => ({
     ...overrides
 });
 ```
+
                     version: 1
                 }
             ],
@@ -597,8 +598,10 @@ export const createMockUser = (overrides = {}): User => ({
     invalidSerializedState: {
         // Malformed data for error handling tests
     }
+
 };
-```
+
+````
 
 ---
 
@@ -667,7 +670,7 @@ describe('Plugin Integration', () => {
         it('should work with mentions and links', () => {});
     });
 });
-```
+````
 
 ### 4.2 Application Integration Tests
 
@@ -770,7 +773,9 @@ describe('Cross-Browser Compatibility', () => {
                 ).toBe(1);
             });
 
-            it('should handle performance requirements', async ({ browser }) => {
+            it('should handle performance requirements', async ({
+                browser
+            }) => {
                 const page = await browser.newPage();
                 await page.goto('/test-editor');
 
@@ -812,11 +817,13 @@ describe('Error Handling Integration', () => {
 **Note**: The following E2E tests reference the actual application routes as defined in `apps/zrocket/app/routes.ts`:
 
 **Chat Routes**:
+
 - **Direct Messages**: `/d/[:chatId]` - One-on-one conversations. If no is is specified, the most recently visited one will be loaded
 - **Private Groups**: `/p/[:chatId]` - Private group conversations. If no is is specified, the most recently visited one will be loaded
 - **Public Channels**: `/c/[:channelId]` - Public channel conversations. If no is is specified, the most recently visited one will be loaded
 
 **Other Routes**:
+
 - **Home**: `/` - Landing page
 - **Files**: `/files` - File management
 - **Preferences**: `/preferences` - User settings
@@ -1561,17 +1568,20 @@ const customRender = (
 export * from '@testing-library/react';
 export { customRender as render };
 ```
+
     unobserve() {}
+
 };
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
-    constructor() {}
-    disconnect() {}
-    observe() {}
-    unobserve() {}
+constructor() {}
+disconnect() {}
+observe() {}
+unobserve() {}
 };
-```
+
+````
 
 ### 9.2 Testing Utilities
 
@@ -1603,7 +1613,7 @@ const customRender = (
 
 export * from '@testing-library/react';
 export { customRender as render };
-```
+````
 
 ### 9.3 CI/CD Integration
 
@@ -1698,8 +1708,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                node-version: '18'
-                cache: 'npm'
+                  node-version: '18'
+                  cache: 'npm'
             - run: npm ci
             - run: npm run test:unit -- --coverage
             - uses: codecov/codecov-action@v3
@@ -1710,8 +1720,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                node-version: '18'
-                cache: 'npm'
+                  node-version: '18'
+                  cache: 'npm'
             - run: npm ci
             - run: npm run test:integration
 
@@ -1721,8 +1731,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                node-version: '18'
-                cache: 'npm'
+                  node-version: '18'
+                  cache: 'npm'
             - run: npm ci
             - run: npx playwright install
             - run: npm run test:e2e
@@ -1733,8 +1743,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                node-version: '18'
-                cache: 'npm'
+                  node-version: '18'
+                  cache: 'npm'
             - run: npm ci
             - run: npm run test:a11y
 
@@ -1744,8 +1754,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                node-version: '18'
-                cache: 'npm'
+                  node-version: '18'
+                  cache: 'npm'
             - run: npm ci
             - run: npm run test:performance
 ```
@@ -1956,10 +1966,12 @@ describe('Stress Testing', () => {
 ### Consolidation Notes
 
 This document represents a comprehensive merger of two previous testing strategy documents:
+
 - `TESTING_STRATEGY.md` (original comprehensive version)
 - `testing-strategy.md` (enhanced implementation details)
 
 The consolidation includes:
+
 - ✅ **Enhanced test implementation examples** with actual TypeScript code
 - ✅ **Comprehensive application integration** for ZRocket
 - ✅ **Detailed cross-browser testing strategy** with Playwright examples
@@ -1970,10 +1982,10 @@ The consolidation includes:
 
 ### Document Status
 
-| Version | Date         | Author         | Changes                                    |
-| ------- | ------------ | -------------- | ------------------------------------------ |
-| 1.0.0   | Jan 2025     | GitHub Copilot | Initial testing strategy                   |
-| 1.1.0   | Aug 4, 2025  | GitHub Copilot | Consolidated and enhanced testing strategy |
+| Version | Date        | Author         | Changes                                    |
+| ------- | ----------- | -------------- | ------------------------------------------ |
+| 1.0.0   | Jan 2025    | GitHub Copilot | Initial testing strategy                   |
+| 1.1.0   | Aug 4, 2025 | GitHub Copilot | Consolidated and enhanced testing strategy |
 
 ### Key Improvements
 

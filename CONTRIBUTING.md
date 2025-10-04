@@ -70,7 +70,7 @@ By submitting a contribution to this project, you certify that:
 
 1. **Original Work**: The contribution is your original work, or you have the right to submit it under the MIT License
 2. **Grant of License**: You grant cbnsndwch LLC and recipients of software distributed by cbnsndwch LLC a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable license to:
-   - Use, reproduce, prepare derivative works of, publicly display, publicly perform, sublicense, and distribute your contributions and such derivative works under the MIT License
+    - Use, reproduce, prepare derivative works of, publicly display, publicly perform, sublicense, and distribute your contributions and such derivative works under the MIT License
 3. **No Conflicting Obligations**: You are legally entitled to grant the above license and are not violating any employer agreements or other obligations
 4. **No Warranties**: Your contributions are provided "as is" without warranties or conditions of any kind
 
@@ -179,13 +179,13 @@ pnpm dev
 
 - **Language**: TypeScript for all code
 - **Formatting**: We use Prettier for code formatting
-  ```bash
-  pnpm format
-  ```
+    ```bash
+    pnpm format
+    ```
 - **Linting**: All code must pass ESLint checks
-  ```bash
-  pnpm lint
-  ```
+    ```bash
+    pnpm lint
+    ```
 
 ### Code Style
 
@@ -267,7 +267,7 @@ If you adapt or copy code from another project:
  * Changes made: [Brief description of your modifications]
  */
 export function adaptedFunction() {
-  // Your implementation
+    // Your implementation
 }
 ```
 
@@ -279,11 +279,11 @@ If you're implementing a design pattern or concept from another project:
 /**
  * Implementation inspired by [Project Name]'s approach to [specific feature]
  * See: [URL to relevant documentation or code]
- * 
+ *
  * This is an independent implementation adapted for our use case.
  */
 export class InspiredComponent {
-  // Your implementation
+    // Your implementation
 }
 ```
 
@@ -299,21 +299,23 @@ For significant inspirations or borrowed patterns, add an entry to [ACKNOWLEDGME
 #### 4. **License Compatibility**
 
 Ensure any external code you reference is:
+
 - ✅ Licensed under **permissive licenses**: MIT, Apache-2.0, BSD, ISC
 - ✅ Compatible with this project's MIT License
 - ⚠️ **Requires approval**: GPL, LGPL, AGPL, MPL (copyleft licenses)
 - ❌ **NOT ACCEPTABLE**:
-  - SSPL (Server Side Public License)
-  - FSL (Functional Source License) / BSL (Business Source License)
-  - Fair Source / Fair Code licenses
-  - Elastic License / Commons Clause
-  - CC BY-NC (Non-Commercial) or any license with commercial restrictions
-  - Time-delayed licenses that restrict commercial use
-  - Proprietary licenses without explicit permission
+    - SSPL (Server Side Public License)
+    - FSL (Functional Source License) / BSL (Business Source License)
+    - Fair Source / Fair Code licenses
+    - Elastic License / Commons Clause
+    - CC BY-NC (Non-Commercial) or any license with commercial restrictions
+    - Time-delayed licenses that restrict commercial use
+    - Proprietary licenses without explicit permission
 
 #### 5. **When in Doubt**
 
 If you're unsure about attribution requirements:
+
 1. Open a discussion before submitting your PR
 2. Contact the maintainers via Discord or email
 3. Err on the side of over-attribution rather than under-attribution
@@ -321,6 +323,7 @@ If you're unsure about attribution requirements:
 ### Why This Matters
 
 Proper attribution:
+
 - **Respects** the original authors' work
 - **Protects** the project from legal issues
 - **Maintains** trust in the open-source community
@@ -381,10 +384,10 @@ git push origin feature/your-feature-name
 2. Click "New Pull Request"
 3. Select your fork and branch
 4. Fill out the PR template with:
-   - **Description**: What changes you made and why
-   - **Related Issues**: Link to any related issues
-   - **Testing**: How you tested the changes
-   - **CLA Agreement**: Include your CLA statement (first-time contributors)
+    - **Description**: What changes you made and why
+    - **Related Issues**: Link to any related issues
+    - **Testing**: How you tested the changes
+    - **CLA Agreement**: Include your CLA statement (first-time contributors)
 
 ### PR Requirements
 
@@ -444,6 +447,7 @@ test(contracts): add unit tests for schema validation
 ### Scope
 
 The scope should be the name of the package or app affected:
+
 - `zero-source-mongodb`
 - `zero-watermark-zqlite`
 - `zrocket-contracts`
@@ -465,6 +469,7 @@ pnpm changeset
 ```
 
 Follow the prompts to:
+
 1. Select which packages are affected
 2. Choose the type of change (major, minor, patch)
 3. Write a description of the changes

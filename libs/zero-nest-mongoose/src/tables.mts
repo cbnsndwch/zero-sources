@@ -7,7 +7,7 @@ import type { Document } from 'mongoose';
 import type {
     TableSchema,
     ReadonlyJSONValue,
-    SchemaValue,
+    SchemaValue
 } from '@rocicorp/zero';
 
 import type {

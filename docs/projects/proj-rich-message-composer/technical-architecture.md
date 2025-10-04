@@ -929,7 +929,7 @@ const cspDirectives = {
 
 #### 7.1.1 Unit Testing
 
-```typescript
+````typescript
 ## 7. Testing Architecture
 
 ### 7.1 Testing Strategy
@@ -955,7 +955,7 @@ describe('RichMessageEditor', () => {
     );
   });
 });
-```
+````
 
 #### 7.1.2 Integration Testing
 
@@ -1069,7 +1069,8 @@ const performanceTest = async () => {
     expect(avgLatency).toBeLessThan(16); // 60fps requirement
 };
 ```
-```
+
+````
 
 #### 7.1.2 Integration Testing
 
@@ -1087,7 +1088,7 @@ describe('MentionsPlugin', () => {
     expect(editorState).toContainNode('mention');
   });
 });
-```
+````
 
 #### 7.1.3 E2E Testing
 

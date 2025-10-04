@@ -26,12 +26,13 @@ pnpm add @cbnsndwch/zero-nest-mongoose
 ```
 
 **Peer Dependencies:**
+
 ```json
 {
-  "@nestjs/common": "^11",
-  "@nestjs/mongoose": "^11",
-  "@rocicorp/zero": "*",
-  "mongoose": "^8.9.5"
+    "@nestjs/common": "^11",
+    "@nestjs/mongoose": "^11",
+    "@rocicorp/zero": "*",
+    "mongoose": "^8.9.5"
 }
 ```
 
@@ -100,15 +101,15 @@ import { createSchema } from '@rocicorp/zero';
 const schema = createSchema({
     version: 1,
     tables: {
-        users: userTable,
+        users: userTable
         // ... other tables
-    },
+    }
 });
 
 const zero = new Zero({
     server: 'ws://localhost:4848',
     schema,
-    userID: 'user-123',
+    userID: 'user-123'
 });
 ```
 
@@ -123,12 +124,12 @@ import { generateZeroSchemas } from '@cbnsndwch/zero-nest-mongoose';
 const schemas = generateZeroSchemas({
     users: UserSchema,
     posts: PostSchema,
-    comments: CommentSchema,
+    comments: CommentSchema
 });
 
 const zeroSchema = createSchema({
     version: 1,
-    tables: schemas,
+    tables: schemas
 });
 ```
 
@@ -141,11 +142,11 @@ const customMapper: FieldMapper = {
     // Map MongoDB types to Zero types
     ObjectId: 'string',
     Date: 'number',
-    Mixed: 'json',
+    Mixed: 'json'
 };
 
 const userTable = generateZeroSchema(UserSchema, 'users', {
-    fieldMapper: customMapper,
+    fieldMapper: customMapper
 });
 ```
 
@@ -160,9 +161,9 @@ const userTable = generateZeroSchema(UserSchema, 'users', {
         organization: {
             sourceField: ['organizationId'],
             destTable: 'organizations',
-            destField: ['id'],
-        },
-    },
+            destField: ['id']
+        }
+    }
 });
 ```
 
@@ -176,17 +177,17 @@ const roomSchemas = generateZeroSchema(RoomSchema, 'rooms', {
     virtualTables: [
         {
             tableName: 'chats',
-            discriminator: { field: 'type', value: 'chat' },
+            discriminator: { field: 'type', value: 'chat' }
         },
         {
             tableName: 'channels',
-            discriminator: { field: 'type', value: 'channel' },
+            discriminator: { field: 'type', value: 'channel' }
         },
         {
             tableName: 'groups',
-            discriminator: { field: 'type', value: 'group' },
-        },
-    ],
+            discriminator: { field: 'type', value: 'group' }
+        }
+    ]
 });
 
 // Returns: { chats: {...}, channels: {...}, groups: {...} }
@@ -196,7 +197,7 @@ const roomSchemas = generateZeroSchema(RoomSchema, 'rooms', {
 
 ```typescript
 const userTable = generateZeroSchema(UserSchema, 'users', {
-    exclude: ['password', '__v', 'passwordResetToken'],
+    exclude: ['password', '__v', 'passwordResetToken']
 });
 ```
 
@@ -204,7 +205,7 @@ const userTable = generateZeroSchema(UserSchema, 'users', {
 
 ```typescript
 const userTable = generateZeroSchema(UserSchema, 'users', {
-    primaryKey: ['email'], // Use email instead of _id
+    primaryKey: ['email'] // Use email instead of _id
 });
 ```
 
@@ -213,7 +214,7 @@ const userTable = generateZeroSchema(UserSchema, 'users', {
 The library automatically maps Mongoose types to Zero types:
 
 | Mongoose Type | Zero Type |
-|---------------|-----------|
+| ------------- | --------- |
 | String        | string    |
 | Number        | number    |
 | Boolean       | boolean   |
@@ -230,6 +231,7 @@ The library automatically maps Mongoose types to Zero types:
 Generates a Zero table schema from a Mongoose schema.
 
 **Parameters:**
+
 - `schema: Schema` - Mongoose schema
 - `tableName: string` - Name for the Zero table
 - `options?: GenerateOptions` - Optional configuration
@@ -241,6 +243,7 @@ Generates a Zero table schema from a Mongoose schema.
 Generates multiple Zero table schemas at once.
 
 **Parameters:**
+
 - `schemas: Record<string, Schema>` - Map of table names to Mongoose schemas
 - `options?: GenerateOptions` - Optional configuration
 
@@ -252,16 +255,16 @@ Generates multiple Zero table schemas at once.
 interface GenerateOptions {
     // Custom field type mapping
     fieldMapper?: FieldMapper;
-    
+
     // Override relationship detection
     relationships?: Record<string, RelationshipConfig>;
-    
+
     // Fields to exclude from schema
     exclude?: string[];
-    
+
     // Custom primary key
     primaryKey?: string[];
-    
+
     // Generate virtual tables
     virtualTables?: VirtualTableConfig[];
 }
@@ -279,17 +282,15 @@ import { User, UserSchema } from './entities/user.entity';
 
 @Module({
     imports: [
-        MongooseModule.forFeature([
-            { name: User.name, schema: UserSchema },
-        ]),
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
     ],
     providers: [
         {
             provide: 'ZERO_USER_SCHEMA',
-            useFactory: () => generateZeroSchema(UserSchema, 'users'),
-        },
+            useFactory: () => generateZeroSchema(UserSchema, 'users')
+        }
     ],
-    exports: ['ZERO_USER_SCHEMA'],
+    exports: ['ZERO_USER_SCHEMA']
 })
 export class UsersModule {}
 ```
@@ -307,12 +308,12 @@ export class SchemaController {
         const schemas = generateZeroSchemas({
             users: UserSchema,
             posts: PostSchema,
-            comments: CommentSchema,
+            comments: CommentSchema
         });
 
         return {
             version: 1,
-            tables: schemas,
+            tables: schemas
         };
     }
 }
@@ -333,20 +334,20 @@ import { PostSchema } from './entities/post.entity';
 // Generate schemas
 const tables = generateZeroSchemas({
     users: UserSchema,
-    posts: PostSchema,
+    posts: PostSchema
 });
 
 // Create Zero schema
 const schema = createSchema({
     version: 1,
-    tables,
+    tables
 });
 
 // Initialize Zero client
 const zero = new Zero({
     server: 'ws://localhost:4848',
     schema,
-    userID: 'user-123',
+    userID: 'user-123'
 });
 
 // Query data with Zero
@@ -370,7 +371,7 @@ const users = await zero.query.users
 ```typescript
 // Enable debug logging
 const schema = generateZeroSchema(UserSchema, 'users', {
-    debug: true, // Logs schema generation process
+    debug: true // Logs schema generation process
 });
 ```
 
@@ -383,9 +384,9 @@ const schema = generateZeroSchema(UserSchema, 'users', {
         organization: {
             sourceField: ['organizationId'],
             destTable: 'organizations',
-            destField: ['id'],
-        },
-    },
+            destField: ['id']
+        }
+    }
 });
 ```
 
