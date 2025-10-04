@@ -96,7 +96,7 @@ export function createServerMutators(
                 );
             }
         }
-    } as const;
+    };
 }
 
 export type ServerMutators = ReturnType<typeof createServerMutators>;

@@ -1,13 +1,14 @@
 import {
-    Body,
     Controller,
     Post,
     HttpCode,
     HttpStatus,
-    Req
+    Req,
+    Res
 } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
+import { Request as ExpressRequest, Response } from 'express';
 import { PushProcessor } from '@rocicorp/zero/server';
 
 import { MessageService } from '../services/message.service.js';
@@ -39,17 +40,32 @@ export class PushController {
     /**
      * Process push request from zero-cache.
      * This endpoint implements Zero's push protocol for custom mutators.
+     * 
+     * Converts Express request to Web Request for PushProcessor.
      */
     @Post()
     @HttpCode(HttpStatus.OK)
-    async processPush(@Req() request: Request, @Body() _body: unknown) {
+    async processPush(@Req() req: ExpressRequest, @Res() res: Response) {
         // Create server mutators with injected services
         const mutators = createServerMutators(
             this.messageService,
             this.roomService
         );
 
+        // Convert Express request to Web Request
+        const protocol = req.protocol || 'http';
+        const host = req.get('host') || 'localhost';
+        const url = `${protocol}://${host}${req.url}`;
+        
+        const webRequest = new Request(url, {
+            method: req.method,
+            headers: req.headers as HeadersInit,
+            body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined
+        });
+
         // Process the push request
-        return await this.processor.process(mutators, request);
+        const result = await this.processor.process(mutators, webRequest);
+        
+        return res.json(result);
     }
 }
