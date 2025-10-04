@@ -49,9 +49,6 @@ This monorepo hosts various **utilities** and **custom change source** implement
 - **Framework:** [NestJS] for custom change source implementations in the `apps/` folder.
 - **Deployment:** Custom change sources can be containerized via Docker.
 
-> [!NOTE]
-> This repo is actively maintained and open to community feedback. If you have questions or requests (e.g., example demos), feel free to open an issue or pull request.
-
 ---
 
 ## Repository Structure
@@ -434,16 +431,31 @@ This repository follows **Semantic Versioning** (SemVer). Each package in this m
 
 ## Contributing
 
-Contributions are **welcome**! I'd love your help in making this project better.
+Contributions are **welcome**! We'd love your help in making this project better.
+
+### Quick Start
 
 1. **Fork** the repository
 2. **Create** a feature or bugfix branch
 3. **Commit** your changes with clear commit messages
 4. **Open** a Pull Request (PR)
 
-I'll review your PR as soon as possible. For major changes, please open an issue or ping `@cbnsndwch` in the Rocicorp Discord server first to discuss the proposed modifications.
+### Important: Contributor License Agreement
 
-If you're not sure where to start, feel free to check the open issues or suggest new ideas!
+⚠️ **All contributors must agree to our [Contributor License Agreement (CLA)](./CONTRIBUTING.md#contributor-license-agreement-cla)** before we can accept contributions. This protects both you and the project.
+
+### Full Guidelines
+
+Please read our **[Contributing Guide](./CONTRIBUTING.md)** for:
+- Detailed setup instructions
+- Coding standards and best practices
+- Testing requirements
+- Attribution guidelines for external code
+- Pull request process
+
+For major changes, please open an issue or ping `@cbnsndwch` in the Rocicorp Discord server first to discuss your proposed modifications.
+
+If you're not sure where to start, check the [open issues](https://github.com/cbnsndwch/zero-sources/issues) or suggest new ideas!
 
 ---
 
@@ -479,9 +491,15 @@ This project is licensed under the **[MIT License](./LICENSE.md)**. See the lice
 
 ## Acknowledgments
 
-- Thanks to [@rocicorp/zero](https://github.com/rocicorp/zero) for providing the base technology this repo extends. If you're new to Zero, check out [Zero's Documentation] for a great introduction.
-- [NestJS](https://nestjs.com/) – for powering our server-side apps.
-- The **community** – your feedback and contributions help shape this project's future.
+This project builds upon the work of many incredible open-source projects and communities:
+
+- **[@rocicorp/zero](https://github.com/rocicorp/zero)** – The foundational reactive caching and synchronization framework that powers everything in this repository. Check out [Zero's Documentation] for more information.
+- **[NestJS](https://nestjs.com/)** – The robust Node.js framework powering our custom change source implementations.
+- **[Rocket.Chat](https://rocket.chat/)** – Inspiration for the domain model and entity schemas in our zrocket demo application.
+- **Open Source Community** – The countless developers who maintain the libraries, tools, and frameworks we depend on.
+- **Contributors** – Everyone who has contributed code, documentation, bug reports, and feedback to make this project better.
+
+For a comprehensive list of attributions, inspirations, and license information, see [ACKNOWLEDGMENTS.md](./ACKNOWLEDGMENTS.md).
 
 ---
 

@@ -249,6 +249,85 @@ pnpm test -- --coverage
 
 ---
 
+## Attribution and Licensing Requirements
+
+### Using External Code or Inspiration
+
+If your contribution includes or is inspired by code from other sources:
+
+#### 1. **Direct Code Adaptation**
+
+If you adapt or copy code from another project:
+
+```typescript
+/**
+ * Adapted from: [Project Name] ([GitHub URL or source URL])
+ * Original Author: [Author Name]
+ * Original License: [License Type - e.g., MIT, Apache-2.0]
+ * Changes made: [Brief description of your modifications]
+ */
+export function adaptedFunction() {
+  // Your implementation
+}
+```
+
+#### 2. **Inspired By / Design Patterns**
+
+If you're implementing a design pattern or concept from another project:
+
+```typescript
+/**
+ * Implementation inspired by [Project Name]'s approach to [specific feature]
+ * See: [URL to relevant documentation or code]
+ * 
+ * This is an independent implementation adapted for our use case.
+ */
+export class InspiredComponent {
+  // Your implementation
+}
+```
+
+#### 3. **Update ACKNOWLEDGMENTS.md**
+
+For significant inspirations or borrowed patterns, add an entry to [ACKNOWLEDGMENTS.md](./ACKNOWLEDGMENTS.md):
+
+- What you borrowed or were inspired by
+- The source project and its license
+- How you adapted it for this project
+- Link to the original source
+
+#### 4. **License Compatibility**
+
+Ensure any external code you reference is:
+- ✅ Licensed under **permissive licenses**: MIT, Apache-2.0, BSD, ISC
+- ✅ Compatible with this project's MIT License
+- ⚠️ **Requires approval**: GPL, LGPL, AGPL, MPL (copyleft licenses)
+- ❌ **NOT ACCEPTABLE**:
+  - SSPL (Server Side Public License)
+  - FSL (Functional Source License) / BSL (Business Source License)
+  - Fair Source / Fair Code licenses
+  - Elastic License / Commons Clause
+  - CC BY-NC (Non-Commercial) or any license with commercial restrictions
+  - Time-delayed licenses that restrict commercial use
+  - Proprietary licenses without explicit permission
+
+#### 5. **When in Doubt**
+
+If you're unsure about attribution requirements:
+1. Open a discussion before submitting your PR
+2. Contact the maintainers via Discord or email
+3. Err on the side of over-attribution rather than under-attribution
+
+### Why This Matters
+
+Proper attribution:
+- **Respects** the original authors' work
+- **Protects** the project from legal issues
+- **Maintains** trust in the open-source community
+- **Ensures** license compliance
+
+---
+
 ## Pull Request Process
 
 ### 1. Create a Feature Branch
