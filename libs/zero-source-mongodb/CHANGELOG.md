@@ -1,5 +1,18 @@
 # @cbnsndwch/zero-source-mongodb
 
+## 0.0.3
+
+### Patch Changes
+
+- [`4fd6292`](https://github.com/cbnsndwch/zero-sources/commit/4fd62923899cf3107266ce2228311e32ae029be7) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - Enhanced package documentation with comprehensive descriptions and README files
+    - Updated package.json descriptions to be more detailed and informative
+    - Added comprehensive README files for all library packages
+    - Improved discoverability and understanding of package purposes
+    - Added usage examples and feature highlights in documentation
+
+- Updated dependencies [[`4fd6292`](https://github.com/cbnsndwch/zero-sources/commit/4fd62923899cf3107266ce2228311e32ae029be7)]:
+    - @cbnsndwch/zero-contracts@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes
