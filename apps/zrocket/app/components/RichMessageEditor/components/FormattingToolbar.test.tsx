@@ -33,11 +33,13 @@ describe('FormattingToolbar', () => {
     it('component has expected interface structure', async () => {
         // Mock the complex dependencies to test component interface
         vi.doMock('@lexical/react/LexicalComposerContext', () => ({
-            useLexicalComposerContext: () => [{
-                registerUpdateListener: vi.fn(() => () => {}),
-                getEditorState: () => ({ read: vi.fn() }),
-                dispatchCommand: vi.fn()
-            }]
+            useLexicalComposerContext: () => [
+                {
+                    registerUpdateListener: vi.fn(() => () => {}),
+                    getEditorState: () => ({ read: vi.fn() }),
+                    dispatchCommand: vi.fn()
+                }
+            ]
         }));
 
         vi.doMock('lexical', () => ({
@@ -51,16 +53,16 @@ describe('FormattingToolbar', () => {
 
         vi.doMock('lucide-react', () => ({
             Bold: () => 'Bold',
-            Italic: () => 'Italic', 
+            Italic: () => 'Italic',
             Underline: () => 'Underline',
             Strikethrough: () => 'Strikethrough'
         }));
 
         const { FormattingToolbar } = await import('./FormattingToolbar');
-        
+
         // Test that component can be imported and is a function
         expect(typeof FormattingToolbar).toBe('function');
-        
+
         // Test component interface without calling it (to avoid React context issues)
         expect(FormattingToolbar.length).toBeLessThanOrEqual(1); // Should accept 0-1 parameters (props)
         expect(FormattingToolbar.name).toBe('FormattingToolbar');
@@ -70,7 +72,7 @@ describe('FormattingToolbar', () => {
         // This test ensures the component has proper TypeScript interface
         const module = await import('./FormattingToolbar');
         const component = module.FormattingToolbar;
-        
+
         // Should be a React functional component
         expect(typeof component).toBe('function');
         expect(component.length).toBeLessThanOrEqual(1); // Should accept 0-1 parameters (props)
