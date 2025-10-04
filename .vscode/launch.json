@@ -21,7 +21,7 @@
         },
         {
             "type": "node",
-            "name": "Zero Cache for ZChat",
+            "name": "Zero Cache for ZRocket",
             "request": "launch",
             "runtimeExecutable": "pnpm",
             "sourceMaps": true,
