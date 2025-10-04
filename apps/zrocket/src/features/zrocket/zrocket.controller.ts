@@ -87,7 +87,7 @@ export class ZRocketController {
                 'Schema exported to separate change source server'
             ],
             endpoints: [
-                'GET /zrocket/demo-info - This information',
+                'GET /api/zrocket/demo-info - This information',
                 'POST /zrocket/seed-data - Seeds sample data for testing',
                 'GET /zrocket/tables - List all discriminated Zero tables'
             ],

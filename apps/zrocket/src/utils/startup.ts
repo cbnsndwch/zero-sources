@@ -12,9 +12,9 @@ export async function printStartupBanner(
         .then(url => url.replace('[::1]', 'localhost'));
     const banner = makeTable(
         {
-            'Base URL': baseUrl,
+            Base: baseUrl,
             SwaggerUI: `${baseUrl}/docs`,
-            'ZRocket Demo': `${baseUrl}/zrocket/demo-info`
+            Info: `${baseUrl}/api/zrocket/demo-info`
         },
         `🚀 ZRocket Server running 🚀`
     );
