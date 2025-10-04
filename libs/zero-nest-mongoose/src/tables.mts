@@ -7,7 +7,7 @@ import type { Document } from 'mongoose';
 import type {
     TableSchema,
     ReadonlyJSONValue,
-    SchemaValue
+    SchemaValue,
 } from '@rocicorp/zero';
 
 import type {
@@ -108,7 +108,6 @@ export class ZeroTableSchema {
                 case !!options.enum:
                     columns[prop.propertyKey] = {
                         type: 'string',
-                        kind: 'enum',
                         optional: isOptionalProp(options)
                     };
                     break;

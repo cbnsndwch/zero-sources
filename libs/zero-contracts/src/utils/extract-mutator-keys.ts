@@ -70,7 +70,7 @@ import type {
  */
 export type MutatorKeysForSchema<
     Schema extends SchemaType,
-    Mutators extends CustomMutatorDefs<Schema>
+    Mutators extends CustomMutatorDefs
 > = {
     readonly [K in keyof Mutators]: Mutators[K] extends CustomMutatorImpl<Schema>
         ? K & string

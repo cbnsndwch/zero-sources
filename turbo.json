@@ -6,7 +6,7 @@
         "NODE_ENV",
         "PORT"
     ],
-    "ui": "tui",
+    "ui": "stream",
     "tasks": {
         "build": {
             "dependsOn": [
