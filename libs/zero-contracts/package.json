@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-contracts",
     "description": "Contracts and shared data types for Zero custom change sources",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "type": "module",
     "license": "MIT",
     "author": {

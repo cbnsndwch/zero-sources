@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-watermark-nats-kv",
     "description": "Watermark service for custom Zero change sources backed by NATS KV",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "type": "module",
     "license": "MIT",
     "author": {

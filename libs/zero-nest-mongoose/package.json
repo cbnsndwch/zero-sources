@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-nest-mongoose",
     "description": "Generate Zero schemas from @nestjs/mongoose schemas",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "MIT",
     "type": "module",
     "author": {
