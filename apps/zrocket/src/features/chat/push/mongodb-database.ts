@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import type { Connection } from 'mongoose';
 
 import type {
@@ -6,6 +7,8 @@ import type {
     TransactionProviderInput
 } from '@rocicorp/zero/server';
 
+import { ClientMutation } from '../entities/client-mutation.entity.js';
+
 import type { MongoTransaction } from './mongo-transaction.js';
 
 /**
@@ -13,6 +16,8 @@ import type { MongoTransaction } from './mongo-transaction.js';
  * Implements the Database interface using Mongoose connections and sessions.
  */
 export class MongoDatabase implements Database<MongoTransaction> {
+    private readonly logger = new Logger(MongoDatabase.name);
+
     constructor(private readonly connection: Connection) {}
 
     async transaction<R>(
@@ -36,32 +41,39 @@ export class MongoDatabase implements Database<MongoTransaction> {
                 const hooks: TransactionProviderHooks = {
                     updateClientMutationID: async () => {
                         // Get or create the client mutation tracking document
-                        const ClientMutation =
-                            this.connection.model('ClientMutation');
-                        const doc = (await ClientMutation.findOneAndUpdate(
-                            {
-                                clientGroupID: input.clientGroupID,
-                                clientID: input.clientID
-                            },
-                            {
-                                $set: {
-                                    lastMutationID: input.mutationID,
-                                    upstreamSchema: input.upstreamSchema,
-                                    updatedAt: new Date()
+                        const clientMutations = this.connection.model(
+                            ClientMutation.name
+                        );
+                        const doc =
+                            await clientMutations.findOneAndUpdate<ClientMutation>(
+                                {
+                                    clientGroupID: input.clientGroupID,
+                                    clientID: input.clientID
                                 },
-                                $setOnInsert: {
-                                    createdAt: new Date()
+                                {
+                                    $set: {
+                                        lastMutationID: input.mutationID,
+                                        upstreamSchema: input.upstreamSchema,
+                                        updatedAt: new Date()
+                                    },
+                                    $setOnInsert: {
+                                        createdAt: new Date()
+                                    }
+                                },
+                                {
+                                    upsert: true,
+                                    session
                                 }
-                            },
-                            {
-                                upsert: true,
-                                new: false, // Return old document to get previous lastMutationID
-                                session
-                            }
-                        ).lean()) as { lastMutationID?: number } | null;
+                            );
+
+                        const lastMutationID = doc?.lastMutationID ?? 1;
+
+                        this.logger.verbose(
+                            `updateClientMutationID result: returning lastMutationID=${lastMutationID}`
+                        );
 
                         return {
-                            lastMutationID: doc?.lastMutationID ?? 0
+                            lastMutationID
                         };
                     },
 

@@ -130,7 +130,7 @@ describe('PushController', () => {
 
             // Should return a response (even if mutation failed during processing)
             expect(mockResponse.json).toHaveBeenCalled();
-            
+
             // Note: The mutator resolution is tested separately in server-mutators.spec.ts
             // This test verifies the push endpoint accepts and processes requests
         });
