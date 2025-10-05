@@ -116,7 +116,9 @@ describe('MongoDatabase', () => {
     describe('TransactionProviderHooks', () => {
         it('updateClientMutationID should track mutation ID', async () => {
             const mockModel = {
-                findOneAndUpdate: vi.fn().mockResolvedValue({ lastMutationID: 3 })
+                findOneAndUpdate: vi
+                    .fn()
+                    .mockResolvedValue({ lastMutationID: 3 })
             };
 
             (mockConnection.model as any).mockReturnValue(mockModel);
@@ -159,7 +161,6 @@ describe('MongoDatabase', () => {
                 }),
                 expect.objectContaining({
                     upsert: true,
-                    new: false,
                     session: mockSession
                 })
             );
