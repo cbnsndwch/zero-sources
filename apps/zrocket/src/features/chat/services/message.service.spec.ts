@@ -28,7 +28,8 @@ describe('MessageService', () => {
                 {
                     provide: getModelToken(Room.name),
                     useValue: {
-                        findById: vi.fn()
+                        findById: vi.fn(),
+                        updateOne: vi.fn()
                     }
                 }
             ]
@@ -69,6 +70,14 @@ describe('MessageService', () => {
                 mockMessage
             ] as any);
 
+            vi.spyOn(roomModel, 'updateOne').mockResolvedValue({
+                acknowledged: true,
+                matchedCount: 1,
+                modifiedCount: 1,
+                upsertedCount: 0,
+                upsertedId: null
+            } as any);
+
             const input = {
                 roomId: 'room-1',
                 content: 'Hello World',
@@ -90,9 +99,18 @@ describe('MessageService', () => {
                 ],
                 { session: mockSession }
             );
-            expect(mockRoom.save).toHaveBeenCalledWith({
-                session: mockSession
-            });
+            expect(roomModel.updateOne).toHaveBeenCalledWith(
+                { _id: 'room-1' },
+                expect.objectContaining({
+                    $set: expect.objectContaining({
+                        lastMessage: expect.any(Object),
+                        lastMessageAt: expect.any(Date),
+                        updatedAt: expect.any(Date)
+                    }),
+                    $inc: { messageCount: 1 }
+                }),
+                { session: mockSession }
+            );
         });
 
         it('should throw error if room not found', async () => {
@@ -156,6 +174,14 @@ describe('MessageService', () => {
                 mockMessage
             ] as any);
 
+            vi.spyOn(roomModel, 'updateOne').mockResolvedValue({
+                acknowledged: true,
+                matchedCount: 1,
+                modifiedCount: 1,
+                upsertedCount: 0,
+                upsertedId: null
+            } as any);
+
             const input = {
                 roomId: 'room-1',
                 content: 'Test',
@@ -169,7 +195,11 @@ describe('MessageService', () => {
                 expect.anything(),
                 { session: undefined }
             );
-            expect(mockRoom.save).toHaveBeenCalledWith();
+            expect(roomModel.updateOne).toHaveBeenCalledWith(
+                { _id: 'room-1' },
+                expect.anything(),
+                { session: undefined }
+            );
         });
     });
 });

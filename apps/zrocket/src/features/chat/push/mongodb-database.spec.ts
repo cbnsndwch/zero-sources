@@ -116,9 +116,7 @@ describe('MongoDatabase', () => {
     describe('TransactionProviderHooks', () => {
         it('updateClientMutationID should track mutation ID', async () => {
             const mockModel = {
-                findOneAndUpdate: vi.fn().mockReturnValue({
-                    lean: vi.fn().mockResolvedValue({ lastMutationID: 3 })
-                })
+                findOneAndUpdate: vi.fn().mockResolvedValue({ lastMutationID: 3 })
             };
 
             (mockConnection.model as any).mockReturnValue(mockModel);
@@ -167,11 +165,9 @@ describe('MongoDatabase', () => {
             );
         });
 
-        it('updateClientMutationID should return 0 for new client', async () => {
+        it('updateClientMutationID should return 1 for new client', async () => {
             const mockModel = {
-                findOneAndUpdate: vi.fn().mockReturnValue({
-                    lean: vi.fn().mockResolvedValue(null)
-                })
+                findOneAndUpdate: vi.fn().mockResolvedValue(null)
             };
 
             (mockConnection.model as any).mockReturnValue(mockModel);
@@ -199,7 +195,7 @@ describe('MongoDatabase', () => {
 
             const result = await hooks!.updateClientMutationID();
 
-            expect(result).toEqual({ lastMutationID: 0 });
+            expect(result).toEqual({ lastMutationID: 1 });
         });
 
         it('writeMutationResult should store mutation result', async () => {

@@ -7,22 +7,22 @@ import { Document } from 'mongoose';
  */
 @Schema({ collection: 'clientMutations', timestamps: true })
 export class ClientMutation extends Document {
-    @Prop({ required: true, index: true })
+    @Prop({ type: String, required: true, index: true })
     clientGroupID!: string;
 
-    @Prop({ required: true, index: true })
+    @Prop({ type: String, required: true, index: true })
     clientID!: string;
 
-    @Prop({ required: true })
+    @Prop({ type: Number, required: true })
     lastMutationID!: number;
 
-    @Prop({ required: true })
+    @Prop({ type: String, required: true })
     upstreamSchema!: string;
 
-    @Prop()
+    @Prop({ type: Date })
     createdAt!: Date;
 
-    @Prop()
+    @Prop({ type: Date })
     updatedAt!: Date;
 }
 

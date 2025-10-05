@@ -79,6 +79,7 @@ describe('PushController', () => {
                         {
                             type: 'custom',
                             id: 0,
+                            clientGroupID: 'test-group',
                             clientID: 'client-1',
                             name: 'message.send',
                             timestamp: Date.now(),
@@ -156,6 +157,7 @@ describe('PushController', () => {
                         {
                             type: 'custom',
                             id: 1,
+                            clientGroupID: 'test-group',
                             clientID: 'client-1',
                             name: 'message.send',
                             timestamp: Date.now(),
