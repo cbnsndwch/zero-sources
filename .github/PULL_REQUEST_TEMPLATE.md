@@ -114,7 +114,7 @@ Date: [YYYY-MM-DD]
 
 #### Sources Used (if applicable):
 
-<!-- 
+<!--
 Example:
 - Adapted caching logic from [Project Name](URL) - MIT License
 - Inspired by [Project Name]'s approach to [feature](URL)
@@ -145,7 +145,7 @@ Example:
 
 ### Breaking Change Description:
 
-<!-- 
+<!--
 If yes, describe:
 - What breaks
 - Migration path for users

@@ -3,7 +3,7 @@ import type { RoomType } from '@cbnsndwch/zrocket-contracts';
 /**
  * API client for chat operations.
  * Uses regular REST endpoints instead of Zero custom mutators.
- * 
+ *
  * The flow is:
  * 1. Client calls REST API to write data
  * 2. NestJS service updates MongoDB
@@ -12,9 +12,10 @@ import type { RoomType } from '@cbnsndwch/zrocket-contracts';
  * 5. Zero queries automatically update (reactive)
  */
 
-const API_BASE_URL = typeof window !== 'undefined' 
-    ? window.location.origin 
-    : 'http://localhost:8011';
+const API_BASE_URL =
+    typeof window !== 'undefined'
+        ? window.location.origin
+        : 'http://localhost:8011';
 
 /**
  * Send a new message to a room
@@ -34,7 +35,9 @@ export async function sendMessage(input: {
     });
 
     if (!response.ok) {
-        const error = await response.json().catch(() => ({ message: 'Failed to send message' }));
+        const error = await response
+            .json()
+            .catch(() => ({ message: 'Failed to send message' }));
         throw new Error(error.message || 'Failed to send message');
     }
 
@@ -63,7 +66,9 @@ export async function createRoom(input: {
     });
 
     if (!response.ok) {
-        const error = await response.json().catch(() => ({ message: 'Failed to create room' }));
+        const error = await response
+            .json()
+            .catch(() => ({ message: 'Failed to create room' }));
         throw new Error(error.message || 'Failed to create room');
     }
 
@@ -87,7 +92,9 @@ export async function inviteToRoom(input: {
     });
 
     if (!response.ok) {
-        const error = await response.json().catch(() => ({ message: 'Failed to invite users' }));
+        const error = await response
+            .json()
+            .catch(() => ({ message: 'Failed to invite users' }));
         throw new Error(error.message || 'Failed to invite users');
     }
 

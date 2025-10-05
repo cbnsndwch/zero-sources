@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import useChannel from '@/hooks/use-channel';
@@ -11,6 +13,9 @@ interface ChatMessagesProps {
 }
 
 export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const prevMessageCountRef = useRef<number>(0);
+
     // Fetch room data based on room type
     const channelQueryResult = useChannel(roomType === 'channel' ? roomId : '');
     const groupQueryResult = useGroup(roomType === 'group' ? roomId : '');
@@ -34,6 +39,25 @@ export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
 
     // Get messages for the room
     const messages = useRoomMessages(room);
+
+    // Scroll to bottom when new messages are added or on initial load
+    useEffect(() => {
+        const currentCount = messages.length;
+        const prevCount = prevMessageCountRef.current;
+
+        // Scroll on initial load or when messages are added
+        if (prevCount === 0 || currentCount > prevCount) {
+            if (messagesEndRef.current) {
+                // Use instant scroll on initial load, smooth on new messages
+                const behavior = prevCount === 0 ? 'instant' : 'smooth';
+                messagesEndRef.current.scrollIntoView({
+                    behavior: behavior as ScrollBehavior
+                });
+            }
+        }
+
+        prevMessageCountRef.current = currentCount;
+    }, [messages]);
 
     const formatTime = (date: Date | string) => {
         const dateObj = typeof date === 'string' ? new Date(date) : date;
@@ -123,6 +147,8 @@ export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
                         </div>
                     );
                 })}
+                {/* Invisible element at the end to scroll to */}
+                <div ref={messagesEndRef} />
             </div>
         </ScrollArea>
     );

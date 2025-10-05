@@ -91,7 +91,7 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
                 console.log('[ChatInput] Message sent successfully');
             } catch (error) {
                 console.error('[ChatInput] Failed to send message:', error);
-                
+
                 // Show error toast to user
                 const errorMessage =
                     error instanceof Error

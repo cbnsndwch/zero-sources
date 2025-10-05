@@ -40,9 +40,9 @@ assignees: ''
 
 <!-- Why would this feature be valuable? Who would benefit from it? -->
 
-- 
-- 
-- 
+-
+-
+-
 
 ---
 
@@ -79,7 +79,7 @@ assignees: ''
 - [ ] `zero-contracts`
 - [ ] `zrocket-contracts`
 - [ ] New package (describe below)
-- [ ] Other: 
+- [ ] Other:
 
 ---
 

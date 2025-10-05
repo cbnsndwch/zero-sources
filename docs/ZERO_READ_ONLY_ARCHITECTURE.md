@@ -44,12 +44,11 @@ This document describes the simplified architecture where Zero is used only for 
 5. All clients see updates in real-time
 
 **Example:**
+
 ```typescript
 // Reactive query - updates automatically
 const [messages] = useQuery(
-    z.query.messages
-        .where('roomId', currentRoomId)
-        .orderBy('createdAt', 'desc')
+    z.query.messages.where('roomId', currentRoomId).orderBy('createdAt', 'desc')
 );
 ```
 
@@ -64,6 +63,7 @@ const [messages] = useQuery(
 7. Client queries automatically update
 
 **Example:**
+
 ```typescript
 // REST API call for write
 await sendMessage({
@@ -103,11 +103,10 @@ await sendMessage({
 Located in `apps/zrocket/src/features/chat/controllers/`:
 
 - **`messages.controller.ts`** - Handles message operations
-  - `POST /api/messages` - Send a message
-  
+    - `POST /api/messages` - Send a message
 - **`rooms.controller.ts`** - Handles room operations
-  - `POST /api/rooms` - Create a room
-  - `POST /api/rooms/invite` - Invite users to a room
+    - `POST /api/rooms` - Create a room
+    - `POST /api/rooms/invite` - Invite users to a room
 
 #### Services
 
@@ -135,11 +134,11 @@ export async function sendMessage(input: {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(input)
     });
-    
+
     if (!response.ok) {
         throw new Error('Failed to send message');
     }
-    
+
     return response.json();
 }
 ```
@@ -149,6 +148,7 @@ export async function sendMessage(input: {
 Replace custom mutators with REST API calls:
 
 **Before (Custom Mutators):**
+
 ```typescript
 const mutation = zero.mutate.message.send({
     roomId,
@@ -160,6 +160,7 @@ await mutation.server;
 ```
 
 **After (REST API):**
+
 ```typescript
 await sendMessage({
     roomId,
@@ -211,9 +212,7 @@ curl -X POST http://localhost:8011/api/messages \
 Queries work the same way:
 
 ```typescript
-const [messages] = useQuery(
-    z.query.messages.where('roomId', roomId)
-);
+const [messages] = useQuery(z.query.messages.where('roomId', roomId));
 
 // Messages will include the new message after CDC picks it up
 ```

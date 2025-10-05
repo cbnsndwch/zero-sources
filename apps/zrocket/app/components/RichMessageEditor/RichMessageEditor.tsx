@@ -10,8 +10,10 @@ import {
     $getSelection,
     $isRangeSelection,
     COMMAND_PRIORITY_NORMAL,
+    COMMAND_PRIORITY_HIGH,
     FORMAT_TEXT_COMMAND,
     KEY_DOWN_COMMAND,
+    KEY_ENTER_COMMAND,
     RootNode,
     type EditorState,
     type SerializedEditorState,
@@ -125,7 +127,11 @@ function SendButtonPlugin({
 }
 
 /**
- * Custom plugin to handle keyboard events (Enter to send, Shift+Enter for new lines)
+ * Custom plugin to handle keyboard events:
+ * - Enter (without modifiers) → Send message
+ * - Shift + Enter → Insert new line
+ * - Ctrl + Enter → Insert new line (Windows/Linux)
+ * - Cmd + Enter → Insert new line (Mac)
  */
 function KeyboardPlugin({
     onSendMessage,
@@ -140,12 +146,40 @@ function KeyboardPlugin({
     const [editor] = useLexicalComposerContext();
 
     useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            const keystrokeStart = performance.now();
+        // Register command to intercept Enter key presses
+        // Use HIGH priority to intercept before Lexical's default behavior
+        const removeEnterCommand = editor.registerCommand(
+            KEY_ENTER_COMMAND,
+            (event: KeyboardEvent | null) => {
+                const keystrokeStart = performance.now();
 
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                event.stopPropagation();
+                console.log('[KeyboardPlugin] Enter key pressed', {
+                    shiftKey: event?.shiftKey,
+                    ctrlKey: event?.ctrlKey,
+                    metaKey: event?.metaKey
+                });
+
+                // If Enter was pressed with modifiers, allow default behavior (new line)
+                if (
+                    event &&
+                    (event.shiftKey || event.ctrlKey || event.metaKey)
+                ) {
+                    console.log(
+                        '[KeyboardPlugin] Modifier detected, inserting new line'
+                    );
+                    onPerformanceUpdate?.('keystroke', keystrokeStart);
+                    return false; // Let Lexical handle the new line
+                }
+
+                console.log(
+                    '[KeyboardPlugin] Plain Enter, attempting to send message'
+                );
+
+                // Plain Enter → send message
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
 
                 // Get the current editor state and serialize it
                 const serializationStart = performance.now();
@@ -176,6 +210,9 @@ function KeyboardPlugin({
                 });
 
                 if (hasContent) {
+                    console.log(
+                        '[KeyboardPlugin] Sending message with content'
+                    );
                     onSendMessage(serializedState);
 
                     // Clear the editor after sending
@@ -183,21 +220,34 @@ function KeyboardPlugin({
                         const root = $getRoot();
                         root.clear();
                     });
+                } else {
+                    console.log(
+                        '[KeyboardPlugin] No content to send, ignoring Enter'
+                    );
                 }
-            } else {
-                // Track keystroke latency for regular typing
-                onPerformanceUpdate?.('keystroke', keystrokeStart);
-            }
-        };
 
-        return editor.registerRootListener((rootElement, prevRootElement) => {
-            if (prevRootElement !== null) {
-                prevRootElement.removeEventListener('keydown', handleKeyDown);
-            }
-            if (rootElement !== null) {
-                rootElement.addEventListener('keydown', handleKeyDown);
-            }
-        });
+                return true; // Command handled, prevent default
+            },
+            COMMAND_PRIORITY_HIGH
+        );
+
+        // Register general keydown handler for performance tracking
+        const removeKeyDownCommand = editor.registerCommand(
+            KEY_DOWN_COMMAND,
+            (event: KeyboardEvent) => {
+                if (event.key !== 'Enter') {
+                    const keystrokeStart = performance.now();
+                    onPerformanceUpdate?.('keystroke', keystrokeStart);
+                }
+                return false; // Don't prevent other handlers
+            },
+            COMMAND_PRIORITY_NORMAL
+        );
+
+        return () => {
+            removeEnterCommand();
+            removeKeyDownCommand();
+        };
     }, [editor, onSendMessage, onPerformanceUpdate]);
 
     return null;
@@ -483,7 +533,10 @@ export function RichMessageEditor({
                         </div>
 
                         {/* Bottom Row: Action Bar */}
-                        <ActionBar disabled={disabled} onSend={handleSendButtonClick} />
+                        <ActionBar
+                            disabled={disabled}
+                            onSend={handleSendButtonClick}
+                        />
 
                         <HistoryPlugin />
                         <OnChangePlugin onChange={handleContentChange} />
@@ -512,7 +565,7 @@ export function RichMessageEditor({
                         id="rich-message-editor-send-section"
                         className="flex justify-end items-center text-xs text-muted-foreground font-xs gap-1"
                     >
-                        Shift + Enter adds a new line
+                        Ctrl / Cmd / Shift + Enter adds a new line
                     </div>
                 </LexicalComposer>
             </div>

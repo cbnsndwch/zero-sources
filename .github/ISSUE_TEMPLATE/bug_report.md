@@ -24,10 +24,10 @@ assignees: ''
 
 <!-- Steps to reproduce the behavior -->
 
-1. 
-2. 
-3. 
-4. 
+1.
+2.
+3.
+4.
 
 ### Minimal Reproduction
 
@@ -69,7 +69,7 @@ assignees: ''
 - [ ] `zrocket-contracts`
 - [ ] `source-mongodb-server`
 - [ ] `zrocket` (demo app)
-- [ ] Other: 
+- [ ] Other:
 
 ---
 
