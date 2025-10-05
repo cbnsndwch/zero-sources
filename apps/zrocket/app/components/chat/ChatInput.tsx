@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { RichMessageEditor } from '@/components/RichMessageEditor';
 import { useZero } from '@/zero/use-zero';
 import { useLogin } from '@/auth/use-login';
+import { sendMessage } from '@/zero/api-client';
 
 interface ChatInputProps {
     roomId: string;
@@ -76,18 +77,16 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
 
             try {
                 setIsSending(true);
-                console.log('[ChatInput] Sending message via Zero mutator...');
+                console.log('[ChatInput] Sending message via REST API...');
 
-                // Send message using Zero custom mutator
-                const mutation = zero.mutate.message.send({
+                // Send message using REST API instead of Zero custom mutator
+                // MongoDB CDC will pick up the change and Zero will update queries automatically
+                await sendMessage({
                     roomId,
                     content: textContent.trim(),
                     userId: loginState.decoded.sub,
                     username: loginState.decoded.name
                 });
-
-                // Wait for server confirmation
-                await mutation.server;
 
                 console.log('[ChatInput] Message sent successfully');
             } catch (error) {

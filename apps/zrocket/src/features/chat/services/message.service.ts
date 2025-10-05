@@ -2,7 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ClientSession } from 'mongoose';
 
-import { Message } from '../entities/message.entity.js';
+import { UserMessageType } from '@cbnsndwch/zrocket-contracts';
+
+import { Message, MessageDocument } from '../entities/message.entity.js';
 import { Room } from '../entities/rooms/room-base.entity.js';
 
 export interface SendMessageInput {
@@ -16,7 +18,7 @@ export interface SendMessageInput {
 export class MessageService {
     constructor(
         @InjectModel(Message.name)
-        private readonly messageModel: Model<Message>,
+        private readonly messageModel: Model<MessageDocument>,
         @InjectModel(Room.name)
         private readonly roomModel: Model<Room>
     ) {}
@@ -41,12 +43,14 @@ export class MessageService {
             throw new Error('You must be a room member to send messages');
         }
 
+        const now = new Date();
+
         // Create the message
         const [message] = await this.messageModel.create(
             [
                 {
                     roomId: input.roomId,
-                    t: 'USER', // User message type
+                    t: UserMessageType.USER,
                     sender: {
                         _id: input.userId,
                         username: input.username
@@ -81,33 +85,34 @@ export class MessageService {
                         }
                     },
                     groupable: true,
-                    createdAt: new Date(),
-                    updatedAt: new Date()
+                    createdAt: now,
+                    updatedAt: now
                 }
             ],
             { session: session ?? undefined }
         );
 
         // Update room message count and last message
-        room.messageCount += 1;
-        const now = new Date();
-        room.lastMessage = {
-            _id: message._id.toString(),
-            roomId: message.roomId,
-            sender: message.sender!,
-            contents: message.contents!,
-            groupable: message.groupable,
-            createdAt: now,
-            updatedAt: now
-        };
-        room.lastMessageAt = now;
-        room.updatedAt = now;
-
-        if (session) {
-            await room.save({ session });
-        } else {
-            await room.save();
-        }
+        await this.roomModel.updateOne(
+            { _id: room._id },
+            {
+                $set: {
+                    lastMessage: {
+                        _id: message._id.toString(),
+                        roomId: message.roomId,
+                        sender: message.sender!,
+                        contents: message.contents!,
+                        groupable: message.groupable,
+                        createdAt: now,
+                        updatedAt: now
+                    },
+                    lastMessageAt: now,
+                    updatedAt: now
+                },
+                $inc: { messageCount: 1 }
+            },
+            { session: session ?? undefined }
+        );
 
         return message;
     }

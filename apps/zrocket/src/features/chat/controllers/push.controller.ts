@@ -1,17 +1,19 @@
 import {
+    Body,
     Controller,
     HttpCode,
     HttpStatus,
     Logger,
     Post,
-    Req,
-    Res
+    Query
 } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
-import { PushProcessor } from '@rocicorp/zero/server';
-import type { Request as ExpressRequest, Response } from 'express';
+import { CustomMutatorDefs, PushProcessor } from '@rocicorp/zero/server';
 import type { Connection } from 'mongoose';
 
+import type { Dict } from '@cbnsndwch/zero-contracts';
+
+import { MongoTransaction } from '../push/index.js';
 import { MongoDatabase } from '../push/mongodb-database.js';
 import { createServerMutators } from '../push/server-mutators.js';
 import { MessageService } from '../services/message.service.js';
@@ -29,6 +31,8 @@ export class PushController {
         ReturnType<typeof createServerMutators>
     >;
 
+    private readonly mutators: CustomMutatorDefs<MongoTransaction>;
+
     constructor(
         @InjectConnection() private readonly connection: Connection,
         private readonly messageService: MessageService,
@@ -37,6 +41,12 @@ export class PushController {
         // Initialize push processor with MongoDB database adapter
         const database = new MongoDatabase(this.connection);
         this.processor = new PushProcessor(database, 'debug');
+
+        // Create server mutators with injected services
+        this.mutators = createServerMutators(
+            this.messageService,
+            this.roomService
+        );
     }
 
     /**
@@ -47,52 +57,52 @@ export class PushController {
      */
     @Post()
     @HttpCode(HttpStatus.OK)
-    async processPush(@Req() req: ExpressRequest, @Res() res: Response) {
+    async processPush(@Query() query: Dict, @Body() body: Dict) {
         // Log the incoming push request for debugging
         this.logger.log('Received push request:', {
-            clientID: req.body?.clientID,
-            clientGroupID: req.body?.clientGroupID,
-            mutationID: req.body?.mutationID,
-            mutations: req.body?.mutations?.map((m: any) => ({
+            clientID: body?.clientID,
+            clientGroupID: body?.clientGroupID,
+            mutationID: body?.mutationID,
+            mutations: body?.mutations?.map((m: any) => ({
                 id: m.id,
                 name: m.name,
                 args: m.args
             }))
         });
 
-        // Create server mutators with injected services
-        const mutators = createServerMutators(
-            this.messageService,
-            this.roomService
-        );
-
-        // Convert Express request to Web Request
-        const protocol = req.protocol || 'http';
-        const host = req.get('host') || 'localhost';
-        const url = `${protocol}://${host}${req.url}`;
-
-        const webRequest = new Request(url, {
-            method: req.method,
-            headers: req.headers as HeadersInit,
-            body:
-                req.method !== 'GET' && req.method !== 'HEAD'
-                    ? JSON.stringify(req.body)
-                    : undefined
-        });
-
         try {
             // Process the push request
-            const result = await this.processor.process(mutators, webRequest);
-            
-            this.logger.log('Push request processed successfully');
-            
-            return res.json(result);
-        } catch (error) {
-            this.logger.error('Push request failed:', {
-                error: error.message,
-                clientID: req.body?.clientID,
-                mutationID: req.body?.mutationID
+            const result = await this.processor.process(
+                this.mutators,
+                query,
+                body
+            );
+
+            // Log the result details
+            this.logger.log('Push request processed', {
+                clientID: body?.clientID,
+                mutationCount: body?.mutations?.length,
+                resultKeys: Object.keys(result || {}),
+                // Log if there are any mutation errors in the result
+                hasMutationErrors: result && 'mutationErrors' in result
             });
+
+            // PushProcessor returns HTTP 200 even when mutations fail
+            // The errors are included in the result structure
+            return result;
+        } catch (error) {
+            // This catch block should only fire for infrastructure errors
+            // (DB connection issues, etc.) not business logic errors
+            // Infrastructure errors should cause zero-cache to retry
+            this.logger.error('Push processor infrastructure error:', {
+                error: error.message,
+                stack: error.stack,
+                clientID: body?.clientID,
+                mutationID: body?.mutationID
+            });
+
+            // Re-throw to let NestJS return 500
+            // This tells zero-cache to retry (connection/DB issues)
             throw error;
         }
     }

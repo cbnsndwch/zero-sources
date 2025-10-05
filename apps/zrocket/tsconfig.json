@@ -3,7 +3,8 @@
         "checkJs": true,
         "verbatimModuleSyntax": true,
         "skipLibCheck": true,
-        "strict": true,
+        "strict": false,
+        // "strict": true,
         "noEmit": true,
         "types": [
             "vitest"

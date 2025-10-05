@@ -1,11 +1,17 @@
-import { Prop } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
+import { IsDate } from 'class-validator';
+
 import type { IEntityBase } from '@cbnsndwch/zrocket-contracts';
 
-export abstract class EntityBase
-    extends Document<string>
-    implements IEntityBase
-{
+@Schema()
+export abstract class EntityBase implements IEntityBase {
+    _id: string;
+
+    @IsDate()
+    @Prop({ type: Date, default: () => new Date() })
+    createdAt: Date;
+
+    @IsDate()
     @Prop({ type: Date, default: () => new Date() })
     updatedAt!: Date;
 }

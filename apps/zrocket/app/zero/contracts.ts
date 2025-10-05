@@ -2,9 +2,10 @@ import type { PullRow, Zero as ZeroConstructor } from '@rocicorp/zero';
 
 import type { Schema } from '@cbnsndwch/zrocket-contracts/schema';
 
-import type { Mutators } from './mutators';
+// import type { Mutators } from './mutators';
 
-export type Zero = ZeroConstructor<Schema, Mutators>;
+// export type Zero = ZeroConstructor<Schema, Mutators>;
+export type Zero = ZeroConstructor<Schema>;
 
 export type IChannel = PullRow<'channels', Schema>;
 export type IChat = PullRow<'chats', Schema>;

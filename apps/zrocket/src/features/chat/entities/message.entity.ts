@@ -11,8 +11,9 @@ import {
     ValidateNested
 } from 'class-validator';
 import type { SerializedEditorState } from 'lexical';
-import { Types } from 'mongoose';
-import { MESSAGE_TYPES } from '@cbnsndwch/zrocket-contracts';
+import { Types, Document } from 'mongoose';
+
+import type { Dict } from '@cbnsndwch/zero-contracts';
 import type {
     IHasName,
     IMessageReaction,
@@ -22,7 +23,7 @@ import type {
     MessageAttachment,
     MessageType
 } from '@cbnsndwch/zrocket-contracts';
-import type { Dict } from '@cbnsndwch/zero-contracts';
+import { MESSAGE_TYPES } from '@cbnsndwch/zrocket-contracts';
 
 import { EntityBase } from '../../../common/entities/base.entity.js';
 
@@ -121,3 +122,5 @@ export const messageModelDefinition: ModelDefinition = {
     schema: MessageSchema,
     collection: 'messages'
 };
+
+export type MessageDocument = Message & Document;

@@ -9,7 +9,7 @@ import type { Zero } from './contracts';
 
 import { Atom } from './atom';
 import { mark } from './perf';
-import { createMutators, type Mutators } from './mutators';
+// import { createMutators, type Mutators } from './mutators';
 
 // One more than we display so we can detect if there are more
 // to load.
@@ -80,20 +80,19 @@ authRef.onChange(async auth => {
 
     console.log('[Zero Setup] Creating new Zero instance', {
         userID: auth?.decoded?.sub ?? 'anon',
-        server: import.meta.env.VITE_PUBLIC_SYNC_SERVER,
-        pushUrl: `${import.meta.env.VITE_PUBLIC_SERVER}/api/push`
+        server: import.meta.env.VITE_PUBLIC_SYNC_SERVER
+        // Note: Using Zero for reads only (no custom mutators)
+        // Writes go through REST API -> MongoDB -> Zero CDC
     });
 
-    zeroRef.current = new ZeroConstructor<Schema, Mutators>({
+    zeroRef.current = new ZeroConstructor<Schema>({
         schema,
         logLevel: 'debug',
         server: import.meta.env.VITE_PUBLIC_SYNC_SERVER,
         userID: auth?.decoded?.sub ?? 'anon',
         kvStore: 'document' in globalThis ? 'idb' : 'mem',
-        mutators: createMutators(),
-        push: {
-            url: `${import.meta.env.VITE_PUBLIC_SERVER}/api/push`
-        },
+        // No mutators - using REST API for writes
+        // No push URL - not using custom mutators
         auth: (error?: 'invalid-token') => {
             if (error === 'invalid-token') {
                 console.error(
