@@ -2,7 +2,7 @@
 
 > Shared TypeScript configuration for the zero-sources monorepo
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -363,4 +363,4 @@ When updating TypeScript configurations:
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)

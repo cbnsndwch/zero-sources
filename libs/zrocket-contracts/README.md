@@ -3,7 +3,7 @@
 > Complete Zero schema for ZRocket - demonstrating discriminated union tables and real-time chat
 
 [![npm version](https://img.shields.io/npm/v/@cbnsndwch/zrocket-contracts.svg)](https://www.npmjs.com/package/@cbnsndwch/zrocket-contracts)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -386,14 +386,14 @@ zero.query.chats.where('participantIds', 'has', 'user-123').subscribe(chats => {
 
 ## Integration with ZRocket App
 
-This package is used by the [ZRocket application](../../apps/zrocket) to demonstrate:
+This package is used by the [ZRocket application](https://github.com/cbnsndwch/zero-sources/tree/main/apps/zrocket) to demonstrate:
 
 - Real-time chat with Rocicorp Zero
 - Discriminated union patterns
 - React Router 7 + NestJS integration
 - MongoDB change streaming
 
-See the [ZRocket README](../../apps/zrocket/README.md) for a complete working example.
+See the [ZRocket README](https://github.com/cbnsndwch/zero-sources/blob/main/apps/zrocket/README.md) for a complete working example.
 
 ## Development
 
@@ -420,17 +420,17 @@ Contributions are welcome! Please see the [main repository](https://github.com/c
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)
 
 ## Related Packages
 
-- [@cbnsndwch/zero-contracts](../zero-contracts) - Core contracts and utilities
-- [@cbnsndwch/zero-source-mongodb](../zero-source-mongodb) - MongoDB change source
-- [@cbnsndwch/zero-nest-mongoose](../zero-nest-mongoose) - Schema generation
+- [@cbnsndwch/zero-contracts](https://www.npmjs.com/package/@cbnsndwch/zero-contracts) - Core contracts and utilities
+- [@cbnsndwch/zero-source-mongodb](https://www.npmjs.com/package/@cbnsndwch/zero-source-mongodb) - MongoDB change source
+- [@cbnsndwch/zero-nest-mongoose](https://www.npmjs.com/package/@cbnsndwch/zero-nest-mongoose) - Schema generation
 
 ## Resources
 
 - [Rocicorp Zero Documentation](https://zero.rocicorp.dev/)
-- [ZRocket Application](../../apps/zrocket)
-- [Discriminated Unions Guide](../../docs/zero-virtual-tables/example-chat-discriminated-unions.md)
-- [Architecture Documentation](../../docs/refactor/README-SEPARATED-ARCHITECTURE.md)
+- [ZRocket Application](https://github.com/cbnsndwch/zero-sources/tree/main/apps/zrocket)
+- [Discriminated Unions Guide](https://github.com/cbnsndwch/zero-sources/blob/main/docs/zero-virtual-tables/example-chat-discriminated-unions.md)
+- [Architecture Documentation](https://github.com/cbnsndwch/zero-sources/blob/main/docs/refactor/README-SEPARATED-ARCHITECTURE.md)

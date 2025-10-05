@@ -525,6 +525,8 @@ Your contributions make this project better for everyone. We appreciate your tim
 
 ---
 
-**Copyright © 2025 cbnsndwch LLC. All rights reserved.**
+**Last Updated**: October 5, 2025
+
+**Copyright © 2023-present cbnsndwch LLC**
 
 This project is licensed under the [MIT License](./LICENSE.md).

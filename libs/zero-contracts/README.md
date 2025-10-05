@@ -3,7 +3,7 @@
 > Core TypeScript contracts, utilities, and protocols for building custom change sources with Rocicorp Zero
 
 [![npm version](https://img.shields.io/npm/v/@cbnsndwch/zero-contracts.svg)](https://www.npmjs.com/package/@cbnsndwch/zero-contracts)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -187,17 +187,17 @@ Contributions are welcome! Please see the [main repository](https://github.com/c
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)
 
 ## Related Packages
 
-- [@cbnsndwch/zero-source-mongodb](../zero-source-mongodb) - MongoDB change source
-- [@cbnsndwch/zero-nest-mongoose](../zero-nest-mongoose) - NestJS Mongoose integration
-- [@cbnsndwch/zero-watermark-zqlite](../zero-watermark-zqlite) - SQLite watermark storage
-- [@cbnsndwch/zero-watermark-nats-kv](../zero-watermark-nats-kv) - NATS watermark storage
+- [@cbnsndwch/zero-source-mongodb](https://www.npmjs.com/package/@cbnsndwch/zero-source-mongodb) - MongoDB change source
+- [@cbnsndwch/zero-nest-mongoose](https://www.npmjs.com/package/@cbnsndwch/zero-nest-mongoose) - NestJS Mongoose integration
+- [@cbnsndwch/zero-watermark-zqlite](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-zqlite) - SQLite watermark storage
+- [@cbnsndwch/zero-watermark-nats-kv](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-nats-kv) - NATS watermark storage
 
 ## Resources
 
 - [Rocicorp Zero Documentation](https://zero.rocicorp.dev/)
 - [zero-sources Repository](https://github.com/cbnsndwch/zero-sources)
-- [Architecture Documentation](../../docs/refactor/README-SEPARATED-ARCHITECTURE.md)
+- [Architecture Documentation](https://github.com/cbnsndwch/zero-sources/blob/main/docs/refactor/README-SEPARATED-ARCHITECTURE.md)

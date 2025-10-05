@@ -235,8 +235,8 @@ We take attribution and license compliance seriously and will address concerns p
 
 ---
 
-**Last Updated**: October 4, 2025
+**Last Updated**: October 5, 2025
 
-**Copyright © 2025 cbnsndwch LLC. All rights reserved.**
+**Copyright © 2023-present cbnsndwch LLC**
 
 This project is licensed under the [MIT License](./LICENSE.md).

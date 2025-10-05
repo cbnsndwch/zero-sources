@@ -3,7 +3,7 @@
 > Automatic Zero schema generation from NestJS Mongoose schemas
 
 [![npm version](https://img.shields.io/npm/v/@cbnsndwch/zero-nest-mongoose.svg)](https://www.npmjs.com/package/@cbnsndwch/zero-nest-mongoose)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -412,13 +412,13 @@ Contributions are welcome! Please see the [main repository](https://github.com/c
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)
 
 ## Related Packages
 
-- [@cbnsndwch/zero-contracts](../zero-contracts) - Core contracts and utilities
-- [@cbnsndwch/zero-source-mongodb](../zero-source-mongodb) - MongoDB change source
-- [@cbnsndwch/zrocket-contracts](../zrocket-contracts) - Example application schemas
+- [@cbnsndwch/zero-contracts](https://www.npmjs.com/package/@cbnsndwch/zero-contracts) - Core contracts and utilities
+- [@cbnsndwch/zero-source-mongodb](https://www.npmjs.com/package/@cbnsndwch/zero-source-mongodb) - MongoDB change source
+- [@cbnsndwch/zrocket-contracts](https://www.npmjs.com/package/@cbnsndwch/zrocket-contracts) - Example application schemas
 
 ## Resources
 

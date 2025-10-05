@@ -3,7 +3,7 @@
 > Production-ready MongoDB change source for Rocicorp Zero with NestJS integration
 
 [![npm version](https://img.shields.io/npm/v/@cbnsndwch/zero-source-mongodb.svg)](https://www.npmjs.com/package/@cbnsndwch/zero-source-mongodb)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -258,7 +258,7 @@ This change source is designed to work in a distributed three-container architec
 2. **Zero Change Source** (this package) - Streams MongoDB changes
 3. **Zero Cache Server** - Caches data for clients
 
-See [Architecture Documentation](../../docs/refactor/README-SEPARATED-ARCHITECTURE.md) for details.
+See [Architecture Documentation](https://github.com/cbnsndwch/zero-sources/blob/main/docs/refactor/README-SEPARATED-ARCHITECTURE.md) for details.
 
 ### Change Stream Flow
 
@@ -371,7 +371,7 @@ pnpm lint
 
 ## Examples
 
-See the [source-mongodb-server app](../../apps/source-mongodb-server) for a complete working example.
+See the [source-mongodb-server app](https://github.com/cbnsndwch/zero-sources/tree/main/apps/source-mongodb-server) for a complete working example.
 
 ## Contributing
 
@@ -379,18 +379,18 @@ Contributions are welcome! Please see the [main repository](https://github.com/c
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)
 
 ## Related Packages
 
-- [@cbnsndwch/zero-contracts](../zero-contracts) - Core contracts and utilities
-- [@cbnsndwch/zero-nest-mongoose](../zero-nest-mongoose) - Schema generation from Mongoose
-- [@cbnsndwch/zero-watermark-zqlite](../zero-watermark-zqlite) - SQLite watermark storage
-- [@cbnsndwch/zrocket-contracts](../zrocket-contracts) - Example application contracts
+- [@cbnsndwch/zero-contracts](https://www.npmjs.com/package/@cbnsndwch/zero-contracts) - Core contracts and utilities
+- [@cbnsndwch/zero-nest-mongoose](https://www.npmjs.com/package/@cbnsndwch/zero-nest-mongoose) - Schema generation from Mongoose
+- [@cbnsndwch/zero-watermark-zqlite](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-zqlite) - SQLite watermark storage
+- [@cbnsndwch/zrocket-contracts](https://www.npmjs.com/package/@cbnsndwch/zrocket-contracts) - Example application contracts
 
 ## Resources
 
 - [Rocicorp Zero Documentation](https://zero.rocicorp.dev/)
 - [MongoDB Change Streams](https://www.mongodb.com/docs/manual/changeStreams/)
-- [Architecture Guide](../../docs/refactor/README-SEPARATED-ARCHITECTURE.md)
-- [Change Source Protocol](../../docs/ChangeSourceProtocol.md)
+- [Architecture Guide](https://github.com/cbnsndwch/zero-sources/blob/main/docs/refactor/README-SEPARATED-ARCHITECTURE.md)
+- [Change Source Protocol](https://github.com/cbnsndwch/zero-sources/blob/main/docs/ChangeSourceProtocol.md)

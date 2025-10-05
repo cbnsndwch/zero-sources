@@ -3,7 +3,7 @@
 > Distributed watermark storage for Rocicorp Zero using NATS JetStream KV
 
 [![npm version](https://img.shields.io/npm/v/@cbnsndwch/zero-watermark-nats-kv.svg)](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-nats-kv)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -524,17 +524,17 @@ Contributions are welcome! Please see the [main repository](https://github.com/c
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)
 
 ## Related Packages
 
-- [@cbnsndwch/zero-contracts](../zero-contracts) - Core contracts and utilities
-- [@cbnsndwch/zero-watermark-zqlite](../zero-watermark-zqlite) - SQLite watermark storage
-- [@cbnsndwch/zero-source-mongodb](../zero-source-mongodb) - MongoDB change source
+- [@cbnsndwch/zero-contracts](https://www.npmjs.com/package/@cbnsndwch/zero-contracts) - Core contracts and utilities
+- [@cbnsndwch/zero-watermark-zqlite](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-zqlite) - SQLite watermark storage
+- [@cbnsndwch/zero-source-mongodb](https://www.npmjs.com/package/@cbnsndwch/zero-source-mongodb) - MongoDB change source
 
 ## Resources
 
 - [Rocicorp Zero Documentation](https://zero.rocicorp.dev/)
 - [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream)
 - [NATS KV Store](https://docs.nats.io/nats-concepts/jetstream/key-value-store)
-- [Architecture Guide](../../docs/refactor/README-SEPARATED-ARCHITECTURE.md)
+- [Architecture Guide](https://github.com/cbnsndwch/zero-sources/blob/main/docs/refactor/README-SEPARATED-ARCHITECTURE.md)

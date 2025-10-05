@@ -3,7 +3,7 @@
 > High-performance watermark storage for Rocicorp Zero using SQLite
 
 [![npm version](https://img.shields.io/npm/v/@cbnsndwch/zero-watermark-zqlite.svg)](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-zqlite)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/cbnsndwch/zero-sources/blob/main/LICENSE.md)
 
 ## Overview
 
@@ -421,16 +421,16 @@ Contributions are welcome! Please see the [main repository](https://github.com/c
 
 ## License
 
-MIT © [Sergio Leon](https://cbnsndwch.io)
+MIT © [cbnsndwch LLC](https://cbnsndwch.io)
 
 ## Related Packages
 
-- [@cbnsndwch/zero-contracts](../zero-contracts) - Core contracts and utilities
-- [@cbnsndwch/zero-watermark-nats-kv](../zero-watermark-nats-kv) - NATS-based watermark storage
-- [@cbnsndwch/zero-source-mongodb](../zero-source-mongodb) - MongoDB change source
+- [@cbnsndwch/zero-contracts](https://www.npmjs.com/package/@cbnsndwch/zero-contracts) - Core contracts and utilities
+- [@cbnsndwch/zero-watermark-nats-kv](https://www.npmjs.com/package/@cbnsndwch/zero-watermark-nats-kv) - NATS-based watermark storage
+- [@cbnsndwch/zero-source-mongodb](https://www.npmjs.com/package/@cbnsndwch/zero-source-mongodb) - MongoDB change source
 
 ## Resources
 
 - [Rocicorp Zero Documentation](https://zero.rocicorp.dev/)
 - [SQLite Documentation](https://www.sqlite.org/docs.html)
-- [Change Source Protocol](../../docs/ChangeSourceProtocol.md)
+- [Change Source Protocol](https://github.com/cbnsndwch/zero-sources/blob/main/docs/ChangeSourceProtocol.md)
