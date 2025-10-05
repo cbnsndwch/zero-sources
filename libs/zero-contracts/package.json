@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-contracts",
     "description": "Core TypeScript contracts, utilities, and protocols for building custom change sources with Rocicorp Zero. Includes upstream protocols, watermark interfaces, configuration types, and shared utilities for real-time data synchronization.",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "type": "module",
     "license": "MIT",
     "author": {
