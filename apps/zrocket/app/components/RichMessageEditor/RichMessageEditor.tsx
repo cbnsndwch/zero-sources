@@ -76,6 +76,55 @@ class EditorErrorBoundary extends Component<
 }
 
 /**
+ * Plugin to handle send button clicks from ActionBar
+ */
+function SendButtonPlugin({
+    sendTriggerRef,
+    onSendMessage
+}: {
+    sendTriggerRef: React.MutableRefObject<(() => void) | null>;
+    onSendMessage: (content: SerializedEditorState) => void;
+}) {
+    const [editor] = useLexicalComposerContext();
+
+    useEffect(() => {
+        sendTriggerRef.current = () => {
+            console.log('[SendButtonPlugin] Send triggered from button');
+            const editorState = editor.getEditorState();
+            const rawSerializedState = editorState.toJSON();
+            const serializedState =
+                ensureValidSerializedEditorState(rawSerializedState);
+
+            // Check if the editor has content before sending
+            let hasContent = false;
+            editorState.read(() => {
+                const root = $getRoot();
+                const textContent = root.getTextContent().trim();
+                hasContent = textContent.length > 0;
+            });
+
+            if (hasContent) {
+                onSendMessage(serializedState);
+
+                // Clear the editor after sending
+                editor.update(() => {
+                    const root = $getRoot();
+                    root.clear();
+                });
+            } else {
+                console.log('[SendButtonPlugin] No content to send');
+            }
+        };
+
+        return () => {
+            sendTriggerRef.current = null;
+        };
+    }, [editor, onSendMessage, sendTriggerRef]);
+
+    return null;
+}
+
+/**
  * Custom plugin to handle keyboard events (Enter to send, Shift+Enter for new lines)
  */
 function KeyboardPlugin({
@@ -370,6 +419,17 @@ export function RichMessageEditor({
         [onPaste]
     );
 
+    // Create a ref for the send button trigger function
+    const sendTriggerRef = useRef<(() => void) | null>(null);
+
+    // Handle send button click
+    const handleSendButtonClick = useCallback(() => {
+        console.log('[RichMessageEditor] Send button clicked, triggering send');
+        if (sendTriggerRef.current) {
+            sendTriggerRef.current();
+        }
+    }, []);
+
     return (
         <EditorErrorBoundary>
             <div
@@ -423,10 +483,14 @@ export function RichMessageEditor({
                         </div>
 
                         {/* Bottom Row: Action Bar */}
-                        <ActionBar disabled={disabled} />
+                        <ActionBar disabled={disabled} onSend={handleSendButtonClick} />
 
                         <HistoryPlugin />
                         <OnChangePlugin onChange={handleContentChange} />
+                        <SendButtonPlugin
+                            sendTriggerRef={sendTriggerRef}
+                            onSendMessage={onSendMessage}
+                        />
                         <KeyboardPlugin
                             onSendMessage={onSendMessage}
                             onPerformanceUpdate={handlePerformanceUpdate}

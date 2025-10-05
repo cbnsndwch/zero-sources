@@ -4,9 +4,17 @@ import { Button } from '@/components/ui/button';
 
 type ActionBarProps = {
     disabled?: boolean;
+    onSend?: () => void;
 };
 
-export default function ActionBar({ disabled }: ActionBarProps) {
+export default function ActionBar({ disabled, onSend }: ActionBarProps) {
+    const handleSendClick = () => {
+        console.log('[ActionBar] Send button clicked');
+        if (!disabled && onSend) {
+            onSend();
+        }
+    };
+
     return (
         <div
             className="flex items-center justify-between px-2 pb-2"
@@ -85,6 +93,7 @@ export default function ActionBar({ disabled }: ActionBarProps) {
                 disabled={disabled}
                 variant={disabled ? 'ghost' : 'default'}
                 size="sm"
+                onClick={handleSendClick}
                 className={`h-8 w-8 p-0 transition-all duration-150 ${
                     disabled
                         ? 'hover:bg-muted/60 text-muted-foreground hover:text-foreground'
