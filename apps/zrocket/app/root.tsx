@@ -12,6 +12,7 @@ import type { Route } from './+types/root';
 import { LoginProvider } from '@/auth/login.provider';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@/components/ui/sonner';
 
 import ZeroOutlet from './contexts/ZeroOutlet';
 
@@ -57,6 +58,7 @@ export default function App() {
             <ThemeProvider>
                 <TooltipProvider>
                     <ZeroOutlet />
+                    <Toaster />
                 </TooltipProvider>
             </ThemeProvider>
         </LoginProvider>
