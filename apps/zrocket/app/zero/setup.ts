@@ -191,9 +191,25 @@ export function preload(z: Zero) {
     // z.query.label.preload();
 }
 
+//#region Devtools Hooks
+
 // To enable accessing zero in the devtools easily.
 function exposeDevHooks(z: Zero) {
-    if ('window' in globalThis) {
+    if ('window' in globalThis && import.meta.env.DEV) {
+        // Expose the Zero instance for easy access in devtools
         window.z = z;
+
+        // Expose the schema for easy access in devtools
+        // e.g. z.schema.channels.get('channel-id')
+        window.schema = schema;
     }
 }
+
+declare global {
+    interface Window {
+        z: Zero;
+        schema: Schema;
+    }
+}
+
+//#endregion Devtools Hooks

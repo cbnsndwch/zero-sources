@@ -48,10 +48,17 @@
     "files": [
         "dist"
     ],
-    "typings": "./dist/index.d.ts",
     "exports": {
-        ".": "./dist/index.js",
-        "./schema": "./dist/schema/index.js",
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        },
+        "./schema": {
+            "types": "./dist/schema/index.d.ts",
+            "import": "./dist/schema/index.js",
+            "default": "./dist/schema/index.js"
+        },
         "./package.json": "./package.json"
     },
     "lint-staged": {

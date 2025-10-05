@@ -1,5 +1,10 @@
+import type { Schema } from '@cbnsndwch/zrocket-contracts/schema';
+
+import type { Zero } from './zero/contracts';
+
 export declare global {
     interface Window {
-        z: import('./zero/contracts').Zero;
+        z: Zero;
+        schema: Schema;
     }
 }
