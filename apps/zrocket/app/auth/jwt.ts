@@ -16,6 +16,10 @@ export function getJwt() {
 }
 
 export function getRawJwt() {
+    // Guard against SSR - cookies only exist in browser
+    if (typeof document === 'undefined') {
+        return undefined;
+    }
     return Cookies.get('jwt');
 }
 
@@ -24,5 +28,11 @@ export function clearJwt() {
 }
 
 function deleteCookie(name: string) {
-    Cookies.remove(name);
+    // Guard against SSR
+    if (typeof document === 'undefined') {
+        return;
+    }
+    // CRITICAL: Must match the path used when setting the cookie
+    // The server sets the cookie with path: '/', so we must remove it with path: '/'
+    Cookies.remove(name, { path: '/' });
 }

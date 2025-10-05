@@ -5,6 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { corsDelegate } from '@cbnsndwch/zero-contracts';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module.js';
 import { mountReactRouterHandler } from './react-router.js';
@@ -22,6 +23,9 @@ async function bootstrap() {
     });
 
     app.useWebSocketAdapter(new WsAdapter(app));
+
+    // Enable cookie parsing - REQUIRED for authentication
+    app.use(cookieParser());
 
     // Set API prefix for NestJS routes
     app.setGlobalPrefix('api');

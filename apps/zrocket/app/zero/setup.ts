@@ -47,6 +47,12 @@ export const authRef = new Atom<LoginState>();
 const jwt = getJwt();
 const encodedJwt = getRawJwt();
 
+console.log('[Zero Setup] Initial auth check', {
+    hasJwt: !!jwt,
+    hasEncodedJwt: !!encodedJwt,
+    userID: jwt?.sub ?? 'none'
+});
+
 authRef.current =
     encodedJwt && jwt
         ? {
@@ -55,10 +61,28 @@ authRef.current =
           }
         : undefined;
 
-authRef.onChange(auth => {
+console.log('[Zero Setup] Initial authRef.current set', {
+    isAuthenticated: !!authRef.current,
+    userID: authRef.current?.decoded?.sub ?? 'none'
+});
+
+authRef.onChange(async auth => {
+    console.log('[Zero Setup] authRef.onChange triggered', {
+        hasAuth: !!auth,
+        userID: auth?.decoded?.sub ?? 'anon',
+        hasExistingZero: !!zeroRef.current,
+        timestamp: new Date().toISOString()
+    });
+
     zeroRef.current?.close();
 
     mark('creating new zero');
+
+    console.log('[Zero Setup] Creating new Zero instance', {
+        userID: auth?.decoded?.sub ?? 'anon',
+        server: import.meta.env.VITE_PUBLIC_SYNC_SERVER,
+        pushUrl: `${import.meta.env.VITE_PUBLIC_SERVER}/api/push`
+    });
 
     zeroRef.current = new ZeroConstructor<Schema, Mutators>({
         schema,
@@ -67,14 +91,26 @@ authRef.onChange(auth => {
         userID: auth?.decoded?.sub ?? 'anon',
         kvStore: 'document' in globalThis ? 'idb' : 'mem',
         mutators: createMutators(),
+        push: {
+            url: `${import.meta.env.VITE_PUBLIC_SERVER}/api/push`
+        },
         auth: (error?: 'invalid-token') => {
             if (error === 'invalid-token') {
+                console.error(
+                    '[Zero Setup] Auth error: invalid-token, clearing JWT'
+                );
                 clearJwt();
                 authRef.current = undefined;
                 return undefined;
             }
             return auth?.encoded;
         }
+    });
+
+    console.log('[Zero Setup] Zero instance created successfully', {
+        userID: zeroRef.current.userID,
+        // @ts-expect-error - accessing internal state for debugging
+        pendingMutations: zeroRef.current._pendingMutations?.length ?? 'unknown'
     });
 
     exposeDevHooks(zeroRef.current);

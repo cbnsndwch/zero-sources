@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import type { AppConfig } from '../../config/contracts.js';
 
 import type { AuthConfig } from './config/auth-config.contracts.js';
+import { DevLoginController } from './dev-login.controller.js';
 import { githubAuthControllers } from './gh/index.js';
 import { jwtAuthServices } from './jwt/index.js';
 
@@ -26,7 +27,7 @@ import { jwtAuthServices } from './jwt/index.js';
             }
         })
     ],
-    controllers: [...githubAuthControllers],
+    controllers: [...githubAuthControllers, DevLoginController],
     providers: [...jwtAuthServices],
     exports: [...jwtAuthServices]
 })

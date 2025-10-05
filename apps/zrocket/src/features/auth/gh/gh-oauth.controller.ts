@@ -29,10 +29,7 @@ export class GithubOauthController {
     @Get('callback')
     @ApiOperation({ operationId: 'githubOAuthCallback' })
     @UseGuards(GithubOauthGuard)
-    async githubAuthCallback(
-        @Req() req: Request,
-        @Res({ passthrough: true }) res: Response
-    ) {
+    async githubAuthCallback(@Req() req: Request, @Res() res: Response) {
         // Passport automatically creates a `user` object, based on the return value of our
         // GithubOauthStrategy#validate() method, and assigns it to the Request object as `req.user`
         const user = req.user as IUser;
@@ -42,8 +39,18 @@ export class GithubOauthController {
         );
 
         const { accessToken } = this.#jwtAuthService.login(user);
-        res.cookie('jwt', accessToken);
+        res.cookie('jwt', accessToken, {
+            httpOnly: false, // Allow JS access for debugging
+            secure: false, // Required for localhost HTTP
+            sameSite: 'lax', // Important for SSR redirects
+            path: '/', // Available to all routes
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+            // Don't set domain - let browser use current domain (localhost:8011)
+        });
 
-        return { accessToken };
+        this.#logger.verbose(`Setting cookie on domain: ${req.headers.host}`);
+
+        // Redirect to home after successful auth
+        return res.redirect('/');
     }
 }
