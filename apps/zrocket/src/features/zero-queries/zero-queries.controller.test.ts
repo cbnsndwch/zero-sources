@@ -32,13 +32,16 @@ describe('ZeroQueriesController', () => {
                 name: 'Test User'
             };
 
-            const mockRequest = new Request('http://localhost/api/zero/get-queries', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer valid-token',
-                    'Content-Type': 'application/json'
+            const mockRequest = new Request(
+                'http://localhost/api/zero/get-queries',
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer valid-token',
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
+            );
 
             vi.mocked(mockAuth.authenticateRequest).mockResolvedValue(
                 mockContext
@@ -59,12 +62,15 @@ describe('ZeroQueriesController', () => {
 
         it('should handle anonymous requests (no auth header)', async () => {
             // Arrange
-            const mockRequest = new Request('http://localhost/api/zero/get-queries', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+            const mockRequest = new Request(
+                'http://localhost/api/zero/get-queries',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
+            );
 
             vi.mocked(mockAuth.authenticateRequest).mockResolvedValue(
                 undefined
@@ -85,22 +91,25 @@ describe('ZeroQueriesController', () => {
 
         it('should propagate authentication errors', async () => {
             // Arrange
-            const mockRequest = new Request('http://localhost/api/zero/get-queries', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer invalid-token',
-                    'Content-Type': 'application/json'
+            const mockRequest = new Request(
+                'http://localhost/api/zero/get-queries',
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer invalid-token',
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
+            );
 
             vi.mocked(mockAuth.authenticateRequest).mockRejectedValue(
                 new UnauthorizedException('Invalid token')
             );
 
             // Act & Assert
-            await expect(
-                controller.handleQueries(mockRequest)
-            ).rejects.toThrow(UnauthorizedException);
+            await expect(controller.handleQueries(mockRequest)).rejects.toThrow(
+                UnauthorizedException
+            );
         });
 
         it('should return response with queries and timestamp', async () => {
@@ -110,13 +119,16 @@ describe('ZeroQueriesController', () => {
                 email: 'user@example.com'
             };
 
-            const mockRequest = new Request('http://localhost/api/zero/get-queries', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer token',
-                    'Content-Type': 'application/json'
+            const mockRequest = new Request(
+                'http://localhost/api/zero/get-queries',
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer token',
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
+            );
 
             vi.mocked(mockAuth.authenticateRequest).mockResolvedValue(
                 mockContext

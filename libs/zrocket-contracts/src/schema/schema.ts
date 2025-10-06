@@ -127,14 +127,14 @@ export type TableName = keyof typeof schema.tables;
 
 /**
  * Query builder for creating Zero queries.
- * 
+ *
  * Use this builder in synced query definitions to construct type-safe queries
  * against the ZRocket schema.
- * 
+ *
  * @example
  * ```typescript
  * import { builder } from '@cbnsndwch/zrocket-contracts/schema';
- * 
+ *
  * const myQuery = syncedQueryWithContext<Schema, QueryContext>(
  *   'myQuery',
  *   z.tuple([]),
