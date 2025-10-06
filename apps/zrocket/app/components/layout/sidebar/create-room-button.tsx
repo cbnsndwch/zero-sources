@@ -48,7 +48,7 @@ export default function CreateRoomButton({
     const form = useForm<CreateRoomInput>({
         resolver: zodResolver(createRoomInputSchema),
         defaultValues: {
-            t: type,
+            type: type,
             name: ''
         }
     });

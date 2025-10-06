@@ -1,7 +1,7 @@
 import type { CustomMutatorDefs, Transaction } from '@rocicorp/zero';
-import type { RoomType } from '@cbnsndwch/zrocket-contracts';
 import { z } from 'zod';
 
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
 import type { Schema } from '@cbnsndwch/zrocket-contracts/schema';
 
 /**
@@ -20,7 +20,7 @@ export type SendMessageInput = z.infer<typeof sendMessageInputSchema>;
  * Zod schema for creating a room
  */
 export const createRoomInputSchema = z.object({
-    type: z.enum(['d', 'p', 'c']),
+    type: z.enum(RoomType),
     memberIds: z.array(z.string()).min(1, 'At least one member is required'),
     usernames: z.array(z.string()).min(1, 'At least one username is required'),
     name: z.string().optional(),
