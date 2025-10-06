@@ -20,7 +20,7 @@ export type SendMessageInput = z.infer<typeof sendMessageInputSchema>;
  * Zod schema for creating a room
  */
 export const createRoomInputSchema = z.object({
-    type: z.enum(RoomType),
+    type: z.nativeEnum(RoomType),
     memberIds: z.array(z.string()).min(1, 'At least one member is required'),
     usernames: z.array(z.string()).min(1, 'At least one username is required'),
     name: z.string().optional(),
