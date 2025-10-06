@@ -64,7 +64,7 @@ export type QueryContext = {
  *     // Handle anonymous user case
  *     return builder.publicChannels.all();
  *   }
- *   
+ *
  *   // ctx is now typed as QueryContext (not undefined)
  *   return builder.rooms
  *     .where('ownerId', '=', ctx.userID)
@@ -72,6 +72,8 @@ export type QueryContext = {
  * }
  * ```
  */
-export function isAuthenticated(ctx: QueryContext | undefined): ctx is QueryContext {
+export function isAuthenticated(
+    ctx: QueryContext | undefined
+): ctx is QueryContext {
     return ctx !== undefined && !!ctx.userID;
 }
