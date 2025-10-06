@@ -300,6 +300,42 @@ Run all tests across the monorepo:
 pnpm test
 ```
 
+### ⚙️ Zero Get-Queries Configuration
+
+ZRocket uses Zero's **Synced Queries** feature for server-side permission enforcement. This requires configuring Zero Cache to forward query requests to the NestJS API.
+
+**Configuration Steps:**
+
+1. Ensure `ZERO_GET_QUERIES_URL` is set in both `.env` files:
+   - `apps/source-mongodb-server/.env` (Zero Cache)
+   - `apps/zrocket/.env` (ZRocket API - for documentation)
+
+2. Verify the configuration:
+   ```bash
+   # Run verification script
+   .\tools\verify-get-queries-config.ps1
+   ```
+
+3. Test the endpoint once services are running:
+   ```bash
+   # Test get-queries endpoint
+   .\tools\test-get-queries-endpoint.ps1
+   ```
+
+**For detailed setup and troubleshooting**, see:
+- 📖 [Zero Get-Queries Setup Guide](./docs/projects/zrocket-synced-queries/ZERO_GET_QUERIES_SETUP.md)
+
+**Key environment variables:**
+
+```bash
+# In apps/source-mongodb-server/.env
+ZERO_GET_QUERIES_URL='http://localhost:8011/api/zero/get-queries'
+
+# In apps/zrocket/.env
+ZERO_GET_QUERIES_URL='http://localhost:8011/api/zero/get-queries'
+PORT=8011  # Must match the port in ZERO_GET_QUERIES_URL
+```
+
 ### 🛠️ Development Scripts
 
 From the repository root:
@@ -317,6 +353,11 @@ From `apps/zrocket`:
 - **`pnpm run dev:zero`**: Start Zero Cache with discriminated schema
 - **`pnpm run build`**: Build both API and frontend for production
 - **`pnpm run start`**: Start production server
+
+From `tools/`:
+
+- **`.\verify-get-queries-config.ps1`**: Verify Zero get-queries configuration
+- **`.\test-get-queries-endpoint.ps1`**: Test the get-queries endpoint
 
 ### 🚨 Troubleshooting
 
