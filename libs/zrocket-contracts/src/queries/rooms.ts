@@ -8,9 +8,9 @@ import type { QueryContext } from './context.js';
  * Query to retrieve all private chats (direct messages) for the authenticated user.
  *
  * @remarks
- * **Client-side**: Returns all chats ordered by most recent message  
+ * **Client-side**: Returns all chats ordered by most recent message
  * **Server-side**: Filters to only chats where user is a member (implemented in get-queries endpoint)
- * 
+ *
  * Anonymous users receive empty results on the server.
  *
  * @example
@@ -18,10 +18,10 @@ import type { QueryContext } from './context.js';
  * // In a React component:
  * import { useQuery } from '@rocicorp/zero/react';
  * import { myChats } from '@cbnsndwch/zrocket-contracts/queries/rooms';
- * 
+ *
  * const [chats] = useQuery(myChats());
  * ```
- * 
+ *
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries}
  */
 export const myChats = syncedQueryWithContext(
@@ -38,9 +38,9 @@ export const myChats = syncedQueryWithContext(
  * Query to retrieve all private groups for the authenticated user.
  *
  * @remarks
- * **Client-side**: Returns all groups ordered by most recent message  
+ * **Client-side**: Returns all groups ordered by most recent message
  * **Server-side**: Filters to only groups where user is a member (implemented in get-queries endpoint)
- * 
+ *
  * Anonymous users receive empty results on the server.
  *
  * @example
@@ -48,10 +48,10 @@ export const myChats = syncedQueryWithContext(
  * // In a React component:
  * import { useQuery } from '@rocicorp/zero/react';
  * import { myGroups } from '@cbnsndwch/zrocket-contracts/queries/rooms';
- * 
+ *
  * const [groups] = useQuery(myGroups());
  * ```
- * 
+ *
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries}
  */
 export const myGroups = syncedQueryWithContext(
@@ -71,9 +71,9 @@ export const myGroups = syncedQueryWithContext(
  * **Note**: This query currently returns only chats. It is an alias for {@link myChats}.
  * To retrieve both chats and groups, use {@link myChats} and {@link myGroups} separately.
  *
- * **Client-side**: Returns chats ordered by most recent message  
+ * **Client-side**: Returns chats ordered by most recent message
  * **Server-side**: Filters to only chats where user is a member (implemented in get-queries endpoint)
- * 
+ *
  * Anonymous users receive empty results on the server.
  *
  * @see {@link myChats}
@@ -96,9 +96,9 @@ export const myRooms = syncedQueryWithContext(
  * @param chatId - The ID of the chat to retrieve
  *
  * @remarks
- * **Client-side**: Returns the chat with all messages if found  
+ * **Client-side**: Returns the chat with all messages if found
  * **Server-side**: Returns the chat only if user is a member (implemented in get-queries endpoint)
- * 
+ *
  * Anonymous users or non-members receive empty results on the server.
  * Includes related user messages and system messages ordered by creation time.
  *
@@ -107,10 +107,10 @@ export const myRooms = syncedQueryWithContext(
  * // In a React component:
  * import { useQuery } from '@rocicorp/zero/react';
  * import { chatById } from '@cbnsndwch/zrocket-contracts/queries/rooms';
- * 
+ *
  * const [chat] = useQuery(chatById(chatId));
  * ```
- * 
+ *
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries}
  */
 export const chatById = syncedQueryWithContext(
@@ -121,8 +121,8 @@ export const chatById = syncedQueryWithContext(
         // Client-side shows chat optimistically if it exists locally
         return builder.chats
             .where('_id', '=', chatId)
-            .related('messages', (q) => q.orderBy('createdAt', 'asc'))
-            .related('systemMessages', (q) => q.orderBy('createdAt', 'asc'));
+            .related('messages', q => q.orderBy('createdAt', 'asc'))
+            .related('systemMessages', q => q.orderBy('createdAt', 'asc'));
     }
 );
 
@@ -132,9 +132,9 @@ export const chatById = syncedQueryWithContext(
  * @param groupId - The ID of the group to retrieve
  *
  * @remarks
- * **Client-side**: Returns the group with all messages if found  
+ * **Client-side**: Returns the group with all messages if found
  * **Server-side**: Returns the group only if user is a member (implemented in get-queries endpoint)
- * 
+ *
  * Anonymous users or non-members receive empty results on the server.
  * Includes related user messages and system messages ordered by creation time.
  *
@@ -143,10 +143,10 @@ export const chatById = syncedQueryWithContext(
  * // In a React component:
  * import { useQuery } from '@rocicorp/zero/react';
  * import { groupById } from '@cbnsndwch/zrocket-contracts/queries/rooms';
- * 
+ *
  * const [group] = useQuery(groupById(groupId));
  * ```
- * 
+ *
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries}
  */
 export const groupById = syncedQueryWithContext(
@@ -157,7 +157,7 @@ export const groupById = syncedQueryWithContext(
         // Client-side shows group optimistically if it exists locally
         return builder.groups
             .where('_id', '=', groupId)
-            .related('messages', (q) => q.orderBy('createdAt', 'asc'))
-            .related('systemMessages', (q) => q.orderBy('createdAt', 'asc'));
+            .related('messages', q => q.orderBy('createdAt', 'asc'))
+            .related('systemMessages', q => q.orderBy('createdAt', 'asc'));
     }
 );

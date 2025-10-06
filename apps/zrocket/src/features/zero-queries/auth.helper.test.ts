@@ -22,12 +22,12 @@ describe('ZeroQueryAuth - Basic Tests', () => {
     beforeEach(() => {
         // Create a fresh mock for each test
         mockVerifyAsync = vi.fn();
-        
+
         // Create the auth helper with the mocked JWT service
         const jwtService = {
             verifyAsync: mockVerifyAsync
         } as unknown as JwtService;
-        
+
         authHelper = new ZeroQueryAuth(jwtService);
     });
 
@@ -143,9 +143,7 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             ).rejects.toThrow(UnauthorizedException);
             await expect(
                 authHelper.authenticateRequest(mockRequest)
-            ).rejects.toThrow(
-                'Invalid authorization header format'
-            );
+            ).rejects.toThrow('Invalid authorization header format');
             expect(mockVerifyAsync).not.toHaveBeenCalled();
         });
 
