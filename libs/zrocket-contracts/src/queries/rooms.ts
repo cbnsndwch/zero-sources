@@ -65,30 +65,19 @@ export const myGroups = syncedQueryWithContext(
 );
 
 /**
- * Query to retrieve all private rooms (both chats and groups) for the authenticated user.
+ * Query to retrieve all private rooms for the authenticated user.
  *
  * @remarks
- * This query combines results from both chats and groups tables.
- * 
- * **Note**: This query returns chats only. To get both chats and groups,  
- * use `myChats()` and `myGroups()` separately in your components.
- * 
+ * **Note**: This query currently returns only chats. It is an alias for {@link myChats}.
+ * To retrieve both chats and groups, use {@link myChats} and {@link myGroups} separately.
+ *
  * **Client-side**: Returns chats ordered by most recent message  
  * **Server-side**: Filters to only chats where user is a member (implemented in get-queries endpoint)
  * 
  * Anonymous users receive empty results on the server.
  *
- * @example
- * ```typescript
- * // In a React component - use separate queries:
- * import { useQuery } from '@rocicorp/zero/react';
- * import { myChats, myGroups } from '@cbnsndwch/zrocket-contracts/queries/rooms';
- * 
- * const [chats] = useQuery(myChats());
- * const [groups] = useQuery(myGroups());
- * const allRooms = [...(chats || []), ...(groups || [])];
- * ```
- * 
+ * @see {@link myChats}
+ * @see {@link myGroups}
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries}
  */
 export const myRooms = syncedQueryWithContext(
