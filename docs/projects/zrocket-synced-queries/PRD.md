@@ -137,7 +137,9 @@ ZERO_GET_QUERIES_URL="http://localhost:3000/api/zero/get-queries"
 
 #### 1.2 Create Query Context Type
 
-**File**: `libs/zrocket-contracts/src/queries/context.ts` (NEW)
+**File**: `libs/zrocket-contracts/src/queries/context.ts` ✅ IMPLEMENTED (Updated)
+
+**Note**: This type has been updated to match actual JWT claims. See [QUERYCONTEXT_FIX.md](./QUERYCONTEXT_FIX.md) for details.
 
 ```typescript
 /**
@@ -148,11 +150,20 @@ export type QueryContext = {
     /** The authenticated user's ID from JWT sub claim */
     userID: string;
     
-    /** Optional role for admin features */
-    role?: 'admin' | 'user';
+    /** User's email address from JWT email claim */
+    email: string;
     
-    /** Username for display purposes */
-    username?: string;
+    /** Optional full name for display purposes from JWT name claim */
+    name?: string;
+    
+    /** Optional username handle from JWT preferred_username claim */
+    preferredUsername?: string;
+    
+    /** Optional profile picture URL from JWT picture claim */
+    picture?: string;
+    
+    /** Optional roles array for RBAC from JWT roles claim */
+    roles?: string[];
 };
 
 /**

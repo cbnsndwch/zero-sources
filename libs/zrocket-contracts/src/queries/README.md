@@ -11,17 +11,26 @@ Zero synced queries enable server-side filtering and permission enforcement for 
 
 ## Query Context
 
-The `QueryContext` type provides authenticated user information to synced queries:
+The `QueryContext` type provides authenticated user information to synced queries.
+
+**Important**: `QueryContext` is simply an alias for `JwtPayload` - we use the JWT payload directly as the query context.
 
 ```typescript
 import { QueryContext, isAuthenticated } from './context.js';
+import type { JwtPayload } from '../auth/index.js';
 
-// Context structure
-type QueryContext = {
-    userID: string;        // Required: User's unique identifier
-    role?: 'admin' | 'user';  // Optional: User's role
-    username?: string;     // Optional: Display name
-};
+// QueryContext = JwtPayload (no transformations!)
+type QueryContext = JwtPayload;
+
+// Available fields (from JwtPayload):
+// - sub: string                 // User's unique identifier
+// - email: string               // User's email address
+// - name?: string               // Full display name
+// - preferred_username?: string // Username handle
+// - picture?: string            // Profile picture URL
+// - roles?: string[]            // User roles for RBAC
+// - iat?: number                // Issued at timestamp
+// - exp?: number                // Expiration timestamp
 ```
 
 ### Usage with Synced Queries
@@ -42,7 +51,7 @@ export const myChats = syncedQueryWithContext<Schema, QueryContext>(
         
         // Authenticated users see their own chats
         return builder.chats
-            .where('ownerId', '=', ctx.userID)
+            .where('ownerId', '=', ctx.sub)  // Use 'sub' field
             .orderBy('lastMessageAt', 'desc');
     }
 );
@@ -61,7 +70,7 @@ function myQuery(builder, ctx: QueryContext | undefined) {
     
     // ctx is QueryContext here (TypeScript knows it's defined)
     return builder.items
-        .where('userId', '=', ctx.userID);
+        .where('userId', '=', ctx.sub);  // Use 'sub' field
 }
 ```
 
@@ -97,15 +106,24 @@ function myQuery(builder, ctx: QueryContext | undefined) {
 └─────────────────┘
 ```
 
-## JWT to Context Mapping
+## JWT to Context - No Mapping Needed!
 
-The server extracts `QueryContext` from JWT claims:
+`QueryContext` **IS** `JwtPayload` - there's no mapping or transformation:
 
-| JWT Claim | QueryContext Property | Description |
-|-----------|----------------------|-------------|
-| `sub` | `userID` | User's unique identifier (required) |
-| Custom claim | `role` | User role for RBAC (optional) |
-| `name` | `username` | Display name (optional) |
+```typescript
+// In the authentication helper:
+const jwt: JwtPayload = await this.jwtService.verify(token);
+return jwt; // That's it! No field mapping needed.
+```
+
+**Benefits:**
+- ✅ Zero transformations - pass JWT through directly
+- ✅ Single source of truth for field definitions
+- ✅ All JWT claims available in queries (including `iat`, `exp` if needed)
+- ✅ No field name confusion or duplication
+- ✅ Simpler authentication helper implementation
+
+See `../auth/index.ts` for the complete `JwtPayload` definition.
 
 ## Related Documentation
 

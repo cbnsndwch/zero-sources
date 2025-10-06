@@ -126,13 +126,17 @@ Query context contains user authentication data extracted from JWT tokens. We ne
 
 #### Technical Details
 
-- **Files to create**: `libs/zrocket-contracts/src/queries/context.ts`
-- **Exports required**:
+- **Files created**: `libs/zrocket-contracts/src/queries/context.ts` ✅ COMPLETED (Updated)
+- **Status**: Type definition updated to match actual JWT claims. See [QUERYCONTEXT_FIX.md](./QUERYCONTEXT_FIX.md)
+- **Exports implemented**:
   ```typescript
   export type QueryContext = {
-    userID: string;
-    role?: 'admin' | 'user';
-    username?: string;
+    userID: string;              // from JWT 'sub'
+    email: string;               // from JWT 'email'
+    name?: string;               // from JWT 'name'
+    preferredUsername?: string;  // from JWT 'preferred_username'
+    picture?: string;            // from JWT 'picture'
+    roles?: string[];            // from JWT 'roles'
   };
   export function isAuthenticated(ctx: QueryContext | undefined): ctx is QueryContext;
   ```

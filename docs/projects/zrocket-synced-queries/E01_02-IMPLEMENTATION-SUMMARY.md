@@ -15,11 +15,16 @@ Created TypeScript type definitions for query context used in Zero synced querie
 ### 1. `libs/zrocket-contracts/src/queries/context.ts`
 **Purpose**: Core type definitions for query context
 
+**Status**: ✅ UPDATED to match actual JWT claims (see [QUERYCONTEXT_FIX.md](./QUERYCONTEXT_FIX.md))
+
 **Exports**:
 - `QueryContext` type - Contains authenticated user information
   - `userID: string` (required) - User's unique identifier from JWT `sub` claim
-  - `role?: 'admin' | 'user'` (optional) - User role for RBAC
-  - `username?: string` (optional) - Display name from JWT `name` claim
+  - `email: string` (required) - User's email address from JWT `email` claim
+  - `name?: string` (optional) - Full display name from JWT `name` claim
+  - `preferredUsername?: string` (optional) - Username handle from JWT `preferred_username` claim
+  - `picture?: string` (optional) - Profile picture URL from JWT `picture` claim
+  - `roles?: string[]` (optional) - Array of roles for RBAC from JWT `roles` claim
 
 - `isAuthenticated()` function - Type guard to check authentication status
   - Narrows type from `QueryContext | undefined` to `QueryContext`

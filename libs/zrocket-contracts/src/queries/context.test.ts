@@ -3,36 +3,54 @@ import { isAuthenticated, type QueryContext } from './context.js';
 
 describe('QueryContext', () => {
     describe('type definitions', () => {
-        it('should compile with valid QueryContext', () => {
+        it('should compile with required fields only', () => {
             const ctx: QueryContext = {
-                userID: 'user123'
+                sub: 'user123',
+                email: 'user@example.com'
             };
-            expect(ctx.userID).toBe('user123');
+            expect(ctx.sub).toBe('user123');
+            expect(ctx.email).toBe('user@example.com');
         });
 
-        it('should compile with optional role and username', () => {
+        it('should compile with all optional fields', () => {
             const ctx: QueryContext = {
-                userID: 'user123',
-                role: 'admin',
-                username: 'testuser'
+                sub: 'user123',
+                email: 'user@example.com',
+                name: 'Test User',
+                preferred_username: 'testuser',
+                picture: 'https://example.com/avatar.jpg',
+                roles: ['admin', 'moderator']
             };
-            expect(ctx.role).toBe('admin');
-            expect(ctx.username).toBe('testuser');
+            expect(ctx.name).toBe('Test User');
+            expect(ctx.preferred_username).toBe('testuser');
+            expect(ctx.picture).toBe('https://example.com/avatar.jpg');
+            expect(ctx.roles).toEqual(['admin', 'moderator']);
         });
 
-        it('should allow user role', () => {
+        it('should allow single role in roles array', () => {
             const ctx: QueryContext = {
-                userID: 'user123',
-                role: 'user'
+                sub: 'user123',
+                email: 'user@example.com',
+                roles: ['user']
             };
-            expect(ctx.role).toBe('user');
+            expect(ctx.roles).toEqual(['user']);
+        });
+
+        it('should allow multiple roles', () => {
+            const ctx: QueryContext = {
+                sub: 'user123',
+                email: 'user@example.com',
+                roles: ['user', 'admin', 'moderator']
+            };
+            expect(ctx.roles?.length).toBe(3);
         });
     });
 
     describe('isAuthenticated', () => {
-        it('should return true for valid context with userID', () => {
+        it('should return true for valid context with required fields', () => {
             const ctx: QueryContext = {
-                userID: 'user123'
+                sub: 'user123',
+                email: 'user@example.com'
             };
             expect(isAuthenticated(ctx)).toBe(true);
         });
@@ -42,36 +60,44 @@ describe('QueryContext', () => {
             expect(isAuthenticated(ctx)).toBe(false);
         });
 
-        it('should return false for context with empty userID', () => {
+        it('should return false for context with empty sub', () => {
             const ctx = {
-                userID: ''
+                sub: '',
+                email: 'user@example.com'
             } as QueryContext;
             expect(isAuthenticated(ctx)).toBe(false);
         });
 
         it('should narrow type correctly in type guard', () => {
             const ctx: QueryContext | undefined = {
-                userID: 'user123',
-                username: 'testuser'
+                sub: 'user123',
+                email: 'user@example.com',
+                preferred_username: 'testuser'
             };
 
             if (isAuthenticated(ctx)) {
                 // TypeScript should know ctx is QueryContext here, not undefined
                 // This should compile without errors
-                const userId: string = ctx.userID;
+                const userId: string = ctx.sub;
+                const email: string = ctx.email;
                 expect(userId).toBe('user123');
+                expect(email).toBe('user@example.com');
             }
         });
 
         it('should work with authenticated context with all properties', () => {
             const ctx: QueryContext = {
-                userID: 'user123',
-                role: 'admin',
-                username: 'Admin User'
+                sub: 'user123',
+                email: 'admin@example.com',
+                name: 'Admin User',
+                preferred_username: 'admin',
+                picture: 'https://example.com/admin.jpg',
+                roles: ['admin']
             };
             expect(isAuthenticated(ctx)).toBe(true);
             if (isAuthenticated(ctx)) {
-                expect(ctx.username).toBe('Admin User');
+                expect(ctx.name).toBe('Admin User');
+                expect(ctx.roles).toContain('admin');
             }
         });
     });

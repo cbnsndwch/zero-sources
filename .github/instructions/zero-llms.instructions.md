@@ -2589,7 +2589,7 @@ import { syncedQueryWithContext } from '@rocicorp/zero';
 import { builder } from './schema.ts';
 
 type QueryContext = {
-  userID: string;
+  ...JWT Payload Fields
 };
 
 export const myIssues = syncedQueryWithContext(
