@@ -27,6 +27,7 @@ import type { QueryContext } from './context.js';
 export const myChats = syncedQueryWithContext(
     'myChats',
     z.tuple([]),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (_ctx: QueryContext) => {
         // Server-side implementation will filter by membership (ctx.sub IN memberIds)
         // Client-side shows all chats optimistically
@@ -57,6 +58,7 @@ export const myChats = syncedQueryWithContext(
 export const myGroups = syncedQueryWithContext(
     'myGroups',
     z.tuple([]),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (_ctx: QueryContext) => {
         // Server-side implementation will filter by membership (ctx.sub IN memberIds)
         // Client-side shows all groups optimistically
@@ -83,6 +85,7 @@ export const myGroups = syncedQueryWithContext(
 export const myRooms = syncedQueryWithContext(
     'myRooms',
     z.tuple([]),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (_ctx: QueryContext) => {
         // Return chats - in practice, use myChats() and myGroups() separately
         // Server-side implementation will filter by membership
