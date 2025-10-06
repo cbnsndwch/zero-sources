@@ -63,12 +63,25 @@ if (Test-Path $zrocketEnv) {
         $port = $matches[1]
         Write-Host "  ✅ ZRocket PORT: $port" -ForegroundColor Green
         
-        # Check if URL matches port
-        if ($url -and $url -match ":$port/") {
-            Write-Host "  ✅ PORT matches ZERO_GET_QUERIES_URL" -ForegroundColor Green
-        } elseif ($url) {
-            $warnings += "PORT ($port) may not match ZERO_GET_QUERIES_URL ($url)"
-            Write-Host "  ⚠️  PORT may not match URL" -ForegroundColor Yellow
+        # Check if URL matches port and path using [System.Uri]
+        if ($url) {
+            try {
+                $uri = [System.Uri]$url
+                $pathMatches = $uri.AbsolutePath -eq "/api/zero/get-queries"
+                $portMatches = $uri.IsDefaultPort -or ($uri.Port -eq [int]$port)
+                if ($pathMatches -and $portMatches) {
+                    Write-Host "  ✅ PORT and path match ZERO_GET_QUERIES_URL" -ForegroundColor Green
+                } elseif (-not $pathMatches) {
+                    $warnings += "URL path may be incorrect: $($uri.AbsolutePath) (expected /api/zero/get-queries)"
+                    Write-Host "  ⚠️  URL path may be incorrect" -ForegroundColor Yellow
+                } else {
+                    $warnings += "PORT ($port) may not match ZERO_GET_QUERIES_URL ($url)"
+                    Write-Host "  ⚠️  PORT may not match URL" -ForegroundColor Yellow
+                }
+            } catch {
+                $warnings += "Invalid URL format: $url"
+                Write-Host "  ⚠️  Invalid URL format" -ForegroundColor Yellow
+            }
         }
     } else {
         $warnings += "PORT not found in $zrocketEnv"
