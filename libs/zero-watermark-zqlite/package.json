@@ -39,7 +39,7 @@
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero-sqlite3": "*",
-        "@types/node": "^22.14.1",
+        "@types/node": "^24.7.0",
         "@vitest/coverage-v8": "^3.2.4",
         "@vitest/ui": "^3.2.4",
         "eslint": "^9.37.0",
