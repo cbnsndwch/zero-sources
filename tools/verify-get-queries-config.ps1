@@ -167,5 +167,9 @@ if ($errors.Count -eq 0 -and $warnings.Count -eq 0) {
     }
     
     Write-Host "📖 See ZERO_GET_QUERIES_SETUP.md for troubleshooting help" -ForegroundColor Cyan
-    exit 1
+    if ($errors.Count -gt 0) {
+        exit 1
+    } else {
+        exit 0
+    }
 }
