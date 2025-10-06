@@ -207,7 +207,7 @@ The following tasks depend on this implementation:
 - [Zero Synced Queries](https://rocicorp.dev/docs/zero/synced-queries)
 - [Project PRD](../../../docs/projects/zrocket-synced-queries/PRD.md)
 - [Epic E02 Stories](../../../docs/projects/zrocket-synced-queries/EPICS_AND_STORIES.md#zsqe02-query-definitions-and-client-integration)
-- [Query Context Documentation](./libs/zrocket-contracts/src/queries/README.md)
+- [Query Context Documentation](../../../libs/zrocket-contracts/src/queries/README.md)
 
 ## Acceptance Criteria Checklist
 
