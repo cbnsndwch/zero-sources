@@ -9,7 +9,7 @@ interface OutletContext extends MainLayoutContext {
     roomType: 'dm';
 }
 
-export default function DLayout() {
+export default function DirectMessagesLayout() {
     const mainContext = useOutletContext<MainLayoutContext>();
 
     const context: OutletContext = {
