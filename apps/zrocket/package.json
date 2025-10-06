@@ -130,7 +130,7 @@
         "@nestjs/cli": "^11.0.10",
         "@nestjs/schematics": "^11.0.8",
         "@nestjs/testing": "^11.1.6",
-        "@playwright/test": "^1.55.1",
+        "@playwright/test": "^1.56.0",
         "@react-router/dev": "^7.9.3",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
