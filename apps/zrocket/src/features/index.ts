@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { ChatModule } from './chat/chat.module.js';
 import { SchemaExportModule } from './schema-export/schema-export.module.js';
 import { UsersModule } from './users/users.module.js';
+import { ZeroQueriesModule } from './zero-queries/zero-queries.module.js';
 import { ZRocketModule } from './zrocket/zrocket.module.js';
 
 export default [
@@ -25,6 +26,7 @@ export default [
     AuthModule,
     ChatModule,
     UsersModule,
+    ZeroQueriesModule,
     /**
      * Schema Export API for Source Server
      */

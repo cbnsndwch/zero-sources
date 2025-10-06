@@ -1,12 +1,36 @@
 # Zero Queries Feature
 
-This feature provides authentication infrastructure for Zero synced query requests.
+This feature provides authentication infrastructure and API endpoints for Zero synced query requests.
 
 ## Overview
 
-The Zero Queries feature bridges HTTP authentication with Zero's query context system, enabling server-side filtering and access control for synced queries.
+The Zero Queries feature bridges HTTP authentication with Zero's query context system, enabling server-side filtering and access control for synced queries. It provides a NestJS module that integrates authentication, query routing, and access control for Zero's synced query system.
 
 ## Components
+
+### `ZeroQueriesModule`
+
+NestJS module that encapsulates all Zero synced query functionality.
+
+**Purpose**: Organize and provide dependency injection for query-related services and controllers.
+
+**Features**:
+- Modular architecture with proper DI configuration
+- Exports `ZeroQueryAuth` for use in other modules
+- Registers query endpoints via `ZeroQueriesController`
+- Leverages globally configured JwtModule, MongooseModule, and ConfigModule
+
+### `ZeroQueriesController`
+
+HTTP controller for Zero synced query endpoints.
+
+**Purpose**: Handle incoming query requests from Zero cache server at `/api/zero/get-queries`.
+
+**Features**:
+- POST endpoint at `/api/zero/get-queries`
+- Request authentication using `ZeroQueryAuth`
+- Placeholder response (full implementation coming in future issues)
+- Comprehensive error handling and logging
 
 ### `ZeroQueryAuth`
 
@@ -22,17 +46,67 @@ Authentication helper class that extracts and validates JWT tokens from request 
 
 ## Usage
 
-### Basic Authentication
+### Module Integration
+
+Import the `ZeroQueriesModule` in your application:
+
+```typescript
+// app.module.ts
+import { Module } from '@nestjs/common';
+import { ZeroQueriesModule } from './features/zero-queries';
+
+@Module({
+  imports: [
+    // ... other modules
+    ZeroQueriesModule
+  ]
+})
+export class AppModule {}
+```
+
+The module is already integrated in the ZRocket application and provides the `/api/zero/get-queries` endpoint.
+
+### Using ZeroQueryAuth in Other Modules
+
+The `ZeroQueryAuth` service is exported by `ZeroQueriesModule` and can be used in other modules:
+
+```typescript
+// your.module.ts
+import { Module } from '@nestjs/common';
+import { ZeroQueriesModule } from '../zero-queries';
+import { YourService } from './your.service';
+
+@Module({
+  imports: [ZeroQueriesModule],
+  providers: [YourService]
+})
+export class YourModule {}
+
+// your.service.ts
+import { Injectable } from '@nestjs/common';
+import { ZeroQueryAuth } from '../zero-queries';
+
+@Injectable()
+export class YourService {
+  constructor(private readonly auth: ZeroQueryAuth) {}
+
+  async processRequest(request: Request) {
+    const context = await this.auth.authenticateRequest(request);
+    // Use context for filtering...
+  }
+}
+```
+
+### Direct Authentication Usage
 
 ```typescript
 import { ZeroQueryAuth } from './features/zero-queries';
-import { JwtService } from '@nestjs/jwt';
 
-// Create instance (typically injected via DI)
-const auth = new ZeroQueryAuth(jwtService);
+// Inject via constructor (typical pattern)
+constructor(private readonly auth: ZeroQueryAuth) {}
 
 // Authenticate a request
-const ctx = await auth.authenticateRequest(request);
+const ctx = await this.auth.authenticateRequest(request);
 
 if (ctx) {
   // Authenticated - apply user-specific filters
@@ -40,27 +114,6 @@ if (ctx) {
 } else {
   // Anonymous - show only public data
   query.where('isPublic', '=', true);
-}
-```
-
-### In a NestJS Controller
-
-```typescript
-import { Controller, Post, Req } from '@nestjs/common';
-import { ZeroQueryAuth } from '../zero-queries';
-
-@Controller('api/zero')
-export class ZeroController {
-  constructor(private readonly auth: ZeroQueryAuth) {}
-
-  @Post('get-queries')
-  async handleQueries(@Req() request: Request) {
-    // Authenticate the request
-    const context = await this.auth.authenticateRequest(request);
-    
-    // Use context for query filtering
-    return this.queryService.executeWithContext(context);
-  }
 }
 ```
 
