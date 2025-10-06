@@ -1,4 +1,4 @@
-import { createSchema, relationships } from '@rocicorp/zero';
+import { createSchema, createBuilder, relationships } from '@rocicorp/zero';
 
 import chats from '../rooms/tables/direct-message-room.schema.js';
 import groups from '../rooms/tables/private-group.schema.js';
@@ -124,6 +124,27 @@ export const schema = createSchema({
 export type Schema = typeof schema;
 
 export type TableName = keyof typeof schema.tables;
+
+/**
+ * Query builder for creating Zero queries.
+ * 
+ * Use this builder in synced query definitions to construct type-safe queries
+ * against the ZRocket schema.
+ * 
+ * @example
+ * ```typescript
+ * import { builder } from '@cbnsndwch/zrocket-contracts/schema';
+ * 
+ * const myQuery = syncedQueryWithContext<Schema, QueryContext>(
+ *   'myQuery',
+ *   z.tuple([]),
+ *   (ctx) => {
+ *     return builder.chats.where('memberIds', 'contains', ctx.sub);
+ *   }
+ * );
+ * ```
+ */
+export const builder = createBuilder(schema);
 
 export const mapping = {
     chats: chats.mapping,
