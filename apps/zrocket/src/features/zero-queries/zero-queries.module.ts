@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 
 import { ZeroQueryAuth } from './auth.helper.js';
 import { ZeroQueriesController } from './zero-queries.controller.js';
@@ -11,10 +12,11 @@ import { ZeroQueriesController } from './zero-queries.controller.js';
  * to process query requests from the Zero cache server.
  *
  * @remarks
- * This module leverages globally configured dependencies:
- * - **JwtModule**: Configured in {@link AuthModule} with @Global() decorator
- * - **MongooseModule**: Configured in global-modules.ts for database access
- * - **ConfigModule**: Configured in global-modules.ts for environment variables
+ * This module imports JwtModule to access JwtService for authentication.
+ * Other dependencies are globally configured:
+ * - **JwtModule**: Imported here to provide JwtService to ZeroQueryAuth
+ * - **MongooseModule**: Configured globally in global-modules.ts for database access
+ * - **ConfigModule**: Configured globally in global-modules.ts for environment variables
  *
  * ## Architecture
  *
@@ -54,6 +56,7 @@ import { ZeroQueriesController } from './zero-queries.controller.js';
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries Documentation}
  */
 @Module({
+    imports: [JwtModule],
     controllers: [ZeroQueriesController],
     providers: [ZeroQueryAuth],
     exports: [ZeroQueryAuth]
