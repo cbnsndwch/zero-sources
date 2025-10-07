@@ -3,9 +3,11 @@ import type { SerializedEditorState } from 'lexical';
 import { toast } from 'sonner';
 
 import { RichMessageEditor } from '@/components/RichMessageEditor';
-import { useZero } from '@/zero/use-zero';
 import { useLogin } from '@/auth/use-login';
 import { sendMessage } from '@/zero/api-client';
+import useChannel from '@/hooks/use-channel';
+import useGroup from '@/hooks/use-group';
+import useChat from '@/hooks/use-chat';
 
 interface ChatInputProps {
     roomId: string;
@@ -13,9 +15,23 @@ interface ChatInputProps {
 }
 
 export function ChatInput({ roomId, roomType }: ChatInputProps) {
-    const zero = useZero();
     const { loginState } = useLogin();
     const [isSending, setIsSending] = useState(false);
+
+    // Fetch room data based on room type using hooks
+    const channelResult = useChannel(
+        roomType === 'channel' ? roomId : undefined
+    );
+    const groupResult = useGroup(roomType === 'group' ? roomId : undefined);
+    const chatResult = useChat(roomType === 'dm' ? roomId : undefined);
+
+    // Get the appropriate room data (first result from the array)
+    const room =
+        roomType === 'channel'
+            ? channelResult[0]
+            : roomType === 'group'
+              ? groupResult[0]
+              : chatResult[0];
 
     const handleRichSend = useCallback(
         async (content: SerializedEditorState) => {
@@ -54,18 +70,16 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
             }
 
             // Check if user is a member of this room (client-side validation)
-            let room: { memberIds: string[] } | undefined;
-            if (roomType === 'channel') {
-                room = await zero.query.channels.where('_id', roomId).one();
-            } else if (roomType === 'group') {
-                room = await zero.query.groups.where('_id', roomId).one();
-            } else {
-                room = await zero.query.chats.where('_id', roomId).one();
-            }
-
             if (!room) {
                 console.error('[ChatInput] Room not found:', roomId);
                 toast.error('Room not found');
+                return;
+            }
+
+            // Check if room has memberIds property (type guard)
+            if (!('memberIds' in room) || !Array.isArray(room.memberIds)) {
+                console.error('[ChatInput] Room does not have memberIds');
+                toast.error('Invalid room data');
                 return;
             }
 
@@ -102,7 +116,7 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
                 setIsSending(false);
             }
         },
-        [zero, roomId, roomType, loginState]
+        [room, roomId, loginState]
     );
 
     return (
