@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import useChannel from '@/hooks/use-channel';
@@ -16,7 +18,7 @@ export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const prevMessageCountRef = useRef<number>(0);
 
-    // Fetch room data based on room type
+    // Fetch room data based on room type (still needed for room metadata)
     const channelQueryResult = useChannel(roomType === 'channel' ? roomId : '');
     const groupQueryResult = useGroup(roomType === 'group' ? roomId : '');
     const chatQueryResult = useChat(roomType === 'dm' ? roomId : '');
@@ -37,8 +39,16 @@ export function ChatMessages({ roomId, roomType }: ChatMessagesProps) {
                     : chatQueryResult[0]
                 : undefined;
 
-    // Get messages for the room
-    const messages = useRoomMessages(room);
+    // Convert component roomType to RoomType enum
+    const enumRoomType =
+        roomType === 'channel'
+            ? RoomType.PublicChannel
+            : roomType === 'group'
+              ? RoomType.PrivateGroup
+              : RoomType.DirectMessages;
+
+    // Get messages for the room using the new synced query hook
+    const messages = useRoomMessages(roomId, enumRoomType);
 
     // Scroll to bottom when new messages are added or on initial load
     useEffect(() => {
