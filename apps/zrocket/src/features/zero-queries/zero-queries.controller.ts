@@ -37,7 +37,11 @@ export class ZeroQueriesController {
      * configured to forward requests to this endpoint via the ZERO_GET_QUERIES_URL
      * environment variable.
      *
-     * **Current Implementation**: Returns empty placeholder response.
+     * **Zero Protocol Format**:
+     * - Request body: `[{ id: string, name: string, args: ReadonlyJSONValue[] }]`
+     * - Response body: `[{ id: string, name: string, ast: AST } | { error: "app", id, name, details }]`
+     *
+     * **Current Implementation**: Returns empty AST responses (no data).
      * **Future Implementation**: Will delegate to GetQueriesHandler for actual query execution.
      *
      * @example
@@ -47,15 +51,14 @@ export class ZeroQueriesController {
      * Authorization: Bearer <jwt-token>
      * Content-Type: application/json
      *
-     * {
-     *   "queries": {
-     *     "myRooms": { "table": "room", "where": [...] }
-     *   }
-     * }
+     * [
+     *   { "id": "q1", "name": "myChats", "args": [] },
+     *   { "id": "q2", "name": "publicChannels", "args": [] }
+     * ]
      * ```
      */
     @Post('get-queries')
-    async handleQueries(@Req() request: Request): Promise<object> {
+    async handleQueries(@Req() request: Request): Promise<object[]> {
         // Extract and validate authentication context
         const context = await this.auth.authenticateRequest(request);
 
@@ -67,12 +70,36 @@ export class ZeroQueriesController {
             this.logger.verbose('Processing queries for anonymous user');
         }
 
+        // Parse the request body to get query requests
+        // Zero protocol: request body is an array of { id, name, args }
+        const queryRequests = (request.body as any[]) || [];
+
+        if (queryRequests.length > 0) {
+            this.logger.verbose(
+                `Received ${queryRequests.length} query request(s): ${queryRequests.map((q) => q.name).join(', ')}`
+            );
+        }
+
         // TODO: Implement actual query handler
         // Will be added in issue #70: [ZSQ][E02_01] Create GetQueriesHandler Service
-        // For now, return empty results to satisfy the Zero cache protocol
-        return {
-            queries: {},
-            timestamp: Date.now()
-        };
+        // For now, return empty AST for each query to satisfy the Zero cache protocol
+        // This allows the app to run without crashing, even though no data will sync yet
+        return queryRequests.map((queryReq) => ({
+            id: queryReq.id,
+            name: queryReq.name,
+            // Return a minimal AST that represents an empty result set
+            // This is a "select nothing" query that won't crash Zero but returns no data
+            ast: {
+                table: 'room', // Default table - will be replaced by actual implementation
+                where: [
+                    {
+                        type: 'simple',
+                        op: '=',
+                        left: { type: 'column', name: '_id' },
+                        right: { type: 'literal', value: 'never-matches' }
+                    }
+                ]
+            }
+        }));
     }
 }
