@@ -221,10 +221,7 @@ describe('RoomAccessService', () => {
             await service.getUserAccessibleRoomIds(userId);
 
             expect(roomModel.find).toHaveBeenCalledWith({
-                $or: [
-                    { t: RoomType.PublicChannel },
-                    { memberIds: userId }
-                ]
+                $or: [{ t: RoomType.PublicChannel }, { memberIds: userId }]
             });
         });
 
@@ -266,8 +263,7 @@ describe('RoomAccessService', () => {
                     new Error('Database connection failed')
                 );
 
-                const result =
-                    await service.getUserAccessibleRoomIds(userId);
+                const result = await service.getUserAccessibleRoomIds(userId);
 
                 expect(result).toEqual([]);
             });
@@ -277,8 +273,7 @@ describe('RoomAccessService', () => {
                     new Error('Query timeout')
                 );
 
-                const result =
-                    await service.getUserAccessibleRoomIds(userId);
+                const result = await service.getUserAccessibleRoomIds(userId);
 
                 expect(result).toEqual([]);
             });
@@ -286,8 +281,7 @@ describe('RoomAccessService', () => {
             it('should return empty array on invalid data', async () => {
                 vi.spyOn(roomModel, 'exec').mockResolvedValue(null as any);
 
-                const result =
-                    await service.getUserAccessibleRoomIds(userId);
+                const result = await service.getUserAccessibleRoomIds(userId);
 
                 expect(result).toEqual([]);
             });
@@ -349,9 +343,7 @@ describe('RoomAccessService', () => {
                 { _id: 'public-announcements' } // Public channel
             ];
 
-            vi.spyOn(roomModel, 'exec').mockResolvedValue(
-                mockUserRooms as any
-            );
+            vi.spyOn(roomModel, 'exec').mockResolvedValue(mockUserRooms as any);
 
             const roomIds = await service.getUserAccessibleRoomIds(userId);
 
