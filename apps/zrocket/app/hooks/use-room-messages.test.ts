@@ -30,8 +30,10 @@ describe('useRoomMessages', () => {
             // Verify it's a function
             expect(typeof useRoomMessages).toBe('function');
 
-            // Verify it accepts the correct number of parameters
-            expect(useRoomMessages.length).toBe(3);
+            // Verify it accepts the correct number of required parameters
+            // Note: function.length only counts parameters before the first default value
+            // Since 'limit' has a default value, the length is 2
+            expect(useRoomMessages.length).toBe(2);
         });
     });
 
