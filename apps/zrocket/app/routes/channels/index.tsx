@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router';
 
-import { useQuery } from '@rocicorp/zero/react';
-
 import { EmptyChat } from '@/components/layout/EmptyChat';
-import { useZero } from '@/zero/use-zero';
+import useChannels from '@/hooks/use-channels';
 import {
     getLastVisitedRoom,
     setLastVisitedRoom
@@ -19,13 +17,9 @@ interface OutletContext {
 export default function ChannelsIndex() {
     const navigate = useNavigate();
     useOutletContext<OutletContext>(); // Just to validate context exists
-    const z = useZero();
 
-    // Get channels
-    const [channels, channelsResult] = useQuery(
-        z.query.channels.orderBy('name', 'asc'),
-        { enabled: !!z }
-    );
+    // Get channels using the hook
+    const [channels, channelsResult] = useChannels();
 
     useEffect(() => {
         const attemptRedirect = () => {
