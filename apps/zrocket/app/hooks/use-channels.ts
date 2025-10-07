@@ -1,11 +1,7 @@
 import { useQuery } from '@rocicorp/zero/react';
 
-import { useZero } from '@/zero/use-zero';
+import { publicChannels } from '@cbnsndwch/zrocket-contracts';
 
 export default function useChannels() {
-    const zero = useZero();
-
-    const query = zero.query.channels.orderBy('name', 'asc');
-
-    return useQuery(query, { enabled: !!zero });
+    return useQuery(publicChannels());
 }

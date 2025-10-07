@@ -1,14 +1,11 @@
-import type { Query } from '@rocicorp/zero';
 import { useQuery } from '@rocicorp/zero/react';
 
-import type {
-    IPublicChannelRoom,
-    ISystemMessage,
-    IUserMessage
+import {
+    type IPublicChannelRoom,
+    type ISystemMessage,
+    type IUserMessage,
+    channelById
 } from '@cbnsndwch/zrocket-contracts';
-import type { Schema } from '@cbnsndwch/zrocket-contracts/schema';
-
-import { useZero } from '@/zero/use-zero';
 
 export type ChannelWithMessages = Readonly<
     IPublicChannelRoom & {
@@ -17,19 +14,9 @@ export type ChannelWithMessages = Readonly<
     }
 >;
 
-export default function useChannel(id: string) {
-    const zero = useZero();
-
-    const query = zero.query.channels
-        .where('_id', '=', id)
-        .one()
-        .related('messages')
-        .related('systemMessages');
-
-    const result = useQuery(
-        query as unknown as Query<Schema, 'channels', ChannelWithMessages>,
-        { enabled: zero && !!id }
-    );
-
-    return result;
+export default function useChannel(id: string | undefined) {
+    // Handle undefined id by providing a query that returns empty results
+    // This maintains backward compatibility while using synced queries
+    const query = id ? channelById(id) : undefined;
+    return useQuery(query as any);
 }
