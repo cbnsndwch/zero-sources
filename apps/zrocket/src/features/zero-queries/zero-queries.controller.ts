@@ -1,4 +1,5 @@
 import { Controller, Post, Req, Logger } from '@nestjs/common';
+import type { Request } from 'express';
 
 import { ZeroQueryAuth } from './auth.helper.js';
 
@@ -27,7 +28,7 @@ export class ZeroQueriesController {
     /**
      * Handle Zero synced query requests.
      *
-     * @param request - The incoming HTTP request containing query parameters
+     * @param request - The incoming NestJS/Express HTTP request containing query parameters
      * @returns Query results based on user permissions and filters
      *
      * @remarks
