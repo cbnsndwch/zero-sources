@@ -1,8 +1,12 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
+
+import { Room, RoomSchema } from '../chat/entities/rooms/room-base.entity.js';
 
 import { ZeroQueryAuth } from './auth.helper.js';
 import { ZeroQueriesController } from './zero-queries.controller.js';
+import { RoomAccessService } from './room-access.service.js';
 
 /**
  * Module for Zero synced query infrastructure.
@@ -40,25 +44,31 @@ import { ZeroQueriesController } from './zero-queries.controller.js';
  * export class AppModule {}
  * ```
  *
- * The module exports {@link ZeroQueryAuth} for use in other modules that need
- * to authenticate query requests or extract user context.
+ * The module exports {@link ZeroQueryAuth} and {@link RoomAccessService} for
+ * use in other modules that need to authenticate query requests or check room access.
  *
  * ## Development Status
  *
  * Current implementation provides basic infrastructure:
  * - ✅ Authentication helper (ZeroQueryAuth)
  * - ✅ Controller endpoint (/api/zero/get-queries)
+ * - ✅ Room access service (RoomAccessService)
  * - ⏳ Query handler implementation (planned for future issues)
- * - ⏳ Room access service (planned for future issues)
+ * - ⏳ Permission filter logic (planned for future issues)
  *
  * @see {@link ZeroQueryAuth} - JWT authentication helper
+ * @see {@link RoomAccessService} - Room access and membership service
  * @see {@link ZeroQueriesController} - Query endpoint controller
  * @see {@link https://rocicorp.dev/docs/zero/synced-queries Zero Synced Queries Documentation}
+ * @see {@link https://github.com/cbnsndwch/zero-sources/issues/78 Issue #78 - Create Room Access Service}
  */
 @Module({
-    imports: [JwtModule],
+    imports: [
+        JwtModule,
+        MongooseModule.forFeature([{ name: Room.name, schema: RoomSchema }])
+    ],
     controllers: [ZeroQueriesController],
-    providers: [ZeroQueryAuth],
-    exports: [ZeroQueryAuth]
+    providers: [ZeroQueryAuth, RoomAccessService],
+    exports: [ZeroQueryAuth, RoomAccessService]
 })
 export class ZeroQueriesModule {}
