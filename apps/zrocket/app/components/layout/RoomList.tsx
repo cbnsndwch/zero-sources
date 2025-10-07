@@ -1,13 +1,14 @@
-import { useQuery } from '@rocicorp/zero/react';
 import { Hash, Lock, User, type LucideIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { NavLink } from 'react-router';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { RoomType } from '@/utils/room-preferences';
-import { useZero } from '@/zero/use-zero';
 import { cn } from '@/lib/utils';
 import useRoomTitle from '@/hooks/use-room-title';
+import useChats from '@/hooks/use-chats';
+import useGroups from '@/hooks/use-groups';
+import useChannels from '@/hooks/use-channels';
 
 interface RoomListProps {
     roomType: RoomType;
@@ -132,23 +133,10 @@ const ROOM_ICON_BY_TYPE: Partial<Record<RoomType, LucideIcon>> = {
 };
 
 export function RoomList({ roomType, searchQuery }: RoomListProps) {
-    const z = useZero();
-
-    // Query data based on room type
-    const [chats, chatsResult] = useQuery(
-        z.query.chats.orderBy('lastMessageAt', 'desc'),
-        { enabled: !!z && roomType === 'dms' }
-    );
-
-    const [groups, groupsResult] = useQuery(
-        z.query.groups.orderBy('lastMessageAt', 'desc'),
-        { enabled: !!z && roomType === 'groups' }
-    );
-
-    const [channels, channelsResult] = useQuery(
-        z.query.channels.orderBy('lastMessageAt', 'desc'),
-        { enabled: !!z && roomType === 'channels' }
-    );
+    // Query data based on room type using hooks
+    const [chats, chatsResult] = useChats();
+    const [groups, groupsResult] = useGroups();
+    const [channels, channelsResult] = useChannels();
 
     const rooms = useMemo(() => {
         switch (roomType) {

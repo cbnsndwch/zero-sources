@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router';
 
-import { useQuery } from '@rocicorp/zero/react';
-
 import { EmptyChat } from '@/components/layout/EmptyChat';
-import { useZero } from '@/zero/use-zero';
+import useChats from '@/hooks/use-chats';
 import {
     getLastVisitedRoom,
     setLastVisitedRoom
@@ -19,13 +17,9 @@ interface OutletContext {
 export default function DirectMessagesIndex() {
     const navigate = useNavigate();
     useOutletContext<OutletContext>(); // Just to validate context exists
-    const z = useZero();
 
-    // Get DM chats
-    const [chats, chatsResult] = useQuery(
-        z.query.chats.orderBy('lastMessageAt', 'desc'),
-        { enabled: !!z }
-    );
+    // Get DM chats using the hook
+    const [chats, chatsResult] = useChats();
 
     useEffect(() => {
         const attemptRedirect = () => {

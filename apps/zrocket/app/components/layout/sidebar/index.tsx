@@ -4,26 +4,23 @@ import {
     MessageSquareLockIcon,
     MessageSquareIcon
 } from 'lucide-react';
-import { useQuery } from '@rocicorp/zero/react';
 
 import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
-import { useZero } from '@/zero/use-zero';
-
+import useChats from '@/hooks/use-chats';
+import useGroups from '@/hooks/use-groups';
+import useChannels from '@/hooks/use-channels';
 import { SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 
 import { sidebarData } from './data';
-
 import { NavGroup } from './nav-group';
 import { NavUser } from './nav-user';
 import CreateRoomButton from './create-room-button';
 
 export function AppSidebar() {
-    const z = useZero();
-
-    const [chats] = useQuery(z.query.chats.orderBy('lastMessageAt', 'desc'));
-    const [groups] = useQuery(z.query.groups.orderBy('lastMessageAt', 'desc'));
-    const [channels] = useQuery(z.query.channels);
+    const [chats] = useChats();
+    const [groups] = useGroups();
+    const [channels] = useChannels();
 
     return (
         <div

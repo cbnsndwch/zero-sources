@@ -1,5 +1,6 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import type { Request as ExpressRequest } from 'express';
 
 import type { JwtPayload, QueryContext } from '@cbnsndwch/zrocket-contracts';
 
@@ -40,7 +41,7 @@ export class ZeroQueryAuth {
     /**
      * Extract and validate JWT from request Authorization header.
      *
-     * @param request - The incoming HTTP request
+     * @param request - The incoming NestJS/Express HTTP request
      * @returns QueryContext for authenticated requests, undefined for anonymous access
      *
      * @throws {UnauthorizedException} When authorization header is malformed
@@ -57,9 +58,9 @@ export class ZeroQueryAuth {
      * @see {@link JwtPayload} - Standard JWT claims structure
      */
     async authenticateRequest(
-        request: Request
+        request: ExpressRequest
     ): Promise<QueryContext | undefined> {
-        const authHeader = request.headers.get('Authorization');
+        const authHeader = request.headers['authorization'];
 
         // No auth header means anonymous access - this is allowed
         if (!authHeader) {

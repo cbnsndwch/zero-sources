@@ -1,6 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type { Request as ExpressRequest } from 'express';
 import type { JwtPayload } from '@cbnsndwch/zrocket-contracts';
 
 import { ZeroQueryAuth } from './auth.helper.js';
@@ -36,9 +37,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('Bearer valid.jwt.token')
+                    authorization: 'Bearer valid.jwt.token'
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             mockVerifyAsync.mockResolvedValue(validPayload);
 
@@ -54,9 +55,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('Bearer   valid.jwt.token   ')
+                    authorization: 'Bearer   valid.jwt.token   '
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             mockVerifyAsync.mockResolvedValue(validPayload);
 
@@ -78,9 +79,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
 
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('Bearer valid.jwt.token')
+                    authorization: 'Bearer valid.jwt.token'
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             mockVerifyAsync.mockResolvedValue(payloadWithRoles);
 
@@ -98,10 +99,8 @@ describe('ZeroQueryAuth - Basic Tests', () => {
         it('should return undefined for anonymous access', async () => {
             // Arrange
             const mockRequest = {
-                headers: {
-                    get: vi.fn().mockReturnValue(null)
-                }
-            } as unknown as Request;
+                headers: {}
+            } as unknown as ExpressRequest;
 
             // Act
             const result = await authHelper.authenticateRequest(mockRequest);
@@ -115,9 +114,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('')
+                    authorization: ''
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             // Act
             const result = await authHelper.authenticateRequest(mockRequest);
@@ -133,9 +132,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('valid.jwt.token')
+                    authorization: 'valid.jwt.token'
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             // Act & Assert
             await expect(
@@ -151,9 +150,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('Bearer ')
+                    authorization: 'Bearer '
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             // Act & Assert
             await expect(
@@ -171,9 +170,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('Bearer expired.jwt.token')
+                    authorization: 'Bearer expired.jwt.token'
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             mockVerifyAsync.mockRejectedValue(new Error('jwt expired'));
 
@@ -190,9 +189,9 @@ describe('ZeroQueryAuth - Basic Tests', () => {
             // Arrange
             const mockRequest = {
                 headers: {
-                    get: vi.fn().mockReturnValue('Bearer invalid.jwt.token')
+                    authorization: 'Bearer invalid.jwt.token'
                 }
-            } as unknown as Request;
+            } as unknown as ExpressRequest;
 
             mockVerifyAsync.mockRejectedValue(new Error('invalid signature'));
 
