@@ -131,13 +131,109 @@ See `../auth/index.ts` for the complete `JwtPayload` definition.
 - [ZRocket Synced Queries PRD](../../../docs/projects/zrocket-synced-queries/PRD.md)
 - [JWT Payload Types](../auth/index.ts)
 
-## Future Query Definitions
+## Available Query Definitions
 
-The following synced queries will be added in subsequent tasks:
+All query definitions are exported through a centralized index for easy importing:
 
-- **E02_01**: Public channel queries (`publicChannels`, `channelById`)
-- **E02_02**: Private room queries (`myChats`, `myGroups`, `chatById`, `groupById`)
-- **E02_03**: Message queries (`roomMessages`, `roomSystemMessages`, `searchMessages`)
-- **E02_04**: Query index and exports
+### Import Examples
 
-See [Epic E02 Stories](../../../docs/projects/zrocket-synced-queries/EPICS_AND_STORIES.md#zsqe02-query-definitions-and-client-integration) for details.
+```typescript
+// Import all queries from a single entry point
+import { 
+  // Context types and guards
+  QueryContext,
+  isAuthenticated,
+  
+  // Public channel queries (no authentication required)
+  publicChannels, 
+  channelById,
+  
+  // Private room queries (authentication required)
+  myChats, 
+  myGroups,
+  myRooms,
+  chatById,
+  groupById,
+  
+  // Message queries (permission-based)
+  roomMessages,
+  roomSystemMessages,
+  searchMessages,
+  
+  // Enums
+  RoomType 
+} from '@cbnsndwch/zrocket-contracts/queries';
+```
+
+### Usage in React Components
+
+```typescript
+import { useQuery } from '@rocicorp/zero/react';
+import { 
+  publicChannels, 
+  myChats, 
+  roomMessages, 
+  RoomType 
+} from '@cbnsndwch/zrocket-contracts/queries';
+
+function ChannelsList() {
+  // Public channels - no authentication required
+  const [channels] = useQuery(publicChannels());
+  return (
+    <div>
+      {channels.map(ch => (
+        <div key={ch._id}>{ch.name}</div>
+      ))}
+    </div>
+  );
+}
+
+function ChatsList() {
+  // Private chats - authentication required
+  const [chats] = useQuery(myChats());
+  return (
+    <div>
+      {chats.map(chat => (
+        <div key={chat._id}>{chat.name}</div>
+      ))}
+    </div>
+  );
+}
+
+function RoomMessages({ roomId }: { roomId: string }) {
+  // Room messages - permission-based
+  const [messages] = useQuery(
+    roomMessages(roomId, RoomType.PublicChannel, 100)
+  );
+  return (
+    <div>
+      {messages.map(msg => (
+        <div key={msg._id}>{msg.content}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Query Catalog
+
+#### Public Channel Queries
+
+- ✅ **`publicChannels()`** - All public channels (no auth required)
+- ✅ **`channelById(channelId: string)`** - Specific channel with messages (no auth required)
+
+#### Private Room Queries
+
+- ✅ **`myChats()`** - User's direct message chats
+- ✅ **`myGroups()`** - User's private groups
+- ✅ **`myRooms()`** - User's chats (alias for myChats)
+- ✅ **`chatById(chatId: string)`** - Specific chat with messages (membership required)
+- ✅ **`groupById(groupId: string)`** - Specific group with messages (membership required)
+
+#### Message Queries
+
+- ✅ **`roomMessages(roomId, roomType, limit?)`** - User messages in a room
+- ✅ **`roomSystemMessages(roomId, roomType, limit?)`** - System messages in a room
+- ✅ **`searchMessages(query: string)`** - Search messages across accessible rooms
+
+See [Epic E02 Stories](../../../docs/projects/zrocket-synced-queries/EPICS_AND_STORIES.md#zsqe02-query-definitions-and-client-integration) for implementation details.
