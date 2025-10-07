@@ -17,6 +17,6 @@ export type ChannelWithMessages = Readonly<
 export default function useChannel(id: string | undefined) {
     // Handle undefined id by providing a query that returns empty results
     // This maintains backward compatibility while using synced queries
-    const query = id ? channelById(id) : undefined;
-    return useQuery(query as any);
+    const query = channelById(id ?? '');
+    return useQuery(query, { enabled: Boolean(id) });
 }
