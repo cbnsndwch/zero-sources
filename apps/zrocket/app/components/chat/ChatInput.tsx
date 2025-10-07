@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { SerializedEditorState } from 'lexical';
 import { toast } from 'sonner';
+
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
 import { RichMessageEditor } from '@/components/RichMessageEditor';
 import { useLogin } from '@/auth/use-login';
@@ -11,27 +13,14 @@ import useChat from '@/hooks/use-chat';
 
 interface ChatInputProps {
     roomId: string;
-    roomType: 'channel' | 'group' | 'dm';
+    roomType: RoomType;
 }
 
 export function ChatInput({ roomId, roomType }: ChatInputProps) {
     const { loginState } = useLogin();
     const [isSending, setIsSending] = useState(false);
 
-    // Fetch room data based on room type using hooks
-    const channelResult = useChannel(
-        roomType === 'channel' ? roomId : undefined
-    );
-    const groupResult = useGroup(roomType === 'group' ? roomId : undefined);
-    const chatResult = useChat(roomType === 'dm' ? roomId : undefined);
-
-    // Get the appropriate room data (first result from the array)
-    const room =
-        roomType === 'channel'
-            ? channelResult[0]
-            : roomType === 'group'
-              ? groupResult[0]
-              : chatResult[0];
+    const room = useRoomData(roomId, roomType);
 
     const handleRichSend = useCallback(
         async (content: SerializedEditorState) => {
@@ -129,4 +118,30 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
             />
         </div>
     );
+}
+
+function useRoomData(roomId: string, roomType: RoomType) {
+    // Fetch room data based on room type using hooks
+    const channelResult = useChannel(
+        roomType === RoomType.PublicChannel ? roomId : undefined
+    );
+    const groupResult = useGroup(
+        roomType === RoomType.PrivateGroup ? roomId : undefined
+    );
+    const chatResult = useChat(
+        roomType === RoomType.DirectMessages ? roomId : undefined
+    );
+
+    // Get the appropriate room data (first result from the array)
+    const room = useMemo(
+        () =>
+            roomType === RoomType.PublicChannel
+                ? channelResult[0]
+                : roomType === RoomType.PrivateGroup
+                  ? groupResult[0]
+                  : chatResult[0],
+        [channelResult, chatResult, groupResult, roomType]
+    );
+
+    return room;
 }
