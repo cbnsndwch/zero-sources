@@ -48,7 +48,7 @@ describe('FormattingToolbar', () => {
         }));
 
         vi.doMock('@/components/ui/button', () => ({
-            Button: ({ children, ...props }: any) => children
+            Button: ({ children }: any) => children
         }));
 
         vi.doMock('lucide-react', () => ({

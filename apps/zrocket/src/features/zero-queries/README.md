@@ -15,6 +15,7 @@ NestJS module that encapsulates all Zero synced query functionality.
 **Purpose**: Organize and provide dependency injection for query-related services and controllers.
 
 **Features**:
+
 - Modular architecture with proper DI configuration
 - Exports `ZeroQueryAuth` for use in other modules
 - Registers query endpoints via `ZeroQueriesController`
@@ -27,6 +28,7 @@ HTTP controller for Zero synced query endpoints.
 **Purpose**: Handle incoming query requests from Zero cache server at `/api/zero/get-queries`.
 
 **Features**:
+
 - POST endpoint at `/api/zero/get-queries`
 - Request authentication using `ZeroQueryAuth`
 - Placeholder response (full implementation coming in future issues)
@@ -39,6 +41,7 @@ Authentication helper class that extracts and validates JWT tokens from request 
 **Purpose**: Consistently authenticate query requests and provide QueryContext for server-side query filtering.
 
 **Features**:
+
 - JWT extraction from Authorization headers
 - Token validation and verification
 - Anonymous access support (no auth header)
@@ -56,10 +59,10 @@ import { Module } from '@nestjs/common';
 import { ZeroQueriesModule } from './features/zero-queries';
 
 @Module({
-  imports: [
-    // ... other modules
-    ZeroQueriesModule
-  ]
+    imports: [
+        // ... other modules
+        ZeroQueriesModule
+    ]
 })
 export class AppModule {}
 ```
@@ -77,8 +80,8 @@ import { ZeroQueriesModule } from '../zero-queries';
 import { YourService } from './your.service';
 
 @Module({
-  imports: [ZeroQueriesModule],
-  providers: [YourService]
+    imports: [ZeroQueriesModule],
+    providers: [YourService]
 })
 export class YourModule {}
 
@@ -88,12 +91,12 @@ import { ZeroQueryAuth } from '../zero-queries';
 
 @Injectable()
 export class YourService {
-  constructor(private readonly auth: ZeroQueryAuth) {}
+    constructor(private readonly auth: ZeroQueryAuth) {}
 
-  async processRequest(request: Request) {
-    const context = await this.auth.authenticateRequest(request);
-    // Use context for filtering...
-  }
+    async processRequest(request: Request) {
+        const context = await this.auth.authenticateRequest(request);
+        // Use context for filtering...
+    }
 }
 ```
 
@@ -152,6 +155,7 @@ const ctx = await auth.authenticateRequest(request);
 **Message**: "Invalid authorization header format. Expected \"Bearer <token>\""
 
 **Cases**:
+
 - Missing "Bearer " prefix
 - Empty token
 - Only whitespace
@@ -162,6 +166,7 @@ const ctx = await auth.authenticateRequest(request);
 **Message**: "Invalid or expired authentication token"
 
 **Cases**:
+
 - Expired token (exp claim in the past)
 - Invalid signature
 - Malformed JWT structure
@@ -171,6 +176,7 @@ const ctx = await auth.authenticateRequest(request);
 ### QueryContext = JwtPayload
 
 We use JWT payload directly as QueryContext to:
+
 - Eliminate unnecessary field transformations
 - Maintain single source of truth
 - Preserve all JWT claims for filtering
@@ -186,15 +192,16 @@ return await this.jwtService.verifyAsync(token);
 
 // ❌ Traditional approach - unnecessary transformation
 return {
-  userID: jwt.sub,
-  email: jwt.email,
-  // ... manual mapping
+    userID: jwt.sub,
+    email: jwt.email
+    // ... manual mapping
 };
 ```
 
 ## Testing
 
 Comprehensive unit tests cover:
+
 - ✅ Valid JWT tokens
 - ✅ Token with extra whitespace
 - ✅ All JWT claims preserved
@@ -207,6 +214,7 @@ Comprehensive unit tests cover:
 - ✅ Malformed JWTs
 
 Run tests:
+
 ```bash
 pnpm --filter=@cbnsndwch/zrocket test src/features/zero-queries
 ```
@@ -220,8 +228,8 @@ import { Module } from '@nestjs/common';
 import { ZeroQueryAuth } from './zero-queries';
 
 @Module({
-  providers: [ZeroQueryAuth],
-  exports: [ZeroQueryAuth]
+    providers: [ZeroQueryAuth],
+    exports: [ZeroQueryAuth]
 })
 export class ZeroQueriesModule {}
 ```
@@ -235,8 +243,8 @@ import { AuthModule } from '../auth';
 import { ZeroQueriesModule } from './zero-queries';
 
 @Module({
-  imports: [AuthModule, ZeroQueriesModule],
-  // ...
+    imports: [AuthModule, ZeroQueriesModule]
+    // ...
 })
 export class AppModule {}
 ```
@@ -253,6 +261,7 @@ export class AppModule {}
 ### Why Not Use Guards?
 
 We don't use NestJS Guards because:
+
 1. Zero Cache calls our endpoint, not browser clients
 2. We need explicit `undefined` for anonymous access, not 401 errors
 3. Guards would complicate the optional authentication pattern

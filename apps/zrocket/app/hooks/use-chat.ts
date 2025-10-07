@@ -1,27 +1,18 @@
-import type { Query } from '@rocicorp/zero';
-import { useQuery, type Schema } from '@rocicorp/zero/react';
+import { useQuery } from '@rocicorp/zero/react';
 
 import type {
     IDirectMessagesRoom,
     ISystemMessage,
     IUserMessage
 } from '@cbnsndwch/zrocket-contracts';
+import { chatById } from '@cbnsndwch/zrocket-contracts';
 
-import { useZero } from '@/zero/use-zero';
-
-export default function useChat(id: string) {
-    const zero = useZero();
-
-    const query = zero.query.chats
-        .where('_id', '=', id)
-        .one()
-        .related('messages')
-        .related('systemMessages');
-
-    return useQuery(
-        query as unknown as Query<Schema, 'chats', ChatWithMessages>,
-        { enabled: zero && !!id }
-    );
+export default function useChat(id: string | undefined) {
+    // Handle undefined id by providing empty string to query
+    // Context is provided by Zero framework at runtime on the server
+    // Pass null as placeholder for client-side TypeScript compliance
+    const query = chatById(null as any, id ?? '');
+    return useQuery(query, { enabled: Boolean(id) });
 }
 
 export type ChatWithMessages = Readonly<

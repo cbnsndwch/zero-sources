@@ -1,26 +1,21 @@
-import { useQuery, type QueryResult } from '@rocicorp/zero/react';
+import { useQuery } from '@rocicorp/zero/react';
 
 import type {
     IPrivateGroupRoom,
     ISystemMessage,
     IUserMessage
 } from '@cbnsndwch/zrocket-contracts';
+import { groupById } from '@cbnsndwch/zrocket-contracts';
 
-import { useZero } from '@/zero/use-zero';
+// Type-safe mock context for client-side compliance
+const mockContext = {} as Parameters<typeof groupById>[0];
 
-export default function useGroup(id: string) {
-    const zero = useZero();
-
-    const query = zero.query.groups
-        .where('_id', '=', id)
-        .one()
-        .related('messages')
-        .related('systemMessages');
-
-    return useQuery(
-        query, // as unknown as Query<Schema, 'groups', GroupWithMessages>,
-        { enabled: zero && !!id }
-    ) as unknown as QueryResult<GroupWithMessages | undefined>;
+export default function useGroup(id: string | undefined) {
+    // Handle undefined id by providing empty string to query
+    // Context is provided by Zero framework at runtime on the server
+    // Use a type-safe mock context for client-side TypeScript compliance
+    const query = groupById(mockContext, id ?? '');
+    return useQuery(query, { enabled: Boolean(id) });
 }
 
 export type GroupWithMessages = Readonly<
