@@ -17,7 +17,7 @@ NestJS module that encapsulates all Zero synced query functionality.
 **Features**:
 
 - Modular architecture with proper DI configuration
-- Exports `ZeroQueryAuth` for use in other modules
+- Exports `ZeroQueryAuth` and `RoomAccessService` for use in other modules
 - Registers query endpoints via `ZeroQueriesController`
 - Leverages globally configured JwtModule, MongooseModule, and ConfigModule
 
@@ -46,6 +46,20 @@ Authentication helper class that extracts and validates JWT tokens from request 
 - Token validation and verification
 - Anonymous access support (no auth header)
 - Comprehensive error handling
+
+### `RoomAccessService`
+
+Service for managing room access and membership checks.
+
+**Purpose**: Provide efficient methods to determine user access to rooms and retrieve all accessible room IDs for server-side query filtering.
+
+**Features**:
+
+- Check if a user has access to a specific room
+- Get all room IDs accessible to a user
+- Optimized for performance with MongoDB indexes
+- Comprehensive error handling with secure defaults
+- Supports all room types (public channels, direct messages, private groups)
 
 ## Usage
 
@@ -100,6 +114,56 @@ export class YourService {
 }
 ```
 
+### Using RoomAccessService
+
+The `RoomAccessService` is exported by `ZeroQueriesModule` for checking room access and membership:
+
+```typescript
+// your.module.ts
+import { Module } from '@nestjs/common';
+import { ZeroQueriesModule } from '../zero-queries';
+import { YourService } from './your.service';
+
+@Module({
+    imports: [ZeroQueriesModule],
+    providers: [YourService]
+})
+export class YourModule {}
+
+// your.service.ts
+import { Injectable } from '@nestjs/common';
+import { RoomAccessService } from '../zero-queries';
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
+@Injectable()
+export class YourService {
+    constructor(private readonly roomAccess: RoomAccessService) {}
+
+    async filterUserMessages(userId: string) {
+        // Get all rooms the user can access
+        const accessibleRoomIds = await this.roomAccess.getUserAccessibleRoomIds(userId);
+        
+        // Filter messages to only those in accessible rooms
+        return await this.messageModel.find({
+            roomId: { $in: accessibleRoomIds }
+        });
+    }
+
+    async checkMessageAccess(userId: string, roomId: string, roomType: RoomType) {
+        // Check if user can access a specific room
+        const hasAccess = await this.roomAccess.userHasRoomAccess(
+            userId,
+            roomId,
+            roomType
+        );
+        
+        if (!hasAccess) {
+            throw new ForbiddenException('You do not have access to this room');
+        }
+    }
+}
+```
+
 ### Direct Authentication Usage
 
 ```typescript
@@ -118,6 +182,56 @@ if (ctx) {
   // Anonymous - show only public data
   query.where('isPublic', '=', true);
 }
+```
+
+### Room Access Checking
+
+```typescript
+import { RoomAccessService } from './features/zero-queries';
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
+// Inject via constructor
+constructor(private readonly roomAccess: RoomAccessService) {}
+
+// Check access to a specific room
+const hasAccess = await this.roomAccess.userHasRoomAccess(
+  userId,
+  roomId,
+  RoomType.DirectMessages
+);
+
+// Get all accessible room IDs for filtering
+const accessibleRoomIds = await this.roomAccess.getUserAccessibleRoomIds(userId);
+
+// Use in query filtering
+const messages = await this.messageModel.find({
+  roomId: { $in: accessibleRoomIds }
+});
+```
+
+#### Room Access Rules
+
+The `RoomAccessService` applies these access rules:
+
+- **Public Channels** (`RoomType.PublicChannel`): Always accessible to all users (no database query)
+- **Direct Messages** (`RoomType.DirectMessages`): Only accessible to users in the `memberIds` array
+- **Private Groups** (`RoomType.PrivateGroup`): Only accessible to users in the `memberIds` array
+
+#### Performance Optimization
+
+The service is optimized for performance:
+
+- Public channel checks return `true` immediately without querying the database
+- Uses MongoDB indexes on `memberIds` for fast membership lookups
+- Uses `.lean()` for faster document serialization
+- Projects only `_id` field to minimize data transfer
+
+**Required MongoDB Indexes:**
+
+```javascript
+db.rooms.createIndex({ memberIds: 1 })
+db.rooms.createIndex({ t: 1 })
+db.rooms.createIndex({ t: 1, memberIds: 1 })  // Compound index for optimal performance
 ```
 
 ### Query Context
@@ -200,6 +314,8 @@ return {
 
 ## Testing
 
+### ZeroQueryAuth Tests
+
 Comprehensive unit tests cover:
 
 - ✅ Valid JWT tokens
@@ -213,10 +329,28 @@ Comprehensive unit tests cover:
 - ✅ Invalid signatures
 - ✅ Malformed JWTs
 
+### RoomAccessService Tests
+
+Comprehensive unit tests cover:
+
+- ✅ Public channels accessible without database query
+- ✅ Direct message membership checks
+- ✅ Private group membership checks
+- ✅ Efficient query optimization (lean, minimal projection)
+- ✅ Error handling (database failures, timeouts)
+- ✅ Large result set handling (1000+ rooms)
+- ✅ Concurrent access checks
+- ✅ Integration scenarios (mixed room types)
+
 Run tests:
 
 ```bash
+# Run all zero-queries tests
 pnpm --filter=@cbnsndwch/zrocket test src/features/zero-queries
+
+# Run specific test file
+pnpm --filter=@cbnsndwch/zrocket test auth.helper.spec
+pnpm --filter=@cbnsndwch/zrocket test room-access.service.spec
 ```
 
 ## Integration
@@ -273,4 +407,15 @@ We don't use NestJS Guards because:
 - [ ] Rate limiting per user
 - [ ] Audit logging for query access
 - [ ] Query performance metrics per user
-- [ ] Permission-based query filtering
+- [x] Room access service for membership checks (Issue #78 - Completed)
+- [ ] Permission filter logic (Issue #79)
+- [ ] Get queries handler implementation (Issue #80)
+
+## Related Issues
+
+- [#78 - Create Room Access Service](https://github.com/cbnsndwch/zero-sources/issues/78) ✅ Completed
+- [#79 - Create Permission Filter Logic](https://github.com/cbnsndwch/zero-sources/issues/79)
+- [#80 - Create Get Queries Handler](https://github.com/cbnsndwch/zero-sources/issues/80)
+- [#81 - Create API Controller Endpoint](https://github.com/cbnsndwch/zero-sources/issues/81)
+- [#82 - Integrate Module into Application](https://github.com/cbnsndwch/zero-sources/issues/82)
+- [#63 - Server-Side Permission Enforcement (Epic)](https://github.com/cbnsndwch/zero-sources/issues/63)

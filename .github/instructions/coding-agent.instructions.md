@@ -258,6 +258,7 @@ zero-sources/
 3. Test locally with Docker Compose
 4. Update documentation
 5. Create PR referencing the issue
+  - NOTE: if the PR body contains characters that need escaping use a file instead of direct console input
 6. Wait for review and CI checks
 
 ### Common Patterns
