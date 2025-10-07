@@ -1,21 +1,26 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { SerializedEditorState } from 'lexical';
 import { toast } from 'sonner';
 
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
 import { RichMessageEditor } from '@/components/RichMessageEditor';
-import { useZero } from '@/zero/use-zero';
 import { useLogin } from '@/auth/use-login';
 import { sendMessage } from '@/zero/api-client';
+import useChannel from '@/hooks/use-channel';
+import useGroup from '@/hooks/use-group';
+import useChat from '@/hooks/use-chat';
 
 interface ChatInputProps {
     roomId: string;
-    roomType: 'channel' | 'group' | 'dm';
+    roomType: RoomType;
 }
 
 export function ChatInput({ roomId, roomType }: ChatInputProps) {
-    const zero = useZero();
     const { loginState } = useLogin();
     const [isSending, setIsSending] = useState(false);
+
+    const room = useRoomData(roomId, roomType);
 
     const handleRichSend = useCallback(
         async (content: SerializedEditorState) => {
@@ -54,18 +59,16 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
             }
 
             // Check if user is a member of this room (client-side validation)
-            let room: { memberIds: string[] } | undefined;
-            if (roomType === 'channel') {
-                room = await zero.query.channels.where('_id', roomId).one();
-            } else if (roomType === 'group') {
-                room = await zero.query.groups.where('_id', roomId).one();
-            } else {
-                room = await zero.query.chats.where('_id', roomId).one();
-            }
-
             if (!room) {
                 console.error('[ChatInput] Room not found:', roomId);
                 toast.error('Room not found');
+                return;
+            }
+
+            // Check if room has memberIds property (type guard)
+            if (!('memberIds' in room) || !Array.isArray(room.memberIds)) {
+                console.error('[ChatInput] Room does not have memberIds');
+                toast.error('Invalid room data');
                 return;
             }
 
@@ -102,7 +105,7 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
                 setIsSending(false);
             }
         },
-        [zero, roomId, roomType, loginState]
+        [room, roomId, loginState]
     );
 
     return (
@@ -115,4 +118,30 @@ export function ChatInput({ roomId, roomType }: ChatInputProps) {
             />
         </div>
     );
+}
+
+function useRoomData(roomId: string, roomType: RoomType) {
+    // Fetch room data based on room type using hooks
+    const channelResult = useChannel(
+        roomType === RoomType.PublicChannel ? roomId : undefined
+    );
+    const groupResult = useGroup(
+        roomType === RoomType.PrivateGroup ? roomId : undefined
+    );
+    const chatResult = useChat(
+        roomType === RoomType.DirectMessages ? roomId : undefined
+    );
+
+    // Get the appropriate room data (first result from the array)
+    const room = useMemo(
+        () =>
+            roomType === RoomType.PublicChannel
+                ? channelResult[0]
+                : roomType === RoomType.PrivateGroup
+                  ? groupResult[0]
+                  : chatResult[0],
+        [channelResult, chatResult, groupResult, roomType]
+    );
+
+    return room;
 }
