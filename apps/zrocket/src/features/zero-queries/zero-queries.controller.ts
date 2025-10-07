@@ -76,7 +76,7 @@ export class ZeroQueriesController {
 
         if (queryRequests.length > 0) {
             this.logger.verbose(
-                `Received ${queryRequests.length} query request(s): ${queryRequests.map((q) => q.name).join(', ')}`
+                `Received ${queryRequests.length} query request(s): ${queryRequests.map(q => q.name).join(', ')}`
             );
         }
 
@@ -84,7 +84,7 @@ export class ZeroQueriesController {
         // Will be added in issue #70: [ZSQ][E02_01] Create GetQueriesHandler Service
         // For now, return empty AST for each query to satisfy the Zero cache protocol
         // This allows the app to run without crashing, even though no data will sync yet
-        return queryRequests.map((queryReq) => ({
+        return queryRequests.map(queryReq => ({
             id: queryReq.id,
             name: queryReq.name,
             // Return a minimal AST that represents an empty result set
