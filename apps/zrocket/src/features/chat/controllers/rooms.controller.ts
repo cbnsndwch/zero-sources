@@ -300,4 +300,43 @@ export class RoomsController {
             return builder.groups.where('_id', '=', this.NEVER_MATCHES_ID);
         }
     }
+
+    /**
+     * Zero synced query: Get all public channels (no authentication required).
+     *
+     * @remarks
+     * Public channels are accessible to all users, including anonymous users.
+     * No permission filtering is applied.
+     *
+     * @returns Query builder for all public channels ordered by name
+     */
+    @SyncedQuery('publicChannels', z.tuple([]))
+    async publicChannels() {
+        this.logger.debug('publicChannels: Fetching all public channels');
+        return builder.channels.orderBy('name', 'asc');
+    }
+
+    /**
+     * Zero synced query: Get a specific public channel by ID (no authentication required).
+     *
+     * @param channelId - The ID of the channel to retrieve
+     *
+     * @remarks
+     * Public channels are accessible to all users, including anonymous users.
+     * No permission filtering is applied.
+     * Includes up to 100 most recent messages ordered by creation time.
+     *
+     * @returns Query builder for the channel with related messages
+     */
+    @SyncedQuery('channelById', z.tuple([z.string()]))
+    async channelById(@QueryArg(0) channelId: string) {
+        this.logger.debug(`channelById: Fetching public channel ${channelId}`);
+
+        return builder.channels
+            .where('_id', '=', channelId)
+            .related('messages', q => q.orderBy('createdAt', 'desc').limit(100))
+            .related('systemMessages', q =>
+                q.orderBy('createdAt', 'desc').limit(100)
+            );
+    }
 }
