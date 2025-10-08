@@ -7,7 +7,8 @@
         "builder": "swc",
         "deleteOutDir": true,
         "manualRestart": true,
-        "tsConfigPath": "./tsconfig.nest.json"
+        "tsConfigPath": "./tsconfig.nest.json",
+        "typeCheck": true
     },
     "generateOptions": {
         "spec": false,

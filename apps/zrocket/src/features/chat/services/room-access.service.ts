@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import type { Model } from 'mongoose';
 
 import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
-import { Room } from '../chat/entities/rooms/room-base.entity.js';
+import { Room } from '../entities/rooms/room-base.entity.js';
 
 /**
  * Service for managing room access and membership checks.

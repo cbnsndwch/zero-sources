@@ -1,17 +1,10 @@
 {
     "$schema": "https://json.schemastore.org/nest-cli",
     "collection": "@nestjs/schematics",
-    "defaultLibraryPrefix": "@cbnsndwch",
     "sourceRoot": "src",
     "compilerOptions": {
         "builder": "swc",
         "deleteOutDir": true,
-        "manualRestart": true,
-        "tsConfigPath": "./tsconfig.build.json",
         "typeCheck": true
-    },
-    "generateOptions": {
-        "spec": false,
-        "flat": true
     }
 }

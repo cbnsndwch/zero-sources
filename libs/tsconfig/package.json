@@ -2,8 +2,12 @@
     "name": "@repo/tsconfig",
     "version": "0.1.0",
     "type": "module",
-    "private": true,
     "license": "MIT",
+    "private": true,
+    "author": {
+        "name": "Sergio Leon",
+        "email": "oss@cbnsndwch.io"
+    },
     "publishConfig": {
         "access": "public"
     }

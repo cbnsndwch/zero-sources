@@ -29,6 +29,7 @@
         "test:coverage": "vitest --coverage"
     },
     "dependencies": {
+        "@cbnsndwch/nest-zero-synced-queries": "workspace:*",
         "@cbnsndwch/zero-contracts": "workspace:*",
         "@cbnsndwch/zrocket-contracts": "workspace:*",
         "@hookform/resolvers": "^5.2.2",

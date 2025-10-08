@@ -38,8 +38,7 @@ export class UserController {
     @ApiResponse({ status: 400, description: 'Bad request' })
     async create(@Body() input: CreateUserInput): Promise<User> {
         try {
-            const user = await this.#userService.create(input);
-            return await user.save();
+            return await this.#userService.create(input);
         } catch (err) {
             throw new HttpException(
                 (err as Error).message,

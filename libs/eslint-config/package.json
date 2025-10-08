@@ -3,18 +3,9 @@
     "version": "0.1.0",
     "type": "module",
     "private": true,
-    "files": [
-        "."
-    ],
-    "exports": {
-        "./base": {
-            "import": "./base.js",
-            "types": "./base.d.ts"
-        },
-        "./react-internal": {
-            "import": "./react-internal.js",
-            "types": "./react-internal.d.ts"
-        }
+    "author": {
+        "name": "Sergio Leon",
+        "email": "oss@cbnsndwch.io"
     },
     "devDependencies": {
         "@eslint/js": "^9.37.0",
@@ -27,5 +18,18 @@
         "globals": "^16.4.0",
         "typescript-eslint": "^8.45.0",
         "typescript": "~5.9.3"
+    },
+    "files": [
+        "."
+    ],
+    "exports": {
+        "./base": {
+            "import": "./base.js",
+            "types": "./base.d.ts"
+        },
+        "./react-internal": {
+            "import": "./react-internal.js",
+            "types": "./react-internal.d.ts"
+        }
     }
 }
