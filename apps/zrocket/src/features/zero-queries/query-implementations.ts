@@ -68,7 +68,9 @@ import type { RoomAccessService } from './room-access.service.js';
  * const chatQuery = queryImpls.myChats(ctx);
  * ```
  */
-export function createQueryImplementations(roomAccessService: RoomAccessService) {
+export function createQueryImplementations(
+    roomAccessService: RoomAccessService
+) {
     const logger = new Logger('QueryImplementations');
 
     /**
@@ -443,10 +445,10 @@ export function createQueryImplementations(roomAccessService: RoomAccessService)
             // 1. Add 'content' field to Zero schema for userMessages
             // 2. Perform search server-side and return filtered AST
             // 3. Let client do the text search after receiving messages
-            
+
             logger.warn(
                 `searchMessages: Text search on content not yet implemented. ` +
-                `Returning all messages from accessible rooms. Search term: "${searchTerm}"`
+                    `Returning all messages from accessible rooms. Search term: "${searchTerm}"`
             );
 
             // Return messages from accessible rooms (client will need to filter by searchTerm)
@@ -477,4 +479,6 @@ export function createQueryImplementations(roomAccessService: RoomAccessService)
 /**
  * Type definition for the query implementations object.
  */
-export type QueryImplementations = ReturnType<typeof createQueryImplementations>;
+export type QueryImplementations = ReturnType<
+    typeof createQueryImplementations
+>;

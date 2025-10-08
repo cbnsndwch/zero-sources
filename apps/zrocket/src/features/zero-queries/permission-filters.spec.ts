@@ -35,14 +35,16 @@ describe('PermissionFilters', () => {
                 authorized: false,
                 accessibleRoomIds: []
             });
-            expect(mockRoomAccessService.getUserAccessibleRoomIds).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).not.toHaveBeenCalled();
         });
 
         it('should return accessible room IDs for authenticated users', async () => {
             const mockRoomIds = ['room-1', 'room-2', 'room-3'];
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockResolvedValue(
-                mockRoomIds
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockResolvedValue(mockRoomIds);
 
             const result = await PermissionFilters.filterMyChats(
                 mockAuthenticatedContext,
@@ -53,15 +55,15 @@ describe('PermissionFilters', () => {
                 authorized: true,
                 accessibleRoomIds: mockRoomIds
             });
-            expect(mockRoomAccessService.getUserAccessibleRoomIds).toHaveBeenCalledWith(
-                'user-123'
-            );
+            expect(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).toHaveBeenCalledWith('user-123');
         });
 
         it('should deny access on error', async () => {
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockRejectedValue(
-                new Error('Database error')
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockRejectedValue(new Error('Database error'));
 
             const result = await PermissionFilters.filterMyChats(
                 mockAuthenticatedContext,
@@ -75,9 +77,9 @@ describe('PermissionFilters', () => {
         });
 
         it('should handle empty accessible rooms list', async () => {
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockResolvedValue(
-                []
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockResolvedValue([]);
 
             const result = await PermissionFilters.filterMyChats(
                 mockAuthenticatedContext,
@@ -102,14 +104,16 @@ describe('PermissionFilters', () => {
                 authorized: false,
                 accessibleRoomIds: []
             });
-            expect(mockRoomAccessService.getUserAccessibleRoomIds).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).not.toHaveBeenCalled();
         });
 
         it('should return accessible room IDs for authenticated users', async () => {
             const mockRoomIds = ['group-1', 'group-2'];
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockResolvedValue(
-                mockRoomIds
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockResolvedValue(mockRoomIds);
 
             const result = await PermissionFilters.filterMyGroups(
                 mockAuthenticatedContext,
@@ -120,15 +124,15 @@ describe('PermissionFilters', () => {
                 authorized: true,
                 accessibleRoomIds: mockRoomIds
             });
-            expect(mockRoomAccessService.getUserAccessibleRoomIds).toHaveBeenCalledWith(
-                'user-123'
-            );
+            expect(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).toHaveBeenCalledWith('user-123');
         });
 
         it('should deny access on error', async () => {
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockRejectedValue(
-                new Error('Database error')
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockRejectedValue(new Error('Database error'));
 
             const result = await PermissionFilters.filterMyGroups(
                 mockAuthenticatedContext,
@@ -158,11 +162,15 @@ describe('PermissionFilters', () => {
                 hasAccess: false,
                 roomType: RoomType.DirectMessages
             });
-            expect(mockRoomAccessService.userHasRoomAccess).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).not.toHaveBeenCalled();
         });
 
         it('should grant access when user is a member', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(true);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(true);
 
             const result = await PermissionFilters.filterChatById(
                 mockAuthenticatedContext,
@@ -176,15 +184,15 @@ describe('PermissionFilters', () => {
                 hasAccess: true,
                 roomType: RoomType.DirectMessages
             });
-            expect(mockRoomAccessService.userHasRoomAccess).toHaveBeenCalledWith(
-                'user-123',
-                chatId,
-                RoomType.DirectMessages
-            );
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).toHaveBeenCalledWith('user-123', chatId, RoomType.DirectMessages);
         });
 
         it('should deny access when user is not a member', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(false);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(false);
 
             const result = await PermissionFilters.filterChatById(
                 mockAuthenticatedContext,
@@ -201,9 +209,9 @@ describe('PermissionFilters', () => {
         });
 
         it('should deny access on error', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockRejectedValue(
-                new Error('Database error')
-            );
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockRejectedValue(new Error('Database error'));
 
             const result = await PermissionFilters.filterChatById(
                 mockAuthenticatedContext,
@@ -236,11 +244,15 @@ describe('PermissionFilters', () => {
                 hasAccess: false,
                 roomType: RoomType.PrivateGroup
             });
-            expect(mockRoomAccessService.userHasRoomAccess).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).not.toHaveBeenCalled();
         });
 
         it('should grant access when user is a member', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(true);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(true);
 
             const result = await PermissionFilters.filterGroupById(
                 mockAuthenticatedContext,
@@ -254,15 +266,15 @@ describe('PermissionFilters', () => {
                 hasAccess: true,
                 roomType: RoomType.PrivateGroup
             });
-            expect(mockRoomAccessService.userHasRoomAccess).toHaveBeenCalledWith(
-                'user-123',
-                groupId,
-                RoomType.PrivateGroup
-            );
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).toHaveBeenCalledWith('user-123', groupId, RoomType.PrivateGroup);
         });
 
         it('should deny access when user is not a member', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(false);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(false);
 
             const result = await PermissionFilters.filterGroupById(
                 mockAuthenticatedContext,
@@ -279,9 +291,9 @@ describe('PermissionFilters', () => {
         });
 
         it('should deny access on error', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockRejectedValue(
-                new Error('Database error')
-            );
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockRejectedValue(new Error('Database error'));
 
             const result = await PermissionFilters.filterGroupById(
                 mockAuthenticatedContext,
@@ -315,7 +327,9 @@ describe('PermissionFilters', () => {
                 hasAccess: false,
                 roomType: RoomType.DirectMessages
             });
-            expect(mockRoomAccessService.userHasRoomAccess).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).not.toHaveBeenCalled();
         });
 
         it('should grant access to public channels without DB query', async () => {
@@ -333,11 +347,15 @@ describe('PermissionFilters', () => {
                 roomType: RoomType.PublicChannel
             });
             // Should not query database for public channels
-            expect(mockRoomAccessService.userHasRoomAccess).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).not.toHaveBeenCalled();
         });
 
         it('should check access for private rooms (chats)', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(true);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(true);
 
             const result = await PermissionFilters.filterRoomMessages(
                 mockAuthenticatedContext,
@@ -352,15 +370,15 @@ describe('PermissionFilters', () => {
                 hasAccess: true,
                 roomType: RoomType.DirectMessages
             });
-            expect(mockRoomAccessService.userHasRoomAccess).toHaveBeenCalledWith(
-                'user-123',
-                roomId,
-                RoomType.DirectMessages
-            );
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).toHaveBeenCalledWith('user-123', roomId, RoomType.DirectMessages);
         });
 
         it('should check access for private rooms (groups)', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(true);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(true);
 
             const result = await PermissionFilters.filterRoomMessages(
                 mockAuthenticatedContext,
@@ -375,15 +393,15 @@ describe('PermissionFilters', () => {
                 hasAccess: true,
                 roomType: RoomType.PrivateGroup
             });
-            expect(mockRoomAccessService.userHasRoomAccess).toHaveBeenCalledWith(
-                'user-123',
-                roomId,
-                RoomType.PrivateGroup
-            );
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).toHaveBeenCalledWith('user-123', roomId, RoomType.PrivateGroup);
         });
 
         it('should deny access when user is not a member of private room', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(false);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(false);
 
             const result = await PermissionFilters.filterRoomMessages(
                 mockAuthenticatedContext,
@@ -401,9 +419,9 @@ describe('PermissionFilters', () => {
         });
 
         it('should deny access on error', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockRejectedValue(
-                new Error('Database error')
-            );
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockRejectedValue(new Error('Database error'));
 
             const result = await PermissionFilters.filterRoomMessages(
                 mockAuthenticatedContext,
@@ -432,14 +450,16 @@ describe('PermissionFilters', () => {
                 authorized: false,
                 accessibleRoomIds: []
             });
-            expect(mockRoomAccessService.getUserAccessibleRoomIds).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).not.toHaveBeenCalled();
         });
 
         it('should return accessible room IDs for authenticated users', async () => {
             const mockRoomIds = ['room-1', 'room-2', 'room-3', 'channel-4'];
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockResolvedValue(
-                mockRoomIds
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockResolvedValue(mockRoomIds);
 
             const result = await PermissionFilters.filterSearchMessages(
                 mockAuthenticatedContext,
@@ -450,15 +470,15 @@ describe('PermissionFilters', () => {
                 authorized: true,
                 accessibleRoomIds: mockRoomIds
             });
-            expect(mockRoomAccessService.getUserAccessibleRoomIds).toHaveBeenCalledWith(
-                'user-123'
-            );
+            expect(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).toHaveBeenCalledWith('user-123');
         });
 
         it('should handle empty accessible rooms list', async () => {
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockResolvedValue(
-                []
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockResolvedValue([]);
 
             const result = await PermissionFilters.filterSearchMessages(
                 mockAuthenticatedContext,
@@ -472,9 +492,9 @@ describe('PermissionFilters', () => {
         });
 
         it('should deny access on error', async () => {
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockRejectedValue(
-                new Error('Database error')
-            );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockRejectedValue(new Error('Database error'));
 
             const result = await PermissionFilters.filterSearchMessages(
                 mockAuthenticatedContext,
@@ -490,10 +510,13 @@ describe('PermissionFilters', () => {
 
     describe('Performance', () => {
         it('should complete myChats filter in less than 20ms', async () => {
-            const mockRoomIds = Array.from({ length: 100 }, (_, i) => `room-${i}`);
-            vi.mocked(mockRoomAccessService.getUserAccessibleRoomIds).mockResolvedValue(
-                mockRoomIds
+            const mockRoomIds = Array.from(
+                { length: 100 },
+                (_, i) => `room-${i}`
             );
+            vi.mocked(
+                mockRoomAccessService.getUserAccessibleRoomIds
+            ).mockResolvedValue(mockRoomIds);
 
             const start = Date.now();
             await PermissionFilters.filterMyChats(
@@ -507,7 +530,9 @@ describe('PermissionFilters', () => {
         });
 
         it('should complete chatById filter in less than 10ms', async () => {
-            vi.mocked(mockRoomAccessService.userHasRoomAccess).mockResolvedValue(true);
+            vi.mocked(
+                mockRoomAccessService.userHasRoomAccess
+            ).mockResolvedValue(true);
 
             const start = Date.now();
             await PermissionFilters.filterChatById(
@@ -531,7 +556,9 @@ describe('PermissionFilters', () => {
             const elapsed = Date.now() - start;
 
             expect(elapsed).toBeLessThan(10); // Very fast since no DB query
-            expect(mockRoomAccessService.userHasRoomAccess).not.toHaveBeenCalled();
+            expect(
+                mockRoomAccessService.userHasRoomAccess
+            ).not.toHaveBeenCalled();
         });
     });
 });
