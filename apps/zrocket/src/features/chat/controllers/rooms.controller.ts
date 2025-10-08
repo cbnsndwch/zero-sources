@@ -28,10 +28,12 @@ import { RoomAccessService } from '../services/room-access.service.js';
  * - Zero synced queries: Read room data with permission filtering
  *
  * Synced queries provided:
- * - `myChats` - User's accessible chats
- * - `myGroups` - User's accessible groups
- * - `chatById` - Specific chat with messages
- * - `groupById` - Specific group with messages
+ * - `myChats` - User's accessible chats (authenticated)
+ * - `myGroups` - User's accessible groups (authenticated)
+ * - `chatById` - Specific chat with messages (authenticated)
+ * - `groupById` - Specific group with messages (authenticated)
+ * - `publicChannels` - All public channels (no auth required)
+ * - `channelById` - Specific public channel with messages (no auth required)
  */
 @Controller('rooms')
 @UseGuards(JwtAuthGuard) // All operations require authentication
