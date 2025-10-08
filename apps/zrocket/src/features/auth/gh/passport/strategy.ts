@@ -64,9 +64,9 @@ export class Strategy extends OAuth2Strategy {
         const _options = applyOptionsDefaults(options);
         super(_options, verify);
 
-        this._oauth2.useAuthorizationHeaderforGET(true);
+        (this as any)._oauth2.useAuthorizationHeaderforGET(true);
 
-        this.name = 'github';
+        (this as any).name = 'github';
         this.#options = _options;
     }
 
