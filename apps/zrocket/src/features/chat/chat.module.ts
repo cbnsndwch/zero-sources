@@ -45,12 +45,12 @@ import { chatServices } from './services/index.js';
         MongooseModule.forFeature(chatEntities)
     ],
     controllers: [
-        MessagesController,  // REST + synced queries for messages
-        RoomsController      // REST + synced queries for rooms
+        MessagesController, // REST + synced queries for messages
+        RoomsController // REST + synced queries for rooms
     ],
     providers: [
         // services
-        ...chatServices  // Includes RoomAccessService, RoomService, MessageService
+        ...chatServices // Includes RoomAccessService, RoomService, MessageService
     ],
     exports: [
         // Export services that might be needed by other modules

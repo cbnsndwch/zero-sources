@@ -29,12 +29,12 @@ import { RoomAccessService } from '../services/room-access.service.js';
  *
  * Synced queries provided:
  * - `myChats` - User's accessible chats
- * - `myGroups` - User's accessible groups  
+ * - `myGroups` - User's accessible groups
  * - `chatById` - Specific chat with messages
  * - `groupById` - Specific group with messages
  */
 @Controller('rooms')
-@UseGuards(JwtAuthGuard)  // All operations require authentication
+@UseGuards(JwtAuthGuard) // All operations require authentication
 export class RoomsController {
     private readonly logger = new Logger(RoomsController.name);
     private readonly NEVER_MATCHES_ID = '__NEVER_MATCHES__';

@@ -23,13 +23,13 @@ export default [
     HealthzModule,
     /**
      * Zero Synced Queries Infrastructure
-     * 
+     *
      * Provides automatic discovery and HTTP endpoint for @SyncedQuery decorated methods.
      * Query implementations live in their respective domain modules (ChatModule, etc.)
      */
     SyncedQueriesModule.forRoot({
         path: 'api/zero/get-queries',
-        getUserFromRequest: (req) => req.user
+        getUserFromRequest: req => req.user
     }),
     /**
      * Application Features

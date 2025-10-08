@@ -32,7 +32,7 @@ import { RoomAccessService } from '../services/room-access.service.js';
  * - `searchMessages` - Search across accessible rooms
  */
 @Controller('messages')
-@UseGuards(JwtAuthGuard)  // All operations require authentication
+@UseGuards(JwtAuthGuard) // All operations require authentication
 export class MessagesController {
     private readonly logger = new Logger(MessagesController.name);
     private readonly NEVER_MATCHES_ID = '__NEVER_MATCHES__';

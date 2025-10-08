@@ -1,9 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsArray, IsString } from 'class-validator';
 
-import type {
-    IDirectMessagesRoom
-} from '@cbnsndwch/zrocket-contracts';
+import type { IDirectMessagesRoom } from '@cbnsndwch/zrocket-contracts';
 import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
 import { RoomBase } from './room-base.entity.js';
