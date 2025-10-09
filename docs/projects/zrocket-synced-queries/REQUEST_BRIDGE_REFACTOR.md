@@ -20,7 +20,7 @@ The original implementation had these problems:
 ```
 Express Request
   ↓
-Controller extracts user → getUserFromRequest(request)
+Controller extracts user only
   ↓
 TransformService receives user only
   ↓
@@ -67,23 +67,18 @@ async handleQueries(
     @Req() request: any,
     @Body() body: ['transform', TransformRequestBody]
 ) {
-    const user = getUserFromRequest(request);
+    const user = request.user;
     return await this.transformService.transformQueries(user, body[1]);
 }
 
-// After: Ensure user exists and pass full request
+// After: Pass full request
 @Post()
 async handleQueries(
     @Req() request: any,
     @Body() body: ['transform', TransformRequestBody]
 ) {
-    // Extract user and attach to request if not already present
-    // This ensures guards can access request.user consistently
-    if (!request.user) {
-        request.user = getUserFromRequest(request);
-    }
-    
     // Pass the full request object through the chain
+    // This allows guards to access headers, cookies, and other request properties
     return await this.transformService.transformQueries(request, body[1]);
 }
 ```

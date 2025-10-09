@@ -31,12 +31,11 @@ export class AppModule {}
 import { SyncedQueriesModule } from '@cbnsndwch/nest-zero-synced-queries';
 
 export default [
-  SyncedQueriesModule.forRoot({
-    path: 'api/zero/get-queries',
-    getUserFromRequest: (req) => req.user
-  }),
-  ChatModule,  // Contains @SyncedQuery methods
-  // ...
+    SyncedQueriesModule.forRoot({
+        path: 'api/zero/get-queries'
+    }),
+    ChatModule,  // Contains @SyncedQuery methods
+    // ...
 ];
 ```
 
@@ -53,7 +52,7 @@ export default [
    - Provides registry and transform services
 
 2. **`synced-queries.controller.ts`** (81 lines)
-   - Factory function `createSyncedQueriesController(path, getUserFromRequest)`
+   - Factory function `createSyncedQueriesController(path)`
    - Creates controller class dynamically at configured path
    - Handles POST requests from Zero cache
    - Extracts user and delegates to transform service
@@ -77,8 +76,7 @@ export default [
 │ App: Import and Configure                      │
 ├─────────────────────────────────────────────────┤
 │ SyncedQueriesModule.forRoot({                  │
-│   path: 'api/zero/get-queries',                │
-│   getUserFromRequest: (req) => req.user        │
+│   path: 'api/zero/get-queries'                 │
 │ })                                              │
 └─────────────────────────────────────────────────┘
                       ↓
@@ -167,11 +165,7 @@ export class AppModule {}
 @Module({
   imports: [
     SyncedQueriesModule.forRoot({
-      path: 'api/zero/get-queries',
-      getUserFromRequest: (req) => {
-        const token = req.headers.authorization?.split(' ')[1];
-        return token ? verifyToken(token) : undefined;
-      }
+      path: 'api/zero/get-queries'
     })
   ]
 })
@@ -184,8 +178,7 @@ export class AppModule {}
 @Module({
   imports: [
     SyncedQueriesModule.forRoot({
-      path: 'api/zero/get-queries',
-      getUserFromRequest: (req) => req.user
+      path: 'api/zero/get-queries'
     }),
     ChatModule,    // Has @SyncedQuery methods
     UsersModule,   // Has @SyncedQuery methods  
@@ -226,8 +219,7 @@ All query methods are automatically discovered across all modules!
    @Module({
      imports: [
        SyncedQueriesModule.forRoot({
-         path: 'api/zero/get-queries',
-         getUserFromRequest: (req) => req.user
+         path: 'api/zero/get-queries'
        })
      ]
    })
