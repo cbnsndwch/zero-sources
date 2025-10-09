@@ -15,7 +15,7 @@ import type {
     TableSpec,
     WithWatermark
 } from '../contracts/index.js';
-import { StreamerShard } from '../entities/streamer-shard.entity.js';
+import type { StreamerShard } from '../entities/streamer-shard.entity.js';
 import { extractResumeToken } from '../utils/extract-resume-token.js';
 
 type ChangeStreamControllerError = {
@@ -482,3 +482,5 @@ export class ChangeSourceV0 {
 
     //#endregion Helpers - Change Stream Event Handlers
 }
+
+export const TOKEN_CHANGE_SOURCE_V0 = Symbol('TOKEN_CHANGE_SOURCE_V0');

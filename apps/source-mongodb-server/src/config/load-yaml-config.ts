@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as yaml from 'js-yaml';
 
-import { AppConfig } from './contracts.js';
+import type { AppConfig } from './contracts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

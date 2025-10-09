@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext } from '@nestjs/common';
+import type { CanActivate, ExecutionContext } from '@nestjs/common';
 
 export class ZeroPusherAuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {

@@ -35,7 +35,7 @@
         "@nestjs/platform-ws": "^11",
         "@nestjs/swagger": "^11",
         "@nestjs/websockets": "^11",
-        "@rocicorp/zero": "*",
+        "@rocicorp/zero": "0.23.2025090100",
         "change-case": "^4.1.2",
         "express": "^5.1.0",
         "mongodb": "^6.16.0",
@@ -80,14 +80,10 @@
     "files": [
         "dist"
     ],
-    "types": "./dist/index.d.ts",
-    "main": "./dist/index.js",
-    "typings": "./dist/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/index.js",
-            "node": "./dist/index.js"
+            "default": "./dist/index.js"
         }
     },
     "lint-staged": {

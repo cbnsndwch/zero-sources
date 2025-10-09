@@ -3,14 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import {
     ConnectedSocket,
     MessageBody,
-    OnGatewayConnection,
     SubscribeMessage,
-    WebSocketGateway
+    WebSocketGateway,
+    type OnGatewayConnection
 } from '@nestjs/websockets';
-import { v0 } from '@rocicorp/zero/change-protocol/v0';
+import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 import type { Request } from 'express';
 import type { Model } from 'mongoose';
-import { concatWith, Observable } from 'rxjs';
+import { concatWith, type Observable } from 'rxjs';
 import { WebSocket } from 'ws';
 
 import {
@@ -28,7 +28,10 @@ import {
 import { StreamerShard } from '../entities/streamer-shard.entity.js';
 import { getStreamerParams } from '../utils/get-streamer-params.js';
 
-import { ChangeMakerV0 } from './change-maker-v0.js';
+import {
+    TOKEN_CHANGE_MAKER_V0,
+    type ChangeMakerV0
+} from './change-maker-v0.js';
 import { ChangeSourceV0 } from './change-source-v0.js';
 
 type DownstreamState = {
@@ -61,8 +64,8 @@ export class ChangesGatewayV0 implements OnGatewayConnection {
     constructor(
         @Inject(TOKEN_WATERMARK_SERVICE) watermarkService: IWatermarkService,
         @Inject(TOKEN_MODULE_OPTIONS) options: ZeroMongoModuleOptions,
-        @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>,
-        changeMaker: ChangeMakerV0
+        @Inject(TOKEN_CHANGE_MAKER_V0) changeMaker: ChangeMakerV0,
+        @InjectModel(StreamerShard.name) shardModel: Model<StreamerShard>
     ) {
         this.#shardModel = shardModel;
         this.#watermarkService = watermarkService;

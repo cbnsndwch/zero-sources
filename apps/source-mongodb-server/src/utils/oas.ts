@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { NestExpressApplication } from '@nestjs/platform-express';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export function setupSwaggerUi(app: NestExpressApplication) {

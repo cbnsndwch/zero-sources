@@ -1,6 +1,6 @@
 import type { ChangeStreamNameSpace } from 'mongodb';
 
-import { v0 } from '@rocicorp/zero/change-protocol/v0';
+import type { v0 } from '@rocicorp/zero/change-protocol/v0';
 
 export function relationFromChangeStreamEvent(
     ns: ChangeStreamNameSpace

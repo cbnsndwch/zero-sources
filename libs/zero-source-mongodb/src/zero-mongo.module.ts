@@ -1,4 +1,8 @@
-import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
+import {
+    type DynamicModule,
+    type FactoryProvider,
+    Module
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -9,7 +13,6 @@ import {
 } from './contracts/zero-mongo-module-options.contract.js';
 
 import { zeroEntities } from './entities/index.js';
-
 import { v0ChangeSourceServices } from './v0/index.js';
 
 @Module({})
@@ -31,7 +34,7 @@ export class ZeroMongoModule {
                 ...(options.imports || [])
             ],
             providers: [optionsProvider, ...v0ChangeSourceServices],
-            exports: []
+            exports: [optionsProvider, ...v0ChangeSourceServices]
         };
     }
 }

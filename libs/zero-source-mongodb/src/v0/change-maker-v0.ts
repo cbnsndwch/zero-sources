@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { createHash } from 'crypto';
 import type { v0 } from '@rocicorp/zero/change-protocol/v0';
+import { createHash } from 'crypto';
 import type {
     ChangeStreamDeleteDocument,
-    ChangeStreamInsertDocument,
-    ChangeStreamReplaceDocument,
-    ChangeStreamUpdateDocument,
     ChangeStreamDropDocument,
-    ChangeStreamNameSpace
+    ChangeStreamInsertDocument,
+    ChangeStreamNameSpace,
+    ChangeStreamReplaceDocument,
+    ChangeStreamUpdateDocument
 } from 'mongodb';
 
 import { invariant } from '@cbnsndwch/zero-contracts';
@@ -17,10 +17,12 @@ import {
     TOKEN_MODULE_OPTIONS,
     type ZeroMongoModuleOptions
 } from '../contracts/zero-mongo-module-options.contract.js';
+import { applyProjection, matchesFilter } from '../utils/table-mapping.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
-import { matchesFilter, applyProjection } from '../utils/table-mapping.js';
+
 import {
-    TableMappingService,
+    TOKEN_TABLE_MAPPING_SERVICE,
+    type TableMappingService,
     type MappedTableMapping
 } from './table-mapping.service.js';
 
@@ -31,6 +33,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
     constructor(
         @Inject(TOKEN_MODULE_OPTIONS)
         private readonly options: ZeroMongoModuleOptions,
+        @Inject(TOKEN_TABLE_MAPPING_SERVICE)
         private readonly tableMappingService: TableMappingService
     ) {
         // Initialize the table mapping service with table specs from options
@@ -791,3 +794,5 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
 
     //#endregion Transactions
 }
+
+export const TOKEN_CHANGE_MAKER_V0 = Symbol('TOKEN_CHANGE_MAKER_V0');

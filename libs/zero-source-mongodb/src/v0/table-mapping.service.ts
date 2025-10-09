@@ -117,3 +117,5 @@ export class TableMappingService {
         return this.isInitialized;
     }
 }
+
+export const TOKEN_TABLE_MAPPING_SERVICE = Symbol(TableMappingService.name);
