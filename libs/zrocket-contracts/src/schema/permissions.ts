@@ -1,8 +1,8 @@
 import {
     ANYONE_CAN,
     definePermissions,
-    ExpressionBuilder,
-    NOBODY_CAN
+    NOBODY_CAN,
+    type ExpressionBuilder
 } from '@rocicorp/zero';
 
 import type { JwtPayload } from '../auth/index.js';

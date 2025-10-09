@@ -7,7 +7,7 @@ interface SearchHeaderProps {
     setSearchQuery: (query: string) => void;
 }
 
-export function SearchHeader({
+export default function SearchHeader({
     searchQuery,
     setSearchQuery
 }: SearchHeaderProps) {

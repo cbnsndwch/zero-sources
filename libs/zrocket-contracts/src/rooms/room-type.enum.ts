@@ -23,3 +23,7 @@ export const ROOM_TYPES = [
     RoomType.PublicChannel,
     RoomType.PrivateGroup
 ] as const;
+
+export function isRoomType(value: string): value is RoomType {
+    return ROOM_TYPES.includes(value as RoomType);
+}

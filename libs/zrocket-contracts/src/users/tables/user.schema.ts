@@ -9,8 +9,8 @@ import {
 import type { Dict, RowOf } from '@cbnsndwch/zero-contracts';
 
 import { entityBaseColumns } from '../../common/tables/common.schema.js';
-import { ExternalUserId } from '../user.contract.js';
-import { UserPresenceStatus } from '../user-presence-status.contract.js';
+import type { ExternalUserId } from '../user.contract.js';
+import type { UserPresenceStatus } from '../user-presence-status.contract.js';
 
 const table = defineTable('users')
     .columns({

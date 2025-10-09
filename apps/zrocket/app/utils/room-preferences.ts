@@ -2,13 +2,15 @@
  * Utility functions for managing room navigation preferences
  */
 
-export type RoomType =
-    | 'dms'
-    | 'groups'
-    | 'channels'
-    | 'threads'
-    | 'starred'
-    | 'archived';
+import type { RoomType } from '@cbnsndwch/zrocket-contracts';
+
+// export type RoomType =
+//     | 'dms'
+//     | 'groups'
+//     | 'channels'
+//     | 'threads'
+//     | 'starred'
+//     | 'archived';
 
 interface RoomPreferences {
     lastVisitedRooms: Partial<Record<RoomType, string>>;
@@ -28,12 +30,9 @@ function getPreferences(): RoomPreferences {
         return {
             lastVisitedRooms: {},
             visitHistory: {
-                dms: [],
-                groups: [],
-                channels: [],
-                threads: [],
-                starred: [],
-                archived: []
+                d: [],
+                p: [],
+                c: []
             }
         };
     }
@@ -49,7 +48,7 @@ function getPreferences(): RoomPreferences {
 
     return {
         lastVisitedRooms: {},
-        visitHistory: { dms: [], groups: [], channels: [] }
+        visitHistory: { d: [], p: [], c: [] }
     };
 }
 

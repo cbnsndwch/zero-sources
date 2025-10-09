@@ -153,6 +153,45 @@ export default function UserMenu() {
                     <LogOut className="h-4 w-4 mr-2" />
                     Sign out
                 </DropdownMenuItem>
+
+                {/* Development Tools */}
+                {process.env.NODE_ENV !== 'production' && (
+                    <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuLabel className="text-xs text-muted-foreground">
+                            Dev Tools
+                        </DropdownMenuLabel>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() =>
+                                (window.location.href =
+                                    '/api/auth/dev/login/alice.johnson')
+                            }
+                        >
+                            <User className="h-4 w-4 mr-2" />
+                            Login as Alice
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() =>
+                                (window.location.href =
+                                    '/api/auth/dev/login/bob.smith')
+                            }
+                        >
+                            <User className="h-4 w-4 mr-2" />
+                            Login as Bob
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="cursor-pointer text-orange-600 focus:text-orange-600"
+                            onClick={() =>
+                                (window.location.href = '/api/auth/dev/logout')
+                            }
+                        >
+                            <LogOut className="h-4 w-4 mr-2" />
+                            Dev Logout
+                        </DropdownMenuItem>
+                    </>
+                )}
             </DropdownMenuContent>
         </DropdownMenu>
     );

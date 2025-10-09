@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router';
 
-import { EmptyChat } from '@/components/layout/EmptyChat';
+import EmptyChat from '@/components/layout/EmptyChat';
 import useGroups from '@/hooks/use-groups';
 import {
     getLastVisitedRoom,

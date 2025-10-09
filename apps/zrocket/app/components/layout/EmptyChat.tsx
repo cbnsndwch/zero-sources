@@ -1,42 +1,44 @@
-import { MessageSquare, Hash, Lock, Star, Archive } from 'lucide-react';
+import { MessageSquare, Hash, Lock } from 'lucide-react';
 
-interface EmptyChatProps {
-    roomType: string;
-}
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
-export function EmptyChat({ roomType }: EmptyChatProps) {
+type EmptyChatProps = {
+    roomType: RoomType;
+};
+
+export default function EmptyChat({ roomType }: EmptyChatProps) {
     const getRoomTypeInfo = () => {
         switch (roomType) {
-            case 'dms':
+            case RoomType.DirectMessages:
                 return {
                     icon: MessageSquare,
                     title: 'Direct Messages',
                     description: 'Start a conversation with a team member'
                 };
-            case 'channels':
+            case RoomType.PublicChannel:
                 return {
                     icon: Hash,
                     title: 'Channels',
                     description: 'Join a channel to start collaborating'
                 };
-            case 'groups':
+            case RoomType.PrivateGroup:
                 return {
                     icon: Lock,
                     title: 'Private Groups',
                     description: 'Create or join a private group'
                 };
-            case 'starred':
-                return {
-                    icon: Star,
-                    title: 'Starred Messages',
-                    description: 'Your starred messages will appear here'
-                };
-            case 'archived':
-                return {
-                    icon: Archive,
-                    title: 'Archived Conversations',
-                    description: 'Your archived conversations will appear here'
-                };
+            // case 'starred':
+            //     return {
+            //         icon: Star,
+            //         title: 'Starred Messages',
+            //         description: 'Your starred messages will appear here'
+            //     };
+            // case 'archived':
+            //     return {
+            //         icon: Archive,
+            //         title: 'Archived Conversations',
+            //         description: 'Your archived conversations will appear here'
+            //     };
             default:
                 return {
                     icon: MessageSquare,

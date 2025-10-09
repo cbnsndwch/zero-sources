@@ -7,11 +7,12 @@ import {
     Post,
     UseGuards
 } from '@nestjs/common';
+import type { AST } from '@rocicorp/zero';
 import { z } from 'zod';
 
+import { QueryArg, SyncedQuery } from '@cbnsndwch/nest-zero-synced-queries';
 import type { JwtPayload, RoomType } from '@cbnsndwch/zrocket-contracts';
 import { builder } from '@cbnsndwch/zrocket-contracts/schema';
-import { SyncedQuery, QueryArg } from '@cbnsndwch/nest-zero-synced-queries';
 
 import { CurrentUser } from '../../auth/decorators/index.js';
 import { JwtAuthGuard } from '../../auth/jwt/index.js';
@@ -113,7 +114,7 @@ export class MessagesController {
         @QueryArg(0) roomId: string,
         @QueryArg(1) roomType: RoomType,
         @QueryArg(2) limit = 100
-    ) {
+    ): Promise<AST> {
         try {
             // Public channels are accessible to all authenticated users (O(1))
             if (roomType === 'c') {
@@ -123,7 +124,7 @@ export class MessagesController {
                 return builder.userMessages
                     .where('roomId', '=', roomId)
                     .orderBy('createdAt', 'desc')
-                    .limit(limit);
+                    .limit(limit).ast;
             }
 
             // Private rooms require membership check
@@ -141,7 +142,7 @@ export class MessagesController {
                     '_id',
                     '=',
                     this.NEVER_MATCHES_ID
-                );
+                ).ast;
             }
 
             this.logger.debug(
@@ -151,17 +152,14 @@ export class MessagesController {
             return builder.userMessages
                 .where('roomId', '=', roomId)
                 .orderBy('createdAt', 'desc')
-                .limit(limit);
+                .limit(limit).ast;
         } catch (error) {
             this.logger.error(
                 `roomMessages: Error checking access for user ${user.sub} to room ${roomId}`,
                 error
             );
-            return builder.userMessages.where(
-                '_id',
-                '=',
-                this.NEVER_MATCHES_ID
-            );
+            return builder.userMessages.where('_id', '=', this.NEVER_MATCHES_ID)
+                .ast;
         }
     }
 
@@ -182,7 +180,7 @@ export class MessagesController {
         @CurrentUser() user: JwtPayload,
         @QueryArg(0) searchTerm: string,
         @QueryArg(1) limit = 50
-    ) {
+    ): Promise<AST> {
         try {
             const allAccessibleRoomIds =
                 await this.roomAccessService.getUserAccessibleRoomIds(user.sub);
@@ -196,7 +194,7 @@ export class MessagesController {
                     '_id',
                     '=',
                     this.NEVER_MATCHES_ID
-                );
+                ).ast;
             }
 
             // TODO: Text search on content field
@@ -210,17 +208,14 @@ export class MessagesController {
             return builder.userMessages
                 .where('roomId', 'IN', allAccessibleRoomIds)
                 .orderBy('createdAt', 'desc')
-                .limit(limit);
+                .limit(limit).ast;
         } catch (error) {
             this.logger.error(
                 `searchMessages: Error searching messages for user ${user.sub}`,
                 error
             );
-            return builder.userMessages.where(
-                '_id',
-                '=',
-                this.NEVER_MATCHES_ID
-            );
+            return builder.userMessages.where('_id', '=', this.NEVER_MATCHES_ID)
+                .ast;
         }
     }
 }
