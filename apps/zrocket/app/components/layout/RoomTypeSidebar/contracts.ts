@@ -1,7 +1,6 @@
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
 import { MessageSquare, Hash, Lock } from 'lucide-react';
 // import { Star, Archive } from 'lucide-react';
-
-import type { RoomType } from '@/utils/room-preferences';
 
 export const roomTypes = [
     // {
@@ -10,19 +9,19 @@ export const roomTypes = [
     //     Icon: MessageSquare
     // },
     {
-        id: 'dms' as RoomType,
-        name: 'DMs',
-        Icon: MessageSquare
-    },
-    {
-        id: 'channels' as RoomType,
-        name: 'Channels',
+        id: RoomType.PublicChannel,
+        name: 'Public Channels',
         Icon: Hash
     },
     {
-        id: 'groups' as RoomType,
+        id: RoomType.PrivateGroup,
         name: 'Private Groups',
         Icon: Lock
+    },
+    {
+        id: RoomType.DirectMessages,
+        name: 'Direct Messages',
+        Icon: MessageSquare
     }
     // {
     //     id: 'starred' as RoomType,

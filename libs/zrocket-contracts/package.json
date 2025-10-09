@@ -25,7 +25,7 @@
         "@cbnsndwch/zero-contracts": "workspace:*"
     },
     "peerDependencies": {
-        "@rocicorp/zero": "*"
+        "@rocicorp/zero": "0.23.2025090100"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.1.0",
@@ -51,12 +51,10 @@
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/index.js",
             "default": "./dist/index.js"
         },
         "./schema": {
             "types": "./dist/schema/index.d.ts",
-            "import": "./dist/schema/index.js",
             "default": "./dist/schema/index.js"
         },
         "./package.json": "./package.json"

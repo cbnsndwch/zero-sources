@@ -4,20 +4,44 @@ import {
     HttpCode,
     HttpStatus,
     Logger,
-    Post
+    Post,
+    UseGuards
 } from '@nestjs/common';
+import type { AST } from '@rocicorp/zero';
+import { z } from 'zod';
+
+import { QueryArg, SyncedQuery } from '@cbnsndwch/nest-zero-synced-queries';
+import type { JwtPayload, RoomType } from '@cbnsndwch/zrocket-contracts';
+import { builder } from '@cbnsndwch/zrocket-contracts/schema';
+
+import { CurrentUser } from '../../auth/decorators/index.js';
+import { JwtAuthGuard } from '../../auth/jwt/index.js';
 
 import { MessageService } from '../services/message.service.js';
+import { RoomAccessService } from '../services/room-access.service.js';
 
 /**
- * REST controller for message operations.
- * Uses regular REST endpoints instead of Zero custom mutators.
+ * Controller for message operations (REST + Zero synced queries).
+ *
+ * @remarks
+ * This controller handles both:
+ * - REST endpoints: Send messages (write operations)
+ * - Zero synced queries: Read messages with permission filtering
+ *
+ * Synced queries provided:
+ * - `roomMessages` - Messages for a specific room
+ * - `searchMessages` - Search across accessible rooms
  */
 @Controller('messages')
+@UseGuards(JwtAuthGuard) // All operations require authentication
 export class MessagesController {
     private readonly logger = new Logger(MessagesController.name);
+    private readonly NEVER_MATCHES_ID = '__NEVER_MATCHES__';
 
-    constructor(private readonly messageService: MessageService) {}
+    constructor(
+        private readonly messageService: MessageService,
+        private readonly roomAccessService: RoomAccessService
+    ) {}
 
     /**
      * Send a new message to a room
@@ -65,6 +89,133 @@ export class MessagesController {
             });
 
             throw error;
+        }
+    }
+
+    // ============================================================================
+    // Zero Synced Queries - Read Operations with Permission Filtering
+    // ============================================================================
+
+    /**
+     * Zero synced query: Get messages for a specific room.
+     *
+     * @param user - Authenticated user
+     * @param roomId - The ID of the room
+     * @param roomType - The type of room (channel, chat, or group)
+     * @param limit - Maximum number of messages to return
+     * @returns Query builder for room messages
+     */
+    @SyncedQuery(
+        'roomMessages',
+        z.tuple([z.string(), z.string(), z.number().optional()])
+    )
+    async roomMessages(
+        @CurrentUser() user: JwtPayload,
+        @QueryArg(0) roomId: string,
+        @QueryArg(1) roomType: RoomType,
+        @QueryArg(2) limit = 100
+    ): Promise<AST> {
+        try {
+            // Public channels are accessible to all authenticated users (O(1))
+            if (roomType === RoomType.PublicChannel) {
+                this.logger.debug(
+                    `roomMessages: User ${user.sub} accessing public channel ${roomId} messages`
+                );
+                return builder.userMessages
+                    .where('roomId', '=', roomId)
+                    .orderBy('createdAt', 'desc')
+                    .limit(limit).ast;
+            }
+
+            // Private rooms require membership check
+            const hasAccess = await this.roomAccessService.userHasRoomAccess(
+                user.sub,
+                roomId,
+                roomType
+            );
+
+            if (!hasAccess) {
+                this.logger.debug(
+                    `roomMessages: User ${user.sub} does not have access to room ${roomId}`
+                );
+                return builder.userMessages.where(
+                    '_id',
+                    '=',
+                    this.NEVER_MATCHES_ID
+                ).ast;
+            }
+
+            this.logger.debug(
+                `roomMessages: User ${user.sub} has access to room ${roomId}`
+            );
+
+            return builder.userMessages
+                .where('roomId', '=', roomId)
+                .orderBy('createdAt', 'desc')
+                .limit(limit).ast;
+        } catch (error) {
+            this.logger.error(
+                `roomMessages: Error checking access for user ${user.sub} to room ${roomId}`,
+                error
+            );
+            return builder.userMessages.where('_id', '=', this.NEVER_MATCHES_ID)
+                .ast;
+        }
+    }
+
+    /**
+     * Zero synced query: Search messages across accessible rooms.
+     *
+     * @param user - Authenticated user
+     * @param searchTerm - The text to search for
+     * @param limit - Maximum number of messages to return
+     * @returns Query builder for matching messages
+     *
+     * @remarks
+     * Text search on content field is not yet implemented in Zero schema.
+     * Currently returns all messages from accessible rooms; client must filter.
+     */
+    @SyncedQuery('searchMessages', z.tuple([z.string(), z.number().optional()]))
+    async searchMessages(
+        @CurrentUser() user: JwtPayload,
+        @QueryArg(0) searchTerm: string,
+        @QueryArg(1) limit = 50
+    ): Promise<AST> {
+        try {
+            const allAccessibleRoomIds =
+                await this.roomAccessService.getUserAccessibleRoomIds(user.sub);
+
+            this.logger.debug(
+                `searchMessages: User ${user.sub} searching in ${allAccessibleRoomIds.length} accessible rooms`
+            );
+
+            if (allAccessibleRoomIds.length === 0) {
+                return builder.userMessages.where(
+                    '_id',
+                    '=',
+                    this.NEVER_MATCHES_ID
+                ).ast;
+            }
+
+            // TODO: Text search on content field
+            // The Zero schema doesn't expose 'content' field in builder.userMessages
+            // For now, return all messages from accessible rooms (client filters)
+            this.logger.warn(
+                `searchMessages: Text search on content not yet implemented. ` +
+                    `Returning all messages from accessible rooms. Search term: "${searchTerm}"`
+            );
+
+            return builder.userMessages
+                .where('roomId', 'IN', allAccessibleRoomIds)
+                .orderBy('createdAt', 'desc')
+                .limit(limit).ast;
+        } catch (error) {
+            this.logger.error(
+                `searchMessages: Error searching messages for user ${user.sub}`,
+                error
+            );
+            return builder.userMessages.where('_id', '=', this.NEVER_MATCHES_ID)
+                .ast;
         }
     }
 }

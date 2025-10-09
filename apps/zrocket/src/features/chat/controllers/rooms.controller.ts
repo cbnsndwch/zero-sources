@@ -4,21 +4,250 @@ import {
     HttpCode,
     HttpStatus,
     Logger,
-    Post
+    Post,
+    UseGuards
 } from '@nestjs/common';
-import type { RoomType } from '@cbnsndwch/zrocket-contracts';
+import type { AST } from '@rocicorp/zero';
+import { z } from 'zod';
 
+import { QueryArg, SyncedQuery } from '@cbnsndwch/nest-zero-synced-queries';
+import { type JwtPayload, RoomType } from '@cbnsndwch/zrocket-contracts';
+import { builder } from '@cbnsndwch/zrocket-contracts/schema';
+
+import { CurrentUser } from '../../auth/decorators/index.js';
+import { JwtAuthGuard } from '../../auth/jwt/index.js';
+
+import { RoomAccessService } from '../services/room-access.service.js';
 import { RoomService } from '../services/room.service.js';
 
+const NEVER_MATCHES_ID = '__NEVER_MATCHES__' as const;
+
 /**
- * REST controller for room operations.
- * Uses regular REST endpoints instead of Zero custom mutators.
+ * Controller for room operations (REST + Zero synced queries).
+ *
+ * @remarks
+ * This controller handles both:
+ * - REST endpoints: Create/update rooms (write operations)
+ * - Zero synced queries: Read room data with permission filtering
+ *
+ * Synced queries provided:
+ * - `myChats` - User's accessible chats (authenticated)
+ * - `myGroups` - User's accessible groups (authenticated)
+ * - `chatById` - Specific chat with messages (authenticated)
+ * - `groupById` - Specific group with messages (authenticated)
+ * - `publicChannels` - All public channels (no auth required)
+ * - `channelById` - Specific public channel with messages (no auth required)
  */
 @Controller('rooms')
+@UseGuards(JwtAuthGuard) // All operations require authentication
 export class RoomsController {
     private readonly logger = new Logger(RoomsController.name);
 
-    constructor(private readonly roomService: RoomService) {}
+    constructor(
+        private readonly roomService: RoomService,
+        private readonly roomAccessService: RoomAccessService
+    ) {}
+
+    //#region Synced Queries
+
+    // ============================================================================
+    // Zero Synced Queries - Read Operations with Permission Filtering
+    // ============================================================================
+
+    /**
+     * Zero synced query: Get all chats where user is a member.
+     *
+     * @param user - Authenticated user (auto-injected by JwtAuthGuard)
+     * @returns Query builder for accessible chats
+     */
+    @SyncedQuery('myChats', z.tuple([]))
+    async myChats(@CurrentUser() user: JwtPayload): Promise<AST> {
+        try {
+            const allAccessibleRoomIds =
+                await this.roomAccessService.getUserAccessibleRoomIds(user.sub);
+
+            this.logger.debug(
+                `myChats: User ${user.sub} has access to ${allAccessibleRoomIds.length} total rooms`
+            );
+
+            if (allAccessibleRoomIds.length === 0) {
+                return builder.chats.where('_id', '=', NEVER_MATCHES_ID).ast;
+            }
+
+            return builder.chats
+                .where('_id', 'IN', allAccessibleRoomIds)
+                .orderBy('lastMessageAt', 'desc').ast;
+        } catch (error) {
+            this.logger.error(
+                `myChats: Error fetching accessible chats for user ${user.sub}`,
+                error
+            );
+            return builder.chats.where('_id', '=', NEVER_MATCHES_ID).ast;
+        }
+    }
+
+    /**
+     * Zero synced query: Get all groups where user is a member.
+     *
+     * @param user - Authenticated user
+     * @returns Query builder for accessible groups
+     */
+    @SyncedQuery('myGroups', z.tuple([]))
+    async myGroups(@CurrentUser() user: JwtPayload): Promise<AST> {
+        try {
+            const allAccessibleRoomIds =
+                await this.roomAccessService.getUserAccessibleRoomIds(user.sub);
+
+            this.logger.debug(
+                `myGroups: User ${user.sub} has access to ${allAccessibleRoomIds.length} total rooms`
+            );
+
+            if (allAccessibleRoomIds.length === 0) {
+                return builder.groups.where('_id', '=', NEVER_MATCHES_ID).ast;
+            }
+
+            return builder.groups
+                .where('_id', 'IN', allAccessibleRoomIds)
+                .orderBy('lastMessageAt', 'desc').ast;
+        } catch (error) {
+            this.logger.error(
+                `myGroups: Error fetching accessible groups for user ${user.sub}`,
+                error
+            );
+            return builder.groups.where('_id', '=', NEVER_MATCHES_ID).ast;
+        }
+    }
+
+    /**
+     * Zero synced query: Get a specific chat by ID (with permission check).
+     *
+     * @param user - Authenticated user
+     * @param chatId - The ID of the chat to retrieve
+     * @returns Query builder for the chat with messages
+     */
+    @SyncedQuery('chatById', z.tuple([z.string()]))
+    async chatById(
+        @CurrentUser() user: JwtPayload,
+        @QueryArg(0) chatId: string
+    ): Promise<AST> {
+        try {
+            const hasAccess = await this.roomAccessService.userHasRoomAccess(
+                user.sub,
+                chatId,
+                RoomType.DirectMessages
+            );
+
+            if (!hasAccess) {
+                this.logger.debug(
+                    `chatById: User ${user.sub} does not have access to chat ${chatId}`
+                );
+                return builder.chats.where('_id', '=', NEVER_MATCHES_ID).ast;
+            }
+
+            this.logger.debug(
+                `chatById: User ${user.sub} has access to chat ${chatId}`
+            );
+
+            return builder.chats
+                .where('_id', '=', chatId)
+                .related('messages', q => q.orderBy('createdAt', 'asc'))
+                .related('systemMessages', q => q.orderBy('createdAt', 'asc'))
+                .ast;
+        } catch (error) {
+            this.logger.error(
+                `chatById: Error checking access for user ${user.sub} to chat ${chatId}`,
+                error
+            );
+            return builder.chats.where('_id', '=', NEVER_MATCHES_ID).ast;
+        }
+    }
+
+    /**
+     * Zero synced query: Get a specific group by ID (with permission check).
+     *
+     * @param user - Authenticated user
+     * @param groupId - The ID of the group to retrieve
+     * @returns Query builder for the group with messages
+     */
+    @SyncedQuery('groupById', z.tuple([z.string()]))
+    async groupById(
+        @CurrentUser() user: JwtPayload,
+        @QueryArg(0) groupId: string
+    ): Promise<AST> {
+        try {
+            const hasAccess = await this.roomAccessService.userHasRoomAccess(
+                user.sub,
+                groupId,
+                RoomType.PrivateGroup
+            );
+
+            if (!hasAccess) {
+                this.logger.debug(
+                    `groupById: User ${user.sub} does not have access to group ${groupId}`
+                );
+                return builder.groups.where('_id', '=', NEVER_MATCHES_ID).ast;
+            }
+
+            this.logger.debug(
+                `groupById: User ${user.sub} has access to group ${groupId}`
+            );
+
+            return builder.groups
+                .where('_id', '=', groupId)
+                .related('messages', q => q.orderBy('createdAt', 'asc'))
+                .related('systemMessages', q => q.orderBy('createdAt', 'asc'))
+                .ast;
+        } catch (error) {
+            this.logger.error(
+                `groupById: Error checking access for user ${user.sub} to group ${groupId}`,
+                error
+            );
+            return builder.groups.where('_id', '=', NEVER_MATCHES_ID).ast;
+        }
+    }
+
+    /**
+     * Zero synced query: Get all public channels (no authentication required).
+     *
+     * @remarks
+     * Public channels are accessible to all users, including anonymous users.
+     * No permission filtering is applied.
+     *
+     * @returns Query builder for all public channels ordered by name
+     */
+    @SyncedQuery('publicChannels', z.tuple([]))
+    async publicChannels(): Promise<AST> {
+        this.logger.debug('publicChannels: Fetching all public channels');
+        return builder.channels.orderBy('name', 'asc').ast;
+    }
+
+    /**
+     * Zero synced query: Get a specific public channel by ID (no authentication required).
+     *
+     * @param channelId - The ID of the channel to retrieve
+     *
+     * @remarks
+     * Public channels are accessible to all users, including anonymous users.
+     * No permission filtering is applied.
+     * Includes up to 100 most recent messages ordered by creation time.
+     *
+     * @returns Query builder for the channel with related messages
+     */
+    @SyncedQuery('channelById', z.tuple([z.string()]))
+    async channelById(@QueryArg(0) channelId: string): Promise<AST> {
+        this.logger.debug(`channelById: Fetching public channel ${channelId}`);
+
+        return builder.channels
+            .where('_id', '=', channelId)
+            .related('messages', q => q.orderBy('createdAt', 'desc').limit(100))
+            .related('systemMessages', q =>
+                q.orderBy('createdAt', 'desc').limit(100)
+            ).ast;
+    }
+
+    //#endregion Synced Queries
+
+    //#region REST Endpoints
 
     /**
      * Create a new room
@@ -122,4 +351,6 @@ export class RoomsController {
             throw error;
         }
     }
+
+    //#endregion REST Endpoints
 }

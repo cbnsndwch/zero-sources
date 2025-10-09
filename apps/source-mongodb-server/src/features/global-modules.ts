@@ -1,5 +1,8 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
+import {
+    type MongooseModuleFactoryOptions,
+    MongooseModule
+} from '@nestjs/mongoose';
 
 import type { AppConfig, DbConfig } from '../config/contracts.js';
 import loadYamlConfig from '../config/load-yaml-config.js';

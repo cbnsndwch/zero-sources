@@ -2,8 +2,9 @@ import { Hash, Lock, User, type LucideIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { NavLink } from 'react-router';
 
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { RoomType } from '@/utils/room-preferences';
 import { cn } from '@/lib/utils';
 import useRoomTitle from '@/hooks/use-room-title';
 import useChats from '@/hooks/use-chats';
@@ -39,11 +40,11 @@ function RoomListItem({
         type: RoomType
     ): 'dm' | 'group' | 'channel' | undefined => {
         switch (type) {
-            case 'dms':
+            case RoomType.DirectMessages:
                 return 'dm';
-            case 'groups':
+            case RoomType.PrivateGroup:
                 return 'group';
-            case 'channels':
+            case RoomType.PublicChannel:
                 return 'channel';
             default:
                 return undefined;
@@ -127,20 +128,31 @@ function mapChannelToRoom(channel: any): Room {
 }
 
 const ROOM_ICON_BY_TYPE: Partial<Record<RoomType, LucideIcon>> = {
-    dms: User,
-    groups: Lock,
-    channels: Hash
+    [RoomType.DirectMessages]: User,
+    [RoomType.PrivateGroup]: Lock,
+    [RoomType.PublicChannel]: Hash
 };
 
-export function RoomList({ roomType, searchQuery }: RoomListProps) {
+const ROOM_TITLE_BY_TYPE: Partial<Record<RoomType, string>> = {
+    [RoomType.DirectMessages]: 'Direct Messages',
+    [RoomType.PrivateGroup]: 'Private Groups',
+    [RoomType.PublicChannel]: 'Public Channels'
+};
+
+export default function RoomList({ roomType, searchQuery }: RoomListProps) {
     // Query data based on room type using hooks
     const [chats, chatsResult] = useChats();
     const [groups, groupsResult] = useGroups();
     const [channels, channelsResult] = useChannels();
 
+    const roomTypeTitle = useMemo(
+        () => ROOM_TITLE_BY_TYPE[roomType] || 'Rooms',
+        [roomType]
+    );
+
     const rooms = useMemo(() => {
         switch (roomType) {
-            case 'dms':
+            case RoomType.DirectMessages:
                 if (chatsResult.type !== 'complete' || !chats) {
                     return [];
                 }
@@ -153,7 +165,7 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
                             .includes(searchQuery.toLowerCase())
                     );
 
-            case 'groups':
+            case RoomType.PrivateGroup:
                 if (groupsResult.type !== 'complete' || !groups) {
                     return [];
                 }
@@ -166,7 +178,7 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
                             ?.includes(searchQuery.toLowerCase())
                     );
 
-            case 'channels':
+            case RoomType.PublicChannel:
                 if (channelsResult.type !== 'complete' || !channels) {
                     return [];
                 }
@@ -199,13 +211,17 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
     ]);
 
     // Check if we're still loading
-    const isLoading = useMemo(
-        () =>
-            (roomType === 'dms' && chatsResult.type !== 'complete') ||
-            (roomType === 'groups' && groupsResult.type !== 'complete') ||
-            (roomType === 'channels' && channelsResult.type !== 'complete'),
-        [channelsResult.type, chatsResult.type, groupsResult.type, roomType]
-    );
+    const isLoading = useMemo(() => {
+        const loadingStateByType: Record<RoomType, boolean> = {
+            [RoomType.DirectMessages]: chatsResult.type !== 'complete',
+            [RoomType.PrivateGroup]: groupsResult.type !== 'complete',
+            [RoomType.PublicChannel]: channelsResult.type !== 'complete'
+        };
+
+        const value = loadingStateByType[roomType] ?? false;
+
+        return value;
+    }, [channelsResult.type, chatsResult.type, groupsResult.type, roomType]);
 
     const groupedRooms = useMemo(() => groupByFirstLetter(rooms), [rooms]);
 
@@ -217,7 +233,7 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
     if (isLoading) {
         return (
             <div className="p-4 text-center text-muted-foreground">
-                <div className="mb-2">Loading {roomType}...</div>
+                <div className="mb-2">Loading {roomTypeTitle}...</div>
             </div>
         );
     }
@@ -225,7 +241,7 @@ export function RoomList({ roomType, searchQuery }: RoomListProps) {
     if (rooms.length === 0) {
         return (
             <div className="p-4 text-center text-muted-foreground">
-                <div className="mb-2">No {roomType} found</div>
+                <div className="mb-2">No {roomTypeTitle} found</div>
                 {searchQuery && (
                     <div className="text-sm">Try a different search term</div>
                 )}

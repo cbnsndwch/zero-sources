@@ -1,35 +1,32 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
+import { RoomType, isRoomType } from '@cbnsndwch/zrocket-contracts';
+
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup
 } from '@/components/ui/resizable';
-
 import { SidebarProvider } from '@/components/ui/sidebar';
-
-import type { RoomType } from '@/utils/room-preferences';
 
 import { zeroRef } from '@/zero/setup';
 
 import useChannels from '@/hooks/use-channels';
-
 import useGroups from '@/hooks/use-groups';
-
 import useChats from '@/hooks/use-chats';
 
 import SplashScreen from '../splash';
 
-import { EmptyChat } from './EmptyChat';
-import { RoomDetails } from './RoomDetails';
-import { RoomList } from './RoomList';
+import EmptyChat from './EmptyChat';
+import RoomDetails from './RoomDetails';
+import RoomList from './RoomList';
 import RoomTypeSidebar from './RoomTypeSidebar';
-import { SearchHeader } from './SearchHeader';
+import SearchHeader from './SearchHeader';
 import WorkspaceSidebar from './WorkspaceSidebar';
 
 // Helper functions for localStorage
-function getLastVisitedRoom(roomType: string): string | null {
+function getLastVisitedRoom(roomType: RoomType): string | null {
     if (typeof localStorage === 'undefined') {
         return null;
     }
@@ -37,7 +34,7 @@ function getLastVisitedRoom(roomType: string): string | null {
     return localStorage.getItem(`lastVisited_${roomType}`);
 }
 
-function setLastVisitedRoom(roomType: string, roomId: string) {
+function setLastVisitedRoom(roomType: RoomType, roomId: string) {
     if (typeof localStorage === 'undefined') {
         return;
     }
@@ -56,7 +53,9 @@ export default function AppLayout() {
     const [chats] = useChats();
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeRoomType, setActiveRoomType] = useState<RoomType>('channels');
+    const [activeRoomType, setActiveRoomType] = useState<RoomType>(
+        RoomType.PublicChannel
+    );
 
     const [isManualSelection, setIsManualSelection] = useState(false);
     const [isRoomDetailsOpen, setIsRoomDetailsOpen] = useState(true);
@@ -85,23 +84,19 @@ export default function AppLayout() {
             return;
         }
 
-        const pathParts = location.pathname.split('/');
-        if (pathParts[1]) {
-            const currentType =
-                pathParts[1] === 'c'
-                    ? 'channels'
-                    : pathParts[1] === 'p'
-                      ? 'groups'
-                      : pathParts[1] === 'd'
-                        ? 'dms'
-                        : 'channels';
+        const [typeSegment, roomId] = location.pathname.split('/') || [];
+        if (typeSegment) {
+            const currentType = isRoomType(typeSegment)
+                ? typeSegment
+                : RoomType.PublicChannel;
+
             if (currentType !== activeRoomType) {
                 setActiveRoomType(currentType);
             }
 
-            // Save current room as last visited for this type
-            if (pathParts[2]) {
-                setLastVisitedRoom(currentType, pathParts[2]);
+            // Save current room as last visited for this type if applicable
+            if (roomId) {
+                setLastVisitedRoom(currentType, roomId);
             }
         }
     }, [location.pathname, activeRoomType, isManualSelection]);
@@ -116,13 +111,13 @@ export default function AppLayout() {
         // Get rooms for the selected type
         let roomsForType: any[] = [];
         switch (newRoomType) {
-            case 'channels':
+            case RoomType.PublicChannel:
                 roomsForType = channels || [];
                 break;
-            case 'groups':
+            case RoomType.PrivateGroup:
                 roomsForType = groups || [];
                 break;
-            case 'dms':
+            case RoomType.DirectMessages:
                 roomsForType = chats || [];
                 break;
             default:
@@ -131,8 +126,8 @@ export default function AppLayout() {
         }
 
         // If no rooms exist for this type, navigate to a special empty state route
-        if (!roomsForType || roomsForType.length === 0) {
-            navigate(`/empty/${newRoomType}`, { replace: true });
+        if (!roomsForType?.length) {
+            navigate(`/${newRoomType}`, { replace: true });
             return;
         }
 
@@ -154,22 +149,7 @@ export default function AppLayout() {
         }
 
         // Navigate to the target room based on room type and ID
-        let targetUrl = '';
-        switch (newRoomType) {
-            case 'channels':
-                targetUrl = `/c/${targetRoom._id}`;
-                break;
-            case 'groups':
-                targetUrl = `/p/${targetRoom._id}`;
-                break;
-            case 'dms':
-                targetUrl = `/d/${targetRoom._id}`;
-                break;
-        }
-
-        if (targetUrl) {
-            navigate(targetUrl);
-        }
+        navigate(`/${newRoomType}/${targetRoom._id}`);
     };
 
     const zero = useSyncExternalStore(

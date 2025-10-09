@@ -13,7 +13,7 @@ const DETAILS_COMPONENT = {
     dm: ChatDetails
 } as const;
 
-export function RoomDetails() {
+export default function RoomDetails() {
     const params = useParams();
     const location = useLocation();
 

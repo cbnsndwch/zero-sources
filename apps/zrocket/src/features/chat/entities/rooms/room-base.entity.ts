@@ -19,7 +19,6 @@ export abstract class RoomBase<TType extends RoomType = RoomType>
     implements IRoomBase<TType>
 {
     t!: TType;
-    createdAt!: Date;
     memberIds!: string[];
     usernames!: string[];
     messageCount!: number;

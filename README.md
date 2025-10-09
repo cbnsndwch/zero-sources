@@ -40,7 +40,7 @@
 
 ## Introduction
 
-This monorepo hosts various **utilities** and **custom change source** implementations designed to integrate with [`@rocicorp/zero`](https://github.com/rocicorp/zero). The primary goal is to provide building blocks and ready-to-use change sources for developers looking to extend or customize Zero's caching and synchronization features.
+This monorepo hosts various **utilities** and **custom change source** implementations designed to integrate with [`@rocicorp/zero`](https://github.com/rocicorp/mono). The primary goal is to provide building blocks and ready-to-use change sources for developers looking to extend or customize Zero's caching and synchronization features.
 
 ### Key Points
 

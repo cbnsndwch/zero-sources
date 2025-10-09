@@ -1,19 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsArray, IsString } from 'class-validator';
 
-import type {
-    IDirectMessagesRoom,
-    ROOM_TYPE_DIRECT_MESSAGES
-} from '@cbnsndwch/zrocket-contracts';
+import type { IDirectMessagesRoom } from '@cbnsndwch/zrocket-contracts';
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
 
 import { RoomBase } from './room-base.entity.js';
 
 @Schema()
 export class DirectMessagesRoom
-    extends RoomBase<typeof ROOM_TYPE_DIRECT_MESSAGES>
+    extends RoomBase<RoomType.DirectMessages>
     implements IDirectMessagesRoom
 {
-    declare t: typeof ROOM_TYPE_DIRECT_MESSAGES;
+    declare t: RoomType.DirectMessages;
 
     @Prop({
         type: [String],
@@ -22,7 +20,7 @@ export class DirectMessagesRoom
     })
     @IsArray()
     @IsString({ each: true })
-    usernames!: string[];
+    declare usernames: string[];
 }
 
 export const DirectMessagesRoomSchema =

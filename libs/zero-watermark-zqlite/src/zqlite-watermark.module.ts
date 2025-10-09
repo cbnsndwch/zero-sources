@@ -5,21 +5,21 @@ import {
     type DynamicModule,
     type FactoryProvider
 } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import Zqlite from '@rocicorp/zero-sqlite3';
 
 import {
     invariant,
-    IWatermarkService,
-    TOKEN_WATERMARK_SERVICE
+    TOKEN_WATERMARK_SERVICE,
+    type IWatermarkService
 } from '@cbnsndwch/zero-contracts';
 
 import {
     TOKEN_WATERMARK_ZQLITE_DB,
-    ZqliteKvOptions,
+    type ZqliteKvOptions,
     type ZqliteWatermarkModuleAsyncOptions
-} from './contracts.mjs';
-import { ZqliteWatermarkService } from './zqlite-watermark.service.mjs';
-import { ConfigModule } from '@nestjs/config';
+} from './contracts.js';
+import { ZqliteWatermarkService } from './zqlite-watermark.service.js';
 
 /**
  * The DDL statement to initialize the KV table in the ZQLite database

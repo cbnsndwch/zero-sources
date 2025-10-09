@@ -18,7 +18,7 @@ import {
     permissions
 } from '@cbnsndwch/zrocket-contracts/schema';
 
-import { AppConfig, KvConfig, ZeroConfig } from '../config/contracts.js';
+import type { AppConfig, KvConfig, ZeroConfig } from '../config/contracts.js';
 
 import { globalModules } from './global-modules.js';
 import { HealthzModule } from './healthz/healthz.module.js';

@@ -1,0 +1,56 @@
+{
+    "name": "@cbnsndwch/nest-zero-synced-queries",
+    "version": "0.1.0",
+    "description": "NestJS library for declarative Zero synced query handlers with decorator-based configuration",
+    "type": "module",
+    "license": "MIT",
+    "author": {
+        "name": "Sergio Leon",
+        "email": "oss@cbnsndwch.io"
+    },
+    "keywords": [
+        "nestjs",
+        "zero",
+        "synced-queries",
+        "decorators",
+        "authentication",
+        "guards"
+    ],
+    "scripts": {
+        "build": "nest build && tsc --emitDeclarationOnly",
+        "clean": "rm -rf dist"
+    },
+    "dependencies": {
+        "@rocicorp/zero": "0.23.2025090100"
+    },
+    "peerDependencies": {
+        "@nestjs/common": "^11.0.0",
+        "@nestjs/core": "^11.0.0",
+        "reflect-metadata": "^0.2.0",
+        "rxjs": "^7.8.0",
+        "zod": "^4"
+    },
+    "devDependencies": {
+        "@nestjs/cli": "^11.0.10",
+        "@nestjs/common": "^11.1.6",
+        "@nestjs/core": "^11.1.6",
+        "@swc/cli": "^0.7.8",
+        "@swc/core": "^1.13.5",
+        "reflect-metadata": "^0.2.2",
+        "rxjs": "^7.8.2",
+        "typescript": "^5.9.3",
+        "zod": "^4.1.12"
+    },
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    }
+}

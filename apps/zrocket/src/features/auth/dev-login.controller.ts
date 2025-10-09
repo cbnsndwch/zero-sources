@@ -1,8 +1,25 @@
-import { Controller, Get, Logger, Res } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Res } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
 import type { Response } from 'express';
 
 import { JwtAuthService } from './jwt/jwt-auth.service.js';
+
+const DEV_MOCK_USERS = {
+    'alice.johnson': {
+        _id: '68e18a8f2ed4c8dc278ad599',
+        username: 'alice.johnson',
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        role: 'user'
+    },
+    'bob.smith': {
+        _id: '68e18a8f2ed4c8dc278ad59c',
+        username: 'bob.smith',
+        name: 'Bob Smith',
+        email: 'bob.smith@example.com',
+        role: 'user'
+    }
+} as const;
 
 /**
  * Dev-only authentication controller for testing
@@ -19,22 +36,19 @@ export class DevLoginController {
      * Creates a test user JWT for development
      * GET /api/auth/dev/login
      */
-    @Get('login')
-    async devLogin(@Res() res: Response) {
+    @Get('login{/:username}')
+    async devLogin(
+        @Res() res: Response,
+        @Param('username') username = 'alice.johnson'
+    ) {
         if (process.env.NODE_ENV === 'production') {
             return res
                 .status(403)
                 .json({ error: 'Dev login not available in production' });
         }
 
-        const testUser = {
-            _id: '68e18a8f2ed4c8dc278ad599',
-            username: 'alice.johnson',
-            name: 'Alice Johnson',
-            email: 'alice.johnson@example.com',
-            role: 'user'
-        } as any;
-
+        const testUser =
+            DEV_MOCK_USERS[username] || DEV_MOCK_USERS['alice.johnson'];
         const { accessToken } = this.jwtAuthService.login(testUser);
 
         // Set cookie with settings for localhost:port

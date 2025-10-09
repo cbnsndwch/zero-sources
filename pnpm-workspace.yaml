@@ -7,6 +7,7 @@ ignoredBuiltDependencies:
   - '@scarf/scarf'
 
 onlyBuiltDependencies:
+  - '@rocicorp/zero'
   - '@rocicorp/zero-sqlite3'
   - '@swc/core'
   - '@tailwindcss/oxide'
@@ -14,7 +15,7 @@ onlyBuiltDependencies:
   - protobufjs
   - unrs-resolver
 
-shamefullyHoist: true
-
 overrides:
   source-map: ^0.7.6
+
+shamefullyHoist: true

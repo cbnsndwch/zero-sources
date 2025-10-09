@@ -21,7 +21,7 @@
         "node": ">=22"
     },
     "peerDependencies": {
-        "@rocicorp/zero": "*"
+        "@rocicorp/zero": "0.23.2025090100"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.1.0",
@@ -47,8 +47,8 @@
     "typings": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.cjs"
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
         },
         "./package.json": "./package.json"
     },

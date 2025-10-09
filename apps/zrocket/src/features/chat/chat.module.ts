@@ -10,7 +10,32 @@ import { chatServices } from './services/index.js';
 
 /**
  * Chat module using Zero for reads (queries) and REST for writes.
- * This is simpler than using Zero custom mutators and works well for most use cases.
+ *
+ * @remarks
+ * ## Controller-Based Architecture
+ *
+ * Following NestJS best practices, controllers handle ALL external requests:
+ * - REST endpoints (`@Post`, `@Get`, etc.) - Write operations
+ * - Zero synced queries (`@SyncedQuery`) - Read operations with filtering
+ *
+ * ### RoomsController
+ * **REST Endpoints:**
+ * - `POST /rooms` - Create room
+ * - `POST /rooms/invite` - Invite users
+ *
+ * **Zero Synced Queries:**
+ * - `myChats` - User's accessible chats
+ * - `myGroups` - User's accessible groups
+ * - `chatById` - Specific chat with messages
+ * - `groupById` - Specific group with messages
+ *
+ * ### MessagesController
+ * **REST Endpoints:**
+ * - `POST /messages` - Send message
+ *
+ * **Zero Synced Queries:**
+ * - `roomMessages` - Messages for a room
+ * - `searchMessages` - Search across rooms
  */
 @Module({
     imports: [
@@ -19,9 +44,16 @@ import { chatServices } from './services/index.js';
         // own
         MongooseModule.forFeature(chatEntities)
     ],
-    controllers: [MessagesController, RoomsController],
+    controllers: [
+        MessagesController, // REST + synced queries for messages
+        RoomsController // REST + synced queries for rooms
+    ],
     providers: [
         // services
+        ...chatServices // Includes RoomAccessService, RoomService, MessageService
+    ],
+    exports: [
+        // Export services that might be needed by other modules
         ...chatServices
     ]
 })
