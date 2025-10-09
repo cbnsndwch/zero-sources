@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-nest-mongoose",
     "description": "Automatic Zero schema generation from NestJS Mongoose schemas with full TypeScript support. Seamlessly convert your existing Mongoose models into Rocicorp Zero schemas with type-safe table definitions, relationships, and virtual tables.",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "license": "MIT",
     "type": "module",
     "author": {
