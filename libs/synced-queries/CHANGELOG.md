@@ -1,5 +1,11 @@
 # @cbnsndwch/nest-zero-synced-queries
 
+## 0.2.1
+
+### Patch Changes
+
+- [`479bb17`](https://github.com/cbnsndwch/zero-sources/commit/479bb171c858f05dc9ffce8943a51ba918097663) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - update synced-queries docs
+
 ## 0.2.0
 
 ### Minor Changes
