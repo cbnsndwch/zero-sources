@@ -1,6 +1,6 @@
 {
     "name": "@cbnsndwch/zero-sources",
-    "version": "0.0.1",
+    "version": "0.2.0",
     "description": "A collection of utilities and custom change sources for @rocicorp/zero",
     "private": true,
     "author": {
