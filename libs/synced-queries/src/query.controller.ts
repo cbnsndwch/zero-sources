@@ -42,10 +42,9 @@ export function createSyncedQueriesController(path: string) {
          *
          * @remarks
          * This controller acts as a bridge between the Express HTTP request/response
-         * cycle and the internal query name-based routing system. It extracts the
-         * authenticated user using the configured `getUserFromRequest` function and
-         * attaches it to the request object before passing the full request through
-         * to the transform service.
+         * cycle and the internal query name-based routing system. It passes the full
+         * request object through to the transform service, allowing guards and handlers
+         * to access all request properties (headers, cookies, user, etc.).
          */
         @Post()
         async handleQueries(

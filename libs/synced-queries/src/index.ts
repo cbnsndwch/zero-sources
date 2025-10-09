@@ -11,8 +11,7 @@
  * @Module({
  *   imports: [
  *     SyncedQueriesModule.forRoot({
- *       path: 'api/zero/get-queries',
- *       getUserFromRequest: (req) => req.user
+ *       path: 'api/zero/get-queries'
  *     })
  *   ]
  * })

@@ -15,35 +15,11 @@ export interface SyncedQueriesModuleOptions {
      * This path is relative to your API root and should match
      * the configuration in your Zero client.
      *
-     * @example 'api/zero/get-queries'
      * @example 'synced-queries'
-     * @default 'synced-queries'
+     * @example 'zero/get-queries'
+     * @default 'zero/get-queries'
      */
     path?: string;
-
-    /**
-     * Function to extract the authenticated user from the request.
-     *
-     * This allows the library to work with any authentication strategy.
-     * The extracted user will be passed to `@SyncedQuery` methods that
-     * use the `@CurrentUser()` decorator.
-     *
-     * @param request - The incoming HTTP request
-     * @returns The authenticated user object, or undefined if not authenticated
-     *
-     * @example
-     * ```typescript
-     * // For JWT authentication with Passport
-     * getUserFromRequest: (req) => req.user as JwtPayload
-     *
-     * // For custom authentication
-     * getUserFromRequest: (req) => {
-     *   const token = req.headers.authorization?.split(' ')[1];
-     *   return token ? verifyToken(token) : undefined;
-     * }
-     * ```
-     */
-    getUserFromRequest?: (request: any) => any;
 }
 
 /**
@@ -64,8 +40,7 @@ export interface SyncedQueriesModuleOptions {
  * @Module({
  *   imports: [
  *     SyncedQueriesModule.forRoot({
- *       path: 'api/zero/get-queries',
- *       getUserFromRequest: (req) => req.user
+ *       path: 'api/zero/get-queries'
  *     }),
  *     ChatModule,  // Has @SyncedQuery methods in controllers
  *   ]
@@ -105,9 +80,9 @@ export class SyncedQueriesModule {
      * // Basic usage with defaults
      * SyncedQueriesModule.forRoot()
      *
-     * // Custom path and authentication
+     * // Custom path
      * SyncedQueriesModule.forRoot({
-     *   path: 'zero/get-queries',
+     *   path: 'zero/get-queries'
      * })
      * ```
      */
