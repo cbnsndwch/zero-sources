@@ -134,7 +134,7 @@ export class RoomsController {
             const hasAccess = await this.roomAccessService.userHasRoomAccess(
                 user.sub,
                 chatId,
-                'dm' as RoomType
+                RoomType.DirectMessages
             );
 
             if (!hasAccess) {
