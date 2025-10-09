@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zrocket",
     "description": "ZRocket: A React Router 7 + NestJS chat application showcasing Zero discriminated union tables",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "type": "module",
     "private": true,
     "author": {
