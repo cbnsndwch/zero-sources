@@ -17,403 +17,356 @@ A lightweight NestJS library for defining Zero synced query handlers using decor
 pnpm add @cbnsndwch/nest-zero-synced-queries
 ```
 
-## Getting Started
+## Quick Start
 
-This guide shows you how to integrate Zero synced queries into your NestJS application, following the pattern used in ZRocket—a chat application that combines REST endpoints for writes with Zero synced queries for reads.
+Get up and running in 3 simple steps:
 
-### Step 1: Configure the Module
+### 1. Configure the Module
 
-First, set up the `SyncedQueriesModule` in your application's root module. This provides automatic discovery of `@SyncedQuery` decorated methods and exposes them via an HTTP endpoint.
+Import and configure `SyncedQueriesModule` in your app module:
 
 ```typescript
 import { Module } from '@nestjs/common';
 import { SyncedQueriesModule } from '@cbnsndwch/nest-zero-synced-queries';
-import { ChatModule } from './chat/chat.module.js';
 
 @Module({
   imports: [
-    // Configure synced queries with automatic discovery
     SyncedQueriesModule.forRoot({
-      path: 'zero/get-queries'  // HTTP endpoint path
+      path: 'api/zero/get-queries'  // Optional: defaults to 'zero/get-queries'
     }),
-    
-    // Your feature modules with @SyncedQuery decorators
-    ChatModule,
-    // ... other modules
+    // Your feature modules...
   ]
 })
 export class AppModule {}
 ```
 
-### Step 2: Create Controllers with Mixed Operations
+### 2. Define Your Schema
 
-The recommended pattern is to put both REST endpoints (writes) and synced queries (reads) in the same controller. This keeps related operations together and leverages NestJS guards for authentication.
+Create your Zero schema with query builder:
 
 ```typescript
-import {
-  Body,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Post,
-  UseGuards
-} from '@nestjs/common';
+// schema.ts
+import { createSchema } from '@rocicorp/zero';
+
+export const schema = createSchema({
+  tables: {
+    todo: {
+      columns: {
+        id: 'string',
+        title: 'string',
+        completed: 'boolean',
+        userId: 'string',
+        createdAt: 'number'
+      },
+      primaryKey: 'id'
+    }
+  }
+});
+
+export const builder = schema.builder;
+```
+
+### 3. Add Synced Query Handlers
+
+Decorate your methods with `@SyncedQuery`:
+
+```typescript
+import { Controller, UseGuards } from '@nestjs/common';
+import { SyncedQuery, QueryArg } from '@cbnsndwch/nest-zero-synced-queries';
 import { AST } from '@rocicorp/zero';
 import { z } from 'zod';
-import { SyncedQuery, QueryArg } from '@cbnsndwch/nest-zero-synced-queries';
-import { builder } from './schema.js';  // Your Zero schema builder
-import { CurrentUser } from '../auth/decorators/index.js';
-import { JwtAuthGuard } from '../auth/jwt/index.js';
+import { builder } from './schema.js';
+import { JwtAuthGuard } from './auth/jwt-auth.guard.js';
+import { CurrentUser } from './auth/current-user.decorator.js';
 
-/**
- * Controller for message operations (REST + Zero synced queries).
- *
- * This controller handles both:
- * - REST endpoints: Send messages (write operations)
- * - Zero synced queries: Read messages with permission filtering
- */
-@Controller('messages')
-@UseGuards(JwtAuthGuard)  // All operations require authentication
-export class MessagesController {
-  constructor(private readonly messageService: MessageService) {}
-
-  // ============================================================================
-  // REST Endpoints - Write Operations
-  // ============================================================================
-
+@Controller('todos')
+@UseGuards(JwtAuthGuard)
+export class TodosController {
   /**
-   * Send a new message to a room
+   * Get all todos for the current user
    */
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async sendMessage(
-    @Body() body: {
-      roomId: string;
-      content: string;
-      userId: string;
-      username: string;
-    }
-  ) {
-    const message = await this.messageService.sendMessage({
-      roomId: body.roomId,
-      content: body.content,
-      userId: body.userId,
-      username: body.username
-    });
-
-    return {
-      success: true,
-      messageId: message._id,
-      message: 'Message sent successfully'
-    };
-  }
-
-  // ============================================================================
-  // Zero Synced Queries - Read Operations with Permission Filtering
-  // ============================================================================
-
-  /**
-   * Get messages for a specific room.
-   *
-   * @param user - Authenticated user (auto-injected by JwtAuthGuard)
-   * @param roomId - The ID of the room
-   * @param roomType - The type of room (channel, chat, or group)
-   * @param limit - Maximum number of messages to return
-   */
-  @SyncedQuery(
-    'roomMessages',
-    z.tuple([z.string(), z.string(), z.number().optional()])
-  )
-  async roomMessages(
-    @CurrentUser() user: JwtPayload,
-    @QueryArg(0) roomId: string,
-    @QueryArg(1) roomType: RoomType,
-    @QueryArg(2) limit = 100
-  ): Promise<AST> {
-    // Public channels are accessible to all authenticated users
-    if (roomType === RoomType.PublicChannel) {
-      return builder.userMessages
-        .where('roomId', '=', roomId)
-        .orderBy('createdAt', 'desc')
-        .limit(limit).ast;
-    }
-
-    // Private rooms require membership check
-    const hasAccess = await this.roomAccessService.userHasRoomAccess(
-      user.sub,
-      roomId,
-      roomType
-    );
-
-    if (!hasAccess) {
-      // Return empty result for unauthorized access
-      return builder.userMessages
-        .where('_id', '=', '__NEVER_MATCHES__').ast;
-    }
-
-    return builder.userMessages
-      .where('roomId', '=', roomId)
-      .orderBy('createdAt', 'desc')
-      .limit(limit).ast;
+  @SyncedQuery('myTodos', z.tuple([]))
+  async myTodos(@CurrentUser() user: { id: string }): Promise<AST> {
+    return builder.todo
+      .where('userId', '=', user.id)
+      .orderBy('createdAt', 'desc').ast;
   }
 
   /**
-   * Search messages across accessible rooms.
+   * Get a specific todo by ID (with permission check)
    */
-  @SyncedQuery('searchMessages', z.tuple([z.string(), z.number().optional()]))
-  async searchMessages(
-    @CurrentUser() user: JwtPayload,
-    @QueryArg(0) searchTerm: string,
-    @QueryArg(1) limit = 50
+  @SyncedQuery('todoById', z.tuple([z.string()]))
+  async todoById(
+    @CurrentUser() user: { id: string },
+    @QueryArg(0) todoId: string
   ): Promise<AST> {
-    const accessibleRoomIds = 
-      await this.roomAccessService.getUserAccessibleRoomIds(user.sub);
-
-    if (accessibleRoomIds.length === 0) {
-      return builder.userMessages
-        .where('_id', '=', '__NEVER_MATCHES__').ast;
-    }
-
-    return builder.userMessages
-      .where('roomId', 'IN', accessibleRoomIds)
-      .where('content', 'LIKE', `%${searchTerm}%`)
-      .orderBy('createdAt', 'desc')
-      .limit(limit).ast;
+    return builder.todo
+      .where('id', '=', todoId)
+      .where('userId', '=', user.id).ast;
   }
 }
 ```
 
-### Step 3: Register Controllers in Your Module
+That's it! The library automatically discovers your queries and exposes them via the configured HTTP endpoint.
+
+## Core Concepts
+
+### Authentication & Guards
+
+Use your existing NestJS guards - the library passes the full HTTP request through:
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { MessagesController } from './controllers/messages.controller.js';
-import { RoomsController } from './controllers/rooms.controller.js';
-
-/**
- * Chat module using Zero for reads (queries) and REST for writes.
- *
- * Controllers handle ALL external requests:
- * - REST endpoints (@Post, @Get, etc.) - Write operations
- * - Zero synced queries (@SyncedQuery) - Read operations with filtering
- */
-@Module({
-  imports: [
-    MongooseModule.forFeature([/* your entities */])
-  ],
-  controllers: [
-    MessagesController,  // REST + synced queries for messages
-    RoomsController      // REST + synced queries for rooms
-  ],
-  providers: [
-    // Your services (MessageService, RoomAccessService, etc.)
-  ]
-})
-export class ChatModule {}
+@Controller('api')
+@UseGuards(JwtAuthGuard, RolesGuard)  // Your guards work as normal
+export class ApiController {
+  @SyncedQuery('data', z.tuple([]))
+  async getData(@CurrentUser() user: User) {
+    return builder.data.where('userId', '=', user.id).ast;
+  }
+}
 ```
 
-### Key Patterns
+### Query Arguments
 
-**1. Controller-Based Architecture**: Keep REST endpoints and synced queries in the same controller for better organization.
-
-**2. Permission Filtering**: Synced queries should implement authorization logic to filter results based on user permissions.
-
-**3. Use Your Own Guards**: The library works with your existing NestJS guards (`@UseGuards(JwtAuthGuard)`).
-
-**4. Custom Decorators**: Use your own parameter decorators (`@CurrentUser()`) alongside `@QueryArg()`.
-
-**5. Return AST**: Synced query methods must return `Promise<AST>` (the `.ast` property from Zero query builder).
-
-**6. Empty Results for Unauthorized Access**: Return a query that never matches (e.g., `where('_id', '=', '__NEVER_MATCHES__')`) instead of throwing errors.
-
-## More Examples
-
-### Queries Without Parameters
-
-Simple queries that only need the authenticated user:
+Use `@QueryArg(index)` to access query parameters:
 
 ```typescript
-@Controller('rooms')
+@SyncedQuery('postsByCategory', z.tuple([z.string(), z.number().optional()]))
+async postsByCategory(
+  @QueryArg(0) category: string,
+  @QueryArg(1) limit = 10
+): Promise<AST> {
+  return builder.posts
+    .where('category', '=', category)
+    .limit(limit).ast;
+}
+```
+
+### Permission Filtering
+
+Implement authorization by filtering results:
+
+```typescript
+@SyncedQuery('sensitiveData', z.tuple([z.string()]))
+async sensitiveData(
+  @CurrentUser() user: User,
+  @QueryArg(0) resourceId: string
+): Promise<AST> {
+  // Check permission
+  const hasAccess = await this.checkPermission(user.id, resourceId);
+  
+  if (!hasAccess) {
+    // Return query that matches nothing
+    return builder.data.where('id', '=', '__NEVER_MATCHES__').ast;
+  }
+  
+  return builder.data.where('id', '=', resourceId).ast;
+}
+```
+
+### Mixed Operations
+
+Combine REST endpoints and synced queries in the same controller:
+
+```typescript
+@Controller('posts')
 @UseGuards(JwtAuthGuard)
-export class RoomsController {
-  /**
-   * Get all chats where user is a member.
-   */
-  @SyncedQuery('myChats', z.tuple([]))
-  async myChats(@CurrentUser() user: JwtPayload): Promise<AST> {
-    const accessibleRoomIds = 
-      await this.roomAccessService.getUserAccessibleRoomIds(user.sub);
-
-    if (accessibleRoomIds.length === 0) {
-      return builder.chats.where('_id', '=', '__NEVER_MATCHES__').ast;
-    }
-
-    return builder.chats
-      .where('_id', 'IN', accessibleRoomIds)
-      .orderBy('lastMessageAt', 'desc').ast;
+export class PostsController {
+  // REST endpoint for writes
+  @Post()
+  async createPost(@Body() dto: CreatePostDto) {
+    return this.postsService.create(dto);
   }
 
-  /**
-   * Get all public channels (accessible to all authenticated users).
-   */
-  @SyncedQuery('publicChannels', z.tuple([]))
-  async publicChannels(): Promise<AST> {
-    return builder.channels
+  // Synced query for reads
+  @SyncedQuery('allPosts', z.tuple([]))
+  async allPosts(): Promise<AST> {
+    return builder.posts.orderBy('createdAt', 'desc').ast;
+  }
+}
+
+## Examples
+
+### Simple Queries
+
+No parameters needed - just use the authenticated user:
+
+```typescript
+@Controller('api')
+@UseGuards(JwtAuthGuard)
+export class ApiController {
+  @SyncedQuery('myProfile', z.tuple([]))
+  async myProfile(@CurrentUser() user: User): Promise<AST> {
+    return builder.users.where('id', '=', user.id).ast;
+  }
+
+  @SyncedQuery('publicPosts', z.tuple([]))
+  async publicPosts(): Promise<AST> {
+    return builder.posts
       .where('isPublic', '=', true)
-      .orderBy('name', 'asc').ast;
+      .orderBy('createdAt', 'desc').ast;
   }
 }
 ```
 
 ### Queries With Parameters
 
-Use `@QueryArg(index)` to inject specific arguments:
-
 ```typescript
-@Controller('rooms')
+@Controller('posts')
 @UseGuards(JwtAuthGuard)
-export class RoomsController {
-  /**
-   * Get a specific chat by ID with permission check.
-   */
-  @SyncedQuery('chatById', z.tuple([z.string()]))
-  async chatById(
-    @CurrentUser() user: JwtPayload,
-    @QueryArg(0) chatId: string
-  ): Promise<AST> {
-    const hasAccess = await this.roomAccessService.userHasRoomAccess(
-      user.sub,
-      chatId,
-      RoomType.Chat
-    );
-
-    if (!hasAccess) {
-      return builder.chats.where('_id', '=', '__NEVER_MATCHES__').ast;
-    }
-
-    return builder.chats
-      .where('_id', '=', chatId)
-      .related('messages', q => 
-        q.orderBy('createdAt', 'desc').limit(100)
-      ).ast;
+export class PostsController {
+  @SyncedQuery('postById', z.tuple([z.string()]))
+  async postById(@QueryArg(0) postId: string): Promise<AST> {
+    return builder.posts.where('id', '=', postId).ast;
   }
 
-  /**
-   * Get a public channel by ID (no permission check needed).
-   */
-  @SyncedQuery('channelById', z.tuple([z.string()]))
-  async channelById(
-    @QueryArg(0) channelId: string
-  ): Promise<AST> {
-    return builder.channels
-      .where('_id', '=', channelId)
+  @SyncedQuery('postsByUser', z.tuple([z.string()]))
+  async postsByUser(@QueryArg(0) userId: string): Promise<AST> {
+    return builder.posts
+      .where('userId', '=', userId)
       .where('isPublic', '=', true)
-      .related('messages', q => 
-        q.orderBy('createdAt', 'desc').limit(100)
-      ).ast;
+      .orderBy('createdAt', 'desc').ast;
   }
 }
 ```
 
 ### Optional Parameters
 
-Use Zod's `.optional()` for optional parameters:
-
 ```typescript
-@Controller('messages')
-@UseGuards(JwtAuthGuard)
-export class MessagesController {
-  @SyncedQuery(
-    'roomMessages',
-    z.tuple([z.string(), z.string(), z.number().optional()])
-  )
-  async roomMessages(
-    @CurrentUser() user: JwtPayload,
-    @QueryArg(0) roomId: string,
-    @QueryArg(1) roomType: RoomType,
-    @QueryArg(2) limit = 100  // Default value for optional parameter
-  ): Promise<AST> {
-    // Implementation here
-  }
+@SyncedQuery('searchPosts', z.tuple([z.string(), z.number().optional()]))
+async searchPosts(
+  @QueryArg(0) searchTerm: string,
+  @QueryArg(1) limit = 20  // Default value for optional parameter
+): Promise<AST> {
+  return builder.posts
+    .where('title', 'LIKE', `%${searchTerm}%`)
+    .limit(limit).ast;
 }
 ```
 
-### Handling Services in Synced Queries
+### With Service Dependencies
 
-Synced query methods are regular class methods, so you can inject and use services:
+Use constructor injection as normal:
 
 ```typescript
-@Controller('messages')
+@Controller('posts')
 @UseGuards(JwtAuthGuard)
-export class MessagesController {
+export class PostsController {
   constructor(
-    private readonly messageService: MessageService,
-    private readonly roomAccessService: RoomAccessService
+    private readonly permissionsService: PermissionsService
   ) {}
 
-  @SyncedQuery('roomMessages', z.tuple([z.string(), z.string()]))
-  async roomMessages(
-    @CurrentUser() user: JwtPayload,
-    @QueryArg(0) roomId: string,
-    @QueryArg(1) roomType: RoomType
+  @SyncedQuery('protectedPost', z.tuple([z.string()]))
+  async protectedPost(
+    @CurrentUser() user: User,
+    @QueryArg(0) postId: string
   ): Promise<AST> {
-    // Use injected services for authorization logic
-    const hasAccess = await this.roomAccessService.userHasRoomAccess(
-      user.sub,
-      roomId,
-      roomType
+    const canAccess = await this.permissionsService.canAccessPost(
+      user.id,
+      postId
     );
 
-    if (!hasAccess) {
-      return builder.userMessages
-        .where('_id', '=', '__NEVER_MATCHES__').ast;
+    if (!canAccess) {
+      return builder.posts.where('id', '=', '__NEVER_MATCHES__').ast;
     }
 
-    // Use query builder to construct the query
-    return builder.userMessages
-      .where('roomId', '=', roomId)
-      .orderBy('createdAt', 'desc').ast;
+    return builder.posts.where('id', '=', postId).ast;
   }
 }
 ```
+
+### With Relations
+
+Include related data using Zero's query builder:
+
+```typescript
+@SyncedQuery('postWithComments', z.tuple([z.string()]))
+async postWithComments(@QueryArg(0) postId: string): Promise<AST> {
+  return builder.posts
+    .where('id', '=', postId)
+    .related('comments', q => 
+      q.orderBy('createdAt', 'desc').limit(50)
+    )
+    .related('author').ast;
+}
+```
+
+## Real-World Example: ZRocket Chat App
+
+Want to see how this library is used in a production application? Check out [ZRocket](../../apps/zrocket), a chat application in this monorepo that demonstrates:
+
+- **Mixed operations**: REST endpoints for writes (send messages, create rooms) + synced queries for reads
+- **Permission filtering**: Room access checks, membership validation, public vs. private content
+- **Complex queries**: Search across accessible rooms, filter by room type, paginate results
+- **Service integration**: Using `RoomAccessService` for authorization in queries
+- **Multiple controllers**: `MessagesController` and `RoomsController` with different query patterns
+
+Key files to explore:
+- [`apps/zrocket/src/features/chat/controllers/messages.controller.ts`](../../apps/zrocket/src/features/chat/controllers/messages.controller.ts) - Message queries with permission checks
+- [`apps/zrocket/src/features/chat/controllers/rooms.controller.ts`](../../apps/zrocket/src/features/chat/controllers/rooms.controller.ts) - Room queries for chats, groups, and channels
+- [`apps/zrocket/src/features/index.ts`](../../apps/zrocket/src/features/index.ts) - Module configuration
+
+## Best Practices
+
+1. **Co-locate operations**: Put REST endpoints and synced queries in the same controller
+2. **Use existing guards**: Leverage your authentication infrastructure with `@UseGuards()`
+3. **Filter, don't throw**: Return queries that match nothing instead of throwing errors for unauthorized access
+4. **Inject services**: Use constructor injection to access business logic in queries
+5. **Return AST**: Always return `Promise<AST>` from query handlers (use `.ast` property)
+6. **Type everything**: Strongly type your user objects, query parameters, and return types
+7. **Document queries**: Add JSDoc comments describing what the query does and its parameters
 
 ## API Reference
 
 ### Decorators
 
-- **`@SyncedQuery(name, schema)`** - Define a query handler
-  - `name`: Unique query identifier
-  - `schema`: Zod schema for validating arguments (e.g., `z.tuple([z.string()])`)
-  - Can be used on controller or provider methods
+- **`@SyncedQuery(name, schema)`**
+  - `name`: Unique query identifier string
+  - `schema`: Zod schema for argument validation (e.g., `z.tuple([z.string()])`)
+  - Use on controller or provider methods
   - Method must return `Promise<AST>`
 
-- **`@QueryArg(index)`** - Inject a specific query argument by index
-  - `index`: Zero-based argument index from the query parameters
+- **`@QueryArg(index)`**
+  - `index`: Zero-based argument index
+  - Injects the argument at that position from the query
   - Use alongside your own decorators (`@CurrentUser()`, etc.)
 
 ### Module Configuration
 
-- **`SyncedQueriesModule.forRoot(options)`** - Configure the module
-  - `options.path`: HTTP endpoint path (e.g., `'zero/get-queries'`) (optional, defaults to `'zero/get-queries'`)
+- **`SyncedQueriesModule.forRoot(options)`**
+  - `options.path`: HTTP endpoint path (default: `'zero/get-queries'`)
+  - Returns a `DynamicModule` for import
 
-### Services
+### Services (Advanced)
 
-- **`SyncedQueryRegistry`** - Service for managing query handlers (auto-registered)
-  - `getHandler(name)` - Get a registered handler by name
-  - `getQueryNames()` - Get all registered query names
-  - `hasQuery(name)` - Check if a query is registered
-  - `getHandlerCount()` - Get the total number of handlers
+- **`SyncedQueryRegistry`** - Query handler registry (auto-injected)
+  - `getHandler(name)` - Get handler by name
+  - `getQueryNames()` - List all query names
+  - `hasQuery(name)` - Check if query exists
+  - `getHandlerCount()` - Total handler count
 
-## Best Practices
+- **`SyncedQueryTransformService`** - Query execution service (auto-injected)
+  - Used internally by the controller
+  - Handles query execution and AST conversion
 
-1. **Put queries in controllers**: Co-locate REST endpoints and synced queries for related operations
-2. **Use your own guards**: Leverage existing authentication infrastructure with `@UseGuards()`
-3. **Implement permission filtering**: Queries should filter data based on user permissions
-4. **Return empty results for unauthorized access**: Use a query that never matches instead of throwing errors
-5. **Inject services**: Use constructor injection to access business logic in synced queries
-6. **Document your queries**: Add JSDoc comments describing parameters and return values
-7. **Use TypeScript types**: Strongly type your user objects and query parameters
+## Troubleshooting
+
+### Query not found
+
+- Ensure your controller/provider is registered in a module
+- Check that `SyncedQueriesModule.forRoot()` is imported
+- Verify the query name matches exactly
+
+### Authentication not working
+
+- Ensure your guard is applied: `@UseGuards(YourAuthGuard)`
+- Check that `request.user` is populated by your auth strategy
+- Guards receive the full HTTP request object
+
+### TypeScript errors
+
+- Install peer dependencies: `@nestjs/common`, `@nestjs/core`, `reflect-metadata`, `rxjs`, `zod`
+- Ensure `emitDecoratorMetadata` is enabled in `tsconfig.json`
 
 ## License
 
