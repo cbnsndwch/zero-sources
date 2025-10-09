@@ -23,7 +23,7 @@
     "peerDependencies": {
         "@nestjs/common": "^11",
         "@nestjs/mongoose": "^11",
-        "@rocicorp/zero": "*",
+        "@rocicorp/zero": "0.23.2025090100",
         "change-case": "^4.1.2",
         "mongoose": "^8.9.5"
     },
@@ -50,11 +50,11 @@
     "files": [
         "dist"
     ],
-    "typings": ".dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.cjs"
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
         },
         "./package.json": "./package.json"
     },

@@ -1,4 +1,4 @@
-import { KV, Kvm } from '@nats-io/kv';
+import { Kvm, type KV } from '@nats-io/kv';
 import { connect } from '@nats-io/transport-node';
 import {
     Module,
@@ -9,16 +9,16 @@ import { ConfigModule } from '@nestjs/config';
 
 import {
     invariant,
-    IWatermarkService,
-    TOKEN_WATERMARK_SERVICE
+    TOKEN_WATERMARK_SERVICE,
+    type IWatermarkService
 } from '@cbnsndwch/zero-contracts';
 
 import {
-    NatsKvOptions,
     TOKEN_WATERMARK_NATS_KV_BUCKET,
+    type NatsKvOptions,
     type NatsKvWatermarkModuleAsyncOptions
-} from './contracts.mjs';
-import { NatsKvWatermarkService } from './nats-kv-watermark.service.mjs';
+} from './contracts.js';
+import { NatsKvWatermarkService } from './nats-kv-watermark.service.js';
 
 /**
  * Injection token for the NATS KV bucket options

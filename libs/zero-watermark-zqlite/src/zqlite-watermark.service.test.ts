@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { Database } from '@rocicorp/zero-sqlite3';
 
-import { ZqliteWatermarkService } from './zqlite-watermark.service.mjs';
+import { ZqliteWatermarkService } from './zqlite-watermark.service.js';
 
 type MockFn = ReturnType<typeof vi.fn>;
 

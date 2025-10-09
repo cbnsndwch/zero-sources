@@ -10,9 +10,9 @@
 
 // import { TOKEN_WATERMARK_SERVICE, IWatermarkService } from '@cbnsndwch/zero-contracts';
 
-// import { TOKEN_WATERMARK_NATS_KV_BUCKET } from './contracts.mjs';
+// import { TOKEN_WATERMARK_NATS_KV_BUCKET } from './contracts.js';
 // import { NatsKvWatermarkModule } from './nats-kv-watermark.module.js';
-// import { NatsKvWatermarkService } from './nats-kv-watermark.service.mjs';
+// import { NatsKvWatermarkService } from './nats-kv-watermark.service.js';
 
 // const TEST_DB_FILE = path.join(os.tmpdir(), 'test.db');
 // const TEST_DB_DIR = path.join(os.tmpdir(), 'test_db_dir');

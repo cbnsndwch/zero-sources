@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 
-import { Type } from '@nestjs/common';
+import type { Type } from '@nestjs/common';
 import { snakeCase } from 'change-case';
 import type { Document } from 'mongoose';
 
@@ -22,7 +22,7 @@ import type {
     NullColumnOptional,
     UnwrapOptional,
     TableSchemaBase
-} from './contracts.mjs';
+} from './contracts.js';
 
 // type SchemaValue = any;
 

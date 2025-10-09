@@ -1,4 +1,4 @@
-import type { LexiVersion } from '../lexi-version.mjs';
+import type { LexiVersion } from '../lexi-version.js';
 
 /**
  * Data contract for a Watermark-to-Resume-Token mapping service.

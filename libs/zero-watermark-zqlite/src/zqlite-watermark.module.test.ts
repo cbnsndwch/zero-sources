@@ -2,18 +2,18 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+import { type TestingModule, Test } from '@nestjs/testing';
+import type Zqlite from '@rocicorp/zero-sqlite3';
 import { describe, expect, it } from 'vitest';
-import { Test, TestingModule } from '@nestjs/testing';
-import Zqlite from '@rocicorp/zero-sqlite3';
 
 import {
-    TOKEN_WATERMARK_SERVICE,
-    IWatermarkService
+    type IWatermarkService,
+    TOKEN_WATERMARK_SERVICE
 } from '@cbnsndwch/zero-contracts';
 
-import { TOKEN_WATERMARK_ZQLITE_DB } from './contracts.mjs';
+import { TOKEN_WATERMARK_ZQLITE_DB } from './contracts.js';
 import { ZqliteWatermarkModule } from './zqlite-watermark.module.js';
-import { ZqliteWatermarkService } from './zqlite-watermark.service.mjs';
+import { ZqliteWatermarkService } from './zqlite-watermark.service.js';
 
 const TEST_DB_FILE = path.join(os.tmpdir(), 'test.db');
 const TEST_DB_DIR = path.join(os.tmpdir(), 'test_db_dir');

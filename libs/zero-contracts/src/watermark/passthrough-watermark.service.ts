@@ -1,6 +1,6 @@
-import type { LexiVersion } from '../lexi-version.mjs';
+import type { LexiVersion } from '../lexi-version.js';
 
-import type { IWatermarkService } from './watermark-service.contract.mjs';
+import type { IWatermarkService } from './watermark-service.contract.js';
 
 /**
  * A watermark service that simply passes through the watermark and resume token

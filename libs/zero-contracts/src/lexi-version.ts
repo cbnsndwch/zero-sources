@@ -1,4 +1,4 @@
-import { invariant } from './invariant.mjs';
+import { invariant } from './invariant.js';
 
 // Until there's BigInt.fromString(val, radix) ... https://github.com/tc39/proposal-number-fromstring
 export function parseBigInt(val: string, radix: number): bigint {

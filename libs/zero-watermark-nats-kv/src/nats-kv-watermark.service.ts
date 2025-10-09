@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { KV } from '@nats-io/kv';
+import type { KV } from '@nats-io/kv';
 
 import {
     versionFromLexi,

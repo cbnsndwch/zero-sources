@@ -4,7 +4,7 @@
 
 // import type { Database } from '@rocicorp/zero-sqlite3';
 
-// import { ZqliteWatermarkService } from './nats-kv-watermark.service.mjs';
+// import { ZqliteWatermarkService } from './nats-kv-watermark.service.js';
 
 // type MockFn = ReturnType<typeof vi.fn>;
 

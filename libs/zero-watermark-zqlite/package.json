@@ -52,11 +52,11 @@
     "files": [
         "dist"
     ],
-    "typings": ".dist/index.d.ts",
+    "typings": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.cjs"
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
         },
         "./package.json": "./package.json"
     },
