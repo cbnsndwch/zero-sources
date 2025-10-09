@@ -17,6 +17,23 @@ A lightweight NestJS library for defining Zero synced query handlers using decor
 pnpm add @cbnsndwch/nest-zero-synced-queries
 ```
 
+## Related Packages
+
+This library is part of the [zero-sources](https://github.com/cbnsndwch/zero-sources) monorepo, which provides utilities and integrations for [@rocicorp/zero](https://github.com/rocicorp/zero).
+
+### Zero Integration Packages
+
+- **[@cbnsndwch/zero-contracts](../zero-contracts)** - Shared contracts, types, and utilities for Zero applications
+- **[@cbnsndwch/zero-source-mongodb](../zero-source-mongodb)** - MongoDB change source implementation for Zero
+- **[@cbnsndwch/zero-nest-mongoose](../zero-nest-mongoose)** - NestJS/Mongoose integration with Zero schema generation
+- **[@cbnsndwch/zero-watermark-zqlite](../zero-watermark-zqlite)** - SQLite-based watermark storage for Zero
+- **[@cbnsndwch/zero-watermark-nats-kv](../zero-watermark-nats-kv)** - NATS KV-based watermark storage for Zero
+
+### Example Applications
+
+- **[ZRocket](../../apps/zrocket)** - Full-featured chat application demonstrating Zero + NestJS patterns
+- **[MongoDB Source Server](../../apps/source-mongodb-server)** - Standalone MongoDB change source server
+
 ## Quick Start
 
 Get up and running in 3 simple steps:
@@ -368,6 +385,12 @@ Key files to explore:
 - Install peer dependencies: `@nestjs/common`, `@nestjs/core`, `reflect-metadata`, `rxjs`, `zod`
 - Ensure `emitDecoratorMetadata` is enabled in `tsconfig.json`
 
+## Contributing
+
+Found a bug or have a feature request? Please open an issue on [GitHub](https://github.com/cbnsndwch/zero-sources/issues).
+
+Contributions are welcome! See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
+
 ## License
 
-MIT
+MIT • Part of the [zero-sources](https://github.com/cbnsndwch/zero-sources) monorepo
