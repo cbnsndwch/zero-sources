@@ -42,7 +42,7 @@
         "mongoose": "^8.9.5",
         "rxjs": "^7.8.2",
         "ws": "^8.18.1",
-        "zod": "^4"
+        "zod": "^3.21.4 || ^4.1.12"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.1.0",
