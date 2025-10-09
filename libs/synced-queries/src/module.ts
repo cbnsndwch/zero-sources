@@ -1,9 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 
-import { SyncedQueryRegistry } from './synced-query-registry.service.js';
-import { SyncedQueryTransformService } from './synced-query-transform.service.js';
-import { createSyncedQueriesController } from './synced-queries.controller.js';
+import { SyncedQueryRegistry } from './services/query-registry.service.js';
+import { SyncedQueryTransformService } from './services/query-transform.service.js';
+import { createSyncedQueriesController } from './query.controller.js';
 
 /**
  * Configuration options for the SyncedQueriesModule.
@@ -107,28 +107,21 @@ export class SyncedQueriesModule {
      *
      * // Custom path and authentication
      * SyncedQueriesModule.forRoot({
-     *   path: 'api/zero/get-queries',
-     *   getUserFromRequest: (req) => req.user as JwtPayload
+     *   path: 'zero/get-queries',
      * })
      * ```
      */
     static forRoot(options: SyncedQueriesModuleOptions = {}): DynamicModule {
-        const {
-            path = 'synced-queries',
-            getUserFromRequest = req => req.user
-        } = options;
+        const { path = 'zero/get-queries' } = options;
 
         // Create controller with dynamic path
-        const ControllerClass = createSyncedQueriesController(
-            path,
-            getUserFromRequest
-        );
+        const ControllerClass = createSyncedQueriesController(path);
 
         return {
             module: SyncedQueriesModule,
             imports: [DiscoveryModule],
-            providers: [SyncedQueryRegistry, SyncedQueryTransformService],
             controllers: [ControllerClass],
+            providers: [SyncedQueryRegistry, SyncedQueryTransformService],
             exports: [SyncedQueryRegistry, SyncedQueryTransformService]
         };
     }

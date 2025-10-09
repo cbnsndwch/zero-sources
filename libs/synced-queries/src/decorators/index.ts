@@ -23,31 +23,15 @@
  */
 
 import 'reflect-metadata';
+import type { z } from 'zod';
 
 import {
+    SYNCED_QUERY_METADATA,
     SYNCED_QUERY_PARAM_METADATA,
+    SyncedQueryMetadata,
+    SyncedQueryParamMetadata,
     SyncedQueryParamType
-} from './synced-query-params.constants.js';
-
-/**
- * Metadata for a parameter decorator.
- */
-export interface SyncedQueryParamMetadata {
-    /**
-     * The type of parameter injection.
-     */
-    type: SyncedQueryParamType;
-
-    /**
-     * The index of the parameter in the method signature.
-     */
-    parameterIndex: number;
-
-    /**
-     * Additional data for the parameter (e.g., argument index for QueryArg).
-     */
-    data?: any;
-}
+} from '../contracts.js';
 
 /**
  * Parameter decorator to inject a query argument by index.
@@ -123,4 +107,64 @@ export function getParameterMetadata(
 
     // Sort by parameter index
     return params.sort((a, b) => a.parameterIndex - b.parameterIndex);
+}
+
+/**
+ * Decorator for Zero synced query handlers.
+ *
+ * Use this decorator to mark a method as a synced query handler.
+ * Works on both controllers and providers.
+ *
+ * @param queryName - The name of the query as registered with Zero
+ * @param inputSchema - Zod schema for validating input arguments
+ *
+ * @example
+ * ```typescript
+ * // Public query (no authentication)
+ * @SyncedQuery('publicChannels', z.tuple([]))
+ * async publicChannels() {
+ *   return builder.channels.where('isPublic', '=', true);
+ * }
+ *
+ * // Authenticated query (use your own guards and decorators)
+ * @UseGuards(JwtAuthGuard)
+ * @SyncedQuery('myChats', z.tuple([]))
+ * async myChats(@CurrentUser() user: JwtPayload) {
+ *   return builder.chats.where('userId', '=', user.sub);
+ * }
+ *
+ * // Query with arguments
+ * @SyncedQuery('channelById', z.tuple([z.string()]))
+ * async channelById(@QueryArg(0) channelId: string) {
+ *   return builder.channels.where('_id', '=', channelId);
+ * }
+ * ```
+ *
+ * @remarks
+ * The method signature can use any NestJS parameter decorators you want.
+ * Use @QueryArg(index) to explicitly map query arguments by position.
+ */
+export function SyncedQuery(
+    queryName: string,
+    inputSchema: z.ZodTypeAny
+): MethodDecorator {
+    return (
+        target: any,
+        propertyKey: string | symbol,
+        descriptor: PropertyDescriptor
+    ) => {
+        const metadata: SyncedQueryMetadata = {
+            queryName,
+            inputSchema
+        };
+
+        // Store metadata on the method
+        Reflect.defineMetadata(
+            SYNCED_QUERY_METADATA,
+            metadata,
+            descriptor.value
+        );
+
+        return descriptor;
+    };
 }

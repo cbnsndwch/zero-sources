@@ -4,45 +4,12 @@ import {
     Logger
 } from '@nestjs/common';
 
-import { SyncedQueryRegistry } from './synced-query-registry.service.js';
-
-/**
- * Request item structure from Zero cache server.
- */
-export interface TransformRequestItem {
-    id: string;
-    name: string;
-    args: any[];
-}
-
-/**
- * Successful query transformation response.
- */
-export interface TransformQuerySuccess {
-    id: string;
-    name: string;
-    ast: any;
-}
-
-/**
- * Error response for failed query transformation.
- */
-export interface TransformQueryError {
-    error: 'app';
-    id: string;
-    name: string;
-    details: any;
-}
-
-/**
- * Union type for query transformation results.
- */
-export type TransformQueryResult = TransformQuerySuccess | TransformQueryError;
-
-/**
- * Request body type from Zero cache (array of query requests).
- */
-export type TransformRequestBody = TransformRequestItem[];
+import type {
+    TransformQueryResult,
+    TransformRequestBody,
+    TransformRequestItem
+} from '../contracts.js';
+import { SyncedQueryRegistry } from './query-registry.service.js';
 
 /**
  * Service for transforming Zero query requests into AST responses.
@@ -97,7 +64,7 @@ export class SyncedQueryTransformService {
     /**
      * Transform multiple query requests in parallel.
      *
-     * @param user - Authenticated user context (or undefined for anonymous)
+     * @param request - The full Express/HTTP request object
      * @param input - Array of query requests from Zero cache
      * @returns Array of query responses (success or error)
      *
@@ -105,9 +72,12 @@ export class SyncedQueryTransformService {
      * This method processes multiple queries in parallel for performance.
      * Each query is executed independently and errors are isolated to
      * individual query responses rather than failing the entire request.
+     *
+     * The full request object is passed through to guards so they can access
+     * headers, cookies, and other request properties.
      */
     async transformQueries(
-        user: any,
+        request: any,
         input: TransformRequestBody
     ): Promise<TransformQueryResult[]> {
         const startTime = Date.now();
@@ -123,7 +93,7 @@ export class SyncedQueryTransformService {
             );
 
             const responses = await Promise.all(
-                input.map(item => this.transformQuery(user, item))
+                input.map(item => this.transformQuery(request, item))
             );
 
             const elapsed = Date.now() - startTime;
@@ -145,16 +115,19 @@ export class SyncedQueryTransformService {
     /**
      * Transform a single query request.
      *
-     * @param user - Authenticated user context (or undefined for anonymous)
+     * @param request - The full Express/HTTP request object
      * @param input - Single query request
      * @returns Query response with AST or error
      *
      * @remarks
      * This method isolates query execution errors so that one failing query
      * doesn't prevent other queries from succeeding.
+     *
+     * The full request object is passed to the handler executor, which uses it
+     * to create a proper ExecutionContext for guards and other NestJS features.
      */
     private async transformQuery(
-        user: any,
+        request: any,
         input: TransformRequestItem
     ): Promise<TransformQueryResult> {
         const { id, name, args } = input;
@@ -176,11 +149,8 @@ export class SyncedQueryTransformService {
                 };
             }
 
-            // 2. Execute handler
-            const queryBuilder = await handler.execute(user, ...args);
-
-            // 3. Convert to AST
-            const ast = (queryBuilder as any).toAST?.();
+            // 2. Execute handler and get AST
+            const ast = await handler.execute(request, ...args);
 
             if (!ast) {
                 this.logger.error(

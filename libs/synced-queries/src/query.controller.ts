@@ -1,7 +1,8 @@
-import { Controller, Post, Body, Req, Inject } from '@nestjs/common';
+import { Controller, Post, Body, Req } from '@nestjs/common';
 
-import { SyncedQueryTransformService } from './synced-query-transform.service.js';
-import type { TransformRequestBody } from './synced-query-transform.service.js';
+import type { TransformRequestBody } from './contracts.js';
+import { SyncedQueryTransformService } from './services/index.js';
+import { TransformResponseMessage } from '@rocicorp/zero';
 
 /**
  * Factory function to create a controller with a dynamic route path.
@@ -10,16 +11,12 @@ import type { TransformRequestBody } from './synced-query-transform.service.js';
  * without requiring the user to create their own controller.
  *
  * @param path - The path where the controller should be mounted
- * @param getUserFromRequest - Function to extract user from request
  * @returns A controller class with the configured path
  *
  * @internal
  * This is used by SyncedQueriesModule.forRoot() to create the controller.
  */
-export function createSyncedQueriesController(
-    path: string,
-    getUserFromRequest: (req: any) => any
-) {
+export function createSyncedQueriesController(path: string) {
     /**
      * Controller that handles Zero synced query transformation requests.
      *
@@ -29,24 +26,6 @@ export function createSyncedQueriesController(
      * @remarks
      * This is internal plumbing - users don't need to know about this controller.
      * It's automatically included when you import `SyncedQueriesModule.forRoot()`.
-     *
-     * ## Request/Response Format
-     *
-     * **Request**: POST to configured path with JSON body
-     * ```json
-     * [
-     *   { "id": "q1", "name": "myChats", "args": [] },
-     *   { "id": "q2", "name": "chatById", "args": ["chat-123"] }
-     * ]
-     * ```
-     *
-     * **Response**: Array of query results
-     * ```json
-     * [
-     *   { "id": "q1", "name": "myChats", "ast": { ... } },
-     *   { "id": "q2", "name": "chatById", "ast": { ... } }
-     * ]
-     * ```
      */
     @Controller(path)
     class SyncedQueriesController {
@@ -57,17 +36,32 @@ export function createSyncedQueriesController(
         /**
          * Handle incoming synced query transformation requests from Zero cache.
          *
-         * @param request - HTTP request (used to extract authenticated user)
-         * @param body - Array of query requests from Zero cache
+         * @param request - Full HTTP request object (passed to guards and handlers)
+         * @param message - Array of query requests from Zero cache
          * @returns Array of query responses (success or error)
+         *
+         * @remarks
+         * This controller acts as a bridge between the Express HTTP request/response
+         * cycle and the internal query name-based routing system. It extracts the
+         * authenticated user using the configured `getUserFromRequest` function and
+         * attaches it to the request object before passing the full request through
+         * to the transform service.
          */
         @Post()
         async handleQueries(
             @Req() request: any,
-            @Body() body: TransformRequestBody
-        ) {
-            const user = getUserFromRequest(request);
-            return await this.transformService.transformQueries(user, body);
+            @Body() [_transform, input]: ['transform', TransformRequestBody]
+        ): Promise<TransformResponseMessage> {
+            // Pass the full request object through the chain
+            // This allows guards to access headers, cookies, and other request
+            // properties
+            const response = await this.transformService.transformQueries(
+                request,
+                input
+            );
+
+            // response format should match zero's {@link TransformResponseMessage} contract
+            return ['transformed', response];
         }
     }
 

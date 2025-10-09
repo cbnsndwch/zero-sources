@@ -41,47 +41,39 @@
 export {
     SyncedQueriesModule,
     type SyncedQueriesModuleOptions
-} from './synced-queries.module.js';
+} from './module.js';
 
 // ============================================================================
 // Decorators (use these in your controllers/providers)
 // ============================================================================
 export {
-    SyncedQuery,
-    type SyncedQueryMetadata,
-    type QueryHandler
-} from './synced-query.decorator.js';
-
-export {
-    QueryArg,
     getParameterMetadata,
-    type SyncedQueryParamMetadata
-} from './synced-query-params.decorator.js';
+    QueryArg,
+    SyncedQuery
+} from './decorators/index.js';
 
 // ============================================================================
 // Services (for advanced usage - most users don't need these)
 // ============================================================================
 export {
     SyncedQueryRegistry,
-    type RegisteredQueryHandler,
-    type SyncedQueryExecutionContext
-} from './synced-query-registry.service.js';
-
-export {
     SyncedQueryTransformService,
-    type TransformRequestItem,
-    type TransformRequestBody,
-    type TransformQuerySuccess,
-    type TransformQueryError,
-    type TransformQueryResult
-} from './synced-query-transform.service.js';
+    type RegisteredQueryHandler
+} from './services/index.js';
 
 // ============================================================================
 // Constants
 // ============================================================================
-export { SYNCED_QUERY_METADATA } from './synced-query.constants.js';
-
 export {
+    SYNCED_QUERY_METADATA,
     SYNCED_QUERY_PARAM_METADATA,
-    SyncedQueryParamType
-} from './synced-query-params.constants.js';
+    SyncedQueryParamType,
+    type QueryHandler,
+    type SyncedQueryMetadata,
+    type SyncedQueryParamMetadata,
+    type TransformQueryError,
+    type TransformQueryResult,
+    type TransformQuerySuccess,
+    type TransformRequestBody,
+    type TransformRequestItem
+} from './contracts.js';

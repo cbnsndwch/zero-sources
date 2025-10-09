@@ -18,57 +18,47 @@
  * Handlers are stored in a Map with:
  * - **Key**: Query name (string)
  * - **Value**: Object containing handler function, metadata, and provider instance
- *
- * @module synced-query-registry.service
  */
 
 import {
+    ExecutionContext,
     Injectable,
     Logger,
     OnModuleInit,
-    type OnApplicationBootstrap,
+    UnauthorizedException,
     type CanActivate,
-    type Type,
-    ExecutionContext,
-    UnauthorizedException
+    type OnApplicationBootstrap,
+    type Type
 } from '@nestjs/common';
-import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core';
-
-import type {
-    QueryHandler,
-    SyncedQueryMetadata
-} from './synced-query.decorator.js';
-import { SYNCED_QUERY_METADATA } from './synced-query.constants.js';
 import {
-    getParameterMetadata,
+    ContextIdFactory,
+    DiscoveryService,
+    MetadataScanner,
+    ModuleRef,
+    Reflector
+} from '@nestjs/core';
+import type { AST } from '@rocicorp/zero';
+
+// Import NestJS internal routing infrastructure for parameter resolution
+// These are not in the public API but are stable internal classes
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - Internal NestJS module
+import { RouteParamsFactory } from '@nestjs/core/router/route-params-factory.js';
+
+import {
+    SYNCED_QUERY_METADATA,
+    SyncedQueryParamType,
+    type QueryHandler,
+    type SyncedQueryMetadata,
     type SyncedQueryParamMetadata
-} from './synced-query-params.decorator.js';
-import { SyncedQueryParamType } from './synced-query-params.constants.js';
+} from '../contracts.js';
+import { getParameterMetadata } from '../decorators/index.js';
 
-// NestJS metadata key for guards
+// NestJS metadata keys
 const GUARDS_METADATA = '__guards__';
-
-/**
- * Execution context for synced query guards.
- *
- * Provides access to the authenticated user context.
- */
-export interface SyncedQueryExecutionContext {
-    /**
-     * The authenticated user or undefined for anonymous users.
-     */
-    user: any | undefined;
-
-    /**
-     * The query name being executed.
-     */
-    queryName: string;
-
-    /**
-     * The query arguments.
-     */
-    args: readonly any[];
-}
+// Custom parameter decorators created with createParamDecorator()
+// This constant matches NestJS's CUSTOM_ROUTE_ARGS_METADATA from @nestjs/common/constants
+const CUSTOM_ROUTE_ARGS_METADATA = '__customRouteArgs__';
 
 /**
  * Registered query handler with metadata and execution context.
@@ -107,8 +97,12 @@ export interface RegisteredQueryHandler {
     /**
      * Execute the handler with proper context.
      * Executes guards, resolves parameters, then calls the handler.
+     *
+     * @param request - The full HTTP request object from Express
+     * @param args - The query arguments
+     * @returns The transformed AST for the query
      */
-    execute: (ctx: any | undefined, ...args: any[]) => Promise<any>;
+    execute: (request: any, ...args: any[]) => Promise<AST>;
 }
 
 /**
@@ -128,11 +122,21 @@ export class SyncedQueryRegistry
      */
     private readonly handlers = new Map<string, RegisteredQueryHandler>();
 
+    /**
+     * NestJS Route params factory for resolving parameter decorators.
+     * This handles @CurrentUser(), @Body(), @Param(), and all other parameter decorators.
+     */
+    private readonly routeParamsFactory: RouteParamsFactory;
+
     constructor(
         private readonly discoveryService: DiscoveryService,
         private readonly metadataScanner: MetadataScanner,
-        private readonly reflector: Reflector
-    ) {}
+        private readonly reflector: Reflector,
+        private readonly moduleRef: ModuleRef
+    ) {
+        // Initialize NestJS's parameter factory to handle parameter decorators
+        this.routeParamsFactory = new RouteParamsFactory();
+    }
 
     /**
      * Discover and register all synced query handlers on module initialization.
@@ -199,11 +203,11 @@ export class SyncedQueryRegistry
         let handlersFound = 0;
 
         // Scan both providers and controllers for query handlers
-        const providers = this.discoveryService.getProviders();
+        // const providers = this.discoveryService.getProviders();
+        // const allComponents = [...providers, ...controllers];
         const controllers = this.discoveryService.getControllers();
-        const allComponents = [...providers, ...controllers];
 
-        for (const wrapper of allComponents) {
+        for (const wrapper of controllers) {
             if (!wrapper.instance || !wrapper.metatype) {
                 continue;
             }
@@ -307,17 +311,19 @@ export class SyncedQueryRegistry
 
         // Create handler that executes guards, resolves parameters, and calls the method
         const boundHandler: QueryHandler = async (
-            ctx: any | undefined,
+            request: any,
             ...args: any[]
         ) => {
-            // Execute guards
-            await this.executeGuards(guards, ctx, queryName, args);
+            // Execute guards with full request object
+            await this.executeGuards(guards, request, queryName, args);
 
-            // Resolve parameters
+            // Resolve parameters from request and args
             const resolvedArgs = this.resolveParameters(
                 paramMetadata,
-                ctx,
-                args
+                request,
+                args,
+                provider,
+                methodName
             );
 
             // Call the handler with resolved parameters
@@ -350,11 +356,16 @@ export class SyncedQueryRegistry
     /**
      * Execute guards for a query.
      *
+     * @param guards - Array of guard classes to execute
+     * @param request - The full HTTP request object from Express
+     * @param queryName - The name of the query being executed
+     * @param args - The query arguments
+     *
      * @private
      */
     private async executeGuards(
         guards: Type<CanActivate>[],
-        ctx: any | undefined,
+        request: any,
         queryName: string,
         args: readonly any[]
     ): Promise<void> {
@@ -362,41 +373,58 @@ export class SyncedQueryRegistry
             return;
         }
 
-        // Create execution context
-        const context: SyncedQueryExecutionContext = {
-            user: ctx,
+        // Augment the request with synced query metadata
+        // This allows guards to know which query is being executed
+        // while still having access to all the original request properties
+        // Add custom property for synced query context
+        // Guards can use this to implement query-specific authorization
+        request.syncedQuery = {
             queryName,
             args
         };
 
-        // Create a mock ExecutionContext for guards
+        // Create a proper ExecutionContext from the real HTTP request
+        // This allows guards to work exactly as they do in regular controllers
         const executionContext: ExecutionContext = {
             switchToHttp: () => ({
-                getRequest: () => context as any,
-                getResponse: () => ({}) as any,
-                getNext: () => ({}) as any
+                getRequest: () => request,
+                getResponse: () =>
+                    ({
+                        status: () => ({ json: () => {} }),
+                        json: () => {}
+                    }) as any,
+                getNext: () => (() => {}) as any
             }),
-            switchToRpc: () => ({
-                getContext: () => ({}) as any,
-                getData: () => ({}) as any
-            }),
-            switchToWs: () => ({
-                getClient: () => ({}) as any,
-                getData: () => ({}) as any,
-                getPattern: () => ({}) as any
-            }),
+            switchToRpc: () => {
+                throw new Error('RPC context not supported for synced queries');
+            },
+            switchToWs: () => {
+                throw new Error(
+                    'WebSocket context not supported for synced queries'
+                );
+            },
             getClass: () => Object as any,
             getHandler: () => Function as any,
-            getArgs: () => [] as any,
-            getArgByIndex: () => undefined as any,
+            getArgs: () => [request, {}, undefined] as any,
+            getArgByIndex: <T = any>(index: number): T => {
+                const args = [request, {}, undefined];
+                return args[index] as T;
+            },
             getType: () => 'http' as any
         };
 
-        // Execute each guard
+        // Execute each guard with proper DI
         for (const GuardClass of guards) {
             try {
-                // Instantiate the guard (guards are typically injectable)
-                const guard = new GuardClass();
+                // Use ModuleRef to resolve the guard with proper dependency injection
+                // This ensures guards get their dependencies (JwtService, ConfigService, etc.)
+                const contextId = ContextIdFactory.create();
+                const guard = await this.moduleRef.resolve(
+                    GuardClass,
+                    contextId,
+                    { strict: false }
+                );
+
                 const canActivate = await guard.canActivate(executionContext);
 
                 if (!canActivate) {
@@ -419,32 +447,131 @@ export class SyncedQueryRegistry
     /**
      * Resolve parameters for a query handler.
      *
-     * Maps query arguments to method parameters using @QueryArg metadata.
-     * NestJS handles other parameter decorators (@CurrentUser, etc.) automatically.
+     * Uses NestJS's RouteParamsFactory to properly execute all parameter decorators,
+     * including custom ones created with createParamDecorator() like @CurrentUser().
+     * Also maps query arguments using @QueryArg metadata.
+     *
+     * @param paramMetadata - Parameter metadata from @QueryArg decorators
+     * @param request - The full HTTP request object
+     * @param args - The query arguments
+     * @param provider - The provider instance
+     * @param methodName - The method name
+     *
+     * @remarks
+     * This implementation uses NestJS's internal RouteParamsFactory which properly
+     * handles ALL types of parameter decorators by reading ROUTE_ARGS_METADATA from
+     * the class constructor, making our synced queries fully compatible with the
+     * NestJS ecosystem.
      *
      * @private
      */
     private resolveParameters(
         paramMetadata: SyncedQueryParamMetadata[],
-        ctx: any | undefined,
-        args: readonly any[]
+        request: any,
+        args: readonly any[],
+        provider: any,
+        methodName: string
     ): any[] {
-        // If no parameter metadata, return args as-is
-        // NestJS will handle injection of other decorated parameters
-        if (paramMetadata.length === 0) {
-            return [...args];
+        // Get the method
+        const method = provider[methodName];
+        const paramCount = method.length;
+
+        // If no parameters, return empty array
+        if (paramCount === 0) {
+            return [];
         }
 
-        // Build parameters array based on @QueryArg metadata
-        const resolvedParams: any[] = [];
+        // Initialize resolved parameters array
+        const resolvedParams: any[] = new Array(paramCount);
 
+        // Read NestJS parameter decorator metadata from the class constructor
+        // This is where createParamDecorator() stores its metadata
+        // Metadata is stored per-method using the method name as the key
+        // Metadata key format within each method: "{uid}__{paramType}__:{index}"
+        const paramsMetadata = Reflect.getMetadata(
+            '__routeArguments__', // ROUTE_ARGS_METADATA constant
+            provider.constructor,
+            methodName
+        );
+
+        // Create ExecutionContext for parameter decorators
+        const executionContext: ExecutionContext = {
+            switchToHttp: () => ({
+                getRequest: () => request,
+                getResponse: () => ({}) as any,
+                getNext: () => (() => {}) as any
+            }),
+            switchToRpc: () => {
+                throw new Error('RPC context not supported for synced queries');
+            },
+            switchToWs: () => {
+                throw new Error(
+                    'WebSocket context not supported for synced queries'
+                );
+            },
+            getClass: () => provider.constructor as any,
+            getHandler: () => method as any,
+            getArgs: () => [request, {}, undefined] as any,
+            getArgByIndex: <T = any>(index: number): T => {
+                const contextArgs = [request, {}, undefined];
+                return contextArgs[index] as T;
+            },
+            getType: () => 'http' as any
+        };
+
+        // Execute NestJS parameter decorators if present
+        if (paramsMetadata) {
+            // Iterate through parameter metadata entries for this method
+            // Format: "{uid}__customRouteArgs__:{index}" => { index, factory, data, pipes }
+            for (const [key, metadata] of Object.entries(paramsMetadata)) {
+                const paramData = metadata as any;
+                const paramIndex = paramData.index;
+
+                // Check if this parameter has a factory function (custom decorator)
+                if (paramData.factory) {
+                    try {
+                        // Execute the factory function with the execution context
+                        // This is how custom decorators like @CurrentUser() get executed
+                        const value = paramData.factory(
+                            paramData.data,
+                            executionContext
+                        );
+                        resolvedParams[paramIndex] = value;
+                    } catch (error) {
+                        this.logger.error(
+                            `Error executing parameter decorator at index ${paramIndex}:`,
+                            error
+                        );
+                        throw error;
+                    }
+                } else {
+                    // Built-in decorator (like @Req(), @Body(), @Param(), etc.)
+                    // Extract parameter type from key
+                    const typeMatch = key.match(/__(\w+)__/);
+                    if (typeMatch) {
+                        const paramType = typeMatch[1];
+                        const value =
+                            this.routeParamsFactory.exchangeKeyForValue(
+                                paramType as any,
+                                paramData.data,
+                                {
+                                    req: request,
+                                    res: {},
+                                    next: () => {}
+                                }
+                            );
+                        resolvedParams[paramIndex] = value;
+                    }
+                }
+            }
+        }
+
+        // Override with @QueryArg values where specified
+        // @QueryArg explicitly maps synced query arguments to parameters
         for (const param of paramMetadata) {
             if (param.type === SyncedQueryParamType.QUERY_ARG) {
                 const argIndex = param.data;
                 resolvedParams[param.parameterIndex] = args[argIndex];
-            } else {
-                // Unknown parameter type, pass undefined
-                resolvedParams[param.parameterIndex] = undefined;
             }
         }
 
@@ -462,17 +589,15 @@ export class SyncedQueryRegistry
             return;
         }
 
+        Array.from(this.handlers.entries())
+            .map(([name, handler]) => {
+                const guardInfo = handler.guards.length ? '🔒 ' : '';
+                return `Registered synced query handler ${guardInfo}${name} -> ${handler.provider.constructor.name}.${handler.methodName}()`;
+            })
+            .forEach(line => this.logger.log(line));
+
         this.logger.log(
             `Registered ${this.handlers.size} synced query handlers:`
         );
-
-        const handlerList = Array.from(this.handlers.entries())
-            .map(([name, handler]) => {
-                const guardInfo = handler.guards.length > 0 ? ' 🔒' : '';
-                return `  ${name}${guardInfo} -> ${handler.provider.constructor.name}.${handler.methodName}()`;
-            })
-            .join('\n');
-
-        this.logger.log('\n' + handlerList);
     }
 }
