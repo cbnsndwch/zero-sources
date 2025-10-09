@@ -28,8 +28,7 @@ export default [
      * Query implementations live in their respective domain modules (ChatModule, etc.)
      */
     SyncedQueriesModule.forRoot({
-        path: 'zero/get-queries',
-        getUserFromRequest: req => req.user
+        path: 'zero/get-queries'
     }),
     /**
      * Application Features
