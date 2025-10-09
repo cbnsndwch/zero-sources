@@ -1,5 +1,16 @@
 # @cbnsndwch/zero-watermark-nats-kv
 
+## 0.3.0
+
+### Minor Changes
+
+- [`2990951`](https://github.com/cbnsndwch/zero-sources/commit/29909512e6be5b1f2926e88576a04de8f637f456) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - allow zod ^3.21.4 as peer dependency
+
+### Patch Changes
+
+- Updated dependencies [[`2990951`](https://github.com/cbnsndwch/zero-sources/commit/29909512e6be5b1f2926e88576a04de8f637f456)]:
+    - @cbnsndwch/zero-contracts@0.3.0
+
 ## 0.2.1
 
 ### Patch Changes
