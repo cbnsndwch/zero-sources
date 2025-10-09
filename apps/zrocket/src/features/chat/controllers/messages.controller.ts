@@ -117,7 +117,7 @@ export class MessagesController {
     ): Promise<AST> {
         try {
             // Public channels are accessible to all authenticated users (O(1))
-            if (roomType === 'c') {
+            if (roomType === RoomType.PublicChannel) {
                 this.logger.debug(
                     `roomMessages: User ${user.sub} accessing public channel ${roomId} messages`
                 );
