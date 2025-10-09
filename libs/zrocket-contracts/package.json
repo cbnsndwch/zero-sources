@@ -55,7 +55,6 @@
         },
         "./schema": {
             "types": "./dist/schema/index.d.ts",
-            "node": "./dist/schema/index.js",
             "default": "./dist/schema/index.js"
         },
         "./package.json": "./package.json"
