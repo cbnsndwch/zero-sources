@@ -1,5 +1,14 @@
 # @cbnsndwch/zero-source-mongodb-server
 
+## 0.3.3
+
+### Patch Changes
+
+- Updated dependencies [[`169fd6e`](https://github.com/cbnsndwch/zero-sources/commit/169fd6ef3024d0cf46ff5fba6133f14b81104346)]:
+    - @cbnsndwch/zero-source-mongodb@0.5.0
+    - @cbnsndwch/zero-contracts@0.5.0
+    - @cbnsndwch/zero-watermark-zqlite@0.3.2
+
 ## 0.3.2
 
 ### Patch Changes
