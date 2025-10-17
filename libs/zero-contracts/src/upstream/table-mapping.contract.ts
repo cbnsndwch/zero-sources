@@ -7,15 +7,17 @@ import type { Filter } from './filter.contracts.js';
 
 /**
  * Represents a document path identifier that must start with a dollar sign ($)
- * followed by a string.
+ * followed by a field name.
  *
- * This type enforces that document paths follow a specific naming convention
- * where they are prefixed with '$'.
+ * This type enforces that document paths follow MongoDB's field reference convention
+ * where they are prefixed with '$'. The path after the $ can use dot notation for
+ * nested fields.
  *
  * @example
  * ```typescript
- * const validPath: DocumentPath = "$users";
- * const anotherValidPath: DocumentPath = "$posts/123";
+ * const validPath: DocumentPath = "$_id";        // Top-level field
+ * const nestedPath: DocumentPath = "$user.name"; // Nested field
+ * const deepPath: DocumentPath = "$address.city.zipCode"; // Deeply nested
  * ```
  */
 export type DocumentPath = `$${string}`;
@@ -23,14 +25,18 @@ export type DocumentPath = `$${string}`;
 /**
  * Represents a projection operator used in database queries or data transformations.
  *
- * A projection operator is an object where both keys and values are strings that start
- * with a dollar sign ($), following MongoDB-style operator conventions.
+ * A projection operator is an object where keys are operator names starting with a
+ * dollar sign ($), and values are DocumentPaths (also starting with $) that reference
+ * fields in the source document.
+ *
+ * Common operators include type conversion operators like $toString, $toInt, $toBool,
+ * and custom operators like $hexToBase64Url.
  *
  * @example
  * ```typescript
  * const projection: ProjectionOperator = {
- *   '$field': '$sourceField',
- *   '$sum': '$amount'
+ *   '$toString': '$_id',           // Convert _id field to string
+ *   '$hexToBase64Url': '$objectId' // Convert objectId field from hex to base64url
  * };
  * ```
  */

@@ -101,6 +101,24 @@ function getNestedValue(obj: any, path: string): any {
 }
 
 /**
+ * Resolves a document path (must start with $) to its value in the document.
+ * Throws an error if the path doesn't start with $.
+ */
+function resolveValue(document: any, path: any): any {
+    if (typeof path !== 'string') {
+        throw new Error('Document path must be a string');
+    }
+    
+    if (!path.startsWith('$')) {
+        throw new Error(`Document path must start with $, got: ${path}`);
+    }
+    
+    // Remove the $ prefix and get the nested value
+    const fieldPath = path.substring(1);
+    return getNestedValue(document, fieldPath);
+}
+
+/**
  * Applies a MongoDB-like projection to a document
  *
  * TODO: add support for field renaming
@@ -202,8 +220,8 @@ function applyProjectionOperators(document: any, projectionSpec: any): any {
 /**
  * Converts a value to string
  */
-function convertToString(document: any, fieldPath: string): string | undefined {
-    const value = getNestedValue(document, fieldPath);
+function convertToString(document: any, documentPath: string): string | undefined {
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (value instanceof Date) return value.toISOString();
     return String(value);
@@ -212,8 +230,8 @@ function convertToString(document: any, fieldPath: string): string | undefined {
 /**
  * Converts a value to integer
  */
-function convertToInt(document: any, fieldPath: string): number | undefined {
-    const value = getNestedValue(document, fieldPath);
+function convertToInt(document: any, documentPath: string): number | undefined {
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (typeof value === 'boolean') return value ? 1 : 0;
     if (typeof value === 'string') {
@@ -228,15 +246,15 @@ function convertToInt(document: any, fieldPath: string): number | undefined {
 /**
  * Converts a value to long (treating as number in JavaScript)
  */
-function convertToLong(document: any, fieldPath: string): number | undefined {
-    return convertToInt(document, fieldPath);
+function convertToLong(document: any, documentPath: string): number | undefined {
+    return convertToInt(document, documentPath);
 }
 
 /**
  * Converts a value to double
  */
-function convertToDouble(document: any, fieldPath: string): number | undefined {
-    const value = getNestedValue(document, fieldPath);
+function convertToDouble(document: any, documentPath: string): number | undefined {
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (typeof value === 'boolean') return value ? 1.0 : 0.0;
     if (typeof value === 'string') {
@@ -251,8 +269,8 @@ function convertToDouble(document: any, fieldPath: string): number | undefined {
 /**
  * Converts a value to boolean
  */
-function convertToBool(document: any, fieldPath: string): boolean | undefined {
-    const value = getNestedValue(document, fieldPath);
+function convertToBool(document: any, documentPath: string): boolean | undefined {
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (typeof value === 'boolean') return value;
     if (typeof value === 'number') return value !== 0;
@@ -264,8 +282,8 @@ function convertToBool(document: any, fieldPath: string): boolean | undefined {
 /**
  * Converts a value to Date
  */
-function convertToDate(document: any, fieldPath: string): Date | undefined {
-    const value = getNestedValue(document, fieldPath);
+function convertToDate(document: any, documentPath: string): Date | undefined {
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (value instanceof Date) return value;
     if (typeof value === 'number') return new Date(value);
@@ -281,9 +299,9 @@ function convertToDate(document: any, fieldPath: string): Date | undefined {
  */
 function convertToObjectId(
     document: any,
-    fieldPath: string
+    documentPath: string
 ): string | undefined {
-    const value = getNestedValue(document, fieldPath);
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     // If it's already an ObjectId-like object, return its string representation
     if (typeof value === 'object' && 'toString' in value) {
@@ -295,8 +313,8 @@ function convertToObjectId(
 /**
  * Returns the BSON type of a value as a string
  */
-function getType(document: any, fieldPath: string): string | undefined {
-    const value = getNestedValue(document, fieldPath);
+function getType(document: any, documentPath: string): string | undefined {
+    const value = resolveValue(document, documentPath);
     if (value === null) return 'null';
     if (value === undefined) return 'undefined';
     if (typeof value === 'string') return 'string';
@@ -315,9 +333,9 @@ function getType(document: any, fieldPath: string): string | undefined {
  */
 function convertHexToBase64Url(
     document: any,
-    fieldPath: string
+    documentPath: string
 ): string | undefined {
-    const value = getNestedValue(document, fieldPath);
+    const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) {
         return undefined;
     }
@@ -362,8 +380,7 @@ function convertWithOptions(document: any, options: any): any {
     if (!options || typeof options !== 'object') return undefined;
 
     const { input, to, onError, onNull } = options;
-    const value =
-        typeof input === 'string' ? getNestedValue(document, input) : input;
+    const value = resolveValue(document, input);
 
     if (value === null && onNull !== undefined) {
         return onNull;
