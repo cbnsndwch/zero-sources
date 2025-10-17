@@ -113,8 +113,11 @@ export function applyProjection(document: any, projection: object): any {
     let result: any = {};
     const projectionEntries = Object.entries(projection);
 
-    // Check if this is an inclusion projection (has any 1 values)
-    const hasInclusions = projectionEntries.some(([, value]) => value === 1);
+    // Check if this is an inclusion projection (has any 1 values or projection operators)
+    const hasInclusions = projectionEntries.some(
+        ([, value]) =>
+            value === 1 || (typeof value === 'object' && value !== null)
+    );
 
     if (hasInclusions) {
         // Inclusion projection - only include specified fields
@@ -123,6 +126,18 @@ export function applyProjection(document: any, projection: object): any {
                 const docValue = getNestedValue(document, key);
                 if (docValue !== undefined) {
                     setNestedValue(result, key, docValue);
+                }
+            } else if (
+                typeof projectionSpec === 'object' &&
+                projectionSpec !== null
+            ) {
+                // Handle projection operators (e.g., $toString, $toInt, etc.)
+                const transformedValue = applyProjectionOperators(
+                    document,
+                    projectionSpec
+                );
+                if (transformedValue !== undefined) {
+                    setNestedValue(result, key, transformedValue);
                 }
             }
         }
@@ -147,6 +162,249 @@ export function applyProjection(document: any, projection: object): any {
     }
 
     return result;
+}
+
+/**
+ * Applies projection operators to transform field values
+ */
+function applyProjectionOperators(document: any, projectionSpec: any): any {
+    // Handle single operator
+    for (const [operator, operand] of Object.entries(projectionSpec)) {
+        switch (operator) {
+            case '$toString':
+                return convertToString(document, operand as string);
+            case '$toInt':
+                return convertToInt(document, operand as string);
+            case '$toLong':
+                return convertToLong(document, operand as string);
+            case '$toDouble':
+                return convertToDouble(document, operand as string);
+            case '$toBool':
+                return convertToBool(document, operand as string);
+            case '$toDate':
+                return convertToDate(document, operand as string);
+            case '$toObjectId':
+                return convertToObjectId(document, operand as string);
+            case '$type':
+                return getType(document, operand as string);
+            case '$convert':
+                return convertWithOptions(document, operand);
+            case '$hexToBase64Url':
+                return convertHexToBase64Url(document, operand as string);
+            default:
+                // Unsupported operator, return undefined
+                return undefined;
+        }
+    }
+    return undefined;
+}
+
+/**
+ * Converts a value to string
+ */
+function convertToString(document: any, fieldPath: string): string | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) return undefined;
+    if (value instanceof Date) return value.toISOString();
+    return String(value);
+}
+
+/**
+ * Converts a value to integer
+ */
+function convertToInt(document: any, fieldPath: string): number | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) return undefined;
+    if (typeof value === 'boolean') return value ? 1 : 0;
+    if (typeof value === 'string') {
+        const parsed = parseInt(value, 10);
+        return isNaN(parsed) ? undefined : parsed;
+    }
+    if (typeof value === 'number') return Math.trunc(value);
+    if (value instanceof Date) return Math.trunc(value.getTime());
+    return undefined;
+}
+
+/**
+ * Converts a value to long (treating as number in JavaScript)
+ */
+function convertToLong(document: any, fieldPath: string): number | undefined {
+    return convertToInt(document, fieldPath);
+}
+
+/**
+ * Converts a value to double
+ */
+function convertToDouble(document: any, fieldPath: string): number | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) return undefined;
+    if (typeof value === 'boolean') return value ? 1.0 : 0.0;
+    if (typeof value === 'string') {
+        const parsed = parseFloat(value);
+        return isNaN(parsed) ? undefined : parsed;
+    }
+    if (typeof value === 'number') return value;
+    if (value instanceof Date) return value.getTime();
+    return undefined;
+}
+
+/**
+ * Converts a value to boolean
+ */
+function convertToBool(document: any, fieldPath: string): boolean | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) return undefined;
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'number') return value !== 0;
+    if (typeof value === 'string') return value.length > 0;
+    if (value instanceof Date) return true;
+    return Boolean(value);
+}
+
+/**
+ * Converts a value to Date
+ */
+function convertToDate(document: any, fieldPath: string): Date | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) return undefined;
+    if (value instanceof Date) return value;
+    if (typeof value === 'number') return new Date(value);
+    if (typeof value === 'string') {
+        const date = new Date(value);
+        return isNaN(date.getTime()) ? undefined : date;
+    }
+    return undefined;
+}
+
+/**
+ * Converts a value to ObjectId (returns string representation)
+ */
+function convertToObjectId(
+    document: any,
+    fieldPath: string
+): string | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) return undefined;
+    // If it's already an ObjectId-like object, return its string representation
+    if (typeof value === 'object' && 'toString' in value) {
+        return String(value);
+    }
+    return String(value);
+}
+
+/**
+ * Returns the BSON type of a value as a string
+ */
+function getType(document: any, fieldPath: string): string | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
+    if (typeof value === 'string') return 'string';
+    if (typeof value === 'number') {
+        return Number.isInteger(value) ? 'int' : 'double';
+    }
+    if (typeof value === 'boolean') return 'bool';
+    if (value instanceof Date) return 'date';
+    if (Array.isArray(value)) return 'array';
+    if (typeof value === 'object') return 'object';
+    return 'unknown';
+}
+
+/**
+ * Converts a hex string to URL-safe base64 string
+ */
+function convertHexToBase64Url(
+    document: any,
+    fieldPath: string
+): string | undefined {
+    const value = getNestedValue(document, fieldPath);
+    if (value === null || value === undefined) {
+        return undefined;
+    }
+
+    let hexString: string;
+
+    // Handle ObjectId objects with toString method
+    if (typeof value === 'object' && 'toString' in value) {
+        hexString = String(value);
+    } else if (typeof value === 'string') {
+        hexString = value;
+    } else {
+        return undefined;
+    }
+
+    // Remove any whitespace or common prefixes
+    hexString = hexString.trim().replace(/^0x/i, '');
+
+    // Validate hex string (should only contain hex characters)
+    if (!/^[0-9a-f]+$/i.test(hexString)) {
+        return undefined;
+    }
+
+    // Ensure even length (hex strings should have pairs of characters)
+    if (hexString.length % 2 !== 0) {
+        return undefined;
+    }
+
+    try {
+        // Convert hex to base64url
+        const buffer = Buffer.from(hexString, 'hex');
+        return buffer.toString('base64url');
+    } catch {
+        return undefined;
+    }
+}
+
+/**
+ * Converts a value with additional options (error handling, default values)
+ */
+function convertWithOptions(document: any, options: any): any {
+    if (!options || typeof options !== 'object') return undefined;
+
+    const { input, to, onError, onNull } = options;
+    const value =
+        typeof input === 'string' ? getNestedValue(document, input) : input;
+
+    if (value === null && onNull !== undefined) {
+        return onNull;
+    }
+
+    if (value === null || value === undefined) return undefined;
+
+    try {
+        switch (to) {
+            case 'string':
+                return String(value);
+            case 'int':
+            case 'long': {
+                const intVal =
+                    typeof value === 'string'
+                        ? parseInt(value, 10)
+                        : Math.trunc(Number(value));
+                if (isNaN(intVal)) throw new Error('Conversion failed');
+                return intVal;
+            }
+            case 'double':
+            case 'decimal': {
+                const doubleVal = parseFloat(String(value));
+                if (isNaN(doubleVal)) throw new Error('Conversion failed');
+                return doubleVal;
+            }
+            case 'bool':
+                return Boolean(value);
+            case 'date': {
+                const date = new Date(value);
+                if (isNaN(date.getTime())) throw new Error('Conversion failed');
+                return date;
+            }
+            case 'objectId':
+                return String(value);
+            default:
+                return undefined;
+        }
+    } catch {
+        return onError !== undefined ? onError : undefined;
+    }
 }
 
 /**
