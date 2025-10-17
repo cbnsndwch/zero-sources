@@ -39,7 +39,7 @@
         "eslint": "^9.37.0",
         "husky": "^9.1.7",
         "lexical": "^0.36.2",
-        "lint-staged": "^16.2.3",
+        "lint-staged": "^16.2.4",
         "tsup": "^8.5.0",
         "tsx": "^4.20.6",
         "typescript": "~5.9.3",
