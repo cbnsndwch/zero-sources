@@ -1,5 +1,11 @@
 # @cbnsndwch/zero-contracts
 
+## 0.4.0
+
+### Minor Changes
+
+- [`4b7eecd`](https://github.com/cbnsndwch/zero-sources/commit/4b7eecd98bddc3e6623a98c5be2e235e05758ecb) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - enhance table mapping types with DocumentPath and ProjectionOperator
+
 ## 0.3.0
 
 ### Minor Changes

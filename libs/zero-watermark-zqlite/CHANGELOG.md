@@ -1,5 +1,12 @@
 # @cbnsndwch/zero-watermark-zqlite
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`4b7eecd`](https://github.com/cbnsndwch/zero-sources/commit/4b7eecd98bddc3e6623a98c5be2e235e05758ecb)]:
+    - @cbnsndwch/zero-contracts@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
