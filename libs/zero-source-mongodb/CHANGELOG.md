@@ -1,5 +1,11 @@
 # @cbnsndwch/zero-source-mongodb
 
+## 0.4.0
+
+### Minor Changes
+
+- [`790eaea`](https://github.com/cbnsndwch/zero-sources/commit/790eaead1ab0ce152a26b57533bea43a700ab591) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - add support for data type casting operators in the applyProjection stage of change maker
+
 ## 0.3.0
 
 ### Minor Changes

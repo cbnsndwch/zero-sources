@@ -1,5 +1,12 @@
 # @cbnsndwch/zero-source-mongodb-server
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`790eaea`](https://github.com/cbnsndwch/zero-sources/commit/790eaead1ab0ce152a26b57533bea43a700ab591)]:
+    - @cbnsndwch/zero-source-mongodb@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
