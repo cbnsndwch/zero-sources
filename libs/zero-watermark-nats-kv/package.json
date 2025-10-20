@@ -40,7 +40,7 @@
         "@nestjs/core": "^11.1.6",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
-        "@types/node": "^22.14.1",
+        "@types/node": "^24.9.0",
         "@vitest/coverage-v8": "^3.2.4",
         "@vitest/ui": "^3.2.4",
         "eslint": "^9.37.0",
