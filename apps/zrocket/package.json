@@ -172,7 +172,7 @@
         "eslint-plugin-jsx-a11y": "^6.10.2",
         "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-react": "^7.37.5",
-        "eslint-plugin-react-hooks": "^6.1.1",
+        "eslint-plugin-react-hooks": "^7.0.1",
         "jsdom": "^27.0.0",
         "nodemon": "^3.1.10",
         "postcss": "^8.5.6",
