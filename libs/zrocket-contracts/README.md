@@ -30,7 +30,7 @@ pnpm add @cbnsndwch/zrocket-contracts
 
 ```json
 {
-    "@rocicorp/zero": "0.23.2025090100"
+    "@rocicorp/zero": "0.24.2025101500"
 }
 ```
 
