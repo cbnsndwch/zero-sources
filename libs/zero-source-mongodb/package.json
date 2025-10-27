@@ -52,7 +52,7 @@
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.1.6",
         "@nestjs/mongoose": "^11.0.3",
-        "@nestjs/platform-express": "^11.1.6",
+        "@nestjs/platform-express": "^11.1.8",
         "@nestjs/platform-ws": "^11.1.6",
         "@nestjs/schematics": "^11.0.8",
         "@nestjs/swagger": "^11.2.0",
