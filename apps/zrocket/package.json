@@ -41,7 +41,7 @@
         "@lexical/list": "^0.36.2",
         "@lexical/react": "^0.36.2",
         "@lexical/rich-text": "^0.36.2",
-        "@lexical/utils": "^0.36.2",
+        "@lexical/utils": "^0.37.0",
         "@nestjs/common": "^11.1.6",
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.1.6",
