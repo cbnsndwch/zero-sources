@@ -11,7 +11,8 @@ import type { AST } from '@rocicorp/zero';
 import { z } from 'zod';
 
 import { QueryArg, SyncedQuery } from '@cbnsndwch/nest-zero-synced-queries';
-import type { JwtPayload, RoomType } from '@cbnsndwch/zrocket-contracts';
+import type { JwtPayload } from '@cbnsndwch/zrocket-contracts';
+import { RoomType } from '@cbnsndwch/zrocket-contracts';
 import { builder } from '@cbnsndwch/zrocket-contracts/schema';
 
 import { CurrentUser } from '../../auth/decorators/index.js';
