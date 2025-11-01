@@ -1,266 +1,516 @@
-# Next Step: Phase 5 - Testing# MongoDB Array Unwinding Pipeline Implementation - Next Steps
+# Next Step: Phase 6 - Documentation# Next Step: Phase 6 - Documentation
 
 
 
-## Project Context## Project: mongo-array-unwind-in-mapping
+## Project: MongoDB Array Unwinding Pipeline Implementation## Project: MongoDB Array Unwinding Pipeline Implementation
 
 
 
-**Repository**: cbnsndwch/zero-sources  **Branch**: `copilot/vscode1762000567071`  
+**Repository**: cbnsndwch/zero-sources  **Repository**: cbnsndwch/zero-sources  
 
-**Branch**: copilot/vscode1762000567071  **PR**: [#138 - WIP] Design API with the Open-Closed Principle in mind
+**Branch**: copilot/vscode1762000567071  **Branch**: copilot/vscode1762000567071  
 
-**PR**: #138 - [WIP] Design API with the Open-Closed Principle in mind  
+**PR**: #138 - [WIP] Design API with the Open-Closed Principle in mind  **PR**: #138 - [WIP] Design API with the Open-Closed Principle in mind  
 
-**Feature**: MongoDB array unwinding in table mappings with pipeline support## Current Status: Phase 3 (75% Complete)
-
-
-
-## Implementation Status### ✅ Completed Work
+**Feature**: MongoDB array unwinding in table mappings with pipeline support**Feature**: MongoDB array unwinding in table mappings with pipeline support
 
 
 
-### ✅ Phase 1: Type System (COMPLETE)#### Phase 1: Type System (100% ✅)
+## Current Status: Phase 5 Complete ✅ → Phase 6 Starting## Current Status: Phase 5 Complete ✅ → Phase 6 Starting
 
-- Created discriminated union: `TableMapping<T> = SimpleTableMapping<T> | PipelineTableMapping<T>`- **Discriminated Union Architecture**: `TableMapping = SimpleTableMapping | PipelineTableMapping`
 
-- Pipeline stage types: `MatchStage`, `UnwindStage`, `SetStage`, `ProjectStage`- **Pipeline Stages**: `MatchStage`, `UnwindStage`, `SetStage`, `ProjectStage`
 
-- Type guards: `isPipelineMapping()`, `isSimpleMapping()`- **Location**: `libs/zero-contracts/src/upstream/`
+### ✅ Phases 1-5: COMPLETE (100%)
 
-- Location: `libs/zero-contracts/src/upstream/`  - `pipeline/match.ts` - $match filtering
 
-  - `pipeline/unwind.ts` - $unwind array deconstruction
 
-### ✅ Phase 2: Helper Utilities (COMPLETE)  - `pipeline/set.ts` - $addFields computed fields
+All implementation and testing phases are complete:## Implementation Status
 
-- Helper functions: `match()`, `unwind()`, `addFields()`, `project()`  - `pipeline/project.ts` - $project document reshaping (newly added)
 
-- Fluent builder: `PipelineMappingBuilder` class  - `simple/index.ts` - Legacy SimpleTableMapping (backward compatible)
+
+1. **Phase 1: Type System** - Discriminated union architecture ✅### ✅ Phase 1: Type System (100% COMPLETE)
+
+2. **Phase 2: Helper Utilities** - Builders, type guards, helpers ✅
+
+3. **Phase 3: Change Source** - Pipeline executor service ✅- Created discriminated union: `TableMapping<T> = SimpleTableMapping<T> | PipelineTableMapping<T>`- **Discriminated Union Architecture**: `TableMapping = SimpleTableMapping | PipelineTableMapping`
+
+4. **Phase 4: Array Diff** - Optimization with identity-based matching ✅
+
+5. **Phase 5: Testing** - Comprehensive unit tests (49 passing) ✅- Pipeline stage types: `MatchStage`, `UnwindStage`, `SetStage`, `ProjectStage`- **Pipeline Stages**: `MatchStage`, `UnwindStage`, `SetStage`, `ProjectStage`
+
+
+
+### 🎯 Phase 6: Documentation (CURRENT - START HERE)- Type guards: `isPipelineMapping()`, `isSimpleMapping()`- **Location**: `libs/zero-contracts/src/upstream/`
+
+
+
+**Objective**: Create comprehensive documentation for API usage, migration, and performance tuning.- Location: `libs/zero-contracts/src/upstream/`  - `pipeline/match.ts` - $match filtering
+
+
+
+**Priority Tasks**:  - `pipeline/unwind.ts` - $unwind array deconstruction
+
+
+
+1. **API Reference Documentation**### ✅ Phase 2: Helper Utilities (COMPLETE)  - `pipeline/set.ts` - $addFields computed fields
+
+   - Pipeline mapping configuration options
+
+   - All pipeline stage types and options- Helper functions: `match()`, `unwind()`, `addFields()`, `project()`  - `pipeline/project.ts` - $project document reshaping (newly added)
+
+   - Expression evaluator operator reference
+
+   - Type definitions and interfaces- Fluent builder: `PipelineMappingBuilder` class  - `simple/index.ts` - Legacy SimpleTableMapping (backward compatible)
+
+   - Create: `docs/projects/mongo-array-unwind-in-mapping/API_REFERENCE.md`
 
 - Location: `libs/zero-contracts/src/upstream/table-mapping.helpers.ts`
 
-#### Phase 2: Helper Utilities (100% ✅)
+2. **Usage Guide & Examples**
 
-### ✅ Phase 3: ChangeMaker Integration (COMPLETE)- **Location**: `libs/zero-contracts/src/upstream/table-mapping.helpers.ts`
+   - Basic array unwinding patterns#### Phase 2: Helper Utilities (100% ✅)
 
-- Implemented `PipelineExecutorService` to execute aggregation pipelines on documents- **Type Guards**: `isPipelineMapping()`, `isSimpleMapping()`
+   - Complex multi-stage pipelines
+
+   - Identity field configuration### ✅ Phase 3: ChangeMaker Integration (COMPLETE)- **Location**: `libs/zero-contracts/src/upstream/table-mapping.helpers.ts`
+
+   - Discriminated unions for polymorphic collections
+
+   - Real-world scenarios (account members, project tasks, etc.)- Implemented `PipelineExecutorService` to execute aggregation pipelines on documents- **Type Guards**: `isPipelineMapping()`, `isSimpleMapping()`
+
+   - Create: `docs/projects/mongo-array-unwind-in-mapping/USAGE_GUIDE.md`
 
 - Updated all CRUD operations in `ChangeMakerV0`:- **Stage Builders**: `match()`, `unwind()`, `addFields()`, `project()`
 
-  - **INSERT**: Execute pipeline, emit changes per result row- **Migration Helper**: `toPipelineMapping()` converts legacy to pipeline
+3. **Migration Guide**
 
-  - **UPDATE**: Execute before/after pipelines, use array diffing (Phase 4)- **Fluent Builder**: `PipelineMappingBuilder` class with chainable API
+   - When to use pipeline vs simple mappings  - **INSERT**: Execute pipeline, emit changes per result row- **Migration Helper**: `toPipelineMapping()` converts legacy to pipeline
 
-  - **REPLACE**: Execute pipeline, generate changes- **Factory**: `pipelineBuilder()` function
+   - Step-by-step migration process
+
+   - Comparison of before/after configurations  - **UPDATE**: Execute before/after pipelines, use array diffing (Phase 4)- **Fluent Builder**: `PipelineMappingBuilder` class with chainable API
+
+   - Common pitfalls and solutions
+
+   - Testing migration changes  - **REPLACE**: Execute pipeline, generate changes- **Factory**: `pipelineBuilder()` function
+
+   - Create: `docs/projects/mongo-array-unwind-in-mapping/MIGRATION_GUIDE.md`
 
   - **DELETE**: Execute pipeline, handle deletion
 
-- Location: `libs/zero-source-mongodb/src/v0/`#### Phase 3: Change Source Implementation (75% ✅)
+4. **Performance Tuning Guide**
 
+   - Identity field selection best practices- Location: `libs/zero-source-mongodb/src/v0/`#### Phase 3: Change Source Implementation (75% ✅)
 
+   - Pipeline stage ordering optimization
 
-### ✅ Phase 4: Array Diff Optimization (COMPLETE)**Completed**:
+   - Array size considerations
+
+   - Known limitations and workarounds
+
+   - Performance benchmarks and metrics### ✅ Phase 4: Array Diff Optimization (COMPLETE)**Completed**:
+
+   - Create: `docs/projects/mongo-array-unwind-in-mapping/PERFORMANCE_GUIDE.md`
 
 - Implemented `ArrayDiffService` with identity-based and index-based matching1. **Pipeline Executor Service** ✅
 
+## Technical Architecture Summary
+
 - Optimized `makeUpdateChanges()` to use targeted diffs instead of DELETE all + INSERT all   - **Location**: `libs/zero-source-mongodb/src/v0/pipeline-executor.service.ts`
+
+### Core Components
 
 - **Performance**: ~200x reduction in change events for typical scenarios   - **Core Method**: `executePipeline(document, pipeline): any[]`
 
-  - Example: Update 1 member in 100-member array = 1 change vs 200 changes   - **Stage Executors**:
+**Type System** (`libs/zero-contracts/src/upstream/`):
 
-- Location: `libs/zero-source-mongodb/src/v0/array-diff.service.ts`     - `executeMatch()` - Filters using MongoDB query syntax
+```typescript  - Example: Update 1 member in 100-member array = 1 change vs 200 changes   - **Stage Executors**:
 
-     - `executeUnwind()` - Array deconstruction with index tracking
+// Discriminated union for type safety
+
+type TableMapping<T> = SimpleTableMapping<T> | PipelineTableMapping<T>;- Location: `libs/zero-source-mongodb/src/v0/array-diff.service.ts`     - `executeMatch()` - Filters using MongoDB query syntax
+
+
+
+// Pipeline stages     - `executeUnwind()` - Array deconstruction with index tracking
+
+type PipelineStage = MatchStage | UnwindStage | SetStage | ProjectStage;
 
 ### 🔄 Phase 5: Testing (NEXT - START HERE)     - `executeSet()` - Adds computed fields
 
-     - `executeProject()` - Reshapes documents
+interface PipelineTableMapping<T> {
 
-**Objective**: Create comprehensive test coverage for the new pipeline functionality   - **Expression Evaluator**: Supports 10+ MongoDB operators
+  source: string;     - `executeProject()` - Reshapes documents
+
+  pipeline: PipelineStage[];
+
+}**Objective**: Create comprehensive test coverage for the new pipeline functionality   - **Expression Evaluator**: Supports 10+ MongoDB operators
+
+```
 
      - String: `$concat`
 
-#### 1. Unit Tests Needed     - Comparison: `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`
+**Pipeline Executor** (`libs/zero-source-mongodb/src/v0/pipeline-executor.service.ts`):
 
-     - Arithmetic: `$add`, `$subtract`, `$multiply`, `$divide`
+- Executes aggregation pipeline on documents#### 1. Unit Tests Needed     - Comparison: `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`
 
-**`array-diff.service.spec.ts`** (Priority: HIGH)     - Conditional: `$cond`
+- Supports: $match, $unwind, $addFields/$set, $project
 
-```typescript   - **Utilities**: Path resolution, field computation
+- Expression evaluator with 10+ MongoDB operators     - Arithmetic: `$add`, `$subtract`, `$multiply`, `$divide`
+
+
+
+**Array Diff Service** (`libs/zero-source-mongodb/src/v0/array-diff.service.ts`):**`array-diff.service.spec.ts`** (Priority: HIGH)     - Conditional: `$cond`
+
+- Identity-based matching for stable comparison
+
+- Index-based fallback```typescript   - **Utilities**: Path resolution, field computation
+
+- ~200x performance improvement for array updates
 
 describe('ArrayDiffService', () => {
 
+### Usage Example
+
   // Identity-based matching tests2. **Service Registration** ✅
 
-  test('should detect added elements by identity', () => {   - **Location**: `libs/zero-source-mongodb/src/v0/index.ts`
+```typescript
 
-    const old = [{ id: 'u1', name: 'Alice' }];   - Exported and registered in `v0ChangeSourceServices` array
+// Define pipeline mapping for account members  test('should detect added elements by identity', () => {   - **Location**: `libs/zero-source-mongodb/src/v0/index.ts`
 
-    const new = [{ id: 'u1', name: 'Alice' }, { id: 'u2', name: 'Bob' }];   - Available for dependency injection
+const mapping = pipelineBuilder<IAccountMember>('accounts')
 
-    const diff = service.computeDiff(old, new, { identityField: 'id' });
+  .match({ bundle: 'ENTERPRISE' })    const old = [{ id: 'u1', name: 'Alice' }];   - Exported and registered in `v0ChangeSourceServices` array
 
-    expect(diff.added).toHaveLength(1);3. **Build & Compilation** ✅
+  .unwind({
 
-    expect(diff.added[0].value.id).toBe('u2');   - All packages compile successfully
+    path: '$members',    const new = [{ id: 'u1', name: 'Alice' }, { id: 'u2', name: 'Bob' }];   - Available for dependency injection
 
-  });   - Fixed TypeScript type narrowing issues
+    includeArrayIndex: 'memberIndex'
+
+  })    const diff = service.computeDiff(old, new, { identityField: 'id' });
+
+  .addFields({
+
+    accountId: '$_id',    expect(diff.added).toHaveLength(1);3. **Build & Compilation** ✅
+
+    memberId: '$members.userId',
+
+    role: '$members.role',    expect(diff.added[0].value.id).toBe('u2');   - All packages compile successfully
+
+    compositeId: { $concat: ['$_id', '_', '$members.userId'] }
+
+  })  });   - Fixed TypeScript type narrowing issues
+
+  .build();
 
    - Fixed UnwindOptions path handling (string | number)
 
-  test('should detect removed elements by identity', () => { /* ... */ });
+// Table spec with composite primary key
 
-  test('should detect modified elements by identity', () => { /* ... */ });**In Progress**:
+{  test('should detect removed elements by identity', () => { /* ... */ });
 
-  test('should handle array reordering without changes', () => { /* ... */ });4. **ChangeMaker Integration** ⏳
+  tableName: 'account_members',
 
-     - **Location**: `libs/zero-source-mongodb/src/v0/change-maker-v0.ts`
+  spec: {  test('should detect modified elements by identity', () => { /* ... */ });**In Progress**:
 
-  // Index-based matching tests   - Service imported and injected
+    schema: 'public',
 
-  test('should use index-based matching when no identity field', () => { /* ... */ });   - **TODO**: Update change processing methods
+    primaryKey: ['accountId', 'memberId']  test('should handle array reordering without changes', () => { /* ... */ });4. **ChangeMaker Integration** ⏳
 
-  
+  },
 
-  // Edge cases### 🎯 Immediate Next Steps
+  config: mapping     - **Location**: `libs/zero-source-mongodb/src/v0/change-maker-v0.ts`
 
-  test('should handle empty arrays', () => { /* ... */ });
+}
+
+```  // Index-based matching tests   - Service imported and injected
+
+
+
+## Test Coverage (Phase 5 Complete)  test('should use index-based matching when no identity field', () => { /* ... */ });   - **TODO**: Update change processing methods
+
+
+
+**Array Diff Service** (21 tests - all passing ✅):  
+
+- Identity-based matching (5 tests)
+
+- Index-based matching (4 tests)  // Edge cases### 🎯 Immediate Next Steps
+
+- Edge cases (7 tests)
+
+- Deep equality (4 tests)  test('should handle empty arrays', () => { /* ... */ });
+
+- Performance (1 test - <100ms for 1000 elements)
 
   test('should handle null/undefined arrays', () => { /* ... */ });#### 1. Update `makeInsertChanges()` Method
 
-  test('should handle missing identity field in elements', () => { /* ... */ });
+**Pipeline Executor Service** (29 tests - 28 passing, 1 skipped):
 
-  test('should handle duplicate identity values', () => { /* ... */ });Current logic handles simple mappings with filter + projection. Need to add pipeline support:
+- $match stage (4 tests)  test('should handle missing identity field in elements', () => { /* ... */ });
 
-  
+- $unwind stage (8 tests)
+
+- $addFields stage (5 tests)  test('should handle duplicate identity values', () => { /* ... */ });Current logic handles simple mappings with filter + projection. Need to add pipeline support:
+
+- $project stage (4 tests)
+
+- Pipeline composition (3 tests)  
+
+- Edge cases (5 tests)
 
   // Deep equality tests```typescript
 
-  test('should detect nested object changes', () => { /* ... */ });makeInsertChanges(watermark, doc, withTransaction = false) {
+**Total**: 122 tests (120 passing, 2 skipped)  
 
-  test('should detect array changes in elements', () => { /* ... */ });    const changes: v0.ChangeStreamMessage[] = [];
+**Build Status**: ✅ All packages compile successfully  test('should detect nested object changes', () => { /* ... */ });makeInsertChanges(watermark, doc, withTransaction = false) {
 
-  test('should compare dates correctly', () => { /* ... */ });    const matchingTables = this.getMatchingTables(doc.ns, doc.fullDocument);
 
-});
 
-```    for (const mapping of matchingTables) {
+## Known Issues & Workarounds  test('should detect array changes in elements', () => { /* ... */ });    const changes: v0.ChangeStreamMessage[] = [];
 
-        if (isPipelineMapping(mapping.config)) {
 
-**`pipeline-executor.service.spec.ts`** (Priority: HIGH)            // NEW: Execute pipeline (may produce multiple documents)
 
-```typescript            const transformed = this.pipelineExecutor.executePipeline(
+### 1. Nested Unwind Shallow Copy Bug ⚠️  test('should compare dates correctly', () => { /* ... */ });    const matchingTables = this.getMatchingTables(doc.ns, doc.fullDocument);
 
-describe('PipelineExecutorService', () => {                doc.fullDocument,
 
-  // $match stage tests                mapping.config.pipeline
 
-  test('should filter documents with $match', () => { /* ... */ });            );
+**Issue**: Shallow copy in `executeUnwind()` causes shared object references when unwinding nested array paths (e.g., `$data.members`).});
 
-              
+
+
+**Impact**: All unwound documents share nested object references, causing last-write-wins behavior.```    for (const mapping of matchingTables) {
+
+
+
+**Workaround**: Use top-level array paths only (e.g., `$members` not `$data.members`).        if (isPipelineMapping(mapping.config)) {
+
+
+
+**Status**: Test skipped with documentation. Will fix in Phase 7.**`pipeline-executor.service.spec.ts`** (Priority: HIGH)            // NEW: Execute pipeline (may produce multiple documents)
+
+
+
+### 2. Projection Field References```typescript            const transformed = this.pipelineExecutor.executePipeline(
+
+
+
+**Issue**: `$project` stage doesn't support field references like `name: '$firstName'` directly.describe('PipelineExecutorService', () => {                doc.fullDocument,
+
+
+
+**Reason**: `applyProjection` utility only handles inclusion (1), exclusion (0), and projection operators.  // $match stage tests                mapping.config.pipeline
+
+
+
+**Workaround**: Use `$addFields` to create field, then `$project` to select:  test('should filter documents with $match', () => { /* ... */ });            );
+
+```typescript
+
+// ❌ Doesn't work              
+
+{ $project: { name: '$firstName' } }
 
   // $unwind stage tests            // Generate one INSERT per transformed document
 
-  test('should unwind simple array', () => {            for (const transformedDoc of transformed) {
+// ✅ Works
 
-    const doc = { _id: 1, items: ['a', 'b', 'c'] };                changes.push([
+[  test('should unwind simple array', () => {            for (const transformedDoc of transformed) {
 
-    const pipeline = [{ $unwind: '$items' }];                    'data',
+  { $addFields: { name: '$firstName' } },
 
-    const results = service.executePipeline(doc, pipeline);                    {
+  { $project: { name: 1 } }    const doc = { _id: 1, items: ['a', 'b', 'c'] };                changes.push([
 
-    expect(results).toHaveLength(3);                        tag: 'insert',
+]
 
-    expect(results[0].items).toBe('a');                        new: transformedDoc,
+```    const pipeline = [{ $unwind: '$items' }];                    'data',
 
-  });                        relation: {
 
-                              keyColumns: mapping.spec.primaryKey || ['_id'],
 
-  test('should unwind with preserveNullAndEmptyArrays', () => { /* ... */ });                            schema: mapping.spec.schema,
+## Key Files & Locations    const results = service.executePipeline(doc, pipeline);                    {
 
-  test('should unwind with includeArrayIndex', () => { /* ... */ });                            name: mapping.tableName
 
-  test('should handle missing/null arrays', () => { /* ... */ });                        }
 
-                      }
+**Implementation**:    expect(results).toHaveLength(3);                        tag: 'insert',
 
-  // $addFields stage tests                ]);
+- `libs/zero-contracts/src/upstream/` - Types and helpers
+
+- `libs/zero-source-mongodb/src/v0/pipeline-executor.service.ts`    expect(results[0].items).toBe('a');                        new: transformedDoc,
+
+- `libs/zero-source-mongodb/src/v0/array-diff.service.ts`
+
+- `libs/zero-source-mongodb/src/v0/change-maker-v0.ts`  });                        relation: {
+
+
+
+**Tests**:                              keyColumns: mapping.spec.primaryKey || ['_id'],
+
+- `libs/zero-source-mongodb/src/v0/array-diff.service.spec.ts`
+
+- `libs/zero-source-mongodb/src/v0/pipeline-executor.service.spec.ts`  test('should unwind with preserveNullAndEmptyArrays', () => { /* ... */ });                            schema: mapping.spec.schema,
+
+
+
+**Documentation** (existing):  test('should unwind with includeArrayIndex', () => { /* ... */ });                            name: mapping.tableName
+
+- `docs/projects/mongo-array-unwind-in-mapping/ISSUE.md`
+
+- `docs/projects/mongo-array-unwind-in-mapping/IMPLEMENTATION_PLAN.md`  test('should handle missing/null arrays', () => { /* ... */ });                        }
+
+- `docs/projects/mongo-array-unwind-in-mapping/PHASE_1_2_COMPLETE.md`
+
+- `docs/projects/mongo-array-unwind-in-mapping/PHASE_3_COMPLETE.md`                      }
+
+- `docs/projects/mongo-array-unwind-in-mapping/PHASE_4_COMPLETE.md`
+
+- `docs/projects/mongo-array-unwind-in-mapping/PHASE_5_COMPLETE.md`  // $addFields stage tests                ]);
+
+- `docs/projects/mongo-array-unwind-in-mapping/examples/`
 
   test('should add computed fields', () => { /* ... */ });            }
 
+## Commands Reference
+
           } else {
 
-  // $project stage tests            // EXISTING: Legacy path (filter + projection)
+```bash
+
+# Build all packages  // $project stage tests            // EXISTING: Legacy path (filter + projection)
+
+pnpm build:libs
 
   test('should project fields', () => { /* ... */ });            const projectedDoc = applyProjection(
 
-                  doc.fullDocument,
+# Run all tests
 
-  // Pipeline composition tests                mapping.config.projection || {}
+pnpm --filter @cbnsndwch/zero-source-mongodb test                  doc.fullDocument,
+
+
+
+# Run specific test file  // Pipeline composition tests                mapping.config.projection || {}
+
+pnpm --filter @cbnsndwch/zero-source-mongodb test array-diff.service.spec.ts
 
   test('should execute multiple stages in sequence', () => { /* ... */ });            );
 
-});            changes.push([...]);
+# Build specific package
+
+pnpm --filter @cbnsndwch/zero-source-mongodb build});            changes.push([...]);
+
+```
 
 ```        }
 
+## Phase 7 Preview (Future)
+
     }
 
-**`change-maker-v0.spec.ts`** (Priority: MEDIUM)    
+**Performance Optimization**:
 
-- Test INSERT with pipeline mappings    return withTransaction ? this.#wrapInTransaction(changes, watermark) : changes;
+- Fix nested unwind shallow copy bug (deep clone implementation)**`change-maker-v0.spec.ts`** (Priority: MEDIUM)    
 
-- Test UPDATE with array diffing}
+- Consider `fast-deep-equal` library for deep equality
 
-- Test REPLACE with pipeline mappings```
+- Benchmark and optimize hot paths- Test INSERT with pipeline mappings    return withTransaction ? this.#wrapInTransaction(changes, watermark) : changes;
 
-- Test DELETE with pipeline mappings
+- Add streaming support for very large arrays
 
-- Test fallback to simple mappings#### 2. Update `makeUpdateChanges()` Method (Complex)
+- Add caching for pipeline execution if beneficial- Test UPDATE with array diffing}
 
 
 
-#### 2. Integration Tests NeededUpdates are tricky because:
+## Quick Start Guide for Phase 6- Test REPLACE with pipeline mappings```
 
-- Need to execute pipeline on BOTH `fullDocument` (after) and `fullDocumentBeforeChange` (before)
+
+
+1. **Review Existing Documentation**- Test DELETE with pipeline mappings
+
+   - Read through all PHASE_X_COMPLETE.md files
+
+   - Review examples in `examples/` folder- Test fallback to simple mappings#### 2. Update `makeUpdateChanges()` Method (Complex)
+
+   - Understand current API surface
+
+
+
+2. **Create API Reference**
+
+   - Document all configuration options#### 2. Integration Tests NeededUpdates are tricky because:
+
+   - List all supported operators
+
+   - Include TypeScript type signatures- Need to execute pipeline on BOTH `fullDocument` (after) and `fullDocumentBeforeChange` (before)
+
+   - Add JSDoc-style parameter descriptions
 
 **`pipeline-integration.spec.ts`** (Priority: HIGH)- Compare results to detect which "rows" were added/removed/changed
 
-```typescript- Handle array element modifications
+3. **Write Usage Guide**
 
-describe('Pipeline Integration', () => {
+   - Start with simple examples```typescript- Handle array element modifications
+
+   - Progress to complex scenarios
+
+   - Include discriminated union examplesdescribe('Pipeline Integration', () => {
+
+   - Add troubleshooting section
 
   let mongoServer: MongoMemoryServer;**Array Update Scenarios**:
 
-  let connection: Connection;```typescript
+4. **Document Migration Path**
 
-  // Before: { members: [{id:'u1', role:'admin'}, {id:'u2', role:'member'}] }
+   - Show before/after comparisons  let connection: Connection;```typescript
+
+   - Explain when to migrate
+
+   - Provide step-by-step process  // Before: { members: [{id:'u1', role:'admin'}, {id:'u2', role:'member'}] }
+
+   - Include testing strategies
 
   beforeAll(async () => {// After:  { members: [{id:'u1', role:'owner'}, {id:'u3', role:'member'}] }
 
-    mongoServer = await MongoMemoryServer.create();
+5. **Performance Guide**
 
-    // Setup test MongoDB with change streams enabled// After unwinding:
+   - Identity field selection criteria    mongoServer = await MongoMemoryServer.create();
+
+   - Pipeline optimization techniques
+
+   - Known limitations    // Setup test MongoDB with change streams enabled// After unwinding:
+
+   - Performance benchmarks
 
   });// - u1 changed (admin → owner) = UPDATE
 
+## Success Criteria for Phase 6
+
   // - u2 removed = DELETE
 
-  test('should handle account.members unwinding on INSERT', async () => {// - u3 added = INSERT
+- [ ] Complete API reference with all options documented
 
-    // Configure mapping with pipeline```
+- [ ] Usage guide with 5+ real-world examples  test('should handle account.members unwinding on INSERT', async () => {// - u3 added = INSERT
 
-    const mapping: PipelineTableMapping = {
+- [ ] Migration guide with clear before/after comparisons
+
+- [ ] Performance guide with optimization strategies    // Configure mapping with pipeline```
+
+- [ ] All documentation reviewed and proofread
+
+- [ ] Documentation links updated in main README    const mapping: PipelineTableMapping = {
+
+- [ ] Examples tested and verified
 
       source: 'accounts',**Required Logic**:
 
+## Context for AI Assistant
+
       pipeline: [```typescript
 
+This is a production feature for Zero MongoDB change source enabling array unwinding in table mappings. Implementation follows the Open-Closed Principle with discriminated unions for type safety. All phases 1-5 (implementation and testing) are complete with 120 passing tests. Phase 6 focuses on creating comprehensive documentation to help users adopt this feature. Phase 7 will address performance optimizations and bug fixes.
+
         { $unwind: { path: '$members', includeArrayIndex: 'memberIndex' } },makeUpdateChanges(watermark, doc, withTransaction = false) {
+
+The feature enables unwinding MongoDB arrays into separate Zero table rows with ~200x performance improvement over naive approaches, using identity-based matching for intelligent array diffing.
 
         { $addFields: { accountId: '$_id', memberId: '$members.userId' } }    const changes: v0.ChangeStreamMessage[] = [];
 
