@@ -1,5 +1,11 @@
 # @cbnsndwch/zero-nest-mongoose
 
+## 0.4.0
+
+### Minor Changes
+
+- [`e90efab`](https://github.com/cbnsndwch/zero-sources/commit/e90efabecc15cb580bee297430c7419495d8aadd) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - update @rocicorp/zero to v0.24.2025101500
+
 ## 0.3.0
 
 ### Minor Changes

@@ -108,11 +108,11 @@ function resolveValue(document: any, path: any): any {
     if (typeof path !== 'string') {
         throw new Error('Document path must be a string');
     }
-    
+
     if (!path.startsWith('$')) {
         throw new Error(`Document path must start with $, got: ${path}`);
     }
-    
+
     // Remove the $ prefix and get the nested value
     const fieldPath = path.substring(1);
     return getNestedValue(document, fieldPath);
@@ -220,7 +220,10 @@ function applyProjectionOperators(document: any, projectionSpec: any): any {
 /**
  * Converts a value to string
  */
-function convertToString(document: any, documentPath: string): string | undefined {
+function convertToString(
+    document: any,
+    documentPath: string
+): string | undefined {
     const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (value instanceof Date) return value.toISOString();
@@ -246,14 +249,20 @@ function convertToInt(document: any, documentPath: string): number | undefined {
 /**
  * Converts a value to long (treating as number in JavaScript)
  */
-function convertToLong(document: any, documentPath: string): number | undefined {
+function convertToLong(
+    document: any,
+    documentPath: string
+): number | undefined {
     return convertToInt(document, documentPath);
 }
 
 /**
  * Converts a value to double
  */
-function convertToDouble(document: any, documentPath: string): number | undefined {
+function convertToDouble(
+    document: any,
+    documentPath: string
+): number | undefined {
     const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (typeof value === 'boolean') return value ? 1.0 : 0.0;
@@ -269,7 +278,10 @@ function convertToDouble(document: any, documentPath: string): number | undefine
 /**
  * Converts a value to boolean
  */
-function convertToBool(document: any, documentPath: string): boolean | undefined {
+function convertToBool(
+    document: any,
+    documentPath: string
+): boolean | undefined {
     const value = resolveValue(document, documentPath);
     if (value === null || value === undefined) return undefined;
     if (typeof value === 'boolean') return value;

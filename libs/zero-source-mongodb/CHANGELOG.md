@@ -1,5 +1,16 @@
 # @cbnsndwch/zero-source-mongodb
 
+## 0.6.0
+
+### Minor Changes
+
+- [`e90efab`](https://github.com/cbnsndwch/zero-sources/commit/e90efabecc15cb580bee297430c7419495d8aadd) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - update @rocicorp/zero to v0.24.2025101500
+
+### Patch Changes
+
+- Updated dependencies [[`e90efab`](https://github.com/cbnsndwch/zero-sources/commit/e90efabecc15cb580bee297430c7419495d8aadd)]:
+    - @cbnsndwch/zero-contracts@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes
