@@ -1,5 +1,27 @@
 # @cbnsndwch/zrocket
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies across all packages:
+    - **Build Tools**: Updated pnpm (10.18.0→10.20.0), rimraf, npm-check-updates, esbuild, vite
+    - **NestJS Framework**: Updated all @nestjs/\* packages (^11.1.6→^11.1.8)
+    - **TypeScript/ESLint**: Updated eslint (^9.37.0→^9.39.0), typescript-eslint (^8.45.0→^8.46.2), @types/node
+    - **SWC Compiler**: Updated @swc/core (^1.13.5→^1.14.0)
+    - **React Router & Types**: Updated React Router packages (^7.9.3→^7.9.5), React types (^19.2.0→^19.2.2)
+    - **UI & Testing**: Updated mongoose, Tailwind CSS, Playwright, and various UI libraries
+    - **Utilities**: Updated lint-staged (^16.2.3→^16.2.6), jsdom, dotenv, and other dev tools
+
+    Protected zod from v4 upgrade by adding to reject list and ensuring all packages use ^3.x peerDependencies.
+
+    All builds and tests passing (132 passed | 77 skipped).
+
+- Updated dependencies []:
+    - @cbnsndwch/nest-zero-synced-queries@0.4.1
+    - @cbnsndwch/zero-contracts@0.6.1
+    - @cbnsndwch/zrocket-contracts@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

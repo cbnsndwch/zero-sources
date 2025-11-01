@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-source-mongodb-server",
     "description": "A Zero change source for MongoDB/Mongoose",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "license": "MIT",
     "type": "module",
     "private": true,

@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-watermark-nats-kv",
     "description": "Distributed watermark storage for Rocicorp Zero change sources using NATS JetStream KV. Enables scalable, cloud-native watermark tracking across multiple change source instances with automatic replication and high availability.",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "type": "module",
     "license": "MIT",
     "author": {

@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-watermark-zqlite",
     "description": "High-performance watermark storage for Rocicorp Zero change sources using SQLite (via @rocicorp/zero-sqlite3). Provides persistent, reliable watermark tracking for distributed change streaming with NestJS integration.",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "type": "module",
     "license": "MIT",
     "author": {
