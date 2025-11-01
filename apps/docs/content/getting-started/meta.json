@@ -1,0 +1,12 @@
+{
+  "title": "Getting Started",
+  "description": "Get up and running with Zero Sources",
+  "icon": "rocket",
+  "pages": [
+    "index",
+    "installation",
+    "quick-start",
+    "concepts",
+    "troubleshooting"
+  ]
+}
