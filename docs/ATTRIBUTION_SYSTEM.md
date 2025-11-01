@@ -311,7 +311,7 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 
 **If license violation claimed**:
 
-1. Contact legal@cbnsndwch.com
+1. Contact <oss@cbnsndwch.com>
 2. Investigate the code history
 3. Obtain legal guidance
 4. Take corrective action
@@ -390,9 +390,9 @@ The attribution system protects **cbnsndwch LLC** legally while properly acknowl
 
 ## Contact & Questions
 
-**Attribution Questions**: Open a discussion on GitHub or ask in Discord  
-**Legal Concerns**: legal@cbnsndwch.com  
 **General Contribution Help**: CONTRIBUTING.md or Discord @cbnsndwch
+**Attribution Questions**: Open a discussion on GitHub or ask in Discord  
+**Other Concerns**: <oss@cbnsndwch.com>  
 
 ---
 

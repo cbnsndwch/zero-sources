@@ -145,7 +145,7 @@ This document acknowledges the projects, individuals, and organizations whose wo
 
 This project uses numerous open-source libraries as direct dependencies. For a complete list of runtime dependencies, please refer to the `package.json` files in each package directory.
 
-### Key Dependencies Include:
+### Key Dependencies (Non-Exhaustive List)
 
 - **Mongoose**: MongoDB object modeling for Node.js
 - **Prisma**: Database ORM and type-safe query builder
@@ -158,7 +158,7 @@ This project uses numerous open-source libraries as direct dependencies. For a c
 
 ## Documentation & Learning Resources
 
-### Patterns & Best Practices Learned From:
+### Patterns & Best Practices Learned From
 
 - **[The Twelve-Factor App](https://12factor.net/)**: Principles for building modern, scalable applications
 - **[Conventional Commits](https://www.conventionalcommits.org/)**: Commit message conventions
@@ -189,11 +189,13 @@ If you've contributed to this project and borrowed code, patterns, or inspiratio
 
 1. **Update this file** with appropriate attribution
 2. **Add inline comments** in code where specific implementations were adapted:
+
     ```typescript
     // Adapted from: [Project Name] ([URL])
     // Original license: [License Type]
     // Changes: [Description of modifications]
     ```
+
 3. **Reference in commit messages** when appropriate
 4. **Follow license requirements** of the source material
 
@@ -228,7 +230,7 @@ If you believe we have:
 
 Please contact us immediately:
 
-- **Email**: oss@cbnsndwch.io
+- **Email**: <oss@cbnsndwch.io>
 - **GitHub Issues**: [Create an issue](https://github.com/cbnsndwch/zero-sources/issues)
 
 We take attribution and license compliance seriously and will address concerns promptly.

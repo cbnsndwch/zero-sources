@@ -194,7 +194,7 @@ Date: [YYYY-MM-DD]
 - 📖 **Full Guide**: [CONTRIBUTING.md](../CONTRIBUTING.md)
 - 📋 **Detailed Attributions**: [ACKNOWLEDGMENTS.md](../ACKNOWLEDGMENTS.md)
 - 💬 **Ask**: GitHub Discussions or Discord @cbnsndwch
-- ⚖️ **Legal**: legal@cbnsndwch.com
+- ⚖️ **Legal**: <oss@cbnsndwch.com>
 
 ---
 
