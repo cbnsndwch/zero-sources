@@ -1,0 +1,53 @@
+---
+title: zero-contracts
+description: Zero protocol contracts and TypeScript types
+---
+
+# zero-contracts
+
+Common TypeScript types and contracts for Zero protocol implementation.
+
+## Overview
+
+The `zero-contracts` library provides shared TypeScript types, interfaces, and contracts used across Zero Sources. It ensures type consistency between change sources, clients, and other components.
+
+## Key Features
+
+- **Protocol Types**: TypeScript types for Zero protocol messages
+- **Change Events**: Interfaces for change stream events
+- **Schema Contracts**: Base types for schema definitions
+- **Type Guards**: Runtime type checking utilities
+- **Validation**: Schema and data validation helpers
+
+## Installation
+
+```bash
+pnpm add @cbnsndwch/zero-contracts
+```
+
+## Quick Start
+
+```typescript
+import { ChangeEvent, StreamRequest } from '@cbnsndwch/zero-contracts';
+
+// Use protocol types
+const request: StreamRequest = {
+  tables: ['message', 'user'],
+  watermark: '1234567890',
+};
+
+// Use change event types
+const event: ChangeEvent = {
+  type: 'insert',
+  table: 'message',
+  key: { id: '123' },
+  value: { content: 'Hello' },
+  timestamp: Date.now(),
+};
+```
+
+## Next Steps
+
+- [Installation Guide](./installation)
+- [Usage Guide](./usage)
+- [API Reference](./api)

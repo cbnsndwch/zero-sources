@@ -1,0 +1,46 @@
+---
+title: synced-queries
+description: Synced query utilities and helpers for Zero
+---
+
+# synced-queries
+
+Utility functions and helpers for building synced queries with Zero.
+
+## Overview
+
+The `synced-queries` library provides utilities for working with Zero queries, including query builders, filters, and common patterns.
+
+## Key Features
+
+- **Query Builders**: Fluent API for building queries
+- **Type Safety**: TypeScript-first design
+- **Common Patterns**: Pre-built query patterns
+- **Performance**: Optimized query execution
+- **Composable**: Mix and match utilities
+
+## Installation
+
+```bash
+pnpm add @cbnsndwch/synced-queries
+```
+
+## Quick Start
+
+```typescript
+import { createQuery } from '@cbnsndwch/synced-queries';
+
+const query = createQuery(zero)
+  .table('message')
+  .where('roomId', '=', 'room-123')
+  .orderBy('createdAt', 'desc')
+  .limit(50);
+
+const messages = query.run();
+```
+
+## Next Steps
+
+- [Installation Guide](./installation)
+- [Usage Guide](./usage)
+- [API Reference](./api)

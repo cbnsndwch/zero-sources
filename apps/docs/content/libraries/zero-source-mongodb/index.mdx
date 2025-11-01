@@ -1,0 +1,108 @@
+---
+title: zero-source-mongodb
+description: MongoDB change streaming to Zero protocol
+---
+
+# zero-source-mongodb
+
+Stream MongoDB changes to Zero clients using MongoDB change streams.
+
+## Overview
+
+The `zero-source-mongodb` library provides a robust implementation for streaming MongoDB changes to Zero protocol. It handles change stream watching, event transformation, and efficient data propagation.
+
+## Key Features
+
+- **Change Streams**: Real-time MongoDB change detection
+- **Discriminated Unions**: Handle polymorphic collections
+- **Field Mapping**: Flexible MongoDB-to-Zero field mapping
+- **Filtering**: Collection-level and document-level filtering
+- **Resume Tokens**: Automatic resume after disconnection
+- **Type Safety**: Full TypeScript support
+
+## Installation
+
+```bash
+pnpm add @cbnsndwch/zero-source-mongodb
+```
+
+## Quick Start
+
+```typescript
+import { MongoDBChangeSource } from '@cbnsndwch/zero-source-mongodb';
+import { messageSchema } from './schema';
+
+const changeSource = new MongoDBChangeSource({
+  mongoUri: 'mongodb://localhost:27017',
+  schema: { message: messageSchema },
+  tableMappings: {
+    message: {
+      collection: 'messages',
+      fields: {
+        id: '_id',
+        content: 'content',
+      },
+    },
+  },
+});
+
+await changeSource.start();
+```
+
+## Common Use Cases
+
+### Basic Collection Mapping
+
+```typescript
+const tableMappings = {
+  user: {
+    collection: 'users',
+    fields: {
+      id: '_id',
+      name: 'fullName',
+      email: 'emailAddress',
+    },
+  },
+};
+```
+
+### Discriminated Unions
+
+```typescript
+const tableMappings = {
+  'content:article': {
+    collection: 'content',
+    filter: { type: 'article' },
+    fields: { /* ... */ },
+  },
+  'content:video': {
+    collection: 'content',
+    filter: { type: 'video' },
+    fields: { /* ... */ },
+  },
+};
+```
+
+### Nested Field Mapping
+
+```typescript
+const tableMappings = {
+  message: {
+    collection: 'messages',
+    fields: {
+      id: '_id',
+      userName: 'user.name',           // Nested field
+      userEmail: 'user.email',          // Nested field
+      roomName: 'room.name',            // Nested field
+    },
+  },
+};
+```
+
+## Next Steps
+
+- [Installation Guide](./installation)
+- [Configuration Guide](./configuration)
+- [Discriminated Unions](./discriminated-unions)
+- [Change Streams](./change-streams)
+- [API Reference](./api)

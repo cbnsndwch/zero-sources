@@ -1,0 +1,80 @@
+---
+title: zero-nest-mongoose
+description: NestJS integration for Mongoose and Zero
+---
+
+# zero-nest-mongoose
+
+NestJS module for integrating Mongoose with Zero change sources.
+
+## Overview
+
+The `zero-nest-mongoose` library provides seamless integration between NestJS, Mongoose, and Zero Sources. It simplifies change source setup in NestJS applications.
+
+## Key Features
+
+- **NestJS Module**: Easy integration with dependency injection
+- **Mongoose Integration**: Works with existing Mongoose models
+- **Schema Sharing**: Share schemas between Mongoose and Zero
+- **Configuration**: Flexible configuration options
+- **Type Safety**: Full TypeScript support
+
+## Installation
+
+```bash
+pnpm add @cbnsndwch/zero-nest-mongoose
+```
+
+## Quick Start
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ZeroMongooseModule } from '@cbnsndwch/zero-nest-mongoose';
+
+@Module({
+  imports: [
+    ZeroMongooseModule.forRoot({
+      mongoUri: process.env.MONGODB_URI,
+      schema: mySchema,
+      tableMappings: myTableMappings,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+## Features
+
+### Dependency Injection
+
+```typescript
+@Injectable()
+export class MessageService {
+  constructor(
+    @InjectModel('Message')
+    private messageModel: Model<MessageDocument>,
+    private changeSource: ChangeSourceService,
+  ) {}
+}
+```
+
+### Schema Definition
+
+```typescript
+@Schema()
+export class Message {
+  @Prop({ required: true })
+  content: string;
+
+  @Prop({ type: Date, default: Date.now })
+  createdAt: Date;
+}
+
+export const MessageSchema = SchemaFactory.createForClass(Message);
+```
+
+## Next Steps
+
+- [Installation Guide](./installation)
+- [Usage Guide](./usage)
+- [API Reference](./api)
