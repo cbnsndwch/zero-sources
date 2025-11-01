@@ -1,0 +1,72 @@
+---
+title: API Reference
+description: Complete API documentation for Zero Sources
+icon: code
+---
+
+# API Reference
+
+Complete API documentation for all Zero Sources libraries and components.
+
+## Available APIs
+
+<Cards>
+  <Card title="zero-contracts" href="/libraries/zero-contracts/api">
+    Protocol types and interfaces
+  </Card>
+  <Card title="zero-source-mongodb" href="/libraries/zero-source-mongodb/api">
+    MongoDB change source API
+  </Card>
+  <Card title="zero-watermark-zqlite" href="/libraries/zero-watermark-zqlite/api">
+    ZQLite watermark storage API
+  </Card>
+  <Card title="zero-watermark-nats-kv" href="/libraries/zero-watermark-nats-kv/api">
+    NATS KV watermark storage API
+  </Card>
+</Cards>
+
+## API Documentation Format
+
+API documentation includes:
+
+- **Classes**: Constructor, methods, properties
+- **Interfaces**: Type definitions and contracts
+- **Functions**: Parameters, return types, examples
+- **Types**: TypeScript type aliases and unions
+- **Examples**: Usage examples for each API
+
+## TypeScript Support
+
+All APIs provide full TypeScript support with:
+
+- Complete type definitions
+- JSDoc comments
+- IDE autocomplete
+- Type inference
+
+## Generating API Docs
+
+API documentation can be generated from source code:
+
+```bash
+# Generate API docs for a library
+pnpm --filter @cbnsndwch/zero-source-mongodb docs
+
+# Generate all API docs
+pnpm docs
+```
+
+## Contributing
+
+Help improve API documentation:
+
+1. Add JSDoc comments to public APIs
+2. Include usage examples
+3. Document edge cases
+4. Update when APIs change
+
+## Next Steps
+
+- Browse [library documentation](/libraries)
+- Check [code examples](/guides)
+- Explore [demos](/demos)
