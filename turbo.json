@@ -22,6 +22,18 @@
                 "build"
             ]
         },
+        "build:api-docs": {
+            "dependsOn": [
+                "^build"
+            ],
+            "inputs": [
+                "src/**/*.ts",
+                "typedoc.json"
+            ],
+            "outputs": [
+                "../../apps/docs/content/api/**"
+            ]
+        },
         "lint": {
             "dependsOn": [
                 "^lint"
