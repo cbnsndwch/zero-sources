@@ -11,17 +11,26 @@ Complete API documentation for all Zero Sources libraries and components.
 ## Available APIs
 
 <Cards>
-  <Card title="zero-contracts" href="/libraries/zero-contracts/api">
-    Protocol types and interfaces
+  <Card title="zero-contracts" href="/api/zero-contracts">
+    Protocol types and interfaces (57 APIs)
   </Card>
-  <Card title="zero-source-mongodb" href="/libraries/zero-source-mongodb/api">
-    MongoDB change source API
+  <Card title="zero-source-mongodb" href="/api/zero-source-mongodb">
+    MongoDB change source API (41 APIs)
   </Card>
-  <Card title="zero-watermark-zqlite" href="/libraries/zero-watermark-zqlite/api">
-    ZQLite watermark storage API
+  <Card title="zero-nest-mongoose" href="/api/zero-nest-mongoose">
+    NestJS Mongoose integration API (20 APIs)
   </Card>
-  <Card title="zero-watermark-nats-kv" href="/libraries/zero-watermark-nats-kv/api">
-    NATS KV watermark storage API
+  <Card title="zero-watermark-zqlite" href="/api/zero-watermark-zqlite">
+    ZQLite watermark storage API (12 APIs)
+  </Card>
+  <Card title="zero-watermark-nats-kv" href="/api/zero-watermark-nats-kv">
+    NATS KV watermark storage API (12 APIs)
+  </Card>
+  <Card title="synced-queries" href="/api/synced-queries">
+    NestJS synced queries API (155 APIs)
+  </Card>
+  <Card title="zrocket-contracts" href="/api/zrocket-contracts">
+    ZRocket application contracts API (57 APIs)
   </Card>
 </Cards>
 
@@ -46,15 +55,14 @@ All APIs provide full TypeScript support with:
 
 ## Generating API Docs
 
-API documentation can be generated from source code:
+API documentation is automatically generated from source code using Microsoft API Extractor:
 
 ```bash
-# Generate API docs for a library
-pnpm --filter @cbnsndwch/zero-source-mongodb docs
-
 # Generate all API docs
-pnpm docs
+pnpm build:api-docs
 ```
+
+For more information on maintaining API documentation, see the [API Documentation Guide](/docs/API_DOCUMENTATION_GUIDE.md).
 
 ## Contributing
 
