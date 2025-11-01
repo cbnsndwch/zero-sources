@@ -4,6 +4,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "declaration": true,
+    "declarationMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
