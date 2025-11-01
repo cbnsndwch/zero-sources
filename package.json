@@ -10,6 +10,7 @@
     "scripts": {
         "build": "turbo run build",
         "build:libs": "pnpm i && turbo run build \"--filter=./libs/*\"",
+        "build:api-docs": "turbo run build:api-docs \"--filter=./libs/*\"",
         "reset": "rm -rf ./.data/zrocket_data/*",
         "dev": "turbo run dev",
         "lint": "turbo run lint",
@@ -23,6 +24,8 @@
     "devDependencies": {
         "@changesets/changelog-github": "^0.5.1",
         "@changesets/cli": "^2.29.7",
+        "@microsoft/api-documenter": "^7.27.3",
+        "@microsoft/api-extractor": "^7.53.3",
         "npm-check-updates": "^19.1.2",
         "prettier": "^3.6.2",
         "rimraf": "^6.1.0",
