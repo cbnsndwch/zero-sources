@@ -21,6 +21,10 @@ import { applyProjection, matchesFilter } from '../utils/table-mapping.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
 
 import {
+    ARRAY_DIFF_SERVICE_TOKEN,
+    type ArrayDiffService
+} from './array-diff.service.js';
+import {
     PIPELINE_EXECUTOR_SERVICE_TOKEN,
     type PipelineExecutorService
 } from './pipeline-executor.service.js';
@@ -40,7 +44,9 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         @Inject(TOKEN_TABLE_MAPPING_SERVICE)
         private readonly tableMappingService: TableMappingService,
         @Inject(PIPELINE_EXECUTOR_SERVICE_TOKEN)
-        private readonly pipelineExecutor: PipelineExecutorService
+        private readonly pipelineExecutor: PipelineExecutorService,
+        @Inject(ARRAY_DIFF_SERVICE_TOKEN)
+        private readonly arrayDiffService: ArrayDiffService
     ) {
         // Initialize the table mapping service with table specs from options
         if (this.options.tables) {
@@ -244,15 +250,23 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                               )
                             : [];
 
-                        // TODO Phase 4: Implement array diff logic
-                        // For now, we'll use a simple approach:
-                        // - Generate DELETE for all before documents
-                        // - Generate INSERT for all after documents
-                        // This is inefficient but correct for now
-                        for (const beforeDoc of docsBefore) {
+                        // Phase 4: Use array diffing to generate minimal change events
+                        // Get identity field from table spec (if specified)
+                        const primaryKey = tableAfter.spec.primaryKey || ['_id'];
+                        const identityField =
+                            primaryKey.length === 1 ? primaryKey[0] : undefined;
+
+                        const diff = this.arrayDiffService.computeDiff(
+                            docsBefore,
+                            docsAfter,
+                            identityField ? { identityField } : undefined
+                        );
+
+                        // Generate DELETE for removed elements
+                        for (const removed of diff.removed) {
                             const key = this.#extractKey(
-                                beforeDoc,
-                                tableAfter.spec.primaryKey || ['_id']
+                                removed.value,
+                                primaryKey
                             );
                             changes.push([
                                 'data',
@@ -260,8 +274,7 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                                     tag: 'delete',
                                     key,
                                     relation: {
-                                        keyColumns: tableAfter.spec
-                                            .primaryKey || ['_id'],
+                                        keyColumns: primaryKey,
                                         schema: tableAfter.spec.schema,
                                         name: tableName
                                     }
@@ -269,15 +282,36 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                             ] satisfies v0.Data);
                         }
 
-                        for (const afterDoc of docsAfter) {
+                        // Generate INSERT for added elements
+                        for (const added of diff.added) {
                             changes.push([
                                 'data',
                                 {
                                     tag: 'insert',
-                                    new: afterDoc,
+                                    new: added.value,
                                     relation: {
-                                        keyColumns: tableAfter.spec
-                                            .primaryKey || ['_id'],
+                                        keyColumns: primaryKey,
+                                        schema: tableAfter.spec.schema,
+                                        name: tableName
+                                    }
+                                }
+                            ] satisfies v0.Data);
+                        }
+
+                        // Generate UPDATE for modified elements
+                        for (const modified of diff.modified) {
+                            const key = this.#extractKey(
+                                modified.newValue,
+                                primaryKey
+                            );
+                            changes.push([
+                                'data',
+                                {
+                                    tag: 'update',
+                                    key,
+                                    new: modified.newValue,
+                                    relation: {
+                                        keyColumns: primaryKey,
                                         schema: tableAfter.spec.schema,
                                         name: tableName
                                     }
