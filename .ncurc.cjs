@@ -3,7 +3,10 @@ const reject = [
     '@types/node',
 
     // turbo does its own thing
-    'turbo'
+    'turbo',
+
+    // zod v4 has breaking changes, waiting to update
+    'zod'
 ];
 
 /**

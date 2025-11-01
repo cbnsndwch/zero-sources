@@ -23,9 +23,9 @@
     "devDependencies": {
         "@changesets/changelog-github": "^0.5.1",
         "@changesets/cli": "^2.29.7",
-        "npm-check-updates": "^19.0.0",
+        "npm-check-updates": "^19.1.2",
         "prettier": "^3.6.2",
-        "rimraf": "^6.0.1",
+        "rimraf": "^6.1.0",
         "turbo": "^2.5.8",
         "typescript": "5.9.3",
         "vitest": "^4.0.6"
@@ -37,5 +37,5 @@
         "apps/*",
         "libs/*"
     ],
-    "packageManager": "pnpm@10.18.0"
+    "packageManager": "pnpm@10.20.0"
 }
