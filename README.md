@@ -18,13 +18,13 @@
     - [Libraries](#libraries-libs)
     - [Custom Change Sources](#custom-change-sources-apps)
 5. [Running the ZRocket Demo Locally](#running-the-zrocket-demo-locally)
-    - [Architecture Overview](#architecture-overview)
-    - [Quick Start](#quick-start)
-    - [Available Endpoints](#available-endpoints)
-    - [Testing the Implementation](#testing-the-implementation)
-    - [Development Scripts](#development-scripts)
-    - [Troubleshooting](#troubleshooting)
-    - [Monitoring Changes](#monitoring-changes)
+    - [Architecture Overview](#️-architecture-overview)
+    - [Quick Start](#-quick-start)
+    - [Available Endpoints](#-available-endpoints)
+    - [Testing the Implementation](#-testing-the-implementation)
+    - [Development Scripts](#️-development-scripts)
+    - [Troubleshooting](#-troubleshooting)
+    - [Monitoring Changes](#-monitoring-changes)
 6. [Development](#development)
     - [Running the Project Locally](#running-the-project-locally)
     - [Build Process](#build-process)
@@ -154,6 +154,56 @@ Each app can be deployed as a Docker container and provides a complete working e
 
 ---
 
+## 🚀 Featured: MongoDB Array Unwinding in Table Mappings
+
+The **MongoDB change source** now supports **array unwinding** in table mappings, enabling you to normalize MongoDB documents with embedded arrays into separate Zero table rows using aggregation pipeline stages.
+
+### Key Features
+
+- **~200x Performance Improvement**: Identity-based array diffing generates minimal change events (1 UPDATE vs 200 DELETE+INSERT)
+- **Discriminated Union Architecture**: Type-safe pipeline vs simple mappings with compile-time checking
+- **Fluent Builder API**: Readable, chainable pipeline construction
+- **Backward Compatible**: All existing simple mappings continue to work unchanged
+
+### Quick Example
+
+```typescript
+import { pipelineBuilder } from '@cbnsndwch/zero-contracts';
+
+// Unwind account members into separate table rows
+const mapping = pipelineBuilder<Member>('accounts')
+  .match({ bundle: 'ENTERPRISE' })      // Pre-filter for performance
+  .unwind('$members')                   // Unwind array
+  .addFields({                          // Add computed fields
+    accountId: '$_id',
+    userId: '$members.id',
+    role: '$members.role'
+  })
+  .build();
+
+// Table spec with identity field for optimal array diffing
+{
+  tableName: 'account_members',
+  spec: {
+    primaryKey: ['accountId', 'userId'],
+    identityField: 'userId'  // Critical for ~200x performance improvement
+  },
+  config: mapping
+}
+```
+
+### 📚 Complete Documentation
+
+- **[API Reference](./docs/projects/mongo-array-unwind-in-mapping/API_REFERENCE.md)** - Type definitions, pipeline stages, expression operators
+- **[Usage Guide](./docs/projects/mongo-array-unwind-in-mapping/USAGE_GUIDE.md)** - Real-world examples and best practices
+- **[Migration Guide](./docs/projects/mongo-array-unwind-in-mapping/MIGRATION_GUIDE.md)** - Migrate from simple to pipeline mappings
+- **[Performance Guide](./docs/projects/mongo-array-unwind-in-mapping/PERFORMANCE_GUIDE.md)** - Optimization strategies and benchmarks
+- **[Project Overview](./docs/projects/mongo-array-unwind-in-mapping/README.md)** - Complete feature documentation
+
+**Status**: ✅ Production Ready (Phases 1-6 Complete)
+
+---
+
 ## Running the ZRocket Demo Locally
 
 The **ZRocket demo** showcases discriminated union tables in Zero using MongoDB as the source. Multiple Zero tables are created from single MongoDB collections using filter-based discrimination.
@@ -181,7 +231,7 @@ Instead of direct 1:1 mapping between MongoDB collections and Zero tables, discr
 
 #### 1. Prerequisites Setup
 
-**Option A: Local MongoDB**
+##### Option A: Local MongoDB
 
 ```bash
 # Install MongoDB locally (macOS with Homebrew)
@@ -192,7 +242,7 @@ brew services start mongodb-community
 docker run -d --name mongodb -p 27017:27017 mongo:7
 ```
 
-**Option B: MongoDB Atlas**
+##### Option B: MongoDB Atlas
 
 1. Create a free MongoDB Atlas account at [mongodb.com](https://www.mongodb.com/cloud/atlas)
 2. Create a new cluster
@@ -225,7 +275,7 @@ pnpm build:libs
 
 #### 4. Start the Services
 
-**Terminal 1: Start Zero Cache with Discriminated Schema**
+##### Terminal 1: Start Zero Cache with Discriminated Schema
 
 ```bash
 cd apps/zrocket
@@ -234,7 +284,7 @@ pnpm run dev:zero
 
 Wait for Zero Cache to start (you'll see "Zero cache server listening on :4848")
 
-**Terminal 2: Start ZRocket Unified App**
+##### Terminal 2: Start ZRocket Unified App
 
 ```bash
 cd apps/zrocket
@@ -245,8 +295,8 @@ This starts both the NestJS API server and React Router 7 frontend in developmen
 
 Wait for both servers to start:
 
-- API server: "Application is running on: http://localhost:8011"
-- Frontend dev server: "Local: http://localhost:3000"
+- API server: "Application is running on: <http://localhost:8011>"
+- Frontend dev server: "Local: <http://localhost:3000>"
 
 #### 5. Seed Sample Data
 
@@ -269,13 +319,13 @@ curl http://localhost:8011/zrocket/demo-info | jq
 ```
 
 **Access API Documentation:**
-Open http://localhost:8011/api-docs in your browser
+Open <http://localhost:8011/api-docs> in your browser
 
 **Access Frontend Demo:**
-Open http://localhost:3000 in your browser
+Open <http://localhost:3000> in your browser
 
 **Access API directly:**
-Open http://localhost:8011 in your browser
+Open <http://localhost:8011> in your browser
 
 ### 🔍 Available Endpoints
 
@@ -311,18 +361,21 @@ ZRocket uses Zero's **Synced Queries** feature for server-side permission enforc
    - `apps/zrocket/.env` (ZRocket API - for documentation)
 
 2. Verify the configuration:
+
    ```bash
    # Run verification script
    .\tools\verify-get-queries-config.ps1
    ```
 
 3. Test the endpoint once services are running:
+
    ```bash
    # Test get-queries endpoint
    .\tools\test-get-queries-endpoint.ps1
    ```
 
 **For detailed setup and troubleshooting**, see:
+
 - 📖 [Zero Get-Queries Setup Guide](./docs/projects/zrocket-synced-queries/ZERO_GET_QUERIES_SETUP.md)
 
 **Key environment variables:**
