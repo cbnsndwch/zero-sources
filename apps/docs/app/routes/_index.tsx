@@ -4,7 +4,7 @@ import { baseOptions } from '../layout.config';
 export { meta } from './home';
 
 export default function DocsLayout({
-    children,
+    children
 }: {
     children: React.ReactNode;
 }) {

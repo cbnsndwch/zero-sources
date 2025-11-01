@@ -54,7 +54,7 @@ Before migrating existing documentation and creating new content, we need to est
 
 Create the following structure in `apps/docs/content/`:
 
-```
+```text
 apps/docs/content/
 ├── meta.json                          # Root navigation
 ├── index.mdx                          # Home page
@@ -169,7 +169,7 @@ apps/docs/content/
 
 Define clean, predictable URLs:
 
-```
+```text
 / (Home)
 /getting-started
 /getting-started/installation
@@ -243,12 +243,14 @@ tags: [tag1, tag2, tag3]
 ### Naming Conventions
 
 **Files and Directories:**
+
 - Use kebab-case for all file and folder names
 - Use descriptive names that match page titles
 - Index files: `index.mdx` for section overviews
 - No spaces or special characters except hyphens
 
 **Page Slugs:**
+
 - Derived from file names
 - Keep URLs short but descriptive
 - Use hyphens to separate words
@@ -433,9 +435,11 @@ for (const dir of requiredDirs) {
 ## Dependencies
 
 **Depends on:**
+
 - Story 001: Project Setup (provides base infrastructure)
 
 **Blocks:**
+
 - Story 004b: Core Library Documentation
 - Story 005: Getting Started Guide
 - Story 006: Watermark Libraries Documentation

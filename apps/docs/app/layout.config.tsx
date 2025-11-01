@@ -41,19 +41,19 @@ export const baseOptions: BaseLayoutProps = {
                 <span className="font-bold">zero-sources</span>
             </div>
         ),
-        transparentMode: 'top',
+        transparentMode: 'top'
     },
     links: [
         {
             text: 'Documentation',
             url: '/docs',
-            active: 'nested-url',
+            active: 'nested-url'
         },
         {
             text: 'GitHub',
             url: 'https://github.com/cbnsndwch/zero-sources',
-            external: true,
-        },
+            external: true
+        }
     ],
-    githubUrl: 'https://github.com/cbnsndwch/zero-sources',
+    githubUrl: 'https://github.com/cbnsndwch/zero-sources'
 };
