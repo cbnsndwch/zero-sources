@@ -1,0 +1,1 @@
+great! let's run a full `build` / `format` / `lint` / `test` flow and once everything is in order, commit these changes in thematic groups with short messages that follow the repo's semantic conventions. Then create a PR against main
