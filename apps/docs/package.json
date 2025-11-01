@@ -1,0 +1,41 @@
+{
+    "name": "@cbnsndwch/zero-sources-docs",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "react-router dev",
+        "build": "react-router build",
+        "preview": "react-router dev",
+        "format": "prettier --write ./{app,components,content}/**/*.{ts,tsx,json,md,mdx}",
+        "lint": "eslint . --fix",
+        "type-check": "tsc --noEmit",
+        "types": "react-router typegen && tsc"
+    },
+    "dependencies": {
+        "@react-router/node": "^7.0.0",
+        "fumadocs-core": "^16.0.0",
+        "fumadocs-mdx": "^13.0.0",
+        "fumadocs-ui": "^16.0.0",
+        "isbot": "^5",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router": "^7.0.0"
+    },
+    "devDependencies": {
+        "@react-router/dev": "^7.0.0",
+        "@repo/eslint-config": "workspace:*",
+        "@repo/tsconfig": "workspace:*",
+        "@tailwindcss/vite": "^4.0.0",
+        "@types/node": "^22.0.0",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "eslint": "^9.0.0",
+        "tailwindcss": "^4.0.0",
+        "typescript": "~5.9.3",
+        "vite": "^6.0.0"
+    },
+    "engines": {
+        "node": ">=22"
+    }
+}
