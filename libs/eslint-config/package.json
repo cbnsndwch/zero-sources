@@ -8,15 +8,15 @@
         "email": "oss@cbnsndwch.io"
     },
     "devDependencies": {
-        "@eslint/js": "^9.37.0",
+        "@eslint/js": "^9.39.0",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-only-warn": "^1.1.0",
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-turbo": "^2.6.0",
-        "eslint": "^9.37.0",
-        "globals": "^16.4.0",
-        "typescript-eslint": "^8.45.0",
+        "eslint": "^9.39.0",
+        "globals": "^16.5.0",
+        "typescript-eslint": "^8.46.2",
         "typescript": "~5.9.3"
     },
     "files": [
