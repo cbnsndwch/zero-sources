@@ -3,6 +3,13 @@
   "description": "Complete API documentation",
   "icon": "code",
   "pages": [
-    "index"
+    "index",
+    "zero-contracts",
+    "zero-source-mongodb",
+    "zero-nest-mongoose",
+    "zero-watermark-zqlite",
+    "zero-watermark-nats-kv",
+    "synced-queries",
+    "zrocket-contracts"
   ]
 }
