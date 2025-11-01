@@ -12,6 +12,7 @@
         "clean": "rimraf lib",
         "prebuild": "pnpm clean",
         "build": "nest build && tsc --emitDeclarationOnly",
+        "build:api-docs": "api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ../../apps/docs/content/api/zero-source-mongodb",
         "dev": "nest build --watch",
         "lint": "eslint . --fix",
         "test": "vitest --run --passWithNoTests",

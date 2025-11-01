@@ -18,6 +18,7 @@
     ],
     "scripts": {
         "build": "nest build && tsc --emitDeclarationOnly",
+        "build:api-docs": "api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ../../apps/docs/content/api/synced-queries",
         "clean": "rm -rf dist"
     },
     "dependencies": {

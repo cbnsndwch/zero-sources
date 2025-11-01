@@ -10,6 +10,7 @@
     },
     "scripts": {
         "build": "tsup",
+        "build:api-docs": "api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ../../apps/docs/content/api/zero-watermark-zqlite",
         "lint": "eslint . --fix",
         "test": "vitest --run --passWithNoTests",
         "ci:test": "vitest --run --passWithNoTests --bail 1",
