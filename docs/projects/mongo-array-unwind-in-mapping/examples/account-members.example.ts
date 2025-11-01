@@ -1,9 +1,9 @@
 /**
  * Example: Account Members Table Mapping with Array Unwinding
- * 
+ *
  * This example demonstrates how to use the pipeline-based table mapping API
  * to normalize MongoDB documents with nested arrays into separate Zero tables.
- * 
+ *
  * Use Case: RBAC permission system where accounts have multiple members
  */
 
@@ -46,23 +46,23 @@ interface IZeroAccount {
  */
 export const allAccountMembersMapping: TableMapping<IZeroAccountMember> = {
     source: 'accounts',
-    pipeline: [
-        { $unwind: '$members' }
-    ],
+    pipeline: [{ $unwind: '$members' }],
     projection: {
         // Composite ID: accountId + member userId
         _id: { $concat: ['$_id', '_', '$members.id'] } as any,
-        id: { $concat: [{ $hexToBase64Url: '$_id' }, '_', '$members.id'] } as any,
-        
+        id: {
+            $concat: [{ $hexToBase64Url: '$_id' }, '_', '$members.id']
+        } as any,
+
         // Foreign key to parent
         accountId: '$_id',
-        
+
         // Member fields
         userId: '$members.id',
         name: '$members.name',
         email: '$members.email',
         role: '$members.role',
-        
+
         // Parent timestamps
         createdAt: 1,
         updatedAt: 1
@@ -82,7 +82,7 @@ export const enterpriseMembersMapping: TableMapping<IZeroAccountMember> = {
     pipeline: [
         // Filter first for performance
         { $match: { bundle: 'ENTERPRISE' } },
-        
+
         // Then unwind
         { $unwind: '$members' }
     ],
@@ -111,7 +111,7 @@ export const adminMembersMapping: TableMapping<IZeroAccountMember> = {
     source: 'accounts',
     pipeline: [
         { $unwind: '$members' },
-        
+
         // Filter unwound elements
         { $match: { 'members.role': { $in: ['admin', 'owner'] } } }
     ],
@@ -201,7 +201,9 @@ export const enrichedMembersMapping: TableMapping<IZeroAccountMember> = {
  * Same as Example 3, but using the fluent builder
  * Provides better readability for complex pipelines
  */
-export const adminMembersFluentMapping = pipelineBuilder<IZeroAccountMember>('accounts')
+export const adminMembersFluentMapping = pipelineBuilder<IZeroAccountMember>(
+    'accounts'
+)
     .unwind('$members')
     .match({ 'members.role': { $in: ['admin', 'owner'] } })
     .projection({
@@ -224,29 +226,31 @@ export const adminMembersFluentMapping = pipelineBuilder<IZeroAccountMember>('ac
 /**
  * Combine multiple stages for advanced transformations
  */
-export const complexMembersMapping = pipelineBuilder<IZeroAccountMember>('accounts')
+export const complexMembersMapping = pipelineBuilder<IZeroAccountMember>(
+    'accounts'
+)
     // Filter accounts first
-    .match({ 
+    .match({
         bundle: 'ENTERPRISE',
         isActive: true
     })
-    
+
     // Unwind members array with index
-    .unwind({ 
+    .unwind({
         path: '$members',
         includeArrayIndex: 'position'
     })
-    
+
     // Filter unwound members
-    .match({ 
+    .match({
         'members.role': { $in: ['admin', 'owner'] },
         'members.isActive': true
     })
-    
+
     // Add computed fields
     .addFields({
         isOwner: { $eq: ['$members.role', 'owner'] },
-        isPrimaryAdmin: { 
+        isPrimaryAdmin: {
             $and: [
                 { $eq: ['$members.role', 'admin'] },
                 { $eq: ['$position', 0] }
@@ -254,7 +258,7 @@ export const complexMembersMapping = pipelineBuilder<IZeroAccountMember>('accoun
         },
         displayName: { $concat: ['$name', ' / ', '$members.name'] }
     })
-    
+
     // Final projection
     .projection({
         _id: { $concat: ['$_id', '_', '$members.id'] },
@@ -302,28 +306,29 @@ export const enterpriseAccountsMapping: TableMapping<IZeroAccount> = {
  * Include accounts even if they have no members
  * Useful when you need to maintain referential integrity
  */
-export const allAccountsWithOptionalMembersMapping: TableMapping<IZeroAccountMember> = {
-    source: 'accounts',
-    pipeline: [
-        {
-            $unwind: {
-                path: '$members',
-                preserveNullAndEmptyArrays: true // Keep accounts with no members
+export const allAccountsWithOptionalMembersMapping: TableMapping<IZeroAccountMember> =
+    {
+        source: 'accounts',
+        pipeline: [
+            {
+                $unwind: {
+                    path: '$members',
+                    preserveNullAndEmptyArrays: true // Keep accounts with no members
+                }
             }
+        ],
+        projection: {
+            _id: { $concat: ['$_id', '_', '$members.id'] },
+            id: { $concat: [{ $hexToBase64Url: '$_id' }, '_', '$members.id'] },
+            accountId: '$_id',
+            userId: '$members.id',
+            name: '$members.name',
+            email: '$members.email',
+            role: '$members.role',
+            createdAt: 1,
+            updatedAt: 1
         }
-    ],
-    projection: {
-        _id: { $concat: ['$_id', '_', '$members.id'] },
-        id: { $concat: [{ $hexToBase64Url: '$_id' }, '_', '$members.id'] },
-        accountId: '$_id',
-        userId: '$members.id',
-        name: '$members.name',
-        email: '$members.email',
-        role: '$members.role',
-        createdAt: 1,
-        updatedAt: 1
-    }
-};
+    };
 
 // ============================================================================
 // Example 10: Helper Function Usage

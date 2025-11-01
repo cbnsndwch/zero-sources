@@ -252,7 +252,9 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
 
                         // Phase 4: Use array diffing to generate minimal change events
                         // Get identity field from table spec (if specified)
-                        const primaryKey = tableAfter.spec.primaryKey || ['_id'];
+                        const primaryKey = tableAfter.spec.primaryKey || [
+                            '_id'
+                        ];
                         const identityField =
                             primaryKey.length === 1 ? primaryKey[0] : undefined;
 

@@ -3,7 +3,6 @@ import type { Dict } from '../dict.js';
 import type { Filter } from './pipeline/match.js';
 import type { Projection } from './pipeline/project.js';
 
-
 /**
  * Legacy filter-based table mapping configuration (backward compatible).
  *
@@ -44,6 +43,6 @@ export interface SimpleTableMapping<TTable = Dict> {
     //#region Exclusive Union Check
 
     pipeline?: never;
-    
+
     //#endregion Exclusive Union Check
 }
