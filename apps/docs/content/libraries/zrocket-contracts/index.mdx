@@ -1,0 +1,68 @@
+---
+title: zrocket-contracts
+description: ZRocket demo application contracts and schemas
+---
+
+# zrocket-contracts
+
+Shared contracts, schemas, and types for the ZRocket demo application.
+
+## Overview
+
+The `zrocket-contracts` library contains the shared contracts between the ZRocket demo application's frontend and backend, including Zero schemas, TypeScript types, and validation logic.
+
+## Key Features
+
+- **Shared Schemas**: Zero schemas for messages, rooms, and users
+- **Type Definitions**: TypeScript interfaces and types
+- **Validation**: Runtime validation utilities
+- **Consistency**: Single source of truth for data structures
+
+## Installation
+
+```bash
+pnpm add @cbnsndwch/zrocket-contracts
+```
+
+## Quick Start
+
+```typescript
+import { messageSchema, Message } from '@cbnsndwch/zrocket-contracts';
+
+// Use schema in Zero
+const zero = new Zero({
+  schema: { message: messageSchema },
+});
+
+// Use types
+const message: Message = {
+  id: '123',
+  content: 'Hello',
+  roomId: 'room-1',
+  userId: 'user-1',
+  createdAt: Date.now(),
+};
+```
+
+## Schemas
+
+### Message Schema
+
+```typescript
+export const messageSchema = createTableSchema({
+  tableName: 'message',
+  columns: {
+    id: { type: 'string' },
+    content: { type: 'string' },
+    roomId: { type: 'string' },
+    userId: { type: 'string' },
+    createdAt: { type: 'number' },
+  },
+  primaryKey: ['id'],
+});
+```
+
+## Next Steps
+
+- [ZRocket Demo Documentation](/demos/zrocket)
+- [API Reference](./api)
