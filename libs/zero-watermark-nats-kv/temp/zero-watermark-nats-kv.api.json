@@ -1,0 +1,372 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.53.3",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!",
+  "docComment": "",
+  "name": "@cbnsndwch/zero-watermark-nats-kv",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!NatsKvOptions:type",
+          "docComment": "/**\n * Config for the NATS/JetStream KV provider\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type NatsKvOptions = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    kvBucketName: string;\n    connection: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ConnectionOptions",
+              "canonicalReference": "@nats-io/nats-core!ConnectionOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "NatsKvOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!NatsKvWatermarkModule:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class NatsKvWatermarkModule "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "NatsKvWatermarkModule",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!NatsKvWatermarkModule.forRootAsync:member(1)",
+              "docComment": "/**\n * Use this method to configure and register the ZQLite-based watermark service.\n *\n * **NOTE:** This is a global module, import a *single* instance in your app's top-level module.\n *\n * @param options - The options to configure the ZQLite database.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static forRootAsync(options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NatsKvWatermarkModuleAsyncOptions",
+                  "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!NatsKvWatermarkModuleAsyncOptions:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DynamicModule",
+                  "canonicalReference": "@nestjs/common!DynamicModule:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "forRootAsync"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!NatsKvWatermarkModuleAsyncOptions:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type NatsKvWatermarkModuleAsyncOptions = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Pick",
+              "canonicalReference": "!Pick:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleMetadata",
+              "canonicalReference": "@nestjs/common!ModuleMetadata:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", 'imports'> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Pick",
+              "canonicalReference": "!Pick:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "FactoryProvider",
+              "canonicalReference": "@nestjs/common!FactoryProvider:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "NatsKvOptions",
+              "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!NatsKvOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">, 'inject' | 'useFactory'>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "NatsKvWatermarkModuleAsyncOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 11
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-watermark-nats-kv!TOKEN_WATERMARK_NATS_KV_BUCKET:var",
+          "docComment": "/**\n * Injection token for the NATS KV bucket instance\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "TOKEN_WATERMARK_NATS_KV_BUCKET: "
+            },
+            {
+              "kind": "Content",
+              "text": "unique symbol"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "TOKEN_WATERMARK_NATS_KV_BUCKET",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        }
+      ]
+    }
+  ]
+}

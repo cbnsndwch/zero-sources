@@ -1,0 +1,4976 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.53.3",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@cbnsndwch/zero-contracts!",
+  "docComment": "",
+  "name": "@cbnsndwch/zero-contracts",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@cbnsndwch/zero-contracts!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!addFields:function(1)",
+          "docComment": "/**\n * Creates an $addFields pipeline stage for adding computed fields.\n *\n * This is equivalent to MongoDB's $addFields aggregation operator. Adds new fields or replaces existing fields with computed values.\n *\n * @param fields - Object mapping field names to computed expressions\n *\n * @returns An $addFields stage\n *\n * @example\n * ```typescript\n * const stage = addFields({\n *   isOwner: { $eq: ['$role', 'owner'] },\n *   fullName: { $concat: ['$firstName', ' ', '$lastName'] },\n *   computedAt: new Date().toISOString()\n * });\n * // { $addFields: { isOwner: ..., fullName: ..., computedAt: ... } }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function addFields(fields: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, any>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "SetStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SetStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "fields",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "addFields"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!AlternativeType:type",
+          "docComment": "/**\n * It is possible to search using alternative types in mongodb e.g. string types can be searched using a regex in mongo, and array types can be searched using their element type\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type AlternativeType<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyArray",
+              "canonicalReference": "!ReadonlyArray:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<infer U> ? T | "
+            },
+            {
+              "kind": "Reference",
+              "text": "RegExpOrString",
+              "canonicalReference": "@cbnsndwch/zero-contracts!RegExpOrString:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<U> : "
+            },
+            {
+              "kind": "Reference",
+              "text": "RegExpOrString",
+              "canonicalReference": "@cbnsndwch/zero-contracts!RegExpOrString:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "AlternativeType",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!AtLeastOne:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type AtLeastOne<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "[T, ...T[]]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "AtLeastOne",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!Condition:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type Condition<T> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "AlternativeType",
+              "canonicalReference": "@cbnsndwch/zero-contracts!AlternativeType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "FilterOperators",
+              "canonicalReference": "@cbnsndwch/zero-contracts!FilterOperators:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "AlternativeType",
+              "canonicalReference": "@cbnsndwch/zero-contracts!AlternativeType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "Condition",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!corsDelegate:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "corsDelegate: "
+            },
+            {
+              "kind": "Reference",
+              "text": "CorsOptionsDelegate",
+              "canonicalReference": "@cbnsndwch/zero-contracts!~CorsOptionsDelegate:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Request",
+              "canonicalReference": "@types/express!e.Request:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "corsDelegate",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type Dict<T = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [key: string]: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "Dict",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!DocumentPath:type",
+          "docComment": "/**\n * Represents a document path identifier that must start with a dollar sign ($) followed by a field name.\n *\n * This type enforces that document paths follow MongoDB's field reference convention where they are prefixed with '$'. The path after the $ can use dot notation for nested fields.\n *\n * @example\n * ```typescript\n * const validPath: DocumentPath = \"$_id\";        // Top-level field\n * const nestedPath: DocumentPath = \"$user.name\"; // Nested field\n * const deepPath: DocumentPath = \"$address.city.zipCode\"; // Deeply nested\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type DocumentPath = "
+            },
+            {
+              "kind": "Content",
+              "text": "`$${string}`"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "DocumentPath",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ExtractMutatorKeys:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ExtractMutatorKeys<TContext extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorContext",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorContext:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", Mutators extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorDefs",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorDefs:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TContext>"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    readonly [K in keyof Mutators]: Mutators[K] extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorImpl",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorImpl:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TContext> ? K & string : keyof Mutators[K] extends string ? `${K & string}|${keyof Mutators[K] & string}` : never;\n}[keyof Mutators]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ExtractMutatorKeys",
+          "typeParameters": [
+            {
+              "typeParameterName": "TContext",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Mutators",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 6,
+            "endIndex": 9
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type",
+          "docComment": "/**\n * A MongoDB-like filter can be some portion of the table-collection schema or a set of operators\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type Filter<T> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "RootFilterOperators",
+              "canonicalReference": "@cbnsndwch/zero-contracts!RootFilterOperators:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> & {\n    [K in keyof T]?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Condition",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Condition:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T[K]>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "Filter",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!FilterOperators:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type FilterOperators<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    $eq?: T;\n    $ne?: T;\n    $gt?: T;\n    $gte?: T;\n    $lt?: T;\n    $lte?: T;\n    $in?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyArray",
+              "canonicalReference": "!ReadonlyArray:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>;\n    $nin?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyArray",
+              "canonicalReference": "!ReadonlyArray:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>;\n    $not?: T extends string ? "
+            },
+            {
+              "kind": "Reference",
+              "text": "FilterOperators",
+              "canonicalReference": "@cbnsndwch/zero-contracts!FilterOperators:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "RegExp",
+              "canonicalReference": "!RegExp:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " : "
+            },
+            {
+              "kind": "Reference",
+              "text": "FilterOperators",
+              "canonicalReference": "@cbnsndwch/zero-contracts!FilterOperators:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>;\n    $exists?: boolean;\n    $regex?: T extends string ? "
+            },
+            {
+              "kind": "Reference",
+              "text": "RegExp",
+              "canonicalReference": "!RegExp:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " | string : never;\n    $options?: T extends string ? string : never;\n    $all?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyArray",
+              "canonicalReference": "!ReadonlyArray:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>;\n    $size?: T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyArray",
+              "canonicalReference": "!ReadonlyArray:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any> ? number : never;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "FilterOperators",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 18
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!groupTablesBySource:function(1)",
+          "docComment": "/**\n * Group discriminated tables by their source collection Useful for change source routing and optimization\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function groupTablesBySource<const TTables extends "
+            },
+            {
+              "kind": "Content",
+              "text": "readonly "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableBuilderWithColumns",
+              "canonicalReference": "@rocicorp/zero!TableBuilderWithColumns:class"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableSchema",
+              "canonicalReference": "@rocicorp/zero!TableSchema:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">[]"
+            },
+            {
+              "kind": "Content",
+              "text": ">(schema: "
+            },
+            {
+              "kind": "Reference",
+              "text": "TypedSchema",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TypedSchema:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTables>"
+            },
+            {
+              "kind": "Content",
+              "text": ", mapping: "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableMappings",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableMappings:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTables>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableNames",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableNames:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTables>[]>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 13,
+            "endIndex": 17
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "schema",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "mapping",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "TTables",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 6
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "groupTablesBySource"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!invariant:function(1)",
+          "docComment": "/**\n * Throws an error of the specified type with the given message if the condition is not met.\n *\n * @param condition - The condition to check or a function that return the condition.\n *\n * @param message - The error message to throw if the condition is false.\n *\n * @param errorClass - An optional error class to throw if the item is undefined. Defaults to `Error`\n *\n * @param logger - An optional logger service to log the error message if the condition is false.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function invariant<TError extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ">(condition: "
+            },
+            {
+              "kind": "Content",
+              "text": "boolean | (() => boolean)"
+            },
+            {
+              "kind": "Content",
+              "text": ", message: "
+            },
+            {
+              "kind": "Content",
+              "text": "string | (() => string)"
+            },
+            {
+              "kind": "Content",
+              "text": ", errorClass?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Type",
+              "canonicalReference": "@nestjs/common!Type:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<TError>"
+            },
+            {
+              "kind": "Content",
+              "text": ", logger?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerService",
+              "canonicalReference": "@nestjs/common!LoggerService:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "asserts "
+            },
+            {
+              "kind": "Reference",
+              "text": "condition",
+              "canonicalReference": "@cbnsndwch/zero-contracts!~condition"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 14,
+            "endIndex": 16
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "condition",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "message",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "errorClass",
+              "parameterTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 11
+              },
+              "isOptional": true
+            },
+            {
+              "parameterName": "logger",
+              "parameterTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 13
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "TError",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "invariant"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!isPipelineMapping:function(1)",
+          "docComment": "/**\n * Type guard to check if a table mapping uses the pipeline-based approach.\n *\n * @param mapping - The table mapping to check\n *\n * @returns True if the mapping uses pipeline, false if it uses simple filter\n *\n * @example\n * ```typescript\n * const mapping: TableMapping = { source: 'accounts', pipeline: [...] };\n *\n * if (isPipelineMapping(mapping)) {\n *   // mapping is PipelineTableMapping\n *   console.log(mapping.pipeline);\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function isPipelineMapping<T>(mapping: "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableMapping:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "mapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!~mapping"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "PipelineTableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "mapping",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "isPipelineMapping"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!isSimpleMapping:function(1)",
+          "docComment": "/**\n * Type guard to check if a table mapping uses the simple filter-based approach.\n *\n * @param mapping - The table mapping to check\n *\n * @returns True if the mapping uses simple filter, false if it uses pipeline\n *\n * @example\n * ```typescript\n * const mapping: TableMapping = { source: 'accounts', filter: {...} };\n *\n * if (isSimpleMapping(mapping)) {\n *   // mapping is SimpleTableMapping\n *   console.log(mapping.filter);\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function isSimpleMapping<T>(mapping: "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableMapping:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "mapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!~mapping"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "SimpleTableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "mapping",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "isSimpleMapping"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!IWatermarkService:interface",
+          "docComment": "/**\n * Data contract for a Watermark-to-Resume-Token mapping service.\n *\n * Provides an simple API to convert MongoDB change stream resume tokens to Zero watermark strings and vice versa.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface IWatermarkService "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "IWatermarkService",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!IWatermarkService#getOrCreateWatermark:member(1)",
+              "docComment": "/**\n * Retrieves an existing watermark for the given shard ID and a change source's native resume token value, or creates a new one if one cannot be retrieved.\n *\n * @param shardId - The identifier for the shard.\n *\n * @param resumeToken - The resume token in teh change source's native format.\n *\n * @returns A promise that resolves to the watermark string.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getOrCreateWatermark(shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", resumeToken: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "resumeToken",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "getOrCreateWatermark"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!IWatermarkService#getResumeToken:member(1)",
+              "docComment": "/**\n * Retrieves the change source's native resume token for a given shard Id and watermark value.\n *\n * @param shardId - The identifier of the shard.\n *\n * @param watermark - The watermark version.\n *\n * @returns A promise that resolves to the resume token as a string, or `undefined` if one is not found.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getResumeToken(shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", watermark: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LexiVersion",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string | undefined>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "watermark",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "getResumeToken"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type",
+          "docComment": "/**\n * A LexiVersion is a lexicographically sortable representation of numbers from 0 to Number.MAX_SAFE_INTEGER (which is the safe range of Version values used in Zero).\n *\n * The Version is first encoded in base36, and then prepended by a single base36 character representing the length (of the base36 version) minus 1. This encoding can encode numbers up to 185 bits, with the maximum encoded number being `\"z\".repeat(37)`, or 36^36-1 (approximately 1.0638735892371651e+56).\n *\n * Examples: * 0 => \"00\" * 10 => \"0a\" * 35 => \"0z\" * 36 => \"110\" * 46655 => \"2zzz\" * 2^64 => \"c3w5e11264sgsg\"\n *\n * Note that when using the `number` type, the library will assert if attempting to encode a Version larger than Number.MAX_SAFE_INTEGER. For large numbers, use the `bigint` type.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type LexiVersion = "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "LexiVersion",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!match:function(1)",
+          "docComment": "/**\n * Creates a $match pipeline stage for filtering documents.\n *\n * This is equivalent to MongoDB's $match aggregation operator.\n *\n * @param filter - MongoDB filter criteria\n *\n * @returns A $match stage\n *\n * @example\n * ```typescript\n * const stage = match({ bundle: 'ENTERPRISE', isActive: true });\n * // { $match: { bundle: 'ENTERPRISE', isActive: true } }\n *\n * const nestedStage = match({ 'members.role': { $in: ['admin', 'owner'] } });\n * // { $match: { 'members.role': { $in: ['admin', 'owner'] } } }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function match<T>(filter: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Filter",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "MatchStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!MatchStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "filter",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "match"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!MatchStage:interface",
+          "docComment": "/**\n * Filter stage - equivalent to MongoDB's $match operator.\n *\n * Filters documents based on the specified criteria. Documents that don't match the filter are excluded from further processing.\n *\n * @example\n * ```typescript\n * { $match: { bundle: 'ENTERPRISE', isActive: true } }\n * { $match: { 'members.role': { $in: ['admin', 'owner'] } } }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface MatchStage<T = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "MatchStage",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!MatchStage#$match:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "$match: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Filter",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "$match",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!max:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function max(...versions: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AtLeastOne",
+              "canonicalReference": "@cbnsndwch/zero-contracts!AtLeastOne:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 6,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "versions",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "max"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!min:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function min(...versions: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AtLeastOne",
+              "canonicalReference": "@cbnsndwch/zero-contracts!AtLeastOne:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 6,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "versions",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "min"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!MutatorKeysForSchema:type",
+          "docComment": "/**\n * Extracts the keys of custom mutators from a mutator definition object (`MD`).\n *\n * Analyzes a `CustomMutatorDefs` object (`MD`) associated with a `Schema` (`S`) and produces a union type containing the string keys representing all defined custom mutators:\n *\n * - For top-level keys, the key itself - For keys nested within a namespace, teh compound key in the format `\"namespace|mutatorKey\"`.\n *\n * @template Schema - The schema type that the mutators operate on. Expected to extend `Schema`.  @template Mutators - The custom mutator definitions object.\n *\n * @returns A union type of strings representing all available mutator keys, with nested mutators represented as `\"namespace|mutatorKey\"`.\n *\n * @example\n * ```typescript\n *\n * const mySchema = {\n *     tables: {\n *         user: {} as TableSchema,\n *         emoji: {} as TableSchema\n *     }\n * };\n *\n * type MySchema = typeof exampleSchema;\n *\n * const myMutators = {\n *     issue: {\n *         async create(tx, args: CreateIssueArgs) {\n *             // mutate\n *         },\n *         async addLabel(tx, args: AddIssueLabelArgs) {\n *             // mutate\n *         }\n *     },\n *\n *     emoji: {\n *         async addToIssue(tx, args: AddEmojiArgs) {\n *             // mutate\n *         },\n *         async addToComment(tx, args: AddEmojiArgs) {\n *             // mutate\n *         },\n *         async remove(tx, id: string) {\n *             // mutate\n *         }\n *     },\n *\n *     async setUserPreferences(tx, args: unknown) {\n *         // mutate\n *     }\n * } as const satisfies CustomMutatorDefs<MySchema>;\n *\n * type MyMutatorKeys = MutatorKeysForSchema<MySchema, typeof myMutators>;\n * // ^ type MyMutatorKeys =\n * //     | 'setUserPreferences'\n * //     | 'issue|create'\n * //     | 'issue|addLabel'\n * //     | 'emoji|addToIssue'\n * //     | 'emoji|addToComment'\n * //     | 'emoji|remove'\n *\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type MutatorKeysForSchema<Schema extends "
+            },
+            {
+              "kind": "Content",
+              "text": "Schema"
+            },
+            {
+              "kind": "Content",
+              "text": ", Mutators extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "CustomMutatorDefs",
+              "canonicalReference": "@rocicorp/zero!CustomMutatorDefs:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    readonly [K in keyof Mutators]: Mutators[K] extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "CustomMutatorImpl",
+              "canonicalReference": "@rocicorp/zero!CustomMutatorImpl:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Schema> ? K & string : keyof Mutators[K] extends string ? `${K & string}|${keyof Mutators[K] & string}` : never;\n}[keyof Mutators]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "MutatorKeysForSchema",
+          "typeParameters": [
+            {
+              "typeParameterName": "Schema",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Mutators",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!oneAfter:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function oneAfter(version: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "version",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "oneAfter"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!parseBigInt:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function parseBigInt(val: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", radix: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "val",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "radix",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "parseBigInt"
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-contracts!PassthroughWatermarkService:class",
+          "docComment": "/**\n * A watermark service that simply passes through the watermark and resume token values it receives. Useful for testing or when no special mapping is needed between zero-cache watermarks and teh change source's native resume token format.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class PassthroughWatermarkService implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IWatermarkService",
+              "canonicalReference": "@cbnsndwch/zero-contracts!IWatermarkService:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "PassthroughWatermarkService",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PassthroughWatermarkService#getOrCreateWatermark:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getOrCreateWatermark(_shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", resumeToken: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "_shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "resumeToken",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getOrCreateWatermark"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PassthroughWatermarkService#getResumeToken:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getResumeToken(_shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", watermark: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LexiVersion",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "_shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "watermark",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getResumeToken"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!pipelineBuilder:function(1)",
+          "docComment": "/**\n * Creates a new pipeline mapping builder.\n *\n * @param source - MongoDB collection name\n *\n * @returns A new PipelineMappingBuilder instance\n *\n * @example\n * ```typescript\n * const mapping = pipelineBuilder<IUser>('users')\n *   .match({ isActive: true })\n *   .addFields({ fullName: { $concat: ['$firstName', ' ', '$lastName'] } })\n *   .projection({ _id: 1, fullName: 1, email: 1 })\n *   .build();\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function pipelineBuilder<T>(source: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "PipelineMappingBuilder",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder:class"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 5
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "source",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "pipelineBuilder"
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder:class",
+          "docComment": "/**\n * Builder pattern for constructing pipeline-based table mappings fluently.\n *\n * Provides a chainable API for building complex pipeline configurations.\n *\n * @example\n * ```typescript\n * const mapping = pipelineBuilder<IAccountMember>('accounts')\n *   .match({ bundle: 'ENTERPRISE' })\n *   .unwind('$members')\n *   .match({ 'members.role': { $in: ['admin', 'owner'] } })\n *   .addFields({\n *     isOwner: { $eq: ['$members.role', 'owner'] }\n *   })\n *   .projection({\n *     _id: { $concat: ['$_id', '_', '$members.id'] },\n *     accountId: '$_id',\n *     userId: '$members.id',\n *     name: '$members.name',\n *     role: '$members.role',\n *     isOwner: 1\n *   })\n *   .build();\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class PipelineMappingBuilder<T> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "isAbstract": false,
+          "name": "PipelineMappingBuilder",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `PipelineMappingBuilder` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(source: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "source",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#addFields:member(1)",
+              "docComment": "/**\n * Adds an $addFields stage to compute new fields\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "addFields(fields: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "this"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "fields",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "addFields"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#build:member(1)",
+              "docComment": "/**\n * Builds and returns the final pipeline mapping configuration\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "build(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PipelineTableMapping",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "build"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#match:member(1)",
+              "docComment": "/**\n * Adds a $match stage to filter documents\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "match(filter: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Filter",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<any>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "this"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "filter",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "match"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#project:member(1)",
+              "docComment": "/**\n * Adds a $project stage to reshape documents at any point in the pipeline\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "project(projection: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, 1 | 0 | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DocumentPath",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!DocumentPath:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ProjectionOperator",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!ProjectionOperator:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "this"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "projection",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 7
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "project"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#projection:member(1)",
+              "docComment": "/**\n * Sets the projection for the final output\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "projection(proj: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PipelineTableMapping",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>['projection']"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "this"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "proj",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "projection"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#unwind:member(1)",
+              "docComment": "/**\n * Adds an $unwind stage to deconstruct an array field\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "unwind(path: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "this"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "path",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "unwind"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineMappingBuilder#unwind:member(2)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "unwind(options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "UnwindOptions",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "this"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 2,
+              "parameters": [
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "unwind"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!PipelineStage:type",
+          "docComment": "/**\n * Supported pipeline stages (extensible via union type).\n *\n * New stage types can be added to this union without breaking existing code, following the Open-Closed Principle.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type PipelineStage<T = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "MatchStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!MatchStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "UnwindStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "SetStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SetStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "ProjectStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ProjectStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "PipelineStage",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 11
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping:interface",
+          "docComment": "/**\n * Modern pipeline-based table mapping configuration.\n *\n * This approach supports composable transformation stages similar to MongoDB's aggregation pipeline, enabling array unwinding, computed fields, and complex transformations.\n *\n * Pipeline stages execute in array order, with projection applied last.\n *\n * @template TTable - The target Zero table type (provides type hints for consumers)\n *\n * @example\n * ```typescript\n * const mapping: TableMapping<IAccountMember> = {\n *   source: 'accounts',\n *   pipeline: [\n *     { $match: { bundle: 'ENTERPRISE' } },\n *     { $unwind: '$members' },\n *     { $match: { 'members.role': { $in: ['admin', 'owner'] } } }\n *   ],\n *   projection: {\n *     _id: { $concat: ['$_id', '_', '$members.id'] },\n *     accountId: '$_id',\n *     userId: '$members.id',\n *     name: '$members.name',\n *     role: '$members.role'\n *   }\n * };\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface PipelineTableMapping<TTable = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTable",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "PipelineTableMapping",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping#filter:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "filter?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "never"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "filter",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping#pipeline:member",
+              "docComment": "/**\n * Aggregation pipeline stages executed in order before projection.\n *\n * Stages are processed sequentially: 1. Each stage transforms the document 2. Stages execute in array order 3. Projection applies last (if specified)\n *\n * Common patterns: - Filter before unwinding for performance: `[{ $match: ... }, { $unwind: ... }]` - Filter unwound elements: `[{ $unwind: ... }, { $match: ... }]` - Add computed fields: `[{ $addFields: ... }]`\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "pipeline: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PipelineStage",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!PipelineStage:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<TTable>[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "pipeline",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping#projection:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "projection?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "never"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "projection",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping#source:member",
+              "docComment": "/**\n * MongoDB collection name\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "source: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "source",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!project:function(1)",
+          "docComment": "/**\n * Creates a $project pipeline stage for reshaping documents.\n *\n * This is equivalent to MongoDB's $project aggregation operator. Unlike the top-level `projection` field which applies only to the final output, $project stages can be used at any point in the pipeline.\n *\n * @param projection - Projection specification with field selections and computed values\n *\n * @returns A $project stage\n *\n * @example\n * ```typescript\n * // Include specific fields\n * const includeStage = project({\n *   _id: 1,\n *   name: 1,\n *   email: 1\n * });\n * // { $project: { _id: 1, name: 1, email: 1 } }\n *\n * // Rename and compute fields\n * const computedStage = project({\n *   userId: '$_id',\n *   fullName: { $concat: ['$firstName', ' ', '$lastName'] },\n *   isActive: { $eq: ['$status', 'active'] }\n * });\n * // { $project: { userId: '$_id', fullName: ..., isActive: ... } }\n *\n * // Complex transformations\n * const complexStage = project({\n *   compositeId: { $concat: ['$accountId', '_', '$userId'] },\n *   accountRef: '$accountId',\n *   metadata: {\n *     createdAt: '$createdAt',\n *     updatedAt: '$updatedAt'\n *   }\n * });\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function project<T = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">(projection: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Projection",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Projection:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "ProjectStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ProjectStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 6,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "projection",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "project"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!Projection:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type Projection<TTable = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<keyof TTable, 1 | 0 | "
+            },
+            {
+              "kind": "Reference",
+              "text": "DocumentPath",
+              "canonicalReference": "@cbnsndwch/zero-contracts!DocumentPath:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "ProjectionOperator",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ProjectionOperator:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "Projection",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTable",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 9
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ProjectionOperator:type",
+          "docComment": "/**\n * Represents a projection operator used in database queries or data transformations.\n *\n * A projection operator is an object where keys are operator names starting with a dollar sign ($), and values can be: - DocumentPath: References to fields (e.g., '$_id', '$user.name') - Arrays: For operators like $concat that take multiple arguments - Nested operators: For composed operations - Primitive values: For literal values\n *\n * Common operators include: - Type conversion: $toString, $toInt, $toBool - String operations: $concat, $substr, $toLower, $toUpper - Custom operators: $hexToBase64Url - Logical operators: $eq, $ne, $and, $or\n *\n * @example\n * ```typescript\n * // Simple field reference\n * const simpleOp: ProjectionOperator = {\n *   '$toString': '$_id'\n * };\n *\n * // String concatenation\n * const concatOp: ProjectionOperator = {\n *   '$concat': ['$firstName', ' ', '$lastName']\n * };\n *\n * // Nested operators\n * const nestedOp: ProjectionOperator = {\n *   '$concat': [\n *     { $hexToBase64Url: '$_id' },\n *     '_',\n *     '$members.id'\n *   ]\n * };\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ProjectionOperator = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [operator: `$${string}`]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "DocumentPath",
+              "canonicalReference": "@cbnsndwch/zero-contracts!DocumentPath:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "ProjectionOperator",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ProjectionOperator:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "DocumentPath",
+              "canonicalReference": "@cbnsndwch/zero-contracts!DocumentPath:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "ProjectionOperator",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ProjectionOperator:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | string | number | boolean> | string | number | boolean;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ProjectionOperator",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 12
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ProjectStage:interface",
+          "docComment": "/**\n * Represents a MongoDB $project aggregation stage.\n *\n * The $project stage reshapes documents by: - Including/excluding fields - Adding computed fields - Renaming fields - Creating new fields from expressions\n *\n * Unlike SimpleTableMapping projection which applies only to the final output, $project stages can be used at any point in the pipeline to transform documents before subsequent stages.\n *\n * @template T - The document type (for type hints only, not enforced at runtime)\n *\n * @example\n * ```typescript\n * // Include specific fields\n * const stage: ProjectStage = {\n *   $project: {\n *     _id: 1,\n *     name: 1,\n *     email: 1\n *   }\n * };\n *\n * // Exclude fields\n * const excludeStage: ProjectStage = {\n *   $project: {\n *     password: 0,\n *     internalNotes: 0\n *   }\n * };\n *\n * // Rename and compute fields\n * const computedStage: ProjectStage = {\n *   $project: {\n *     _id: 1,\n *     userId: '$_id',\n *     fullName: { $concat: ['$firstName', ' ', '$lastName'] },\n *     isActive: { $eq: ['$status', 'active'] }\n *   }\n * };\n *\n * // Complex transformations\n * const complexStage: ProjectStage = {\n *   $project: {\n *     compositeId: { $concat: ['$accountId', '_', '$userId'] },\n *     accountRef: '$accountId',\n *     userRef: { $toObjectId: '$userId' },\n *     metadata: {\n *       createdAt: '$createdAt',\n *       updatedAt: '$updatedAt'\n *     }\n *   }\n * };\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface ProjectStage<T = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "ProjectStage",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ProjectStage#$project:member",
+              "docComment": "/**\n * MongoDB projection specification.\n *\n * Can contain: - Inclusion: `{ field: 1 }` - include this field - Exclusion: `{ field: 0 }` - exclude this field - Field reference: `{ newField: '$existingField' }` - rename/reference field - Operators: `{ field: { $concat: [...] } }` - computed values\n *\n * Note: Cannot mix inclusion and exclusion (except for _id which can always be explicitly excluded)\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "$project: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Projection",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!Projection:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "$project",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!RegExpOrString:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type RegExpOrString<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "T extends string ? "
+            },
+            {
+              "kind": "Reference",
+              "text": "RegExp",
+              "canonicalReference": "!RegExp:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " | T : T"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "RegExpOrString",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!RootFilterOperators:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type RootFilterOperators<T> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": " & {\n    $and?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Filter",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>[];\n    $or?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Filter",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>[];\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "RootFilterOperators",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!RowOf:type",
+          "docComment": "/**\n * Extracts the shape of the rows from a table schema\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type RowOf<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableBuilderWithColumns",
+              "canonicalReference": "@rocicorp/zero!TableBuilderWithColumns:class"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableSchema",
+              "canonicalReference": "@rocicorp/zero!TableSchema:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [K in keyof T['schema']['columns']]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "SchemaValueToTSType",
+              "canonicalReference": "@rocicorp/zero!SchemaValueToTSType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T['schema']['columns'][K]>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "RowOf",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 6,
+            "endIndex": 9
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorContext:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ServerMutatorContext = "
+            },
+            {
+              "kind": "Content",
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ServerMutatorContext",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorDefs:type",
+          "docComment": "/**\n * A mapping of server mutator definitions, organized by namespace or key.\n *\n * Each entry can be either: - A single `ServerMutatorImpl<TContext>` instance, or - An object mapping string keys to `ServerMutatorImpl<TContext>` instances.\n *\n * @template TContext - The context type that each mutator implementation will receive.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ServerMutatorDefs<TContext extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorContext",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorContext:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [namespaceOrKey: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorImpl",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorImpl:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TContext> | {\n        [key: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorImpl",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorImpl:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TContext>;\n    };\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ServerMutatorDefs",
+          "typeParameters": [
+            {
+              "typeParameterName": "TContext",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorImpl:type",
+          "docComment": "/**\n * Represents a server-side mutator function implementation.\n *\n * @template TContext - The type of the context object expected by the mutator.  @template TArgs - The type of the arguments expected by the mutator. Defaults to `any`.\n *\n * @param context - The context in which the mutator is executed.\n *\n * @param args - The arguments required by the mutator.\n *\n * @returns A promise that resolves when the mutation is complete.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ServerMutatorImpl<TContext extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ServerMutatorContext",
+              "canonicalReference": "@cbnsndwch/zero-contracts!ServerMutatorContext:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", TArgs = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    (context: TContext, args: TArgs): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<void>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ServerMutatorImpl",
+          "typeParameters": [
+            {
+              "typeParameterName": "TContext",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "TArgs",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!SetStage:interface",
+          "docComment": "/**\n * Add computed fields stage - equivalent to MongoDB's $addFields operator.\n *\n * Adds new fields to documents or replaces existing fields with computed values. Uses the same expression syntax as $project, but retains all existing fields.\n *\n * @example\n * ```typescript\n * {\n *   $set: {\n *     isOwner: { $eq: ['$role', 'owner'] },\n *     fullName: { $concat: ['$firstName', ' ', '$lastName'] }\n *   }\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface SetStage "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "SetStage",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SetStage#$addFields:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "$addFields: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Dict",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "$addFields",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping:interface",
+          "docComment": "/**\n * Legacy filter-based table mapping configuration (backward compatible).\n *\n * This approach supports simple filtering and projection operations. It remains fully supported for existing configurations.\n *\n * @example\n * ```typescript\n * const mapping: TableMapping<IAccount> = {\n *   source: 'accounts',\n *   filter: { bundle: 'ENTERPRISE' },\n *   projection: { _id: 1, name: 1, bundle: 1 }\n * };\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface SimpleTableMapping<TTable = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTable",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "SimpleTableMapping",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping#filter:member",
+              "docComment": "/**\n * MongoDB filter to apply\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "filter?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Filter",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!Filter:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<TTable>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "filter",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping#pipeline:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "pipeline?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "never"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "pipeline",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping#projection:member",
+              "docComment": "/**\n * MongoDB-like projection to apply. Both include/exclude (`1 | 0`) and simple renaming (`$sourceField`) syntaxes are supported.\n *\n * Supports: - Include/exclude: `{ field: 1 }` or `{ field: 0 }` - Field reference: `{ field: '$otherField' }` - Projection operators: `{ field: { $concat: ['$a', '$b'] } }`\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "projection?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Projection",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!Projection:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<TTable>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "projection",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping#source:member",
+              "docComment": "/**\n * MongoDB collection name\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "source: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "source",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!TableMapping:type",
+          "docComment": "/**\n * Table mapping configuration using mutually exclusive approaches. Use EITHER legacy filter-based OR modern pipeline-based mapping, but not both.\n *\n * The discriminated union ensures compile-time safety by preventing accidental mixing of the two approaches.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type TableMapping<TTable = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "SimpleTableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTable> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "PipelineTableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTable>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "TableMapping",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTable",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!TableMappings:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type TableMappings<TTables extends "
+            },
+            {
+              "kind": "Content",
+              "text": "readonly "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableBuilderWithColumns",
+              "canonicalReference": "@rocicorp/zero!TableBuilderWithColumns:class"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableSchema",
+              "canonicalReference": "@rocicorp/zero!TableSchema:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableNames",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableNames:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTables>, "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableMapping:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<unknown>>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "TableMappings",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTables",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 6
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 13
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!TableNames:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type TableNames<TTables extends "
+            },
+            {
+              "kind": "Content",
+              "text": "readonly "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableBuilderWithColumns",
+              "canonicalReference": "@rocicorp/zero!TableBuilderWithColumns:class"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableSchema",
+              "canonicalReference": "@rocicorp/zero!TableSchema:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "TTables[number]['schema']['name']"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "TableNames",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTables",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 6
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!TOKEN_WATERMARK_SERVICE:var",
+          "docComment": "/**\n * A dependency injection token for the watermark service. Use this token to provide/inject your custom watermark service implementation.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "TOKEN_WATERMARK_SERVICE: "
+            },
+            {
+              "kind": "Content",
+              "text": "unique symbol"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "TOKEN_WATERMARK_SERVICE",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!toPipelineMapping:function(1)",
+          "docComment": "/**\n * Converts a simple filter-based mapping to a pipeline-based mapping.\n *\n * This is useful for migrating existing configurations or when you need pipeline features but want to preserve simple configuration structure.\n *\n * @param mapping - simple mapping to convert\n *\n * @returns Equivalent pipeline-based mapping\n *\n * @example\n * ```typescript\n * const simple: SimpleTableMapping = {\n *   source: 'accounts',\n *   filter: { bundle: 'ENTERPRISE' },\n *   projection: { _id: 1, name: 1 }\n * };\n *\n * const pipeline = toPipelineMapping(simple);\n * // {\n * //   source: 'accounts',\n * //   pipeline: [{ $match: { bundle: 'ENTERPRISE' } }],\n * //   projection: { _id: 1, name: 1 }\n * // }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function toPipelineMapping<T>(mapping: "
+            },
+            {
+              "kind": "Reference",
+              "text": "SimpleTableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!SimpleTableMapping:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "PipelineTableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!PipelineTableMapping:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "mapping",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "toPipelineMapping"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!truncateBytes:function(1)",
+          "docComment": "/**\n * Truncates a UTF-8 encoded string to a specified maximum number of bytes. Ensures that the truncation does not cut off a multibyte character.\n *\n * @param msg - The string to be truncated.\n *\n * @param maxBytes - The maximum number of bytes the truncated string should have. Defaults to 123.\n *\n * @returns The truncated string if its byte length exceeds the specified limit, otherwise the original string.\n *\n * @throws\n *\n * Will throw an error if `msg` is not a string or `maxBytes` is not a number or is less than 1.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function truncateBytes(msg: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", maxBytes?: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "msg",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "maxBytes",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": true
+            }
+          ],
+          "name": "truncateBytes"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!TypedSchema:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type TypedSchema<TTables extends "
+            },
+            {
+              "kind": "Content",
+              "text": "readonly "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableBuilderWithColumns",
+              "canonicalReference": "@rocicorp/zero!TableBuilderWithColumns:class"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "TableSchema",
+              "canonicalReference": "@rocicorp/zero!TableSchema:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">[]"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    tables: {\n        readonly [K in TTables[number]['schema']['name']]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extract",
+              "canonicalReference": "!Extract:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<TTables[number]['schema'], {\n            name: K;\n        }>;\n    };\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "TypedSchema",
+          "typeParameters": [
+            {
+              "typeParameterName": "TTables",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 6
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 10
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!unwind:function(1)",
+          "docComment": "/**\n * Creates an $unwind pipeline stage for deconstructing array fields.\n *\n * This is equivalent to MongoDB's $unwind aggregation operator. Outputs one document for each element in the specified array field.\n *\n * @param path - Path to the array field (e.g., '$members')\n *\n * @returns An $unwind stage with simple path\n *\n * @example\n * ```typescript\n * const stage = unwind('$members');\n * // { $unwind: '$members' }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function unwind(path: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "UnwindStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "path",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "unwind"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!unwind:function(2)",
+          "docComment": "/**\n * Creates an $unwind pipeline stage with advanced options.\n *\n * @param options - Unwinding options including path, preserve behavior, and index inclusion\n *\n * @returns An $unwind stage with full options\n *\n * @example\n * ```typescript\n * const stage = unwind({\n *   path: '$members',\n *   preserveNullAndEmptyArrays: false,\n *   includeArrayIndex: 'memberIndex'\n * });\n * // { $unwind: { path: '$members', preserveNullAndEmptyArrays: false, includeArrayIndex: 'memberIndex' } }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function unwind(options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "UnwindOptions",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "UnwindStage",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindStage:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "unwind"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions:interface",
+          "docComment": "/**\n * Options for array unwinding operation.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface UnwindOptions<T = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "UnwindOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions#includeArrayIndex:member",
+              "docComment": "/**\n * Optional: Include array index in output.\n *\n * Adds a field with the array element's position (zero-based index). The field name is specified by this option.\n *\n * @example\n * ```typescript\n * { includeArrayIndex: 'memberIndex' }\n * // Adds field 'memberIndex' with values 0, 1, 2, ...\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "includeArrayIndex?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "includeArrayIndex",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions#path:member",
+              "docComment": "/**\n * Path to the array field to unwind (e.g., '$members', '$items'). Must start with '$' to indicate a field reference.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "path: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "keyof T"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "path",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions#preserveNullAndEmptyArrays:member",
+              "docComment": "/**\n * Optional: Preserve documents with null, missing, or empty arrays.\n *\n * - `true`: Output document even if array is null/missing/empty - `false`: Skip documents without the array (default)\n *\n * @default false\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "preserveNullAndEmptyArrays?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "preserveNullAndEmptyArrays",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/zero-contracts!UnwindStage:interface",
+          "docComment": "/**\n * Array unwinding stage - equivalent to MongoDB's $unwind operator.\n *\n * Deconstructs an array field from input documents to output a document for each element. Each output document is the input document with the array field replaced by the element.\n *\n * @example\n * ```typescript\n * // Simple unwinding\n * { $unwind: '$members' }\n *\n * // With options\n * { $unwind: {\n *   path: '$members',\n *   preserveNullAndEmptyArrays: false,\n *   includeArrayIndex: 'memberIndex'\n * }}\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "interface UnwindStage<T = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dict",
+              "canonicalReference": "@cbnsndwch/zero-contracts!Dict:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "UnwindStage",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/zero-contracts!UnwindStage#$unwind:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "$unwind: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "keyof T | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "UnwindOptions",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!UnwindOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "$unwind",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!versionFromLexi:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function versionFromLexi(lexiVersion: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "lexiVersion",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "versionFromLexi"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-contracts!versionToLexi:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function versionToLexi(v: "
+            },
+            {
+              "kind": "Content",
+              "text": "number | bigint"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "LexiVersion",
+              "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "v",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "versionToLexi"
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1000_NORMAL_CLOSURE:var",
+          "docComment": "/**\n * Successful operation, connection not required anymore\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1000_NORMAL_CLOSURE = "
+            },
+            {
+              "kind": "Content",
+              "text": "1000"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1000_NORMAL_CLOSURE",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1001_GOING_AWAY:var",
+          "docComment": "/**\n * Browser tab closing, graceful server shutdown\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1001_GOING_AWAY = "
+            },
+            {
+              "kind": "Content",
+              "text": "1001"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1001_GOING_AWAY",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1002_PROTOCOL_ERROR:var",
+          "docComment": "/**\n * Endpoint received malformed frame\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1002_PROTOCOL_ERROR = "
+            },
+            {
+              "kind": "Content",
+              "text": "1002"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1002_PROTOCOL_ERROR",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1003_UNSUPPORTED_DATA:var",
+          "docComment": "/**\n * Endpoint received unsupported frame (e.g. binary-only got text frame, ping/pong frames not handled properly)\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1003_UNSUPPORTED_DATA = "
+            },
+            {
+              "kind": "Content",
+              "text": "1003"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1003_UNSUPPORTED_DATA",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1005_NO_STATUS_RECEIVED:var",
+          "docComment": "/**\n * Got no close status but transport layer finished normally (e.g. TCP FIN but no previous CLOSE frame)\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1005_NO_STATUS_RECEIVED = "
+            },
+            {
+              "kind": "Content",
+              "text": "1005"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1005_NO_STATUS_RECEIVED",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1006_ABNORMAL_CLOSURE:var",
+          "docComment": "/**\n * Transport layer broke (e.g. couldn't connect, TCP RST)\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1006_ABNORMAL_CLOSURE = "
+            },
+            {
+              "kind": "Content",
+              "text": "1006"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1006_ABNORMAL_CLOSURE",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1007_INVALID_FRAME_PAYLOAD_DATA:var",
+          "docComment": "/**\n * Data in endpoint's frame is not consistent (e.g. malformed UTF-8)\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1007_INVALID_FRAME_PAYLOAD_DATA = "
+            },
+            {
+              "kind": "Content",
+              "text": "1007"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1007_INVALID_FRAME_PAYLOAD_DATA",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1008_POLICY_VIOLATION:var",
+          "docComment": "/**\n * Generic code not applicable to any other (e.g. isn't `1003` nor `1009`)\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1008_POLICY_VIOLATION = "
+            },
+            {
+              "kind": "Content",
+              "text": "1008"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1008_POLICY_VIOLATION",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1009_MESSAGE_TOO_BIG:var",
+          "docComment": "/**\n * Endpoint won't process large message\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1009_MESSAGE_TOO_BIG = "
+            },
+            {
+              "kind": "Content",
+              "text": "1009"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1009_MESSAGE_TOO_BIG",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1010_MANDATORY_EXTENSIONS:var",
+          "docComment": "/**\n * Client wanted extension(s) that server did not negotiate\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1010_MANDATORY_EXTENSIONS = "
+            },
+            {
+              "kind": "Content",
+              "text": "1010"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1010_MANDATORY_EXTENSIONS",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1011_INTERNAL_ERROR:var",
+          "docComment": "/**\n * Unexpected server problem while operating\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1011_INTERNAL_ERROR = "
+            },
+            {
+              "kind": "Content",
+              "text": "1011"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1011_INTERNAL_ERROR",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1012_SERVICE_RESTART:var",
+          "docComment": "/**\n * Server/service is restarting\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1012_SERVICE_RESTART = "
+            },
+            {
+              "kind": "Content",
+              "text": "1012"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1012_SERVICE_RESTART",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1013_TRY_AGAIN_LATER:var",
+          "docComment": "/**\n * Temporary server condition forced blocking client's application-based request\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1013_TRY_AGAIN_LATER = "
+            },
+            {
+              "kind": "Content",
+              "text": "1013"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1013_TRY_AGAIN_LATER",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1014_BAD_GATEWAY:var",
+          "docComment": "/**\n * Server acting as gateway/proxy got invalid response. Equivalent to HTTP `502`\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1014_BAD_GATEWAY = "
+            },
+            {
+              "kind": "Content",
+              "text": "1014"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1014_BAD_GATEWAY",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_1015_TLS_HANDSHAKE:var",
+          "docComment": "/**\n * Transport layer broke because TLS handshake failed\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_1015_TLS_HANDSHAKE = "
+            },
+            {
+              "kind": "Content",
+              "text": "1015"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_1015_TLS_HANDSHAKE",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_3000_UNAUTHORIZED:var",
+          "docComment": "/**\n * Endpoint must be authorized to perform application-based request. Equivalent to HTTP `401`\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_3000_UNAUTHORIZED = "
+            },
+            {
+              "kind": "Content",
+              "text": "3000"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_3000_UNAUTHORIZED",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_3003_FORBIDDEN:var",
+          "docComment": "/**\n * Endpoint is authorized but has no permissions to perform application-based request. Equivalent to HTTP `403`\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_3003_FORBIDDEN = "
+            },
+            {
+              "kind": "Content",
+              "text": "3003"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_3003_FORBIDDEN",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_3008_TIMEOUT:var",
+          "docComment": "/**\n * Endpoint took too long to respond to application-based request. Equivalent to HTTP `408`\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_3008_TIMEOUT = "
+            },
+            {
+              "kind": "Content",
+              "text": "3008"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_3008_TIMEOUT",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_4900_UNDERLYING_STREAM_CLOSED:var",
+          "docComment": "/**\n * The underlying stream was closed, client should reconnect.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_4900_UNDERLYING_STREAM_CLOSED = "
+            },
+            {
+              "kind": "Content",
+              "text": "4900"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_4900_UNDERLYING_STREAM_CLOSED",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WS_CLOSE_REASON_MAX_BYTES:var",
+          "docComment": "/**\n * The maximum number of bytes a close reason string can have.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WS_CLOSE_REASON_MAX_BYTES = "
+            },
+            {
+              "kind": "Content",
+              "text": "123"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WS_CLOSE_REASON_MAX_BYTES",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!WsCloseCode:var",
+          "docComment": "/**\n * WebSocket connection close codes\n *\n * @see\n *\n * {@link https://www.rfc-editor.org/rfc/rfc6455.html#section-7.1.5}\n *\n * @see\n *\n * {@link https://www.iana.org/assignments/websocket/websocket.xhtml#close-code-number}\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "WsCloseCode: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    WS_1000_NORMAL_CLOSURE: number;\n    WS_1001_GOING_AWAY: number;\n    WS_1002_PROTOCOL_ERROR: number;\n    WS_1003_UNSUPPORTED_DATA: number;\n    WS_1005_NO_STATUS_RECEIVED: number;\n    WS_1006_ABNORMAL_CLOSURE: number;\n    WS_1007_INVALID_FRAME_PAYLOAD_DATA: number;\n    WS_1008_POLICY_VIOLATION: number;\n    WS_1009_MESSAGE_TOO_BIG: number;\n    WS_1010_MANDATORY_EXTENSIONS: number;\n    WS_1011_INTERNAL_ERROR: number;\n    WS_1012_SERVICE_RESTART: number;\n    WS_1013_TRY_AGAIN_LATER: number;\n    WS_1014_BAD_GATEWAY: number;\n    WS_1015_TLS_HANDSHAKE: number;\n    WS_3000_UNAUTHORIZED: number;\n    WS_3003_FORBIDDEN: number;\n    WS_3008_TIMEOUT: number;\n    WS_4900_UNDERLYING_STREAM_CLOSED: number;\n}"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "WsCloseCode",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ZERO_VALUE_TYPE_TO_PG_TYPE:var",
+          "docComment": "/**\n * HACK: map zero schema column types to pg types so zero cache is happy\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "ZERO_VALUE_TYPE_TO_PG_TYPE: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ValueType",
+              "canonicalReference": "@rocicorp/zero!ValueType:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", string>"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "ZERO_VALUE_TYPE_TO_PG_TYPE",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-contracts!ZeroConfig:type",
+          "docComment": "/**\n * Configuration for zero-cache change source.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ZeroConfig = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    auth: {\n        token: string;\n    };\n    kv: {\n        provider: 'zqlite';\n        zqlite: {\n            file: string;\n        };\n    };\n    tableMapping?: {\n        [clientName: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "TableMapping",
+              "canonicalReference": "@cbnsndwch/zero-contracts!TableMapping:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    };\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ZeroConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        }
+      ]
+    }
+  ]
+}

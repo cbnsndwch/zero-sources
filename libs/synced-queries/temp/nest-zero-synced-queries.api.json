@@ -1,0 +1,1896 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.53.3",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!",
+  "docComment": "",
+  "name": "@cbnsndwch/nest-zero-synced-queries",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!getParameterMetadata:function(1)",
+          "docComment": "/**\n * Get parameter metadata for a method.\n *\n * @param target - The target object (class prototype)\n *\n * @param propertyKey - The method name\n *\n * @returns Array of parameter metadata, sorted by parameter index\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function getParameterMetadata(target: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", propertyKey: "
+            },
+            {
+              "kind": "Content",
+              "text": "string | symbol"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "SyncedQueryParamMetadata",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamMetadata:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "[]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/decorators/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "target",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "propertyKey",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "getParameterMetadata"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!QueryArg:function(1)",
+          "docComment": "/**\n * Parameter decorator to inject a query argument by index.\n *\n * Use this decorator to explicitly map query arguments to method parameters.\n *\n * @remarks\n *\n * - Useful when mixing authenticated and query parameters - Makes parameter mapping explicit - Can skip parameters if not needed\n *\n * @param index - The index of the argument in the query args array\n *\n * @example\n * ```typescript\n * @SyncedQuery('search', z.tuple([z.string(), z.number()]))\n * async search(\n *   @CurrentUser() user: JwtPayload,\n *   @QueryArg(0) query: string,\n *   @QueryArg(1) limit: number\n * ) {\n *   // query = args[0], limit = args[1]\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function QueryArg(index: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "ParameterDecorator",
+              "canonicalReference": "!ParameterDecorator:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/decorators/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "index",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "QueryArg"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!QueryHandler:type",
+          "docComment": "/**\n * Type definition for a query handler function.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type QueryHandler = "
+            },
+            {
+              "kind": "Content",
+              "text": "(...args: any[]) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "QueryHandler",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler:interface",
+          "docComment": "/**\n * Registered query handler with metadata and execution context.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface RegisteredQueryHandler "
+            }
+          ],
+          "fileUrlPath": "dist/services/query-registry.service.d.ts",
+          "releaseTag": "Public",
+          "name": "RegisteredQueryHandler",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#execute:member",
+              "docComment": "/**\n * Execute the handler with proper context. Executes guards, resolves parameters, then calls the handler.\n *\n * @param request - The full HTTP request object from Express\n *\n * @param args - The query arguments\n *\n * @returns The transformed AST for the query\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "execute: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(request: any, ...args: any[]) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AST",
+                  "canonicalReference": "@rocicorp/zero!AST:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "execute",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 6
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#guards:member",
+              "docComment": "/**\n * Guards to execute before the handler (class-level and method-level).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "guards: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Type",
+                  "canonicalReference": "@nestjs/common!Type:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CanActivate",
+                  "canonicalReference": "@nestjs/common!CanActivate:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "guards",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#handler:member",
+              "docComment": "/**\n * The handler function to execute (bound to provider instance).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "handler: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "QueryHandler",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!QueryHandler:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "handler",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#metadata:member",
+              "docComment": "/**\n * Metadata about the query (name, schema, auth requirements).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "metadata: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SyncedQueryMetadata",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryMetadata:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "metadata",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#methodName:member",
+              "docComment": "/**\n * The name of the method on the provider.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "methodName: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "methodName",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#paramMetadata:member",
+              "docComment": "/**\n * Parameter metadata for dependency injection.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "paramMetadata: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SyncedQueryParamMetadata",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamMetadata:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "paramMetadata",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler#provider:member",
+              "docComment": "/**\n * The provider instance that owns this handler.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "provider: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "provider",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SYNCED_QUERY_METADATA:var",
+          "docComment": "/**\n * Metadata key for synced query handlers.\n *\n * Used by  @SyncedQuery decorator to mark methods as query handlers and store their configuration.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "SYNCED_QUERY_METADATA = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"synced-query:metadata\""
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "SYNCED_QUERY_METADATA",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SYNCED_QUERY_PARAM_METADATA:var",
+          "docComment": "/**\n * Metadata key for storing parameter decorator information.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "SYNCED_QUERY_PARAM_METADATA = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"zero:synced-query-param\""
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "initializerTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "SYNCED_QUERY_PARAM_METADATA",
+          "variableTypeTokenRange": {
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueriesModule:class",
+          "docComment": "/**\n * Dynamic module for Zero Synced Queries infrastructure.\n *\n * This module provides all the plumbing needed for Zero synced queries: - Automatic discovery of `@SyncedQuery` methods in controllers and providers - HTTP endpoint for query transformation requests from Zero cache - Query execution and AST conversion service - Error handling per Zero protocol\n *\n * ## Usage\n *\n * Import this module in your app module using `forRoot()` to configure:\n *\n * @example\n * ```typescript\n * @Module({\n *   imports: [\n *     SyncedQueriesModule.forRoot({\n *       path: 'api/zero/get-queries'\n *     }),\n *     ChatModule,  // Has @SyncedQuery methods in controllers\n *   ]\n * })\n * export class AppModule {}\n * ```\n *\n * ## What You Get\n *\n * After importing this module: 1. **Automatic Discovery**: All `@SyncedQuery` decorated methods are found 2. **HTTP Endpoint**: POST endpoint at your configured path 3. **Transform Service**: Executes queries and converts to AST 4. **No Boilerplate**: Just decorate your methods, everything else is handled\n *\n * ## Architecture\n *\n * The module uses NestJS's DiscoveryModule to scan for decorated methods: - At startup, scans all controllers and providers - Registers handlers in a Map for O(1) lookup - Handles authentication, execution, and error responses\n *\n * @see\n *\n * {@link SyncedQuery} - Decorator for marking query handler methods\n *\n * @see\n *\n * {@link QueryArg} - Decorator for extracting query arguments\n *\n * @see\n *\n * {@link CurrentUser} - Decorator for injecting authenticated user\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SyncedQueriesModule "
+            }
+          ],
+          "fileUrlPath": "dist/module.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "SyncedQueriesModule",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueriesModule.forRoot:member(1)",
+              "docComment": "/**\n * Configure the synced queries module with options.\n *\n * @param options - Configuration options\n *\n * @returns A dynamic module with all synced query infrastructure\n *\n * @example\n * ```typescript\n * // Basic usage with defaults\n * SyncedQueriesModule.forRoot()\n *\n * // Custom path\n * SyncedQueriesModule.forRoot({\n *   path: 'zero/get-queries'\n * })\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static forRoot(options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SyncedQueriesModuleOptions",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueriesModuleOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DynamicModule",
+                  "canonicalReference": "@nestjs/common!DynamicModule:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "forRoot"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueriesModuleOptions:interface",
+          "docComment": "/**\n * Configuration options for the SyncedQueriesModule.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SyncedQueriesModuleOptions "
+            }
+          ],
+          "fileUrlPath": "dist/module.d.ts",
+          "releaseTag": "Public",
+          "name": "SyncedQueriesModuleOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueriesModuleOptions#path:member",
+              "docComment": "/**\n * The path where the synced queries endpoint will be mounted.\n *\n * This path is relative to your API root and should match the configuration in your Zero client.\n *\n * @example\n *\n * 'synced-queries'\n *\n * @example\n *\n * 'zero/get-queries'  @default 'zero/get-queries'\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "path?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "path",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQuery:function(1)",
+          "docComment": "/**\n * Decorator for Zero synced query handlers.\n *\n * Use this decorator to mark a method as a synced query handler. Works on both controllers and providers.\n *\n * @remarks\n *\n * The method signature can use any NestJS parameter decorators you want. Use @QueryArg(index) to explicitly map query arguments by position.\n *\n * @param queryName - The name of the query as registered with Zero\n *\n * @param inputSchema - Zod schema for validating input arguments\n *\n * @example\n * ```typescript\n * // Public query (no authentication)\n * @SyncedQuery('publicChannels', z.tuple([]))\n * async publicChannels() {\n *   return builder.channels.where('isPublic', '=', true);\n * }\n *\n * // Authenticated query (use your own guards and decorators)\n * @UseGuards(JwtAuthGuard)\n * @SyncedQuery('myChats', z.tuple([]))\n * async myChats(@CurrentUser() user: JwtPayload) {\n *   return builder.chats.where('userId', '=', user.sub);\n * }\n *\n * // Query with arguments\n * @SyncedQuery('channelById', z.tuple([z.string()]))\n * async channelById(@QueryArg(0) channelId: string) {\n *   return builder.channels.where('_id', '=', channelId);\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function SyncedQuery(queryName: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", inputSchema: "
+            },
+            {
+              "kind": "Reference",
+              "text": "z.ZodTypeAny",
+              "canonicalReference": "zod!ZodTypeAny:type"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "MethodDecorator",
+              "canonicalReference": "!MethodDecorator:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/decorators/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "queryName",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "inputSchema",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "SyncedQuery"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryMetadata:interface",
+          "docComment": "/**\n * Configuration for a synced query handler.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SyncedQueryMetadata "
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "SyncedQueryMetadata",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryMetadata#inputSchema:member",
+              "docComment": "/**\n * Zod schema for validating query input arguments. Should be a tuple schema matching the expected arguments.\n *\n * @example\n * ```typescript\n * z.tuple([z.string(), z.number()]) // For (id: string, limit: number)\n * z.tuple([]) // For no arguments\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "inputSchema: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "z.ZodTypeAny",
+                  "canonicalReference": "zod!ZodTypeAny:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "inputSchema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryMetadata#queryName:member",
+              "docComment": "/**\n * The name of the query as registered with Zero. Must match the query name used in client-side query definitions.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "queryName: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "queryName",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamMetadata:interface",
+          "docComment": "/**\n * Metadata for a parameter decorator.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SyncedQueryParamMetadata "
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "SyncedQueryParamMetadata",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamMetadata#data:member",
+              "docComment": "/**\n * Additional data for the parameter (e.g., argument index for QueryArg).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "data?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "data",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamMetadata#parameterIndex:member",
+              "docComment": "/**\n * The index of the parameter in the method signature.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "parameterIndex: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "parameterIndex",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamMetadata#type:member",
+              "docComment": "/**\n * The type of parameter injection.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "type: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SyncedQueryParamType",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamType:enum"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "type",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Enum",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamType:enum",
+          "docComment": "/**\n * Parameter types that can be injected into query handlers.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare enum SyncedQueryParamType "
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "SyncedQueryParamType",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "EnumMember",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryParamType.QUERY_ARG:member",
+              "docComment": "/**\n * Inject a specific query argument by index.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "QUERY_ARG = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "\"queryArg\""
+                }
+              ],
+              "initializerTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "name": "QUERY_ARG"
+            }
+          ]
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry:class",
+          "docComment": "/**\n * Service for discovering and managing synced query handlers.\n *\n * This service implements the discovery pattern similar to NestJS microservices, scanning for decorated methods and building a registry of query handlers.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SyncedQueryRegistry implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "OnModuleInit",
+              "canonicalReference": "@nestjs/common!OnModuleInit:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", "
+            },
+            {
+              "kind": "Reference",
+              "text": "OnApplicationBootstrap",
+              "canonicalReference": "@nestjs/common!OnApplicationBootstrap:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "dist/services/query-registry.service.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "SyncedQueryRegistry",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `SyncedQueryRegistry` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(discoveryService: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DiscoveryService",
+                  "canonicalReference": "@nestjs/core!DiscoveryService:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", metadataScanner: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "MetadataScanner",
+                  "canonicalReference": "@nestjs/core!MetadataScanner:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", reflector: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Reflector",
+                  "canonicalReference": "@nestjs/core!Reflector:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", moduleRef: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ModuleRef",
+                  "canonicalReference": "@nestjs/core!ModuleRef:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "discoveryService",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "metadataScanner",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "reflector",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "moduleRef",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 8
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry#getHandler:member(1)",
+              "docComment": "/**\n * Get a registered handler by query name.\n *\n * @param queryName - The name of the query to look up\n *\n * @returns The registered handler or undefined if not found\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getHandler(queryName: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "RegisteredQueryHandler",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!RegisteredQueryHandler:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "queryName",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getHandler"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry#getHandlerCount:member(1)",
+              "docComment": "/**\n * Get the total number of registered handlers.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getHandlerCount(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getHandlerCount"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry#getQueryNames:member(1)",
+              "docComment": "/**\n * Get all registered query names.\n *\n * @returns Array of registered query names\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getQueryNames(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getQueryNames"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry#hasQuery:member(1)",
+              "docComment": "/**\n * Check if a query is registered.\n *\n * @param queryName - The name of the query to check\n *\n * @returns True if the query is registered\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "hasQuery(queryName: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "queryName",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "hasQuery"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry#onApplicationBootstrap:member(1)",
+              "docComment": "/**\n * Log registered handlers after application bootstrap.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "onApplicationBootstrap(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "onApplicationBootstrap"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry#onModuleInit:member(1)",
+              "docComment": "/**\n * Discover and register all synced query handlers on module initialization.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "onModuleInit(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<void>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "onModuleInit"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            },
+            {
+              "startIndex": 3,
+              "endIndex": 4
+            }
+          ]
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryTransformService:class",
+          "docComment": "/**\n * Service for transforming Zero query requests into AST responses.\n *\n * This service coordinates: 1. Looking up query handlers in the registry 2. Executing handlers with user context and arguments 3. Converting query builders to AST format 4. Handling errors per Zero protocol\n *\n * @remarks\n *\n * This is internal plumbing - users don't interact with this directly. The `SyncedQueriesController` uses this service to process requests.\n *\n * ## Architecture\n *\n * The service processes queries in parallel for performance: - Each query is executed independently - Errors are isolated to individual query responses - Handler lookup is O(1) via Map - Target overhead: < 100ms for multiple queries\n *\n * ## Error Handling\n *\n * Errors are caught and returned as error responses per Zero protocol: - Unknown query names return 'app' errors - Query execution failures return 'app' errors with details - Missing toAST() methods return 'app' errors\n *\n * @example\n * ```typescript\n * // Request from Zero cache:\n * POST /api/zero/get-queries\n * [\n *   { \"id\": \"q1\", \"name\": \"myChats\", \"args\": [] },\n *   { \"id\": \"q2\", \"name\": \"chatById\", \"args\": [\"chat-123\"] }\n * ]\n *\n * // Response:\n * [\n *   { \"id\": \"q1\", \"name\": \"myChats\", \"ast\": { ... } },\n *   { \"id\": \"q2\", \"name\": \"chatById\", \"ast\": { ... } }\n * ]\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SyncedQueryTransformService "
+            }
+          ],
+          "fileUrlPath": "dist/services/query-transform.service.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "SyncedQueryTransformService",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryTransformService:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `SyncedQueryTransformService` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(registry: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SyncedQueryRegistry",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryRegistry:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "registry",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!SyncedQueryTransformService#transformQueries:member(1)",
+              "docComment": "/**\n * Transform multiple query requests in parallel.\n *\n * @remarks\n *\n * This method processes multiple queries in parallel for performance. Each query is executed independently and errors are isolated to individual query responses rather than failing the entire request.\n *\n * The full request object is passed through to guards so they can access headers, cookies, and other request properties.\n *\n * @param request - The full Express/HTTP request object\n *\n * @param input - Array of query requests from Zero cache\n *\n * @returns Array of query responses (success or error)\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "transformQueries(request: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", input: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "TransformRequestBody",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestBody:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "TransformQueryResult",
+                  "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryResult:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "request",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "input",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "transformQueries"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryError:interface",
+          "docComment": "/**\n * Error response for failed query transformation.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface TransformQueryError "
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "TransformQueryError",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryError#details:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "details: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "details",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryError#error:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "error: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "'app'"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "error",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryError#id:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "id: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "id",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryError#name:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryResult:type",
+          "docComment": "/**\n * Union type for query transformation results.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type TransformQueryResult = "
+            },
+            {
+              "kind": "Reference",
+              "text": "TransformQuerySuccess",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQuerySuccess:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "TransformQueryError",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQueryError:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "TransformQueryResult",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQuerySuccess:interface",
+          "docComment": "/**\n * Successful query transformation response.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface TransformQuerySuccess "
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "TransformQuerySuccess",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQuerySuccess#ast:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "ast: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AST",
+                  "canonicalReference": "@rocicorp/zero!AST:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "ast",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQuerySuccess#id:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "id: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "id",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformQuerySuccess#name:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestBody:type",
+          "docComment": "/**\n * Request body type from Zero cache (array of query requests).\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type TransformRequestBody = "
+            },
+            {
+              "kind": "Reference",
+              "text": "TransformRequestItem",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestItem:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "[]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "TransformRequestBody",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestItem:interface",
+          "docComment": "/**\n * Request item structure from Zero cache server.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface TransformRequestItem "
+            }
+          ],
+          "fileUrlPath": "dist/contracts.d.ts",
+          "releaseTag": "Public",
+          "name": "TransformRequestItem",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestItem#args:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "any[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "args",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestItem#id:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "id: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "id",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cbnsndwch/nest-zero-synced-queries!TransformRequestItem#name:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

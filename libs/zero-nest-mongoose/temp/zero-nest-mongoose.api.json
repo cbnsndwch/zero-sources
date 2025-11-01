@@ -1,0 +1,1681 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.53.3",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@cbnsndwch/zero-nest-mongoose!",
+  "docComment": "",
+  "name": "@cbnsndwch/zero-nest-mongoose",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@cbnsndwch/zero-nest-mongoose!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!BooleanColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type BooleanColumn = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'boolean';\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "BooleanColumn",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!BooleanColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type BooleanColumnOptional = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'boolean';\n    optional: true;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "BooleanColumnOptional",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ColumnBuilder:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class ColumnBuilder<TShape extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "SchemaValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!SchemaValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<unknown>"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "TShape",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "isAbstract": false,
+          "name": "ColumnBuilder",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ColumnBuilder:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `ColumnBuilder` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(schema: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "TShape"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "schema",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ColumnBuilder#optional:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "optional(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ColumnBuilder",
+                  "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ColumnBuilder:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<TShape>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "optional"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ColumnBuilder#schema:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get schema(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "TShape"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "schema",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!CustomColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type CustomColumn<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ValueType",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ValueType:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    customType: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "CustomColumn",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!CustomColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type CustomColumnOptional<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ValueType",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ValueType:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    optional: true;\n    customType: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "CustomColumnOptional",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!Defined:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type Defined<T> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Exclude",
+              "canonicalReference": "!Exclude:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T, undefined>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "Defined",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!EnumColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type EnumColumn<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'string';\n    kind: 'enum';\n    customType: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "EnumColumn",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!EnumColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type EnumColumnOptional<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'string';\n    kind: 'enum';\n    optional: true;\n    customType: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "EnumColumnOptional",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!invariant:function(1)",
+          "docComment": "/**\n * Throws an error of the specified type with the given message if the condition is not met.\n *\n * @param condition - The condition to check or a function that return the condition.\n *\n * @param message - The error message to throw if the condition is false.\n *\n * @param errorClass - An optional error class to throw if the item is undefined. Defaults to `Error`\n *\n * @param logger - An optional logger service to log the error message if the condition is false.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function invariant<TError extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ">(condition: "
+            },
+            {
+              "kind": "Content",
+              "text": "boolean | (() => boolean)"
+            },
+            {
+              "kind": "Content",
+              "text": ", message: "
+            },
+            {
+              "kind": "Content",
+              "text": "string | (() => string)"
+            },
+            {
+              "kind": "Content",
+              "text": ", errorClass?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Type",
+              "canonicalReference": "@nestjs/common!Type:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<TError>"
+            },
+            {
+              "kind": "Content",
+              "text": ", logger?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerService",
+              "canonicalReference": "@nestjs/common!LoggerService:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "asserts "
+            },
+            {
+              "kind": "Reference",
+              "text": "condition",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!~condition"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 14,
+            "endIndex": 16
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "condition",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "message",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "errorClass",
+              "parameterTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 11
+              },
+              "isOptional": true
+            },
+            {
+              "parameterName": "logger",
+              "parameterTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 13
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "TError",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "invariant"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JsonColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type JsonColumn<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'json';\n    customType: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "JsonColumn",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JsonColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type JsonColumnOptional<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'json';\n    optional: true;\n    customType: T;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "JsonColumnOptional",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JSONObject:type",
+          "docComment": "/**\n * A JSON object. This is a map from strings to JSON values or `undefined`. We allow `undefined` values as a convenience... but beware that the `undefined` values do not round trip to the server. For example:\n * ```\n * // Time t1\n * await tx.set('a', {a: undefined});\n *\n * // time passes, in a new transaction\n * const v = await tx.get('a');\n * console.log(v); // either {a: undefined} or {}\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type JSONObject = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [key: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "JSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | undefined;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "JSONObject",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JSONValue:type",
+          "docComment": "/**\n * The values that can be represented in JSON\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type JSONValue = "
+            },
+            {
+              "kind": "Content",
+              "text": "null | string | boolean | number | "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "JSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "JSONObject",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JSONObject:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "JSONValue",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NullColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type NullColumn = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'null';\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "NullColumn",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NullColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type NullColumnOptional = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'null';\n    optional: true;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "NullColumnOptional",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NumberColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type NumberColumn = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'number';\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "NumberColumn",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NumberColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type NumberColumnOptional = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'number';\n    optional: true;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "NumberColumnOptional",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONObject:type",
+          "docComment": "/**\n * Like {@link JSONObject} but deeply readonly\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ReadonlyJSONObject = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    readonly [key: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | undefined;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ReadonlyJSONObject",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type",
+          "docComment": "/**\n * Like {@link JSONValue} but deeply readonly\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ReadonlyJSONValue = "
+            },
+            {
+              "kind": "Content",
+              "text": "null | string | boolean | number | "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyArray",
+              "canonicalReference": "!ReadonlyArray:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONValue",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONValue:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReadonlyJSONObject",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ReadonlyJSONObject:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ReadonlyJSONValue",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!SchemaValue:type",
+          "docComment": "/**\n * `related` calls need to know what the available relationships are. The `schema` type encodes this information.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type SchemaValue<T = "
+            },
+            {
+              "kind": "Content",
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "StringColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!StringColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "StringColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!StringColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "NumberColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NumberColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "NumberColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NumberColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "BooleanColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!BooleanColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "BooleanColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!BooleanColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "NullColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NullColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "NullColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NullColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "JsonColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JsonColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "JsonColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!JsonColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "EnumColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!EnumColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "EnumColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!EnumColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "CustomColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!CustomColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "CustomColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!CustomColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "SchemaValue",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 31
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!StringColumn:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type StringColumn = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'string';\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "StringColumn",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!StringColumnOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type StringColumnOptional = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    type: 'string';\n    optional: true;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "StringColumnOptional",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!TableSchemaBase:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type TableSchemaBase = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    _id: "
+            },
+            {
+              "kind": "Reference",
+              "text": "StringColumn",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!StringColumn:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    __v: "
+            },
+            {
+              "kind": "Reference",
+              "text": "NumberColumnOptional",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!NumberColumnOptional:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "TableSchemaBase",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!typedEntries:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function typedEntries<T extends "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ">(obj: "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "[keyof T, T[keyof T]][]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "obj",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "typedEntries"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!UnwrapOptional:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type UnwrapOptional<T, K extends "
+            },
+            {
+              "kind": "Content",
+              "text": "keyof T"
+            },
+            {
+              "kind": "Content",
+              "text": ", TOptional = "
+            },
+            {
+              "kind": "Content",
+              "text": "true"
+            },
+            {
+              "kind": "Content",
+              "text": ", TRequired = "
+            },
+            {
+              "kind": "Content",
+              "text": "false"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "undefined extends T[K] ? {} extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Pick",
+              "canonicalReference": "!Pick:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T, K> ? TOptional : TRequired : TRequired"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "UnwrapOptional",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "K",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "TOptional",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "typeParameterName": "TRequired",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 10
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ValueType:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ValueType = "
+            },
+            {
+              "kind": "Content",
+              "text": "'string' | 'number' | 'boolean' | 'null' | 'json'"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ValueType",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ZeroTableSchema:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class ZeroTableSchema "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "ZeroTableSchema",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-nest-mongoose!ZeroTableSchema.createForClass:member(1)",
+              "docComment": "/**\n * Creates a zero table schema from a given Mongoose entity class.\n *\n * @template TEntity - The type of the entity class. MUST extend `mongoose.Document`.\n *\n * @param target - The entity class to generate the schema from.\n *\n * @returns The generated zero table schema.\n *\n * @throws\n *\n * Will throw an error if the collection name is missing in the entity's `@Schema` decorator.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static createForClass<TEntity extends "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Document",
+                  "canonicalReference": "!\"\\\"mongoose\\\"\".Document:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string, unknown, TEntity>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">(target: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Type",
+                  "canonicalReference": "@nestjs/common!Type:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<TEntity>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        name: string;\n        primaryKey: readonly [\"_id\"];\n        columns: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ColumnsFromEntity",
+                  "canonicalReference": "@cbnsndwch/zero-nest-mongoose!~ColumnsFromEntity:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<TEntity>;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "typeParameters": [
+                {
+                  "typeParameterName": "TEntity",
+                  "constraintTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  },
+                  "defaultTypeTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  }
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "target",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 4,
+                    "endIndex": 6
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "createForClass"
+            }
+          ],
+          "implementsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

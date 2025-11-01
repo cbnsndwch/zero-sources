@@ -1,0 +1,621 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.53.3",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!",
+  "docComment": "",
+  "name": "@cbnsndwch/zero-watermark-zqlite",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Variable",
+          "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!TOKEN_WATERMARK_ZQLITE_DB:var",
+          "docComment": "/**\n * Injection token for the Zero-SQLite3 database client instance\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "TOKEN_WATERMARK_ZQLITE_DB: "
+            },
+            {
+              "kind": "Content",
+              "text": "unique symbol"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "TOKEN_WATERMARK_ZQLITE_DB",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteKvOptions:type",
+          "docComment": "/**\n * Config for the Zero-SQLite3 KV provider\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ZqliteKvOptions = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    file: string;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ZqliteKvOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkModule:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class ZqliteWatermarkModule "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "ZqliteWatermarkModule",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkModule.forRootAsync:member(1)",
+              "docComment": "/**\n * Use this method to configure and register the ZQLite-based watermark service.\n *\n * **NOTE:** This is a global module, import a *single* instance in your app's top-level module.\n *\n * @param options - The options to configure the ZQLite database.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static forRootAsync(options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ZqliteWatermarkModuleAsyncOptions",
+                  "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkModuleAsyncOptions:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "DynamicModule",
+                  "canonicalReference": "@nestjs/common!DynamicModule:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "forRootAsync"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkModuleAsyncOptions:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "type ZqliteWatermarkModuleAsyncOptions = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Pick",
+              "canonicalReference": "!Pick:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleMetadata",
+              "canonicalReference": "@nestjs/common!ModuleMetadata:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", 'imports'> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Pick",
+              "canonicalReference": "!Pick:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "FactoryProvider",
+              "canonicalReference": "@nestjs/common!FactoryProvider:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ZqliteKvOptions",
+              "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteKvOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">, 'inject' | 'useFactory'>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "name": "ZqliteWatermarkModuleAsyncOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 11
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkService:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class ZqliteWatermarkService implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IWatermarkService",
+              "canonicalReference": "@cbnsndwch/zero-contracts!IWatermarkService:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "dist/index.d.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "ZqliteWatermarkService",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkService#_nextWatermark:member(1)",
+              "docComment": "/**\n * Private, exposed for testing purposes only\n *\n * @private\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_nextWatermark(shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "_nextWatermark"
+            },
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkService:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `ZqliteWatermarkService` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(db: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Database",
+                  "canonicalReference": "@rocicorp/zero-sqlite3!Database.Database:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "db",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkService#getOrCreateWatermark:member(1)",
+              "docComment": "/**\n * Retrieves an existing watermark for the given shard ID and resume token, or creates a new one if it does not exist.\n *\n * @param shardId - The identifier for the shard.\n *\n * @param resumeToken - The token used to resume from a specific point.\n *\n * @returns A promise that resolves to the watermark string.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getOrCreateWatermark(shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", resumeToken: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "resumeToken",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getOrCreateWatermark"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@cbnsndwch/zero-watermark-zqlite!ZqliteWatermarkService#getResumeToken:member(1)",
+              "docComment": "/**\n * Retrieves the change stream resume token for a given shard and watermark.\n *\n * @param shardId - The identifier of the shard.\n *\n * @param watermark - The watermark version.\n *\n * @returns A promise that resolves to the resume token as a string, or `undefined` if one is not found.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getResumeToken(shardId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", watermark: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LexiVersion",
+                  "canonicalReference": "@cbnsndwch/zero-contracts!LexiVersion:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string | undefined>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "shardId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "watermark",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "getResumeToken"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
