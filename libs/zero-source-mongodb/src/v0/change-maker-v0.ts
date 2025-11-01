@@ -10,7 +10,7 @@ import type {
     ChangeStreamUpdateDocument
 } from 'mongodb';
 
-import { invariant } from '@cbnsndwch/zero-contracts';
+import { invariant, isPipelineMapping } from '@cbnsndwch/zero-contracts';
 
 import type { IChangeMaker } from '../contracts/index.js';
 import {
@@ -20,6 +20,10 @@ import {
 import { applyProjection, matchesFilter } from '../utils/table-mapping.js';
 import { relationFromChangeStreamEvent } from '../utils/zero-relation-from-change-stream-event.js';
 
+import {
+    PIPELINE_EXECUTOR_SERVICE_TOKEN,
+    type PipelineExecutorService
+} from './pipeline-executor.service.js';
 import {
     TOKEN_TABLE_MAPPING_SERVICE,
     type TableMappingService,
@@ -34,7 +38,9 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         @Inject(TOKEN_MODULE_OPTIONS)
         private readonly options: ZeroMongoModuleOptions,
         @Inject(TOKEN_TABLE_MAPPING_SERVICE)
-        private readonly tableMappingService: TableMappingService
+        private readonly tableMappingService: TableMappingService,
+        @Inject(PIPELINE_EXECUTOR_SERVICE_TOKEN)
+        private readonly pipelineExecutor: PipelineExecutorService
     ) {
         // Initialize the table mapping service with table specs from options
         if (this.options.tables) {
@@ -100,23 +106,51 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         if (matchingTables.length > 0) {
             // Handle mapped/filtered tables
             for (const mapping of matchingTables) {
-                const projectedDoc = applyProjection(
-                    doc.fullDocument,
-                    mapping.config.projection || {}
-                );
+                if (isPipelineMapping(mapping.config)) {
+                    // Pipeline mapping: Execute pipeline (may produce multiple documents)
+                    const transformedDocs =
+                        this.pipelineExecutor.executePipeline(
+                            doc.fullDocument,
+                            mapping.config.pipeline
+                        );
 
-                changes.push([
-                    'data',
-                    {
-                        tag: 'insert',
-                        new: projectedDoc,
-                        relation: {
-                            keyColumns: mapping.spec.primaryKey || ['_id'],
-                            schema: mapping.spec.schema,
-                            name: mapping.tableName
-                        }
+                    // Generate one INSERT per transformed document
+                    for (const transformedDoc of transformedDocs) {
+                        changes.push([
+                            'data',
+                            {
+                                tag: 'insert',
+                                new: transformedDoc,
+                                relation: {
+                                    keyColumns: mapping.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: mapping.spec.schema,
+                                    name: mapping.tableName
+                                }
+                            }
+                        ] satisfies v0.Data);
                     }
-                ] satisfies v0.Data);
+                } else {
+                    // Simple mapping: Apply projection
+                    const projectedDoc = applyProjection(
+                        doc.fullDocument,
+                        mapping.config.projection || {}
+                    );
+
+                    changes.push([
+                        'data',
+                        {
+                            tag: 'insert',
+                            new: projectedDoc,
+                            relation: {
+                                keyColumns: mapping.spec.primaryKey || ['_id'],
+                                schema: mapping.spec.schema,
+                                name: mapping.tableName
+                            }
+                        }
+                    ] satisfies v0.Data);
+                }
             }
         } else {
             // Fallback to direct 1:1 mapping
@@ -196,64 +230,177 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                 );
 
                 if (tableAfter && tableBefore) {
-                    // Document matches filter both before and after - normal update
-                    const projectedDoc = applyProjection(
-                        updatedDoc,
-                        tableAfter.config.projection || {}
-                    );
+                    // Document matches filter both before and after
+                    if (isPipelineMapping(tableAfter.config)) {
+                        // Pipeline mapping: Execute pipeline on both versions
+                        const docsAfter = this.pipelineExecutor.executePipeline(
+                            updatedDoc,
+                            tableAfter.config.pipeline
+                        );
+                        const docsBefore = originalDoc
+                            ? this.pipelineExecutor.executePipeline(
+                                  originalDoc,
+                                  tableAfter.config.pipeline
+                              )
+                            : [];
 
-                    changes.push([
-                        'data',
-                        {
-                            tag: 'update',
-                            key: doc.documentKey,
-                            new: projectedDoc,
-                            relation: {
-                                keyColumns: tableAfter.spec.primaryKey || [
-                                    '_id'
-                                ],
-                                schema: tableAfter.spec.schema,
-                                name: tableName
-                            }
+                        // TODO Phase 4: Implement array diff logic
+                        // For now, we'll use a simple approach:
+                        // - Generate DELETE for all before documents
+                        // - Generate INSERT for all after documents
+                        // This is inefficient but correct for now
+                        for (const beforeDoc of docsBefore) {
+                            const key = this.#extractKey(
+                                beforeDoc,
+                                tableAfter.spec.primaryKey || ['_id']
+                            );
+                            changes.push([
+                                'data',
+                                {
+                                    tag: 'delete',
+                                    key,
+                                    relation: {
+                                        keyColumns: tableAfter.spec
+                                            .primaryKey || ['_id'],
+                                        schema: tableAfter.spec.schema,
+                                        name: tableName
+                                    }
+                                }
+                            ] satisfies v0.Data);
                         }
-                    ] satisfies v0.Data);
+
+                        for (const afterDoc of docsAfter) {
+                            changes.push([
+                                'data',
+                                {
+                                    tag: 'insert',
+                                    new: afterDoc,
+                                    relation: {
+                                        keyColumns: tableAfter.spec
+                                            .primaryKey || ['_id'],
+                                        schema: tableAfter.spec.schema,
+                                        name: tableName
+                                    }
+                                }
+                            ] satisfies v0.Data);
+                        }
+                    } else {
+                        // Simple mapping: Normal update
+                        const projectedDoc = applyProjection(
+                            updatedDoc,
+                            tableAfter.config.projection || {}
+                        );
+
+                        changes.push([
+                            'data',
+                            {
+                                tag: 'update',
+                                key: doc.documentKey,
+                                new: projectedDoc,
+                                relation: {
+                                    keyColumns: tableAfter.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: tableAfter.spec.schema,
+                                    name: tableName
+                                }
+                            }
+                        ] satisfies v0.Data);
+                    }
                 } else if (tableAfter && !tableBefore) {
                     // Document now matches filter - insert into this table
-                    const projectedDoc = applyProjection(
-                        updatedDoc,
-                        tableAfter.config.projection || {}
-                    );
+                    if (isPipelineMapping(tableAfter.config)) {
+                        // Pipeline mapping: Execute pipeline and insert all results
+                        const transformedDocs =
+                            this.pipelineExecutor.executePipeline(
+                                updatedDoc,
+                                tableAfter.config.pipeline
+                            );
 
-                    changes.push([
-                        'data',
-                        {
-                            tag: 'insert',
-                            new: projectedDoc,
-                            relation: {
-                                keyColumns: tableAfter.spec.primaryKey || [
-                                    '_id'
-                                ],
-                                schema: tableAfter.spec.schema,
-                                name: tableName
-                            }
+                        for (const transformedDoc of transformedDocs) {
+                            changes.push([
+                                'data',
+                                {
+                                    tag: 'insert',
+                                    new: transformedDoc,
+                                    relation: {
+                                        keyColumns: tableAfter.spec
+                                            .primaryKey || ['_id'],
+                                        schema: tableAfter.spec.schema,
+                                        name: tableName
+                                    }
+                                }
+                            ] satisfies v0.Data);
                         }
-                    ] satisfies v0.Data);
+                    } else {
+                        // Simple mapping: Insert
+                        const projectedDoc = applyProjection(
+                            updatedDoc,
+                            tableAfter.config.projection || {}
+                        );
+
+                        changes.push([
+                            'data',
+                            {
+                                tag: 'insert',
+                                new: projectedDoc,
+                                relation: {
+                                    keyColumns: tableAfter.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: tableAfter.spec.schema,
+                                    name: tableName
+                                }
+                            }
+                        ] satisfies v0.Data);
+                    }
                 } else if (!tableAfter && tableBefore) {
                     // Document no longer matches filter - delete from this table
-                    changes.push([
-                        'data',
-                        {
-                            tag: 'delete',
-                            key: doc.documentKey,
-                            relation: {
-                                keyColumns: tableBefore.spec.primaryKey || [
-                                    '_id'
-                                ],
-                                schema: tableBefore.spec.schema,
-                                name: tableName
-                            }
+                    if (isPipelineMapping(tableBefore.config)) {
+                        // Pipeline mapping: Execute pipeline on before version and delete all results
+                        const transformedDocs = originalDoc
+                            ? this.pipelineExecutor.executePipeline(
+                                  originalDoc,
+                                  tableBefore.config.pipeline
+                              )
+                            : [];
+
+                        for (const transformedDoc of transformedDocs) {
+                            const key = this.#extractKey(
+                                transformedDoc,
+                                tableBefore.spec.primaryKey || ['_id']
+                            );
+                            changes.push([
+                                'data',
+                                {
+                                    tag: 'delete',
+                                    key,
+                                    relation: {
+                                        keyColumns: tableBefore.spec
+                                            .primaryKey || ['_id'],
+                                        schema: tableBefore.spec.schema,
+                                        name: tableName
+                                    }
+                                }
+                            ] satisfies v0.Data);
                         }
-                    ] satisfies v0.Data);
+                    } else {
+                        // Simple mapping: Delete
+                        changes.push([
+                            'data',
+                            {
+                                tag: 'delete',
+                                key: doc.documentKey,
+                                relation: {
+                                    keyColumns: tableBefore.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: tableBefore.spec.schema,
+                                    name: tableName
+                                }
+                            }
+                        ] satisfies v0.Data);
+                    }
                 }
             }
         } else {
@@ -308,14 +455,18 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         if (matchingTables.length > 0) {
             // Handle mapped/filtered tables
             for (const mapping of matchingTables) {
-                const projectedDoc = applyProjection(
-                    doc.fullDocument,
-                    mapping.config.projection || {}
-                );
+                if (isPipelineMapping(mapping.config)) {
+                    // Pipeline mapping: Execute pipeline and replace all results
+                    const transformedDocs =
+                        this.pipelineExecutor.executePipeline(
+                            doc.fullDocument,
+                            mapping.config.pipeline
+                        );
 
-                // For replace, we delete the old and insert the new
-                changes.push(
-                    [
+                    // For replace with pipeline, we delete all potential old docs
+                    // (since we don't have fullDocumentBeforeChange) and insert new ones
+                    // Note: This assumes the primary key includes the source document's _id
+                    changes.push([
                         'data',
                         {
                             tag: 'delete',
@@ -326,20 +477,64 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
                                 name: mapping.tableName
                             }
                         }
-                    ] satisfies v0.Data,
-                    [
-                        'data',
-                        {
-                            tag: 'insert',
-                            new: projectedDoc,
-                            relation: {
-                                keyColumns: mapping.spec.primaryKey || ['_id'],
-                                schema: mapping.spec.schema,
-                                name: mapping.tableName
+                    ] satisfies v0.Data);
+
+                    // Insert all transformed documents
+                    for (const transformedDoc of transformedDocs) {
+                        changes.push([
+                            'data',
+                            {
+                                tag: 'insert',
+                                new: transformedDoc,
+                                relation: {
+                                    keyColumns: mapping.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: mapping.spec.schema,
+                                    name: mapping.tableName
+                                }
                             }
-                        }
-                    ] satisfies v0.Data
-                );
+                        ] satisfies v0.Data);
+                    }
+                } else {
+                    // Simple mapping: Normal replace
+                    const projectedDoc = applyProjection(
+                        doc.fullDocument,
+                        mapping.config.projection || {}
+                    );
+
+                    // For replace, we delete the old and insert the new
+                    changes.push(
+                        [
+                            'data',
+                            {
+                                tag: 'delete',
+                                key: doc.documentKey,
+                                relation: {
+                                    keyColumns: mapping.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: mapping.spec.schema,
+                                    name: mapping.tableName
+                                }
+                            }
+                        ] satisfies v0.Data,
+                        [
+                            'data',
+                            {
+                                tag: 'insert',
+                                new: projectedDoc,
+                                relation: {
+                                    keyColumns: mapping.spec.primaryKey || [
+                                        '_id'
+                                    ],
+                                    schema: mapping.spec.schema,
+                                    name: mapping.tableName
+                                }
+                            }
+                        ] satisfies v0.Data
+                    );
+                }
             }
         } else {
             // Fallback to direct 1:1 mapping
@@ -409,18 +604,41 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
         if (mappedTables.length > 0) {
             // Handle mapped/filtered tables - send delete to all potential tables
             for (const mapping of mappedTables) {
-                changes.push([
-                    'data',
-                    {
-                        tag: 'delete',
-                        key: doc.documentKey,
-                        relation: {
-                            keyColumns: mapping.spec.primaryKey || ['_id'],
-                            schema: mapping.spec.schema,
-                            name: mapping.tableName
+                if (isPipelineMapping(mapping.config)) {
+                    // Pipeline mapping: For deletes, we don't have the full document
+                    // so we can't execute the pipeline. We must rely on the fact that
+                    // pipeline mappings should use composite keys that include the source
+                    // document's _id, and Zero will handle the delete cascading.
+                    //
+                    // TODO Phase 4: Consider requiring fullDocumentBeforeChange for deletes
+                    // or using a pattern where composite keys always start with source _id
+                    changes.push([
+                        'data',
+                        {
+                            tag: 'delete',
+                            key: doc.documentKey,
+                            relation: {
+                                keyColumns: mapping.spec.primaryKey || ['_id'],
+                                schema: mapping.spec.schema,
+                                name: mapping.tableName
+                            }
                         }
-                    }
-                ] satisfies v0.Data);
+                    ] satisfies v0.Data);
+                } else {
+                    // Simple mapping: Normal delete
+                    changes.push([
+                        'data',
+                        {
+                            tag: 'delete',
+                            key: doc.documentKey,
+                            relation: {
+                                keyColumns: mapping.spec.primaryKey || ['_id'],
+                                schema: mapping.spec.schema,
+                                name: mapping.tableName
+                            }
+                        }
+                    ] satisfies v0.Data);
+                }
             }
         } else {
             // Fallback to direct 1:1 mapping
@@ -771,6 +989,22 @@ export class ChangeMakerV0 implements IChangeMaker<v0.ChangeStreamMessage> {
      */
     makeRollbackChanges(): v0.ChangeStreamMessage[] {
         return [['rollback', { tag: 'rollback' }]];
+    }
+
+    /**
+     * Extracts the key from a document based on the specified key columns.
+     * Used for pipeline mappings where the primary key may be computed/composite.
+     *
+     * @param document - The document to extract the key from
+     * @param keyColumns - Array of column names that form the primary key
+     * @returns An object containing the key values
+     */
+    #extractKey(document: any, keyColumns: string[]): Record<string, any> {
+        const key: Record<string, any> = {};
+        for (const column of keyColumns) {
+            key[column] = document[column];
+        }
+        return key;
     }
 
     /**
