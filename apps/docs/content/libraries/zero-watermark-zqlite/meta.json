@@ -1,0 +1,9 @@
+{
+  "title": "zero-watermark-zqlite",
+  "description": "SQLite-based watermark storage",
+  "pages": [
+    "index",
+    "installation",
+    "configuration"
+  ]
+}
