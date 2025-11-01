@@ -1,0 +1,13 @@
+{
+  "title": "Zero Sources Documentation",
+  "pages": [
+    "index",
+    "getting-started",
+    "libraries",
+    "change-sources",
+    "demos",
+    "guides",
+    "api",
+    "architecture"
+  ]
+}
