@@ -1,0 +1,10 @@
+{
+  "title": "Change Sources",
+  "description": "Change source implementations and guides",
+  "icon": "flow",
+  "pages": [
+    "index",
+    "mongodb-server",
+    "custom-implementation"
+  ]
+}

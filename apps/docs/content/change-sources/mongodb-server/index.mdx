@@ -1,0 +1,137 @@
+---
+title: MongoDB Change Source Server
+description: Production-ready MongoDB change source implementation
+---
+
+# MongoDB Change Source Server
+
+A production-ready, application-agnostic MongoDB change source server built with NestJS.
+
+## Overview
+
+The MongoDB change source server is a reusable implementation that streams MongoDB changes to Zero clients. It's designed to be application-agnostic, loading schema and table mappings from configuration files, URLs, or APIs.
+
+## Key Features
+
+- **Application-Agnostic**: Load schema dynamically from any source
+- **Discriminated Unions**: Handle polymorphic MongoDB collections
+- **WebSocket Gateway**: Real-time bidirectional communication
+- **Watermark Management**: Multiple storage backends (ZQLite, NATS KV)
+- **Observability**: Health checks, metrics, and logging
+- **Docker Ready**: Production-grade Docker image
+
+## Architecture
+
+The server consists of several key modules:
+
+- **Change Source Module**: Core change streaming functionality
+- **Schema Module**: Dynamic schema and table mapping loading
+- **Metadata Module**: API metadata and observability
+- **WebSocket Gateway**: Real-time client communication
+
+## Quick Start
+
+### Using Docker
+
+```bash
+docker run -d \
+  -e MONGODB_URI=mongodb://localhost:27017 \
+  -e SCHEMA_URL=http://myapp/api/schema \
+  -e TABLE_MAPPINGS_URL=http://myapp/api/table-mappings \
+  -p 3000:3000 \
+  source-mongodb-server
+```
+
+### Using pnpm
+
+```bash
+# Clone repository
+git clone https://github.com/rocicorp/zero-sources.git
+cd zero-sources
+
+# Install dependencies
+pnpm install
+
+# Configure
+cp apps/source-mongodb-server/.env.example apps/source-mongodb-server/.env
+
+# Start server
+pnpm --filter source-mongodb-server start
+```
+
+## Configuration
+
+### Environment Variables
+
+```bash
+# MongoDB connection
+MONGODB_URI=mongodb://localhost:27017/mydb
+
+# Schema configuration
+SCHEMA_FILE=./zrocket-schema.json
+SCHEMA_URL=http://localhost:3001/api/schema
+
+# Table mappings
+TABLE_MAPPINGS_FILE=./zrocket-table-mappings.json
+TABLE_MAPPINGS_URL=http://localhost:3001/api/table-mappings
+
+# Server
+PORT=3000
+NODE_ENV=production
+
+# Watermark storage
+WATERMARK_STORAGE=zqlite  # or 'nats-kv'
+WATERMARK_DB_PATH=./data/watermarks.db
+
+# NATS (if using nats-kv)
+NATS_SERVERS=nats://localhost:4222
+NATS_BUCKET=zero-watermarks
+```
+
+### Schema Configuration
+
+The server can load schemas from:
+
+1. **Local File**: JSON file in the project directory
+2. **Remote URL**: HTTP endpoint returning schema JSON
+3. **API Endpoint**: Dynamic schema generation
+
+Example schema configuration:
+
+```json
+{
+  "message": {
+    "tableName": "message",
+    "columns": {
+      "id": { "type": "string" },
+      "content": { "type": "string" },
+      "createdAt": { "type": "number" }
+    },
+    "primaryKey": ["id"]
+  }
+}
+```
+
+### Table Mappings
+
+Example table mappings configuration:
+
+```json
+{
+  "message": {
+    "collection": "messages",
+    "fields": {
+      "id": "_id",
+      "content": "content",
+      "userId": "author.id",
+      "createdAt": "timestamp"
+    }
+  }
+}
+```
+
+## Next Steps
+
+- [Deployment Guide](./deployment)
+- [Configuration Reference](./configuration)
+- [Monitoring Guide](./monitoring)
