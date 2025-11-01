@@ -1,11 +1,16 @@
 import { ChangeMakerV0, TOKEN_CHANGE_MAKER_V0 } from './change-maker-v0.js';
 import { ChangesGatewayV0 } from './changes-v0.gateway.js';
 import {
+    PIPELINE_EXECUTOR_SERVICE_TOKEN,
+    PipelineExecutorService
+} from './pipeline-executor.service.js';
+import {
     TOKEN_TABLE_MAPPING_SERVICE,
     TableMappingService
 } from './table-mapping.service.js';
 
 export * from './change-source-v0.js';
+export * from './pipeline-executor.service.js';
 export * from './table-mapping.service.js';
 
 export const v0ChangeSourceServices = [
@@ -17,5 +22,9 @@ export const v0ChangeSourceServices = [
     {
         provide: TOKEN_TABLE_MAPPING_SERVICE,
         useClass: TableMappingService
+    },
+    {
+        provide: PIPELINE_EXECUTOR_SERVICE_TOKEN,
+        useClass: PipelineExecutorService
     }
 ];
