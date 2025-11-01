@@ -6,6 +6,7 @@ declare module "react-router" {
   interface Register {
     pages: Pages
     routeFiles: RouteFiles
+    routeModules: RouteModules
   }
 }
 
@@ -123,4 +124,24 @@ type RouteFiles = {
     id: "routes/demos/copy-paste-demo";
     page: "/demos/copy-paste";
   };
+};
+
+type RouteModules = {
+  "root": typeof import("./app/root.tsx");
+  "routes/home/index": typeof import("./app/routes/home/index.tsx");
+  "components/layout/index": typeof import("./app/components/layout/index.tsx");
+  "routes/direct/layout": typeof import("./app/routes/direct/layout.tsx");
+  "routes/direct/index": typeof import("./app/routes/direct/index.tsx");
+  "routes/direct/chat": typeof import("./app/routes/direct/chat.tsx");
+  "routes/groups/layout": typeof import("./app/routes/groups/layout.tsx");
+  "routes/groups/index": typeof import("./app/routes/groups/index.tsx");
+  "routes/groups/chat": typeof import("./app/routes/groups/chat.tsx");
+  "routes/channels/layout": typeof import("./app/routes/channels/layout.tsx");
+  "routes/channels/index": typeof import("./app/routes/channels/index.tsx");
+  "routes/channels/channel": typeof import("./app/routes/channels/channel.tsx");
+  "routes/files/index": typeof import("./app/routes/files/index.tsx");
+  "routes/preferences/index": typeof import("./app/routes/preferences/index.tsx");
+  "routes/support/index": typeof import("./app/routes/support/index.tsx");
+  "routes/demos/rich-editor-demo": typeof import("./app/routes/demos/rich-editor-demo.tsx");
+  "routes/demos/copy-paste-demo": typeof import("./app/routes/demos/copy-paste-demo.tsx");
 };
