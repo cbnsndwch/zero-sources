@@ -1,0 +1,15 @@
+{
+  "title": "Libraries",
+  "description": "Explore Zero Sources libraries and packages",
+  "icon": "package",
+  "pages": [
+    "index",
+    "zero-contracts",
+    "zero-source-mongodb",
+    "zero-watermark-zqlite",
+    "zero-watermark-nats-kv",
+    "zero-nest-mongoose",
+    "synced-queries",
+    "zrocket-contracts"
+  ]
+}
