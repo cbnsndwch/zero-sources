@@ -137,7 +137,7 @@
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@swc/cli": "^0.7.8",
-        "@swc/core": "^1.13.5",
+        "@swc/core": "^1.14.0",
         "@tailwindcss/vite": "^4.1.14",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",
