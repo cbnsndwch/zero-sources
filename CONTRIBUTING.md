@@ -80,15 +80,15 @@ By submitting a contribution to this project, you certify that:
 
 1. Add a comment to your Pull Request with the following text:
 
-```
-I have read and agree to the Contributor License Agreement as outlined in CONTRIBUTING.md.
-I certify that my contributions are my original work and I have the right to submit them under the MIT License.
-I grant cbnsndwch LLC the rights specified in the CLA.
-
-Full Name: [Your Full Legal Name]
-GitHub Username: @[your-username]
-Date: [YYYY-MM-DD]
-```
+    ```markdown
+    I have read and agree to the Contributor License Agreement as outlined in CONTRIBUTING.md.
+    I certify that my contributions are my original work and I have the right to submit them under     the MIT License.
+    I grant cbnsndwch LLC the rights specified in the CLA.
+    
+    Full Name: [Your Full Legal Name]
+    GitHub Username: @[your-username]
+    Date: [YYYY-MM-DD]
+    ```
 
 2. A maintainer will verify and acknowledge your CLA agreement
 3. Once acknowledged, your CLA remains in effect for all future contributions to this project
@@ -100,7 +100,7 @@ If you are contributing on behalf of your employer or a company, you must:
 1. Have written permission from your employer to contribute
 2. Submit a Corporate CLA where an authorized representative of your company signs on behalf of all employees who will contribute
 
-Please contact legal@cbnsndwch.com for the Corporate CLA form.
+Please contact <oss@cbnsndwch.com> for the Corporate CLA form.
 
 ---
 
@@ -179,10 +179,13 @@ pnpm dev
 
 - **Language**: TypeScript for all code
 - **Formatting**: We use Prettier for code formatting
+
     ```bash
     pnpm format
     ```
+
 - **Linting**: All code must pass ESLint checks
+
     ```bash
     pnpm lint
     ```
@@ -304,13 +307,13 @@ Ensure any external code you reference is:
 - ✅ Compatible with this project's MIT License
 - ⚠️ **Requires approval**: GPL, LGPL, AGPL, MPL (copyleft licenses)
 - ❌ **NOT ACCEPTABLE**:
-    - SSPL (Server Side Public License)
-    - FSL (Functional Source License) / BSL (Business Source License)
-    - Fair Source / Fair Code licenses
-    - Elastic License / Commons Clause
-    - CC BY-NC (Non-Commercial) or any license with commercial restrictions
-    - Time-delayed licenses that restrict commercial use
-    - Proprietary licenses without explicit permission
+  - SSPL (Server Side Public License)
+  - FSL (Functional Source License) / BSL (Business Source License)
+  - Fair Source / Fair Code licenses
+  - Elastic License / Commons Clause
+  - CC BY-NC (Non-Commercial) or any license with commercial restrictions
+  - Time-delayed licenses that restrict commercial use
+  - Proprietary licenses without explicit permission
 
 #### 5. **When in Doubt**
 
@@ -415,7 +418,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 
 ### Format
 
-```
+```text
 <type>(<scope>): <subject>
 
 <body>
@@ -494,7 +497,7 @@ We follow [Semantic Versioning](https://semver.org/):
 2. **Existing Issues**: Search [GitHub Issues](https://github.com/cbnsndwch/zero-sources/issues)
 3. **Discussions**: Start a [GitHub Discussion](https://github.com/cbnsndwch/zero-sources/discussions)
 4. **Discord**: Join the [Rocicorp Discord](https://discord.gg/rocicorp) and mention `@cbnsndwch`
-5. **Email**: For legal or security concerns: legal@cbnsndwch.com
+5. **Email**: For legal or security concerns: <oss@cbnsndwch.com>
 
 ### Reporting Bugs
 

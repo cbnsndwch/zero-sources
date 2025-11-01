@@ -53,7 +53,7 @@ Date: [YYYY-MM-DD]
 ### Corporate Contributors
 
 - [ ] I am contributing on behalf of my employer and have obtained necessary permissions
-- [ ] I have contacted legal@cbnsndwch.com regarding a Corporate CLA
+- [ ] I have contacted <oss@cbnsndwch.io> regarding a Corporate CLA
 
 **Learn more**: See the [CLA section in CONTRIBUTING.md](./CONTRIBUTING.md#contributor-license-agreement-cla)
 

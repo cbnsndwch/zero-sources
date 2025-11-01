@@ -1,4 +1,4 @@
-import type { Dict } from '../dict.js';
+import { type Dict } from '../../dict.js';
 
 export type FilterOperators<T> = {
     /**
@@ -103,3 +103,19 @@ export type RootFilterOperators<T> = Dict & {
 export type Filter<T> = RootFilterOperators<T> & {
     [K in keyof T]?: Condition<T[K]>;
 };
+
+/**
+ * Filter stage - equivalent to MongoDB's $match operator.
+ *
+ * Filters documents based on the specified criteria. Documents that don't
+ * match the filter are excluded from further processing.
+ *
+ * @example
+ * ```typescript
+ * { $match: { bundle: 'ENTERPRISE', isActive: true } }
+ * { $match: { 'members.role': { $in: ['admin', 'owner'] } } }
+ * ```
+ */
+export interface MatchStage<T = Dict> {
+    $match: Filter<T>;
+}
