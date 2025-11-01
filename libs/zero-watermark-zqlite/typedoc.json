@@ -1,0 +1,21 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../apps/docs/content/api/zero-watermark-zqlite",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-frontmatter"],
+  "outputFileStrategy": "modules",
+  "flattenOutputFiles": false,
+  "readme": "none",
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "excludeInternal": false,
+  "hideGenerator": true,
+  "disableSources": false,
+  "navigationLinks": {
+    "Documentation": "https://cbnsndwch.github.io/zero-sources/"
+  },
+  "frontmatterGlobals": {
+    "layout": "docs"
+  }
+}
