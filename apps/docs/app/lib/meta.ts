@@ -30,7 +30,9 @@ export function createMetaTags(
         tags = []
     } = options;
 
-    const fullTitle = title.includes('Zero Sources')
+    const fullTitle = ['Zero Sources', '@cbnsndwch/zero-sources'].some(
+        exception => title.includes(exception)
+    )
         ? title
         : `${title} | Zero Sources`;
     const url = `${base}${path}`;
@@ -79,7 +81,7 @@ export function createMetaTags(
             });
         }
         if (tags.length > 0) {
-            tags.forEach((tag) => {
+            tags.forEach(tag => {
                 meta.push({ property: 'article:tag', content: tag });
             });
         }
@@ -93,7 +95,10 @@ export function createMetaTags(
  */
 export function getBaseUrl(): string {
     // Use custom domain in production
-    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
+    if (
+        typeof process !== 'undefined' &&
+        process.env.NODE_ENV === 'production'
+    ) {
         return 'https://zero-sources.cbnsndwch.dev';
     }
     // Fallback for local development

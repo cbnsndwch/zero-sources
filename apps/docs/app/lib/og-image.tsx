@@ -9,6 +9,7 @@ export interface OGImageOptions {
 
 // Cache the font data to avoid fetching it multiple times
 let fontDataCache: ArrayBuffer | null = null;
+let faviconDataCache: string | null = null;
 
 async function getFontData(): Promise<ArrayBuffer> {
     if (fontDataCache) {
@@ -35,6 +36,27 @@ async function getFontData(): Promise<ArrayBuffer> {
     return data;
 }
 
+async function getFaviconData(): Promise<string> {
+    if (faviconDataCache) {
+        return faviconDataCache;
+    }
+
+    try {
+        // Read the favicon file from the public directory
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const faviconPath = path.join(process.cwd(), 'public', 'favicon.ico');
+        const buffer = await fs.readFile(faviconPath);
+        const base64 = buffer.toString('base64');
+        faviconDataCache = `data:image/x-icon;base64,${base64}`;
+        return faviconDataCache;
+    } catch (error) {
+        console.error('Error loading favicon:', error);
+        // Return empty string if favicon can't be loaded
+        return '';
+    }
+}
+
 /**
  * Generate an OG image as a PNG buffer
  */
@@ -44,6 +66,7 @@ export async function generateOGImage(
     const { title, description, path } = options;
 
     const fontData = await getFontData();
+    const faviconData = await getFaviconData();
 
     const svg = await satori(
         <div
@@ -67,6 +90,18 @@ export async function generateOGImage(
                     gap: '16px'
                 }}
             >
+                {faviconData && (
+                    <img
+                        src={faviconData}
+                        alt="Zero Sources Logo"
+                        width={48}
+                        height={48}
+                        style={{
+                            width: '48px',
+                            height: '48px'
+                        }}
+                    />
+                )}
                 <div
                     style={{
                         fontSize: '32px',
