@@ -4,7 +4,8 @@ export default [
     // homepage
     index('routes/home.tsx'),
 
-    // OG image generation
+    // SEO/SEM candy
+    route('sitemap.xml', 'routes/sitemap-xml.ts'),
     route('og', 'routes/og.tsx'),
 
     // LLMs candy
