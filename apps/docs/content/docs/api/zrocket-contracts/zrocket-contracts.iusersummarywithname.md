@@ -1,0 +1,15 @@
+---
+title: 'IUserSummaryWithName type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUserSummaryWithName](./zrocket-contracts.iusersummarywithname.md)
+
+## IUserSummaryWithName type
+
+**Signature:**
+
+```typescript
+type IUserSummaryWithName = Pick<IUser, '_id' | 'username' | 'name'>;
+```
+
+**References:** [IUser](./zrocket-contracts.iuser.md)

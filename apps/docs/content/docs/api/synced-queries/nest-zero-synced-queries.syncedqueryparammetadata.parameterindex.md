@@ -1,0 +1,15 @@
+---
+title: 'SyncedQueryParamMetadata.parameterIndex property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [SyncedQueryParamMetadata](./nest-zero-synced-queries.syncedqueryparammetadata.md) &gt; [parameterIndex](./nest-zero-synced-queries.syncedqueryparammetadata.parameterindex.md)
+
+## SyncedQueryParamMetadata.parameterIndex property
+
+The index of the parameter in the method signature.
+
+**Signature:**
+
+```typescript
+parameterIndex: number;
+```

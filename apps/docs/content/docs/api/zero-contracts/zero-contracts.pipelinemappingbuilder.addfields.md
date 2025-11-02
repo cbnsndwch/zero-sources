@@ -1,0 +1,47 @@
+---
+title: 'PipelineMappingBuilder.addFields() method'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [PipelineMappingBuilder](./zero-contracts.pipelinemappingbuilder.md) &gt; [addFields](./zero-contracts.pipelinemappingbuilder.addfields.md)
+
+## PipelineMappingBuilder.addFields() method
+
+Adds an $addFields stage to compute new fields
+
+**Signature:**
+
+```typescript
+addFields(fields: Record<string, any>): this;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+fields
+
+</td><td>
+
+Record&lt;string, any&gt;
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+this

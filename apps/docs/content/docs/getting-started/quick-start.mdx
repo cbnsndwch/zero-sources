@@ -1,0 +1,108 @@
+---
+title: Quick Start
+description: Build your first Zero change source in minutes
+---
+
+This guide will walk you through creating your first MongoDB-to-Zero change source in just a few minutes.
+
+## What We'll Build
+
+We'll create a simple change source that streams messages from MongoDB to Zero clients in real-time.
+
+## Prerequisites
+
+- Zero Sources installed (see [Installation](/getting-started/installation))
+- MongoDB running with replica set enabled
+- Basic TypeScript knowledge
+
+## Step 1: Define Your Schema
+
+Create a Zero schema for your data:
+
+```typescript
+// src/schema/message.schema.ts
+import { createTableSchema } from '@rocicorp/zero';
+
+export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        id: { type: 'string' },
+        content: { type: 'string' },
+        userId: { type: 'string' },
+        createdAt: { type: 'number' }
+    },
+    primaryKey: ['id']
+});
+```
+
+## Step 2: Configure Table Mapping
+
+Map MongoDB collections to Zero tables:
+
+```typescript
+// config/table-mappings.json
+{
+  "message": {
+    "collection": "messages",
+    "fields": {
+      "id": "_id",
+      "content": "content",
+      "userId": "userId",
+      "createdAt": "createdAt"
+    }
+  }
+}
+```
+
+## Step 3: Start the Change Source
+
+```bash
+pnpm --filter source-mongodb-server start
+```
+
+The change source will now:
+
+1. Connect to MongoDB
+2. Watch for changes in the `messages` collection
+3. Stream changes to connected Zero clients
+
+## Step 4: Connect a Client
+
+```typescript
+// client.ts
+import { Zero } from '@rocicorp/zero';
+
+const zero = new Zero({
+    server: 'http://localhost:3000',
+    schema: { message: messageSchema }
+});
+
+// Query messages
+const messages = zero.query(q => q.message.orderBy('createdAt'));
+
+// React to changes
+messages.subscribe(msgs => {
+    console.log('Messages:', msgs);
+});
+```
+
+## Step 5: Test It Out
+
+Insert a message in MongoDB:
+
+```javascript
+db.messages.insertOne({
+    content: 'Hello, Zero!',
+    userId: 'user-123',
+    createdAt: Date.now()
+});
+```
+
+Watch it appear in your client in real-time! 🎉
+
+## What's Happening?
+
+1. **Change Stream**: MongoDB detects the insert and emits a change event
+2. **Change Source**: Converts the MongoDB change to Zero protocol
+3. **WebSocket**: Pushes the change to connected clients
+4. **Zero Client**: Updates the local cache and triggers subscriptions

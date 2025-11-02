@@ -1,0 +1,120 @@
+---
+title: Installation
+description: Install Zero Sources and set up your development environment
+---
+
+This guide covers installing Zero Sources and setting up your development environment.
+
+## System Requirements
+
+- **Node.js**: Version 20.x or higher
+- **pnpm**: Version 8.x or higher
+- **MongoDB**: Version 6.0 or higher with replica set enabled
+- **Git**: For cloning the repository
+
+## Installation Steps
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/rocicorp/zero-sources.git
+cd zero-sources
+```
+
+### 2. Install Dependencies
+
+```bash
+pnpm install
+```
+
+This will install all dependencies for the monorepo using pnpm workspaces.
+
+### 3. Set Up Environment Variables
+
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file with your configuration:
+
+```bash
+# MongoDB connection
+MONGODB_URI=mongodb://localhost:27017/zero-sources
+
+# Server configuration
+PORT=3000
+NODE_ENV=development
+
+# Zero Cache (optional)
+ZERO_CACHE_URL=http://localhost:4848
+```
+
+### 4. Start MongoDB
+
+Ensure MongoDB is running with replica set enabled:
+
+```bash
+# Using Docker
+docker run -d --name mongodb \
+  -p 27017:27017 \
+  mongo:latest \
+  --replSet rs0
+
+# Initialize replica set
+docker exec mongodb mongosh --eval "rs.initiate()"
+```
+
+### 5. Build the Project
+
+```bash
+pnpm build
+```
+
+This builds all libraries and applications in the monorepo.
+
+## Verify Installation
+
+Verify everything is working:
+
+```bash
+# Run tests
+pnpm test
+
+# Start development server
+pnpm dev
+```
+
+## IDE Setup
+
+### VS Code
+
+Install recommended extensions:
+
+- ESLint
+- Prettier
+- TypeScript
+- MongoDB for VS Code
+
+## Troubleshooting
+
+### MongoDB Replica Set Issues
+
+If MongoDB fails to start with replica set:
+
+```bash
+# Check replica set status
+mongosh --eval "rs.status()"
+
+# Reinitialize if needed
+mongosh --eval "rs.initiate()"
+```
+
+### pnpm Installation Issues
+
+Clear pnpm cache and reinstall:
+
+```bash
+pnpm store prune
+rm -rf node_modules
+pnpm install
+```

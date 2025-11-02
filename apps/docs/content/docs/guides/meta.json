@@ -1,0 +1,11 @@
+{
+    "title": "Guides",
+    "description": "Task-oriented how-to guides",
+    "icon": "BookOpen",
+    "pages": [
+        "setting-up-change-source",
+        "choosing-watermark-storage",
+        "docker-deployment",
+        "troubleshooting"
+    ]
+}

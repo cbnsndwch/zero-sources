@@ -1,0 +1,17 @@
+---
+title: 'TransformQueryResult type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [TransformQueryResult](./nest-zero-synced-queries.transformqueryresult.md)
+
+## TransformQueryResult type
+
+Union type for query transformation results.
+
+**Signature:**
+
+```typescript
+export type TransformQueryResult = TransformQuerySuccess | TransformQueryError;
+```
+
+**References:** [TransformQuerySuccess](./nest-zero-synced-queries.transformquerysuccess.md)<!-- -->, [TransformQueryError](./nest-zero-synced-queries.transformqueryerror.md)

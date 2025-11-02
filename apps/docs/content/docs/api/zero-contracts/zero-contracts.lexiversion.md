@@ -1,0 +1,21 @@
+---
+title: 'LexiVersion type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [LexiVersion](./zero-contracts.lexiversion.md)
+
+## LexiVersion type
+
+A LexiVersion is a lexicographically sortable representation of numbers from 0 to Number.MAX_SAFE_INTEGER (which is the safe range of Version values used in Zero).
+
+The Version is first encoded in base36, and then prepended by a single base36 character representing the length (of the base36 version) minus 1. This encoding can encode numbers up to 185 bits, with the maximum encoded number being `"z".repeat(37)`<!-- -->, or 36^36-1 (approximately 1.0638735892371651e+56).
+
+Examples: \* 0 =<!-- -->&gt; "00" \* 10 =<!-- -->&gt; "0a" \* 35 =<!-- -->&gt; "0z" \* 36 =<!-- -->&gt; "110" \* 46655 =<!-- -->&gt; "2zzz" \* 2^64 =<!-- -->&gt; "c3w5e11264sgsg"
+
+Note that when using the `number` type, the library will assert if attempting to encode a Version larger than Number.MAX_SAFE_INTEGER. For large numbers, use the `bigint` type.
+
+**Signature:**
+
+```typescript
+type LexiVersion = string;
+```

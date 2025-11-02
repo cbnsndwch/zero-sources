@@ -1,0 +1,19 @@
+---
+title: 'SyncedQueryRegistry.onApplicationBootstrap() method'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [SyncedQueryRegistry](./nest-zero-synced-queries.syncedqueryregistry.md) &gt; [onApplicationBootstrap](./nest-zero-synced-queries.syncedqueryregistry.onapplicationbootstrap.md)
+
+## SyncedQueryRegistry.onApplicationBootstrap() method
+
+Log registered handlers after application bootstrap.
+
+**Signature:**
+
+```typescript
+onApplicationBootstrap(): void;
+```
+
+**Returns:**
+
+void

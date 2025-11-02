@@ -1,0 +1,29 @@
+---
+title: "ROOM\_CHANGE\_MESSAGE\_TYPES variable"
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [ROOM_CHANGE_MESSAGE_TYPES](./zrocket-contracts.room_change_message_types.md)
+
+## ROOM_CHANGE_MESSAGE_TYPES variable
+
+**Signature:**
+
+```typescript
+ROOM_CHANGE_MESSAGE_TYPES: readonly[
+    (RoomChangeMessageType.ROOM_RENAMED,
+    RoomChangeMessageType.ROOM_ARCHIVED,
+    RoomChangeMessageType.ROOM_UNARCHIVED,
+    RoomChangeMessageType.ROOM_CHANGED_PRIVACY,
+    RoomChangeMessageType.ROOM_CHANGED_DESCRIPTION,
+    RoomChangeMessageType.ROOM_CHANGED_AVATAR,
+    RoomChangeMessageType.ROOM_CHANGED_TOPIC,
+    RoomChangeMessageType.ROOM_REMOVED_READ_ONLY,
+    RoomChangeMessageType.ROOM_SET_READ_ONLY,
+    RoomChangeMessageType.ROOM_ALLOWED_REACTING,
+    RoomChangeMessageType.ROOM_DISALLOWED_REACTING,
+    RoomChangeMessageType.ROOM_MODERATOR_ADDED,
+    RoomChangeMessageType.ROOM_MODERATOR_REMOVED,
+    RoomChangeMessageType.ROOM_OWNER_ADDED,
+    RoomChangeMessageType.ROOM_OWNER_REMOVED)
+];
+```

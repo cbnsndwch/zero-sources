@@ -1,0 +1,27 @@
+---
+title: 'IMessageFileAttachment type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IMessageFileAttachment](./zrocket-contracts.imessagefileattachment.md)
+
+## IMessageFileAttachment type
+
+**Signature:**
+
+```typescript
+type IMessageFileAttachment =
+    | ({
+          type: 'file';
+      } & IMessageVideoAttachment)
+    | ({
+          type: 'file';
+      } & ImageAttachmentProps)
+    | ({
+          type: 'file';
+      } & IMessageAudioAttachment)
+    | ({
+          type: 'file';
+      } & MessageAttachmentBase);
+```
+
+**References:** [IMessageVideoAttachment](./zrocket-contracts.imessagevideoattachment.md)<!-- -->, [ImageAttachmentProps](./zrocket-contracts.imageattachmentprops.md)<!-- -->, [IMessageAudioAttachment](./zrocket-contracts.imessageaudioattachment.md)<!-- -->, [MessageAttachmentBase](./zrocket-contracts.messageattachmentbase.md)

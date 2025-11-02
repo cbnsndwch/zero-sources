@@ -1,0 +1,15 @@
+---
+title: 'IHasId type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IHasId](./zrocket-contracts.ihasid.md)
+
+## IHasId type
+
+**Signature:**
+
+```typescript
+type IHasId = {
+    _id: string;
+};
+```

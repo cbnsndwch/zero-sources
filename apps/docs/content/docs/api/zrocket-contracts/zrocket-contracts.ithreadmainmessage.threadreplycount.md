@@ -1,0 +1,15 @@
+---
+title: 'IThreadMainMessage.threadReplyCount property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IThreadMainMessage](./zrocket-contracts.ithreadmainmessage.md) &gt; [threadReplyCount](./zrocket-contracts.ithreadmainmessage.threadreplycount.md)
+
+## IThreadMainMessage.threadReplyCount property
+
+The number of replies to the thread under this message
+
+**Signature:**
+
+```typescript
+threadReplyCount: number;
+```

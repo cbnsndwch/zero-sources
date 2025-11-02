@@ -1,0 +1,15 @@
+---
+title: 'IUserMessage.starredBy property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUserMessage](./zrocket-contracts.iusermessage.md) &gt; [starredBy](./zrocket-contracts.iusermessage.starredby.md)
+
+## IUserMessage.starredBy property
+
+List of user ids that have reacted to this message
+
+**Signature:**
+
+```typescript
+starredBy?: string[];
+```

@@ -1,0 +1,10 @@
+{
+    "title": "Architecture",
+    "description": "System design and technical architecture",
+    "icon": "Box",
+    "pages": [
+        "monorepo-structure",
+        "change-source-protocol",
+        "watermark-system"
+    ]
+}

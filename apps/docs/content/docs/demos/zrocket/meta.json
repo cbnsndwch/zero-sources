@@ -1,0 +1,9 @@
+{
+    "title": "ZRocket",
+    "description": "Real-time chat demo application",
+    "pages": [
+        "architecture",
+        "running-locally",
+        "deployment"
+    ]
+}

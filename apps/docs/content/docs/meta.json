@@ -1,0 +1,13 @@
+{
+    "title": "@cbnsndwch/zero-sources Docs",
+    "pages": [
+        "index",
+        "getting-started",
+        "guides",
+        "change-sources",
+        "architecture",
+        "packages",
+        "demos",
+        "api"
+    ]
+}

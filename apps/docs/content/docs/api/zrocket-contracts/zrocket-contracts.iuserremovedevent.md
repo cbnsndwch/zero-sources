@@ -1,0 +1,20 @@
+---
+title: 'IUserRemovedEvent type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUserRemovedEvent](./zrocket-contracts.iuserremovedevent.md)
+
+## IUserRemovedEvent type
+
+**Signature:**
+
+```typescript
+type IUserRemovedEvent = IHasShortId & {
+    type: 'removed';
+    data?: never;
+    diff?: never;
+    unset?: never;
+};
+```
+
+**References:** [IHasShortId](./zrocket-contracts.ihasshortid.md)

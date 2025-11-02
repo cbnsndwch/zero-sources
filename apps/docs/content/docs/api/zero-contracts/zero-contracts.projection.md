@@ -1,0 +1,18 @@
+---
+title: 'Projection type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [Projection](./zero-contracts.projection.md)
+
+## Projection type
+
+**Signature:**
+
+```typescript
+type Projection<TTable = Dict> = Record<
+    keyof TTable,
+    1 | 0 | DocumentPath | ProjectionOperator
+>;
+```
+
+**References:** [Dict](./zero-contracts.dict.md)<!-- -->, [DocumentPath](./zero-contracts.documentpath.md)<!-- -->, [ProjectionOperator](./zero-contracts.projectionoperator.md)

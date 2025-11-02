@@ -1,0 +1,15 @@
+---
+title: 'QueryHandler type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [QueryHandler](./nest-zero-synced-queries.queryhandler.md)
+
+## QueryHandler type
+
+Type definition for a query handler function.
+
+**Signature:**
+
+```typescript
+export type QueryHandler = (...args: any[]) => Promise<any>;
+```

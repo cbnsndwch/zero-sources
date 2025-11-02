@@ -1,0 +1,18 @@
+---
+title: 'IDeletedEntityBase type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IDeletedEntityBase](./zrocket-contracts.ideletedentitybase.md)
+
+## IDeletedEntityBase type
+
+**Signature:**
+
+```typescript
+type IDeletedEntityBase = IEntityBase &
+    IHasDeletedAt & {
+        __collection__: string;
+    };
+```
+
+**References:** [IEntityBase](./zrocket-contracts.ientitybase.md)<!-- -->, [IHasDeletedAt](./zrocket-contracts.ihasdeletedat.md)

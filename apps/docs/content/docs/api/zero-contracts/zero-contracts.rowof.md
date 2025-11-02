@@ -1,0 +1,19 @@
+---
+title: 'RowOf type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [RowOf](./zero-contracts.rowof.md)
+
+## RowOf type
+
+Extracts the shape of the rows from a table schema
+
+**Signature:**
+
+```typescript
+type RowOf<T extends TableBuilderWithColumns<TableSchema>> = {
+    [K in keyof T['schema']['columns']]: SchemaValueToTSType<
+        T['schema']['columns'][K]
+    >;
+};
+```

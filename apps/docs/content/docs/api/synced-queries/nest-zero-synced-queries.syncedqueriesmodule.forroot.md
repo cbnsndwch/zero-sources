@@ -1,0 +1,63 @@
+---
+title: 'SyncedQueriesModule.forRoot() method'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [SyncedQueriesModule](./nest-zero-synced-queries.syncedqueriesmodule.md) &gt; [forRoot](./nest-zero-synced-queries.syncedqueriesmodule.forroot.md)
+
+## SyncedQueriesModule.forRoot() method
+
+Configure the synced queries module with options.
+
+**Signature:**
+
+```typescript
+static forRoot(options?: SyncedQueriesModuleOptions): DynamicModule;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+options
+
+</td><td>
+
+[SyncedQueriesModuleOptions](./nest-zero-synced-queries.syncedqueriesmoduleoptions.md)
+
+</td><td>
+
+_(Optional)_ Configuration options
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+DynamicModule
+
+A dynamic module with all synced query infrastructure
+
+## Example
+
+```typescript
+// Basic usage with defaults
+SyncedQueriesModule.forRoot();
+
+// Custom path
+SyncedQueriesModule.forRoot({
+    path: 'zero/get-queries'
+});
+```

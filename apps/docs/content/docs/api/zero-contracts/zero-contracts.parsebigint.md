@@ -1,0 +1,56 @@
+---
+title: 'parseBigInt() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [parseBigInt](./zero-contracts.parsebigint.md)
+
+## parseBigInt() function
+
+**Signature:**
+
+```typescript
+declare function parseBigInt(val: string, radix: number): bigint;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+val
+
+</td><td>
+
+string
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+radix
+
+</td><td>
+
+number
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+bigint

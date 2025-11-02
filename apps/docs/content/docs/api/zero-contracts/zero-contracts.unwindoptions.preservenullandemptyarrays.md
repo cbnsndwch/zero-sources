@@ -1,0 +1,19 @@
+---
+title: 'UnwindOptions.preserveNullAndEmptyArrays property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [UnwindOptions](./zero-contracts.unwindoptions.md) &gt; [preserveNullAndEmptyArrays](./zero-contracts.unwindoptions.preservenullandemptyarrays.md)
+
+## UnwindOptions.preserveNullAndEmptyArrays property
+
+Optional: Preserve documents with null, missing, or empty arrays.
+
+- `true`<!-- -->: Output document even if array is null/missing/empty - `false`<!-- -->: Skip documents without the array (default)
+
+false
+
+**Signature:**
+
+```typescript
+preserveNullAndEmptyArrays?: boolean;
+```

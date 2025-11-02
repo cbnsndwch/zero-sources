@@ -1,0 +1,24 @@
+---
+title: 'TypedSchema type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [TypedSchema](./zero-contracts.typedschema.md)
+
+## TypedSchema type
+
+**Signature:**
+
+```typescript
+type TypedSchema<
+    TTables extends readonly TableBuilderWithColumns<TableSchema>[]
+> = {
+    tables: {
+        readonly [K in TTables[number]['schema']['name']]: Extract<
+            TTables[number]['schema'],
+            {
+                name: K;
+            }
+        >;
+    };
+};
+```

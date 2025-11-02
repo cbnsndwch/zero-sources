@@ -1,0 +1,53 @@
+---
+title: 'isMultiDirectMessagesRoom() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [isMultiDirectMessagesRoom](./zrocket-contracts.ismultidirectmessagesroom.md)
+
+## isMultiDirectMessagesRoom() function
+
+Determines if the given room is a direct message room with multiple participants.
+
+**Signature:**
+
+```typescript
+declare function isMultiDirectMessagesRoom(
+    room: IRoomBase | IDirectMessagesRoom
+): room is IDirectMessagesRoom;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+room
+
+</td><td>
+
+[IRoomBase](./zrocket-contracts.iroombase.md) \| [IDirectMessagesRoom](./zrocket-contracts.idirectmessagesroom.md)
+
+</td><td>
+
+The room to check, which can be either an IRoom or an IDirectMessageRoom.
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+room is [IDirectMessagesRoom](./zrocket-contracts.idirectmessagesroom.md)
+
+True if the room is a direct message room and has more than two participants, otherwise false.

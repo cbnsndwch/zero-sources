@@ -1,0 +1,43 @@
+---
+title: 'PipelineMappingBuilder.(constructor)'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [PipelineMappingBuilder](./zero-contracts.pipelinemappingbuilder.md) &gt; [(constructor)](./zero-contracts.pipelinemappingbuilder._constructor_.md)
+
+## PipelineMappingBuilder.(constructor)
+
+Constructs a new instance of the `PipelineMappingBuilder` class
+
+**Signature:**
+
+```typescript
+constructor(source: string);
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+source
+
+</td><td>
+
+string
+
+</td><td>
+
+</td></tr>
+</tbody></table>

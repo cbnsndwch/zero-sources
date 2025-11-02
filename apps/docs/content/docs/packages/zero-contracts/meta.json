@@ -1,0 +1,8 @@
+{
+    "title": "zero-contracts",
+    "description": "Zero protocol contracts and TypeScript types",
+    "pages": [
+        "installation",
+        "usage"
+    ]
+}

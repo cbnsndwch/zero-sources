@@ -1,0 +1,239 @@
+---
+title: 'IUser interface'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUser](./zrocket-contracts.iuser.md)
+
+## IUser interface
+
+Represents a user entity in the chat system.
+
+IEntityBase - Provides base entity properties like id IHasCreatedAt - Provides creation timestamp functionality
+
+This interface defines the structure for a user object containing personal information, contact details, presence status, and user preferences.
+
+**Signature:**
+
+```typescript
+interface IUser extends IEntityBase, IHasCreatedAt, IHasName, IHasUsername
+```
+
+**Extends:** [IEntityBase](./zrocket-contracts.ientitybase.md)<!-- -->, [IHasCreatedAt](./zrocket-contracts.ihascreatedat.md)<!-- -->, [IHasName](./zrocket-contracts.ihasname.md)<!-- -->, [IHasUsername](./zrocket-contracts.ihasusername.md)
+
+## Example
+
+```typescript
+const user: IUser = {
+    id: 'user123',
+    email: 'john.doe@example.com',
+    name: 'John Doe',
+    username: 'johndoe',
+    active: true,
+    presence: UserPresenceStatus.ONLINE,
+    profile: {},
+    createdAt: new Date()
+};
+```
+
+## Properties
+
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[active](./zrocket-contracts.iuser.active.md)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+Whether the user's profile is currently active (enabled) in the system.
+
+</td></tr>
+<tr><td>
+
+[additionalEmails?](./zrocket-contracts.iuser.additionalemails.md)
+
+</td><td>
+
+</td><td>
+
+string\[\]
+
+</td><td>
+
+_(Optional)_ The user's additional email addresses.
+
+</td></tr>
+<tr><td>
+
+[avatarUrl?](./zrocket-contracts.iuser.avatarurl.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ The URL of the user's avatar image.
+
+</td></tr>
+<tr><td>
+
+[bio?](./zrocket-contracts.iuser.bio.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ A short text bio or description of the user.
+
+</td></tr>
+<tr><td>
+
+[defaultPresence?](./zrocket-contracts.iuser.defaultpresence.md)
+
+</td><td>
+
+</td><td>
+
+[UserPresenceStatus](./zrocket-contracts.userpresencestatus.md)
+
+</td><td>
+
+_(Optional)_ Default presence status of the user.
+
+</td></tr>
+<tr><td>
+
+[defaultRoom?](./zrocket-contracts.iuser.defaultroom.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ The default room that the user has set for quick access.
+
+</td></tr>
+<tr><td>
+
+[email](./zrocket-contracts.iuser.email.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+The user's preferred email address.
+
+</td></tr>
+<tr><td>
+
+[externalId?](./zrocket-contracts.iuser.externalid.md)
+
+</td><td>
+
+</td><td>
+
+[ExternalUserId](./zrocket-contracts.externaluserid.md)
+
+</td><td>
+
+_(Optional)_ If the user signed up using an external provider, this field contains the user's id on that provider.
+
+The format is `<providerId>/<userId>`<!-- -->, e.g. `google/1234567890` where `google` is the provider id and `1234567890` is the user's Google Id.
+
+</td></tr>
+<tr><td>
+
+[preferences?](./zrocket-contracts.iuser.preferences.md)
+
+</td><td>
+
+</td><td>
+
+Dict
+
+</td><td>
+
+_(Optional)_ User preferences stored as a dictionary.
+
+</td></tr>
+<tr><td>
+
+[presence?](./zrocket-contracts.iuser.presence.md)
+
+</td><td>
+
+</td><td>
+
+[UserPresenceStatus](./zrocket-contracts.userpresencestatus.md)
+
+</td><td>
+
+_(Optional)_ Current presence status of the user.
+
+</td></tr>
+<tr><td>
+
+[presenceText?](./zrocket-contracts.iuser.presencetext.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Text that describes the user's current presence status.
+
+</td></tr>
+<tr><td>
+
+[profile](./zrocket-contracts.iuser.profile.md)
+
+</td><td>
+
+</td><td>
+
+Dict
+
+</td><td>
+
+Additional user profile information stored as a dictionary.
+
+</td></tr>
+</tbody></table>

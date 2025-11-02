@@ -1,0 +1,15 @@
+---
+title: 'RegisteredQueryHandler.guards property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [RegisteredQueryHandler](./nest-zero-synced-queries.registeredqueryhandler.md) &gt; [guards](./nest-zero-synced-queries.registeredqueryhandler.guards.md)
+
+## RegisteredQueryHandler.guards property
+
+Guards to execute before the handler (class-level and method-level).
+
+**Signature:**
+
+```typescript
+guards: Type < CanActivate > [];
+```

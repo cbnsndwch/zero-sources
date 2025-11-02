@@ -1,0 +1,47 @@
+---
+title: 'isFileImageAttachment() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [isFileImageAttachment](./zrocket-contracts.isfileimageattachment.md)
+
+## isFileImageAttachment() function
+
+**Signature:**
+
+```typescript
+isFileImageAttachment: (attachment: IMessageFileAttachment) => attachment is ImageAttachmentProps & {
+    type: "file";
+}
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+attachment
+
+</td><td>
+
+[IMessageFileAttachment](./zrocket-contracts.imessagefileattachment.md)
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+attachment is [ImageAttachmentProps](./zrocket-contracts.imageattachmentprops.md) &amp; { type: "file"; }

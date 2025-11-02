@@ -1,0 +1,23 @@
+---
+title: 'ReadonlyJSONValue type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-nest-mongoose](./zero-nest-mongoose.md) &gt; [ReadonlyJSONValue](./zero-nest-mongoose.readonlyjsonvalue.md)
+
+## ReadonlyJSONValue type
+
+Like [JSONValue](./zero-nest-mongoose.jsonvalue.md) but deeply readonly
+
+**Signature:**
+
+```typescript
+type ReadonlyJSONValue =
+    | null
+    | string
+    | boolean
+    | number
+    | ReadonlyArray<ReadonlyJSONValue>
+    | ReadonlyJSONObject;
+```
+
+**References:** [ReadonlyJSONValue](./zero-nest-mongoose.readonlyjsonvalue.md)<!-- -->, [ReadonlyJSONObject](./zero-nest-mongoose.readonlyjsonobject.md)

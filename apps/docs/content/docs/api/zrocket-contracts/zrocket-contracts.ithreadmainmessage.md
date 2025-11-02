@@ -1,0 +1,83 @@
+---
+title: 'IThreadMainMessage interface'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IThreadMainMessage](./zrocket-contracts.ithreadmainmessage.md)
+
+## IThreadMainMessage interface
+
+A message that is the starting message for a thread
+
+**Signature:**
+
+```typescript
+interface IThreadMainMessage extends IUserMessage
+```
+
+**Extends:** [IUserMessage](./zrocket-contracts.iusermessage.md)
+
+## Properties
+
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[repliedBy](./zrocket-contracts.ithreadmainmessage.repliedby.md)
+
+</td><td>
+
+</td><td>
+
+string\[\]
+
+</td><td>
+
+User IDs of the users that have replied to this thread
+
+</td></tr>
+<tr><td>
+
+[threadLastMReplyAt](./zrocket-contracts.ithreadmainmessage.threadlastmreplyat.md)
+
+</td><td>
+
+</td><td>
+
+Date
+
+</td><td>
+
+The date and time of the last reply to the thread under this message
+
+</td></tr>
+<tr><td>
+
+[threadReplyCount](./zrocket-contracts.ithreadmainmessage.threadreplycount.md)
+
+</td><td>
+
+</td><td>
+
+number
+
+</td><td>
+
+The number of replies to the thread under this message
+
+</td></tr>
+</tbody></table>

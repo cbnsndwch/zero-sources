@@ -1,0 +1,14 @@
+{
+    "title": "API Reference",
+    "description": "Complete API documentation",
+    "icon": "Code",
+    "pages": [
+        "zero-contracts",
+        "zero-source-mongodb",
+        "zero-nest-mongoose",
+        "zero-watermark-zqlite",
+        "zero-watermark-nats-kv",
+        "synced-queries",
+        "zrocket-contracts"
+    ]
+}

@@ -1,0 +1,16 @@
+---
+title: 'NullColumnOptional type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-nest-mongoose](./zero-nest-mongoose.md) &gt; [NullColumnOptional](./zero-nest-mongoose.nullcolumnoptional.md)
+
+## NullColumnOptional type
+
+**Signature:**
+
+```typescript
+type NullColumnOptional = {
+    type: 'null';
+    optional: true;
+};
+```

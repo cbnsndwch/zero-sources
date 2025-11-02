@@ -1,0 +1,23 @@
+---
+title: 'QueryContext type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [QueryContext](./zrocket-contracts.querycontext.md)
+
+## QueryContext type
+
+Query context available to all synced queries.
+
+This is simply an alias for [JwtPayload](./zrocket-contracts.jwtpayload.md) - we use the JWT payload directly as the query context to avoid duplication and unnecessary transformations.
+
+**Signature:**
+
+```typescript
+type QueryContext = JwtPayload;
+```
+
+**References:** [JwtPayload](./zrocket-contracts.jwtpayload.md)
+
+## Remarks
+
+By using JwtPayload directly: - No magic field name translations - Single source of truth for user claims - Authentication helper just passes through the verified JWT - All JWT fields available for query filtering (including iat, exp if needed)

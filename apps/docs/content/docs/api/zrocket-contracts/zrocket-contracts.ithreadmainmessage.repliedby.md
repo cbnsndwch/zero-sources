@@ -1,0 +1,15 @@
+---
+title: 'IThreadMainMessage.repliedBy property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IThreadMainMessage](./zrocket-contracts.ithreadmainmessage.md) &gt; [repliedBy](./zrocket-contracts.ithreadmainmessage.repliedby.md)
+
+## IThreadMainMessage.repliedBy property
+
+User IDs of the users that have replied to this thread
+
+**Signature:**
+
+```typescript
+repliedBy: string[];
+```

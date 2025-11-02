@@ -1,0 +1,23 @@
+---
+title: 'MessageQuoteAttachment type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [MessageQuoteAttachment](./zrocket-contracts.messagequoteattachment.md)
+
+## MessageQuoteAttachment type
+
+**Signature:**
+
+```typescript
+type MessageQuoteAttachment = {
+    author_name: string;
+    author_link: string;
+    author_icon: string;
+    message_link?: string;
+    text: string;
+    md?: SerializedEditorState;
+    attachments?: MessageAttachment[];
+} & MessageAttachmentBase;
+```
+
+**References:** [MessageAttachment](./zrocket-contracts.messageattachment.md)<!-- -->, [MessageAttachmentBase](./zrocket-contracts.messageattachmentbase.md)

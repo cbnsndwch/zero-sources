@@ -1,0 +1,15 @@
+---
+title: 'IRoomBase.lastMessage property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IRoomBase](./zrocket-contracts.iroombase.md) &gt; [lastMessage](./zrocket-contracts.iroombase.lastmessage.md)
+
+## IRoomBase.lastMessage property
+
+The last message sent in the room.
+
+**Signature:**
+
+```typescript
+lastMessage?: IMessageBase;
+```

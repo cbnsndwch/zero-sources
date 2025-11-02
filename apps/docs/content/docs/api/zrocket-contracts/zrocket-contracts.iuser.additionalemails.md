@@ -1,0 +1,15 @@
+---
+title: 'IUser.additionalEmails property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUser](./zrocket-contracts.iuser.md) &gt; [additionalEmails](./zrocket-contracts.iuser.additionalemails.md)
+
+## IUser.additionalEmails property
+
+The user's additional email addresses.
+
+**Signature:**
+
+```typescript
+additionalEmails?: string[];
+```

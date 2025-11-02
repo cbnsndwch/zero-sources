@@ -1,0 +1,75 @@
+---
+title: 'TransformRequestItem interface'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [TransformRequestItem](./nest-zero-synced-queries.transformrequestitem.md)
+
+## TransformRequestItem interface
+
+Request item structure from Zero cache server.
+
+**Signature:**
+
+```typescript
+export interface TransformRequestItem
+```
+
+## Properties
+
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[args](./nest-zero-synced-queries.transformrequestitem.args.md)
+
+</td><td>
+
+</td><td>
+
+any\[\]
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[id](./nest-zero-synced-queries.transformrequestitem.id.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[name](./nest-zero-synced-queries.transformrequestitem.name.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+</td></tr>
+</tbody></table>

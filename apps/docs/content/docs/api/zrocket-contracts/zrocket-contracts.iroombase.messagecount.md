@@ -1,0 +1,15 @@
+---
+title: 'IRoomBase.messageCount property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IRoomBase](./zrocket-contracts.iroombase.md) &gt; [messageCount](./zrocket-contracts.iroombase.messagecount.md)
+
+## IRoomBase.messageCount property
+
+The total number of messages in the room.
+
+**Signature:**
+
+```typescript
+messageCount: number;
+```

@@ -1,0 +1,181 @@
+---
+title: Intro
+description: Comprehensive guide to Zero Sources libraries and packages
+icon: package
+---
+
+import {
+    HardDrive,
+    Network,
+    Braces,
+    Database,
+    Puzzle,
+    RefreshCw,
+    Rocket
+} from 'lucide-react';
+
+Zero Sources provides a collection of TypeScript libraries and demo apps for building real-time change source implementations. Each library is designed to be composable, reusable, and type-safe.
+
+## Core Libraries
+
+<Cards>
+    <Card
+        title="zero-contracts"
+        href="/libraries/zero-contracts"
+        icon={<Braces />}
+    >
+        Zero protocol contracts and TypeScript types
+    </Card>
+    <Card
+        title="zero-source-mongodb"
+        href="/libraries/zero-source-mongodb"
+        icon={<Database />}
+    >
+        MongoDB change streaming to Zero protocol
+    </Card>
+    {/* <Card
+        title="zero-nest-mongoose"
+        href="/libraries/zero-nest-mongoose"
+        icon={<Puzzle />}
+    >
+        NestJS integration for Mongoose and Zero
+    </Card> */}
+</Cards>
+
+## Watermark Storage
+
+<Cards>
+    <Card
+        title="zero-watermark-zqlite"
+        href="/libraries/zero-watermark-zqlite"
+        icon={<HardDrive />}
+    >
+        SQLite-based watermark storage
+    </Card>
+    <Card
+        title="zero-watermark-nats-kv"
+        href="/libraries/zero-watermark-nats-kv"
+        icon={<Network />}
+    >
+        NATS KV distributed watermark storage
+    </Card>
+</Cards>
+
+## Demo Apps
+
+<Cards>
+    <Card
+        title="synced-queries"
+        href="/libraries/synced-queries"
+        icon={<RefreshCw />}
+    >
+        Synced query utilities and helpers
+    </Card>
+    <Card
+        title="zrocket-contracts"
+        href="/libraries/zrocket-contracts"
+        icon={<Rocket />}
+    >
+        ZRocket demo application contracts
+    </Card>
+</Cards>
+
+## Installation
+
+All libraries are available via npm and can be installed with pnpm:
+
+```bash
+# Install a specific library
+pnpm add @cbnsndwch/zero-source-mongodb
+
+# Install multiple libraries
+pnpm add @cbnsndwch/zero-source-mongodb @cbnsndwch/zero-watermark-zqlite
+```
+
+## Library Organization
+
+Libraries follow a consistent structure:
+
+```
+libs/[library-name]/
+├── src/
+│   ├── index.ts          # Public API exports
+│   ├── types/            # TypeScript type definitions
+│   ├── schemas/          # Zero schema definitions
+│   └── utils/            # Utility functions
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## Choosing Libraries
+
+### For Change Sources
+
+- **zero-source-mongodb**: Stream MongoDB changes to Zero
+- **zero-contracts**: Common Zero protocol types
+- **zero-watermark-zqlite** or **zero-watermark-nats-kv**: Watermark storage
+
+### For NestJS Applications
+
+- **zero-nest-mongoose**: NestJS + Mongoose integration
+- **zero-contracts**: Shared types and contracts
+
+### For Demo Applications
+
+- **zrocket-contracts**: ZRocket demo schemas and types
+- **synced-queries**: Query utilities
+
+## Common Patterns
+
+### Basic Change Source
+
+```typescript
+import { MongoDBChangeSource } from '@cbnsndwch/zero-source-mongodb';
+import { ZQLiteWatermarkStorage } from '@cbnsndwch/zero-watermark-zqlite';
+import { schema } from './schema';
+
+const changeSource = new MongoDBChangeSource({
+    schema,
+    watermarkStorage: new ZQLiteWatermarkStorage(),
+    mongoUri: process.env.MONGODB_URI
+});
+
+await changeSource.start();
+```
+
+### Schema Definition
+
+```typescript
+import { createTableSchema } from '@rocicorp/zero';
+
+export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        id: { type: 'string' },
+        content: { type: 'string' }
+    },
+    primaryKey: ['id']
+});
+```
+
+## TypeScript Support
+
+All libraries provide full TypeScript support:
+
+- **Type Definitions**: Complete type definitions for all APIs
+- **Generic Types**: Leverage TypeScript generics for type safety
+- **Type Inference**: Automatic type inference from schemas
+- **Strict Mode**: Designed for TypeScript strict mode
+
+## Contributing
+
+Want to contribute to a library?
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+See [CONTRIBUTING.md](https://github.com/rocicorp/zero-sources/blob/main/CONTRIBUTING.md) for details.
