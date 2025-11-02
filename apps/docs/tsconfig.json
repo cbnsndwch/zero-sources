@@ -6,7 +6,7 @@
         "lib": [
             "DOM",
             "DOM.Iterable",
-            "ES2022"
+            "ES2023"
         ],
         "types": [
             "node",
@@ -19,8 +19,8 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
-            "~/*": [
-                "./app/*"
+            "@/*": [
+                "./*"
             ]
         },
         "esModuleInterop": true,
