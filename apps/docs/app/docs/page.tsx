@@ -67,32 +67,38 @@ type ContentProps = {
 };
 
 const renderer = toClientRenderer(docs.doc, (loaded, props: ContentProps) => {
-    const { default: Mdx, toc, frontmatter: pageData } = loaded;
+    const { default: MdxContent, toc, frontmatter: pageMeta } = loaded;
     const githubUrl = `${GITHUB_DOCS_BASE}/${props.path}`;
 
-    return (
-        <DocsPage toc={toc} full={pageData.full}>
-            <title>{pageData.title}</title>
-            <meta name="description" content={pageData.description} />
-            <DocsTitle className="flex justify-between items-center gap-4">
-                {pageData.title}
+    // Hide page actions for privacy and legal pages
+    const isPrivacyPage = props.path === 'privacy.mdx';
+    const showPageActions = !isPrivacyPage;
 
-                <div className="flex flex-row gap-2 items-center">
-                    <CopyButton markdownUrl={`${props.url}.mdx`} />
-                    <ViewOptions
-                        markdownUrl={`${props.url}.mdx`}
-                        githubUrl={githubUrl}
-                    />
-                </div>
+    return (
+        <DocsPage toc={toc} full={pageMeta.full}>
+            <title>{pageMeta.title}</title>
+            <meta name="description" content={pageMeta.description} />
+            <DocsTitle className="flex justify-between items-center gap-4">
+                {pageMeta.title}
+
+                {showPageActions && (
+                    <div className="flex flex-row gap-2 items-center">
+                        <CopyButton markdownUrl={`${props.url}.mdx`} />
+                        <ViewOptions
+                            markdownUrl={`${props.url}.mdx`}
+                            githubUrl={githubUrl}
+                        />
+                    </div>
+                )}
             </DocsTitle>
             <DocsDescription className="mb-2">
-                {pageData.description}
+                {pageMeta.description}
             </DocsDescription>
 
             <Separator className="my-2" />
 
             <DocsBody>
-                <Mdx components={{ ...defaultMdxComponents }} />
+                <MdxContent components={{ ...defaultMdxComponents }} />
             </DocsBody>
 
             <Feedback

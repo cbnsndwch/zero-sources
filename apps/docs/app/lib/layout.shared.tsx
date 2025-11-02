@@ -1,6 +1,7 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import type { DocsLayoutProps } from '@/components/layout/docs';
+import PrivacyDisclosure from '@/components/analytics/privacy-disclosure';
 
-export function baseOptions(): BaseLayoutProps {
+export function baseOptions(): Omit<DocsLayoutProps, 'tree' | 'children'> {
     return {
         nav: {
             title: (
@@ -53,6 +54,9 @@ export function baseOptions(): BaseLayoutProps {
         //         external: true
         //     }
         // ],
-        githubUrl: 'https://github.com/cbnsndwch/zero-sources'
+        githubUrl: 'https://github.com/cbnsndwch/zero-sources',
+        sidebar: {
+            footer: <PrivacyDisclosure />
+        }
     };
 }

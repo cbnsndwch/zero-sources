@@ -6,7 +6,12 @@ import { useEffect } from 'react';
  * Initializes Microsoft Clarity for user behavior analytics.
  * Requires VITE_CLARITY_PROJECT_ID environment variable to be set.
  *
+ * Privacy Disclosure: This component collects user behavior data.
+ * A privacy disclosure is displayed in the sidebar footer and a full
+ * privacy policy is available at /docs/privacy as required by Microsoft.
+ *
  * @see https://clarity.microsoft.com/
+ * @see https://learn.microsoft.com/en-us/clarity/setup-and-installation/privacy-disclosure
  */
 export default function ClarityInit() {
     useEffect(() => {
