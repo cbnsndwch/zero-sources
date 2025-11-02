@@ -1,6 +1,19 @@
 'use client';
 
 import {
+    type BreadcrumbOptions,
+    getBreadcrumbItemsFromPath
+} from 'fumadocs-core/breadcrumb';
+import { createContext, usePathname } from 'fumadocs-core/framework';
+import Link from 'fumadocs-core/link';
+import type * as PageTree from 'fumadocs-core/page-tree';
+import { useActiveAnchor } from 'fumadocs-core/toc';
+import { useI18n } from 'fumadocs-ui/contexts/i18n';
+import { useNav } from 'fumadocs-ui/contexts/layout';
+import { useSidebar } from 'fumadocs-ui/contexts/sidebar';
+import { useTreeContext, useTreePath } from 'fumadocs-ui/contexts/tree';
+import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
     type ComponentProps,
     Fragment,
     useEffect,
@@ -9,27 +22,16 @@ import {
     useRef,
     useState
 } from 'react';
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import Link from 'fumadocs-core/link';
-import { cn } from '../../../lib/cn';
-import { useI18n } from 'fumadocs-ui/contexts/i18n';
-import { useTreeContext, useTreePath } from 'fumadocs-ui/contexts/tree';
-import type * as PageTree from 'fumadocs-core/page-tree';
-import { createContext, usePathname } from 'fumadocs-core/framework';
-import {
-    type BreadcrumbOptions,
-    getBreadcrumbItemsFromPath
-} from 'fumadocs-core/breadcrumb';
-import { useNav } from 'fumadocs-ui/contexts/layout';
-import { isActive } from '../../../lib/is-active';
+
+import { cn } from '@/lib/utils';
+import { isActive } from '@/lib/is-active';
+
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger
-} from '../../ui/collapsible';
-import { useSidebar } from 'fumadocs-ui/contexts/sidebar';
-import { useTOCItems } from '../../ui/toc';
-import { useActiveAnchor } from 'fumadocs-core/toc';
+} from '@/components/ui/collapsible';
+import { useTOCItems } from '@/components/ui/toc';
 
 const TocPopoverContext = createContext<{
     open: boolean;

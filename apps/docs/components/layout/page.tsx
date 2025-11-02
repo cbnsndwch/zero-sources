@@ -1,8 +1,11 @@
-import { type ComponentProps, forwardRef, type ReactNode } from 'react';
-import { cn } from '../../lib/cn';
-import { buttonVariants } from '../ui/button';
-import { Edit } from 'lucide-react';
+import type { AnchorProviderProps, TOCItemType } from 'fumadocs-core/toc';
 import { I18nLabel } from 'fumadocs-ui/contexts/i18n';
+import { Edit } from 'lucide-react';
+import { type ComponentProps, forwardRef, type ReactNode } from 'react';
+
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '../ui/button';
+
 import {
     type BreadcrumbProps,
     type FooterProps,
@@ -19,7 +22,6 @@ import {
     PageTOCPopoverTrigger,
     PageTOCTitle
 } from './docs/page';
-import type { AnchorProviderProps, TOCItemType } from 'fumadocs-core/toc';
 
 interface EditOnGitHubOptions
     extends Omit<ComponentProps<'a'>, 'href' | 'children'> {

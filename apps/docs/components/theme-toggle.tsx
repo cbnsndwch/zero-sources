@@ -1,9 +1,10 @@
 'use client';
 import { cva } from 'class-variance-authority';
-import { Moon, Sun, Airplay } from 'lucide-react';
+import { Airplay, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { type HTMLAttributes, useLayoutEffect, useState } from 'react';
-import { cn } from '../lib/cn';
+
+import { cn } from '@/lib/utils';
 
 const itemVariants = cva(
     'size-6.5 rounded-full p-1.5 text-fd-muted-foreground',
@@ -48,7 +49,7 @@ export function ThemeToggle({
         return (
             <button
                 className={container}
-                aria-label={`Toggle Theme`}
+                aria-label="Toggle Theme"
                 onClick={() => setTheme(value === 'light' ? 'dark' : 'light')}
                 data-theme-toggle=""
                 {...props}

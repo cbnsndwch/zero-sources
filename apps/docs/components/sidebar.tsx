@@ -26,7 +26,7 @@ import {
     useState
 } from 'react';
 
-import { cn } from '../lib/cn';
+import { cn } from '@/lib/utils';
 import { isActive } from '../lib/is-active';
 
 import {
@@ -242,6 +242,7 @@ export function SidebarFooter(props: ComponentProps<'div'>) {
     return (
         <div
             {...props}
+            id="fmd-sidebar-footer"
             className={cn('flex flex-col border-t p-4 pt-2', props.className)}
         >
             {props.children}

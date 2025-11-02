@@ -1,11 +1,13 @@
 'use client';
 import * as Primitive from 'fumadocs-core/toc';
-import { type ComponentProps, useEffect, useRef, useState } from 'react';
-import { cn } from '../../lib/cn';
-import { TocThumb } from './toc-thumb';
-import { useTOCItems } from './toc';
-import { mergeRefs } from '../../lib/merge-refs';
 import { useI18n } from 'fumadocs-ui/contexts/i18n';
+import { type ComponentProps, useEffect, useRef, useState } from 'react';
+
+import { cn } from '@/lib/utils';
+import { mergeRefs } from '../../lib/merge-refs';
+
+import { useTOCItems } from './toc';
+import { TocThumb } from './toc-thumb';
 
 export default function ClerkTOCItems({
     ref,
@@ -144,7 +146,7 @@ function TOCItem({
             style={{
                 paddingInlineStart: getItemOffset(item.depth)
             }}
-            className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors [overflow-wrap:anywhere] first:pt-0 last:pb-0 data-[active=true]:text-fd-primary"
+            className="prose relative py-1.5 text-sm text-fd-muted-foreground hover:text-fd-accent-foreground transition-colors wrap-anywhere first:pt-0 last:pb-0 data-[active=true]:text-fd-primary"
         >
             {offset !== upperOffset ? (
                 <svg

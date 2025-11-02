@@ -1,17 +1,18 @@
 'use client';
 
+import { usePathname } from 'fumadocs-core/framework';
+import Link from 'fumadocs-core/link';
+import { useNav } from 'fumadocs-ui/contexts/layout';
+import { useSidebar } from 'fumadocs-ui/contexts/sidebar';
 import { Sidebar as SidebarIcon } from 'lucide-react';
 import { type ComponentProps, useMemo } from 'react';
-import { cn } from '../../../lib/cn';
-import { buttonVariants } from '../../ui/button';
-import { useSidebar } from 'fumadocs-ui/contexts/sidebar';
-import { useNav } from 'fumadocs-ui/contexts/layout';
-import { SidebarCollapseTrigger } from '../../sidebar';
-import { SearchToggle } from '../../search-toggle';
-import type { Option } from '../../root-toggle';
-import { usePathname } from 'fumadocs-core/framework';
+
+import { cn } from '@/lib/utils';
 import { isTabActive } from '../../../lib/is-active';
-import Link from 'fumadocs-core/link';
+import type { Option } from '../../root-toggle';
+import { SearchToggle } from '../../search-toggle';
+import { SidebarCollapseTrigger } from '../../sidebar';
+import { buttonVariants } from '../../ui/button';
 
 export function Navbar(props: ComponentProps<'header'>) {
     const { isTransparent } = useNav();
