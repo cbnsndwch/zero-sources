@@ -19,8 +19,7 @@ We'll create a simple change source that streams messages from MongoDB to Zero c
 
 Create a Zero schema for your data:
 
-```typescript
-// src/schema/message.schema.ts
+```typescript title="src/schema/message.schema.ts" {3-12}
 import { createTableSchema } from '@rocicorp/zero';
 
 export const messageSchema = createTableSchema({
@@ -39,24 +38,23 @@ export const messageSchema = createTableSchema({
 
 Map MongoDB collections to Zero tables:
 
-```typescript
-// config/table-mappings.json
+```json title="config/table-mappings.json" {2-10}
 {
-  "message": {
-    "collection": "messages",
-    "fields": {
-      "id": "_id",
-      "content": "content",
-      "userId": "userId",
-      "createdAt": "createdAt"
+    "message": {
+        "collection": "messages",
+        "fields": {
+            "id": "_id",
+            "content": "content",
+            "userId": "userId",
+            "createdAt": "createdAt"
+        }
     }
-  }
 }
 ```
 
 ## Step 3: Start the Change Source
 
-```bash
+```bash title="Terminal"
 pnpm --filter source-mongodb-server start
 ```
 
@@ -68,8 +66,7 @@ The change source will now:
 
 ## Step 4: Connect a Client
 
-```typescript
-// client.ts
+```typescript title="client.ts" {4-7,10-11}
 import { Zero } from '@rocicorp/zero';
 
 const zero = new Zero({
@@ -90,7 +87,7 @@ messages.subscribe(msgs => {
 
 Insert a message in MongoDB:
 
-```javascript
+```javascript title="MongoDB Shell" {1-5}
 db.messages.insertOne({
     content: 'Hello, Zero!',
     userId: 'user-123',
