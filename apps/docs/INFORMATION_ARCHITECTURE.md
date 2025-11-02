@@ -29,7 +29,7 @@ apps/docs/content/
 │   ├── concepts.mdx
 │   └── troubleshooting.mdx
 │
-├── libraries/                         # Library documentation
+├── packages/                         # Library documentation
 │   ├── meta.json
 │   ├── index.mdx
 │   ├── zero-contracts/
@@ -86,9 +86,9 @@ apps/docs/content/
 /                                    # Home
 /getting-started                     # Section overview
 /getting-started/installation        # Specific page
-/libraries                           # Section overview
-/libraries/zero-source-mongodb       # Library overview
-/libraries/zero-source-mongodb/api   # Library sub-page
+/packages                            # Section overview
+/packages/zero-source-mongodb        # Package overview
+/packages/zero-source-mongodb/api    # Package sub-page
 ```
 
 ### URL Mapping
@@ -96,9 +96,9 @@ apps/docs/content/
 | Content Type | URL Pattern | Example |
 |-------------|-------------|---------|
 | Home | `/` | `/` |
-| Section | `/section` | `/libraries` |
-| Page | `/section/page` | `/libraries/zero-contracts` |
-| Sub-page | `/section/page/sub` | `/libraries/zero-contracts/installation` |
+| Section | `/section` | `/packages` |
+| Page | `/section/page` | `/packages/zero-contracts` |
+| Sub-page | `/section/page/sub` | `/packages/zero-contracts/installation` |
 
 ## Content Categories
 
@@ -291,7 +291,7 @@ Templates are provided in `apps/docs/templates/`:
 ```bash
 # Copy template
 cp apps/docs/templates/library-page.template.mdx \
-   apps/docs/content/libraries/my-library/index.mdx
+   apps/docs/content/packages/my-library/index.mdx
 
 # Edit and customize
 ```
@@ -304,13 +304,13 @@ Use relative or absolute paths:
 
 ```markdown
 <!-- Relative link -->
-[Installation Guide](./installation)
+[Installation Guide](/docs/installation)
 
 <!-- Absolute link -->
-[Getting Started](/getting-started)
+[Getting Started](/docs/getting-started)
 
 <!-- Cross-section link -->
-[Zero Contracts](/libraries/zero-contracts)
+[Zero Contracts](/docs/packages/zero-contracts)
 ```
 
 ### Link Guidelines

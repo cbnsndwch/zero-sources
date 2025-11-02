@@ -94,7 +94,7 @@ This checklist helps ensure consistent, complete content migration to the Fumado
 
 - [ ] Update internal links to new structure
   - From: `../../libs/zero-contracts/README.md`
-  - To: `/libraries/zero-contracts`
+  - To: `/packages/zero-contracts`
 - [ ] Verify external links still work
 - [ ] Add links to related content
 - [ ] Add links in "Next Steps" section

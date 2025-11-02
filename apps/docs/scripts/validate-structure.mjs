@@ -59,14 +59,14 @@ for (const dir of requiredDirs) {
 
 // Check library subdirectories
 console.log('\n📚 Checking library structure...');
-const librariesDir = path.join(contentDir, 'libraries');
+const librariesDir = path.join(contentDir, 'packages');
 if (fs.existsSync(librariesDir)) {
   for (const lib of requiredLibraries) {
     const libPath = path.join(librariesDir, lib);
     if (!fs.existsSync(libPath)) {
-      errors.push(`Missing library directory: libraries/${lib}`);
+      errors.push(`Missing library directory: packages/${lib}`);
     } else {
-      console.log(`  ✓ libraries/${lib}/`);
+      console.log(`  ✓ packages/${lib}/`);
     }
   }
 }
