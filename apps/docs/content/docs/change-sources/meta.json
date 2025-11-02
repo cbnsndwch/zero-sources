@@ -2,8 +2,5 @@
     "title": "Change Sources",
     "description": "Change source implementations and guides",
     "icon": "ArrowDownUp",
-    "pages": [
-        "mongodb",
-        "build-your-own"
-    ]
+    "pages": ["mongodb", "build-your-own"]
 }

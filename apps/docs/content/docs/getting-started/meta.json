@@ -2,10 +2,5 @@
     "title": "Getting Started",
     "description": "Get up and running with Zero Sources",
     "iconName": "rocket",
-    "pages": [
-        "quick-start",
-        "installation",
-        "concepts",
-        "troubleshooting"
-    ]
+    "pages": ["quick-start", "installation", "concepts", "troubleshooting"]
 }

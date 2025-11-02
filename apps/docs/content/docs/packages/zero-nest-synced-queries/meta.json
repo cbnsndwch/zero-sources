@@ -1,8 +1,5 @@
 {
     "title": "zero-nest-synced-queries",
     "description": "Synced query utilities for NestJS",
-    "pages": [
-        "installation",
-        "usage"
-    ]
+    "pages": ["installation", "usage"]
 }
