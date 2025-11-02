@@ -1,4 +1,3 @@
-import clarity from '@microsoft/clarity';
 import { useEffect } from 'react';
 
 /**
@@ -11,6 +10,11 @@ import { useEffect } from 'react';
  */
 export default function ClarityInit() {
     useEffect(() => {
+        // Only run on the client side
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
 
         if (!projectId) {
@@ -22,12 +26,19 @@ export default function ClarityInit() {
             return;
         }
 
-        // Initialize Clarity
-        clarity.init(projectId);
+        // Dynamically import Clarity only on the client
+        import('@microsoft/clarity')
+            .then((clarityModule) => {
+                const clarity = clarityModule.default;
+                clarity.init(projectId);
 
-        if (import.meta.env.DEV) {
-            console.log('Clarity initialized with project:', projectId);
-        }
+                if (import.meta.env.DEV) {
+                    console.log('Clarity initialized with project:', projectId);
+                }
+            })
+            .catch((error) => {
+                console.error('Failed to load Clarity:', error);
+            });
     }, []);
 
     return null;
