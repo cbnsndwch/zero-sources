@@ -21,7 +21,7 @@ export default function PrivacyDisclosure() {
                     understand how you use this website.
                 </p>
                 <p className="leading-tight">
-                    By using this site, you agree that we, vercel, and Microsoft
+                    By using this site, you agree that we, Vercel, and Microsoft
                     can collect and use this data.{' '}
                     <Link
                         href="/docs/privacy"
