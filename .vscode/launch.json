@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+        // ZRocket
         {
             "type": "node",
             "name": "ZRocket",
@@ -54,6 +55,23 @@
             "cwd": "${workspaceRoot}/apps/source-mongodb-server",
             "envFile": "${workspaceRoot}/apps/source-mongodb-server/.env",
         },
+        // Docs
+        {
+            "type": "node",
+            "name": "Docs",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "sourceMaps": true,
+            "runtimeArgs": [
+                "dev"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/apps/docs"
+        },
+        // Generic
         {
             "type": "node",
             "name": "[NODE] Current File",
