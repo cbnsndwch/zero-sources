@@ -103,14 +103,36 @@ const renderer = toClientRenderer(docs.doc, (loaded, props: ContentProps) => {
 
             <Feedback
                 onRateAction={async (url, feedback) => {
-                    console.log(
-                        `feedback for ${url}:`,
-                        JSON.stringify(feedback)
-                    );
+                    try {
+                        const response = await fetch('/api/feedback', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                url,
+                                ...feedback
+                            })
+                        });
 
-                    return {
-                        githubUrl: ''
-                    };
+                        if (!response.ok) {
+                            const error = await response.json();
+                            throw new Error(
+                                error.error || 'Failed to submit feedback'
+                            );
+                        }
+
+                        const data = await response.json();
+                        return {
+                            githubUrl: data.githubUrl
+                        };
+                    } catch (error) {
+                        console.error('Error submitting feedback:', error);
+                        // Return empty githubUrl on error but don't block the UI
+                        return {
+                            githubUrl: ''
+                        };
+                    }
                 }}
             />
         </DocsPage>

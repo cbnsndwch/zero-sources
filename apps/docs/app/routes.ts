@@ -14,5 +14,6 @@ export default [
 
     // docs routes
     route('docs/*', 'docs/page.tsx'),
-    route('api/search', 'docs/search.ts')
+    route('api/search', 'docs/search.ts'),
+    route('api/feedback', 'api/feedback.ts')
 ] satisfies RouteConfig;
