@@ -268,9 +268,11 @@ export function SidebarViewport(props: ScrollAreaProps) {
     );
 }
 
-export function SidebarSeparator(props: ComponentProps<'p'> & { icon?: ReactNode }) {
+export function SidebarSeparator(
+    props: ComponentProps<'p'> & { icon?: ReactNode }
+) {
     const resolvedIcon = useMemo(
-        () => props.icon ? resolveIcon(props.icon) : null,
+        () => (props.icon ? resolveIcon(props.icon) : null),
         [props.icon]
     );
 
@@ -299,10 +301,7 @@ export function SidebarItem({
         props.href !== undefined && isActive(props.href, pathname, false);
     const { prefetch } = useInternalContext();
 
-    const resolvedIcon = useMemo(
-        () => resolveIcon(icon),
-        [icon]
-    );
+    const resolvedIcon = useMemo(() => resolveIcon(icon), [icon]);
 
     return (
         <Link

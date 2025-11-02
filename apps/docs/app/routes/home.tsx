@@ -5,15 +5,13 @@ import { createMetaTags } from '@/app/lib/meta';
 import type { Route } from './+types/home';
 
 export function meta({ location }: Route.MetaArgs) {
-    return createMetaTags(
-        {
-            title: 'Zero Sources',
-            description:
-                'Utilities and custom change sources for Rocicorp Zero - MongoDB integration, watermark implementations, and more',
-            path: location.pathname,
-            type: 'website'
-        }
-    );
+    return createMetaTags({
+        title: '@cbnsndwch/zero-sources',
+        description:
+            'Utilities and custom change sources for Rocicorp Zero - MongoDB support, NestJS integration, synced query implementation, and more',
+        path: location.pathname,
+        type: 'website'
+    });
 }
 
 export default function HomePage() {
