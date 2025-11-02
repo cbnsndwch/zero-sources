@@ -4,6 +4,6 @@
     "icon": "ArrowDownUp",
     "pages": [
         "mongodb",
-        "custom-implementation"
+        "build-your-own"
     ]
 }
