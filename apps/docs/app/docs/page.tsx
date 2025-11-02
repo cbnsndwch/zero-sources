@@ -78,7 +78,7 @@ const renderer = toClientRenderer(docs.doc, (loaded, props: ContentProps) => {
         <DocsPage toc={toc} full={pageMeta.full}>
             <title>{pageMeta.title}</title>
             <meta name="description" content={pageMeta.description} />
-            <DocsTitle className="flex justify-between items-center gap-4">
+            <DocsTitle className="flex flex-col justify-start items-start gap-4 lg:flex-row lg:justify-between lg:items-center">
                 {pageMeta.title}
 
                 {showPageActions && (
