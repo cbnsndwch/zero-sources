@@ -1,9 +1,0 @@
-{
-  "title": "zero-nest-mongoose",
-  "description": "NestJS integration for Mongoose and Zero",
-  "pages": [
-    "index",
-    "installation",
-    "usage"
-  ]
-}

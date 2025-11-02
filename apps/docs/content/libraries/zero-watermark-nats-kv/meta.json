@@ -1,9 +1,0 @@
-{
-  "title": "zero-watermark-nats-kv",
-  "description": "NATS KV distributed watermark storage",
-  "pages": [
-    "index",
-    "installation",
-    "configuration"
-  ]
-}

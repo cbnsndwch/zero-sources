@@ -1,9 +1,0 @@
-{
-  "title": "synced-queries",
-  "description": "Synced query utilities and helpers",
-  "pages": [
-    "index",
-    "installation",
-    "usage"
-  ]
-}

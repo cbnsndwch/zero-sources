@@ -1,9 +1,0 @@
-{
-  "title": "Demos",
-  "description": "Example applications showcasing Zero Sources",
-  "icon": "rocket",
-  "pages": [
-    "index",
-    "zrocket"
-  ]
-}

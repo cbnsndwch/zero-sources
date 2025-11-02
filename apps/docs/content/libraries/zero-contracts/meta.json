@@ -1,9 +1,0 @@
-{
-  "title": "zero-contracts",
-  "description": "Zero protocol contracts and TypeScript types",
-  "pages": [
-    "index",
-    "installation",
-    "usage"
-  ]
-}
