@@ -7,6 +7,34 @@ export interface OGImageOptions {
     path?: string;
 }
 
+// Cache the font data to avoid fetching it multiple times
+let fontDataCache: ArrayBuffer | null = null;
+
+async function getFontData(): Promise<ArrayBuffer> {
+    if (fontDataCache) {
+        return fontDataCache;
+    }
+
+    // Load Inter font from Vercel's font CDN
+    const data = await fetch(
+        'https://og-playground.vercel.app/inter-latin-ext-400-normal.woff',
+        {
+            headers: {
+                'User-Agent': 'Mozilla/5.0'
+            }
+        }
+    ).then(async res => {
+        if (!res.ok) {
+            console.error('Font fetch failed:', res.status, res.statusText);
+            throw new Error(`Failed to load font: ${res.status}`);
+        }
+        return res.arrayBuffer();
+    });
+
+    fontDataCache = data;
+    return data;
+}
+
 /**
  * Generate an OG image as a PNG buffer
  */
@@ -15,10 +43,7 @@ export async function generateOGImage(
 ): Promise<Buffer> {
     const { title, description, path } = options;
 
-    // Load Inter font
-    const fontData = await fetch(
-        'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiA.woff'
-    ).then(res => res.arrayBuffer());
+    const fontData = await getFontData();
 
     const svg = await satori(
         <div
@@ -45,7 +70,7 @@ export async function generateOGImage(
                 <div
                     style={{
                         fontSize: '32px',
-                        fontWeight: 700,
+                        fontWeight: 400,
                         color: '#ffffff',
                         letterSpacing: '-0.02em'
                     }}
@@ -68,7 +93,7 @@ export async function generateOGImage(
                 <div
                     style={{
                         fontSize: '72px',
-                        fontWeight: 800,
+                        fontWeight: 400,
                         color: '#ffffff',
                         lineHeight: 1.1,
                         letterSpacing: '-0.03em',
@@ -130,18 +155,6 @@ export async function generateOGImage(
                     name: 'Inter',
                     data: fontData,
                     weight: 400,
-                    style: 'normal'
-                },
-                {
-                    name: 'Inter',
-                    data: fontData,
-                    weight: 700,
-                    style: 'normal'
-                },
-                {
-                    name: 'Inter',
-                    data: fontData,
-                    weight: 800,
                     style: 'normal'
                 }
             ]

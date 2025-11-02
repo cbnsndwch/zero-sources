@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://zero-sources.cbnsndwch.dev/sitemap.xml
+
+# Disallow crawling of internal routes (if any)
+# Disallow: /api/
+# Disallow: /_next/
+
+# Allow OG image generation endpoint
+Allow: /og
