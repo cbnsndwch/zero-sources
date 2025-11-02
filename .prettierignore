@@ -1,2 +1,3 @@
 .github/instructions
 *.md
+apps/docs/.source/index.ts

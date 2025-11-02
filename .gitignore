@@ -42,7 +42,6 @@ yarn-error.log*
 
 playwright-report
 test-results
-/apps/zrocket/.react-router
-*.tsbuildinfo
-
 .react-router
+apps/docs/.vercel/react-router-build-result.json
+*.tsbuildinfo
