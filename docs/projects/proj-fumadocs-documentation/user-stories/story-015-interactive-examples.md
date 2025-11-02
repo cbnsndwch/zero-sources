@@ -2,10 +2,11 @@
 
 **Story ID**: FDS-STORY-015  
 **Epic**: [FDS-EPIC-005 - Community Features and Enhancements](../epics/epic-005-community-features.md)  
-**Status**: Not Started  
+**Status**: ✅ Completed  
 **Priority**: Medium  
 **Estimated Effort**: 1.5 days  
-**Sprint**: 3
+**Sprint**: 3  
+**Completed**: November 2, 2025
 
 ---
 
@@ -17,20 +18,65 @@
 
 ## Acceptance Criteria
 
-- [ ] Code syntax highlighting working
-- [ ] Copy-to-clipboard buttons on code blocks
-- [ ] Line highlighting supported
-- [ ] Multiple code tabs working
-- [ ] At least 3 interactive React examples created
-- [ ] Code examples mobile-friendly
+- [x] Code syntax highlighting working
+- [x] Copy-to-clipboard buttons on code blocks
+- [x] Line highlighting supported
+- [x] Multiple code tabs working
+- [x] At least 3 interactive React examples created
+- [x] Code examples mobile-friendly
 
 ## Definition of Done
 
-- [ ] Code block enhancements implemented
-- [ ] Interactive examples created
-- [ ] All features tested
-- [ ] Mobile responsiveness verified
-- [ ] Performance acceptable
+- [x] Code block enhancements implemented
+- [x] Interactive examples created
+- [x] All features tested
+- [x] Mobile responsiveness verified
+- [x] Performance acceptable
+
+## Implementation Summary
+
+### Components Created
+
+1. **InteractiveDemo** (`components/fumadocs/interactive-demo.tsx`)
+    - Live code execution environment
+    - Editable code with syntax highlighting
+    - Run and reset functionality
+    - Output display with error handling
+    - Mobile-responsive design
+
+2. **CodeTabs** (`components/fumadocs/code-tabs.tsx`)
+    - Multi-language code examples
+    - Tab navigation
+    - Syntax highlighted content
+    - Responsive layout
+
+### Documentation Created
+
+1. **Interactive Examples** (`content/docs/demos/interactive-examples.mdx`)
+    - 3+ interactive React examples
+    - Basic Zero Query demo
+    - Real-time Subscription demo
+    - MongoDB Change Source setup demo
+    - Code highlighting examples
+    - Multi-language code tabs
+
+2. **Code Block Guide** (`content/docs/contributing/code-blocks.mdx`)
+    - Comprehensive guide on using code blocks
+    - Syntax highlighting examples
+    - Line highlighting patterns
+    - File names and titles
+    - Copy button documentation
+    - Mobile responsiveness best practices
+
+### Enhanced Documentation
+
+- Updated `getting-started/quick-start.mdx` with titles and line highlighting
+- Added navigation entries in meta.json files
+- All code examples now use enhanced features
+
+### Testing
+
+See [story-015-testing.md](./story-015-testing.md) for detailed test results.
 
 ## Technical Details
 
@@ -43,11 +89,11 @@ Fumadocs provides code block enhancements by default:
 import { Pre, CodeBlock } from 'fumadocs-ui/components/codeblock';
 
 export function useMDXComponents(components) {
-  return {
-    ...components,
-    pre: Pre,
-    CodeBlock,
-  };
+    return {
+        ...components,
+        pre: Pre,
+        CodeBlock
+    };
 }
 ```
 
@@ -56,8 +102,8 @@ export function useMDXComponents(components) {
 ```mdx
 import { InteractiveDemo } from '@/components/interactive-demo';
 
-<InteractiveDemo 
-  code={`
+<InteractiveDemo
+    code={`
 const zero = createZero({
   server: 'http://localhost:4848'
 });
