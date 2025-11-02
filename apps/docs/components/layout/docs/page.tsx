@@ -100,6 +100,9 @@ export {
     PageFooter,
     PageLastUpdate,
     PageTOC,
-    PageTOCPopover, PageTOCPopoverContent, PageTOCPopoverTrigger, type BreadcrumbProps, type FooterProps
+    PageTOCPopover,
+    PageTOCPopoverContent,
+    PageTOCPopoverTrigger,
+    type BreadcrumbProps,
+    type FooterProps
 };
-
