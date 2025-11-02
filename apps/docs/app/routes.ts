@@ -4,6 +4,9 @@ export default [
     // homepage
     index('routes/home.tsx'),
 
+    // OG image generation
+    route('og', 'routes/og.tsx'),
+
     // LLMs candy
     route('llms-full.txt', 'routes/llms-full.ts'),
     route('llms.mdx/*', 'routes/llms-mdx.ts'),

@@ -12,6 +12,7 @@ import type { Route } from './+types/page';
 import { docs } from '@/.source';
 import { source } from '@/app/lib/source';
 import { baseOptions } from '@/app/lib/layout.shared';
+import { createMetaTags } from '@/app/lib/meta';
 
 import ViewOptions from '@/components/page-actions/ViewOptions';
 import CopyButton from '@/components/page-actions/CopyButton';
@@ -35,8 +36,26 @@ export async function loader({ params }: Route.LoaderArgs) {
     return {
         tree: source.getPageTree(),
         path: page.path,
-        url: page.url
+        url: page.url,
+        page
     };
+}
+
+export function meta({ data, location }: Route.MetaArgs) {
+    if (!data?.page) {
+        return [{ title: 'Not Found | Zero Sources' }];
+    }
+
+    const { title, description } = data.page.data;
+
+    return createMetaTags({
+        title: title || 'Documentation',
+        description:
+            description ||
+            'Zero Sources documentation for building real-time applications',
+        path: location.pathname,
+        type: 'article'
+    });
 }
 
 const GITHUB_DOCS_BASE =
