@@ -33,7 +33,7 @@ export default function ClarityInit() {
 
         // Dynamically import Clarity only on the client
         import('@microsoft/clarity')
-            .then((clarityModule) => {
+            .then(clarityModule => {
                 const clarity = clarityModule.default;
                 clarity.init(projectId);
 
@@ -41,7 +41,7 @@ export default function ClarityInit() {
                     console.log('Clarity initialized with project:', projectId);
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error('Failed to load Clarity:', error);
             });
     }, []);
