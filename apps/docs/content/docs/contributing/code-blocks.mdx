@@ -1,0 +1,318 @@
+---
+title: Code Block Features
+description: Guide to using enhanced code blocks in zero-sources documentation
+icon: CodeXml
+---
+
+Learn how to use the enhanced code block features in zero-sources documentation powered by Fumadocs.
+
+## Basic Code Blocks
+
+Create code blocks using triple backticks with a language identifier:
+
+````markdown
+```typescript
+const message = 'Hello, Zero!';
+console.log(message);
+```
+````
+
+Result:
+
+```typescript
+const message = 'Hello, Zero!';
+console.log(message);
+```
+
+## Adding File Names
+
+Add a title attribute to show file names:
+
+````markdown
+```typescript title="src/client.ts"
+import { Zero } from '@rocicorp/zero';
+```
+````
+
+Result:
+
+```typescript title="src/client.ts"
+import { Zero } from '@rocicorp/zero';
+```
+
+## Line Highlighting
+
+Highlight specific lines using `{line-numbers}`:
+
+````markdown
+```typescript title="config.ts" {3-5}
+export const config = {
+    server: 'http://localhost:4848',
+    schema: messageSchema,
+    userID: 'user-123',
+    auth: getToken()
+};
+```
+````
+
+Result:
+
+```typescript title="config.ts" {3-5}
+export const config = {
+    server: 'http://localhost:4848',
+    schema: messageSchema,
+    userID: 'user-123',
+    auth: getToken()
+};
+```
+
+## Multiple Line Ranges
+
+Highlight multiple ranges with comma-separated values:
+
+````markdown
+```typescript {1,4,7-9}
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+
+const zero = new Zero({ server, schema });
+
+async function fetchMessages() {
+    const messages = await zero.query.message
+        .orderBy('createdAt', 'desc')
+        .limit(10)
+        .run();
+    return messages;
+}
+```
+````
+
+Result:
+
+```typescript {1,4,7-9}
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+
+const zero = new Zero({ server, schema });
+
+async function fetchMessages() {
+    const messages = await zero.query.message
+        .orderBy('createdAt', 'desc')
+        .limit(10)
+        .run();
+    return messages;
+}
+```
+
+## Copy to Clipboard
+
+All code blocks automatically include a copy button in the top-right corner. Click it to copy the entire code block to your clipboard.
+
+## Supported Languages
+
+Fumadocs supports syntax highlighting for many languages:
+
+### TypeScript/JavaScript
+
+```typescript title="example.ts"
+interface Message {
+    id: string;
+    content: string;
+    createdAt: number;
+}
+
+const formatMessage = (msg: Message): string => {
+    return `${msg.content} (${new Date(msg.createdAt).toISOString()})`;
+};
+```
+
+### JSON
+
+```json title="config.json"
+{
+    "server": "http://localhost:4848",
+    "options": {
+        "reconnect": true,
+        "timeout": 5000
+    }
+}
+```
+
+### Bash/Shell
+
+```bash title="setup.sh"
+#!/bin/bash
+pnpm install
+pnpm build
+pnpm start
+```
+
+### SQL
+
+```sql title="schema.sql"
+CREATE TABLE messages (
+  id VARCHAR(255) PRIMARY KEY,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### YAML
+
+```yaml title="docker-compose.yml"
+version: '3.8'
+services:
+    mongo:
+        image: mongo:6
+        ports:
+            - '27017:27017'
+```
+
+## Diff Highlighting
+
+Show code changes with diff syntax:
+
+```diff title="migration.ts"
+  export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+      id: { type: 'string' },
+-     text: { type: 'string' },
++     content: { type: 'string' },
+      userId: { type: 'string' },
++     createdAt: { type: 'number' }
+    }
+  });
+```
+
+## Code Block Best Practices
+
+### 1. Always Specify Language
+
+```typescript
+// ✅ Good - language specified
+const zero = new Zero({ server, schema });
+```
+
+```
+// ❌ Bad - no language
+const zero = new Zero({ server, schema });
+```
+
+### 2. Add Context with Titles
+
+```typescript title="src/zero-client.ts"
+// ✅ Good - shows file context
+export function createZeroClient() {
+    /* ... */
+}
+```
+
+### 3. Highlight Important Lines
+
+```typescript title="critical-config.ts" {2-3}
+export const config = {
+    apiKey: process.env.API_KEY, // Highlight important
+    secret: process.env.SECRET, // configuration
+    endpoint: 'https://api.example.com'
+};
+```
+
+### 4. Keep Examples Focused
+
+```typescript
+// ✅ Good - focused example
+const messages = await zero.query.message.where('roomId', '=', roomId).run();
+```
+
+Rather than:
+
+```typescript
+// ❌ Too much context
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+import { getConfig } from './config';
+import { logger } from './logger';
+
+const config = getConfig();
+const zero = new Zero(config);
+logger.info('Querying messages...');
+const messages = await zero.query.message.where('roomId', '=', roomId).run();
+logger.info(`Found ${messages.length} messages`);
+```
+
+### 5. Use Comments Sparingly
+
+```typescript
+// ✅ Good - comments add value
+const messages = await zero.query.message
+    .where('roomId', '=', roomId) // Filter by room
+    .orderBy('createdAt', 'desc') // Newest first
+    .run();
+```
+
+## Interactive Examples
+
+For runnable code examples, use the `InteractiveDemo` component:
+
+```mdx
+import { InteractiveDemo } from '@/components/fumadocs';
+
+<InteractiveDemo
+    title="Query Example"
+    code={`const messages = await zero.query.message.run();`}
+    execute={async code => {
+        return JSON.stringify([{ id: '1', content: 'Hello!' }], null, 2);
+    }}
+/>
+```
+
+See [Interactive Examples](/docs/demos/interactive-examples) for more details.
+
+## Code Tabs
+
+For multi-language examples, use `CodeTabs`:
+
+```mdx
+import { CodeTabs } from '@/components/fumadocs';
+
+<CodeTabs
+    tabs={[
+        { title: 'TypeScript', language: 'typescript', code: '...' },
+        { title: 'JavaScript', language: 'javascript', code: '...' }
+    ]}
+/>
+```
+
+## Mobile Responsiveness
+
+All code blocks are mobile-friendly with:
+
+- Horizontal scrolling on narrow screens
+- Responsive font sizes
+- Touch-friendly copy buttons
+- Optimized line heights
+
+Test on mobile to ensure code examples remain readable:
+
+```typescript title="long-lines-example.ts"
+// This will scroll horizontally on mobile
+const veryLongVariableName = await zero.query.message
+    .where('roomId', '=', 'room-456')
+    .orderBy('createdAt', 'desc')
+    .limit(100)
+    .run();
+
+// Better: break into multiple lines
+const messages = await zero.query.message
+    .where('roomId', '=', 'room-456')
+    .orderBy('createdAt', 'desc')
+    .limit(100)
+    .run();
+```
+
+## Next Steps
+
+- See [Interactive Examples](/docs/demos/interactive-examples) for live code demos
+- Check [Contributing Guide](/docs/contributing) for documentation standards
+- Explore [API Reference](/docs/api) for more code examples
