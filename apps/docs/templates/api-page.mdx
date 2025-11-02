@@ -1,0 +1,584 @@
+---
+title: API Name
+description: Complete API reference for the [Component/Module/Class] API
+icon: Code
+---
+
+# API Name
+
+Brief introduction explaining what this API provides and its role in the zero-sources ecosystem.
+
+## Overview
+
+High-level description of:
+- What this API does
+- When to use it
+- Key capabilities
+
+## Installation
+
+If this is a separate package:
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add @cbnsndwch/package-name
+    ```
+  </Tab>
+  <Tab value="npm">
+    ```bash
+    npm install @cbnsndwch/package-name
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add @cbnsndwch/package-name
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Example
+
+Minimal working example showing basic usage:
+
+```typescript
+import { ApiClass } from '@cbnsndwch/package-name';
+
+// Initialize
+const api = new ApiClass({
+  option1: 'value',
+});
+
+// Use the API
+const result = await api.method('parameter');
+console.log(result);
+```
+
+## Classes
+
+### `ClassName`
+
+Description of the class and its purpose.
+
+#### Constructor
+
+```typescript
+constructor(config: ConfigOptions)
+```
+
+Creates a new instance of ClassName.
+
+**Parameters:**
+
+- `config` ([`ConfigOptions`](#configoptions)) - Configuration object
+
+**Example:**
+
+```typescript
+const instance = new ClassName({
+  option1: 'value',
+  option2: 100,
+});
+```
+
+**Throws:**
+
+- [`ValidationError`](#validationerror) - When configuration is invalid
+
+#### Properties
+
+##### `propertyName`
+
+- **Type**: `string`
+- **Read-only**: Yes/No
+
+Description of the property.
+
+**Example:**
+
+```typescript
+console.log(instance.propertyName); // 'value'
+```
+
+#### Methods
+
+##### `methodName(param1: Type1, param2?: Type2): ReturnType`
+
+Description of what the method does.
+
+**Parameters:**
+
+- `param1` (`Type1`) - Description of first parameter
+- `param2` (`Type2`, optional) - Description of optional parameter
+
+**Returns:**
+
+`ReturnType` - Description of return value
+
+**Example:**
+
+```typescript
+const result = await instance.methodName('value1', 'value2');
+```
+
+**Throws:**
+
+- `ErrorType` - When error condition occurs
+
+**See also:**
+
+- [`relatedMethod`](#relatedmethod) - Related functionality
+
+---
+
+##### `anotherMethod(options: MethodOptions): Promise<Result>`
+
+Another method description.
+
+**Parameters:**
+
+- `options` ([`MethodOptions`](#methodoptions)) - Method configuration
+
+**Returns:**
+
+`Promise<Result>` - Async result
+
+**Example:**
+
+```typescript
+const result = await instance.anotherMethod({
+  option: 'value',
+});
+```
+
+## Interfaces
+
+### `ConfigOptions`
+
+Configuration options for the main class.
+
+```typescript
+interface ConfigOptions {
+  /** Required option description */
+  option1: string;
+  
+  /** Optional option description */
+  option2?: number;
+  
+  /** Another option with details */
+  option3?: boolean;
+}
+```
+
+**Properties:**
+
+#### `option1`
+
+- **Type**: `string`
+- **Required**: Yes
+- **Default**: None
+
+Detailed description of this option, when to use it, and example values.
+
+**Example:**
+
+```typescript
+{
+  option1: 'example-value'
+}
+```
+
+#### `option2`
+
+- **Type**: `number`
+- **Required**: No
+- **Default**: `100`
+
+Description of this optional option.
+
+**Example:**
+
+```typescript
+{
+  option2: 200
+}
+```
+
+---
+
+### `MethodOptions`
+
+Options for a specific method.
+
+```typescript
+interface MethodOptions {
+  /** Option description */
+  param1: string;
+  
+  /** Another parameter */
+  param2?: boolean;
+}
+```
+
+## Types
+
+### `ResultType`
+
+Description of this type and when it's used.
+
+```typescript
+type ResultType = {
+  success: boolean;
+  data?: unknown;
+  error?: string;
+};
+```
+
+**Properties:**
+
+- `success` (`boolean`) - Whether operation succeeded
+- `data` (`unknown`, optional) - Result data if successful
+- `error` (`string`, optional) - Error message if failed
+
+**Example:**
+
+```typescript
+const result: ResultType = {
+  success: true,
+  data: { /* ... */ },
+};
+```
+
+---
+
+### `UnionType`
+
+Union type description.
+
+```typescript
+type UnionType = 'option1' | 'option2' | 'option3';
+```
+
+**Valid values:**
+
+- `'option1'` - Description of first option
+- `'option2'` - Description of second option
+- `'option3'` - Description of third option
+
+## Enums
+
+### `StatusEnum`
+
+Description of the enum.
+
+```typescript
+enum StatusEnum {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+}
+```
+
+**Values:**
+
+- `PENDING` - Description of pending state
+- `ACTIVE` - Description of active state
+- `COMPLETED` - Description of completed state
+- `FAILED` - Description of failed state
+
+## Functions
+
+### `helperFunction(param: Type): ReturnType`
+
+Description of standalone function.
+
+**Parameters:**
+
+- `param` (`Type`) - Parameter description
+
+**Returns:**
+
+`ReturnType` - Return value description
+
+**Example:**
+
+```typescript
+const result = helperFunction('value');
+```
+
+## Constants
+
+### `DEFAULT_CONFIG`
+
+Default configuration values.
+
+```typescript
+const DEFAULT_CONFIG: ConfigOptions = {
+  option1: 'default',
+  option2: 100,
+};
+```
+
+## Errors
+
+### `ValidationError`
+
+Thrown when validation fails.
+
+**Properties:**
+
+- `message` (`string`) - Error message
+- `field` (`string`) - Field that failed validation
+- `value` (`unknown`) - Invalid value
+
+**Example:**
+
+```typescript
+try {
+  api.validate(data);
+} catch (error) {
+  if (error instanceof ValidationError) {
+    console.error(`Validation failed for ${error.field}`);
+  }
+}
+```
+
+---
+
+### `ConnectionError`
+
+Thrown when connection fails.
+
+**Example:**
+
+```typescript
+try {
+  await api.connect();
+} catch (error) {
+  if (error instanceof ConnectionError) {
+    // Handle connection error
+  }
+}
+```
+
+## Advanced Usage
+
+### Custom Configuration
+
+Advanced configuration patterns:
+
+```typescript
+import { ApiClass, type AdvancedConfig } from '@cbnsndwch/package-name';
+
+const advanced: AdvancedConfig = {
+  // Advanced options
+};
+
+const api = new ApiClass(advanced);
+```
+
+### Middleware
+
+If the API supports middleware or plugins:
+
+```typescript
+import { ApiClass, createMiddleware } from '@cbnsndwch/package-name';
+
+const api = new ApiClass(config);
+
+// Add middleware
+api.use(createMiddleware({
+  // Middleware options
+}));
+```
+
+### Event Handling
+
+If the API emits events:
+
+```typescript
+api.on('event-name', (data) => {
+  console.log('Event received:', data);
+});
+
+api.off('event-name', handler); // Remove listener
+```
+
+## TypeScript Support
+
+### Type Inference
+
+The API provides full type inference:
+
+```typescript
+const result = await api.method('param');
+// TypeScript knows the exact type of 'result'
+```
+
+### Generic Types
+
+Using the API with generics:
+
+```typescript
+import { ApiClass } from '@cbnsndwch/package-name';
+
+interface MyData {
+  id: string;
+  name: string;
+}
+
+const api = new ApiClass<MyData>(config);
+const data = await api.get(); // Returns MyData
+```
+
+### Type Guards
+
+Provided type guards:
+
+```typescript
+import { isResultType } from '@cbnsndwch/package-name';
+
+if (isResultType(value)) {
+  // TypeScript knows value is ResultType
+}
+```
+
+## Integration Examples
+
+### With React
+
+```typescript
+import { useEffect, useState } from 'react';
+import { ApiClass } from '@cbnsndwch/package-name';
+
+function Component() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const api = new ApiClass(config);
+    api.fetch().then(setData);
+  }, []);
+  
+  return <div>{/* render data */}</div>;
+}
+```
+
+### With Zero
+
+```typescript
+import { Zero } from '@rocicorp/zero';
+import { ApiClass } from '@cbnsndwch/package-name';
+
+const zero = new Zero({ /* config */ });
+const api = new ApiClass({ zero });
+
+// API now works with Zero sync
+```
+
+### With NestJS
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { ApiClass } from '@cbnsndwch/package-name';
+
+@Injectable()
+export class MyService {
+  private api: ApiClass;
+  
+  constructor() {
+    this.api = new ApiClass(config);
+  }
+  
+  async getData() {
+    return this.api.method();
+  }
+}
+```
+
+## Migration Guides
+
+### From v1.x to v2.x
+
+Breaking changes and migration steps:
+
+<Steps>
+
+### Update package
+
+```bash
+pnpm update @cbnsndwch/package-name
+```
+
+### Update imports
+
+```typescript
+// Old
+import { OldAPI } from '@cbnsndwch/package-name';
+
+// New
+import { NewAPI } from '@cbnsndwch/package-name';
+```
+
+### Update configuration
+
+Changes to configuration structure.
+
+</Steps>
+
+## Performance
+
+### Optimization Tips
+
+- **Tip 1**: Performance optimization advice
+- **Tip 2**: Caching strategies
+- **Tip 3**: Batch operations
+
+### Benchmarks
+
+Performance characteristics (if applicable):
+
+| Operation | Avg Time | Ops/sec |
+|-----------|----------|---------|
+| method1   | 10ms     | 100     |
+| method2   | 5ms      | 200     |
+
+## Troubleshooting
+
+### Common Issues
+
+#### Issue: Method not working as expected
+
+**Solution:**
+Check configuration and parameters.
+
+```typescript
+// Correct usage
+```
+
+## See Also
+
+<Cards>
+  <Card 
+    title="Guide" 
+    href="/guides/related"
+    description="Learn how to use this API"
+  />
+  <Card 
+    title="Examples" 
+    href="/examples"
+    description="Real-world examples"
+  />
+</Cards>
+
+## Contributing
+
+See our [contributing guide](/contributing) to help improve this API.
+
+## Changelog
+
+[View changelog](https://github.com/cbnsndwch/zero-sources/blob/main/libs/package-name/CHANGELOG.md)
+
+## License
+
+MIT © [cbnsndwch](https://github.com/cbnsndwch)

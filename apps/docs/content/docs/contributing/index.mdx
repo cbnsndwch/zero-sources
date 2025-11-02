@@ -1,0 +1,343 @@
+---
+title: Contributing to Documentation
+description: Learn how to contribute to the zero-sources documentation
+icon: Heart
+---
+
+Welcome! We appreciate your interest in improving the zero-sources documentation. This guide will help you understand how to contribute effectively.
+
+<Callout type="success">
+  **Thank you!** Every contribution, no matter how small, helps make zero-sources better for everyone.
+</Callout>
+
+## Why Contribute?
+
+Contributing to documentation helps:
+
+- **Improve clarity** - Make complex concepts easier to understand
+- **Fill gaps** - Add missing information or examples
+- **Keep content current** - Update docs to match code changes
+- **Share knowledge** - Help others learn from your experience
+- **Build community** - Join a collaborative open-source project
+
+## Ways to Contribute
+
+### 1. Fix Issues
+
+The easiest way to start:
+
+- Fix typos and grammar errors
+- Correct outdated information
+- Fix broken links
+- Improve code examples
+
+### 2. Improve Existing Content
+
+Make good documentation great:
+
+- Add missing examples
+- Clarify confusing sections
+- Add diagrams or illustrations
+- Expand brief explanations
+- Add cross-references
+
+### 3. Write New Content
+
+Share your expertise:
+
+- Create how-to guides
+- Write tutorials
+- Document use cases
+- Add troubleshooting tips
+- Create reference material
+
+### 4. Review and Feedback
+
+Help maintain quality:
+
+- Review pull requests
+- Test examples and instructions
+- Provide feedback on clarity
+- Suggest improvements
+
+## Getting Started
+
+### 1. Fork the repository
+
+Visit [zero-sources on GitHub](https://github.com/cbnsndwch/zero-sources) and click **Fork**.
+
+### 2. Clone your fork
+
+```bash
+git clone https://github.com/YOUR-USERNAME/zero-sources.git
+cd zero-sources
+```
+
+### 3. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 4. Start the docs server
+
+```bash
+pnpm --filter docs dev
+```
+
+Visit `http://localhost:3000` to see your local documentation site.
+
+### 5. Create a branch
+
+```bash
+git checkout -b docs/your-improvement-name
+```
+
+### 6. Make your changes
+
+Edit files in `apps/docs/content/docs/` and see changes live in your browser.
+
+### 7. Commit and push
+
+```bash
+git add .
+git commit -m "docs: describe your changes"
+git push origin docs/your-improvement-name
+```
+
+### 8. Open a pull request
+
+Go to GitHub and open a pull request from your branch.
+
+## What to Contribute
+
+<Cards>
+  <Card 
+    title="Writing Documentation" 
+    href="/contributing/writing-docs"
+    description="Learn MDX authoring and our documentation structure"
+  />
+  <Card 
+    title="Style Guide" 
+    href="/contributing/style-guide"
+    description="Follow our content standards and formatting rules"
+  />
+</Cards>
+
+## Quick Tips
+
+### Finding What to Work On
+
+1. **Check GitHub Issues** - Look for issues labeled `documentation` or `good first issue`
+2. **Read existing docs** - Note anything confusing or incomplete
+3. **Use the product** - Document problems you encounter
+4. **Ask in discussions** - See what others find unclear
+
+### Writing Great Documentation
+
+- **Know your audience** - Write for developers familiar with TypeScript
+- **Be concise** - Get to the point quickly
+- **Show examples** - Code examples are worth a thousand words
+- **Test your examples** - Make sure code actually works
+- **Use clear language** - Avoid jargon or explain terms
+
+### Before Submitting
+
+- [ ] Preview your changes locally
+- [ ] Check for broken links
+- [ ] Test code examples
+- [ ] Run linter: `pnpm --filter docs lint`
+- [ ] Follow the [style guide](/contributing/style-guide)
+- [ ] Use provided [templates](/templates) for new pages
+
+## Content Guidelines
+
+### Types of Documentation
+
+#### Getting Started Guides
+
+Help new users get up and running quickly.
+
+**Structure:**
+1. Brief introduction
+2. Prerequisites
+3. Step-by-step instructions
+4. Verification steps
+5. Next steps
+
+#### How-To Guides
+
+Task-oriented guides for specific goals.
+
+**Structure:**
+1. Goal statement
+2. Prerequisites
+3. Steps to complete
+4. Expected results
+5. Troubleshooting
+
+#### Reference Documentation
+
+Complete API and configuration reference.
+
+**Structure:**
+1. Overview
+2. API listing
+3. Parameters and types
+4. Examples
+5. Related references
+
+#### Conceptual Documentation
+
+Explain how things work and why.
+
+**Structure:**
+1. Introduction
+2. Key concepts
+3. How it works
+4. When to use
+5. Related topics
+
+### Writing Style
+
+**Do:**
+- Use active voice: "Create a file" not "A file should be created"
+- Address the reader: "You can configure..." 
+- Be specific: "Set timeout to 30 seconds" not "Set an appropriate timeout"
+- Use examples: Show, don't just tell
+
+**Don't:**
+- Use jargon without explanation
+- Make assumptions about prior knowledge
+- Write long paragraphs without breaks
+- Leave examples untested
+
+## Working with MDX
+
+### Basic Syntax
+
+MDX combines Markdown with JSX:
+
+````mdx
+---
+title: Page Title
+description: Page description
+---
+
+# Heading
+
+Regular markdown text.
+
+<Callout>
+  Custom component in JSX
+</Callout>
+
+```typescript
+// Code block
+const example = "code";
+```
+````
+
+### Custom Components
+
+We provide several custom components:
+
+```mdx
+<Callout type="info">
+  Information callout
+</Callout>
+
+<Cards>
+  <Card title="Title" href="/link" description="Description" />
+</Cards>
+
+<Tabs items={['Tab 1', 'Tab 2']}>
+  <Tab value="Tab 1">Content 1</Tab>
+  <Tab value="Tab 2">Content 2</Tab>
+</Tabs>
+
+<Steps>
+### Step 1
+Content for step 1
+
+### Step 2
+Content for step 2
+</Steps>
+```
+
+## Pull Request Process
+
+### PR Title Format
+
+Use conventional commit format:
+
+- `docs: add guide for custom change sources`
+- `docs: fix typo in installation guide`
+- `docs: update API reference for zero-contracts`
+
+### PR Description
+
+Include:
+
+1. **What** - What changes you made
+2. **Why** - Why these changes are needed
+3. **Testing** - How you tested (screenshots help!)
+4. **Links** - Link to related issues or discussions
+
+### Review Process
+
+1. Maintainers will review your PR
+2. Address any requested changes
+3. Once approved, your PR will be merged
+4. Your contribution will be recognized!
+
+## Recognition
+
+All contributors are:
+
+- Listed in our contributors page
+- Mentioned in release notes
+- Part of our community
+
+<Callout type="success">
+  **Thank you** for making zero-sources documentation better!
+</Callout>
+
+## Need Help?
+
+- **Questions**: [GitHub Discussions](https://github.com/cbnsndwch/zero-sources/discussions)
+- **Issues**: [GitHub Issues](https://github.com/cbnsndwch/zero-sources/issues)
+- **Feedback**: Comment on your PR or issue
+
+## Resources
+
+<Cards>
+  <Card 
+    title="Style Guide" 
+    href="/contributing/style-guide"
+    description="Detailed writing guidelines"
+  />
+  <Card 
+    title="Writing Docs" 
+    href="/contributing/writing-docs"
+    description="MDX authoring guide"
+  />
+  <Card 
+    title="Templates" 
+    href="https://github.com/cbnsndwch/zero-sources/tree/main/apps/docs/templates"
+    description="Page templates"
+  />
+  <Card 
+    title="Fumadocs" 
+    href="https://fumadocs.vercel.app/"
+    description="Framework documentation"
+  />
+</Cards>
+
+## Code of Conduct
+
+Be respectful, welcoming, and constructive. We're all here to learn and improve together.
+
+---
+
+Ready to contribute? [Start with a small fix](https://github.com/cbnsndwch/zero-sources/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) or [share your expertise](https://github.com/cbnsndwch/zero-sources/discussions) with a new guide!

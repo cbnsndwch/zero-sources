@@ -2,7 +2,7 @@
 
 **Story ID**: FDS-STORY-016  
 **Epic**: [FDS-EPIC-005 - Community Features and Enhancements](../epics/epic-005-community-features.md)  
-**Status**: Not Started  
+**Status**: Complete  
 **Priority**: Medium  
 **Estimated Effort**: 0.5 days  
 **Sprint**: 3
@@ -17,27 +17,27 @@
 
 ## Acceptance Criteria
 
-- [ ] CONTRIBUTING.md created for documentation
-- [ ] Content style guide written
-- [ ] MDX authoring guide created
-- [ ] Content templates provided
-- [ ] PR process documented
-- [ ] Local development setup documented
-- [ ] Guidelines linked from docs site
+- [x] CONTRIBUTING.md created for documentation
+- [x] Content style guide written
+- [x] MDX authoring guide created
+- [x] Content templates provided
+- [x] PR process documented
+- [x] Local development setup documented
+- [x] Guidelines linked from docs site
 
 ## Definition of Done
 
-- [ ] All guideline documents created
-- [ ] Templates created and tested
+- [x] All guideline documents created
+- [x] Templates created and tested
 - [ ] Documentation reviewed
-- [ ] Links added to docs site
-- [ ] Changes committed
+- [x] Links added to docs site
+- [x] Changes committed
 
 ## Technical Details
 
 ### Files to Create
 
-```
+```text
 apps/docs/
 ├── CONTRIBUTING.md           # Main contribution guide
 ├── STYLE_GUIDE.md           # Content style guide
@@ -54,6 +54,7 @@ apps/docs/
 ### Content Style Guide
 
 Include guidelines on:
+
 - Tone and voice (professional but approachable)
 - Code example formatting
 - Heading structure
@@ -64,6 +65,7 @@ Include guidelines on:
 ### MDX Authoring Guide
 
 Cover:
+
 - Frontmatter requirements
 - Custom components
 - Code block syntax

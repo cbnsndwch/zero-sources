@@ -1,0 +1,592 @@
+---
+title: Writing Documentation
+description: Learn how to write and structure documentation using MDX
+icon: FilePen
+---
+
+This guide covers the technical aspects of writing documentation for zero-sources using MDX (Markdown + JSX).
+
+## Documentation Structure
+
+Our documentation lives in the `apps/docs/content/docs/` directory:
+
+```
+content/docs/
+├── getting-started/          # Quick start guides
+├── guides/                   # How-to guides  
+├── packages/                 # Library documentation
+├── change-sources/           # Change source docs
+├── architecture/             # System design
+├── api/                      # API reference
+└── contributing/             # This section
+```
+
+## MDX Basics
+
+MDX allows you to use JSX components in Markdown:
+
+````mdx
+---
+title: My Page
+description: Page description for SEO
+---
+
+# My Page Title
+
+Regular **markdown** content with [links](/other-page).
+
+<Callout type="info">
+  A custom React component!
+</Callout>
+
+```typescript
+// Code blocks work normally
+const example = "Hello";
+```
+````
+
+## Frontmatter
+
+Every MDX file must start with frontmatter:
+
+```yaml
+---
+title: Page Title                    # Required - shown in nav and browser
+description: Brief page description   # Required - used for SEO and previews
+icon: IconName                        # Optional - icon for navigation
+---
+```
+
+### Available Icons
+
+Common icons you can use:
+
+- `Book` - Guides and tutorials
+- `Code` - API and code reference
+- `Rocket` - Getting started
+- `Package` - Library documentation
+- `Settings` - Configuration
+- `Heart` - Community and contributing
+- `FilePen` - Writing and editing
+
+## Custom Components
+
+### Callouts
+
+Highlight important information:
+
+```mdx
+<Callout type="info">
+  **Note**: This is informational content.
+</Callout>
+
+<Callout type="warning">
+  **Warning**: This requires caution.
+</Callout>
+
+<Callout type="error">
+  **Error**: This is critical information.
+</Callout>
+
+<Callout type="success">
+  **Success**: This is a positive message.
+</Callout>
+```
+
+**Result:**
+
+<Callout type="info">
+  **Note**: This is informational content.
+</Callout>
+
+### Cards
+
+Create card layouts for links:
+
+```mdx
+<Cards>
+  <Card 
+    title="Getting Started" 
+    href="/getting-started"
+    description="Quick start guide"
+  />
+  <Card 
+    title="API Reference" 
+    href="/api"
+    description="Complete API docs"
+  />
+</Cards>
+```
+
+**Result:**
+
+<Cards>
+  <Card 
+    title="Getting Started" 
+    href="/getting-started"
+    description="Quick start guide"
+  />
+  <Card 
+    title="API Reference" 
+    href="/api"
+    description="Complete API docs"
+  />
+</Cards>
+
+### Tabs
+
+Create tabbed content:
+
+````mdx
+<Tabs items={['TypeScript', 'JavaScript']}>
+<Tab value="TypeScript">
+
+```typescript
+const typed: string = "Hello";
+```
+
+</Tab>
+<Tab value="JavaScript">
+
+```javascript
+const untyped = "Hello";
+```
+
+</Tab>
+</Tabs>
+````
+
+**Result:**
+
+**TypeScript:**
+
+```typescript
+const typed: string = "Hello";
+```
+
+**JavaScript:**
+
+```javascript
+const untyped = "Hello";
+```
+
+### Steps
+
+Create numbered step-by-step guides:
+
+````mdx
+<Steps>
+
+### Install dependencies
+
+```bash
+pnpm install
+```
+
+### Configure environment
+
+Create a `.env` file with your settings.
+
+### Start development
+
+```bash
+pnpm dev
+```
+
+</Steps>
+````
+
+**Result:**
+
+### 1. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 2. Configure environment
+
+Create a `.env` file with your settings.
+
+### 3. Start development
+
+```bash
+pnpm dev
+```
+
+## Code Blocks
+
+### Basic Code Blocks
+
+Use triple backticks with language specification:
+
+````markdown
+```typescript
+const example: string = "Hello";
+```
+````
+
+**Supported languages:**
+
+- `typescript` / `ts`
+- `javascript` / `js`
+- `jsx` / `tsx`
+- `bash` / `sh`
+- `json`
+- `yaml` / `yml`
+- `markdown` / `md`
+- `css`
+- `html`
+
+### Inline Code
+
+Use backticks for inline code:
+
+```markdown
+Use the `useZero()` hook to access the Zero instance.
+```
+
+Result: Use the `useZero()` hook to access the Zero instance.
+
+### Code with Line Numbers
+
+Long code blocks automatically get line numbers:
+
+```typescript
+// This is a longer example
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+
+const zero = new Zero({
+  server: process.env.ZERO_SERVER_URL,
+  schema,
+  userID: 'user-123',
+});
+
+const messages = zero.query.message
+  .where('roomId', '=', roomId)
+  .orderBy('createdAt', 'desc');
+```
+
+## Links and References
+
+### Internal Links
+
+Link to other documentation pages:
+
+```markdown
+See the [getting started guide](/getting-started) for setup instructions.
+Learn about [change sources](/change-sources/mongodb).
+```
+
+### External Links
+
+Link to external resources:
+
+```markdown
+Built with [Fumadocs](https://fumadocs.vercel.app/).
+View on [GitHub](https://github.com/cbnsndwch/zero-sources).
+```
+
+### Anchor Links
+
+Link to headings within a page:
+
+```markdown
+See [Installation](#installation) below.
+Jump to [Advanced Topics](#advanced-topics).
+```
+
+## Images and Media
+
+### Images
+
+Add images to `apps/docs/public/`:
+
+```markdown
+![Alt text](/images/example.png)
+```
+
+### Guidelines for Images
+
+- Use descriptive alt text
+- Keep file sizes reasonable (under 200KB)
+- Use PNG for screenshots, SVG for diagrams
+- Name files descriptively: `change-source-diagram.png`
+
+## Tables
+
+Create tables with pipe syntax:
+
+```markdown
+| Parameter | Type   | Required | Description      |
+|-----------|--------|----------|------------------|
+| id        | string | Yes      | Unique identifier|
+| name      | string | No       | Display name     |
+```
+
+**Result:**
+
+| Parameter | Type   | Required | Description       |
+|-----------|--------|----------|-------------------|
+| id        | string | Yes      | Unique identifier |
+| name      | string | No       | Display name      |
+
+## Lists
+
+### Unordered Lists
+
+```markdown
+- Item 1
+- Item 2
+  - Nested item
+  - Another nested item
+- Item 3
+```
+
+### Ordered Lists
+
+```markdown
+1. First step
+2. Second step
+3. Third step
+```
+
+### Task Lists
+
+```markdown
+- [x] Completed task
+- [ ] Incomplete task
+- [ ] Another task
+```
+
+## Formatting
+
+### Text Formatting
+
+```markdown
+**Bold text** for emphasis
+*Italic text* for subtle emphasis
+`Inline code` for code elements
+~~Strikethrough~~ for deprecated content
+```
+
+### Blockquotes
+
+```markdown
+> This is a blockquote.
+> It can span multiple lines.
+```
+
+## Navigation
+
+### Adding New Pages
+
+1. Create your MDX file in the appropriate directory
+2. Update `meta.json` in that directory (if it exists)
+3. Link to your page from related pages
+
+### meta.json
+
+Control navigation order and labels:
+
+```json
+{
+  "title": "Section Title",
+  "pages": [
+    "getting-started",
+    "installation",
+    "configuration"
+  ]
+}
+```
+
+## Templates
+
+Use our templates as starting points:
+
+<Cards>
+  <Card 
+    title="Library Template" 
+    href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/library-page.mdx"
+    description="For documenting packages"
+  />
+  <Card 
+    title="Guide Template" 
+    href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/guide.mdx"
+    description="For how-to guides"
+  />
+  <Card 
+    title="API Template" 
+    href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/api-page.mdx"
+    description="For API reference"
+  />
+</Cards>
+
+## Testing Your Changes
+
+### Local Development
+
+```bash
+# Start the docs server
+pnpm --filter docs dev
+
+# Visit http://localhost:3000
+```
+
+### Check for Issues
+
+- [ ] Preview in browser
+- [ ] Test all links
+- [ ] Verify code examples
+- [ ] Check mobile view
+- [ ] Run linter: `pnpm --filter docs lint`
+
+## Common Patterns
+
+### API Documentation
+
+```markdown
+## `functionName(param: Type): ReturnType`
+
+Description of the function.
+
+**Parameters:**
+
+- `param` (`Type`) - Parameter description
+
+**Returns:**
+
+`ReturnType` - Return value description
+
+**Example:**
+
+```typescript
+const result = functionName('value');
+```
+```
+
+### Configuration Options
+
+```markdown
+### `optionName`
+
+- **Type**: `string`
+- **Required**: Yes
+- **Default**: `'default-value'`
+
+Description of the option.
+
+**Example:**
+
+```typescript
+{
+  optionName: 'value'
+}
+```
+```
+
+### Step-by-Step Instructions
+
+Use the `<Steps>` component for sequential instructions:
+
+```mdx
+<Steps>
+
+### Step 1: First action
+
+Do this first.
+
+### Step 2: Next action
+
+Then do this.
+
+</Steps>
+```
+
+## Best Practices
+
+### Writing
+
+- **Be clear and concise** - Get to the point
+- **Use examples** - Show, don't just tell
+- **Be consistent** - Follow established patterns
+- **Test your examples** - Make sure code works
+
+### Structure
+
+- **Use headings properly** - Maintain hierarchy (H1 → H2 → H3)
+- **Break up content** - Use lists, callouts, and spacing
+- **Add navigation** - Link to related content
+- **Include context** - Don't assume prior knowledge
+
+### Code Examples
+
+- **Keep them short** - Focus on relevant parts
+- **Include types** - Show TypeScript types when helpful
+- **Add comments** - Explain non-obvious parts
+- **Show imports** - Include necessary imports
+
+## Troubleshooting
+
+### MDX Parsing Errors
+
+If you see parsing errors:
+
+- Check frontmatter syntax
+- Ensure all JSX tags are closed
+- Verify backticks in code blocks
+- Check for unescaped special characters
+
+### Components Not Working
+
+If custom components don't render:
+
+- Check component name spelling
+- Verify all required props are provided
+- Ensure proper JSX syntax
+- Check component is imported/available
+
+### Links Not Working
+
+If links are broken:
+
+- Use absolute paths from docs root: `/getting-started`
+- Check file exists at target location
+- Verify URL in navigation matches filename
+- Test links in local development
+
+## Resources
+
+<Cards>
+  <Card 
+    title="Style Guide" 
+    href="/contributing/style-guide"
+    description="Content and formatting standards"
+  />
+  <Card 
+    title="Contributing Guide" 
+    href="/contributing"
+    description="How to contribute"
+  />
+  <Card 
+    title="Fumadocs Docs" 
+    href="https://fumadocs.vercel.app/"
+    description="Framework documentation"
+  />
+  <Card 
+    title="MDX Docs" 
+    href="https://mdxjs.com/"
+    description="MDX specification"
+  />
+</Cards>
+
+## Getting Help
+
+- **Questions**: [GitHub Discussions](https://github.com/cbnsndwch/zero-sources/discussions)
+- **Issues**: [GitHub Issues](https://github.com/cbnsndwch/zero-sources/issues)
+- **Examples**: Look at existing documentation pages
+
+---
+
+Ready to write? Check out our [templates](https://github.com/cbnsndwch/zero-sources/tree/main/apps/docs/templates) or [contribute](/contributing)!

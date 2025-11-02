@@ -1,0 +1,632 @@
+---
+title: Style Guide
+description: Content and formatting standards for zero-sources documentation
+icon: FileText
+---
+
+This guide ensures our documentation is consistent, clear, and professional across all pages.
+
+<Callout type="info">
+  **Quick Reference**: When in doubt, follow patterns in existing documentation and prioritize clarity over strict rules.
+</Callout>
+
+## Writing Principles
+
+### 1. Clarity First
+
+Write for understanding, not to impress.
+
+```markdown
+❌ Complex: The facilitation of real-time synchronization is accomplished through WebSocket protocols.
+
+✅ Clear: Real-time synchronization works through WebSocket connections.
+```
+
+### 2. Be Concise
+
+Respect the reader's time.
+
+```markdown
+❌ Wordy: In order to get started with using zero-sources, you will need to first install dependencies.
+
+✅ Concise: To start using zero-sources, install the dependencies.
+```
+
+### 3. Show Examples
+
+Demonstrate with code, not just words.
+
+```markdown
+❌ Tell only: You can filter queries using comparison operators.
+
+✅ Show: Filter queries with comparison operators:
+```typescript
+query.where('age', '>', 18)
+```
+```
+
+## Voice and Tone
+
+### Our Voice
+
+- **Professional** but approachable
+- **Helpful** but not condescending
+- **Technical** but clear
+- **Direct** but friendly
+
+### Tone by Context
+
+**Guides**: Encouraging and supportive
+
+```markdown
+✅ Great! You've successfully configured your change source.
+```
+
+**Reference**: Precise and factual
+
+```markdown
+✅ Returns a Promise that resolves to an array of Message objects.
+```
+
+**Errors**: Helpful and actionable
+
+```markdown
+✅ Connection failed. Verify that MONGODB_URI is set in your environment.
+```
+
+## Grammar and Style
+
+### Active Voice
+
+Use active voice for clarity:
+
+```markdown
+❌ Passive: The schema is defined by the developer.
+✅ Active: Define the schema in your configuration.
+
+❌ Passive: Changes are streamed by the change source.
+✅ Active: The change source streams changes to clients.
+```
+
+### Second Person
+
+Address the reader directly:
+
+```markdown
+❌ Third person: Developers should configure environment variables.
+✅ Second person: Configure your environment variables.
+
+❌ Impersonal: One must ensure the connection is established.
+✅ Direct: Ensure the database connection is established.
+```
+
+### Present Tense
+
+Describe how things work in present tense:
+
+```markdown
+❌ Future: The client will connect to the server.
+✅ Present: The client connects to the server.
+
+❌ Past: This function returned a promise.
+✅ Present: This function returns a promise.
+```
+
+### Contractions
+
+Use contractions in guides for a conversational tone, avoid them in reference docs:
+
+```markdown
+✅ Guide: You'll need to install dependencies first.
+✅ Reference: The function returns null if no user is found.
+```
+
+## Formatting
+
+### Headings
+
+Use sentence case (capitalize only first word and proper nouns):
+
+```markdown
+❌ Title Case: How To Configure Your Change Source
+✅ Sentence case: How to configure your change source
+
+❌ Wrong case: getting started with Zero
+✅ Correct: Getting started with Zero
+```
+
+Maintain proper hierarchy:
+
+```markdown
+✅ Correct:
+# Page Title (H1)
+## Main Section (H2)
+### Subsection (H3)
+#### Detail (H4)
+
+❌ Don't skip levels:
+# Page Title (H1)
+### Subsection (H3) ← skipped H2
+```
+
+### Lists
+
+**Unordered lists** for non-sequential items:
+
+```markdown
+The library provides:
+- Real-time synchronization
+- Offline support
+- Type-safe queries
+```
+
+**Ordered lists** for sequential steps:
+
+```markdown
+To deploy:
+1. Build the bundle
+2. Configure variables
+3. Start services
+```
+
+**Parallel structure** - keep items grammatically consistent:
+
+```markdown
+❌ Mixed:
+- Configure the schema
+- Starting the server
+- You should test the connection
+
+✅ Parallel:
+- Configure the schema
+- Start the server
+- Test the connection
+```
+
+### Links
+
+Use descriptive link text:
+
+```markdown
+❌ Click [here](./guide.md) for more info.
+❌ See https://github.com/cbnsndwch/zero-sources
+
+✅ See the [deployment guide](./guide.md) for details.
+✅ View the [zero-sources repository](https://github.com/cbnsndwch/zero-sources).
+```
+
+### Emphasis
+
+**Bold** for UI elements and strong emphasis:
+
+```markdown
+Click the **Save** button.
+The **primary key** must be unique.
+```
+
+*Italic* for subtle emphasis:
+
+```markdown
+This is also called a *discriminated union*.
+```
+
+`Code formatting` for:
+
+- Functions and variables: `useZero()`
+- File and directory names: `config.yml`
+- Commands: `pnpm install`
+- Keyboard keys: `Ctrl+C`
+- Technical terms: `WebSocket`
+
+## Code Examples
+
+### General Guidelines
+
+1. **Complete but concise** - Show enough context
+2. **Runnable** - Code should work if copied
+3. **Relevant** - Focus on the concept
+4. **Commented** - Explain non-obvious parts
+
+### TypeScript Style
+
+Include types when helpful:
+
+```typescript
+// ✅ Good - includes types and imports
+import { Zero } from '@rocicorp/zero';
+import type { Message } from './schema';
+
+async function fetchMessages(roomId: string): Promise<Message[]> {
+  const zero = new Zero({ /* config */ });
+  return zero.query.message
+    .where('roomId', '=', roomId)
+    .run();
+}
+
+// ❌ Bad - no types, incomplete
+function fetchMessages(roomId) {
+  return zero.query.message.where('roomId', '=', roomId).run();
+}
+```
+
+### Language Tags
+
+Always specify the language:
+
+````markdown
+```typescript
+// TypeScript code
+```
+
+```bash
+# Shell commands
+```
+
+```json
+// JSON config
+```
+````
+
+### Inline vs Block Code
+
+**Inline** for short references:
+
+```markdown
+Use the `createTableSchema()` function to define your schema.
+```
+
+**Block** for multi-line examples:
+
+```typescript
+const schema = createTableSchema({
+  tableName: 'user',
+  columns: { id: { type: 'string' } },
+});
+```
+
+## Components
+
+### Callouts
+
+Highlight important information:
+
+<Callout type="info">
+  Use for general information or tips.
+</Callout>
+
+<Callout type="warning">
+  Use for important warnings or cautions.
+</Callout>
+
+<Callout type="error">
+  Use for critical errors or deprecated features.
+</Callout>
+
+<Callout type="success">
+  Use for confirmations or achievements.
+</Callout>
+
+### When to Use Each Type
+
+- **Info**: Additional context, tips, or explanations
+- **Warning**: Potential issues or things to be careful about
+- **Error**: Critical problems, deprecated features, or breaking changes
+- **Success**: Confirmations, completions, or positive outcomes
+
+### Cards
+
+Use for navigation or organizing links:
+
+<Cards>
+  <Card 
+    title="Quick Start" 
+    href="/getting-started"
+    description="Get running in 5 minutes"
+  />
+  <Card 
+    title="Architecture" 
+    href="/architecture"
+    description="Understand the design"
+  />
+</Cards>
+
+### Tabs
+
+Use for alternative approaches. Example showing different package managers:
+
+**pnpm:**
+
+```bash
+pnpm install
+```
+
+**npm:**
+
+```bash
+npm install
+```
+
+**yarn:**
+
+```bash
+yarn install
+```
+
+### Steps
+
+Use for sequential tutorials:
+
+#### 1. Install dependencies
+
+```bash
+pnpm install
+```
+
+#### 2. Start development
+
+```bash
+pnpm dev
+```
+
+## Common Patterns
+
+### API Reference Format
+
+```markdown
+## `functionName(param: Type): ReturnType`
+
+Brief description.
+
+**Parameters:**
+
+- `param` (`Type`) - Parameter description
+
+**Returns:**
+
+`ReturnType` - Return value description
+
+**Example:**
+
+```typescript
+const result = functionName('value');
+```
+
+**Throws:**
+
+- `ErrorType` - When this error occurs
+```
+
+### Configuration Format
+
+```markdown
+### `optionName`
+
+- **Type**: `string | number`
+- **Required**: Yes/No
+- **Default**: `'default-value'`
+
+Description of the option.
+
+**Example:**
+
+```typescript
+{
+  optionName: 'value'
+}
+```
+```
+
+### Error Documentation
+
+```markdown
+### Error: ERROR_CODE
+
+**Message**: "Error message text"
+
+**Cause:** Why this error occurs
+
+**Solution:** How to fix it
+
+**Example:**
+
+```typescript
+try {
+  // code
+} catch (error) {
+  // handle error
+}
+```
+```
+
+## Content Organization
+
+### Frontmatter
+
+Required for every page:
+
+```yaml
+---
+title: Page Title
+description: Brief description for SEO
+icon: IconName          # Optional
+---
+```
+
+### File Naming
+
+Use kebab-case:
+
+```
+✅ getting-started.mdx
+✅ custom-change-sources.mdx
+
+❌ GettingStarted.mdx
+❌ custom_change_sources.mdx
+```
+
+### Directory Structure
+
+Group related content:
+
+```
+guides/
+  ├── index.mdx          # Overview
+  ├── quick-start.mdx
+  └── advanced.mdx
+```
+
+## Word Choice
+
+### Preferred Terms
+
+Use these terms consistently:
+
+| Use This          | Not This                    |
+|-------------------|-----------------------------|
+| zero-sources      | zero sources, Zero Sources  |
+| change source     | change-source, changesource |
+| Zero (the product)| zero, ZERO                  |
+| TypeScript        | typescript, TS              |
+| JavaScript        | javascript, JS              |
+| MongoDB           | mongodb, Mongo              |
+| WebSocket         | websocket, Web Socket       |
+
+### Technical Terms
+
+When introducing technical terms:
+
+```markdown
+A *discriminated union* (also called a tagged union) allows...
+```
+
+Define acronyms on first use:
+
+```markdown
+MongoDB Change Data Capture (CDC) enables...
+```
+
+## Accessibility
+
+### Alt Text
+
+Always provide descriptive alt text:
+
+```markdown
+✅ ![Architecture diagram showing three containers](./diagram.png)
+❌ ![diagram](./diagram.png)
+```
+
+### Link Text
+
+Make links descriptive:
+
+```markdown
+✅ See the [MongoDB change source documentation](/change-sources/mongodb)
+❌ See the documentation [here](/change-sources/mongodb)
+```
+
+### Heading Hierarchy
+
+Maintain proper heading levels for screen readers:
+
+```markdown
+✅ # → ## → ### (proper hierarchy)
+❌ # → ### (skipped level)
+```
+
+## Quality Checklist
+
+Before submitting:
+
+- [ ] Frontmatter complete
+- [ ] Headings use sentence case
+- [ ] Heading hierarchy is correct
+- [ ] Code examples tested
+- [ ] Links work and are descriptive
+- [ ] Grammar and spelling checked
+- [ ] Consistent terminology
+- [ ] Components used appropriately
+- [ ] Alt text on images
+- [ ] File name is kebab-case
+
+## Examples
+
+### Good Example
+
+````mdx
+---
+title: Getting started with Zero
+description: Set up your first Zero application in 5 minutes
+---
+
+# Getting started with Zero
+
+This guide walks you through creating your first Zero application.
+
+<Callout type="info">
+  **Prerequisites**: Node.js v22+ and pnpm v8+
+</Callout>
+
+<Steps>
+
+### Install dependencies
+
+```bash
+pnpm add @rocicorp/zero
+```
+
+### Create your schema
+
+Define your data structure:
+
+```typescript
+import { createTableSchema } from '@rocicorp/zero';
+
+export const userSchema = createTableSchema({
+  tableName: 'user',
+  columns: {
+    id: { type: 'string' },
+    name: { type: 'string' },
+  },
+  primaryKey: ['id'],
+});
+```
+
+</Steps>
+
+<Callout type="success">
+  You've created your first Zero schema!
+</Callout>
+````
+
+## Need Help?
+
+When unsure about style:
+
+1. Check similar existing pages
+2. Ask in your pull request
+3. Refer to [Fumadocs docs](https://fumadocs.vercel.app/)
+
+<Callout type="tip">
+  **Remember**: Clarity matters more than strict rule-following. If breaking a rule makes content clearer, do it!
+</Callout>
+
+## Resources
+
+<Cards>
+  <Card 
+    title="Writing Guide" 
+    href="/contributing/writing-docs"
+    description="MDX authoring and structure"
+  />
+  <Card 
+    title="Contributing" 
+    href="/contributing"
+    description="How to contribute"
+  />
+  <Card 
+    title="Templates" 
+    href="https://github.com/cbnsndwch/zero-sources/tree/main/apps/docs/templates"
+    description="Page templates"
+  />
+</Cards>

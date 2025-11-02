@@ -8,6 +8,7 @@
         "change-sources",
         "packages",
         "demos",
-        "api"
+        "api",
+        "contributing"
     ]
 }

@@ -1,0 +1,399 @@
+---
+title: Library Name
+description: Brief description of what this library provides and its main purpose
+icon: Package
+---
+
+# Library Name
+
+Short introductory paragraph explaining what this library does and why you might want to use it.
+
+<Callout type="info">
+  **Quick Start**: Jump to the [installation](#installation) section to get started right away.
+</Callout>
+
+## Overview
+
+A more detailed explanation of the library's purpose, key features, and use cases.
+
+### Key Features
+
+- **Feature 1**: Brief description of feature
+- **Feature 2**: Brief description of feature  
+- **Feature 3**: Brief description of feature
+- **Feature 4**: Brief description of feature
+
+### When to Use This Library
+
+Explain the scenarios where this library is most useful:
+
+- Use case scenario 1
+- Use case scenario 2
+- Use case scenario 3
+
+## Installation
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add @cbnsndwch/library-name
+    ```
+  </Tab>
+  <Tab value="npm">
+    ```bash
+    npm install @cbnsndwch/library-name
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add @cbnsndwch/library-name
+    ```
+  </Tab>
+</Tabs>
+
+### Peer Dependencies
+
+List any required peer dependencies:
+
+```json
+{
+  "peerDependencies": {
+    "@rocicorp/zero": "^0.x.x",
+    "other-dependency": "^1.x.x"
+  }
+}
+```
+
+## Quick Start
+
+A minimal working example to get users started quickly:
+
+<Steps>
+
+### Install the library
+
+```bash
+pnpm add @cbnsndwch/library-name
+```
+
+### Configure your project
+
+```typescript
+import { MainClass } from '@cbnsndwch/library-name';
+
+// Basic configuration
+const instance = new MainClass({
+  option1: 'value1',
+  option2: 'value2',
+});
+```
+
+### Use it in your application
+
+```typescript
+// Example usage
+const result = await instance.doSomething();
+console.log(result);
+```
+
+</Steps>
+
+## Configuration
+
+Detailed explanation of configuration options.
+
+### Configuration Options
+
+#### `option1`
+
+- **Type**: `string`
+- **Required**: Yes
+- **Default**: None
+
+Description of what this option does and when you'd use it.
+
+```typescript
+{
+  option1: 'example-value'
+}
+```
+
+#### `option2`
+
+- **Type**: `number | string`
+- **Required**: No
+- **Default**: `100`
+
+Description of this option with examples of different values.
+
+```typescript
+{
+  option2: 200  // numeric value
+}
+```
+
+### Full Configuration Example
+
+```typescript
+import { MainClass, type ConfigOptions } from '@cbnsndwch/library-name';
+
+const config: ConfigOptions = {
+  option1: 'value',
+  option2: 100,
+  // ... other options
+};
+
+const instance = new MainClass(config);
+```
+
+## Usage Examples
+
+### Basic Usage
+
+Common, straightforward usage patterns:
+
+```typescript
+import { MainClass } from '@cbnsndwch/library-name';
+
+const instance = new MainClass({ /* config */ });
+
+// Simple example
+const result = await instance.basicMethod();
+```
+
+### Advanced Usage
+
+More complex scenarios and patterns:
+
+```typescript
+import { MainClass, AdvancedFeature } from '@cbnsndwch/library-name';
+
+// Advanced example with more features
+const instance = new MainClass({
+  // Advanced configuration
+});
+
+const advanced = new AdvancedFeature(instance);
+const result = await advanced.complexOperation();
+```
+
+### Integration with Zero
+
+How this library integrates with Rocicorp Zero (if applicable):
+
+```typescript
+import { Zero } from '@rocicorp/zero';
+import { LibraryIntegration } from '@cbnsndwch/library-name';
+
+const zero = new Zero({ /* config */ });
+const integration = new LibraryIntegration(zero);
+
+// Use together
+await integration.syncData();
+```
+
+## API Reference
+
+### Classes
+
+#### `MainClass`
+
+Main class description.
+
+**Constructor:**
+
+```typescript
+constructor(config: ConfigOptions)
+```
+
+**Methods:**
+
+##### `methodName(param: Type): ReturnType`
+
+Description of what the method does.
+
+**Parameters:**
+
+- `param` (Type) - Description of parameter
+
+**Returns:**
+
+`ReturnType` - Description of return value
+
+**Example:**
+
+```typescript
+const result = instance.methodName('value');
+```
+
+**Throws:**
+
+- `ErrorType` - When this error occurs
+
+### Interfaces
+
+#### `ConfigOptions`
+
+```typescript
+interface ConfigOptions {
+  option1: string;
+  option2?: number;
+  option3?: boolean;
+}
+```
+
+### Types
+
+#### `ResultType`
+
+```typescript
+type ResultType = {
+  success: boolean;
+  data?: unknown;
+  error?: string;
+};
+```
+
+## Patterns and Best Practices
+
+### Pattern 1: Common Pattern Name
+
+Description of the pattern and when to use it.
+
+```typescript
+// Pattern implementation
+class MyImplementation {
+  // ...
+}
+```
+
+### Pattern 2: Another Pattern
+
+Another useful pattern with this library.
+
+```typescript
+// Another pattern example
+```
+
+### Best Practices
+
+- **Practice 1**: Explanation of best practice
+- **Practice 2**: Another important consideration
+- **Practice 3**: Performance or security tip
+
+<Callout type="warning">
+  **Important**: Critical best practice or warning about common mistakes.
+</Callout>
+
+## Troubleshooting
+
+### Common Issues
+
+#### Issue: Something doesn't work
+
+**Symptoms:**
+- What the user experiences
+
+**Cause:**
+- Why this happens
+
+**Solution:**
+- How to fix it
+
+```typescript
+// Solution code example
+```
+
+#### Issue: Another common problem
+
+Similar structure for other issues...
+
+## TypeScript Support
+
+This library is written in TypeScript and provides full type definitions.
+
+### Type Imports
+
+```typescript
+import type { ConfigOptions, ResultType } from '@cbnsndwch/library-name';
+```
+
+### Generic Types
+
+```typescript
+import { GenericClass } from '@cbnsndwch/library-name';
+
+// Using with generics
+const typed = new GenericClass<MyType>();
+```
+
+## Migration Guide
+
+### Migrating from v1.x to v2.x
+
+If there are breaking changes between versions, document migration steps:
+
+<Steps>
+
+### Update dependencies
+
+```bash
+pnpm update @cbnsndwch/library-name
+```
+
+### Update imports
+
+```typescript
+// Old (v1.x)
+import { OldAPI } from '@cbnsndwch/library-name';
+
+// New (v2.x)
+import { NewAPI } from '@cbnsndwch/library-name';
+```
+
+### Update configuration
+
+Document configuration changes needed.
+
+</Steps>
+
+## Performance Considerations
+
+Tips for optimal performance:
+
+- **Consideration 1**: Performance tip
+- **Consideration 2**: Optimization advice
+- **Consideration 3**: Resource management
+
+## Related Libraries
+
+<Cards>
+  <Card 
+    title="Related Library 1" 
+    href="/packages/related-1"
+    description="Works well together with this library"
+  />
+  <Card 
+    title="Related Library 2" 
+    href="/packages/related-2"
+    description="Another complementary library"
+  />
+</Cards>
+
+## See Also
+
+- [Architecture Overview](/architecture) - Understanding the system design
+- [Getting Started](/getting-started) - New to zero-sources?
+- [API Reference](/api) - Complete API documentation
+
+## Contributing
+
+Found an issue or want to contribute? See our [contributing guide](/contributing).
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/cbnsndwch/zero-sources/blob/main/libs/library-name/CHANGELOG.md) for version history.
+
+## License
+
+MIT © [cbnsndwch](https://github.com/cbnsndwch)
