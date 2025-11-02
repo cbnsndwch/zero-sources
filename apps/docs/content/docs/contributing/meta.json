@@ -2,6 +2,7 @@
     "title": "Contributing",
     "pages": [
         "writing-docs",
+        "code-blocks",
         "style-guide"
     ]
 }

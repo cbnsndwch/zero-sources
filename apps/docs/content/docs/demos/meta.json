@@ -3,6 +3,7 @@
     "description": "Example applications showcasing Zero Sources",
     "icon": "Presentation",
     "pages": [
-        "zrocket"
+        "zrocket",
+        "interactive-examples"
     ]
 }
