@@ -95,8 +95,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="https://github.com/cbnsndwch/zero-sources/blob/main/CONTRIBUTING.md"
-                                    external
+                                    href="/docs/contributing"
                                     className="text-muted-foreground hover:text-foreground"
                                 >
                                     Contributing
