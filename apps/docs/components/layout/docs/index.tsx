@@ -1,13 +1,23 @@
+import Link from 'fumadocs-core/link';
 import type * as PageTree from 'fumadocs-core/page-tree';
+import { NavProvider } from 'fumadocs-ui/contexts/layout';
+import { TreeContextProvider } from 'fumadocs-ui/contexts/tree';
+import {
+    getSidebarTabs,
+    type GetSidebarTabsOptions
+} from 'fumadocs-ui/utils/get-sidebar-tabs';
+import { Languages, Sidebar as SidebarIcon } from 'lucide-react';
 import {
     type ComponentProps,
     type HTMLAttributes,
     type ReactNode,
     useMemo
 } from 'react';
-import { Languages, Sidebar as SidebarIcon } from 'lucide-react';
-import { cn } from '../../../lib/cn';
-import { buttonVariants } from '../../ui/button';
+
+import { cn } from '@/lib/utils';
+import { LanguageToggle, LanguageToggleText } from '../../language-toggle';
+import { type Option, RootToggle } from '../../root-toggle';
+import { LargeSearchToggle, SearchToggle } from '../../search-toggle';
 import {
     Sidebar,
     SidebarCollapseTrigger,
@@ -26,24 +36,15 @@ import {
     SidebarTrigger,
     SidebarViewport
 } from '../../sidebar';
-import { type Option, RootToggle } from '../../root-toggle';
+import { ThemeToggle } from '../../theme-toggle';
+import { buttonVariants } from '../../ui/button';
 import {
     type BaseLayoutProps,
     BaseLinkItem,
     getLinks,
     type LinkItemType
 } from '../shared/index';
-import { LanguageToggle, LanguageToggleText } from '../../language-toggle';
 import { CollapsibleControl, LayoutBody, LayoutTabs, Navbar } from './client';
-import { TreeContextProvider } from 'fumadocs-ui/contexts/tree';
-import { ThemeToggle } from '../../theme-toggle';
-import { NavProvider } from 'fumadocs-ui/contexts/layout';
-import Link from 'fumadocs-core/link';
-import { LargeSearchToggle, SearchToggle } from '../../search-toggle';
-import {
-    getSidebarTabs,
-    type GetSidebarTabsOptions
-} from 'fumadocs-ui/utils/get-sidebar-tabs';
 
 export interface DocsLayoutProps extends BaseLayoutProps {
     tree: PageTree.Root;
@@ -235,6 +236,7 @@ export function DocsLayout({
                     {banner}
                 </SidebarHeader>
                 {viewport}
+                {footer}
                 {(i18n ||
                     iconLinks.length > 0 ||
                     themeSwitch?.enabled !== false ||
@@ -269,7 +271,6 @@ export function DocsLayout({
                                     />
                                 ))}
                         </div>
-                        {footer}
                     </SidebarFooter>
                 )}
             </SidebarContent>
