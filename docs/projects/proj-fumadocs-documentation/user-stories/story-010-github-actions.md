@@ -1,7 +1,7 @@
 # Story 010: Configure GitHub Actions Workflow
 
 **Story ID**: FDS-STORY-010  
-**Epic**: [FDS-EPIC-004 - Deployment and CI/CD Pipeline](../epics/epic-004-deployment-cicd.md)  
+**Epic**: [[FDS][E004] S10 - Deployment and CI/CD Pipeline](../epics/epic-004-deployment-cicd.md)  
 **Status**: Not Started  
 **Priority**: Critical  
 **Estimated Effort**: 0.5 days  
