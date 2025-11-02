@@ -13,7 +13,7 @@ Our documentation lives in the `apps/docs/content/docs/` directory:
 ```
 content/docs/
 ├── getting-started/          # Quick start guides
-├── guides/                   # How-to guides  
+├── guides/                   # How-to guides
 ├── packages/                 # Library documentation
 ├── change-sources/           # Change source docs
 ├── architecture/             # System design
@@ -35,13 +35,11 @@ description: Page description for SEO
 
 Regular **markdown** content with [links](/other-page).
 
-<Callout type="info">
-  A custom React component!
-</Callout>
+<Callout type="info">A custom React component!</Callout>
 
 ```typescript
 // Code blocks work normally
-const example = "Hello";
+const example = 'Hello';
 ```
 ````
 
@@ -51,9 +49,9 @@ Every MDX file must start with frontmatter:
 
 ```yaml
 ---
-title: Page Title                    # Required - shown in nav and browser
-description: Brief page description   # Required - used for SEO and previews
-icon: IconName                        # Optional - icon for navigation
+title: Page Title # Required - shown in nav and browser
+description: Brief page description # Required - used for SEO and previews
+icon: IconName # Optional - icon for navigation
 ---
 ```
 
@@ -76,28 +74,18 @@ Common icons you can use:
 Highlight important information:
 
 ```mdx
-<Callout type="info">
-  **Note**: This is informational content.
-</Callout>
+<Callout type="info">**Note**: This is informational content.</Callout>
 
-<Callout type="warning">
-  **Warning**: This requires caution.
-</Callout>
+<Callout type="warning">**Warning**: This requires caution.</Callout>
 
-<Callout type="error">
-  **Error**: This is critical information.
-</Callout>
+<Callout type="error">**Error**: This is critical information.</Callout>
 
-<Callout type="success">
-  **Success**: This is a positive message.
-</Callout>
+<Callout type="success">**Success**: This is a positive message.</Callout>
 ```
 
 **Result:**
 
-<Callout type="info">
-  **Note**: This is informational content.
-</Callout>
+<Callout type="info">**Note**: This is informational content.</Callout>
 
 ### Cards
 
@@ -105,32 +93,24 @@ Create card layouts for links:
 
 ```mdx
 <Cards>
-  <Card 
-    title="Getting Started" 
-    href="/getting-started"
-    description="Quick start guide"
-  />
-  <Card 
-    title="API Reference" 
-    href="/api"
-    description="Complete API docs"
-  />
+    <Card
+        title="Getting Started"
+        href="/getting-started"
+        description="Quick start guide"
+    />
+    <Card title="API Reference" href="/api" description="Complete API docs" />
 </Cards>
 ```
 
 **Result:**
 
 <Cards>
-  <Card 
-    title="Getting Started" 
-    href="/getting-started"
-    description="Quick start guide"
-  />
-  <Card 
-    title="API Reference" 
-    href="/api"
-    description="Complete API docs"
-  />
+    <Card
+        title="Getting Started"
+        href="/getting-started"
+        description="Quick start guide"
+    />
+    <Card title="API Reference" href="/api" description="Complete API docs" />
 </Cards>
 
 ### Tabs
@@ -142,14 +122,14 @@ Create tabbed content:
 <Tab value="TypeScript">
 
 ```typescript
-const typed: string = "Hello";
+const typed: string = 'Hello';
 ```
 
 </Tab>
 <Tab value="JavaScript">
 
 ```javascript
-const untyped = "Hello";
+const untyped = 'Hello';
 ```
 
 </Tab>
@@ -161,13 +141,13 @@ const untyped = "Hello";
 **TypeScript:**
 
 ```typescript
-const typed: string = "Hello";
+const typed: string = 'Hello';
 ```
 
 **JavaScript:**
 
 ```javascript
-const untyped = "Hello";
+const untyped = 'Hello';
 ```
 
 ### Steps
@@ -222,7 +202,7 @@ Use triple backticks with language specification:
 
 ````markdown
 ```typescript
-const example: string = "Hello";
+const example: string = 'Hello';
 ```
 ````
 
@@ -258,14 +238,14 @@ import { Zero } from '@rocicorp/zero';
 import { schema } from './schema';
 
 const zero = new Zero({
-  server: process.env.ZERO_SERVER_URL,
-  schema,
-  userID: 'user-123',
+    server: process.env.ZERO_SERVER_URL,
+    schema,
+    userID: 'user-123'
 });
 
 const messages = zero.query.message
-  .where('roomId', '=', roomId)
-  .orderBy('createdAt', 'desc');
+    .where('roomId', '=', roomId)
+    .orderBy('createdAt', 'desc');
 ```
 
 ## Links and References
@@ -319,16 +299,16 @@ Add images to `apps/docs/public/`:
 Create tables with pipe syntax:
 
 ```markdown
-| Parameter | Type   | Required | Description      |
-|-----------|--------|----------|------------------|
-| id        | string | Yes      | Unique identifier|
-| name      | string | No       | Display name     |
+| Parameter | Type   | Required | Description       |
+| --------- | ------ | -------- | ----------------- |
+| id        | string | Yes      | Unique identifier |
+| name      | string | No       | Display name      |
 ```
 
 **Result:**
 
 | Parameter | Type   | Required | Description       |
-|-----------|--------|----------|-------------------|
+| --------- | ------ | -------- | ----------------- |
 | id        | string | Yes      | Unique identifier |
 | name      | string | No       | Display name      |
 
@@ -339,8 +319,8 @@ Create tables with pipe syntax:
 ```markdown
 - Item 1
 - Item 2
-  - Nested item
-  - Another nested item
+    - Nested item
+    - Another nested item
 - Item 3
 ```
 
@@ -366,7 +346,7 @@ Create tables with pipe syntax:
 
 ```markdown
 **Bold text** for emphasis
-*Italic text* for subtle emphasis
+_Italic text_ for subtle emphasis
 `Inline code` for code elements
 ~~Strikethrough~~ for deprecated content
 ```
@@ -392,12 +372,8 @@ Control navigation order and labels:
 
 ```json
 {
-  "title": "Section Title",
-  "pages": [
-    "getting-started",
-    "installation",
-    "configuration"
-  ]
+    "title": "Section Title",
+    "pages": ["getting-started", "installation", "configuration"]
 }
 ```
 
@@ -406,21 +382,21 @@ Control navigation order and labels:
 Use our templates as starting points:
 
 <Cards>
-  <Card 
-    title="Library Template" 
-    href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/library-page.mdx"
-    description="For documenting packages"
-  />
-  <Card 
-    title="Guide Template" 
-    href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/guide.mdx"
-    description="For how-to guides"
-  />
-  <Card 
-    title="API Template" 
-    href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/api-page.mdx"
-    description="For API reference"
-  />
+    <Card
+        title="Library Template"
+        href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/library-page.mdx"
+        description="For documenting packages"
+    />
+    <Card
+        title="Guide Template"
+        href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/guide.mdx"
+        description="For how-to guides"
+    />
+    <Card
+        title="API Template"
+        href="https://github.com/cbnsndwch/zero-sources/blob/main/apps/docs/templates/api-page.mdx"
+        description="For API reference"
+    />
 </Cards>
 
 ## Testing Your Changes
@@ -446,7 +422,7 @@ pnpm --filter docs dev
 
 ### API Documentation
 
-```markdown
+````markdown
 ## `functionName(param: Type): ReturnType`
 
 Description of the function.
@@ -464,7 +440,9 @@ Description of the function.
 ```typescript
 const result = functionName('value');
 ```
-```
+````
+
+````
 
 ### Configuration Options
 
@@ -483,8 +461,9 @@ Description of the option.
 {
   optionName: 'value'
 }
-```
-```
+````
+
+````
 
 ### Step-by-Step Instructions
 
@@ -502,7 +481,7 @@ Do this first.
 Then do this.
 
 </Steps>
-```
+````
 
 ## Best Practices
 
@@ -559,26 +538,26 @@ If links are broken:
 ## Resources
 
 <Cards>
-  <Card 
-    title="Style Guide" 
-    href="/docs/contributing/style-guide"
-    description="Content and formatting standards"
-  />
-  <Card 
-    title="Contributing Guide" 
-    href="/docs/contributing"
-    description="How to contribute"
-  />
-  <Card 
-    title="Fumadocs Docs" 
-    href="https://fumadocs.vercel.app/"
-    description="Framework documentation"
-  />
-  <Card 
-    title="MDX Docs" 
-    href="https://mdxjs.com/"
-    description="MDX specification"
-  />
+    <Card
+        title="Style Guide"
+        href="/docs/contributing/style-guide"
+        description="Content and formatting standards"
+    />
+    <Card
+        title="Contributing Guide"
+        href="/docs/contributing"
+        description="How to contribute"
+    />
+    <Card
+        title="Fumadocs Docs"
+        href="https://fumadocs.vercel.app/"
+        description="Framework documentation"
+    />
+    <Card
+        title="MDX Docs"
+        href="https://mdxjs.com/"
+        description="MDX specification"
+    />
 </Cards>
 
 ## Getting Help

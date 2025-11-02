@@ -7,7 +7,8 @@ icon: FileText
 This guide ensures our documentation is consistent, clear, and professional across all pages.
 
 <Callout type="info">
-  **Quick Reference**: When in doubt, follow patterns in existing documentation and prioritize clarity over strict rules.
+    **Quick Reference**: When in doubt, follow patterns in existing
+    documentation and prioritize clarity over strict rules.
 </Callout>
 
 ## Writing Principles
@@ -36,14 +37,17 @@ Respect the reader's time.
 
 Demonstrate with code, not just words.
 
-```markdown
+````markdown
 ❌ Tell only: You can filter queries using comparison operators.
 
 ✅ Show: Filter queries with comparison operators:
+
 ```typescript
-query.where('age', '>', 18)
+query.where('age', '>', 18);
 ```
-```
+````
+
+````
 
 ## Voice and Tone
 
@@ -60,7 +64,7 @@ query.where('age', '>', 18)
 
 ```markdown
 ✅ Great! You've successfully configured your change source.
-```
+````
 
 **Reference**: Precise and factual
 
@@ -139,13 +143,19 @@ Maintain proper hierarchy:
 
 ```markdown
 ✅ Correct:
+
 # Page Title (H1)
+
 ## Main Section (H2)
+
 ### Subsection (H3)
+
 #### Detail (H4)
 
 ❌ Don't skip levels:
+
 # Page Title (H1)
+
 ### Subsection (H3) ← skipped H2
 ```
 
@@ -155,6 +165,7 @@ Maintain proper hierarchy:
 
 ```markdown
 The library provides:
+
 - Real-time synchronization
 - Offline support
 - Type-safe queries
@@ -164,6 +175,7 @@ The library provides:
 
 ```markdown
 To deploy:
+
 1. Build the bundle
 2. Configure variables
 3. Start services
@@ -173,11 +185,13 @@ To deploy:
 
 ```markdown
 ❌ Mixed:
+
 - Configure the schema
 - Starting the server
 - You should test the connection
 
 ✅ Parallel:
+
 - Configure the schema
 - Start the server
 - Test the connection
@@ -204,10 +218,10 @@ Click the **Save** button.
 The **primary key** must be unique.
 ```
 
-*Italic* for subtle emphasis:
+_Italic_ for subtle emphasis:
 
 ```markdown
-This is also called a *discriminated union*.
+This is also called a _discriminated union_.
 ```
 
 `Code formatting` for:
@@ -237,15 +251,15 @@ import { Zero } from '@rocicorp/zero';
 import type { Message } from './schema';
 
 async function fetchMessages(roomId: string): Promise<Message[]> {
-  const zero = new Zero({ /* config */ });
-  return zero.query.message
-    .where('roomId', '=', roomId)
-    .run();
+    const zero = new Zero({
+        /* config */
+    });
+    return zero.query.message.where('roomId', '=', roomId).run();
 }
 
 // ❌ Bad - no types, incomplete
 function fetchMessages(roomId) {
-  return zero.query.message.where('roomId', '=', roomId).run();
+    return zero.query.message.where('roomId', '=', roomId).run();
 }
 ```
 
@@ -279,8 +293,8 @@ Use the `createTableSchema()` function to define your schema.
 
 ```typescript
 const schema = createTableSchema({
-  tableName: 'user',
-  columns: { id: { type: 'string' } },
+    tableName: 'user',
+    columns: { id: { type: 'string' } }
 });
 ```
 
@@ -290,21 +304,13 @@ const schema = createTableSchema({
 
 Highlight important information:
 
-<Callout type="info">
-  Use for general information or tips.
-</Callout>
+<Callout type="info">Use for general information or tips.</Callout>
 
-<Callout type="warning">
-  Use for important warnings or cautions.
-</Callout>
+<Callout type="warning">Use for important warnings or cautions.</Callout>
 
-<Callout type="error">
-  Use for critical errors or deprecated features.
-</Callout>
+<Callout type="error">Use for critical errors or deprecated features.</Callout>
 
-<Callout type="success">
-  Use for confirmations or achievements.
-</Callout>
+<Callout type="success">Use for confirmations or achievements.</Callout>
 
 ### When to Use Each Type
 
@@ -318,16 +324,16 @@ Highlight important information:
 Use for navigation or organizing links:
 
 <Cards>
-  <Card 
-    title="Quick Start" 
-    href="/getting-started"
-    description="Get running in 5 minutes"
-  />
-  <Card 
-    title="Architecture" 
-    href="/architecture"
-    description="Understand the design"
-  />
+    <Card
+        title="Quick Start"
+        href="/getting-started"
+        description="Get running in 5 minutes"
+    />
+    <Card
+        title="Architecture"
+        href="/architecture"
+        description="Understand the design"
+    />
 </Cards>
 
 ### Tabs
@@ -372,7 +378,7 @@ pnpm dev
 
 ### API Reference Format
 
-```markdown
+````markdown
 ## `functionName(param: Type): ReturnType`
 
 Brief description.
@@ -390,11 +396,13 @@ Brief description.
 ```typescript
 const result = functionName('value');
 ```
+````
 
 **Throws:**
 
 - `ErrorType` - When this error occurs
-```
+
+````
 
 ### Configuration Format
 
@@ -413,8 +421,9 @@ Description of the option.
 {
   optionName: 'value'
 }
-```
-```
+````
+
+````
 
 ### Error Documentation
 
@@ -435,8 +444,9 @@ try {
 } catch (error) {
   // handle error
 }
-```
-```
+````
+
+````
 
 ## Content Organization
 
@@ -450,7 +460,7 @@ title: Page Title
 description: Brief description for SEO
 icon: IconName          # Optional
 ---
-```
+````
 
 ### File Naming
 
@@ -481,22 +491,22 @@ guides/
 
 Use these terms consistently:
 
-| Use This          | Not This                    |
-|-------------------|-----------------------------|
-| zero-sources      | zero sources, Zero Sources  |
-| change source     | change-source, changesource |
-| Zero (the product)| zero, ZERO                  |
-| TypeScript        | typescript, TS              |
-| JavaScript        | javascript, JS              |
-| MongoDB           | mongodb, Mongo              |
-| WebSocket         | websocket, Web Socket       |
+| Use This           | Not This                    |
+| ------------------ | --------------------------- |
+| zero-sources       | zero sources, Zero Sources  |
+| change source      | change-source, changesource |
+| Zero (the product) | zero, ZERO                  |
+| TypeScript         | typescript, TS              |
+| JavaScript         | javascript, JS              |
+| MongoDB            | mongodb, Mongo              |
+| WebSocket          | websocket, Web Socket       |
 
 ### Technical Terms
 
 When introducing technical terms:
 
 ```markdown
-A *discriminated union* (also called a tagged union) allows...
+A _discriminated union_ (also called a tagged union) allows...
 ```
 
 Define acronyms on first use:
@@ -563,9 +573,7 @@ description: Set up your first Zero application in 5 minutes
 
 This guide walks you through creating your first Zero application.
 
-<Callout type="info">
-  **Prerequisites**: Node.js v22+ and pnpm v8+
-</Callout>
+<Callout type="info">**Prerequisites**: Node.js v22+ and pnpm v8+</Callout>
 
 <Steps>
 
@@ -583,20 +591,18 @@ Define your data structure:
 import { createTableSchema } from '@rocicorp/zero';
 
 export const userSchema = createTableSchema({
-  tableName: 'user',
-  columns: {
-    id: { type: 'string' },
-    name: { type: 'string' },
-  },
-  primaryKey: ['id'],
+    tableName: 'user',
+    columns: {
+        id: { type: 'string' },
+        name: { type: 'string' }
+    },
+    primaryKey: ['id']
 });
 ```
 
 </Steps>
 
-<Callout type="success">
-  You've created your first Zero schema!
-</Callout>
+<Callout type="success">You've created your first Zero schema!</Callout>
 ````
 
 ## Need Help?
@@ -608,25 +614,26 @@ When unsure about style:
 3. Refer to [Fumadocs docs](https://fumadocs.vercel.app/)
 
 <Callout type="tip">
-  **Remember**: Clarity matters more than strict rule-following. If breaking a rule makes content clearer, do it!
+    **Remember**: Clarity matters more than strict rule-following. If breaking a
+    rule makes content clearer, do it!
 </Callout>
 
 ## Resources
 
 <Cards>
-  <Card 
-    title="Writing Guide" 
-    href="/docs/contributing/writing-docs"
-    description="MDX authoring and structure"
-  />
-  <Card 
-    title="Contributing" 
-    href="/docs/contributing"
-    description="How to contribute"
-  />
-  <Card 
-    title="Templates" 
-    href="https://github.com/cbnsndwch/zero-sources/tree/main/apps/docs/templates"
-    description="Page templates"
-  />
+    <Card
+        title="Writing Guide"
+        href="/docs/contributing/writing-docs"
+        description="MDX authoring and structure"
+    />
+    <Card
+        title="Contributing"
+        href="/docs/contributing"
+        description="How to contribute"
+    />
+    <Card
+        title="Templates"
+        href="https://github.com/cbnsndwch/zero-sources/tree/main/apps/docs/templates"
+        description="Page templates"
+    />
 </Cards>
