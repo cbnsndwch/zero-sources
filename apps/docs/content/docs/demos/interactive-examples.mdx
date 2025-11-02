@@ -1,0 +1,325 @@
+---
+title: Interactive Examples
+description: Live code examples for learning zero-sources
+icon: Code
+---
+
+import { InteractiveDemo, CodeTabs } from '@/components/fumadocs';
+
+Learn zero-sources through interactive code examples that you can run and modify directly in the browser.
+
+## Getting Started with Zero
+
+This example shows how to create a Zero instance and query data.
+
+<InteractiveDemo
+    title="Basic Zero Query"
+    description="Query messages from a room using Zero"
+    code={`// Create Zero instance
+const zero = createZero({
+  server: 'http://localhost:4848',
+  schema,
+  userID: 'user-123'
+});
+
+// Query messages
+const messages = await zero.query.message
+.where('roomId', '=', 'room-456')
+.orderBy('createdAt', 'desc')
+.limit(10)
+.run();
+
+return messages;`}
+execute={async (code) => {
+// Simulate Zero query
+return JSON.stringify([
+{
+id: 'msg-1',
+roomId: 'room-456',
+content: 'Hello, world!',
+createdAt: Date.now()
+},
+{
+id: 'msg-2',
+roomId: 'room-456',
+content: 'Welcome to Zero!',
+createdAt: Date.now() - 1000
+}
+], null, 2);
+}}
+/>
+
+## Real-time Subscriptions
+
+Zero enables real-time data synchronization. This example shows how to subscribe to changes.
+
+<InteractiveDemo
+    title="Real-time Subscription"
+    description="Subscribe to real-time message updates"
+    code={`// Subscribe to messages in a room
+const unsubscribe = zero.query.message
+  .where('roomId', '=', 'room-456')
+  .subscribe((messages) => {
+    console.log('Messages updated:', messages);
+  });
+
+// Later, unsubscribe
+// unsubscribe();
+
+return 'Subscribed to real-time updates';`}
+execute={async (code) => {
+return JSON.stringify({
+status: 'subscribed',
+message: 'Listening for real-time updates',
+currentCount: 2
+}, null, 2);
+}}
+/>
+
+## MongoDB Change Source Setup
+
+Configure a MongoDB change source to stream changes to Zero clients.
+
+<InteractiveDemo
+    title="MongoDB Change Source"
+    description="Set up MongoDB change streaming"
+    code={`import { MongoDBChangeSource } from '@cbnsndwch/zero-source-mongodb';
+
+const changeSource = new MongoDBChangeSource({
+mongoUri: process.env.MONGODB_URI,
+schema: {
+message: messageSchema,
+user: userSchema
+},
+tableMappings: {
+message: {
+collection: 'messages',
+fields: {
+id: '\_id',
+content: 'content',
+roomId: 'roomId',
+userId: 'userId'
+}
+}
+}
+});
+
+await changeSource.start();
+return 'Change source started';`}
+execute={async (code) => {
+return JSON.stringify({
+status: 'running',
+collections: ['messages'],
+connectedClients: 3,
+eventsProcessed: 127
+}, null, 2);
+}}
+/>
+
+## Code Syntax Highlighting
+
+Fumadocs provides automatic syntax highlighting for code blocks. Here are examples in different languages:
+
+### TypeScript Example
+
+```typescript title="schema.ts" {3-5}
+import { createTableSchema } from '@rocicorp/zero-schema';
+
+export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        id: { type: 'string' },
+        roomId: { type: 'string' },
+        content: { type: 'string' },
+        createdAt: { type: 'number' }
+    },
+    primaryKey: ['id']
+});
+```
+
+### JavaScript Example
+
+```javascript title="client.js" {7-9}
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+
+const zero = new Zero({
+    server: 'http://localhost:4848',
+    schema,
+    userID: getUserId(),
+    auth: getAuthToken()
+});
+
+// Use zero instance
+const data = await zero.query.message.run();
+```
+
+### JSON Configuration
+
+```json title="config.json" {4-6}
+{
+    "server": "http://localhost:4848",
+    "schema": "./schema",
+    "options": {
+        "syncInterval": 1000,
+        "reconnectDelay": 5000
+    }
+}
+```
+
+## Multi-Language Code Tabs
+
+Compare implementations across different languages:
+
+<CodeTabs
+    tabs={[
+        {
+            title: 'TypeScript',
+            language: 'typescript',
+            code: `// TypeScript with full type safety
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+
+const zero = new Zero<typeof schema>({
+server: 'http://localhost:4848',
+schema,
+userID: 'user-123'
+});
+
+const messages = await zero.query.message
+.where('roomId', '=', 'room-456')
+.orderBy('createdAt', 'desc')
+.limit(10)
+.run();`        },
+        {
+            title: 'JavaScript',
+            language: 'javascript',
+            code:`// JavaScript without types
+import { Zero } from '@rocicorp/zero';
+import { schema } from './schema';
+
+const zero = new Zero({
+server: 'http://localhost:4848',
+schema,
+userID: 'user-123'
+});
+
+const messages = await zero.query.message
+.where('roomId', '=', 'room-456')
+.orderBy('createdAt', 'desc')
+.limit(10)
+.run();`        },
+        {
+            title: 'React Hook',
+            language: 'tsx',
+            code:`// React component with useQuery hook
+import { useQuery } from '@rocicorp/zero-react';
+
+function MessageList({ roomId }) {
+const messages = useQuery(zero =>
+zero.query.message
+.where('roomId', '=', roomId)
+.orderBy('createdAt', 'desc')
+.limit(10)
+);
+
+    return (
+        <div>
+            {messages.map(msg => (
+                <div key={msg.id}>{msg.content}</div>
+            ))}
+        </div>
+    );
+
+}`
+}
+]}
+/>
+
+## Code Block Features
+
+Fumadocs code blocks support several features:
+
+### File Names
+
+Add file names to code blocks using the `title` attribute:
+
+```typescript title="server.ts"
+import { createServer } from './server';
+
+const server = createServer();
+server.listen(4848);
+```
+
+### Line Highlighting
+
+Highlight specific lines using `{line-numbers}`:
+
+```typescript {1,4-6}
+import { MongoDBChangeSource } from '@cbnsndwch/zero-source-mongodb';
+
+const changeSource = new MongoDBChangeSource({
+    mongoUri: process.env.MONGODB_URI,
+    schema: { message: messageSchema },
+    tableMappings: {
+        /* ... */
+    }
+});
+```
+
+### Copy Button
+
+All code blocks automatically include a copy-to-clipboard button in the top-right corner.
+
+## Advanced Query Examples
+
+### Filtering and Sorting
+
+```typescript title="queries.ts"
+// Multiple where clauses
+const recentMessages = await zero.query.message
+    .where('roomId', '=', roomId)
+    .where('createdAt', '>', timestamp)
+    .orderBy('createdAt', 'desc')
+    .limit(50)
+    .run();
+
+// Complex filtering
+const userMessages = await zero.query.message
+    .where('userId', '=', userId)
+    .where('roomId', 'in', [room1, room2, room3])
+    .run();
+```
+
+### Relationships and Joins
+
+```typescript title="relationships.ts"
+// Define relationships in schema
+export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        /* ... */
+    },
+    relationships: {
+        user: {
+            sourceField: ['userId'],
+            destSchema: () => userSchema,
+            destField: ['id']
+        },
+        room: {
+            sourceField: ['roomId'],
+            destSchema: () => roomSchema,
+            destField: ['id']
+        }
+    }
+});
+
+// Query with relationships
+const messagesWithUser = await zero.query.message.related('user').run();
+```
+
+## Next Steps
+
+- Explore [API Reference](/docs/api) for complete documentation
+- Check out [Guides](/docs/guides) for common patterns
+- See [Architecture](/docs/architecture) to understand the system design
