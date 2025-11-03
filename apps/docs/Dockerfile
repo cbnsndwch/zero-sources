@@ -21,7 +21,7 @@ RUN pnpm build --filter=@cbnsndwch/zero-sources-docs...
 # This prunes dev dependencies and creates a clean, minimal deployment
 # Note: pnpm deploy requires exact package name (no ... glob)
 # Using --legacy flag for pnpm v10+ compatibility with workspace dependencies
-RUN pnpm deploy --filter=@cbnsndwch/zero-sources-docs --prod --legacy /opt/build
+RUN pnpm deploy --filter=@cbnsndwch/zero-sources-docs --prod --legacy /srv
 
 # Stage 2: Production runtime
 FROM node:22-alpine AS runner
@@ -51,7 +51,7 @@ LABEL org.opencontainers.image.title="Zero Sources Docs" \
       org.opencontainers.image.source="${IMAGE_SOURCE}"
 
 # Copy the production deployment from builder (includes production dependencies)
-COPY --from=builder /opt/build /opt/app
+COPY --from=builder /srv .
 
 # # Add Tini
 # ENV TINI_VERSION=v0.19.0
@@ -63,4 +63,4 @@ COPY --from=builder /opt/build /opt/app
 
 ENTRYPOINT ["/bin/sh", "-c"]
 
-CMD ["/opt/app/dist/main.js"]
+CMD ["./dist/main.js"]
