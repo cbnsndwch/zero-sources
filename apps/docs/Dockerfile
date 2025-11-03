@@ -14,7 +14,7 @@ WORKDIR /srv
 COPY . .
 
 # Install all workspace packages to ensure all dependencies are available
-RUN pnpm i --filter @cbnsndwch/zero-sources-docs... --filter @cbnsndwch/zero-sources
+RUN ls -la && pnpm i --filter @cbnsndwch/zero-sources-docs... --filter @cbnsndwch/zero-sources
 
 # Build the documentation site
 # build NestJS project
