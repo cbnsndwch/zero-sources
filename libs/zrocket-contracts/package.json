@@ -35,7 +35,7 @@
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero": "0.24.2025101500",
-        "@types/node": "^22.14.1",
+        "@types/node": "^24.10.0",
         "@vitest/coverage-v8": "^4.0.6",
         "@vitest/ui": "^4.0.6",
         "eslint": "^9.39.0",
