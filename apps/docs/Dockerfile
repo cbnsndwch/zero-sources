@@ -7,9 +7,6 @@ ENV NODE_ENV=production \
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Set working directory
-WORKDIR /srv
-
 # copy everything
 COPY . .
 
@@ -52,11 +49,6 @@ LABEL org.opencontainers.image.title="Zero Sources Docs" \
       org.opencontainers.image.created="${BUILD_TIME}" \
       org.opencontainers.image.ref.name="${IMAGE_TAGS}" \
       org.opencontainers.image.source="${IMAGE_SOURCE}"
-
-# Set final working directory
-# pnpm deploy creates a flat structure with the package at the root of /srv
-# So dist/ is at /srv/dist/, not /srv/apps/service-sync-change-source/dist/
-WORKDIR /opt/app
 
 # Copy the production deployment from builder (includes production dependencies)
 COPY --from=builder /opt/build /opt/app
