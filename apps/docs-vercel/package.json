@@ -49,7 +49,7 @@
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@tailwindcss/vite": "^4.0.0",
-        "@types/node": "^22.0.0",
+        "@types/node": "^24.10.0",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
         "eslint": "^9.0.0",
