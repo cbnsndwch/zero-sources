@@ -1,0 +1,22 @@
+---
+title: 'ZeroMongoModuleOptions type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-source-mongodb](./zero-source-mongodb.md) &gt; [ZeroMongoModuleOptions](./zero-source-mongodb.zeromongomoduleoptions.md)
+
+## ZeroMongoModuleOptions type
+
+Options for the ZeroMongoModule.
+
+**Signature:**
+
+```typescript
+export type ZeroMongoModuleOptions = {
+    tables: TableSpec[];
+    mapping?: Record<string, TableMapping<any>>;
+    permissions?: CompiledPermissionsConfig;
+    streamerToken?: string;
+};
+```
+
+**References:** [TableSpec](./zero-source-mongodb.tablespec.md)

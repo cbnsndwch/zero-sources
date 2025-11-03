@@ -1,0 +1,18 @@
+---
+title: 'IPublicChannelRoom type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IPublicChannelRoom](./zrocket-contracts.ipublicchannelroom.md)
+
+## IPublicChannelRoom type
+
+**Signature:**
+
+```typescript
+type IPublicChannelRoom = IGroupRoomBase<RoomType.PublicChannel> & {
+    default?: boolean;
+    featured?: boolean;
+};
+```
+
+**References:** [IGroupRoomBase](./zrocket-contracts.igrouproombase.md)<!-- -->, [RoomType.PublicChannel](./zrocket-contracts.roomtype.md)

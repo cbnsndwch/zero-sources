@@ -1,0 +1,15 @@
+---
+title: 'MessageType type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [MessageType](./zrocket-contracts.messagetype.md)
+
+## MessageType type
+
+**Signature:**
+
+```typescript
+type MessageType = UserMessageType | SystemMessageType;
+```
+
+**References:** [UserMessageType](./zrocket-contracts.usermessagetype.md)<!-- -->, [SystemMessageType](./zrocket-contracts.systemmessagetype.md)

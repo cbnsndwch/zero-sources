@@ -1,0 +1,10 @@
+{
+    "title": "zero-source-mongodb",
+    "description": "MongoDB change streaming to Zero protocol",
+    "pages": [
+        "installation",
+        "configuration",
+        "discriminated-unions",
+        "change-streams"
+    ]
+}

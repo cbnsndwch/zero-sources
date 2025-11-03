@@ -1,39 +1,30 @@
 {
     "compilerOptions": {
-        "target": "ES2023",
-        "module": "ESNext",
-        "moduleResolution": "Bundler",
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ES2023"
-        ],
+        "checkJs": true,
+        "verbatimModuleSyntax": true,
+        "skipLibCheck": true,
+        "strict": false,
+        // "strict": true,
+        "noEmit": true,
         "types": [
-            "node",
-            "vite/client"
+            "vitest"
         ],
-        "rootDirs": [
-            ".",
-            "./.react-router/types"
-        ],
-        "jsx": "react-jsx",
-        "baseUrl": ".",
         "paths": {
             "@/*": [
-                "./*"
+                "./app/*"
+            ],
+            "source/*": [
+                "./.source/*"
             ]
-        },
-        "esModuleInterop": true,
-        "verbatimModuleSyntax": true,
-        "noEmit": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "strict": true
+        }
     },
-    "include": [
-        "**/*",
-        "**/.server/**/*",
-        "**/.client/**/*",
-        ".react-router/types/**/*"
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        },
+        {
+            "path": "./tsconfig.vite.json"
+        }
     ]
 }

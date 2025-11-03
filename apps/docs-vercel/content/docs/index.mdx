@@ -1,0 +1,93 @@
+---
+title: Home
+description: 'A collection of utilities and custom change sources for @rocicorp/zero'
+icon: House
+---
+
+import { Download, Rocket, Book, Package } from 'lucide-react';
+
+Zero Sources is a comprehensive TypeScript-based infrastructure for building real-time data synchronization systems using Rocicorp Zero. This monorepo provides reusable libraries, change source implementations, and demo applications for streaming MongoDB changes to Zero clients.
+
+## What is Zero Sources?
+
+Zero Sources implements a distributed three-container architecture:
+
+1. **Change Source Servers**: Stream MongoDB changes to Zero protocol
+2. **Zero Cache Servers**: Handle client synchronization and caching
+3. **Demo Applications**: Showcase real-time capabilities
+
+## Key Features
+
+- **MongoDB Change Streaming**: Real-time change detection and propagation
+- **Discriminated Union Support**: Handle polymorphic MongoDB collections
+- **Watermark Management**: Multiple storage backends (ZQLite, NATS KV)
+- **WebSocket Gateway**: Real-time bidirectional communication
+- **Dynamic Schema Configuration**: Application-agnostic change sources
+- **TypeScript-First**: Full type safety across the stack
+
+## Getting Started
+
+<Cards>
+    <Card
+        title="Installation"
+        href="/docs/getting-started/installation"
+        icon={<Download />}
+    >
+        Set up your development environment
+    </Card>
+    <Card
+        title="Quick Start"
+        href="/docs/getting-started/quick-start"
+        icon={<Rocket />}
+    >
+        Build your first change source in minutes
+    </Card>
+    <Card
+        title="Concepts"
+        href="/docs/getting-started/concepts"
+        icon={<Book />}
+    >
+        Understand core concepts and architecture
+    </Card>
+    <Card title="Libraries" href="/docs/packages" icon={<Package />}>
+        Explore available libraries
+    </Card>
+</Cards>
+
+## Architecture Overview
+
+Zero Sources uses a **schema-first design** where you define your data structures using Zero's `TableSchema`, then configure change sources to stream MongoDB changes matching those schemas.
+
+```typescript
+// Define your schema
+export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        id: { type: 'string' },
+        content: { type: 'string' },
+        createdAt: { type: 'number' }
+    },
+    primaryKey: ['id']
+});
+
+// Stream changes automatically
+const changeSource = new MongoDBChangeSource(schema);
+changeSource.streamChanges();
+```
+
+## Popular Pages
+
+- [Setting Up a Change Source](/docs/guides/setting-up-change-source)
+- [Docker Deployment](/docs/guides/docker-deployment)
+- [Zero Source MongoDB](/docs/packages/zero-source-mongodb)
+- [Watermark System](/docs/architecture/watermark-system)
+
+## Community & Support
+
+- **GitHub**: [rocicorp/zero-sources](https://github.com/rocicorp/zero-sources)
+- **Issues**: Report bugs and request features
+- **Discussions**: Ask questions and share ideas
+
+---
+
+Ready to get started? Check out our [installation guide](/docs/getting-started/installation) or dive into the [quick start tutorial](/docs/getting-started/quick-start).

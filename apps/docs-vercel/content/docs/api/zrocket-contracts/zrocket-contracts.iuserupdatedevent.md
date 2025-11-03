@@ -1,0 +1,20 @@
+---
+title: 'IUserUpdatedEvent type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUserUpdatedEvent](./zrocket-contracts.iuserupdatedevent.md)
+
+## IUserUpdatedEvent type
+
+**Signature:**
+
+```typescript
+type IUserUpdatedEvent = IHasShortId & {
+    type: 'updated';
+    data?: never;
+    diff: Partial<IUser>;
+    unset: Record<string, number>;
+};
+```
+
+**References:** [IHasShortId](./zrocket-contracts.ihasshortid.md)<!-- -->, [IUser](./zrocket-contracts.iuser.md)

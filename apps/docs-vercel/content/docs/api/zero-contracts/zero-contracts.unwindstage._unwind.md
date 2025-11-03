@@ -1,0 +1,13 @@
+---
+title: 'UnwindStage.$unwind property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [UnwindStage](./zero-contracts.unwindstage.md) &gt; [$unwind](./zero-contracts.unwindstage._unwind.md)
+
+## UnwindStage.$unwind property
+
+**Signature:**
+
+```typescript
+$unwind: keyof T | UnwindOptions;
+```

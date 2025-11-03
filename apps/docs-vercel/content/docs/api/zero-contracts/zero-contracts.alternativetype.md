@@ -1,0 +1,20 @@
+---
+title: 'AlternativeType type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [AlternativeType](./zero-contracts.alternativetype.md)
+
+## AlternativeType type
+
+It is possible to search using alternative types in mongodb e.g. string types can be searched using a regex in mongo, and array types can be searched using their element type
+
+**Signature:**
+
+```typescript
+type AlternativeType<T> =
+    T extends ReadonlyArray<infer U>
+        ? T | RegExpOrString<U>
+        : RegExpOrString<T>;
+```
+
+**References:** [RegExpOrString](./zero-contracts.regexporstring.md)

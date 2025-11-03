@@ -1,0 +1,15 @@
+---
+title: 'IUserMessage.repliedBy property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUserMessage](./zrocket-contracts.iusermessage.md) &gt; [repliedBy](./zrocket-contracts.iusermessage.repliedby.md)
+
+## IUserMessage.repliedBy property
+
+List of user ids that have replied to this message
+
+**Signature:**
+
+```typescript
+repliedBy?: string[];
+```

@@ -1,0 +1,26 @@
+---
+title: 'UnwindOptions.includeArrayIndex property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [UnwindOptions](./zero-contracts.unwindoptions.md) &gt; [includeArrayIndex](./zero-contracts.unwindoptions.includearrayindex.md)
+
+## UnwindOptions.includeArrayIndex property
+
+Optional: Include array index in output.
+
+Adds a field with the array element's position (zero-based index). The field name is specified by this option.
+
+**Signature:**
+
+```typescript
+includeArrayIndex?: string;
+```
+
+## Example
+
+```typescript
+{
+    includeArrayIndex: 'memberIndex';
+}
+// Adds field 'memberIndex' with values 0, 1, 2, ...
+```

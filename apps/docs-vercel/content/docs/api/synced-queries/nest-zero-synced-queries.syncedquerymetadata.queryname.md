@@ -1,0 +1,15 @@
+---
+title: 'SyncedQueryMetadata.queryName property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [SyncedQueryMetadata](./nest-zero-synced-queries.syncedquerymetadata.md) &gt; [queryName](./nest-zero-synced-queries.syncedquerymetadata.queryname.md)
+
+## SyncedQueryMetadata.queryName property
+
+The name of the query as registered with Zero. Must match the query name used in client-side query definitions.
+
+**Signature:**
+
+```typescript
+queryName: string;
+```

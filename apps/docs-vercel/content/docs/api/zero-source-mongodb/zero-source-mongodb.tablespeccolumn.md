@@ -1,0 +1,15 @@
+---
+title: 'TableSpecColumn type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-source-mongodb](./zero-source-mongodb.md) &gt; [TableSpecColumn](./zero-source-mongodb.tablespeccolumn.md)
+
+## TableSpecColumn type
+
+**Signature:**
+
+```typescript
+export type TableSpecColumn = TableSpec['columns'][number];
+```
+
+**References:** [TableSpec](./zero-source-mongodb.tablespec.md)

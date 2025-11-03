@@ -1,0 +1,780 @@
+---
+title: 'zero-contracts package'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md)
+
+## zero-contracts package
+
+## Classes
+
+<table><thead><tr><th>
+
+Class
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[PassthroughWatermarkService](./zero-contracts.passthroughwatermarkservice.md)
+
+</td><td>
+
+A watermark service that simply passes through the watermark and resume token values it receives. Useful for testing or when no special mapping is needed between zero-cache watermarks and teh change source's native resume token format.
+
+</td></tr>
+<tr><td>
+
+[PipelineMappingBuilder](./zero-contracts.pipelinemappingbuilder.md)
+
+</td><td>
+
+Builder pattern for constructing pipeline-based table mappings fluently.
+
+Provides a chainable API for building complex pipeline configurations.
+
+</td></tr>
+</tbody></table>
+
+## Functions
+
+<table><thead><tr><th>
+
+Function
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[addFields(fields)](./zero-contracts.addfields.md)
+
+</td><td>
+
+Creates an $addFields pipeline stage for adding computed fields.
+
+This is equivalent to MongoDB's $addFields aggregation operator. Adds new fields or replaces existing fields with computed values.
+
+</td></tr>
+<tr><td>
+
+[groupTablesBySource(schema, mapping)](./zero-contracts.grouptablesbysource.md)
+
+</td><td>
+
+Group discriminated tables by their source collection Useful for change source routing and optimization
+
+</td></tr>
+<tr><td>
+
+[invariant(condition, message, errorClass, logger)](./zero-contracts.invariant.md)
+
+</td><td>
+
+Throws an error of the specified type with the given message if the condition is not met.
+
+</td></tr>
+<tr><td>
+
+[isPipelineMapping(mapping)](./zero-contracts.ispipelinemapping.md)
+
+</td><td>
+
+Type guard to check if a table mapping uses the pipeline-based approach.
+
+</td></tr>
+<tr><td>
+
+[isSimpleMapping(mapping)](./zero-contracts.issimplemapping.md)
+
+</td><td>
+
+Type guard to check if a table mapping uses the simple filter-based approach.
+
+</td></tr>
+<tr><td>
+
+[match(filter)](./zero-contracts.match.md)
+
+</td><td>
+
+Creates a $match pipeline stage for filtering documents.
+
+This is equivalent to MongoDB's $match aggregation operator.
+
+</td></tr>
+<tr><td>
+
+[max(versions)](./zero-contracts.max.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[min(versions)](./zero-contracts.min.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[oneAfter(version)](./zero-contracts.oneafter.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[parseBigInt(val, radix)](./zero-contracts.parsebigint.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[pipelineBuilder(source)](./zero-contracts.pipelinebuilder.md)
+
+</td><td>
+
+Creates a new pipeline mapping builder.
+
+</td></tr>
+<tr><td>
+
+[project(projection)](./zero-contracts.project.md)
+
+</td><td>
+
+Creates a $project pipeline stage for reshaping documents.
+
+This is equivalent to MongoDB's $project aggregation operator. Unlike the top-level `projection` field which applies only to the final output, $project stages can be used at any point in the pipeline.
+
+</td></tr>
+<tr><td>
+
+[toPipelineMapping(mapping)](./zero-contracts.topipelinemapping.md)
+
+</td><td>
+
+Converts a simple filter-based mapping to a pipeline-based mapping.
+
+This is useful for migrating existing configurations or when you need pipeline features but want to preserve simple configuration structure.
+
+</td></tr>
+<tr><td>
+
+[truncateBytes(msg, maxBytes)](./zero-contracts.truncatebytes.md)
+
+</td><td>
+
+Truncates a UTF-8 encoded string to a specified maximum number of bytes. Ensures that the truncation does not cut off a multibyte character.
+
+</td></tr>
+<tr><td>
+
+[unwind(path)](./zero-contracts.unwind.md)
+
+</td><td>
+
+Creates an $unwind pipeline stage for deconstructing array fields.
+
+This is equivalent to MongoDB's $unwind aggregation operator. Outputs one document for each element in the specified array field.
+
+</td></tr>
+<tr><td>
+
+[unwind(options)](./zero-contracts.unwind_1.md)
+
+</td><td>
+
+Creates an $unwind pipeline stage with advanced options.
+
+</td></tr>
+<tr><td>
+
+[versionFromLexi(lexiVersion)](./zero-contracts.versionfromlexi.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[versionToLexi(v)](./zero-contracts.versiontolexi.md)
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+## Interfaces
+
+<table><thead><tr><th>
+
+Interface
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[IWatermarkService](./zero-contracts.iwatermarkservice.md)
+
+</td><td>
+
+Data contract for a Watermark-to-Resume-Token mapping service.
+
+Provides an simple API to convert MongoDB change stream resume tokens to Zero watermark strings and vice versa.
+
+</td></tr>
+<tr><td>
+
+[MatchStage](./zero-contracts.matchstage.md)
+
+</td><td>
+
+Filter stage - equivalent to MongoDB's $match operator.
+
+Filters documents based on the specified criteria. Documents that don't match the filter are excluded from further processing.
+
+</td></tr>
+<tr><td>
+
+[PipelineTableMapping](./zero-contracts.pipelinetablemapping.md)
+
+</td><td>
+
+Modern pipeline-based table mapping configuration.
+
+This approach supports composable transformation stages similar to MongoDB's aggregation pipeline, enabling array unwinding, computed fields, and complex transformations.
+
+Pipeline stages execute in array order, with projection applied last.
+
+TTable - The target Zero table type (provides type hints for consumers)
+
+</td></tr>
+<tr><td>
+
+[ProjectStage](./zero-contracts.projectstage.md)
+
+</td><td>
+
+Represents a MongoDB $project aggregation stage.
+
+The $project stage reshapes documents by: - Including/excluding fields - Adding computed fields - Renaming fields - Creating new fields from expressions
+
+Unlike SimpleTableMapping projection which applies only to the final output, $project stages can be used at any point in the pipeline to transform documents before subsequent stages.
+
+T - The document type (for type hints only, not enforced at runtime)
+
+</td></tr>
+<tr><td>
+
+[SetStage](./zero-contracts.setstage.md)
+
+</td><td>
+
+Add computed fields stage - equivalent to MongoDB's $addFields operator.
+
+Adds new fields to documents or replaces existing fields with computed values. Uses the same expression syntax as $project, but retains all existing fields.
+
+</td></tr>
+<tr><td>
+
+[SimpleTableMapping](./zero-contracts.simpletablemapping.md)
+
+</td><td>
+
+Legacy filter-based table mapping configuration (backward compatible).
+
+This approach supports simple filtering and projection operations. It remains fully supported for existing configurations.
+
+</td></tr>
+<tr><td>
+
+[UnwindOptions](./zero-contracts.unwindoptions.md)
+
+</td><td>
+
+Options for array unwinding operation.
+
+</td></tr>
+<tr><td>
+
+[UnwindStage](./zero-contracts.unwindstage.md)
+
+</td><td>
+
+Array unwinding stage - equivalent to MongoDB's $unwind operator.
+
+Deconstructs an array field from input documents to output a document for each element. Each output document is the input document with the array field replaced by the element.
+
+</td></tr>
+</tbody></table>
+
+## Variables
+
+<table><thead><tr><th>
+
+Variable
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[corsDelegate](./zero-contracts.corsdelegate.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[TOKEN_WATERMARK_SERVICE](./zero-contracts.token_watermark_service.md)
+
+</td><td>
+
+A dependency injection token for the watermark service. Use this token to provide/inject your custom watermark service implementation.
+
+</td></tr>
+<tr><td>
+
+[WS_1000_NORMAL_CLOSURE](./zero-contracts.ws_1000_normal_closure.md)
+
+</td><td>
+
+Successful operation, connection not required anymore
+
+</td></tr>
+<tr><td>
+
+[WS_1001_GOING_AWAY](./zero-contracts.ws_1001_going_away.md)
+
+</td><td>
+
+Browser tab closing, graceful server shutdown
+
+</td></tr>
+<tr><td>
+
+[WS_1002_PROTOCOL_ERROR](./zero-contracts.ws_1002_protocol_error.md)
+
+</td><td>
+
+Endpoint received malformed frame
+
+</td></tr>
+<tr><td>
+
+[WS_1003_UNSUPPORTED_DATA](./zero-contracts.ws_1003_unsupported_data.md)
+
+</td><td>
+
+Endpoint received unsupported frame (e.g. binary-only got text frame, ping/pong frames not handled properly)
+
+</td></tr>
+<tr><td>
+
+[WS_1005_NO_STATUS_RECEIVED](./zero-contracts.ws_1005_no_status_received.md)
+
+</td><td>
+
+Got no close status but transport layer finished normally (e.g. TCP FIN but no previous CLOSE frame)
+
+</td></tr>
+<tr><td>
+
+[WS_1006_ABNORMAL_CLOSURE](./zero-contracts.ws_1006_abnormal_closure.md)
+
+</td><td>
+
+Transport layer broke (e.g. couldn't connect, TCP RST)
+
+</td></tr>
+<tr><td>
+
+[WS_1007_INVALID_FRAME_PAYLOAD_DATA](./zero-contracts.ws_1007_invalid_frame_payload_data.md)
+
+</td><td>
+
+Data in endpoint's frame is not consistent (e.g. malformed UTF-8)
+
+</td></tr>
+<tr><td>
+
+[WS_1008_POLICY_VIOLATION](./zero-contracts.ws_1008_policy_violation.md)
+
+</td><td>
+
+Generic code not applicable to any other (e.g. isn't `1003` nor `1009`<!-- -->)
+
+</td></tr>
+<tr><td>
+
+[WS_1009_MESSAGE_TOO_BIG](./zero-contracts.ws_1009_message_too_big.md)
+
+</td><td>
+
+Endpoint won't process large message
+
+</td></tr>
+<tr><td>
+
+[WS_1010_MANDATORY_EXTENSIONS](./zero-contracts.ws_1010_mandatory_extensions.md)
+
+</td><td>
+
+Client wanted extension(s) that server did not negotiate
+
+</td></tr>
+<tr><td>
+
+[WS_1011_INTERNAL_ERROR](./zero-contracts.ws_1011_internal_error.md)
+
+</td><td>
+
+Unexpected server problem while operating
+
+</td></tr>
+<tr><td>
+
+[WS_1012_SERVICE_RESTART](./zero-contracts.ws_1012_service_restart.md)
+
+</td><td>
+
+Server/service is restarting
+
+</td></tr>
+<tr><td>
+
+[WS_1013_TRY_AGAIN_LATER](./zero-contracts.ws_1013_try_again_later.md)
+
+</td><td>
+
+Temporary server condition forced blocking client's application-based request
+
+</td></tr>
+<tr><td>
+
+[WS_1014_BAD_GATEWAY](./zero-contracts.ws_1014_bad_gateway.md)
+
+</td><td>
+
+Server acting as gateway/proxy got invalid response. Equivalent to HTTP `502`
+
+</td></tr>
+<tr><td>
+
+[WS_1015_TLS_HANDSHAKE](./zero-contracts.ws_1015_tls_handshake.md)
+
+</td><td>
+
+Transport layer broke because TLS handshake failed
+
+</td></tr>
+<tr><td>
+
+[WS_3000_UNAUTHORIZED](./zero-contracts.ws_3000_unauthorized.md)
+
+</td><td>
+
+Endpoint must be authorized to perform application-based request. Equivalent to HTTP `401`
+
+</td></tr>
+<tr><td>
+
+[WS_3003_FORBIDDEN](./zero-contracts.ws_3003_forbidden.md)
+
+</td><td>
+
+Endpoint is authorized but has no permissions to perform application-based request. Equivalent to HTTP `403`
+
+</td></tr>
+<tr><td>
+
+[WS_3008_TIMEOUT](./zero-contracts.ws_3008_timeout.md)
+
+</td><td>
+
+Endpoint took too long to respond to application-based request. Equivalent to HTTP `408`
+
+</td></tr>
+<tr><td>
+
+[WS_4900_UNDERLYING_STREAM_CLOSED](./zero-contracts.ws_4900_underlying_stream_closed.md)
+
+</td><td>
+
+The underlying stream was closed, client should reconnect.
+
+</td></tr>
+<tr><td>
+
+[WS_CLOSE_REASON_MAX_BYTES](./zero-contracts.ws_close_reason_max_bytes.md)
+
+</td><td>
+
+The maximum number of bytes a close reason string can have.
+
+</td></tr>
+<tr><td>
+
+[WsCloseCode](./zero-contracts.wsclosecode.md)
+
+</td><td>
+
+WebSocket connection close codes
+
+</td></tr>
+<tr><td>
+
+[ZERO_VALUE_TYPE_TO_PG_TYPE](./zero-contracts.zero_value_type_to_pg_type.md)
+
+</td><td>
+
+HACK: map zero schema column types to pg types so zero cache is happy
+
+</td></tr>
+</tbody></table>
+
+## Type Aliases
+
+<table><thead><tr><th>
+
+Type Alias
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[AlternativeType](./zero-contracts.alternativetype.md)
+
+</td><td>
+
+It is possible to search using alternative types in mongodb e.g. string types can be searched using a regex in mongo, and array types can be searched using their element type
+
+</td></tr>
+<tr><td>
+
+[AtLeastOne](./zero-contracts.atleastone.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[Condition](./zero-contracts.condition.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[Dict](./zero-contracts.dict.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[DocumentPath](./zero-contracts.documentpath.md)
+
+</td><td>
+
+Represents a document path identifier that must start with a dollar sign ($) followed by a field name.
+
+This type enforces that document paths follow MongoDB's field reference convention where they are prefixed with '$'. The path after the $ can use dot notation for nested fields.
+
+</td></tr>
+<tr><td>
+
+[ExtractMutatorKeys](./zero-contracts.extractmutatorkeys.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[Filter](./zero-contracts.filter.md)
+
+</td><td>
+
+A MongoDB-like filter can be some portion of the table-collection schema or a set of operators
+
+</td></tr>
+<tr><td>
+
+[FilterOperators](./zero-contracts.filteroperators.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[LexiVersion](./zero-contracts.lexiversion.md)
+
+</td><td>
+
+A LexiVersion is a lexicographically sortable representation of numbers from 0 to Number.MAX_SAFE_INTEGER (which is the safe range of Version values used in Zero).
+
+The Version is first encoded in base36, and then prepended by a single base36 character representing the length (of the base36 version) minus 1. This encoding can encode numbers up to 185 bits, with the maximum encoded number being `"z".repeat(37)`<!-- -->, or 36^36-1 (approximately 1.0638735892371651e+56).
+
+Examples: \* 0 =<!-- -->&gt; "00" \* 10 =<!-- -->&gt; "0a" \* 35 =<!-- -->&gt; "0z" \* 36 =<!-- -->&gt; "110" \* 46655 =<!-- -->&gt; "2zzz" \* 2^64 =<!-- -->&gt; "c3w5e11264sgsg"
+
+Note that when using the `number` type, the library will assert if attempting to encode a Version larger than Number.MAX_SAFE_INTEGER. For large numbers, use the `bigint` type.
+
+</td></tr>
+<tr><td>
+
+[MutatorKeysForSchema](./zero-contracts.mutatorkeysforschema.md)
+
+</td><td>
+
+Extracts the keys of custom mutators from a mutator definition object (`MD`<!-- -->).
+
+Analyzes a `CustomMutatorDefs` object (`MD`<!-- -->) associated with a `Schema` (`S`<!-- -->) and produces a union type containing the string keys representing all defined custom mutators:
+
+- For top-level keys, the key itself - For keys nested within a namespace, teh compound key in the format `"namespace|mutatorKey"`<!-- -->.
+
+Schema - The schema type that the mutators operate on. Expected to extend `Schema`<!-- -->. Mutators - The custom mutator definitions object.
+
+</td></tr>
+<tr><td>
+
+[PipelineStage](./zero-contracts.pipelinestage.md)
+
+</td><td>
+
+Supported pipeline stages (extensible via union type).
+
+New stage types can be added to this union without breaking existing code, following the Open-Closed Principle.
+
+</td></tr>
+<tr><td>
+
+[Projection](./zero-contracts.projection.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[ProjectionOperator](./zero-contracts.projectionoperator.md)
+
+</td><td>
+
+Represents a projection operator used in database queries or data transformations.
+
+A projection operator is an object where keys are operator names starting with a dollar sign ($), and values can be: - DocumentPath: References to fields (e.g., '$\_id', '$user.name') - Arrays: For operators like $concat that take multiple arguments - Nested operators: For composed operations - Primitive values: For literal values
+
+Common operators include: - Type conversion: $toString, $toInt, $toBool - String operations: $concat, $substr, $toLower, $toUpper - Custom operators: $hexToBase64Url - Logical operators: $eq, $ne, $and, $or
+
+</td></tr>
+<tr><td>
+
+[RegExpOrString](./zero-contracts.regexporstring.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[RootFilterOperators](./zero-contracts.rootfilteroperators.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[RowOf](./zero-contracts.rowof.md)
+
+</td><td>
+
+Extracts the shape of the rows from a table schema
+
+</td></tr>
+<tr><td>
+
+[ServerMutatorContext](./zero-contracts.servermutatorcontext.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[ServerMutatorDefs](./zero-contracts.servermutatordefs.md)
+
+</td><td>
+
+A mapping of server mutator definitions, organized by namespace or key.
+
+Each entry can be either: - A single `ServerMutatorImpl<TContext>` instance, or - An object mapping string keys to `ServerMutatorImpl<TContext>` instances.
+
+TContext - The context type that each mutator implementation will receive.
+
+</td></tr>
+<tr><td>
+
+[ServerMutatorImpl](./zero-contracts.servermutatorimpl.md)
+
+</td><td>
+
+Represents a server-side mutator function implementation.
+
+TContext - The type of the context object expected by the mutator. TArgs - The type of the arguments expected by the mutator. Defaults to `any`<!-- -->.
+
+</td></tr>
+<tr><td>
+
+[TableMapping](./zero-contracts.tablemapping.md)
+
+</td><td>
+
+Table mapping configuration using mutually exclusive approaches. Use EITHER legacy filter-based OR modern pipeline-based mapping, but not both.
+
+The discriminated union ensures compile-time safety by preventing accidental mixing of the two approaches.
+
+</td></tr>
+<tr><td>
+
+[TableMappings](./zero-contracts.tablemappings.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[TableNames](./zero-contracts.tablenames.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[TypedSchema](./zero-contracts.typedschema.md)
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+[ZeroConfig](./zero-contracts.zeroconfig.md)
+
+</td><td>
+
+Configuration for zero-cache change source.
+
+</td></tr>
+</tbody></table>

@@ -1,0 +1,13 @@
+---
+title: 'PipelineTableMapping.projection property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [PipelineTableMapping](./zero-contracts.pipelinetablemapping.md) &gt; [projection](./zero-contracts.pipelinetablemapping.projection.md)
+
+## PipelineTableMapping.projection property
+
+**Signature:**
+
+```typescript
+projection?: never;
+```

@@ -1,0 +1,120 @@
+---
+title: 'Demo: ZRocket'
+description: Real-time chat application showcasing the MongoDB Zero Change Source
+icon: Rocket
+---
+
+## Overview
+
+ZRocket is a simple chat application that showcases:
+
+- **Real-time Messages**: See messages appear instantly across all clients
+- **Multiple Rooms**: Organize conversations in different rooms
+- **User Presence**: See who's online in real-time
+- **Optimistic Updates**: Messages appear immediately before server confirmation
+
+## Features
+
+### Real-time Synchronization
+
+Messages sync across all connected clients in real-time with sub-second latency.
+
+### Offline-First
+
+The app continues working offline, queuing messages for later delivery.
+
+### Three-Container Architecture
+
+ZRocket demonstrates the complete Zero Sources architecture:
+
+1. **Change Source**: Streams MongoDB changes
+2. **NestJS Backend**: Serves the React app and provides APIs
+3. **React Frontend**: Real-time UI with Zero client
+
+## Quick Start
+
+```bash
+# Navigate to ZRocket
+cd apps/zrocket
+
+# Install dependencies
+pnpm install
+
+# Start MongoDB
+docker-compose up -d mongodb
+
+# Start development
+pnpm dev
+```
+
+Open http://localhost:3001 in multiple browser windows to see real-time sync in action!
+
+## Project Structure
+
+```
+apps/zrocket/
+├── app/                    # React Router 7 frontend
+│   ├── routes/            # Route components
+│   ├── components/        # React components
+│   └── lib/              # Client utilities
+├── src/                   # NestJS backend
+│   ├── features/         # Business logic
+│   └── schema/           # Zero schema export
+├── public/               # Static assets
+└── build/                # SSR build output
+```
+
+## Key Components
+
+### Message Schema
+
+```typescript
+export const messageSchema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        id: { type: 'string' },
+        roomId: { type: 'string' },
+        content: { type: 'string' },
+        userId: { type: 'string' },
+        createdAt: { type: 'number' }
+    },
+    primaryKey: ['id'],
+    relationships: {
+        room: {
+            sourceField: ['roomId'],
+            destSchema: () => roomSchema,
+            destField: ['id']
+        },
+        user: {
+            sourceField: ['userId'],
+            destSchema: () => userSchema,
+            destField: ['id']
+        }
+    }
+});
+```
+
+### Zero Client Setup
+
+```typescript
+import { Zero } from '@rocicorp/zero';
+import { schema } from '@cbnsndwch/zrocket-contracts';
+
+const zero = new Zero({
+    server: 'http://localhost:3000',
+    schema,
+    userID: userId
+});
+```
+
+### Query Messages
+
+```typescript
+const messages = zero.query(q =>
+    q.message.where('roomId', roomId).orderBy('createdAt', 'asc')
+);
+
+messages.subscribe(msgs => {
+    console.log('Messages:', msgs);
+});
+```

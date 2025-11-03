@@ -8,12 +8,10 @@ import {
     Scripts,
     ScrollRestoration
 } from 'react-router';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
-
-import ClarityInit from '@/components/analytics/clarity';
 
 import type { Route } from './+types/root';
+
+import ClarityInit from './components/analytics/clarity';
 import './globals.css';
 
 export function Layout({ children }: React.PropsWithChildren) {
@@ -44,8 +42,6 @@ export function Layout({ children }: React.PropsWithChildren) {
                 </RootProvider>
                 <ScrollRestoration />
                 <Scripts />
-                <Analytics />
-                <SpeedInsights />
                 <ClarityInit />
             </body>
         </html>
@@ -99,19 +95,17 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     );
 }
 
-const { rewrite: rewriteLLM } = rewritePath(
-    '/docs{/*path}.mdx',
-    '/llms.mdx{/*path}'
-);
+const llmsMdxRule = rewritePath('/docs{/*path}.mdx', '/llms.mdx{/*path}');
 
-const serverMiddleware: Route.MiddlewareFunction = async (
-    { request },
-    next
-) => {
-    const url = new URL(request.url);
-    const path = rewriteLLM(url.pathname);
-    if (path) return Response.redirect(new URL(path, url));
-    return next();
-};
+export const middleware: Route.MiddlewareFunction[] = [
+    async ({ request }, next) => {
+        const url = new URL(request.url);
+        const rewrittenPath = llmsMdxRule.rewrite(url.pathname);
 
-export const middleware = [serverMiddleware];
+        if (!rewrittenPath) {
+            return next();
+        }
+
+        return Response.redirect(new URL(rewrittenPath, url));
+    }
+];

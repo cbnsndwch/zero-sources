@@ -1,0 +1,15 @@
+---
+title: 'IUser.profile property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUser](./zrocket-contracts.iuser.md) &gt; [profile](./zrocket-contracts.iuser.profile.md)
+
+## IUser.profile property
+
+Additional user profile information stored as a dictionary.
+
+**Signature:**
+
+```typescript
+profile: Dict;
+```

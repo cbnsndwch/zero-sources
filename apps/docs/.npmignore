@@ -1,0 +1,74 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+.turbo
+.cache
+.vercel
+.react-router
+
+# Development files
+.env
+.env.*
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+.github
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+coverage
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# source files
+.dockerignore
+.eslintignore
+.eslintrc.json
+.source
+.swc*
+*eslint*
+app
+cli.json
+components
+components.json
+Dockerfile
+lib
+mdx.d.ts
+nest-cli.json
+react-router.config.ts
+scripts
+source.config.ts
+src
+templates
+tsconfig.*
+vite.config.ts
+vitest.*
+
+# Documentation
+*.md
+!README.md
+
+# maybe not?
+content

@@ -1,0 +1,18 @@
+---
+title: 'RootFilterOperators type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [RootFilterOperators](./zero-contracts.rootfilteroperators.md)
+
+## RootFilterOperators type
+
+**Signature:**
+
+```typescript
+type RootFilterOperators<T> = Dict & {
+    $and?: Filter<T>[];
+    $or?: Filter<T>[];
+};
+```
+
+**References:** [Dict](./zero-contracts.dict.md)<!-- -->, [Filter](./zero-contracts.filter.md)

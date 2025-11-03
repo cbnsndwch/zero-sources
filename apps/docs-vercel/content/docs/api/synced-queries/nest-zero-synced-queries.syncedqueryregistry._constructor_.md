@@ -1,0 +1,76 @@
+---
+title: 'SyncedQueryRegistry.(constructor)'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [SyncedQueryRegistry](./nest-zero-synced-queries.syncedqueryregistry.md) &gt; [(constructor)](./nest-zero-synced-queries.syncedqueryregistry._constructor_.md)
+
+## SyncedQueryRegistry.(constructor)
+
+Constructs a new instance of the `SyncedQueryRegistry` class
+
+**Signature:**
+
+```typescript
+constructor(discoveryService: DiscoveryService, metadataScanner: MetadataScanner, reflector: Reflector, moduleRef: ModuleRef);
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+discoveryService
+
+</td><td>
+
+DiscoveryService
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+metadataScanner
+
+</td><td>
+
+MetadataScanner
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+reflector
+
+</td><td>
+
+Reflector
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+moduleRef
+
+</td><td>
+
+ModuleRef
+
+</td><td>
+
+</td></tr>
+</tbody></table>

@@ -1,0 +1,18 @@
+---
+title: 'JsonColumn type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-nest-mongoose](./zero-nest-mongoose.md) &gt; [JsonColumn](./zero-nest-mongoose.jsoncolumn.md)
+
+## JsonColumn type
+
+**Signature:**
+
+```typescript
+type JsonColumn<T extends ReadonlyJSONValue = ReadonlyJSONValue> = {
+    type: 'json';
+    customType: T;
+};
+```
+
+**References:** [ReadonlyJSONValue](./zero-nest-mongoose.readonlyjsonvalue.md)

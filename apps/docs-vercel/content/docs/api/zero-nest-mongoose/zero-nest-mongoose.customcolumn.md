@@ -1,0 +1,18 @@
+---
+title: 'CustomColumn type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-nest-mongoose](./zero-nest-mongoose.md) &gt; [CustomColumn](./zero-nest-mongoose.customcolumn.md)
+
+## CustomColumn type
+
+**Signature:**
+
+```typescript
+type CustomColumn<T> = {
+    type: ValueType;
+    customType: T;
+};
+```
+
+**References:** [ValueType](./zero-nest-mongoose.valuetype.md)

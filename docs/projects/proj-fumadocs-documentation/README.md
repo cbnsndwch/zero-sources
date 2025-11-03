@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project introduces a modern, community-focused documentation website for the zero-sources monorepo using [Fumadocs](https://fumadocs.vercel.app/), a Next.js-based documentation framework. The site will provide comprehensive, searchable, and beautifully designed documentation for all libraries and change source implementations, making it easier for the community to discover, understand, and adopt the zero-sources ecosystem.
+This project introduces a modern, community-focused documentation website for the zero-sources monorepo using [Fumadocs](https://fumadocs.dev//), a Next.js-based documentation framework. The site will provide comprehensive, searchable, and beautifully designed documentation for all libraries and change source implementations, making it easier for the community to discover, understand, and adopt the zero-sources ecosystem.
 
 ## Project Directory Structure
 
@@ -83,6 +83,6 @@ All work items use the FDS prefix:
 
 ## Related Documentation
 
-- [Fumadocs Official Documentation](https://fumadocs.vercel.app/)
+- [Fumadocs Official Documentation](https://fumadocs.dev//)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [MDX Documentation](https://mdxjs.com/)

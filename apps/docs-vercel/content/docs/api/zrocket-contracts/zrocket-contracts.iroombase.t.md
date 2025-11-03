@@ -1,0 +1,15 @@
+---
+title: 'IRoomBase.t property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IRoomBase](./zrocket-contracts.iroombase.md) &gt; [t](./zrocket-contracts.iroombase.t.md)
+
+## IRoomBase.t property
+
+The type of the room.
+
+**Signature:**
+
+```typescript
+t: TType;
+```

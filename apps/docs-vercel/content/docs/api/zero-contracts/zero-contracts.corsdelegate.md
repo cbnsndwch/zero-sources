@@ -1,0 +1,13 @@
+---
+title: 'corsDelegate variable'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [corsDelegate](./zero-contracts.corsdelegate.md)
+
+## corsDelegate variable
+
+**Signature:**
+
+```typescript
+corsDelegate: CorsOptionsDelegate<Request>;
+```

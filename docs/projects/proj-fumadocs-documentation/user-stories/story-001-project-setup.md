@@ -283,7 +283,7 @@ export default function HomePage() {
 ```markdown
 # zero-sources Documentation Site
 
-This is the documentation website for the zero-sources monorepo, built with [Fumadocs](https://fumadocs.vercel.app/).
+This is the documentation website for the zero-sources monorepo, built with [Fumadocs](https://fumadocs.dev//).
 
 ## Development
 
@@ -461,7 +461,7 @@ apps/docs/
 
 - Use exact versions that are known to be compatible
 - Fumadocs works with React Router v7 and React 19
-- **Important**: Fumadocs packages must be excluded from Vite pre-bundling and added to `noExternal` to prevent React context errors (see [Fumadocs FAQ](https://fumadocs.vercel.app/docs/ui#vite-context-error))
+- **Important**: Fumadocs packages must be excluded from Vite pre-bundling and added to `noExternal` to prevent React context errors (see [Fumadocs FAQ](https://fumadocs.dev//docs/ui#vite-context-error))
 - React Router v7 uses file-based routing in the `app/routes` directory
 - Keep Tailwind CSS configuration minimal initially
 - Ensure consistent TypeScript configuration with rest of monorepo
@@ -480,9 +480,9 @@ apps/docs/
 
 ## Related Documentation
 
-- [Fumadocs Getting Started Guide](https://fumadocs.vercel.app/docs/ui)
-- [Fumadocs Manual Installation](https://fumadocs.vercel.app/docs/ui/manual-installation)
-- [Fumadocs with React Router](https://fumadocs.vercel.app/docs/ui#automatic-installation)
+- [Fumadocs Getting Started Guide](https://fumadocs.dev//docs/ui)
+- [Fumadocs Manual Installation](https://fumadocs.dev//docs/ui/manual-installation)
+- [Fumadocs with React Router](https://fumadocs.dev//docs/ui#automatic-installation)
 - [React Router v7 Documentation](https://reactrouter.com/en/main)
 - [Vite Configuration Guide](https://vitejs.dev/config/)
 - [Turborepo Handbook](https://turbo.build/repo/docs/handbook)

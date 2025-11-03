@@ -284,8 +284,8 @@ Update root `turbo.json`:
 
 ## Related Documentation
 
-- [Fumadocs Getting Started](https://fumadocs.vercel.app/docs)
-- [Fumadocs Monorepo Setup](https://fumadocs.vercel.app/docs/headless/mdx/setup-fumadocs)
+- [Fumadocs Getting Started](https://fumadocs.dev//docs)
+- [Fumadocs Monorepo Setup](https://fumadocs.dev//docs/headless/mdx/setup-fumadocs)
 - [Next.js App Router](https://nextjs.org/docs/app)
 - [Turborepo Documentation](https://turbo.build/repo/docs)
 

@@ -1,0 +1,70 @@
+---
+title: zero-watermark-nats-kv
+description: NATS KV distributed watermark storage for Zero Sources
+---
+
+NATS KV-based watermark storage implementation for distributed deployments.
+
+## Overview
+
+The `zero-watermark-nats-kv` library provides a distributed watermark storage solution using NATS Key-Value store. Ideal for multi-instance, high-availability deployments.
+
+## Key Features
+
+- **Distributed**: Share state across multiple instances
+- **High Availability**: Built-in replication
+- **Fast**: In-memory with persistence
+- **Scalable**: Handle millions of clients
+- **Real-time**: Instant propagation
+
+## Installation
+
+```bash
+pnpm add @cbnsndwch/zero-watermark-nats-kv
+```
+
+## Quick Start
+
+```typescript
+import { NATSWatermarkStorage } from '@cbnsndwch/zero-watermark-nats-kv';
+
+const storage = new NATSWatermarkStorage({
+    servers: ['nats://localhost:4222'],
+    bucket: 'zero-watermarks'
+});
+
+await storage.init();
+
+// Store watermark
+await storage.setWatermark('client-123', 'table-1', '1234567890');
+
+// Retrieve watermark
+const watermark = await storage.getWatermark('client-123', 'table-1');
+```
+
+## Configuration
+
+```typescript
+const storage = new NATSWatermarkStorage({
+    servers: ['nats://nats1:4222', 'nats://nats2:4222'], // NATS servers
+    bucket: 'zero-watermarks', // KV bucket name
+    replicas: 3, // Replication factor
+    ttl: 7 * 24 * 60 * 60 * 1000 // 7 days
+});
+```
+
+## Use Cases
+
+- **Production**: Multi-instance production deployments
+- **High Availability**: Mission-critical applications
+- **Geographic Distribution**: Multi-region deployments
+- **Microservices**: Service mesh architectures
+
+## Comparison with ZQLite
+
+| Feature      | ZQLite          | NATS KV        |
+| ------------ | --------------- | -------------- |
+| Deployment   | Single instance | Multi-instance |
+| Availability | Local           | Distributed    |
+| Scalability  | Limited         | High           |
+| Complexity   | Simple          | Moderate       |

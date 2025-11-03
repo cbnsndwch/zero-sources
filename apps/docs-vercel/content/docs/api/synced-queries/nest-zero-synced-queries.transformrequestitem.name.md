@@ -1,0 +1,13 @@
+---
+title: 'TransformRequestItem.name property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [TransformRequestItem](./nest-zero-synced-queries.transformrequestitem.md) &gt; [name](./nest-zero-synced-queries.transformrequestitem.name.md)
+
+## TransformRequestItem.name property
+
+**Signature:**
+
+```typescript
+name: string;
+```

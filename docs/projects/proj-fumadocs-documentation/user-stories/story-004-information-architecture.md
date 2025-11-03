@@ -465,7 +465,7 @@ for (const dir of requiredDirs) {
 
 ## Related Links
 
-- [Fumadocs File Conventions](https://fumadocs.vercel.app/docs/ui/page-conventions)
+- [Fumadocs File Conventions](https://fumadocs.dev//docs/ui/page-conventions)
 - [Next.js File-based Routing](https://nextjs.org/docs/app/building-your-application/routing)
 - [Information Architecture Best Practices](https://www.nngroup.com/articles/information-architecture-101/)
 

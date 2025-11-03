@@ -1,5 +1,3 @@
-export * from './cors.js';
-
 export * from './invariant.js';
 
 export * from './serialization.js';

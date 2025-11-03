@@ -1,0 +1,56 @@
+---
+title: 'PassthroughWatermarkService.getResumeToken() method'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [PassthroughWatermarkService](./zero-contracts.passthroughwatermarkservice.md) &gt; [getResumeToken](./zero-contracts.passthroughwatermarkservice.getresumetoken.md)
+
+## PassthroughWatermarkService.getResumeToken() method
+
+**Signature:**
+
+```typescript
+getResumeToken(_shardId: string, watermark: LexiVersion): Promise<string>;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+\_shardId
+
+</td><td>
+
+string
+
+</td><td>
+
+</td></tr>
+<tr><td>
+
+watermark
+
+</td><td>
+
+[LexiVersion](./zero-contracts.lexiversion.md)
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+Promise&lt;string&gt;

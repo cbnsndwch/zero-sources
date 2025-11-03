@@ -164,7 +164,7 @@ Getting Started → Libraries → Change Sources → Demos → Guides → Archit
 
 ### Documentation
 
-- [Fumadocs Docs](https://fumadocs.vercel.app/)
+- [Fumadocs Docs](https://fumadocs.dev//)
 - [Next.js Docs](https://nextjs.org/docs)
 - [MDX Docs](https://mdxjs.com/)
 - [TypeDoc Docs](https://typedoc.org/)

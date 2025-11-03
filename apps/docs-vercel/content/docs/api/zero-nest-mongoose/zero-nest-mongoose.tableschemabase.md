@@ -1,0 +1,18 @@
+---
+title: 'TableSchemaBase type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-nest-mongoose](./zero-nest-mongoose.md) &gt; [TableSchemaBase](./zero-nest-mongoose.tableschemabase.md)
+
+## TableSchemaBase type
+
+**Signature:**
+
+```typescript
+type TableSchemaBase = {
+    _id: StringColumn;
+    __v: NumberColumnOptional;
+};
+```
+
+**References:** [StringColumn](./zero-nest-mongoose.stringcolumn.md)<!-- -->, [NumberColumnOptional](./zero-nest-mongoose.numbercolumnoptional.md)

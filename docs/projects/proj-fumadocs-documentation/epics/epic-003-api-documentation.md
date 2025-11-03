@@ -163,7 +163,7 @@ The following are explicitly out of scope for this epic:
 - [Story 008: Configure TypeDoc Integration](../user-stories/story-008-typedoc-integration.md)
 - [Story 009: Generate and Link API Documentation](../user-stories/story-009-api-docs-generation.md)
 - [TypeDoc Documentation](https://typedoc.org/)
-- [Fumadocs API Documentation Guide](https://fumadocs.vercel.app/)
+- [Fumadocs API Documentation Guide](https://fumadocs.dev//)
 
 ## Notes
 

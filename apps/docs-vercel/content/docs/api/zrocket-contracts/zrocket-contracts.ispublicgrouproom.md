@@ -1,0 +1,47 @@
+---
+title: 'isPublicGroupRoom() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [isPublicGroupRoom](./zrocket-contracts.ispublicgrouproom.md)
+
+## isPublicGroupRoom() function
+
+**Signature:**
+
+```typescript
+declare function isPublicGroupRoom(
+    room: Partial<IRoomBase>
+): room is IPublicChannelRoom;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+room
+
+</td><td>
+
+Partial&lt;[IRoomBase](./zrocket-contracts.iroombase.md)<!-- -->&gt;
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+room is [IPublicChannelRoom](./zrocket-contracts.ipublicchannelroom.md)

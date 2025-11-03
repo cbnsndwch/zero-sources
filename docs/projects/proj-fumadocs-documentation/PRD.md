@@ -887,7 +887,7 @@ For each library/module being migrated:
 
 ### Appendix C: Resource Links
 
-- [Fumadocs Documentation](https://fumadocs.vercel.app/)
+- [Fumadocs Documentation](https://fumadocs.dev//)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [MDX Documentation](https://mdxjs.com/)
 - [TypeDoc Documentation](https://typedoc.org/)

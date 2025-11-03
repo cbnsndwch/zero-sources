@@ -1,0 +1,51 @@
+---
+title: 'SyncedQueryRegistry.hasQuery() method'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [SyncedQueryRegistry](./nest-zero-synced-queries.syncedqueryregistry.md) &gt; [hasQuery](./nest-zero-synced-queries.syncedqueryregistry.hasquery.md)
+
+## SyncedQueryRegistry.hasQuery() method
+
+Check if a query is registered.
+
+**Signature:**
+
+```typescript
+hasQuery(queryName: string): boolean;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+queryName
+
+</td><td>
+
+string
+
+</td><td>
+
+The name of the query to check
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+boolean
+
+True if the query is registered

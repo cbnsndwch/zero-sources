@@ -1,10 +1,10 @@
 import { HomeLayout } from 'fumadocs-ui/layouts/home';
 
-import { baseOptions } from '@/app/lib/layout.shared';
-import { createMetaTags } from '@/app/lib/meta';
-import Footer from '@/components/footer';
-
 import type { Route } from './+types/home';
+
+import { baseOptions } from '@/lib/layout.shared';
+import { createMetaTags } from '@/lib/meta';
+import Footer from '@/components/footer';
 
 export function meta({ location }: Route.MetaArgs) {
     return createMetaTags({
@@ -56,7 +56,13 @@ export default function HomePage() {
                     {/* Features Grid */}
                     <div className="grid w-full max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
                         <div className="rounded-lg border border-border bg-card p-6 text-left">
-                            <div className="mb-4 text-3xl">📦</div>
+                            <span
+                                role="img"
+                                className="mb-4 text-3xl"
+                                aria-label="package icon"
+                            >
+                                📦
+                            </span>
                             <h3 className="mb-2 text-xl font-semibold">
                                 MongoDB Change Sources
                             </h3>
@@ -67,7 +73,13 @@ export default function HomePage() {
                         </div>
 
                         <div className="rounded-lg border border-border bg-card p-6 text-left">
-                            <div className="mb-4 text-3xl">💾</div>
+                            <span
+                                role="img"
+                                className="mb-4 text-3xl"
+                                aria-label="floppy disk icon"
+                            >
+                                💾
+                            </span>
                             <h3 className="mb-2 text-xl font-semibold">
                                 Watermark Implementations
                             </h3>
@@ -78,7 +90,13 @@ export default function HomePage() {
                         </div>
 
                         <div className="rounded-lg border border-border bg-card p-6 text-left">
-                            <div className="mb-4 text-3xl">🔄</div>
+                            <span
+                                role="img"
+                                className="mb-4 text-3xl"
+                                aria-label="sync icon"
+                            >
+                                🔄
+                            </span>
                             <h3 className="mb-2 text-xl font-semibold">
                                 Real-time Sync
                             </h3>
@@ -89,7 +107,13 @@ export default function HomePage() {
                         </div>
 
                         <div className="rounded-lg border border-border bg-card p-6 text-left">
-                            <div className="mb-4 text-3xl">🏗️</div>
+                            <span
+                                role="img"
+                                className="mb-4 text-3xl"
+                                aria-label="crane icon"
+                            >
+                                🏗️
+                            </span>
                             <h3 className="mb-2 text-xl font-semibold">
                                 TypeScript Monorepo
                             </h3>
@@ -100,7 +124,13 @@ export default function HomePage() {
                         </div>
 
                         <div className="rounded-lg border border-border bg-card p-6 text-left">
-                            <div className="mb-4 text-3xl">🎯</div>
+                            <span
+                                role="img"
+                                className="mb-4 text-3xl"
+                                aria-label="bullseye icon"
+                            >
+                                🎯
+                            </span>
                             <h3 className="mb-2 text-xl font-semibold">
                                 Production Ready
                             </h3>
@@ -111,7 +141,13 @@ export default function HomePage() {
                         </div>
 
                         <div className="rounded-lg border border-border bg-card p-6 text-left">
-                            <div className="mb-4 text-3xl">📚</div>
+                            <span
+                                role="img"
+                                className="mb-4 text-3xl"
+                                aria-label="applications icon"
+                            >
+                                📚
+                            </span>
                             <h3 className="mb-2 text-xl font-semibold">
                                 Demo Applications
                             </h3>

@@ -1,0 +1,100 @@
+---
+title: API Reference
+description: Complete API documentation for all Zero Sources libraries and packages
+icon: Code
+---
+
+import { PackageIcon } from 'lucide-react';
+
+## Available APIs
+
+<Cards>
+    <Card
+        title="@cbnsndwch/zero-contracts"
+        href="/docs/api/zero-contracts"
+        icon={<PackageIcon />}
+    >
+        Protocol types and interfaces (57 APIs)
+    </Card>
+    <Card
+        title="@cbnsndwch/zero-source-mongodb"
+        href="/docs/api/zero-source-mongodb"
+        icon={<PackageIcon />}
+    >
+        MongoDB change source API (41 APIs)
+    </Card>
+    <Card
+        title="@cbnsndwch/zero-nest-mongoose"
+        href="/docs/api/zero-nest-mongoose"
+        icon={<PackageIcon />}
+    >
+        NestJS Mongoose integration API (20 APIs)
+    </Card>
+    <Card
+        title="@cbnsndwch/zero-watermark-zqlite"
+        href="/docs/api/zero-watermark-zqlite"
+        icon={<PackageIcon />}
+    >
+        ZQLite watermark storage API (12 APIs)
+    </Card>
+    <Card
+        title="@cbnsndwch/zero-watermark-nats-kv"
+        href="/docs/api/zero-watermark-nats-kv"
+        icon={<PackageIcon />}
+    >
+        NATS KV watermark storage API (12 APIs)
+    </Card>
+    <Card
+        title="@cbnsndwch/zero-nest-synced-queries"
+        href="/docs/api/synced-queries"
+        icon={<PackageIcon />}
+    >
+        NestJS synced queries API (155 APIs)
+    </Card>
+    <Card
+        title="@cbnsndwch/zrocket-contracts"
+        href="/docs/api/zrocket-contracts"
+        icon={<PackageIcon />}
+    >
+        ZRocket application contracts API (57 APIs)
+    </Card>
+</Cards>
+
+## API Documentation Format
+
+API documentation includes:
+
+- **Classes**: Constructor, methods, properties
+- **Interfaces**: Type definitions and contracts
+- **Functions**: Parameters, return types, examples
+- **Types**: TypeScript type aliases and unions
+- **Examples**: Usage examples for each API
+
+## TypeScript Support
+
+All APIs provide full TypeScript support with:
+
+- Complete type definitions
+- JSDoc comments
+- IDE autocomplete
+- Type inference
+
+## Generating API Docs
+
+API documentation is automatically generated from source code using Microsoft API Extractor:
+
+```bash
+# Generate all API docs
+pnpm build:api-docs
+```
+
+For more information on maintaining API documentation, see the [API Documentation Guide](/docs/API_DOCUMENTATION_GUIDE.md).
+
+## Contributing
+
+Help improve API documentation:
+
+1. Add JSDoc comments to public APIs
+2. Include usage examples
+3. Document edge cases
+4. Update when APIs change

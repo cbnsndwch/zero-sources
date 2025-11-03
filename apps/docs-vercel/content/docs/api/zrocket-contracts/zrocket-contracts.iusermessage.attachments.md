@@ -1,0 +1,15 @@
+---
+title: 'IUserMessage.attachments property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUserMessage](./zrocket-contracts.iusermessage.md) &gt; [attachments](./zrocket-contracts.iusermessage.attachments.md)
+
+## IUserMessage.attachments property
+
+Attachments of the message, if any
+
+**Signature:**
+
+```typescript
+attachments?: MessageAttachment[];
+```

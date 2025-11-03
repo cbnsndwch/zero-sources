@@ -1,0 +1,15 @@
+---
+title: 'IUser.preferences property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUser](./zrocket-contracts.iuser.md) &gt; [preferences](./zrocket-contracts.iuser.preferences.md)
+
+## IUser.preferences property
+
+User preferences stored as a dictionary.
+
+**Signature:**
+
+```typescript
+preferences?: Dict;
+```

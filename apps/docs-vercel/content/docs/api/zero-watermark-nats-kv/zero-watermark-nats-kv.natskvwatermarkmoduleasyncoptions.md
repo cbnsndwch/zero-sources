@@ -1,0 +1,16 @@
+---
+title: 'NatsKvWatermarkModuleAsyncOptions type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-watermark-nats-kv](./zero-watermark-nats-kv.md) &gt; [NatsKvWatermarkModuleAsyncOptions](./zero-watermark-nats-kv.natskvwatermarkmoduleasyncoptions.md)
+
+## NatsKvWatermarkModuleAsyncOptions type
+
+**Signature:**
+
+```typescript
+type NatsKvWatermarkModuleAsyncOptions = Pick<ModuleMetadata, 'imports'> &
+    Pick<FactoryProvider<NatsKvOptions>, 'inject' | 'useFactory'>;
+```
+
+**References:** [NatsKvOptions](./zero-watermark-nats-kv.natskvoptions.md)

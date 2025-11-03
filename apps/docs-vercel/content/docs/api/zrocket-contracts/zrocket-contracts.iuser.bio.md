@@ -1,0 +1,15 @@
+---
+title: 'IUser.bio property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [IUser](./zrocket-contracts.iuser.md) &gt; [bio](./zrocket-contracts.iuser.bio.md)
+
+## IUser.bio property
+
+A short text bio or description of the user.
+
+**Signature:**
+
+```typescript
+bio?: string;
+```

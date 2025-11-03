@@ -1,0 +1,47 @@
+---
+title: 'typedEntries() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-nest-mongoose](./zero-nest-mongoose.md) &gt; [typedEntries](./zero-nest-mongoose.typedentries.md)
+
+## typedEntries() function
+
+**Signature:**
+
+```typescript
+declare function typedEntries<T extends object>(
+    obj: T
+): [keyof T, T[keyof T]][];
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+obj
+
+</td><td>
+
+T
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+\[keyof T, T\[keyof T\]\]\[\]

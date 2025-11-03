@@ -1,30 +1,24 @@
 import { toClientRenderer } from 'fumadocs-mdx/runtime/vite';
-// import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
-// import {
-//     DocsBody,
-//     DocsDescription,
-//     DocsPage,
-//     DocsTitle
-// } from 'fumadocs-ui/page';
 
 import type { Route } from './+types/page';
-import { docs } from '@/.source';
-import { source } from '@/app/lib/source';
-import { baseOptions } from '@/app/lib/layout.shared';
-import { createMetaTags } from '@/app/lib/meta';
 
-import ViewOptions from '@/components/page-actions/ViewOptions';
-import CopyButton from '@/components/page-actions/CopyButton';
-import Separator from '@/components/ui/separator';
+import { baseOptions } from '@/lib/layout.shared';
+import { createMetaTags } from '@/lib/meta';
+import { source } from '@/lib/source';
+import { docs } from '@/source';
+
 import Feedback from '@/components/feedback';
+import { DocsLayout } from '@/components/layout/docs';
 import {
     DocsBody,
     DocsDescription,
     DocsPage,
     DocsTitle
 } from '@/components/layout/page';
-import { DocsLayout } from '@/components/layout/docs';
+import CopyButton from '@/components/page-actions/CopyButton';
+import ViewOptions from '@/components/page-actions/ViewOptions';
+import Separator from '@/components/ui/separator';
 
 export async function loader({ params }: Route.LoaderArgs) {
     const slugs = params['*'].split('/').filter(v => v.length > 0);

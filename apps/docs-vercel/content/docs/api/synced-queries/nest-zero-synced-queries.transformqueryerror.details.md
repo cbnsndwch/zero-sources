@@ -1,0 +1,13 @@
+---
+title: 'TransformQueryError.details property'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/nest-zero-synced-queries](./nest-zero-synced-queries.md) &gt; [TransformQueryError](./nest-zero-synced-queries.transformqueryerror.md) &gt; [details](./nest-zero-synced-queries.transformqueryerror.details.md)
+
+## TransformQueryError.details property
+
+**Signature:**
+
+```typescript
+details: any;
+```

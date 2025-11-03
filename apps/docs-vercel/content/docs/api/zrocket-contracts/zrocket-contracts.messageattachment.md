@@ -1,0 +1,18 @@
+---
+title: 'MessageAttachment type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [MessageAttachment](./zrocket-contracts.messageattachment.md)
+
+## MessageAttachment type
+
+**Signature:**
+
+```typescript
+type MessageAttachment =
+    | IMessageBasicAttachment
+    | MessageQuoteAttachment
+    | IMessageFileAttachment;
+```
+
+**References:** [IMessageBasicAttachment](./zrocket-contracts.imessagebasicattachment.md)<!-- -->, [MessageQuoteAttachment](./zrocket-contracts.messagequoteattachment.md)<!-- -->, [IMessageFileAttachment](./zrocket-contracts.imessagefileattachment.md)

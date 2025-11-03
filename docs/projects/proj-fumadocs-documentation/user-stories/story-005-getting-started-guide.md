@@ -281,7 +281,7 @@ Should include:
 
 - [Content Organization Guide](../docs/content-organization.md)
 - [Writing Style Guide](../docs/content-organization.md)
-- [Fumadocs MDX Guide](https://fumadocs.vercel.app/docs/ui/mdx)
+- [Fumadocs MDX Guide](https://fumadocs.dev//docs/ui/mdx)
 
 ---
 

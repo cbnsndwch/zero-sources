@@ -1,0 +1,5 @@
+{
+    "title": "MongoDB",
+    "description": "MongoDB change source server documentation",
+    "pages": ["deployment", "configuration", "monitoring"]
+}

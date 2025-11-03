@@ -1,0 +1,75 @@
+---
+title: Demos
+description: Example applications showcasing Zero Sources capabilities
+icon: Presentation
+---
+
+import { RocketIcon } from 'lucide-react';
+
+## Available Demos
+
+<Cards>
+    <Card title="ZRocket" href="/docs/demos/zrocket" icon={<RocketIcon />}>
+        Real-time chat application with rooms and messages
+    </Card>
+</Cards>
+
+## What You'll Learn
+
+Demo applications demonstrate:
+
+- **Real-time Sync**: See changes propagate instantly across clients
+- **Offline Support**: Continue working without network connection
+- **Optimistic Updates**: UI updates immediately before server confirmation
+- **Conflict Resolution**: Handle concurrent updates gracefully
+- **Schema Design**: Best practices for schema definition
+- **Architecture**: Three-container deployment pattern
+
+## Running Demos Locally
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm 8+
+- MongoDB 6.0+ with replica set
+- Docker (optional)
+
+### Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/rocicorp/zero-sources.git
+cd zero-sources
+
+# Install dependencies
+pnpm install
+
+# Start MongoDB
+docker-compose up -d mongodb
+
+# Start demo
+pnpm --filter zrocket dev
+```
+
+## Demo Architecture
+
+All demos follow the three-container architecture:
+
+```
+┌─────────────────┐     ┌─────────────┐     ┌────────────┐
+│  MongoDB        │────▶│  Change     │────▶│  Zero      │
+│  Database       │     │  Source     │     │  Cache     │
+└─────────────────┘     └─────────────┘     └────────────┘
+                                                    │
+                                                    ▼
+                                            ┌────────────┐
+                                            │  React App │
+                                            └────────────┘
+```
+
+## Technology Stack
+
+- **Frontend**: React Router 7, TypeScript, Tailwind CSS
+- **Backend**: NestJS, MongoDB, Mongoose
+- **Real-time**: Rocicorp Zero, WebSocket
+- **Build**: Vite, Turborepo

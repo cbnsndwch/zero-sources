@@ -1,0 +1,47 @@
+---
+title: 'isFileAudioAttachment() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [isFileAudioAttachment](./zrocket-contracts.isfileaudioattachment.md)
+
+## isFileAudioAttachment() function
+
+**Signature:**
+
+```typescript
+isFileAudioAttachment: (attachment: IMessageFileAttachment) => attachment is IMessageAudioAttachment & {
+    type: "file";
+}
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+attachment
+
+</td><td>
+
+[IMessageFileAttachment](./zrocket-contracts.imessagefileattachment.md)
+
+</td><td>
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+attachment is [IMessageAudioAttachment](./zrocket-contracts.imessageaudioattachment.md) &amp; { type: "file"; }

@@ -235,7 +235,7 @@ The following are explicitly out of scope for this epic:
 - [Story 014: Add Analytics and SEO](../user-stories/story-014-analytics-seo.md)
 - [Story 015: Create Interactive Code Examples](../user-stories/story-015-interactive-examples.md)
 - [Story 016: Add Community Contribution Guidelines](../user-stories/story-016-contribution-guidelines.md)
-- [Fumadocs Search Documentation](https://fumadocs.vercel.app/docs/ui/search)
+- [Fumadocs Search Documentation](https://fumadocs.dev//docs/ui/search)
 - [Vercel Analytics](https://vercel.com/analytics)
 
 ## Notes

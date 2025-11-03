@@ -389,7 +389,7 @@ For each library:
 - [Style Guide](../docs/content-organization.md)
 - [Content Templates](../docs/content-organization.md)
 - [MDX Guide](https://mdxjs.com/)
-- [Fumadocs Content](https://fumadocs.vercel.app/docs/headless/mdx)
+- [Fumadocs Content](https://fumadocs.dev//docs/headless/mdx)
 
 ---
 

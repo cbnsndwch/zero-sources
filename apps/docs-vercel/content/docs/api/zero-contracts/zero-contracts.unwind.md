@@ -1,0 +1,60 @@
+---
+title: 'unwind() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [unwind](./zero-contracts.unwind.md)
+
+## unwind() function
+
+Creates an $unwind pipeline stage for deconstructing array fields.
+
+This is equivalent to MongoDB's $unwind aggregation operator. Outputs one document for each element in the specified array field.
+
+**Signature:**
+
+```typescript
+declare function unwind(path: string): UnwindStage;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+path
+
+</td><td>
+
+string
+
+</td><td>
+
+Path to the array field (e.g., '$members')
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+[UnwindStage](./zero-contracts.unwindstage.md)
+
+An $unwind stage with simple path
+
+## Example
+
+```typescript
+const stage = unwind('$members');
+// { $unwind: '$members' }
+```

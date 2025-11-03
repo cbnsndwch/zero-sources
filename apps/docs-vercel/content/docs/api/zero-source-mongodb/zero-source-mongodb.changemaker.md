@@ -1,0 +1,19 @@
+---
+title: 'ChangeMaker type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-source-mongodb](./zero-source-mongodb.md) &gt; [ChangeMaker](./zero-source-mongodb.changemaker.md)
+
+## ChangeMaker type
+
+The "current" and "previous" change source protocol implementations the gateway supports. From the Custom Backends design doc:
+
+&gt; \*For a seamless migration, the endpoint must support either version during &gt; the transition from the zero-cache that speaks v1 to the zero-cache that &gt; speaks v2.\*
+
+**Signature:**
+
+```typescript
+export type ChangeMaker = IChangeMaker<v0.ChangeStreamMessage>;
+```
+
+**References:** [IChangeMaker](./zero-source-mongodb.ichangemaker.md)

@@ -1,7 +1,7 @@
 import type { Route } from './+types/llms-mdx';
 
-import { source } from '@/app/lib/source';
-import { getLLMText } from '@/app/lib/get-llm-text';
+import { source } from '@/lib/source';
+import { getLLMText } from '@/lib/get-llm-text';
 
 export async function loader({ params }: Route.LoaderArgs) {
     const slugs = (params as any)['*']

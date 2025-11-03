@@ -19,11 +19,7 @@ async function getFontData(): Promise<ArrayBuffer> {
     // Load Inter font from Vercel's font CDN
     const data = await fetch(
         'https://og-playground.vercel.app/inter-latin-ext-400-normal.woff',
-        {
-            headers: {
-                'User-Agent': 'Mozilla/5.0'
-            }
-        }
+        { headers: { 'User-Agent': 'Mozilla/5.0' } }
     ).then(async res => {
         if (!res.ok) {
             console.error('Font fetch failed:', res.status, res.statusText);

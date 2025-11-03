@@ -1,0 +1,53 @@
+---
+title: 'isThreadMessage() function'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zrocket-contracts](./zrocket-contracts.md) &gt; [isThreadMessage](./zrocket-contracts.isthreadmessage.md)
+
+## isThreadMessage() function
+
+Determines if a given message is a thread message.
+
+**Signature:**
+
+```typescript
+declare function isThreadMessage(
+    message: IUserMessage
+): message is IThreadMessage;
+```
+
+## Parameters
+
+<table><thead><tr><th>
+
+Parameter
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+message
+
+</td><td>
+
+[IUserMessage](./zrocket-contracts.iusermessage.md)
+
+</td><td>
+
+The message to check.
+
+</td></tr>
+</tbody></table>
+
+**Returns:**
+
+message is [IThreadMessage](./zrocket-contracts.ithreadmessage.md)
+
+`true` if the message is a thread message, otherwise `false`<!-- -->.

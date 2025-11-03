@@ -1,0 +1,93 @@
+---
+title: 'ZqliteWatermarkService class'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-watermark-zqlite](./zero-watermark-zqlite.md) &gt; [ZqliteWatermarkService](./zero-watermark-zqlite.zqlitewatermarkservice.md)
+
+## ZqliteWatermarkService class
+
+**Signature:**
+
+```typescript
+declare class ZqliteWatermarkService implements IWatermarkService
+```
+
+**Implements:** IWatermarkService
+
+## Constructors
+
+<table><thead><tr><th>
+
+Constructor
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[(constructor)(db)](./zero-watermark-zqlite.zqlitewatermarkservice._constructor_.md)
+
+</td><td>
+
+</td><td>
+
+Constructs a new instance of the `ZqliteWatermarkService` class
+
+</td></tr>
+</tbody></table>
+
+## Methods
+
+<table><thead><tr><th>
+
+Method
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[\_nextWatermark(shardId)](./zero-watermark-zqlite.zqlitewatermarkservice._nextwatermark.md)
+
+</td><td>
+
+</td><td>
+
+Private, exposed for testing purposes only
+
+</td></tr>
+<tr><td>
+
+[getOrCreateWatermark(shardId, resumeToken)](./zero-watermark-zqlite.zqlitewatermarkservice.getorcreatewatermark.md)
+
+</td><td>
+
+</td><td>
+
+Retrieves an existing watermark for the given shard ID and resume token, or creates a new one if it does not exist.
+
+</td></tr>
+<tr><td>
+
+[getResumeToken(shardId, watermark)](./zero-watermark-zqlite.zqlitewatermarkservice.getresumetoken.md)
+
+</td><td>
+
+</td><td>
+
+Retrieves the change stream resume token for a given shard and watermark.
+
+</td></tr>
+</tbody></table>

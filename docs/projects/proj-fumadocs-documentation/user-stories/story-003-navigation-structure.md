@@ -312,8 +312,8 @@ describe('Navigation Structure', () => {
 
 ## Related Links
 
-- [Fumadocs Navigation Documentation](https://fumadocs.vercel.app/docs/ui/navigation)
-- [Fumadocs Table of Contents](https://fumadocs.vercel.app/docs/ui/table-of-contents)
+- [Fumadocs Navigation Documentation](https://fumadocs.dev//docs/ui/navigation)
+- [Fumadocs Table of Contents](https://fumadocs.dev//docs/ui/table-of-contents)
 - [Next.js App Router Layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts)
 
 ---

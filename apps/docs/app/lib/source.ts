@@ -1,8 +1,8 @@
 import { loader } from 'fumadocs-core/source';
-import { icons } from 'lucide-react';
-import { createElement } from 'react';
+// import { icons } from 'lucide-react';
+// import { createElement } from 'react';
 
-import { docs, create } from '@/.source';
+import { docs, create } from '@/source';
 
 /**
  * Create source from docs configuration

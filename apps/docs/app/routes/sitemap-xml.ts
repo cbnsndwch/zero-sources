@@ -1,4 +1,4 @@
-import { source } from '@/app/lib/source';
+import { source } from '@/lib/source';
 
 const baseUrl = 'https://zero-sources.cbnsndwch.dev';
 

@@ -1,0 +1,163 @@
+---
+title: Architecture
+description: Learn about the technical architecture, design decisions, and system structure of Zero Sources.
+icon: Box
+---
+
+import { ArrowDownUpIcon, BookmarkIcon, FolderIcon } from 'lucide-react';
+
+## Overview
+
+Zero Sources implements a **three-container architecture** for real-time data synchronization:
+
+```
+┌─────────────────┐     ┌─────────────┐     ┌────────────┐
+│  MongoDB        │────▶│  Change     │────▶│  Zero      │
+│  Database       │     │  Source     │     │  Cache     │
+└─────────────────┘     └─────────────┘     └────────────┘
+                                                    │
+                                                    ▼
+                                            ┌────────────┐
+                                            │  Client    │
+                                            │  Apps      │
+                                            └────────────┘
+```
+
+## Core Components
+
+<Cards>
+    <Card
+        title="Monorepo Structure"
+        href="/docs/architecture/monorepo-structure"
+        icon={<FolderIcon />}
+    >
+        Organization of code and packages
+    </Card>
+    <Card
+        title="Change Source Protocol"
+        href="/docs/architecture/change-source-protocol"
+        icon={<ArrowDownUpIcon />}
+    >
+        Protocol for streaming database changes
+    </Card>
+    <Card
+        title="Watermark System"
+        href="/docs/architecture/watermark-system"
+        icon={<BookmarkIcon />}
+    >
+        Client synchronization progress tracking
+    </Card>
+</Cards>
+
+## Design Principles
+
+### 1. Schema-First Design
+
+Define data structures once, use everywhere:
+
+```typescript
+const schema = createTableSchema({
+    tableName: 'message',
+    columns: {
+        /* ... */
+    },
+    primaryKey: ['id']
+});
+```
+
+### 2. Application-Agnostic Change Sources
+
+Change sources load schema dynamically, making them reusable across applications.
+
+### 3. Incremental Synchronization
+
+Only changed data is transmitted, minimizing bandwidth and improving performance.
+
+### 4. Offline-First
+
+Clients work offline, queuing changes for later synchronization.
+
+### 5. Type Safety
+
+Full TypeScript support throughout the stack.
+
+## System Architecture
+
+### Data Flow
+
+1. **Change Detection**: MongoDB emits change stream events
+2. **Transformation**: Change source converts to Zero protocol
+3. **Streaming**: WebSocket pushes changes to Zero cache
+4. **Caching**: Zero cache updates local state
+5. **Propagation**: Clients receive updates in real-time
+
+### Scaling Strategy
+
+- **Horizontal Scaling**: Run multiple change source instances
+- **Stateless Design**: No shared state between instances
+- **Load Balancing**: Distribute WebSocket connections
+- **Database Sharding**: Partition data across MongoDB shards
+
+## Technology Choices
+
+### Why NestJS?
+
+- Mature, production-ready framework
+- Excellent TypeScript support
+- Built-in WebSocket support
+- Modular architecture
+- Dependency injection
+
+### Why MongoDB?
+
+- Change streams for real-time updates
+- Flexible schema for rapid iteration
+- Replica sets for high availability
+- Rich query capabilities
+
+### Why Rocicorp Zero?
+
+- Optimized for offline-first applications
+- Automatic conflict resolution
+- Efficient synchronization protocol
+- Strong typing support
+
+## Performance Considerations
+
+### Change Stream Optimization
+
+- Use filtered change streams
+- Batch change events
+- Implement backpressure handling
+
+### WebSocket Optimization
+
+- Enable compression
+- Batch messages
+- Implement connection pooling
+
+### Database Optimization
+
+- Index frequently queried fields
+- Use projections to limit data
+- Implement sharding for scale
+
+## Security Architecture
+
+### Authentication
+
+- JWT-based authentication
+- Client identification
+- Token validation
+
+### Authorization
+
+- Row-level security
+- Client-specific filtering
+- Permission validation
+
+### Data Protection
+
+- Encrypted connections (TLS)
+- Secure token storage
+- Input validation

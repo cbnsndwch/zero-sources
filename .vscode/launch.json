@@ -71,6 +71,24 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceRoot}/apps/docs"
         },
+        {
+            "type": "node",
+            "name": "Docs (Build)",
+            "request": "launch",
+            "program": "${workspaceFolder}/.local/apps/docs/dist/main.js",
+            "runtimeArgs": [
+                "--experimental-require-module"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "NODE_ENV": "production"
+            },
+            "sourceMaps": false,
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/.local/apps/docs"
+        },
         // Generic
         {
             "type": "node",

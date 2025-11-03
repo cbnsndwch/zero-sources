@@ -334,7 +334,7 @@ Create or obtain these assets:
 
 ## Related Documentation
 
-- [Fumadocs Theming Guide](https://fumadocs.vercel.app/docs/ui/theme)
+- [Fumadocs Theming Guide](https://fumadocs.dev//docs/ui/theme)
 - [Tailwind CSS v4 Customization](https://tailwindcss.com/docs/v4-beta)
 - [React Router v7 Documentation](https://reactrouter.com/home)
 

@@ -1,0 +1,223 @@
+{
+  "buildManifest": {
+    "serverBundles": {
+      "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0": {
+        "id": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+        "file": "build/server/nodejs_eyJydW50aW1lIjoibm9kZWpzIn0/index.js",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    },
+    "routeIdToServerBundleId": {
+      "routes/home": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/sitemap-xml": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/og": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/llms-full": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/llms-mdx": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "docs/page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "docs/search": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "api/feedback": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0"
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "app/root.tsx",
+        "path": "",
+        "config": {}
+      },
+      "routes/home": {
+        "id": "routes/home",
+        "parentId": "root",
+        "file": "app/routes/home.tsx",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/sitemap-xml": {
+        "id": "routes/sitemap-xml",
+        "parentId": "root",
+        "file": "app/routes/sitemap-xml.ts",
+        "path": "sitemap.xml",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/og": {
+        "id": "routes/og",
+        "parentId": "root",
+        "file": "app/routes/og.tsx",
+        "path": "og",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/llms-full": {
+        "id": "routes/llms-full",
+        "parentId": "root",
+        "file": "app/routes/llms-full.ts",
+        "path": "llms-full.txt",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/llms-mdx": {
+        "id": "routes/llms-mdx",
+        "parentId": "root",
+        "file": "app/routes/llms-mdx.ts",
+        "path": "llms.mdx/*",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "docs/page": {
+        "id": "docs/page",
+        "parentId": "root",
+        "file": "app/docs/page.tsx",
+        "path": "docs/*",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "docs/search": {
+        "id": "docs/search",
+        "parentId": "root",
+        "file": "app/docs/search.ts",
+        "path": "api/search",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "api/feedback": {
+        "id": "api/feedback",
+        "parentId": "root",
+        "file": "app/api/feedback.ts",
+        "path": "api/feedback",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    }
+  },
+  "reactRouterConfig": {
+    "appDirectory": "D:/GIT_REPOS/INFRA/ROCICORP/zero-sources/apps/docs/app",
+    "basename": "/",
+    "buildDirectory": "D:/GIT_REPOS/INFRA/ROCICORP/zero-sources/apps/docs/build",
+    "future": {
+      "v8_middleware": false,
+      "unstable_optimizeDeps": false,
+      "unstable_splitRouteModules": false,
+      "unstable_subResourceIntegrity": false,
+      "unstable_viteEnvironmentApi": false
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "root.tsx",
+        "path": ""
+      },
+      "routes/home": {
+        "id": "routes/home",
+        "parentId": "root",
+        "file": "routes/home.tsx",
+        "index": true
+      },
+      "routes/sitemap-xml": {
+        "id": "routes/sitemap-xml",
+        "parentId": "root",
+        "file": "routes/sitemap-xml.ts",
+        "path": "sitemap.xml"
+      },
+      "routes/og": {
+        "id": "routes/og",
+        "parentId": "root",
+        "file": "routes/og.tsx",
+        "path": "og"
+      },
+      "routes/llms-full": {
+        "id": "routes/llms-full",
+        "parentId": "root",
+        "file": "routes/llms-full.ts",
+        "path": "llms-full.txt"
+      },
+      "routes/llms-mdx": {
+        "id": "routes/llms-mdx",
+        "parentId": "root",
+        "file": "routes/llms-mdx.ts",
+        "path": "llms.mdx/*"
+      },
+      "docs/page": {
+        "id": "docs/page",
+        "parentId": "root",
+        "file": "docs/page.tsx",
+        "path": "docs/*"
+      },
+      "docs/search": {
+        "id": "docs/search",
+        "parentId": "root",
+        "file": "docs/search.ts",
+        "path": "api/search"
+      },
+      "api/feedback": {
+        "id": "api/feedback",
+        "parentId": "root",
+        "file": "api/feedback.ts",
+        "path": "api/feedback"
+      }
+    },
+    "routeDiscovery": {
+      "mode": "lazy",
+      "manifestPath": "/__manifest"
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": true,
+    "unstable_routeConfig": [
+      {
+        "id": "root",
+        "path": "",
+        "file": "root.tsx",
+        "children": [
+          {
+            "file": "routes/home.tsx",
+            "index": true
+          },
+          {
+            "file": "routes/sitemap-xml.ts",
+            "path": "sitemap.xml"
+          },
+          {
+            "file": "routes/og.tsx",
+            "path": "og"
+          },
+          {
+            "file": "routes/llms-full.ts",
+            "path": "llms-full.txt"
+          },
+          {
+            "file": "routes/llms-mdx.ts",
+            "path": "llms.mdx/*"
+          },
+          {
+            "file": "docs/page.tsx",
+            "path": "docs/*"
+          },
+          {
+            "file": "docs/search.ts",
+            "path": "api/search"
+          },
+          {
+            "file": "api/feedback.ts",
+            "path": "api/feedback"
+          }
+        ]
+      }
+    ]
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}

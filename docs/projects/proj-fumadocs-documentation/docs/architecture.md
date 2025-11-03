@@ -432,7 +432,7 @@ If we outgrow Fumadocs:
 
 ## References
 
-- [Fumadocs Documentation](https://fumadocs.vercel.app/)
+- [Fumadocs Documentation](https://fumadocs.dev//)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [TypeDoc Documentation](https://typedoc.org/)

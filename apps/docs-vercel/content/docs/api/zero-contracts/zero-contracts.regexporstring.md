@@ -1,0 +1,13 @@
+---
+title: 'RegExpOrString type'
+---
+
+[Home](./index.md) &gt; [@cbnsndwch/zero-contracts](./zero-contracts.md) &gt; [RegExpOrString](./zero-contracts.regexporstring.md)
+
+## RegExpOrString type
+
+**Signature:**
+
+```typescript
+type RegExpOrString<T> = T extends string ? RegExp | T : T;
+```
