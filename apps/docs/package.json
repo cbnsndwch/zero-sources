@@ -84,7 +84,7 @@
         "js-cookie": "^3.0.5",
         "jwks-rsa": "^3.2.0",
         "lodash": "4.17.21",
-        "lucide-react": "^0.548.0",
+        "lucide-react": "^0.552.0",
         "nanoid": "^5.1.6",
         "next-themes": "^0.4.6",
         "react-dom": "^19.0.0",
