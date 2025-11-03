@@ -8,7 +8,7 @@ ENV NODE_ENV=production \
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Set working directory
-WORKDIR /opt/app
+WORKDIR /srv
 
 # copy everything
 COPY . .
@@ -33,7 +33,7 @@ FROM node:22-alpine AS runner
 # ARG GH_PAT
 ARG GIT_SHA
 ARG GIT_REF_NAME
-ARG IMAGE_TAGS
+ARG IMAGE_TAGS  
 ARG BUILD_TIME
 ARG IMAGE_SOURCE
 ENV NODE_ENV=production \
