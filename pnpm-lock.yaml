@@ -40,7 +40,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   apps/docs:
     dependencies:
@@ -446,7 +446,7 @@ importers:
         version: 5.1.4(typescript@5.9.3)(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   apps/docs-vercel:
     dependencies:
@@ -626,8 +626,8 @@ importers:
         specifier: ^17.2.3
         version: 17.2.3
       js-yaml:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^4.1.1
+        version: 4.1.1
       lib:
         specifier: ^5.1.0
         version: 5.1.0
@@ -718,7 +718,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
     optionalDependencies:
       '@nats-io/kv':
         specifier: ^3.2.0
@@ -1194,7 +1194,7 @@ importers:
         version: 5.1.4(typescript@5.9.3)(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   libs/eslint-config:
     devDependencies:
@@ -1218,7 +1218,7 @@ importers:
         version: 7.0.1(eslint@9.39.0(jiti@2.6.1))
       eslint-plugin-turbo:
         specifier: ^2.6.0
-        version: 2.6.0(eslint@9.39.0(jiti@2.6.1))(turbo@2.5.8)
+        version: 2.6.0(eslint@9.39.0(jiti@2.6.1))(turbo@2.6.1)
       globals:
         specifier: ^16.5.0
         version: 16.5.0
@@ -1314,7 +1314,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   libs/zero-nest-mongoose:
     devDependencies:
@@ -1371,7 +1371,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   libs/zero-source-mongodb:
     dependencies:
@@ -1471,7 +1471,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       ws:
         specifier: ^8.18.3
         version: 8.18.3
@@ -1538,7 +1538,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   libs/zero-watermark-zqlite:
     dependencies:
@@ -1602,7 +1602,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   libs/zrocket-contracts:
     dependencies:
@@ -1657,7 +1657,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.6
-        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       zod:
         specifier: ^3.25.76
         version: 3.25.76
@@ -7603,12 +7603,16 @@ packages:
     resolution: {integrity: sha512-3Q2eIqG6s1KEBBmkj9tGM9lef8LJbuRyTVBdI3GpTnrvtytunjLPO0wqABp5qhtMzfA32jYn1FlnIV7GH1RAHQ==}
     engines: {node: '>=18.0.0'}
 
-  js-yaml@3.14.1:
-    resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
+  js-yaml@3.14.2:
+    resolution: {integrity: sha512-PMSmkqxr106Xa156c2M265Z+FTrPl+oxd/rgOQy2tijQeK5TxQ43psO1ZCwhVOSdnn+RzkzlRz/eY4BgJBYVpg==}
     hasBin: true
 
   js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+    hasBin: true
+
+  js-yaml@4.1.1:
+    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
   jsdom@27.1.0:
@@ -9898,8 +9902,18 @@ packages:
     cpu: [x64]
     os: [darwin]
 
+  turbo-darwin-64@2.6.1:
+    resolution: {integrity: sha512-Dm0HwhyZF4J0uLqkhUyCVJvKM9Rw7M03v3J9A7drHDQW0qAbIGBrUijQ8g4Q9Cciw/BXRRd8Uzkc3oue+qn+ZQ==}
+    cpu: [x64]
+    os: [darwin]
+
   turbo-darwin-arm64@2.5.8:
     resolution: {integrity: sha512-f1H/tQC9px7+hmXn6Kx/w8Jd/FneIUnvLlcI/7RGHunxfOkKJKvsoiNzySkoHQ8uq1pJnhJ0xNGTlYM48ZaJOQ==}
+    cpu: [arm64]
+    os: [darwin]
+
+  turbo-darwin-arm64@2.6.1:
+    resolution: {integrity: sha512-U0PIPTPyxdLsrC3jN7jaJUwgzX5sVUBsKLO7+6AL+OASaa1NbT1pPdiZoTkblBAALLP76FM0LlnsVQOnmjYhyw==}
     cpu: [arm64]
     os: [darwin]
 
@@ -9908,8 +9922,18 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  turbo-linux-64@2.6.1:
+    resolution: {integrity: sha512-eM1uLWgzv89bxlK29qwQEr9xYWBhmO/EGiH22UGfq+uXr+QW1OvNKKMogSN65Ry8lElMH4LZh0aX2DEc7eC0Mw==}
+    cpu: [x64]
+    os: [linux]
+
   turbo-linux-arm64@2.5.8:
     resolution: {integrity: sha512-LQELGa7bAqV2f+3rTMRPnj5G/OHAe2U+0N9BwsZvfMvHSUbsQ3bBMWdSQaYNicok7wOZcHjz2TkESn1hYK6xIQ==}
+    cpu: [arm64]
+    os: [linux]
+
+  turbo-linux-arm64@2.6.1:
+    resolution: {integrity: sha512-MFFh7AxAQAycXKuZDrbeutfWM5Ep0CEZ9u7zs4Hn2FvOViTCzIfEhmuJou3/a5+q5VX1zTxQrKGy+4Lf5cdpsA==}
     cpu: [arm64]
     os: [linux]
 
@@ -9918,13 +9942,27 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  turbo-windows-64@2.6.1:
+    resolution: {integrity: sha512-buq7/VAN7KOjMYi4tSZT5m+jpqyhbRU2EUTTvp6V0Ii8dAkY2tAAjQN1q5q2ByflYWKecbQNTqxmVploE0LVwQ==}
+    cpu: [x64]
+    os: [win32]
+
   turbo-windows-arm64@2.5.8:
     resolution: {integrity: sha512-eFC5XzLmgXJfnAK3UMTmVECCwuBcORrWdewoiXBnUm934DY6QN8YowC/srhNnROMpaKaqNeRpoB5FxCww3eteQ==}
     cpu: [arm64]
     os: [win32]
 
+  turbo-windows-arm64@2.6.1:
+    resolution: {integrity: sha512-7w+AD5vJp3R+FB0YOj1YJcNcOOvBior7bcHTodqp90S3x3bLgpr7tE6xOea1e8JkP7GK6ciKVUpQvV7psiwU5Q==}
+    cpu: [arm64]
+    os: [win32]
+
   turbo@2.5.8:
     resolution: {integrity: sha512-5c9Fdsr9qfpT3hA0EyYSFRZj1dVVsb6KIWubA9JBYZ/9ZEAijgUEae0BBR/Xl/wekt4w65/lYLTFaP3JmwSO8w==}
+    hasBin: true
+
+  turbo@2.6.1:
+    resolution: {integrity: sha512-qBwXXuDT3rA53kbNafGbT5r++BrhRgx3sAo0cHoDAeG9g1ItTmUMgltz3Hy7Hazy1ODqNpR+C7QwqL6DYB52yA==}
     hasBin: true
 
   tw-animate-css@1.4.0:
@@ -10870,7 +10908,7 @@ snapshots:
   '@changesets/parse@0.4.1':
     dependencies:
       '@changesets/types': 6.1.0
-      js-yaml: 3.14.1
+      js-yaml: 3.14.2
 
   '@changesets/pre@2.0.2':
     dependencies:
@@ -11199,7 +11237,7 @@ snapshots:
       globals: 14.0.0
       ignore: 5.3.2
       import-fresh: 3.3.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       minimatch: 3.1.2
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -11733,7 +11771,7 @@ snapshots:
       '@rushstack/node-core-library': 5.18.0(@types/node@22.18.12)
       '@rushstack/terminal': 0.19.3(@types/node@22.18.12)
       '@rushstack/ts-command-line': 5.1.3(@types/node@22.18.12)
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       resolve: 1.22.11
     transitivePeerDependencies:
       - '@types/node'
@@ -14678,7 +14716,7 @@ snapshots:
       magicast: 0.3.5
       std-env: 3.10.0
       tinyrainbow: 3.0.3
-      vitest: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -14725,7 +14763,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   '@vitest/utils@4.0.6':
     dependencies:
@@ -15667,7 +15705,7 @@ snapshots:
   cosmiconfig@8.3.6(typescript@5.8.3):
     dependencies:
       import-fresh: 3.3.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
@@ -15677,7 +15715,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -16231,11 +16269,11 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-turbo@2.6.0(eslint@9.39.0(jiti@2.6.1))(turbo@2.5.8):
+  eslint-plugin-turbo@2.6.0(eslint@9.39.0(jiti@2.6.1))(turbo@2.6.1):
     dependencies:
       dotenv: 16.0.3
       eslint: 9.39.0(jiti@2.6.1)
-      turbo: 2.5.8
+      turbo: 2.6.1
 
   eslint-scope@5.1.1:
     dependencies:
@@ -17482,12 +17520,16 @@ snapshots:
 
   js-xxhash@4.0.0: {}
 
-  js-yaml@3.14.1:
+  js-yaml@3.14.2:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
 
   js-yaml@4.1.0:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
 
@@ -19128,7 +19170,7 @@ snapshots:
   read-yaml-file@1.1.0:
     dependencies:
       graceful-fs: 4.2.11
-      js-yaml: 3.14.1
+      js-yaml: 3.14.2
       pify: 4.0.1
       strip-bom: 3.0.0
 
@@ -20192,19 +20234,37 @@ snapshots:
   turbo-darwin-64@2.5.8:
     optional: true
 
+  turbo-darwin-64@2.6.1:
+    optional: true
+
   turbo-darwin-arm64@2.5.8:
+    optional: true
+
+  turbo-darwin-arm64@2.6.1:
     optional: true
 
   turbo-linux-64@2.5.8:
     optional: true
 
+  turbo-linux-64@2.6.1:
+    optional: true
+
   turbo-linux-arm64@2.5.8:
+    optional: true
+
+  turbo-linux-arm64@2.6.1:
     optional: true
 
   turbo-windows-64@2.5.8:
     optional: true
 
+  turbo-windows-64@2.6.1:
+    optional: true
+
   turbo-windows-arm64@2.5.8:
+    optional: true
+
+  turbo-windows-arm64@2.6.1:
     optional: true
 
   turbo@2.5.8:
@@ -20215,6 +20275,15 @@ snapshots:
       turbo-linux-arm64: 2.5.8
       turbo-windows-64: 2.5.8
       turbo-windows-arm64: 2.5.8
+
+  turbo@2.6.1:
+    optionalDependencies:
+      turbo-darwin-64: 2.6.1
+      turbo-darwin-arm64: 2.6.1
+      turbo-linux-64: 2.6.1
+      turbo-linux-arm64: 2.6.1
+      turbo-windows-64: 2.6.1
+      turbo-windows-arm64: 2.6.1
 
   tw-animate-css@1.4.0: {}
 
@@ -20529,7 +20598,7 @@ snapshots:
       tsx: 4.20.6
       yaml: 2.8.1
 
-  vitest@4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1):
+  vitest@4.0.6(@types/debug@4.1.12)(@types/node@22.18.12)(@vitest/ui@4.0.6)(happy-dom@20.0.10)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1):
     dependencies:
       '@vitest/expect': 4.0.6
       '@vitest/mocker': 4.0.6(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
