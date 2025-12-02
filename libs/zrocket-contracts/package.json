@@ -26,7 +26,7 @@
         "@cbnsndwch/zero-contracts": "workspace:*"
     },
     "peerDependencies": {
-        "@rocicorp/zero": "0.24.2025101500",
+        "@rocicorp/zero": "0.24.3000000000",
         "zod": "^3"
     },
     "devDependencies": {
@@ -34,7 +34,7 @@
         "@commitlint/config-conventional": "^20.0.0",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
-        "@rocicorp/zero": "0.24.2025101500",
+        "@rocicorp/zero": "0.24.3000000000",
         "@types/node": "^22.14.1",
         "@vitest/coverage-v8": "^4.0.6",
         "@vitest/ui": "^4.0.6",
