@@ -5,7 +5,7 @@ import type { IWatermarkService } from './watermark-service.contract.js';
 /**
  * A watermark service that simply passes through the watermark and resume token
  * values it receives. Useful for testing or when no special mapping is needed
- * between zero-cache watermarks and teh change source's native resume token
+ * between zero-cache watermarks and the change source's native resume token
  * format.
  */
 

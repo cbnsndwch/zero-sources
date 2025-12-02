@@ -4,6 +4,7 @@ import { Edit } from 'lucide-react';
 import { type ComponentProps, forwardRef, type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
+
 import { buttonVariants } from '../ui/button';
 
 import {
@@ -23,8 +24,10 @@ import {
     PageTOCTitle
 } from './docs/page';
 
-interface EditOnGitHubOptions
-    extends Omit<ComponentProps<'a'>, 'href' | 'children'> {
+interface EditOnGitHubOptions extends Omit<
+    ComponentProps<'a'>,
+    'href' | 'children'
+> {
     owner: string;
     repo: string;
 

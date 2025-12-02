@@ -7,8 +7,9 @@ import type { RoomType } from './room-type.enum.js';
 /**
  * A base data contract for room entities.
  */
-export interface IRoomBase<TType extends RoomType = RoomType>
-    extends IEntityBase {
+export interface IRoomBase<
+    TType extends RoomType = RoomType
+> extends IEntityBase {
     /**
      * The type of the room.
      */

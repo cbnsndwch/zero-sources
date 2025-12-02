@@ -31,7 +31,7 @@ pnpm add @cbnsndwch/zero-nest-mongoose
 {
     "@nestjs/common": "^11",
     "@nestjs/mongoose": "^11",
-    "@rocicorp/zero": "0.24.2025101500",
+    "@rocicorp/zero": "0.24.3000000000",
     "mongoose": "^8.9.5"
 }
 ```

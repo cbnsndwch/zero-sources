@@ -34,21 +34,21 @@
     "devDependencies": {
         "@commitlint/cli": "^20.1.0",
         "@commitlint/config-conventional": "^20.0.0",
-        "@nestjs/common": "^11.1.8",
+        "@nestjs/common": "^11.1.9",
         "@nestjs/config": "^4.0.2",
-        "@nestjs/testing": "^11.1.8",
+        "@nestjs/testing": "^11.1.9",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero-sqlite3": "*",
         "@types/node": "^22.14.1",
-        "@vitest/coverage-v8": "^4.0.6",
-        "@vitest/ui": "^4.0.6",
-        "eslint": "^9.39.0",
+        "@vitest/coverage-v8": "^4.0.15",
+        "@vitest/ui": "^4.0.15",
+        "eslint": "^9.39.1",
         "husky": "^9.1.7",
-        "lint-staged": "^16.2.6",
-        "tsup": "^8.5.0",
+        "lint-staged": "^16.2.7",
+        "tsup": "^8.5.1",
         "typescript": "~5.9.3",
-        "vitest": "^4.0.6"
+        "vitest": "^4.0.15"
     },
     "files": [
         "dist"

@@ -1,6 +1,6 @@
-import { generateOGImage } from '@/app/lib/og-image';
-
 import type { Route } from './+types/og';
+
+import { generateOGImage } from '@/app/lib/og-image';
 
 export async function loader({ request }: Route.LoaderArgs) {
     const url = new URL(request.url);

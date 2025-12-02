@@ -39,10 +39,7 @@ export type ExternalUserId = `${string}/${string}`;
  * ```
  */
 export interface IUser
-    extends IEntityBase,
-        IHasCreatedAt,
-        IHasName,
-        IHasUsername {
+    extends IEntityBase, IHasCreatedAt, IHasName, IHasUsername {
     //#region Public Profile
 
     /**

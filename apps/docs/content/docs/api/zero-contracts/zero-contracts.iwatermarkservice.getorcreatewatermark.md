@@ -52,7 +52,7 @@ string
 
 </td><td>
 
-The resume token in teh change source's native format.
+The resume token in the change source's native format.
 
 </td></tr>
 </tbody></table>

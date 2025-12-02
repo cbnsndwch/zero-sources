@@ -15,6 +15,7 @@ import {
 } from 'react';
 
 import { cn } from '@/lib/utils';
+
 import { LanguageToggle, LanguageToggleText } from '../../language-toggle';
 import { type Option, RootToggle } from '../../root-toggle';
 import { LargeSearchToggle, SearchToggle } from '../../search-toggle';
@@ -44,6 +45,7 @@ import {
     getLinks,
     type LinkItemType
 } from '../shared/index';
+
 import { CollapsibleControl, LayoutBody, LayoutTabs, Navbar } from './client';
 
 export interface DocsLayoutProps extends BaseLayoutProps {
@@ -60,7 +62,8 @@ export interface DocsLayoutProps extends BaseLayoutProps {
 }
 
 interface SidebarOptions
-    extends ComponentProps<'aside'>,
+    extends
+        ComponentProps<'aside'>,
         Pick<SidebarProps, 'defaultOpenLevel' | 'prefetch'> {
     enabled?: boolean;
     component?: ReactNode;

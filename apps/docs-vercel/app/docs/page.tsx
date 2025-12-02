@@ -9,7 +9,7 @@ import defaultMdxComponents from 'fumadocs-ui/mdx';
 // } from 'fumadocs-ui/page';
 
 import type { Route } from './+types/page';
-import { docs } from '@/.source';
+
 import { source } from '@/app/lib/source';
 import { baseOptions } from '@/app/lib/layout.shared';
 import { createMetaTags } from '@/app/lib/meta';
@@ -25,6 +25,8 @@ import {
     DocsTitle
 } from '@/components/layout/page';
 import { DocsLayout } from '@/components/layout/docs';
+
+import { docs } from '@/.source';
 
 export async function loader({ params }: Route.LoaderArgs) {
     const slugs = params['*'].split('/').filter(v => v.length > 0);

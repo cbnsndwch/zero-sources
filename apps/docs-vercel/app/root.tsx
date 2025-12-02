@@ -11,9 +11,10 @@ import {
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
+import type { Route } from './+types/root';
+
 import ClarityInit from '@/components/analytics/clarity';
 
-import type { Route } from './+types/root';
 import './globals.css';
 
 export function Layout({ children }: React.PropsWithChildren) {

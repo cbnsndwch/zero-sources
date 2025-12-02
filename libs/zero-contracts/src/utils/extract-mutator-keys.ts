@@ -12,7 +12,7 @@ import type {
  * custom mutators:
  *
  * - For top-level keys, the key itself
- * - For keys nested within a namespace, teh compound key in the format `"namespace|mutatorKey"`.
+ * - For keys nested within a namespace, the compound key in the format `"namespace|mutatorKey"`.
  *
  * @template Schema - The schema type that the mutators operate on. Expected to extend `Schema`.
  * @template Mutators - The custom mutator definitions object.

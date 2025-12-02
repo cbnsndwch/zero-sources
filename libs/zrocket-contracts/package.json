@@ -26,7 +26,7 @@
         "@cbnsndwch/zero-contracts": "workspace:*"
     },
     "peerDependencies": {
-        "@rocicorp/zero": "0.24.2025101500",
+        "@rocicorp/zero": "0.24.3000000000",
         "zod": "^3"
     },
     "devDependencies": {
@@ -34,18 +34,18 @@
         "@commitlint/config-conventional": "^20.0.0",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
-        "@rocicorp/zero": "0.24.2025101500",
+        "@rocicorp/zero": "0.24.3000000000",
         "@types/node": "^22.14.1",
-        "@vitest/coverage-v8": "^4.0.6",
-        "@vitest/ui": "^4.0.6",
-        "eslint": "^9.39.0",
+        "@vitest/coverage-v8": "^4.0.15",
+        "@vitest/ui": "^4.0.15",
+        "eslint": "^9.39.1",
         "husky": "^9.1.7",
         "lexical": "^0.38.2",
-        "lint-staged": "^16.2.6",
-        "tsup": "^8.5.0",
-        "tsx": "^4.20.6",
+        "lint-staged": "^16.2.7",
+        "tsup": "^8.5.1",
+        "tsx": "^4.21.0",
         "typescript": "~5.9.3",
-        "vitest": "^4.0.6",
+        "vitest": "^4.0.15",
         "zod": "^3.25.76"
     },
     "files": [

@@ -4,6 +4,7 @@ import { useI18n } from 'fumadocs-ui/contexts/i18n';
 import { type ComponentProps, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/utils';
+
 import { mergeRefs } from '../../lib/merge-refs';
 
 import { useTOCItems } from './toc';

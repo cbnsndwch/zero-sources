@@ -22,7 +22,7 @@
         "clean": "rm -rf dist"
     },
     "dependencies": {
-        "@rocicorp/zero": "0.24.2025101500"
+        "@rocicorp/zero": "0.24.3000000000"
     },
     "peerDependencies": {
         "@nestjs/common": "^11.0.0",
@@ -32,11 +32,11 @@
         "zod": "^3"
     },
     "devDependencies": {
-        "@nestjs/cli": "^11.0.10",
-        "@nestjs/common": "^11.1.8",
-        "@nestjs/core": "^11.1.8",
-        "@swc/cli": "^0.7.8",
-        "@swc/core": "^1.14.0",
+        "@nestjs/cli": "^11.0.14",
+        "@nestjs/common": "^11.1.9",
+        "@nestjs/core": "^11.1.9",
+        "@swc/cli": "^0.7.9",
+        "@swc/core": "^1.15.3",
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.2",
         "typescript": "^5.9.3",

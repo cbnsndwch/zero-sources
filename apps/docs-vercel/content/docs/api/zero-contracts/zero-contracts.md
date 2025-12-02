@@ -23,7 +23,7 @@ Description
 
 </td><td>
 
-A watermark service that simply passes through the watermark and resume token values it receives. Useful for testing or when no special mapping is needed between zero-cache watermarks and teh change source's native resume token format.
+A watermark service that simply passes through the watermark and resume token values it receives. Useful for testing or when no special mapping is needed between zero-cache watermarks and the change source's native resume token format.
 
 </td></tr>
 <tr><td>
@@ -646,7 +646,7 @@ Extracts the keys of custom mutators from a mutator definition object (`MD`<!-- 
 
 Analyzes a `CustomMutatorDefs` object (`MD`<!-- -->) associated with a `Schema` (`S`<!-- -->) and produces a union type containing the string keys representing all defined custom mutators:
 
-- For top-level keys, the key itself - For keys nested within a namespace, teh compound key in the format `"namespace|mutatorKey"`<!-- -->.
+- For top-level keys, the key itself - For keys nested within a namespace, the compound key in the format `"namespace|mutatorKey"`<!-- -->.
 
 Schema - The schema type that the mutators operate on. Expected to extend `Schema`<!-- -->. Mutators - The custom mutator definitions object.
 

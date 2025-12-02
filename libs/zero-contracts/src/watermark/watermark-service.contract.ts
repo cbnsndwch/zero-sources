@@ -27,7 +27,7 @@ export interface IWatermarkService {
      * retrieved.
      *
      * @param shardId - The identifier for the shard.
-     * @param resumeToken - The resume token in teh change source's native format.
+     * @param resumeToken - The resume token in the change source's native format.
      * @returns A promise that resolves to the watermark string.
      */
     getOrCreateWatermark(shardId: string, resumeToken: string): Promise<string>;

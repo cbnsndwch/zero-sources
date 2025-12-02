@@ -31,7 +31,7 @@ export class FeedbackController {
         @Body(new ValidationPipe({ transform: true, whitelist: true }))
         input: SubmitFeedbackInput
     ) {
-        const result = this.feedbackService.submitFeedback(input);
+        const result = await this.feedbackService.submitFeedback(input);
 
         return result;
     }
