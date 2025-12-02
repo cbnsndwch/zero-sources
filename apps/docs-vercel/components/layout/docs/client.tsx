@@ -8,6 +8,7 @@ import { Sidebar as SidebarIcon } from 'lucide-react';
 import { type ComponentProps, useMemo } from 'react';
 
 import { cn } from '@/lib/utils';
+
 import { isTabActive } from '../../../lib/is-active';
 import type { Option } from '../../root-toggle';
 import { SearchToggle } from '../../search-toggle';

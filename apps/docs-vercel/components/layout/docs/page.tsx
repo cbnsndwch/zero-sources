@@ -4,8 +4,10 @@ import { Text } from 'lucide-react';
 import { type ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
+
 import { TOCItems, TOCProvider, TOCScrollArea } from '../../ui/toc';
 import ClerkTOCItems from '../../ui/toc-clerk';
+
 import {
     type BreadcrumbProps,
     type FooterProps,

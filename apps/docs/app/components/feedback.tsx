@@ -4,12 +4,7 @@ import {
     CollapsibleContent
 } from 'fumadocs-ui/components/ui/collapsible';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
-import {
-    useEffect,
-    useRef,
-    useState,
-    useTransition
-} from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useLocation } from 'react-router';
 
 import { cn } from '@/lib/utils';

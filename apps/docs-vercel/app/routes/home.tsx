@@ -1,10 +1,11 @@
 import { HomeLayout } from 'fumadocs-ui/layouts/home';
 
+import type { Route } from './+types/home';
+
 import { baseOptions } from '@/app/lib/layout.shared';
 import { createMetaTags } from '@/app/lib/meta';
 import Footer from '@/components/footer';
 
-import type { Route } from './+types/home';
 
 export function meta({ location }: Route.MetaArgs) {
     return createMetaTags({

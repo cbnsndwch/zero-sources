@@ -14,5 +14,5 @@ export default [
 
     // docs routes
     route('docs/*', 'docs/page.tsx'),
-    route('api/search', 'docs/search.ts'),
+    route('api/search', 'docs/search.ts')
 ] satisfies RouteConfig;
