@@ -1,33 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { TestingModule } from '@nestjs/testing';
-import { Test } from '@nestjs/testing';
 
-import { FeedbackService } from '../services/index.js';
 import type { SubmitFeedbackInput } from '../models/index.js';
 
 import { FeedbackController } from './feedback.controller.js';
 
 describe('FeedbackController', () => {
     let controller: FeedbackController;
-    let service: FeedbackService;
+    let mockFeedbackService: { submitFeedback: ReturnType<typeof vi.fn> };
 
-    const mockFeedbackService = {
-        submitFeedback: vi.fn()
-    };
+    beforeEach(() => {
+        // Reset mock for each test
+        mockFeedbackService = {
+            submitFeedback: vi.fn()
+        };
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-            controllers: [FeedbackController],
-            providers: [
-                {
-                    provide: FeedbackService,
-                    useValue: mockFeedbackService
-                }
-            ]
-        }).compile();
-
-        controller = module.get<FeedbackController>(FeedbackController);
-        service = module.get<FeedbackService>(FeedbackService);
+        // Directly instantiate the controller with the mock service
+        controller = new FeedbackController(mockFeedbackService as any);
     });
 
     it('should be defined', () => {
@@ -55,7 +43,9 @@ describe('FeedbackController', () => {
 
             const result = await controller.submitFeedback(dto);
 
-            expect(service.submitFeedback).toHaveBeenCalledWith(dto);
+            expect(mockFeedbackService.submitFeedback).toHaveBeenCalledWith(
+                dto
+            );
             expect(result).toEqual(expectedResult);
         });
 

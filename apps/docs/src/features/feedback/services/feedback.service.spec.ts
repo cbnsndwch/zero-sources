@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Test, type TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 
 import { FeedbackService } from './feedback.service.js';
@@ -10,34 +9,34 @@ import { FeedbackService } from './feedback.service.js';
 describe('FeedbackService', () => {
     let service: FeedbackService;
 
-    const mockConfigService = {
-        get: vi.fn((key: string) => {
-            const config: Record<string, string> = {
-                GITHUB_TOKEN: 'test-token',
-                GITHUB_REPO_OWNER: 'test-owner',
-                GITHUB_REPO_NAME: 'test-repo',
-                DB_URL: 'http://test-db.com',
-                DB_TOKEN: 'test-db-token',
-                BASE_ID: 'test-base',
-                USER_TABLE_ID: 'test-user-table',
-                FEEDBACK_TABLE_ID: 'test-feedback-table'
-            };
-            return config[key];
-        })
+    const configValues: Record<string, string> = {
+        GITHUB_TOKEN: 'test-token',
+        GITHUB_REPO_OWNER: 'test-owner',
+        GITHUB_REPO_NAME: 'test-repo',
+        DB_URL: 'http://test-db.com',
+        DB_TOKEN: 'test-db-token',
+        BASE_ID: 'test-base',
+        USER_TABLE_ID: 'test-user-table',
+        FEEDBACK_TABLE_ID: 'test-feedback-table'
     };
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                FeedbackService,
-                {
-                    provide: ConfigService,
-                    useValue: mockConfigService
-                }
-            ]
-        }).compile();
+    const mockConfigService = {
+        get: vi.fn((key: string, defaultValue?: string) => {
+            return configValues[key] ?? defaultValue;
+        })
+    } as unknown as ConfigService;
 
-        service = module.get<FeedbackService>(FeedbackService);
+    beforeEach(() => {
+        // Reset the mock before each test
+        vi.mocked(mockConfigService.get).mockClear();
+        vi.mocked(mockConfigService.get).mockImplementation(
+            (key: string, defaultValue?: string) => {
+                return configValues[key as keyof typeof configValues] ?? defaultValue;
+            }
+        );
+
+        // Directly instantiate the service with the mock
+        service = new FeedbackService(mockConfigService);
     });
 
     it('should be defined', () => {
@@ -53,7 +52,8 @@ describe('FeedbackService', () => {
             expect(name1).toBeTruthy();
             expect(name2).toBeTruthy();
             expect(name1).not.toBe(name2);
-            expect(name1).toMatch(/^\w+ \w+ [a-zA-Z0-9]{5}$/);
+            // nanoid produces URL-safe characters including alphanumeric, -, and _
+            expect(name1).toMatch(/^\w+ \w+ [a-zA-Z0-9_-]{5}$/);
         });
 
         it('should construct correct NocoDB URLs', () => {
