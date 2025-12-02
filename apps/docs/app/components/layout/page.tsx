@@ -24,8 +24,10 @@ import {
     PageTOCTitle
 } from './docs/page';
 
-interface EditOnGitHubOptions
-    extends Omit<ComponentProps<'a'>, 'href' | 'children'> {
+interface EditOnGitHubOptions extends Omit<
+    ComponentProps<'a'>,
+    'href' | 'children'
+> {
     owner: string;
     repo: string;
 

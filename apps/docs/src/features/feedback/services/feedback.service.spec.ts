@@ -31,7 +31,10 @@ describe('FeedbackService', () => {
         vi.mocked(mockConfigService.get).mockClear();
         vi.mocked(mockConfigService.get).mockImplementation(
             (key: string, defaultValue?: string) => {
-                return configValues[key as keyof typeof configValues] ?? defaultValue;
+                return (
+                    configValues[key as keyof typeof configValues] ??
+                    defaultValue
+                );
             }
         );
 

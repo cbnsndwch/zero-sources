@@ -6,7 +6,6 @@ import { baseOptions } from '@/app/lib/layout.shared';
 import { createMetaTags } from '@/app/lib/meta';
 import Footer from '@/components/footer';
 
-
 export function meta({ location }: Route.MetaArgs) {
     return createMetaTags({
         title: '@cbnsndwch/zero-sources',

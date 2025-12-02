@@ -1,8 +1,7 @@
 import type { MessageAttachment } from './MessageAttachment.js';
 import type { IMessageBasicAttachment } from './MessageBasicAttachment.js';
 
-export interface IMessageBasicAttachmentWithTranslations
-    extends IMessageBasicAttachment {
+export interface IMessageBasicAttachmentWithTranslations extends IMessageBasicAttachment {
     translations: {
         [language: string]: string;
     };

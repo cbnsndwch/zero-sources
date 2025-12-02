@@ -80,9 +80,8 @@ describe('Text Formatting Utils', () => {
 
     describe('isFormatActive', () => {
         it('should return true when bold format is active', async () => {
-            const { $getSelection, $isRangeSelection } = await import(
-                'lexical'
-            );
+            const { $getSelection, $isRangeSelection } =
+                await import('lexical');
             const mockSelection = {
                 hasFormat: vi.fn((format: string) => format === 'bold')
             };
@@ -97,9 +96,8 @@ describe('Text Formatting Utils', () => {
         });
 
         it('should return false when bold format is not active', async () => {
-            const { $getSelection, $isRangeSelection } = await import(
-                'lexical'
-            );
+            const { $getSelection, $isRangeSelection } =
+                await import('lexical');
             const mockSelection = {
                 hasFormat: vi.fn(() => false)
             };
@@ -113,9 +111,8 @@ describe('Text Formatting Utils', () => {
         });
 
         it('should return false when selection is not a range selection', async () => {
-            const { $getSelection, $isRangeSelection } = await import(
-                'lexical'
-            );
+            const { $getSelection, $isRangeSelection } =
+                await import('lexical');
 
             ($getSelection as any).mockReturnValue({});
             ($isRangeSelection as any).mockReturnValue(false);
@@ -128,9 +125,8 @@ describe('Text Formatting Utils', () => {
 
     describe('getActiveFormats', () => {
         it('should return all active formats', async () => {
-            const { $getSelection, $isRangeSelection } = await import(
-                'lexical'
-            );
+            const { $getSelection, $isRangeSelection } =
+                await import('lexical');
             const mockSelection = {
                 hasFormat: vi.fn((format: string) =>
                     ['bold', 'italic'].includes(format)
@@ -146,9 +142,8 @@ describe('Text Formatting Utils', () => {
         });
 
         it('should return empty array when no formats are active', async () => {
-            const { $getSelection, $isRangeSelection } = await import(
-                'lexical'
-            );
+            const { $getSelection, $isRangeSelection } =
+                await import('lexical');
             const mockSelection = {
                 hasFormat: vi.fn(() => false)
             };
@@ -162,9 +157,8 @@ describe('Text Formatting Utils', () => {
         });
 
         it('should return empty array when selection is not a range selection', async () => {
-            const { $getSelection, $isRangeSelection } = await import(
-                'lexical'
-            );
+            const { $getSelection, $isRangeSelection } =
+                await import('lexical');
 
             ($getSelection as any).mockReturnValue({});
             ($isRangeSelection as any).mockReturnValue(false);
