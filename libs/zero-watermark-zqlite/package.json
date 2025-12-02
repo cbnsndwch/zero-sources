@@ -34,9 +34,9 @@
     "devDependencies": {
         "@commitlint/cli": "^20.1.0",
         "@commitlint/config-conventional": "^20.0.0",
-        "@nestjs/common": "^11.1.8",
+        "@nestjs/common": "^11.1.9",
         "@nestjs/config": "^4.0.2",
-        "@nestjs/testing": "^11.1.8",
+        "@nestjs/testing": "^11.1.9",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero-sqlite3": "*",
