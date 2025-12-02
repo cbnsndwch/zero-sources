@@ -1,1 +1,1 @@
-read through the changes we've made to teh repo and add a description to this changeset
+read through the changes we've made to the repo and add a description to this changeset

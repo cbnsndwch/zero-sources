@@ -67,7 +67,7 @@ export type ZeroChangeStreamerParams = ZeroChangeStreamerParamsBase & {
 
 /**
  * Extracts request parameters from a Zero ChangeStreamer incoming socket-starting
- * request. The following session parameters are provided by teh Change Streamer
+ * request. The following session parameters are provided by the Change Streamer
  * as query string parameters:
  *
  * - `shardID` - The ID of the shard the streamer wants changes for. TODO: store shard config in DB
