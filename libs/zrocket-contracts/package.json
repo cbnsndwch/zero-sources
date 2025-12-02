@@ -38,7 +38,7 @@
         "@types/node": "^22.14.1",
         "@vitest/coverage-v8": "^4.0.15",
         "@vitest/ui": "^4.0.15",
-        "eslint": "^9.39.0",
+        "eslint": "^9.39.1",
         "husky": "^9.1.7",
         "lexical": "^0.38.2",
         "lint-staged": "^16.2.6",

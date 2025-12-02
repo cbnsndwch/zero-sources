@@ -68,7 +68,7 @@
         "@vitest/coverage-v8": "^4.0.15",
         "@vitest/ui": "^4.0.15",
         "change-case": "^5.4.4",
-        "eslint": "^9.39.0",
+        "eslint": "^9.39.1",
         "express": "^5.1.0",
         "husky": "^9.1.7",
         "lint-staged": "^16.2.6",
