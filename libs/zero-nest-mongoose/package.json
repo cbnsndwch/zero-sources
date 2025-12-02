@@ -37,8 +37,8 @@
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero": "0.24.3000000000",
         "@types/node": "^22.14.1",
-        "@vitest/coverage-v8": "^4.0.6",
-        "@vitest/ui": "^4.0.6",
+        "@vitest/coverage-v8": "^4.0.15",
+        "@vitest/ui": "^4.0.15",
         "change-case": "^5.4.4",
         "eslint": "^9.39.0",
         "husky": "^9.1.7",
@@ -46,7 +46,7 @@
         "mongoose": "^8.19.2",
         "tsup": "^8.5.0",
         "typescript": "~5.9.3",
-        "vitest": "^4.0.6"
+        "vitest": "^4.0.15"
     },
     "files": [
         "dist"
