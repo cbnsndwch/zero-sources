@@ -24,7 +24,7 @@
         "test:coverage": "vitest --coverage"
     },
     "dependencies": {
-        "@microsoft/clarity": "^1.0.0",
+        "@microsoft/clarity": "^1.0.2",
         "@nestjs/common": "^11.1.9",
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.1.9",
