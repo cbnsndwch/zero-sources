@@ -5,8 +5,12 @@ const reject = [
     // turbo does its own thing
     'turbo',
 
-    // zod v4 has breaking changes, waiting to update
-    'zod'
+    // some fumadocs packages have breaking changes
+    'fumadocs-mdx',
+    'fumadocs-typescript',
+
+    // zero v0.25 has breaking changes that need to be handled manually
+    '@rocicorp/zero',
 ];
 
 /**
