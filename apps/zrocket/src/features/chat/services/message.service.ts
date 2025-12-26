@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ClientSession } from 'mongoose';
+import type { Model, ClientSession } from 'mongoose';
+import type { SerializedEditorState } from 'lexical';
 
 import { UserMessageType } from '@cbnsndwch/zrocket-contracts';
 
-import { Message, MessageDocument } from '../entities/message.entity.js';
+import { Message, type MessageDocument } from '../entities/message.entity.js';
 import { Room } from '../entities/rooms/room-base.entity.js';
 
 export interface SendMessageInput {
@@ -83,7 +84,7 @@ export class MessageService {
                             type: 'root',
                             version: 1
                         }
-                    },
+                    } as SerializedEditorState<any>,
                     groupable: true,
                     createdAt: now,
                     updatedAt: now

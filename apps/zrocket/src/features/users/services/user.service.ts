@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, RootFilterQuery } from 'mongoose';
+import type { Model, QueryFilter } from 'mongoose';
 import type {
     ExternalUserId,
     UserPresenceStatus
@@ -29,7 +29,7 @@ export class UserService {
         return user.save();
     }
 
-    async findAll(query: RootFilterQuery<User> = {}): Promise<User[]> {
+    async findAll(query: QueryFilter<User> = {}): Promise<User[]> {
         return this.#model.find(query).exec();
     }
 
