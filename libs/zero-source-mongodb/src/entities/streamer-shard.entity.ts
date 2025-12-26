@@ -3,6 +3,9 @@ import { Document, type Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ collection: 'streamer_shards', _id: false })
 export class StreamerShard extends Document<string> {
+    
+    id!: string;
+    
     /**
      * The Shard ID
      */
