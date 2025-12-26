@@ -6,11 +6,13 @@ const reject = [
     'turbo',
 
     // some fumadocs packages have breaking changes
+    'fumadocs-core',
     'fumadocs-mdx',
     'fumadocs-typescript',
+    'fumadocs-ui',
 
     // zero v0.25 has breaking changes that need to be handled manually
-    '@rocicorp/zero',
+    '@rocicorp/zero'
 ];
 
 /**
