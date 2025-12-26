@@ -40,8 +40,8 @@ pnpm add @cbnsndwch/zero-source-mongodb
     "@nestjs/swagger": "^11",
     "@nestjs/websockets": "^11",
     "@rocicorp/zero": "0.24.3000000000",
-    "mongodb": "^6.16.0 || ^7.0.0",
-    "mongoose": "^8.9.5 || ^9.0.2",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.0.2",
     "ws": "^8.18.1"
 }
 ```
