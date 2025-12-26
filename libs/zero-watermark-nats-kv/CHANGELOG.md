@@ -1,5 +1,16 @@
 # @cbnsndwch/zero-watermark-nats-kv
 
+## 0.9.0
+
+### Minor Changes
+
+- [`7dafbcd`](https://github.com/cbnsndwch/zero-sources/commit/7dafbcd9fa158a09c85d8011ca92abd659405074) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - update dependencies
+
+### Patch Changes
+
+- Updated dependencies [[`7dafbcd`](https://github.com/cbnsndwch/zero-sources/commit/7dafbcd9fa158a09c85d8011ca92abd659405074)]:
+    - @cbnsndwch/zero-contracts@0.9.0
+
 ## 0.4.0
 
 ### Minor Changes

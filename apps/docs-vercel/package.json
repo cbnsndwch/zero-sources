@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/zero-sources-docs-vercel",
     "description": "Documentation site for @cbnsndwch/zero-sources",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "type": "module",
     "private": true,
     "scripts": {

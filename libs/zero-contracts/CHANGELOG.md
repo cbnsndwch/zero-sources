@@ -1,5 +1,11 @@
 # @cbnsndwch/zero-contracts
 
+## 0.9.0
+
+### Minor Changes
+
+- [`7dafbcd`](https://github.com/cbnsndwch/zero-sources/commit/7dafbcd9fa158a09c85d8011ca92abd659405074) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - update dependencies
+
 ## 0.8.0
 
 ### Minor Changes
