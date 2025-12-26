@@ -1,5 +1,11 @@
 # @cbnsndwch/zero-sources-docs-vercel
 
+## 0.3.0
+
+### Minor Changes
+
+- [`7dafbcd`](https://github.com/cbnsndwch/zero-sources/commit/7dafbcd9fa158a09c85d8011ca92abd659405074) Thanks [@cbnsndwch](https://github.com/cbnsndwch)! - update dependencies
+
 ## 0.2.0
 
 ### Minor Changes

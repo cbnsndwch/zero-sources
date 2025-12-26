@@ -1,7 +1,7 @@
 {
     "name": "@cbnsndwch/nest-zero-synced-queries",
     "description": "NestJS library for declarative Zero synced query handlers with decorator-based configuration",
-    "version": "0.8.0",
+    "version": "0.9.0",
     "type": "module",
     "license": "MIT",
     "author": {
