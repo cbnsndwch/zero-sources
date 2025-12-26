@@ -29,7 +29,7 @@
         "@nestjs/config": "^4",
         "@rocicorp/zero-sqlite3": "*",
         "change-case": "^5.4.4",
-        "mongoose": "^8.9.5 || ^9.0.2"
+        "mongoose": "^9.0.2"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.2.0",
