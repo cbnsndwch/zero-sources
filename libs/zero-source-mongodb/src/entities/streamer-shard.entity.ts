@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, type Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ collection: 'streamer_shards', _id: false })
 export class StreamerShard extends Document<string> {
@@ -23,7 +23,8 @@ export class StreamerShard extends Document<string> {
     lastAcknowledgedWatermark?: string;
 }
 
-export const StreamerShardSchema = SchemaFactory.createForClass(StreamerShard);
+export const StreamerShardSchema: MongooseSchema<StreamerShard> =
+    SchemaFactory.createForClass(StreamerShard);
 
 // Indices
 StreamerShardSchema.index(
