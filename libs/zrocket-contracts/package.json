@@ -30,23 +30,23 @@
         "zod": "^3"
     },
     "devDependencies": {
-        "@commitlint/cli": "^20.1.0",
-        "@commitlint/config-conventional": "^20.0.0",
+        "@commitlint/cli": "^20.2.0",
+        "@commitlint/config-conventional": "^20.2.0",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@rocicorp/zero": "0.24.3000000000",
         "@types/node": "^22.14.1",
-        "@vitest/coverage-v8": "^4.0.15",
-        "@vitest/ui": "^4.0.15",
-        "eslint": "^9.39.1",
+        "@vitest/coverage-v8": "^4.0.16",
+        "@vitest/ui": "^4.0.16",
+        "eslint": "^9.39.2",
         "husky": "^9.1.7",
-        "lexical": "^0.38.2",
+        "lexical": "^0.39.0",
         "lint-staged": "^16.2.7",
         "tsup": "^8.5.1",
         "tsx": "^4.21.0",
         "typescript": "~5.9.3",
-        "vitest": "^4.0.15",
-        "zod": "^3.25.76"
+        "vitest": "^4.0.16",
+        "zod": "^4.2.1"
     },
     "files": [
         "dist"

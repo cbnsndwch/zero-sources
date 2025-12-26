@@ -32,24 +32,24 @@
         "@nestjs/core": "^11"
     },
     "devDependencies": {
-        "@commitlint/cli": "^20.1.0",
-        "@commitlint/config-conventional": "^20.0.0",
-        "@nats-io/kv": "^3.2.0",
-        "@nats-io/transport-node": "^3.2.0",
-        "@nestjs/common": "^11.1.9",
+        "@commitlint/cli": "^20.2.0",
+        "@commitlint/config-conventional": "^20.2.0",
+        "@nats-io/kv": "^3.3.0",
+        "@nats-io/transport-node": "^3.3.0",
+        "@nestjs/common": "^11.1.10",
         "@nestjs/config": "^4.0.2",
-        "@nestjs/core": "^11.1.9",
+        "@nestjs/core": "^11.1.10",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
         "@types/node": "^22.14.1",
-        "@vitest/coverage-v8": "^4.0.15",
-        "@vitest/ui": "^4.0.15",
-        "eslint": "^9.39.1",
+        "@vitest/coverage-v8": "^4.0.16",
+        "@vitest/ui": "^4.0.16",
+        "eslint": "^9.39.2",
         "husky": "^9.1.7",
         "lint-staged": "^16.2.7",
         "tsup": "^8.5.1",
         "typescript": "~5.9.3",
-        "vitest": "^4.0.15"
+        "vitest": "^4.0.16"
     },
     "files": [
         "dist"
