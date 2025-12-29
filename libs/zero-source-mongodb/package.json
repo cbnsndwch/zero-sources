@@ -57,7 +57,7 @@
         "@nestjs/platform-ws": "^11.1.10",
         "@nestjs/schematics": "^11.0.9",
         "@nestjs/swagger": "^11.2.3",
-        "@nestjs/testing": "^11.1.10",
+        "@nestjs/testing": "^11.1.11",
         "@nestjs/websockets": "^11.1.10",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
