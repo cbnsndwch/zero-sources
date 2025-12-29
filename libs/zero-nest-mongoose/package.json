@@ -24,7 +24,7 @@
     "peerDependencies": {
         "@nestjs/common": "^11",
         "@nestjs/mongoose": "^11",
-        "@rocicorp/zero": "0.24.3000000000",
+        "@rocicorp/zero": "0.25.6",
         "change-case": "^4.1.2",
         "mongoose": "^9.0.2"
     },
@@ -35,7 +35,7 @@
         "@nestjs/mongoose": "^11.0.4",
         "@repo/eslint-config": "workspace:*",
         "@repo/tsconfig": "workspace:*",
-        "@rocicorp/zero": "0.24.3000000000",
+        "@rocicorp/zero": "0.25.6",
         "@types/node": "^22.14.1",
         "@vitest/coverage-v8": "^4.0.16",
         "@vitest/ui": "^4.0.16",
