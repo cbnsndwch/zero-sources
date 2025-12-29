@@ -82,7 +82,7 @@
         "@react-router/express": "^7.11.0",
         "@react-router/node": "^7.11.0",
         "@react-router/serve": "^7.11.0",
-        "@rocicorp/zero": "0.24.3000000000",
+        "@rocicorp/zero": "0.25.6",
         "@tabler/icons-react": "^3.36.0",
         "@types/cookie-parser": "^1.4.10",
         "@types/js-cookie": "^3.0.6",
