@@ -78,7 +78,7 @@
         "fumadocs-core": "16.0.7",
         "fumadocs-mdx": "13.0.4",
         "fumadocs-typescript": "4.0.12",
-        "fumadocs-ui": "16.0.7",
+        "fumadocs-ui": "16.4.1",
         "isbot": "^5",
         "joi": "^18.0.2",
         "js-cookie": "^3.0.5",
