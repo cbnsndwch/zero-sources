@@ -77,7 +77,7 @@
         "framer-motion": "^12.23.26",
         "fumadocs-core": "16.0.7",
         "fumadocs-mdx": "13.0.4",
-        "fumadocs-typescript": "4.0.12",
+        "fumadocs-typescript": "5.0.0",
         "fumadocs-ui": "16.0.7",
         "isbot": "^5",
         "joi": "^18.0.2",
