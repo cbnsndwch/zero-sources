@@ -103,7 +103,7 @@
         "js-cookie": "^3.0.5",
         "jwks-rsa": "^3.2.0",
         "lexical": "^0.39.0",
-        "lodash": "4.17.21",
+        "lodash": "4.17.23",
         "lucide-react": "^0.562.0",
         "mongoose": "^9.0.2",
         "nanoid": "^5.1.6",
